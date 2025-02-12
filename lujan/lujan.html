@@ -289,10 +289,13 @@
   
     <!-- Formulario -->
     <div class="tarjeta">
-      <form class="formulario">
-        <input type="text" placeholder="Nombre" class="campo-formulario">
-        <input type="email" placeholder="Email" class="campo-formulario">
-        <textarea placeholder="Mensaje" class="campo-formulario"></textarea>
+      <form 
+      action="https://formspree.io/f/xwpvnrne"
+      method="POST"
+      class="formulario">
+        <input type="text" name="nombre" placeholder="Nombre" class="campo-formulario">
+        <input type="email" name="email" placeholder="Email" class="campo-formulario">
+        <textarea name="mensaje" placeholder="Mensaje" class="campo-formulario"></textarea>
         <button type="submit" class="boton-md3">
           <i class="material-icons">send</i>
           <span>Enviar Mensaje</span>
