@@ -490,20 +490,23 @@
                 </div>
                 
                 <div class="col-md-6">
-                    <form>
+                    <form
+                        action="https://formspree.io/f/mvgzbwre"
+                        method="POST"
+                        class="contact-form"
+                    >
                         <div class="mb-3">
-                            <input type="text" class="form-control" placeholder="Nombre">
+                            <input type="text" class="form-control" name="name" placeholder="Nombre" required>
                         </div>
                         <div class="mb-3">
-                            <input type="email" class="form-control" placeholder="Email">
+                            <input type="email" class="form-control" name="email" placeholder="Email" required>
                         </div>
                         <div class="mb-3">
-                            <textarea class="form-control" rows="3" placeholder="Mensaje"></textarea>
+                            <textarea class="form-control" name="message" rows="3" placeholder="Mensaje" required></textarea>
                         </div>
                         <button type="submit" class="btn-md3 w-100">
                             <i class="material-icons align-middle">send</i> Enviar Mensaje
                         </button>
-
                     </form>
                 </div>
             </div>
