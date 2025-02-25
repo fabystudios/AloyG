@@ -2050,3 +2050,22 @@ section {
     font-size: min(2rem, 5vw);
      /* Usa el menor valor entre 2rem y el 5% del ancho de la pantalla */
 /* }   */
+
+.card-img-left {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+.btn-info {
+    background-color: #6200ea;
+    color: #fff;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+.btn-info:hover {
+    background-color: #3700b3;
+}
+
+
