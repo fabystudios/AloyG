@@ -2068,4 +2068,39 @@ section {
     background-color: #3700b3;
 }
 
+/* actualizacion para misas */
+/* Animación para las filas */
+.list-group-item {
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    border: none; /* Limpiamos los bordes */
+    border-radius: 8px; /* Redondeamos los bordes */
+}
+
+/* Efecto hover para levantar la fila */
+.list-group-item:hover {
+    transform: translateY(-3px); /* Elevar la fila */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    background-color: rgba(255, 0, 0, 0.05); /* Fondo rojizo sutil */
+}
+
+/* Animación para la alerta de la capilla */
+.alert {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Efecto hover para la alerta */
+.alert:hover {
+    transform: scale(1.02); /* Ligeramente más grande */
+    box-shadow: 0 4px 10px rgba(138, 43, 226, 0.2); /* Sombra violeta suave */
+}
+
+/* Alinear los íconos con el texto */
+.list-group-item i,
+.alert i {
+    vertical-align: middle; /* Alinea verticalmente */
+    line-height: 1; /* Ajusta la altura de línea */
+    font-size: 1.5rem; /* Tamaño del icono para mejor proporción */
+    margin-top: -2px; /* Ajuste fino si es necesario */
+}
+
 
