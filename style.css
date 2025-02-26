@@ -1986,7 +1986,7 @@ section {
     align-items: center;
 }
 
-.footer {
+.footer{
     margin: 0 auto;
     text-align: center;
     display: flex;
@@ -2103,4 +2103,18 @@ section {
     margin-top: -2px; /* Ajuste fino si es necesario */
 }
 
-
+@media  (max-width: 1200px) {
+    #horarios-misa, #noticias {
+        display: flex;
+        justify-content: center; /* Centrar horizontalmente */
+        align-items: center; /* Centrar verticalmente si hace falta */
+    }
+}
+/* Ajustar ancho mínimo y centrar subtarjetas */
+/* @media (max-width: 992px) {
+    .col-md-6 {
+        flex: 0 0 80%; /* Ocupan el 80% del ancho */
+        max-width: 80%;
+        margin: 0 auto; /* Centra las columnas */
+    }
+} */
