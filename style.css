@@ -1978,7 +1978,7 @@ section {
     }
 }
 
-#misas, #resto, #actividades, #retiro, #educacion, #colegio, #contacto, #ubicacion, #horarios-misa{
+#misas, #resto, #actividades, #retiro, #educacion, #colegio, #contacto, #ubicacion,{
     margin: 0 auto;
     text-align: center;
     display: flex;
