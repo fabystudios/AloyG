@@ -2051,22 +2051,6 @@ section {
      /* Usa el menor valor entre 2rem y el 5% del ancho de la pantalla */
 /* }   */
 
-.card-img-left {
-    object-fit: cover;
-    height: 100%;
-    width: 100%;
-}
-.btn-info {
-    background-color: #6200ea;
-    color: #fff;
-    border-radius: 20px;
-    padding: 10px 20px;
-    font-weight: bold;
-}
-
-.btn-info:hover {
-    background-color: #3700b3;
-}
 
 /* actualizacion para misas */
 /* Animación para las filas */
@@ -2118,3 +2102,47 @@ section {
         margin: 0 auto;  
     }
 }   */
+
+   /* NOTICIAS */
+.card-img-left {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+.btn-info {
+    background-color: #6200ea;
+    color: #fff;
+    border-radius: 20px;
+    padding: 10px 20px;
+    font-weight: bold;
+}
+
+.btn-info:hover {
+    background-color: #3700b3;
+}
+.card-img-left, .img-autor {
+    transition: transform 0.3s ease, filter 0.3s ease, box-shadow 0.3s ease;
+    object-fit: cover; /* Asegura que la imagen cubra bien el espacio */
+}
+
+/* Efecto hover */
+.card-img-left:hover, .img-autor:hover {
+    transform: scale(1.05); /* Zoom leve */
+    filter: brightness(1.1) contrast(1.05); /* Aumenta brillo y contraste */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra para dar profundidad */
+    cursor: pointer; /* Cambia el cursor para indicar clickeable */
+}
+
+.img-autor:hover {
+    transform: rotate(6deg) scale(1.03);
+}
+
+.card-text, .card-title  {
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.card-text:hover, .card-title:hover {
+    transform: translateX(10px);
+}
+
