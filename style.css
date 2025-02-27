@@ -2111,10 +2111,10 @@ section {
     }
 }
 /* Ajustar ancho mínimo y centrar subtarjetas */
-@media (max-width: 992px) {
+/* @media (max-width: 992px) {
     .col-md-6 {
         flex: 0 0 80%;  
         max-width: 80%;
         margin: 0 auto;  
     }
-}  
+}   */
