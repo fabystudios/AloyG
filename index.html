@@ -19,7 +19,6 @@
       <!-- Theme CSS -->
       <link href="css/agency.min.css" rel="stylesheet">
       <link href="css/new_styles.css" rel="stylesheet">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -52,7 +51,7 @@
                     <ul class="navbar-nav ms-lg-auto">
                         <li class="nav-item">
                             <a class="nav-link" href="#noticias">
-                                <i class="material-icons align-middle">home</i> Inicio
+                                <i class="material-icons align-middle">announcement</i> Noticias
                             </a>
                         </li>
                         <li class="nav-item">
@@ -61,7 +60,8 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#misas">
+                            <!-- <a class="nav-link" href="#misas"> -->
+                                <a class="nav-link" href="#misas"> 
                                 <i class="material-icons align-middle">schedule</i> Misas
                             </a>
                         </li>
@@ -172,7 +172,7 @@
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title text-center"><strong>El papa Francisco se reunió en el hospital con el número 2 del Vaticano para hablar de candidatos a la santidad</strong></h5>
+                  <h5 class="card-title text-primary  text-center"><strong>El papa Francisco se reunió en el hospital con el número 2 del Vaticano para hablar de candidatos a la santidad</strong></h5>
                   <!-- <p class="card-text"><small class="text-muted">Por Paola Bruni | 25 de febrero de 2025</small></p> -->
                   <div class="author-info d-flex align-items-center">
                       <img src="https://www.infobae.com/resizer/v2/https%3A%2F%2Fs3.amazonaws.com%2Farc-authors%2Finfobae%2Fb1b7950d-5fc0-4a6e-9ea6-4eeed39d1512.jpg?auth=0b32e92d78fd17a616dd4d997670e2ffffec78d2981dcbbdffbeb12a6498d864&smart=true&width=40&height=40&quality=85" alt="Paola Bruni" class="rounded-circle me-3" style="width: 50px; height: 50px;">
@@ -183,7 +183,9 @@
                   </div>
                   <p class="card-text">La salud del papa Francisco sigue dando señales de leve mejoría. Aunque continúa hospitalizado desde el pasado 14 de febrero debido a una neumonía bilateral, ha podido reunirse con el secretario de Estado del Vaticano, Pietro Parolin, para discutir futuras canonizaciones.</p>
       
-                  <button class="btn btn-md3" onclick="window.open('https://www.infobae.com/espana/2025/02/25/el-papa-se-encontro-lo-suficientemente-bien-ayer-para-reunirse-con-su-numero-2-del-vaticano-en-el-hospital-para-hablar-de-candidatos-a-la-santidad/', '_blank')"> 📖 Leer más en Infobae</button>
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.infobae.com/espana/2025/02/25/el-papa-se-encontro-lo-suficientemente-bien-ayer-para-reunirse-con-su-numero-2-del-vaticano-en-el-hospital-para-hablar-de-candidatos-a-la-santidad/', '_blank')">
+                      📖 Leer más en <img src="./img/logo_infobae_naranja.svg" alt="Infobae" style="height: 1.2em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
                 </div>
               </div>
             </div>
@@ -263,7 +265,7 @@
 
 <section id="misas" class="section-padding">
     <div class="container">
-        <h2 class="text-center text-primary mb-4">Horarios de Misa de Verano (Enero y Febrero)</h2>
+        <h2 class="text-center text-primary mb-4">Horarios de Misa hasta el 15 de marzo</h2>
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <table class="table table-bordered table-hover text-center custom-table">
@@ -288,11 +290,10 @@
         </div>
     </div>
 </section>
-
-<!-- <section id="horarios-misa" class="section-padding">
+<section id="horarios-misa" class="section-padding">
     <div class="container">
         <h2 class="text-center mb-5 fw-bold">
-            🕊️ Horario de Misas
+            🕊️ Misa a partir del 16 de marzo
         </h2>
         <div class="card shadow-lg border-0">
             <div class="row g-0">
@@ -303,7 +304,7 @@
                     <div class="card-body">
 
                             <div class="d-flex justify-content-center">
-                                <div>    <img src="./img/padre.png" alt="Paola Bruni" class="rounded-circle me-3" style="width: 60px; height: 60px;">  
+                                <div>    <img src="./img/padre.png" alt="Paola Bruni" class="rounded-circle me-3" style="width: 50px; height: 50px;">  
                                 </div>
                             <div>      
                                 <h6 class="mb-0 text-center"><strong>Padre Marcelo Cerniato</h6>
@@ -344,7 +345,7 @@
                                         <p class="mb-2 d-flex align-items-center">
                                             <i class="material-icons text-info me-2">schedule</i>
                                             <strong class="me-2">Domingos:</strong> 
-                                            <span>9:30 hs</span>
+                                            <span>18:00 hs</span>
                                         </p>
                                         <p class="text-muted mb-0 d-flex align-items-center">
                                             <i class="material-icons text-info me-2">place</i>
@@ -358,7 +359,7 @@
                         </div>
                         <div class="text-center mt-4">
                             <a href="#contacto" class="btn btn-md3 btn-danger">
-                                📞 Contactar para más información
+                                <i class="material-icons align-middle">phone</i> Contactar para más información
                             </a>
                         </div>
                     </div>
@@ -366,9 +367,9 @@
             </div>
         </div>
     </div>
-</section> -->
+</section>
 
-<section id="horarios-misa" class="section-padding">
+<!-- <section id="horarios-misa" class="section-padding">
     <div class="container">
         <h2 class="text-center mb-5 fw-bold">
             🕊️ Misas resto del año
@@ -435,7 +436,7 @@
             </div>
         </div>
     </div>
-</section>
+</section> -->
 
 
 <!-- <section id="resto" class="section-padding">
@@ -757,7 +758,9 @@
                 <p class="footer-copyright">&copy; 2025 Parroquia San Luis Gonzaga - Todos los Derechos Reservados.</p>
             </div>
             <div class="footer-icon">
-                <img src="/img/icono.png" alt="Distintivo" class="footer-logo">
+                <a href="#inicio">
+                    <img src="/img/icono.png" alt="Distintivo" class="footer-logo">
+                </a>
             </div>
             
         </div>

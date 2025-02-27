@@ -640,4 +640,16 @@ body {
         padding: 10px 20px; /* Espacio reducido para móviles */
     }
 }
-
+.footer-icon {
+  text-align: center;
+  margin-top: 10px;
+}
+.footer-logo {
+  width: 60px; /* Ajusta el tamaño según prefieras */
+  height: auto;
+  opacity: 0.8; /* Suaviza la presencia del icono */
+  transition: opacity 0.3s ease-in-out;
+}
+.footer-logo:hover {
+  opacity: 1; /* Hace que se destaque al pasar el cursor */
+}
