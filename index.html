@@ -876,7 +876,23 @@
     
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script> 
+document.addEventListener("DOMContentLoaded", function() {
+    const card = document.querySelector('.card');
 
+    card.addEventListener('click', function() {
+        card.classList.toggle('touched');
+    });
+
+    // Para detener la animación si tocas fuera
+    document.addEventListener('click', function(event) {
+        if (!card.contains(event.target)) {
+            card.classList.remove('touched');
+        }
+    });
+});
+    
+</script>
 <script>
     document.getElementById("btn-como-llegar").addEventListener("click", function () {
     if (navigator.geolocation) {

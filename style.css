@@ -2164,3 +2164,12 @@ section {
     }
 }
 
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card.touched {
+    transform: scale(1.03);
+    animation: pulse 0.6s infinite alternate;
+}
+
