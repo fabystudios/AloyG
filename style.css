@@ -2137,12 +2137,12 @@ section {
     transform: rotate(6deg) scale(1.03);
 }
 
-.card-text, .card-title  {
+.card-text, .card-title, .biografia  {
     position: relative;
     transition: transform 0.3s ease;
 }
 
-.card-text:hover, .card-title:hover {
+.card-text:hover, .card-title:hover, .biografia:hover {
     transform: translateX(10px);
 }
 
