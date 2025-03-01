@@ -876,6 +876,43 @@
     
     <!-- Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    const navLinks = document.querySelectorAll('.navbar-collapse a');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+
+    navLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+            if (navbarCollapse.classList.contains('show')) {
+                new bootstrap.Collapse(navbarCollapse).hide();
+            }
+        });
+    });
+});
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    const navLinks = document.querySelectorAll('.navbar-collapse a');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+
+    navLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+            if (navbarCollapse.classList.contains('show')) {
+                navbarCollapse.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+                navbarCollapse.style.transform = "translateY(-10px)";
+                navbarCollapse.style.opacity = "0";
+
+                setTimeout(() => {
+                    new bootstrap.Collapse(navbarCollapse).hide();
+                    navbarCollapse.style.transform = "translateY(0)";
+                    navbarCollapse.style.opacity = "1";
+                }, 300); // El timeout debe coincidir con la duración de la animación
+            }
+        });
+    });
+});
+
+    </script>
 <script> 
 document.addEventListener("DOMContentLoaded", function() {
     const card = document.querySelector('.card');
