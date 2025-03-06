@@ -23,6 +23,8 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
     <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
 </head>
 <body id="inicio">
     <!-- Botón Flotante con Imagen -->
@@ -190,14 +192,36 @@
 
 
 <!-- continuacion -->
-
-        <div class="text-center mb-4 animate__animated animate__fadeInDown">
-                    <p class="fs-4 text-light bg-dark bg-opacity-50 p-2 rounded-pill animate__animated animate__pulse animate__infinite">
+                    <!-- <p class="fs-4 text-light bg-dark bg-opacity-50 p-2 rounded-pill animate__animated animate__pulse animate__infinite" style="color: #800080;">
                   <span class="text-warning fw-bold">Tiempo de Cuaresma</span>
-            </p>
-        </div>
-    </div>
+            </p> -->
+            <div class="text-center mb-4 animate__animated animate__fadeInDown">
+                <p class="fs-4 text-light p-3 rounded-pill animate__animated animate__pulse animate__infinite" 
+                   style="background-color: #800080; color: #ffffff; box-shadow: 0 0 15px rgba(128, 0, 128, 0.6); border: 2px solid #d4a3ff; text-shadow: 0 0 10px #d4a3ff;">
+                   ✝ Tiempo de Cuaresma: Reflexión y Conversión ✝
+              </p>
+            </div>
+
+
 </section>
+
+<div class="text-center mb-4 animate__animated animate__fadeInUp" style="max-width: 800px; margin: auto; padding: 20px; background-color: #f8f9fa; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+    <h5 class="card-title text-center" style="color: #ff6f00;">6 de marzo</h5>
+    <h2 style="color: #800080;">La voz del Papa:</h2>
+    <h6>A través de un audio grabado en el Policlínico Gemelli y difundido en la Plaza de San Pedro, el Papa Francisco agradece por las oraciones ofrecidas por su salud:</h6>
+    
+    <!-- Imagen de la noticia -->
+    <img src="https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2025/03/06/2025-03-06-recita-del-rosario/1741290764100.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.1000.563.jpeg" 
+         alt="Recitación del Rosario" 
+         style="width: 100%; border-radius: 10px; margin-bottom: 20px;">
+    
+    <!-- Reproductor de audio -->
+    <audio controls style="width: 100%;">
+        <source src="https://media.vaticannews.va/media/audio/s1/2025/03/06/21/138565255_F138565255.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+</div>
+
         <!-- <div class="card shadow-lg">
             <div class="row g-0">
               <div  class="col-md-4">
@@ -277,7 +301,38 @@
         </div>
     </div>
 </section> -->
-
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://desdelafe.mx/wp-content/uploads/2025/02/hospital-papa-francisco.jpeg.webp" class="img-fluid rounded-start card-img-right" alt="Imagen relacionada con la noticia" style="object-fit: cover; height: 100%;">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;">parte del 6 de marzo</h5>
+                  <h5 class="card-title text-primary  text-center" style="font-size: 1.7em;"><strong>El Papa Francisco se mantiene estable; alterna trabajo, descanso y oración</strong></h5>
+                <h6 class="card-subtitle mb-2 text-muted text-center">En vista del cuadro clínico estable, el próximo boletín médico del Papa Francisco se publicará hasta el sábado.</h6>
+                  <div class="author-info d-flex align-items-center">
+                      <img src="https://desdelafe.mx/wp-content/uploads/2024/07/WhatsApp-Image-2024-07-01-at-07.14.32-125x125.jpeg" alt="Elisa Ramrez" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                      <div>
+                          <h6 class="mb-0"><strong>Elisa Ramrez</strong></h6>
+                          <p class="text-muted mb-0"> <small>Lic. en Comunicación - DesdeLaFe.mx</small></p>
+                      </div>
+                  </div>
+                  <p class="card-text">Este jueves, el Papa Francisco no presentó ningún episodio de insuficiencia respiratoria. El estado clínico del Santo Padre se ha mantenido estable respecto a los días anteriores, según informó la Oficina de Prensa de la Santa Sede a través de un breve informe médico.</p>
+      
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://desdelafe.mx/noticias/la-voz-del-papa/salud-del-papa-francisco/', '_blank')">
+                      📖 Leer más en <img src="https://desdelafe.mx/wp-content/themes/desdelafe2023/assets/img/desdelafe.svg" alt="DesdeLaFe" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
 <section id="noticias" class="section-padding">
     <div class="container">        
         <div class="card shadow-lg">
@@ -310,7 +365,7 @@ De este modo queda concluida la tarea como comisario pontificio de monseñor Jor
         </div>
     </div>
 </section>
-<section id="noticias" class="section-padding">
+<!-- <section id="noticias" class="section-padding">
     <div class="container">        
         <div class="card shadow-lg">
             <div class="row g-0">
@@ -337,7 +392,7 @@ De este modo queda concluida la tarea como comisario pontificio de monseñor Jor
           </div>
         </div>
     </div>
-</section>
+</section> -->
 
 <section id="noticias" class="section-padding">
     <div class="container">        
