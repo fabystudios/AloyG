@@ -2262,3 +2262,110 @@ section {
     }
 }
 
+#feria-americana {
+    position: relative;
+    background: url('./img/feria.jpg') no-repeat center center/cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    text-align: center;
+    color: #fff;
+    overflow: hidden;
+}
+
+.feria-card {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 1s ease-in-out;
+    max-width: 800px;
+    width: 100%;
+    backdrop-filter: blur(10px);
+}
+
+.feria-title {
+    font-size: 3em;
+    font-weight: bold;
+    text-transform: uppercase;
+    animation: bounce 1.5s infinite alternate;
+    color: #ff69b4;
+}
+
+.feria-title span {
+    color: #ffd700;
+    text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4;
+}
+
+/* Animaciones para las imágenes */
+.mujer {
+    position: absolute;
+    max-width: 200px;
+    animation: floatIn 2s ease forwards, floating 3s ease-in-out infinite;
+    opacity: 0;
+}
+
+.mujer-1 {
+    top: 0%;
+    left: 0%;
+    animation-delay: 0.5s;
+}
+
+.mujer-2 {
+    top: 75%;
+    left: 5%;
+    animation-delay: 1s;
+}
+
+.mujer-3 {
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation-delay: 1.5s;
+}
+
+/* Efectos */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes floatIn {
+    0% {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+
+/* Para escritorio */
+
+
+/* Ajustes para dispositivos móviles */
+@media (max-width: 768px) {
+    .mujer-1 {
+        max-width: 25%; /* Se reduce al 50% */
+        z-index: 2;    /* Se va detrás de la tarjeta */
+        opacity: 0.5;   /* Le baja la opacidad para integrarse con el fondo */
+    }
+}
+
