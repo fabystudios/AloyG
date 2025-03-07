@@ -2375,7 +2375,7 @@ section {
 
 
 /* Ajustes para dispositivos móviles */
-@media (max-width: 768px) {
+@media (max-width: 900px) {
     .mujer-1 {
         max-width: 25%; /* Se reduce al 50% */
         z-index: 2;    /* Se va detrás de la tarjeta */
