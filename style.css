@@ -2308,7 +2308,7 @@ section {
 }
 
 .mujer-1 {
-    top: 0%;
+    top: 1%;
     left: 0%;
     animation-delay: 0.5s;
 }
@@ -2320,7 +2320,7 @@ section {
 }
 
 .mujer-3 {
-    top: 70%;
+    top: 72%;
     left: 50%;
     transform: translate(-50%, -50%);
     animation-delay: 1.5s;
@@ -2367,5 +2367,11 @@ section {
         z-index: 1;    /* Se va detrás de la tarjeta */
         opacity: 0.5;   /* Le baja la opacidad para integrarse con el fondo */
     }
+    /* .mujer-3 {
+        top: 70%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-delay: 1.5s;
+    } */
 }
 
