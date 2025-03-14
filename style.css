@@ -2391,3 +2391,74 @@ section {
 
     }      
 
+ 
+   
+    /* Contenedor de la imagen */
+    .image-container {
+        max-height: 90vh;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .flyer-img {
+        /* width: 100%; */
+        height: 100%;
+        object-fit:fill;
+        animation: fadeIn 1.5s ease;
+        border-radius: 30%;
+    }
+    
+    /* Tarjeta de información */
+    .info-card {
+        padding: 20px;
+        background: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 12px;
+        animation: slideInRight 1s ease;
+    }
+    
+    /* Botón MD3 */
+    .btn-md3 {
+        background-color: #6200ea;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        text-transform: uppercase;
+        font-weight: bold;
+        display: inline-block;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .btn-md3:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 12px rgba(98, 0, 234, 0.3);
+    }
+    
+    /* Animaciones */
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes slideInRight {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .image-container {
+            max-height: 50vh;
+        }
+    
+        .info-card {
+            animation: fadeIn 1s ease;
+        }
+    }
+ 
+
+    
