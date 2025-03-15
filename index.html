@@ -171,7 +171,7 @@
 
 <div id="noticias" class="section-padding">
     
-    <div class="container" style="position: relative; padding: 50px 0; background: url('./img/wallpaper.webp') no-repeat center center/cover; border-radius: 20px; box-shadow: 0 0 20px rgba(128, 0, 128, 0.7); border: 2px solid #d4a3ff; display: flex; align-items: center;">
+    <div class="container" style="position: relative; padding: 50px 0; background: url('./img/wallpaper.webp') no-repeat center center/cover; border-radius: 10px; box-shadow: 0 0 20px rgba(128, 0, 128, 0.7); border: 2px solid #d4a3ff; display: flex; align-items: center;">
 
         <!-- Imagen a la izquierda -->
         <div style="flex: 1; text-align: left; padding: 20px;">
@@ -186,10 +186,20 @@
     
             <div class="text-center mb-4 animate_animated animatepulse animate_infinite">
                 <p class="fs-4 text-light p-3 rounded-pill" 
-                   style="background: rgba(128, 0, 128, 0.7); color: #ffffff; box-shadow: 0 0 15px rgba(128, 0, 128, 0.6); border: 2px solid #d4a3ff; text-shadow: 0 0 10px #d4a3ff; animation: pulse 2s infinite ease-in-out; opacity: 0.9;">
+                   style="background: rgba(128, 0, 128, 0.7); color: #ffffff; 
+                   box-shadow: 0 0 15px rgba(128, 0, 128, 0.6); 
+                   border: 2px solid #d4a3ff; text-shadow: 0 0 10px #d4a3ff; 
+                   animation: pulse 2s infinite ease-in-out; opacity: 0.9;">
                    <i class="fas fa-cross"></i><strong> CUARESMA: Reflexión y Conversión</strong> <i class="fas fa-cross"></i>
                 </p>
             </div>
+            <style>
+                @media (max-width: 768px) {
+                    .fs-4 {
+                        font-size: 1rem !important;
+                    }
+                }
+            </style>
         </div>
     
     </div>
