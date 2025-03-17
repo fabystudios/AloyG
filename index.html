@@ -116,7 +116,7 @@
             <div class="carousel-item active">
                 <a href="#retiro-ignaciano">
                     <img src="img/fotos/banner00.png" class="d-block w-100" alt="New Slide 1">
-                </a></a>
+                </a>
  
             </div>
             <div class="carousel-item">
@@ -399,24 +399,109 @@
 
 
     
-    <div class="text-center mb-4 animate__animated animate__fadeInUp" style="max-width: 800px; margin: auto; padding: 20px; background-color: #f8f9fa; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
-        <h5 class="card-title text-center" style="color: #ff6f00;">desde Gemelli</h5>
-        <h2 style="color: #800080;">la voz del Papa:</h2>
-        <!-- <h6>difundida en la Plaza de San Pedro, Francisco agradece por las oraciones ofrecidas por su salud:</h6> -->
-        
-        <!-- Imagen de la noticia -->
-        <img src="https://desdelafe.mx/wp-content/uploads/2025/03/papa-francisco-envia-mensaje-en-audio-desde-el-hospital.jpg" 
-             alt="Recitación del Rosario" 
-             style="width: 100%; border-radius: 10px; margin-bottom: 20px;">
-        
-        <!-- Reproductor de audio -->
-        <audio controls style="width: 100%;">
-            <source src="https://media.vaticannews.va/media/audio/s1/2025/03/06/21/138565255_F138565255.mp3" type="audio/mpeg">
-            Tu navegador no soporta el elemento de audio.
-        </audio>
-    </div>
-</section>
+
 <!-- noticias gggggggggggggggggggggggggggggggggggggggggg -->
+
+<!-- jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj -->
+
+<!-- SECCIÓN DE VIDEO EN NOTICIAS -->
+<section id="slg-news-section" class="slg-news-section">
+
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <h5 class="card-title text-center" style="background-color: #ff6f00; color: white; padding: 5px; border-radius: 5px;"><strong>17 de marzo</strong></h5>
+            <h5 class="card-title  text-center" style="color: #ff6f00;">
+                📹 ¡Nuevo video en Instagram!
+            </h5>
+            <h5 class="card-title text-primary text-center" style="font-size: 1.5em;">
+                <strong>La  fotografía que tocó los corazones del mundo entero.</strong>
+            </h5>
+
+            <div class="video-container position-relative">
+                <iframe 
+                    src="https://www.instagram.com/reel/DHTaOOMIc35/embed" 
+                    allowfullscreen 
+                    frameborder="0">
+                </iframe>
+                
+            </div>
+
+            <p class="card-text mt-3">
+                Más que una simple imagen, esta foto es un consuelo para muchos. Su salud sigue mejorando, pero su cuadro clínico aun es complejo.
+            </p>
+
+            <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.instagram.com/reel/DG0nDQ4iqDr/', '_blank')">
+                🔗 Ver en Instagram
+            </button>
+        </div>
+    </div>
+
+ 
+</section>
+
+<!-- ESTILOS -->
+<style>
+    .slg-news-section {
+        max-width: 600px;
+        margin: auto;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out;
+        overflow: hidden;
+        text-align: center;
+    }
+    .slg-video-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+    .slg-video-container video {
+        width: 100%;
+        display: block;
+        border-radius: 10px;
+    }
+    .slg-button {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 20px;
+        background: #0073e6;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+    .slg-button:hover {
+        background: #005bb5;
+    }
+</style>
+
+<!-- SCRIPT PARA REPRODUCCIÓN AUTOMÁTICA -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const video = document.getElementById("slg-churchVideo");
+        const section = document.getElementById("slg-news-section");
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    video.muted = false; // Activar el sonido
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            });
+        }, { threshold: 0.5 }); // Se activa cuando al menos el 50% de la sección es visible
+
+        observer.observe(section);
+  });
+</script>
+
+
+<!-- jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj -->
+
 
 <section id="noticias" class="section-padding">
     <div class="container">        
