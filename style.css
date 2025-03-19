@@ -2459,6 +2459,30 @@ section {
             animation: fadeIn 1s ease;
         }
     }
- 
-
+ /* spotify */
+    .glassmorphism {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out;
+      }
+      
+      .glassmorphism:hover {
+        transform: scale(1.05);
+      }
+      
+      .btn-md3 {
+        background: #673ab7;
+        color: white;
+        font-weight: bold;
+        padding: 10px 15px;
+        border-radius: 30px;
+        transition: background 0.3s;
+      }
+      
+      .btn-md3:hover {
+        background: #512da8;
+      }
     
