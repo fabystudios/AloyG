@@ -1,0 +1,94 @@
+<section id="slg-news-section" class="slg-news-section">
+
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <h5 class="card-title text-center" style="background-color: #ff6f00; color: white; padding: 5px; border-radius: 5px;">
+                <strong>18 de marzo</strong></h5>
+            <h5 class="card-title  text-center" style="color: #ff6f00;">
+                📹 ¡Nuevo video!
+            </h5>
+            <h5 class="card-title text-primary text-center" style="font-size: 1.5em;">
+                <strong>Carta de Francisco al director del diario italiano Corriere della Sera</strong>
+            </h5>
+
+            <div class="video-container position-relative">
+                <iframe 
+                    src="./video/18M.mp4" 
+                    allowfullscreen 
+                    frameborder="0">
+                </iframe>
+                
+            </div>
+
+            <p class="card-text mt-3">
+                el Papa reflexiona sobre la fragilidad humana y la absurda realidad de la guerra. A través de este mensaje, también lanza un llamado a la responsabilidad de los periodistas y comunicadores.
+            </p>
+
+            <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.instagram.com/vaticannews.es/reel/DHVx9KvqGRt/', '_blank')">
+                🔗 Ver en Instagram
+            </button>
+        </div>
+    </div>
+
+ 
+</section>
+
+<!-- ESTILOS -->
+<style>
+    .slg-news-section {
+        max-width: 600px;
+        margin: auto;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out;
+        overflow: hidden;
+        text-align: center;
+    }
+    .slg-video-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+    .slg-video-container video {
+        width: 100%;
+        display: block;
+        border-radius: 10px;
+    }
+    .slg-button {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 20px;
+        background: #0073e6;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+    .slg-button:hover {
+        background: #005bb5;
+    }
+</style>
+
+<!-- SCRIPT PARA REPRODUCCIÓN AUTOMÁTICA -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const video = document.getElementById("slg-churchVideo");
+        const section = document.getElementById("slg-news-section");
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    video.muted = false; // Activar el sonido
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            });
+        }, { threshold: 0.5 }); // Se activa cuando al menos el 50% de la sección es visible
+
+        observer.observe(section);
+  });
+</script>
