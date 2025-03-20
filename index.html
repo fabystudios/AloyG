@@ -38,6 +38,7 @@
 <meta name="twitter:title" content="San Luis Gonzaga - Parroquia Oficial">
 <meta name="twitter:description" content="Descubre las últimas noticias, eventos y recursos espirituales de la Parroquia San Luis Gonzaga.">
 <meta name="twitter:image" content="https://sanluisgonzaga.ar/img/preview.jpg">
+<meta name="twitter:site" content="@sanluisgonzaga">
 <meta name="twitter:url" content="https://sanluisgonzaga.ar">
 
 <!-- Favicon (para navegadores y pestañas) -->
@@ -184,6 +185,9 @@
 <!-- Anuncios -->
 
 
+
+
+
 <div id="Anuncios" class="section-padding">
     
     <div class="container" style="position: relative; padding: 50px 0; background: url('./img/wallpaper.webp') no-repeat center center/cover; border-radius: 10px; box-shadow: 0 0 20px rgba(128, 0, 128, 0.7); border: 2px solid #d4a3ff; display: flex; align-items: center;">
@@ -236,6 +240,124 @@
             }
         }
     </style>
+
+
+<section id="noticia-video-lateral" class="section-padding">
+    <div class="container">
+        <div class="card shadow-lg animated-card">
+            <div class="row g-0">
+                <!-- Columna del video -->
+                <div class="col-md-6">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.instagram.com/reel/DGyEFxvMzGD/embed" 
+                            allowfullscreen 
+                            frameborder="0" 
+                            autoplay="1">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Columna del texto -->
+                <div class="col-md-6 d-flex align-items-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary text-center" style="font-size: 2em;">
+                            <strong> 🕊 Intención de oración del Papa para marzo</strong>
+                        </h5>
+                        <style>
+                            @media (max-width: 768px) {
+                                .card-title {
+                                    font-size: 1.2em !important;
+                                }
+                            }
+                        </style>
+
+                        <p class="card-text">
+                            En el vídeo que ilustra su intención de oración para el mes de marzo, grabado antes de su ingreso en el Policlínico Gemelli, el Papa pide oraciones <strong>"para que las familias divididas encuentren en el perdón la curación de sus heridas".</strong>
+                        </p>
+
+                        <button class="pulse-btn btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.instagram.com/reel/DGyEFxvMzGD/', '_blank')">
+                            🔗 Ver en Instagram
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+/* Animación de aparición */
+.animated-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Contenedor del video */
+.video-container {
+    position: relative;
+    padding-top: 125%; /* Proporción vertical */
+    height: 0;
+    overflow: hidden;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto zoom en hover */
+.video-container:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Botón con efecto de pulso */
+.pulse-btn {
+    position: relative;
+    overflow: hidden;
+    animation: pulse 1.5s infinite;
+}
+
+.pulse-btn:hover {
+    animation: none;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.6);
+}
+
+/* Keyframes para animaciones */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(0, 123, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+    }
+}
+</style>
+
+
 
 <section id="noticias" class="section-padding">
     <div class="container">
@@ -566,11 +688,78 @@
  
 <!-- SECCIÓN DE VIDEO EN NOTICIAS -->
 
+<!-- <section>
 
-<section id="noticias" class="section-padding"></section>
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/ansa/2025/03/18/12/1742297602293.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.1500.844.jpeg" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center"  style="color: #ff6f00;"><strong> 20 de marzo:</strong></h5>
+                  <h5 class="card-title text-primary  text-center"  style="font-size: 1.8em;"><strong>
+                    El Papa en el Gemelli: suspendida la ventilación mecánica
+                </strong><br><br></h5>
+     
+                  <p class="card-text">
+                  Sus condiciones clínicas se han mantenido estables y, en consecuencia, reflejan una buena respuesta a la terapia. 
+                  Sin embargo, el regreso del Santo Padre al Vaticano no es inminente. 
+                  </p>
+      
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.aciprensa.com/noticias/110867/en-vivo-salud-del-papa-francisco-hospitalizado-en-el-gemelli', '_blank')">
+                      ✉️ Leer la carta en <img src="./img/logo-white-small.png" alt="ACI" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+</section> -->
+
+<!-- SECCIÓN DE NOTICIAS CON VIDEO DE INSTAGRAM -->
+
+
+
+<section id="video" class="section-padding slg-video-container"> 
 <!-- jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj -->
 
 
+
+
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card shadow-lg text-center" style="max-width: 400px; border-radius: 10px; overflow: hidden;">
+        <!-- Encabezado con color atractivo -->
+        <h5 class="card-title text-center p-2" style="background-color: #ff6f00; color: white; margin: 0;">
+            <strong>20 de marzo</strong>
+        </h5>
+
+        <!-- Contenedor del Reel de Instagram -->
+        <div class="ratio ratio-1x1" style="overflow: hidden;">
+            <iframe src="https://www.instagram.com/reel/DHbP-igvKXZ/embed" 
+                    frameborder="0" allowfullscreen 
+                    style="border: none; pointer-events: auto;"></iframe>
+        </div>
+        
+
+        <div class="card-body">
+            <h5 class="card-title text-primary">Francisco sigue mejorando</h5>
+            <p class="card-text text-muted">Reflexión sobre el encuentro de Jesús con Nicodemo y el consejo de Francisco a seguir su ejemplo.</p>
+
+            <a href="https://www.instagram.com/reel/DHbP-igvKXZ/" target="_blank" class="btn btn-md3 d-flex align-items-center">
+                <i class="fab fa-instagram"></i> Ver en Instagram
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+ </section>
     <div class="container">        
         <div class="card shadow-lg">
             <div class="row g-0">
@@ -601,6 +790,8 @@
     </div>
 </section>
 
+
+
 <section id="noticias" class="section-padding">
     <div class="container">        
         <div class="card shadow-lg">
@@ -629,40 +820,7 @@
     </div>
 </section>
 
-<section id="noticias" class="section-padding">
-    <div class="container">        
-        <div class="card shadow-lg">
-            <div class="row g-0">
-            <div class="col-md-4">
-                <img src="https://www.aciprensa.com/imagespp/escultura-juan-pabloii-gemelli-daniel-ibanez-170325.jpg?w=672&h=448" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                 
-                <h5 class="card-title text-center"  style="color: #ff6f00;"><strong> 17 de marzo:</strong></h5>
-                  <h5 class="card-title text-primary  text-center"  style="font-size: 1.5em;"><strong>El Vaticano afirma que por momentos el Papa Francisco puede respirar sin ayuda.</strong><br><br></h5>
-                  <div class="author-info d-flex align-items-center">
-                    <img src="./img/aciprensa-author.png" alt="ACI" class="rounded-circle me-3 img-autor" style="width: 50px; ">
 
-                      <div>
-                          <h6 class="mb-0"><strong>ACI PRENSA</strong></h6>
-                          <p class="text-muted mb-0"><small> Radacción Central, Roma.</small></p>
-                      </div>
-                  </div>
-                  <p class="card-text">Las condiciones clínicas del Papa Francisco en los últimos días se han mantenido estables y, en consecuencia, reflejan una buena respuesta a la terapia.
-
-                  </p>
-      
-                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.aciprensa.com/noticias/110867/en-vivo-salud-del-papa-francisco-hospitalizado-en-el-gemelli', '_blank')">
-                      📖 Leer más en <img src="./img/logo-white-small.png" alt="ACI" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-    </div>
-</section>
 
 
 <section id="noticias" class="section-padding">
