@@ -2485,4 +2485,13 @@ section {
       .btn-md3:hover {
         background: #512da8;
       }
-    
+      
+      @media (max-width: 768px) {
+        .spotify-embed { display: none; }
+        .spotify-button { display: block; }
+      }
+      
+      @media (min-width: 769px) {
+        .spotify-embed { display: block; }
+        .spotify-button { display: none; }
+      }
