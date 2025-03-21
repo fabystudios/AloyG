@@ -2487,4 +2487,32 @@ section {
       }
 
 
-      
+      /* viendo la estructura  */
+      @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+.section-header {
+    text-align: center;
+    padding: 10px 5px;
+    background: linear-gradient(135deg, rgba(98, 0, 234, 0.8), rgba(81, 140, 188, 0.8));   color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    max-width: 80%;
+}
+
+.md3-headline {
+    font-size: 2.5rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    margin: 0;
+    padding: 10px 0;
+}
