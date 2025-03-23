@@ -2517,4 +2517,19 @@ body {
     padding: 10px 0;
 }
 
+/* video alto en moviles */
 
+@media (max-width: 768px) {
+
+        .videoAlto,.spoty {
+            height: auto;
+            width: 90vw; /* Ajustamos el ancho relativo */
+        }
+        .details {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;    /* Valor correcto para alineación izquierda */
+            align-items: flex-start;        /* Valor correcto para alineación izquierda */
+            gap: 20px;
+        }
+}
