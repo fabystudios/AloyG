@@ -2521,7 +2521,7 @@ body {
 
 @media (max-width: 768px) {
 
-        .videoAlto,.spoty {
+        .videoAlto {
             height: auto;
             width: 90vw; /* Ajustamos el ancho relativo */
         }
