@@ -306,6 +306,7 @@
     max-height: 600px;
     object-fit: cover;
     filter: brightness(110%);
+    border-radius: 12px 12px 0 0;
 }
 
 
@@ -350,6 +351,9 @@
 @media (max-width: 768px) {
     .background {
         height: 50vh; /* 50% de la altura de la pantalla en móviles */
+        background-image: url('./img/donBosco.jpg'); /* Imagen específica para móviles */
+        background-size: cover;
+        background-position: center;
     }
     .mjeCuaresma {
     font-size: 1em;
