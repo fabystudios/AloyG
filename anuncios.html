@@ -1,0 +1,123 @@
+<section class="container my-5">
+    <div class="card shadow-lg rounded-4 overflow-hidden d-flex flex-column flex-lg-row">
+           <!-- Imagen -->
+           <div class="col-12 col-lg-6 image-container">
+            <img src="./img/3erDomingo.jpg" alt="El Papa Francisco vuelve a casa" class="img-fluid w-100 h-100" style="border-radius: 15px;">
+        </div>
+
+
+        <!-- Contenido -->
+        <div class="col-12 col-lg-6 p-4 d-flex flex-column justify-content-center">
+            <!-- <h2 class="fw-bold text-dark text-shadow text-center">El Papa Francisco vuelve a Casa</h2> -->
+
+            <!-- Contenedor de texto con "Ver más..." -->
+            <div class="text-container">
+                <p class="text-muted  " style="font-size: 1.20em; line-height: 1.1; text-align:justify;"
+                class="descripcion" style="font-family: 'Montserrat', sans-serif;"> 
+                
+                    El pasado domingo 23 de marzo, la Iglesia Católica celebró el III Domingo de Cuaresma. La lectura del Evangelio de esta fecha está tomada del Evangelio de Lucas capítulo 13, versículos del 1 al 9 (Lucas 13, 1-9). Jesús se vale de la parábola de la higuera estéril para recordarnos una gran verdad: El Señor es misericordioso, paciente y está dispuesto a acompañarnos, pero a nosotros nos toca responder iniciando un camino de conversión real.
+      
+      En la narración, una vez más, Jesús cuestiona que haya una relación directa entre los padecimientos o la muerte de alguien con el pecado: <strong>  “¿Piensan ustedes que aquellos galileos, porque les sucedió esto, eran más pecadores que todos los demás galileos? Ciertamente que no; y si ustedes no se arrepienten, perecerán de manera semejante”. Jesús llama a la conversión, porque siendo la muerte inevitable, podemos “perecer” para siempre por no habernos arrepentido.
+      
+      A continuación, se vale de la parábola de la higuera estéril para ilustrar su misericordia y su justicia. Un hombre tenía una higuera plantada en medio de su viñedo. Llegado el momento fue a buscar higos y se dio con que no habían. Entonces le dijo al viñador: “Mira, durante tres años seguidos he venido a buscar higos en esta higuera y no los he encontrado. Córtala”. El viñador sabía que su Señor estaba descontento porque la higuera ocupaba espacio inútilmente, pero pidió una oportunidad más para esta: “Señor, déjala todavía este año; voy a aflojar la tierra alrededor y a echarle abono, para ver si da fruto. Si no, el año que viene la cortaré”.
+      
+      </strong>  </p>               
+                  
+                <button class="btn btn-link text-primary p-0 see-more-btn d-md-none">Ver más...</button>
+            </div>
+
+            <!-- Botón con enlace -->
+            <div class="text-center mt-3">
+                <a href="https://www.instagram.com/p/DHia62TqmL0/" target="_blank" class="btn btn-md3 d-flex align-items-center" style="font-size: 1.5em;">
+                    Ver publicación <i class="material-icons ms-2">arrow_forward</i>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</section>
+<style>
+    .image-container {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .image-container img {
+        object-fit: cover;
+        height: 100%;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .image-container img:hover {
+        transform: scale(1.05);
+    }
+
+    .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .md3-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 12px 20px;
+        border-radius: 24px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    .md3-button:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+
+
+
+    /* 📌 Expande el texto al hacer clic */
+    .text-container.expanded {
+        max-height: none;
+    }
+
+    /* 📌 Estilo del botón "Ver más..." */
+    .see-more-btn {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 5px;
+    }
+
+    /* 📌 Oculta el botón "Ver más..." en pantallas grandes */
+    @media (min-width: 768px) {
+
+        .see-more-btn {
+            display: none;
+        }
+    }
+    @media (max-width: 768px) {
+            /* 📌 Limita el texto en móviles */
+        .text-container {
+        max-height: 5.5em; /* Equivale a 3 líneas de texto */
+        overflow: hidden;
+        position: relative;
+        transition: max-height 0.3s ease-in-out;
+    }
+
+    }
+
+
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let btn = document.querySelector(".see-more-btn");
+        let textContainer = document.querySelector(".text-container");
+
+        btn.addEventListener("click", function () {
+            textContainer.classList.toggle("expanded");
+            btn.innerText = textContainer.classList.contains("expanded") ? "Ver menos" : "Ver más...";
+        });
+    });
+</script>
+

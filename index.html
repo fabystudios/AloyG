@@ -209,14 +209,12 @@
  
 <!-- Anuncios -->
 
-<section class="section-header">
+<section class="section-header" style="margin-bottom: 0; padding-bottom: 0;">
     <h2 class="md3-headline" style="color: white;">
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
-
 </section>
-
-
+<section style=" padding-top: 30px;"> 
 <div class="text-center mb-4 animate_animated animatepulse animate_infinite d-none d-md-block">
     <p class="fs-4 text-light p-2 rounded-pill mx-auto moviles" 
         style="background: rgba(128, 0, 128, 0.7); color: #ffffff; 
@@ -227,137 +225,140 @@
         <i class="fas fa-cross"></i>
     </p>
 </div>
-
-<section class="container my-5">
-    <div class="card shadow-lg rounded-4 overflow-hidden d-flex flex-column flex-lg-row">
-           <!-- Imagen -->
-           <div class="col-12 col-lg-6 image-container">
-            <img src="./img/3erDomingo.jpg" alt="El Papa Francisco vuelve a casa" class="img-fluid w-100 h-100" style="border-radius: 15px;">
-        </div>
-
-
-        <!-- Contenido -->
-        <div class="col-12 col-lg-6 p-4 d-flex flex-column justify-content-center">
-            <!-- <h2 class="fw-bold text-dark text-shadow text-center">El Papa Francisco vuelve a Casa</h2> -->
-
-            <!-- Contenedor de texto con "Ver más..." -->
-            <div class="text-container">
-                <p class="text-muted  " style="font-size: 1.20em; line-height: 1.1; text-align:justify;"
-                class="descripcion" style="font-family: 'Montserrat', sans-serif;"> 
-                
-                    El pasado domingo 23 de marzo, la Iglesia Católica celebró el III Domingo de Cuaresma. La lectura del Evangelio de esta fecha está tomada del Evangelio de Lucas capítulo 13, versículos del 1 al 9 (Lucas 13, 1-9). Jesús se vale de la parábola de la higuera estéril para recordarnos una gran verdad: El Señor es misericordioso, paciente y está dispuesto a acompañarnos, pero a nosotros nos toca responder iniciando un camino de conversión real.
-      
-      En la narración, una vez más, Jesús cuestiona que haya una relación directa entre los padecimientos o la muerte de alguien con el pecado: <strong>  “¿Piensan ustedes que aquellos galileos, porque les sucedió esto, eran más pecadores que todos los demás galileos? Ciertamente que no; y si ustedes no se arrepienten, perecerán de manera semejante”. Jesús llama a la conversión, porque siendo la muerte inevitable, podemos “perecer” para siempre por no habernos arrepentido.
-      
-      A continuación, se vale de la parábola de la higuera estéril para ilustrar su misericordia y su justicia. Un hombre tenía una higuera plantada en medio de su viñedo. Llegado el momento fue a buscar higos y se dio con que no habían. Entonces le dijo al viñador: “Mira, durante tres años seguidos he venido a buscar higos en esta higuera y no los he encontrado. Córtala”. El viñador sabía que su Señor estaba descontento porque la higuera ocupaba espacio inútilmente, pero pidió una oportunidad más para esta: “Señor, déjala todavía este año; voy a aflojar la tierra alrededor y a echarle abono, para ver si da fruto. Si no, el año que viene la cortaré”.
-      
-      </strong>  </p>               
-                  
-                <button class="btn btn-link text-primary p-0 see-more-btn d-md-none">Ver más...</button>
-            </div>
-
-            <!-- Botón con enlace -->
-            <div class="text-center mt-3">
-                <a href="https://www.instagram.com/p/DHia62TqmL0/" target="_blank" class="btn btn-md3 d-flex align-items-center" style="font-size: 1.5em;">
-                    Ver publicación <i class="material-icons ms-2">arrow_forward</i>
-                </a>
-            </div>
-            
-        </div>
-    </div>
-</section>
-
-<style>
-    .image-container {
-        height: 100%;
-        overflow: hidden;
-    }
-
-    .image-container img {
-        object-fit: cover;
-        height: 100%;
-        transition: transform 0.3s ease-in-out;
-    }
-
-    .image-container img:hover {
-        transform: scale(1.05);
-    }
-
-    .text-shadow {
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    .md3-button {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 12px 20px;
-        border-radius: 24px;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-        transition: background 0.3s, transform 0.2s;
-    }
-
-    .md3-button:hover {
-        background-color: #0056b3;
-        transform: scale(1.05);
-    }
-
-
-
-
-    /* 📌 Expande el texto al hacer clic */
-    .text-container.expanded {
-        max-height: none;
-    }
-
-    /* 📌 Estilo del botón "Ver más..." */
-    .see-more-btn {
-        display: block;
-        font-size: 0.9rem;
-        font-weight: bold;
-        cursor: pointer;
-        margin-top: 5px;
-    }
-
-    /* 📌 Oculta el botón "Ver más..." en pantallas grandes */
-    @media (min-width: 768px) {
-
-        .see-more-btn {
-            display: none;
+<!-- <style>
+    @media (max-width: 768px) {
+        .section-header {
+            margin-top: 0;
+            padding-top: 0;
         }
     }
-    @media (max-width: 768px) {
-            /* 📌 Limita el texto en móviles */
-        .text-container {
-        max-height: 5.5em; /* Equivale a 3 líneas de texto */
-        overflow: hidden;
-        position: relative;
-        transition: max-height 0.3s ease-in-out;
+</style> -->
+
+    <div class="container">
+        <div class="post-card">
+            <img src="./img/fotos/donBosco2.jpg" alt="Imagen Cuaresmal" class="background">
+            <div class="content">
+                <h2 style="margin-bottom: 0; padding-bottom: 0;">Mensaje de Cuaresma</h2>
+                <div class="icons">
+                    <i class="fas fa-cross"></i>
+                    <i class="fas fa-hands-praying"></i>
+                    <i class="fas fa-candle"></i>
+                </div>
+                <p class="mjeCuaresma">
+                    San Juan Bosco. <strong>"Confía en la Virgen y verás lo que son milagros."</strong> Estas palabras de San Juan Bosco nos invitan a depositar nuestra confianza en la intercesión de María, Madre de Dios y Madre nuestra.
+
+En esta Cuaresma, acerquémonos a Ella con amor y pidámosle que nos guíe hacia su Hijo Jesús, especialmente en los momentos difíciles."
+                </p>
+
+                <a href="https://www.instagram.com/p/DHxwbmNvG4Q/" class="btn btn-md3 d-flex align-items-center">
+                    Ver publicación original 
+                    <img src="https://i0.wp.com/ewtn.es/wp-content/uploads/2021/03/logo-ewtn-espana-white.png?w=500&ssl=1" alt="EWTN Logo" style="height: 1.9em; margin-left: 0.5em;">
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+<style>
+/* Fuente MD3 */
+
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Roboto', sans-serif;
+} */
+
+/* body {
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+} */
+
+.container {
+    width: 100%;
+    /* max-width: 600px; */
+    padding: 10px;
+}
+
+.post-card {
+    position: relative;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+    text-align: center;
+}
+
+/* .background {
+    width: 100%;
+    height: 70%;
+    object-fit:contain;
+    filter: brightness(110%);
+} */
+
+ 
+.background {
+    width: 100%;
+    height: 100vh; /* 40% de la altura de la pantalla */
+    max-height: 600px;
+    object-fit: cover;
+    filter: brightness(110%);
+ 
+}
+
+
+.content {
+    padding: 20px;
+}
+
+/* h2 {
+    font-size: 24px;
+    color: #4A148C;
+    margin-bottom: 10px;
+} */
+
+.mjeCuaresma {
+    font-size: 1.45em;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.icons {
+    font-size: 24px;
+    color: #9C27B0;
+    margin-bottom: 15px;
+}
+
+/* .btn {
+    display: inline-block;
+    background: #6A1B9A;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+} */
+
+.btn:hover {
+    background: #4A148C;
+}
+@media (max-width: 768px) {
+    .background {
+        height: 50vh; /* 50% de la altura de la pantalla en móviles */
     }
-
-    }
-
-
+    .mjeCuaresma {
+    font-size: 1.2em;
+    line-height: 1;
+}
+}
 </style>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let btn = document.querySelector(".see-more-btn");
-        let textContainer = document.querySelector(".text-container");
-
-        btn.addEventListener("click", function () {
-            textContainer.classList.toggle("expanded");
-            btn.innerText = textContainer.classList.contains("expanded") ? "Ver menos" : "Ver más...";
-        });
-    });
-</script>
-
-
-
-
-
-
-<section id="lujan" class="section-padding d-flex justify-content-center align-items-center">
     <div class="card-container info">
         <div class="featured-card" style=" box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2); height: 100%;">
             <div class="card-image-container">
