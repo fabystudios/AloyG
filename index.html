@@ -234,6 +234,131 @@
     }
 </style> -->
 
+<!-- domingo de cuaresma -->
+
+<section class="container my-5">
+    <div class="card shadow-lg rounded-4 overflow-hidden d-flex flex-column flex-lg-row">
+           <!-- Imagen -->
+           <div class="col-12 col-lg-6 image-container">
+            <img src="https://www.aciprensa.com/imagespp/cuartodomingodecuaresma2025.jpg?w=672&h=448" alt="El Papa Francisco vuelve a casa" class="img-fluid w-100 h-100" style="border-radius: 15px;">
+        </div>
+
+
+        <!-- Contenido -->
+        <div class="col-12 col-lg-6 p-4 d-flex flex-column justify-content-center">
+            <!-- <h2 class="fw-bold text-dark text-shadow text-center">El Papa Francisco vuelve a Casa</h2> -->
+
+            <!-- Contenedor de texto con "Ver más..." -->
+            <div class="text-container">
+                <p class="text-muted  " style="font-size: 1.20em; line-height: 1.6; text-align:justify;"
+                class="descripcion" style="font-family: 'Montserrat', sans-serif;"> 
+                
+                Hoy 30 de marzo, la Iglesia Católica celebra el IV Domingo de Cuaresma, el llamado Domingo Laetare cuyo nombre viene de las primeras palabras del Introito de la Misa, Laetare Jerusalem ¡Alégrate, oh, Jerusalén!-.
+
+                Este domingo es ocasión para recordar que nos encontramos alrededor de la mitad de la Cuaresma, lo que significa que hemos avanzado un buen trecho en el camino penitencial rumbo a la Pascua. Si bien aún no es propicio celebrar, sí es momento de aferrarnos más fuerte a la misericordia divina, que se ha hecho bálsamo que alivia el espíritu y llena de esperanza al pecador.
+      
+      </strong>  </p>               
+                  
+                <button class="btn btn-link text-primary p-0 see-more-btn d-md-none">Ver más...</button>
+            </div>
+
+            <!-- Botón con enlace -->
+            <div class="text-center mt-3">
+                <a href="https://www.aciprensa.com/noticias/59163/cuarto-domingo-de-cuaresma-2025" target="_blank" class="btn btn-md3 d-flex align-items-center" style="font-size: 1.5em;">
+                    Ver publicación <i class="material-icons ms-2">arrow_forward</i>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+</section>
+<style>
+    .image-container {
+        height: 100%;
+        overflow: hidden;
+    }
+
+    .image-container img {
+        object-fit: cover;
+        height: 100%;
+        transition: transform 0.3s ease-in-out;
+    }
+
+    .image-container img:hover {
+        transform: scale(1.05);
+    }
+
+    .text-shadow {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .md3-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 12px 20px;
+        border-radius: 24px;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        transition: background 0.3s, transform 0.2s;
+    }
+
+    .md3-button:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+
+
+
+    /* 📌 Expande el texto al hacer clic */
+    .text-container.expanded {
+        max-height: none;
+    }
+
+    /* 📌 Estilo del botón "Ver más..." */
+    .see-more-btn {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 5px;
+    }
+
+    /* 📌 Oculta el botón "Ver más..." en pantallas grandes */
+    @media (min-width: 768px) {
+
+        .see-more-btn {
+            display: none;
+        }
+    }
+    @media (max-width: 768px) {
+            /* 📌 Limita el texto en móviles */
+        .text-container {
+        max-height: 5.5em; /* Equivale a 3 líneas de texto */
+        overflow: hidden;
+        position: relative;
+        transition: max-height 0.3s ease-in-out;
+    }
+
+    }
+
+
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let btn = document.querySelector(".see-more-btn");
+        let textContainer = document.querySelector(".text-container");
+
+        btn.addEventListener("click", function () {
+            textContainer.classList.toggle("expanded");
+            btn.innerText = textContainer.classList.contains("expanded") ? "Ver menos" : "Ver más...";
+        });
+    });
+</script>
+
+
+<!-- don bosco  -->
         <div class="post-card" style="width: 90vw; max-width: 90%; margin: 0 auto;">
             <img src="./img/fotos/donBosco2.jpg" alt="Imagen Cuaresmal" class="background" style="width: 100%; height: auto;">
             <div class="content">
@@ -364,6 +489,10 @@
 
  
 </style>
+
+
+
+
 
     <div class="card-container info">
         <div class="featured-card" style=" box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2); height: 100%;">
