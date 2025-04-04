@@ -1016,7 +1016,7 @@
            rel="noopener"
            style="background: #25D366; color: white; border-radius: 30px; padding: 12px 25px; text-decoration: none; transition: all 0.3s ease;">
             <i class="fab fa-whatsapp fa-2x"></i>
-            <div class="d-flex flex-column justify-content-center
+            <div class="d-flex flex-column justify-content-center">
                 <span class="fw-bold">Contactar por WhatsApp</span>
                 <small>nro.: 221 5947600</small>
             </div>
@@ -1465,7 +1465,7 @@
         <div class="row align-items-center ">
             <!-- Imagen a la izquierda -->
             <div class="col-lg-6"> 
-                <div class="image-container" >
+                <div class="image-container-apo" >
                     <video class="img-fluid flyer-img" controls autoplay poster="./img/miniaturaApocalipsis.jpg"> 
                         <source src="./video/apocalipsis.mp4" type="video/mp4">
                     </video>
@@ -1523,7 +1523,15 @@
         color: var(--md-sys-color-on-surface);
         line-height: 1.5;
     }
-    
+    .image-container-apo {
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12%;;
+    animation: fadeIn 1.5s ease;
+}
     .cardApo {
         background-color: white;
         border-radius: 16px;
