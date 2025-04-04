@@ -281,6 +281,192 @@
 
 </style>
 
+
+viejo Retiro Igneciano
+
+
+
+<section id="retiro-ignaciano" class="section-padding d-flex justify-content-center align-items-center">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Imagen a la izquierda -->
+            <div class="col-lg-6">
+                <div class="image-container">
+                    <img src="./img/fotos/Retiro-Ignaciano-en-Villa-Elisa2.png" class="img-fluid flyer-img" alt="Flyer Retiro Ignaciano">
+                </div>
+            </div>
+
+            <!-- Info a la derecha -->
+            <div class="col-lg-6">
+                <div class="info-card">
+                    <h2 class="title-anim">INFORMACIÓN E INSCRIPCIONES</h2>
+                    <div class="info-content">
+                        <p>
+                            <i class="material-icons md-24" style="color: red;">mail</i> secretaria@ceia.org.ar
+                        </p>
+                        <p>
+                            <i class="material-icons md-24" style="color: red;">phone</i> +54 911 6589 8115
+                        </p>
+                        <p>
+                            <i class="material-icons md-24" style="color: red;">location_on</i> Av. Callao 542
+                        </p>
+                        <p class="cost-text">
+                            ACTIVIDAD CON COSTO.
+                        </p>
+                    </div>
+
+                    <!-- Botón con icono -->
+                    <a href="mailto:secretaria@ceia.org.ar" class="btn btn-md3 w-100">
+                        <i class="material-icons md-24">send</i> Enviar mail
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Contenedor de la imagen */
+.image-container {
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 12%;;
+    animation: fadeIn 1.5s ease;
+}
+
+.flyer-img {
+    width: auto;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 12px;
+    animation: fadeIn 1.5s ease;
+  
+    
+}
+
+/* Tarjeta de información */
+.info-card {
+    padding: 20px;
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    animation: slideInRight 1s ease;
+    border: .3px ;
+    box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2); /* Sombra paralela */
+    /* border: .5px solid #d32f2f; */
+}
+
+/* Encabezado */
+.title-anim {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    text-transform: uppercase;
+    animation: bounceIn 1s ease;
+    background-color: #d32f2f;
+    padding:  10px ;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.2); /* Sombra paralela */
+
+
+}
+
+/* Contenido */
+.info-content p {
+    font-size: 18px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    animation: fadeInUp 1s ease;
+}
+
+/* Actividad con costo */
+.cost-text {
+    font-size: 16px;
+    color: #d32f2f;
+    font-weight: bold;
+    text-transform: uppercase;
+    animation: pulse 2s infinite;
+}
+
+/* Botón MD3 con icono */
+.btn-md3 {
+    background-color: #6200ea;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 24px;
+    text-transform: uppercase;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    animation: slideInUp 1s ease;
+}
+
+.btn-md3:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(98, 0, 234, 0.3);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideInUp {
+    from { transform: translateY(100%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes bounceIn {
+    0% { transform: scale(0.9); opacity: 0; }
+    60% { transform: scale(1.1); opacity: 1; }
+    100% { transform: scale(1); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+ 
+/* Responsive */
+@media (max-width: 768px) {
+    .image-container {
+        max-height: 50vh;
+    }
+
+    .info-card {
+        animation: fadeIn 1s ease;
+    }
+}
+</style>
+
+
+
+
 Spotify
 
 
