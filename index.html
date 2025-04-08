@@ -222,6 +222,139 @@
     </h2>
 </section>
 
+<!-- domingo de cuaresma -->
+<br><br><br>
+<!-- <section class="container my-5 " style="width: 90vw; max-width: 90%; margin: 0 auto;"> -->
+    <div class="post-card shadow-lg rounded-4 overflow-hidden d-flex flex-column flex-lg-row" style="width: 90vw; max-width: 90%; margin: 0 auto;">
+        <!-- Imagen -->
+        <!-- <div class="image-container" style="flex: 0.6;"></div> -->
+        <div >
+         <img src="https://www.aciprensa.com/imagespp/quintodomingodecuaresma2025.jpg" style="width: 100%;"
+         alt="El Papa Francisco vuelve a casa" class="img-fluid w-100 h-100" style="border-radius: 8px;">
+     </div>
+
+
+     <!-- Contenido -->
+     <div class="col-12 col-lg-6 p-4 d-flex flex-column justify-content-center">
+         <!-- <h2 class="fw-bold text-dark text-shadow text-center">El Papa Francisco vuelve a Casa</h2> -->
+
+         <!-- Contenedor de texto con "Ver más..." -->
+         <div class="text-container">
+             <p class="text-muted" style="font-size: 1.20em; line-height: 1.6; text-align:justify;"
+             class="descripcion" style="font-family: 'Montserrat', sans-serif;"> 
+             <strong>El pasado domingo 6 de abril</strong>, la Iglesia Católica celebra el V Domingo de Cuaresma. 
+             La lectura del Evangelio está tomada de Juan, capítulo 8, versículos del 1 al 11 (Jn 8, 1-11). El relato corresponde 
+             al encuentro de Jesús con la mujer sorprendida en adulterio, a quien los escribas y fariseos quisieron apedrear apelando 
+             a lo prescrito en la ley de Moisés.
+            Jesús se había retirado al monte de los olivos a orar. A la mañana siguiente, muy temprano, como de costumbre, acudió al 
+            templo a enseñar...
+         
+      </p>               
+               
+             <button class="btn btn-link text-primary p-0 see-more-btn d-md-none">Ver más...</button>
+         </div>
+
+         <!-- Botón con enlace -->
+         <div class="text-center mt-3">
+             <a href="https://www.aciprensa.com/noticias/59241/quinto-domingo-de-cuaresma-2023" target="_blank" class="btn btn-md3 d-flex align-items-center" style="font-size: 1.3em;">
+                 Ver publicación <i class="material-icons ms-2">arrow_forward</i>
+             </a>
+         </div>
+         
+     </div>
+ </div>
+ <br><br> <br>
+<!-- </section> -->
+<style>
+ .image-container {
+     height: 100%;
+     overflow: hidden;
+ }
+
+ .image-container img {
+     object-fit: cover;
+     height: 100%;
+     transition: transform 0.3s ease-in-out;
+ }
+
+ .image-container img:hover {
+     transform: scale(1.05);
+ }
+
+ .text-shadow {
+     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+ }
+
+ .md3-button {
+     display: inline-flex;
+     align-items: center;
+     gap: 5px;
+     padding: 12px 20px;
+     border-radius: 24px;
+     box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+     transition: background 0.3s, transform 0.2s;
+ }
+
+ .md3-button:hover {
+     background-color: #0056b3;
+     transform: scale(1.05);
+ }
+
+
+
+
+ /* 📌 Expande el texto al hacer clic */
+ .text-container.expanded {
+     max-height: none;
+ }
+
+ /* 📌 Estilo del botón "Ver más..." */
+ .see-more-btn {
+     display: block;
+     font-size: 0.9rem;
+     font-weight: bold;
+     cursor: pointer;
+     margin-top: 5px;
+ }
+
+ /* 📌 Oculta el botón "Ver más..." en pantallas grandes */
+ @media (min-width: 768px) {
+
+     .see-more-btn {
+         display: none;
+     }
+     .container-95 {
+ width: 95vw;
+ max-width: 95%;
+ margin: 0 auto;
+}
+ }
+ @media (max-width: 768px) {
+         /* 📌 Limita el texto en móviles */
+     .text-container {
+     max-height: 5.5em; /* Equivale a 3 líneas de texto */
+     overflow: hidden;
+     position: relative;
+     transition: max-height 0.3s ease-in-out;
+ }
+
+}
+
+
+</style>
+
+<script>
+ document.addEventListener("DOMContentLoaded", function () {
+     let btn = document.querySelector(".see-more-btn");
+     let textContainer = document.querySelector(".text-container");
+
+     btn.addEventListener("click", function () {
+         textContainer.classList.toggle("expanded");
+         btn.innerText = textContainer.classList.contains("expanded") ? "Ver menos" : "Ver más...";
+     });
+ });
+</script>
+
 <style>
 .post-catequesis {
     display: flex;
@@ -310,7 +443,7 @@
     </div>
 </div>
 
-
+<br><br>
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
@@ -669,138 +802,6 @@
     }
 </style> -->
 
-<!-- domingo de cuaresma -->
-
-<!-- <section class="container my-5 " style="width: 90vw; max-width: 90%; margin: 0 auto;"> -->
-    <div class="post-card shadow-lg rounded-4 overflow-hidden d-flex flex-column flex-lg-row" style="width: 90vw; max-width: 90%; margin: 0 auto;" >
-           <!-- Imagen -->
-           <!-- class="col-12 col-lg-6 image-container" -->
-           <div >
-            <img src="https://www.aciprensa.com/imagespp/cuartodomingodecuaresma2025.jpg?w=672&h=448" 
-            alt="El Papa Francisco vuelve a casa" class="img-fluid w-100 h-100" style="border-radius: 8px;">
-        </div>
-
-
-        <!-- Contenido -->
-        <div class="col-12 col-lg-6 p-4 d-flex flex-column justify-content-center">
-            <!-- <h2 class="fw-bold text-dark text-shadow text-center">El Papa Francisco vuelve a Casa</h2> -->
-
-            <!-- Contenedor de texto con "Ver más..." -->
-            <div class="text-container">
-                <p class="text-muted" style="font-size: 1.20em; line-height: 1.6; text-align:justify;"
-                class="descripcion" style="font-family: 'Montserrat', sans-serif;"> 
-                
-                <strong>El 30 de marzo pasado</strong>, la Iglesia Católica celebró el IV Domingo de Cuaresma, el llamado Domingo Laetare cuyo nombre viene de las
-                primeras palabras del Introito de la Misa, Laetare Jerusalem -¡Alégrate, oh, Jerusalén!-.
-                Este domingo es ocasión para recordar que nos encontramos alrededor de la mitad de la Cuaresma, lo que significa que hemos avanzado un buen 
-                trecho en el camino penitencial rumbo a la Pascua. Si bien aún no es propicio celebrar, 
-                sí es momento de aferrarnos más fuerte a la misericordia divina, que se ha hecho bálsamo que alivia el espíritu y llena de esperanza al pecador.
-      
-         </p>               
-                  
-                <button class="btn btn-link text-primary p-0 see-more-btn d-md-none">Ver más...</button>
-            </div>
-
-            <!-- Botón con enlace -->
-            <div class="text-center mt-3">
-                <a href="https://www.aciprensa.com/noticias/59163/cuarto-domingo-de-cuaresma-2025" target="_blank" class="btn btn-md3 d-flex align-items-center" style="font-size: 1.3em;">
-                    Ver publicación <i class="material-icons ms-2">arrow_forward</i>
-                </a>
-            </div>
-            
-        </div>
-    </div>
-<!-- </section> -->
-<style>
-    .image-container {
-        height: 100%;
-        overflow: hidden;
-    }
-
-    .image-container img {
-        object-fit: cover;
-        height: 100%;
-        transition: transform 0.3s ease-in-out;
-    }
-
-    .image-container img:hover {
-        transform: scale(1.05);
-    }
-
-    .text-shadow {
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-    }
-
-    .md3-button {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 12px 20px;
-        border-radius: 24px;
-        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
-        transition: background 0.3s, transform 0.2s;
-    }
-
-    .md3-button:hover {
-        background-color: #0056b3;
-        transform: scale(1.05);
-    }
-
-
-
-
-    /* 📌 Expande el texto al hacer clic */
-    .text-container.expanded {
-        max-height: none;
-    }
-
-    /* 📌 Estilo del botón "Ver más..." */
-    .see-more-btn {
-        display: block;
-        font-size: 0.9rem;
-        font-weight: bold;
-        cursor: pointer;
-        margin-top: 5px;
-    }
-
-    /* 📌 Oculta el botón "Ver más..." en pantallas grandes */
-    @media (min-width: 768px) {
-
-        .see-more-btn {
-            display: none;
-        }
-        .container-95 {
-    width: 95vw;
-    max-width: 95%;
-    margin: 0 auto;
-}
-    }
-    @media (max-width: 768px) {
-            /* 📌 Limita el texto en móviles */
-        .text-container {
-        max-height: 5.5em; /* Equivale a 3 líneas de texto */
-        overflow: hidden;
-        position: relative;
-        transition: max-height 0.3s ease-in-out;
-    }
-
-}
-
-
-</style>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        let btn = document.querySelector(".see-more-btn");
-        let textContainer = document.querySelector(".text-container");
-
-        btn.addEventListener("click", function () {
-            textContainer.classList.toggle("expanded");
-            btn.innerText = textContainer.classList.contains("expanded") ? "Ver menos" : "Ver más...";
-        });
-    });
-</script>
-<br><br><br><br>
 
 <!-- don bosco  -->
         <div class="post-card" style="width: 90vw; max-width: 90%; margin: 0 auto;">
@@ -2214,6 +2215,50 @@
 
 
 <!-- jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj -->
+<section id="noticias" class="section-padding"> 
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.aciprensa.com/imagespp/1-1744109421.jpg?w=672&h=448" 
+                class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center"  style="color: #ff6f00 "><strong> 8 de abril</strong></h5>
+
+                 <h5 class="card-title text-primary  text-center"  style="font-size: 1.5em;"><strong>
+                    El Vaticano: No hay novedades médicas, la situación clínica del Papa Francisco continúa estable
+                </h5> 
+                </strong><br></h5>
+                <div class="author-info d-flex align-items-center">
+                    <img src="https://www.aciprensa.com/imagespp/victoria-cardiel.jpg?w=100&h=100" alt="Elisa Ramrez" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                    <div>
+                        <h6 class="mb-0"><strong>Victoria Cardiel</strong></h6>
+                        
+                        <a href="https://x.com/VictoriaCardiel" target="_blank" class="btn btn-sm btn-dark rounded-pill d-inline-flex align-items-center mt-2">
+                           <small>Seguir a Victoria en X</small> 
+                        </a>
+                    </div>
+                </div>
+                  <p class="card-text">
+                  
+                    El estado de salud del Papa Francisco, que el pasado domingo apareció por sorpresa en la plaza San Pedro para saludar y bendecir a los fieles, 
+                    permanece clínicamente estable, con algunas señales de leves mejoras, particularmente en la voz y la movilidad.
+                    Matteo Bruni informa: no hay “novedades” reseñables desde el punto de vista médico, pero “su condición clínica permanece estable”.
+                    
+
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.aciprensa.com/noticias/112149/vaticano-no-hay-novedades-medicas-la-situacion-clinica-del-papa-francisco-continua-estable', '_blank')">
+                    📖 Leer más en <img src="https://www.aciprensa.com/assets/images/branding/logo-white-small.png" alt="ACI" style="height: 2em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    </section>
 <section id="noticias" class="section-padding"> 
     <div class="container">        
         <div class="card shadow-lg">
