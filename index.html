@@ -8,6 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght@400;700&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
     <!-- Favicon -->
@@ -221,6 +222,112 @@
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
 </section>
+
+
+<section id="roadmap-semana-santa" class="md3-section text-white text-center" style="
+    background: url('./img/semana-santa-bg4.jpg') no-repeat center center;
+    background-size: cover;
+    object-fit: cover;
+    padding: 5rem 1rem;
+">
+  <div class="container animateanimated animatefadeInDown">
+    <h2 class="tituloSemSan display-4 fw-bold mb-3" style="color: rgb(247, 242, 247); text-shadow: 4px 4px 12px rgba(135, 14, 109, 0.5), 0 0 50px rgba(249, 246, 249, 0.936);">
+      Semana Santa 2025
+    </h2>
+    <p class="lead mb-5" style="text-shadow: 1px 1px 3px #000; color: magenta;">
+      Compartimos el camino de fe que nos prepara para celebrar la Pascua.
+    </p>
+
+    <div class="roadmap-card-wrapper animateanimated animatezoomIn animate__delay-1s">
+      <div class="roadmap-card-md3 shadow-lg rounded-4 border border-light-subtle">
+        <img src="./img/roadmap-flyer.jpg" alt="Programa Semana Santa 2025" class="img-fluid w-100 rounded-4">
+      </div>
+    </div>
+
+    <div class="mt-5 d-flex justify-content-center gap-4 flex-wrap animateanimated animatefadeInUp animate__delay-2s">
+      <div class="md3-icon-label">
+        <span class="material-symbols-rounded md3-icon">local_florist</span>
+        <p class="small">Domingo de Ramos</p>
+      </div>
+      <div class="md3-icon-label">
+        <span class="material-symbols-rounded md3-icon">favorite</span>
+        <p class="small">Jueves Santo</p>
+      </div>
+      <div class="md3-icon-label">
+        <span class="material-symbols-rounded md3-icon">dark_mode</span>
+        <p class="small">Viernes Santo</p>
+      </div>
+      <div class="md3-icon-label">
+        <span class="material-symbols-rounded md3-icon">light_mode</span>
+        <p class="small">Pascua</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.md3-section {
+  position: relative;
+  color: #fff;
+}
+
+.roadmap-card-wrapper {
+  max-width: 850px;
+  margin: 0 auto;
+  padding: 0.5rem;
+}
+
+.roadmap-card-md3 {
+  background-color: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  border-radius: 1rem;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.roadmap-card-md3:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+}
+
+.md3-icon-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  text-shadow: 1px 1px 2px #000;
+  transition: transform 0.2s ease;
+}
+
+.md3-icon-label:hover {
+  transform: scale(1.1);
+}
+
+.md3-icon {
+  font-size: 48px;
+  background: rgba(255,255,255,0.2);
+  padding: 0.6rem;
+  border-radius: 50%;
+}
+@media (max-width: 768px) {
+    .tituloSemSan {
+        font-size: 1.8rem;
+        font-weight: 700;
+        text-align: center;
+        margin-bottom: 1rem;
+        color: purple !important; /* Changed to purple */
+        padding: 0.5rem 1rem;
+        border-radius: 50px; /* Pilled */
+        text-shadow: 0 0 10px white, 2px 2px 5px rgba(105, 105, 105, 0.8); /* White glow and taupe shadow */
+        background-color: rgba(255, 255, 255, 0.372); /* Added pilled effect */
+        box-shadow: 4 4px 20px rgba(0, 0, 0, 0.6); /* Subtle shadow for depth */
+    }
+}
+
+
+</style>
+
 
 <!-- domingo de cuaresma -->
 <br><br><br>
