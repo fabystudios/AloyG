@@ -826,3 +826,160 @@ Spotify
     </div>
    
 </section> -->
+
+<div class="cuaresma-card">
+    <div class="card-content">
+        <h2 class="md3-headline" style="color: white">Cuaresma</h2>
+        <p class="md3-subtitle">Propósitos para esta semana</p>
+        <ul class="md3-list">
+            <li><i class="material-icons">favorite</i> Realizar junto a tu familia alguna acción solidaria.</li>
+            <li><i class="material-icons">healing</i> Visitar a un enfermo.</li>
+            <li><i class="material-icons">home_repair_service</i> Realizar alguna tarea que a un familiar no le agrade.</li>
+            <li><i class="material-icons">people</i> Encontrar a Jesús en cada persona, especialmente en quienes más te cuesta.</li>
+            <li><i class="material-icons">card_giftcard</i> Donar algo que uses a quien lo necesita más que vos.</li>
+            <li><i class="material-icons">volunteer_activism</i> Dedicarse a algún voluntariado o acción social.</li>
+            <li><i class="material-icons">nightlight</i> Rezar cada noche por una persona diferente (amigos, familiares, conocidos).</li>
+            <li><i class="material-icons">thumb_down</i> Abstenerse de críticas y comentarios negativos.</li>
+            <li><i class="material-icons">wb_sunny</i> Ofrecer a Jesús tu día de hoy.</li>
+            <li><i class="material-icons">money_off</i> Evitar las compras innecesarias y practicar la austeridad.</li>
+        </ul>
+    </div>
+</div>
+
+<style>
+.cuaresma-card {
+    position: relative;
+    background: linear-gradient(135deg, #6a1b9a, #9c27b0);
+    color: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    max-width: 600px;
+    margin: auto;
+    overflow: hidden;
+}
+
+.cuaresma-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url('./img/bgc2.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+    transform: scale(1);
+    transition: transform 5s ease-in-out;
+    z-index: -1;
+}
+
+.cuaresma-card:hover::before {
+    transform: scale(1.10);
+}
+
+.card-content {
+    position: relative;
+    padding: 20px;
+    z-index: 1;
+}
+
+.md3-headline {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+}
+
+.md3-subtitle {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+.md3-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+.md3-list li {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+    font-size: 1.1em;
+    color: white;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+@media (max-width: 768px) {
+    .cuaresma-card {
+        padding: 15px;
+        width: 90vw;
+    }
+    .md3-headline {
+        font-size: 1.6em;
+    }
+    .md3-subtitle {
+        font-size: 1em;
+    }
+    .md3-list li {
+        font-size: 0.95em;
+        padding: 8px;
+    }
+}
+.cuaresma-card {
+    position: relative;
+    background: linear-gradient(135deg, #6a1b9a, #9c27b0);
+    color: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    max-width: 780px;
+    overflow: hidden;
+}
+
+/* Agregar capa de imagen de fondo con opacidad */
+.cuaresma-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('./img/bgc2.jpg') center/cover no-repeat;
+    opacity: 0.3; /* Ajusta el valor entre 0 y 1 */
+    z-index: 0;
+}
+
+/* Asegurar que el contenido esté por encima de la imagen */
+.card-content {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+}
+.md3-list li {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 8px;
+}
+
+.md3-list li i {
+    margin-right: 10px; /* Ajusta el espacio entre el ícono y el texto */
+    font-size: 1.5em; /* Ajusta el tamaño del ícono si es necesario */
+}
+
+</style>
