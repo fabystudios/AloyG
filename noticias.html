@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parroquia San Luis Gonzaga - Villa Elisa</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Favicon -->
+    <link rel="icon" href="/api/placeholder/32/32" type="image/png">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+      <!-- Theme CSS -->
+      <link href="css/agency.min.css" rel="stylesheet">
+      <link href="css/new_styles.css" rel="stylesheet">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+
+</head>
+<body id="inicio">
+    <!-- Botón Flotante con Imagen -->
+<a href="#noticias" class="btn-floating">
+    <img src="./img/bot-flot2.png" alt="Contacto">
+</a>
+
+
+
+
+
+
+<!-- Carousel -->
+<section class="carousel-section bg-light">
+    <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="3"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="4"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="5"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="img/fotos/banner0.png" class="d-block w-100" alt="Banner 0">
+            </div>
+            <div class="carousel-item">
+                <img src="img/fotos/banner1.png" class="d-block w-100" alt="Banner 1">
+                <div class="carousel-caption">
+                    <h5>Bienvenidos a la Parroquia</h5>
+                    <p>Un lugar de fe, comunidad y esperanza.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="img/fotos/banner2.png" class="d-block w-100" alt="Banner 2">
+                <div class="carousel-caption">
+                    <h5>Misas y Celebraciones</h5>
+                    <p>Acompáñanos en nuestras actividades semanales.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="img/fotos/banner3.0.png" class="d-block w-100" alt="Banner 3">
+                <div class="carousel-caption">
+                    <h5>Espiritualidad y Reflexión</h5>
+                    <p>Momentos de oración para el alma.</p>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <img src="img/fotos/banner5.png" class="d-block w-100" alt="Banner 5">
+                <div class="carousel-caption">
+                    <h5>Encuentros Comunitarios</h5>
+                    <p>Unidos en la fe y la fraternidad.</p>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+        </button>
+    </div>
+</section>
+
+<section class="cabecera" style="background-color: #0d6efd "> 
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
+            <div class="container">
+                <!-- Logo y Título -->
+                <a class="navbar-brand d-flex align-items-center" href="#inicio">
+                    <img src="./img/logo.png" alt="Logo San Luis Gonzaga" height="80" class="me-3 logo">
+                    <div class="titulo-ppal d-flex flex-column text-center">
+                        <span class="linea1 fs-4 fw-bold text-center d-block">Pquia. San Luis Gonzaga</span>
+                        <span class="linea2 fs-6 text-muted">Villa Elisa, La Plata, Argentina</span>
+                    </div>
+                </a>
+                <!-- Botón Hamburguesa -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- Opciones de Navegación -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-lg-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#noticias">
+                                <i class="material-icons align-middle">announcement</i> Noticias
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#retiro">
+                                <i class="material-icons align-middle">spa</i> Retiro
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <!-- <a class="nav-link" href="#misas"> -->
+                                <a class="nav-link" href="#misas"> 
+                                <i class="material-icons align-middle">schedule</i> Misas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#actividades">
+                                <i class="material-icons align-middle">event</i> Actividades
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#educacion">
+                                <i class="material-icons align-middle">school</i> Educación
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#contacto">
+                                <i class="material-icons align-middle">contact_mail</i> Contacto
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#ubicacion">
+                                <i class="material-icons align-middle">location_on</i> Mapa
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+</section>
+
+
+<!-- carrusel 2 -->
+
+
+<!-- Anuncios -->
+
+<div class="text-center mb-4 animate__animated animate__fadeInUp" style="max-width: 800px; margin: auto; padding: 20px; background-color: #f8f9fa; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+  <h5 class="card-title text-center" style="color: #ff6f00;">desde Gemelli</h5>
+  <h2 style="color: #800080;">la voz del Papa:</h2>
+  <!-- <h6>difundida en la Plaza de San Pedro, Francisco agradece por las oraciones ofrecidas por su salud:</h6> -->
+  
+  <!-- Imagen de la noticia -->
+  <img src="https://desdelafe.mx/wp-content/uploads/2025/03/papa-francisco-envia-mensaje-en-audio-desde-el-hospital.jpg" 
+       alt="Recitación del Rosario" 
+       style="width: 100%; border-radius: 10px; margin-bottom: 20px;">
+  
+  <!-- Reproductor de audio -->
+  <audio controls style="width: 100%;">
+      <source src="https://media.vaticannews.va/media/audio/s1/2025/03/06/21/138565255_F138565255.mp3" type="audio/mpeg">
+      Tu navegador no soporta el elemento de audio.
+  </audio>
+</div>
+</section>
+
+<section>
+    <div class="container">
+        <h2 class="text-center mb-5">📰 Noticias y Anuncios</h2>
+        <div class="text-center mb-4 animate__animated animate__fadeInDown">
+            <p class="fs-4 text-light p-3 rounded-pill animate__animated animate__pulse animate__infinite" 
+               style="background-color: #800080; color: #ffffff; box-shadow: 0 0 15px rgba(128, 0, 128, 0.6); border: 2px solid #d4a3ff; text-shadow: 0 0 10px #d4a3ff;">
+               <i class="fas fa-cross"></i><strong>   CUARESMA: Reflexión y Conversión</strong>  <i class="fas fa-cross"></i>
+          </p>
+        </div>
+    </div>
+</div>
+</section>
+<section>
+<div id="noticias" class="section-padding">
+    
+    <div class="container" style="position: relative; padding: 50px 0; background: url('./img/wallpaper.webp') no-repeat center center/cover; border-radius: 20px; box-shadow: 0 0 20px rgba(128, 0, 128, 0.7); border: 2px solid #d4a3ff; display: flex; align-items: center;">
+
+        <!-- Imagen a la izquierda -->
+        <div style="flex: 1; text-align: left; padding: 20px;">
+            <img src="./img/jesus.jpg" alt="Imagen Cuaresma" style="max-width: 100%; border-radius: 10px; box-shadow: 0 0 15px rgba(128, 0, 128, 0.6);">
+        </div>
+    
+        <!-- Contenido a la derecha -->
+        <div style="flex: 2; text-align: center;">
+            <h2 class="text-center mb-5 animate_animated animate_fadeInDown" style="color: #fff; font-size: 2.5rem; text-shadow: 0 0 15px #800080;">
+                Noticias y Anuncios
+            </h2>
+    
+            <div class="text-center mb-4 animate_animated animatepulse animate_infinite">
+                <p class="fs-4 text-light p-3 rounded-pill" 
+                   style="background: rgba(128, 0, 128, 0.7); color: #ffffff; box-shadow: 0 0 15px rgba(128, 0, 128, 0.6); border: 2px solid #d4a3ff; text-shadow: 0 0 10px #d4a3ff; animation: pulse 2s infinite ease-in-out; opacity: 0.9;">
+                   <i class="fas fa-cross"></i><strong> CUARESMA: Reflexión y Conversión</strong> <i class="fas fa-cross"></i>
+                </p>
+            </div>
+        </div>
+    
+    </div>
+</div>
+    <!-- Animación pulse -->
+    <style>
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.9;
+            }
+            50% {
+                transform: scale(1.05);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0.9;
+            }
+        }
+    </style>
+
+
+        <div id="miercoles-ceniza" class="section-padding">
+            <div class="container">
+                <div class="text-center mb-4 animate__animated animate__fadeInDown">
+                    <h2 class="fw-bold text-dark">
+                        Hoy es  
+                        <span style="color: #ff6f00;">MIÉRCOLES DE CENIZA</span>
+                    </h2>
+ 
+                    <p class="fs-4 text-light bg-dark bg-opacity-50 p-2 rounded-pill animate__animated animate__pulse animate__infinite">
+                          <span class="text-warning fw-bold">Inicio de Cuaresma</span>
+                    </p>
+                </div>
+                <div class="card shadow-lg border-0 rounded-4" style="overflow: hidden; height: 70vh;">
+                    <div class="position-relative h-100">
+                        <img src="./img/miercoles-ceniza.jpg" class="img-fluid w-100 h-100 object-fit-cover" alt="Miércoles de Ceniza">
+                        <div class="card-img-overlay d-flex flex-column justify-content-end text-center animate__animated animate__fadeIn">
+                            <div class="d-flex justify-content-center gap-4 mb-3">
+                                <div class="d-flex align-items-center text-light">
+                                    <i class="material-icons text-warning me-2">restaurant</i> 
+                                    <span>Ayuno</span>
+                                </div>
+                                <div class="d-flex align-items-center text-light">
+                                    <i class="material-icons text-warning me-2">do_not_disturb</i> 
+                                    <span>Abstinencia</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+</section>
+<section id="feria-americana" class="feria-section text-center"> 
+    <div class="feria-card">
+        <h2 class="feria-title">FERIA <span>AMERICANA!!</span></h2>
+        <p class="feria-info" style="font-size: 1.9em; font-weight: bold; color: #ff6f00; line-height: 1.3;">PARROQUIA SAN LUIS GONZAGA</p>
+        <p class="feria-time" style="font-size: 1.3em; color: #c5ec2d; line-height: 1.5;">DE 10 A 12.30 HS <br> 
+ SÁBADO 08 DE MARZO <br>Calle 52 entre 8 y 9</p>
+    </div>
+
+ 
+    <img src="./img/mujer1.png" class="mujer mujer-1" alt="Mujer 1">
+    <img src="./img/mujer2.png" class="mujer mujer-2" alt="Mujer 2">
+    <img src="./img/mujer3.png" class="mujer mujer-3" alt="Mujer 3">
+    <img src="./img/banderines.png" class="banderin esquina" alt="banderines">
+</section>
+
+<!-- <section> -->
+    
+    <div class="text-center mb-4 animate__animated animate__fadeInUp" style="max-width: 800px; margin: auto; padding: 20px; background-color: #f8f9fa; border-radius: 15px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <h5 class="card-title text-center" style="color: #ff6f00;">desde Gemelli</h5>
+        <h2 style="color: #800080;">la voz del Papa:</h2>
+        <!-- <h6>difundida en la Plaza de San Pedro, Francisco agradece por las oraciones ofrecidas por su salud:</h6> -->
+        
+        <!-- Imagen de la noticia -->
+        <img src="https://desdelafe.mx/wp-content/uploads/2025/03/papa-francisco-envia-mensaje-en-audio-desde-el-hospital.jpg" 
+             alt="Recitación del Rosario" 
+             style="width: 100%; border-radius: 10px; margin-bottom: 20px;">
+        
+        <!-- Reproductor de audio -->
+        <audio controls style="width: 100%;">
+            <source src="https://media.vaticannews.va/media/audio/s1/2025/03/06/21/138565255_F138565255.mp3" type="audio/mpeg">
+            Tu navegador no soporta el elemento de audio.
+        </audio>
+    </div>
+<!-- </section> -->
+
+        <div class="card shadow-lg">
+            <div class="row g-0">
+              <div  class="col-md-4">
+                <img src="https://www.infobae.com/resizer/v2/XVNZ5CFSHVGNHJ7BZD2P7HV6GI.jpg?auth=87ca0ace1820a8b8a8e5e382e1aa521da7d2e92b77bf1f491dd12c8cdcf71989&smart=true&width=577&height=325&quality=85" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title text-primary  text-center"><strong>El papa Francisco se reunió en el hospital con el número 2 del Vaticano para hablar de candidatos a la santidad</strong></h5>
+                
+                  <div class="author-info d-flex align-items-center">
+                      <img src="https://www.infobae.com/resizer/v2/https%3A%2F%2Fs3.amazonaws.com%2Farc-authors%2Finfobae%2Fb1b7950d-5fc0-4a6e-9ea6-4eeed39d1512.jpg?auth=0b32e92d78fd17a616dd4d997670e2ffffec78d2981dcbbdffbeb12a6498d864&smart=true&width=40&height=40&quality=85" alt="Paola Bruni" class="rounded-circle me-3" style="width: 50px; height: 50px;">
+                      <div>
+                          <h6 class="mb-0"><strong>Paola Bruni</strong></h6>
+                          <p class="text-muted mb-0">Enviada especial de Infobae al Vaticano</p>
+                      </div>
+                  </div>
+                  <p class="card-text">La salud del papa Francisco sigue dando señales de leve mejoría. Aunque continúa hospitalizado desde el pasado 14 de febrero debido a una neumonía bilateral, ha podido reunirse con el secretario de Estado del Vaticano, Pietro Parolin, para discutir futuras canonizaciones.</p>
+      
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.infobae.com/espana/2025/02/25/el-papa-se-encontro-lo-suficientemente-bien-ayer-para-reunirse-con-su-numero-2-del-vaticano-en-el-hospital-para-hablar-de-candidatos-a-la-santidad/', '_blank')">
+                      📖 Leer más en <img src="./img/logo_infobae_naranja.svg" alt="Infobae" style="height: 1.2em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+<!-- noticias -->
+ <!-- reverso
+ style="background-color: #ff6f00; color: white; padding: 5px; border-radius: 5px;" -->
+<!-- ACI PRENSA Redaccion Central - Ultimo Momento -->
+
+ <!-- ACI PRENSA Redacion Central
+<img src="./img/aciprensa-author.png" alt="ACI" class="rounded-circle me-3 img-autor" style="width: 50px; ">
+<div>
+    <h6 class="mb-0"><strong>ACI PRENSA</strong></h6>
+    <p class="text-muted mb-0"><small> Periodismo y Publicidad. ACI Prensa, Roma</small></p>
+</div> -->
+
+
+
+
+
+<!-- video -->
+
+<section id="video" class="section-padding slg-video-container"> 
+  <div class="d-flex justify-content-center align-items-center vh-100" style="border-radius: 10px;">
+  
+      <div class="card shadow-lg text-center mx-3 mx-md-5" style="max-width: 400px;">
+          <h5 class="card-title text-center" style="background-color: #ff6f00; color: white; "><strong> 20 de marzo</strong></h5>
+  
+          <!-- Iframe del Reel -->
+          <div class="ratio ratio-1x1">
+              <iframe src="https://www.instagram.com/reel/DHbP-igvKXZ/embed" frameborder="0" allowfullscreen></iframe>
+          </div>
+  
+          <div class="card-body">
+              <!-- Título -->
+              <h5 class="card-title  text-primary ">Francisco sigue mejorando</h5>
+              <p class="card-text text-muted">Reflexión sobre el encuentro de Jesús con Nicodemo y el consejo de Francisco a seguir su ejemplo.</p>
+  
+              <!-- Botón para ver en Instagram -->
+              <a href="https://www.instagram.com/reel/DHbP-igvKXZ/" target="_blank" class="btn btn-md3 d-flex align-items-center">
+                  <i class="fab fa-instagram"></i> Ver en Instagram
+              </a>
+          </div>
+      </div>
+  </div>
+   </section>
+
+
+   <section id="noticias" class="section-padding"> 
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2025/03/23/2025-03-23-saluto-e-benedizione-di-papa-francesco-dal-policlinic/1742729263580.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.1500.844.jpeg" 
+                class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center"  style="color: #ff6f00 "><strong> 25 de marzo:</strong></h5>
+
+                 <h5 class="card-title text-primary  text-center"  style="font-size: 1.5em;"><strong>
+                    Convalecencia del Papa en Santa Marta: Francisco prosigue las terapias
+                </h5> 
+                </strong><br></h5>
+                <div class="author-info d-flex align-items-center">
+                    <img src="./img/Salvatore Cernuzio.png" alt="Elisa Ramrez" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                    <div>
+                        <h6 class="mb-0"><strong>Salvatore Cernuzio</strong></h6>
+                        <p class="text-muted mb-0"> <small>Ciudad del Vaticano</small></p>
+                    </div>
+                </div>
+                  <p class="card-text">
+                    La convalecencia del Papa -que podría y debería durar "dos meses" según afirmaron los médicos Sergio Alfieri y Luigi Carbone en la conferencia en el Gemelli el pasado sábado 22 de marzo- continúa entre terapia farmacológica, fisioterapia motora y respiratoria (esta última en particular para la recuperación de su voz), momentos de oración personal y la misa que ha concelebrado en la capilla de Casa Santa Marta.
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.vaticannews.va/es/papa/news/2025-03/matteo-bruni-salud-papa-convalecencia-casa-santa-marta-25-marzo.html', '_blank')">
+                    📖 Leer más en <img src="./img/vatican.News.png" alt="ACI" style="height: 2em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    </section>
+
+
+    <section id="noticias" class="section-padding"> 
+      <div class="container">        
+          <div class="card shadow-lg">
+              <div class="row g-0">
+              <div class="col-md-4">
+                  <img src="https://media.ambito.com/p/a9311aa418b2854064ac5ecb53ec4176/adjuntos/239/imagenes/042/283/0042283093/papa-franciscojpg.jpg" 
+                  class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                   
+                  <h5 class="card-title text-center"  style="color: #ff6f00 "><strong> 4 de abril</strong></h5>
+  
+                   <h5 class="card-title text-primary  text-center"  style="font-size: 1.5em;"><strong>
+                      La salud de papa Francisco: continúa su mejora y el Vaticano analiza una reaparición en público
+                  </h5> 
+                  </strong><br></h5>
+                  <!-- <div class="author-info d-flex align-items-center">
+                      <img src="https://www.aciprensa.com/imagespp/victoria-cardiel.jpg?w=100&h=100" alt="Elisa Ramrez" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                      <div>
+                          <h6 class="mb-0"><strong>Victoria Cardiel</strong></h6>
+                          
+                          <a href="https://x.com/VictoriaCardiel" target="_blank" class="btn btn-sm btn-dark rounded-pill d-inline-flex align-items-center mt-2">
+                             <small>Seguir a Victoria en X</small> 
+                          </a>
+                      </div>
+                  </div> -->
+                    <p class="card-text">
+                      El papa Francisco continúa en recuperación tras estar 38 días internado en el Hospital Gemelli de Roma por una neumonía bilateral y desde el Vaticano se muestran optimistas para una pronta reaparición en público del Sumo Pontífice. Desde el servicio de prensa de la Santa Sede informaron que el argentino "presenta nuevas ligeras mejoras en cuanto a respiración, motricidad y uso de la voz".
+                      
+      
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.ambito.com/informacion-general/la-salud-papa-francisco-continua-su-mejora-y-el-vaticano-analiza-una-reaparicion-publico-n6131002', '_blank')">
+                      📖 Leer más en <img src="./img/ambito.svg" alt="ACI" style="height: 2em; vertical-align: middle; margin-left: 0.5em;">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      </section>
+  
+  <section id="noticias" class="section-padding"> 
+      <div class="container">        
+          <div class="card shadow-lg">
+              <div class="row g-0">
+              <div class="col-md-4">
+                  <img src="https://www.aciprensa.com/imagespp/ris9189.jpg?w=672&h=448" 
+                  class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                   
+                  <h5 class="card-title text-center"  style="color: #ff6f00 "><strong> 28 de marzo:</strong></h5>
+  
+                   <h5 class="card-title text-primary  text-center"  style="font-size: 1.5em;"><strong>
+                      El Papa Francisco muestra signos de mejoría, pero sigue sin respirar de forma autónoma
+                  </h5> 
+                  </strong><br></h5>
+                  <div class="author-info d-flex align-items-center">
+                      <img src="https://www.aciprensa.com/imagespp/victoria-cardiel.jpg?w=100&h=100" alt="Elisa Ramrez" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                      <div>
+                          <h6 class="mb-0"><strong>Victoria Cardiel</strong></h6>
+                          
+                          <a href="https://x.com/VictoriaCardiel" target="_blank" class="btn btn-sm btn-dark rounded-pill d-inline-flex align-items-center mt-2">
+                             <small>Seguir a Victoria en X</small> 
+                          </a>
+                      </div>
+                  </div>
+                    <p class="card-text">
+                     En los últimos días ha mostrado signos de mejoría.          
+                      Pero aún no es capaz de respirar de forma autónoma. Durante las noches, cuando duerme, aún requiere de un dispositivo respiratorio que le transmite altos flujos de oxígeno.
+                      Los resultados de los últimos análisis de sangre que se le han realizado mantienen los valores dentro de la normalidad. Además, la fisioterapia le está ayudando a mejorar el uso de la voz, informó el Vaticano. 
+                      
+      
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.aciprensa.com/noticias/111909/vaticano-el-papa-francisco-muestra-signos-de-mejoria-pero-sigue-sin-respirar-de-forma-autonoma', '_blank')">
+                      📖 Leer más en <img src="https://www.aciprensa.com/assets/images/branding/logo-white-small.png" alt="ACI" style="height: 2em; vertical-align: middle; margin-left: 0.5em;">
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      </section>
+
+
+
+
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/ansa/2025/03/17/20/1742240289545.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.1500.844.jpeg" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center"  style="color: #ff6f00;"><strong> 18 de marzo:</strong></h5>
+                  <h5 class="card-title text-primary  text-center"  style="font-size: 1.5em;"><strong>El Papa: La guerra es absurda, desarmemos la Tierra</strong><br><br></h5>
+     
+                  <p class="card-text">
+                  La carta que el Papa Francisco escribió al director del Corriere della Sera, Luciano Fontana, en respuesta a un mensaje suyo de cercanía al Pontífice en estos momentos de enfermedad en el que le pide que reitere un llamamiento por la paz y el desarme en las columnas del diario milanés.
+                  </p>
+      
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.vaticannews.va/es/papa/news/2025-03/el-papa-la-guerra-es-absurda-y-devasta-el-mundo-carta-gemelli.html', '_blank')">
+                    📖 Leer más en <img src="./img/vatican.News.png" alt="ACI" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.clarin.com/img/2025/03/17/t2GBwTg0X_1256x620__2.jpg#1742257752612" 
+                class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;"><strong> 17 de marzo</strong></h5>
+                <!-- <h5 class="card-title   text-center"  style="font-size: 1.5em; color: #ff6f00;"><strong>sobre Bahia Blanca:</Strong> -->
+              <!-- </p> -->
+ 
+                <h5 class="card-title text-primary text-center" style="font-size: 1.5em;"><strong>El Palacio de Buckingham confirmó que Francisco recibirá al rey Carlos III el 8 de abril en el Vaticano</strong><br></h5>
+                <!-- <div class="author-info d-flex align-items-center">
+                    <img src="https://www.clarin.com/img/authors/julio-alganaraz___62ceca10d9846d0018678ae5.png" alt="Patricia Ynestroza" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                    <div>
+                        <h6 class="mb-0"><strong>Julio Algañaraz</strong></h6>
+                        <p class="text-muted mb-0"> <small>Vaticano, corresponsal</small></p>
+                        <p class="text-muted mb-0"> <small></small></p>
+                    </div>
+                </div> -->
+                <p class="card-text">El soberano británico y su esposa Camila viajarán al Vaticano y luego a Italia entre el 7 y el 10 de abril. De la confirmación de la visita de los monarcas al Sumo Pontífice se desprende que el Vaticano es optimista respecto a la evolución de su salud.
+
+                </strong> </p>
+ 
+                    
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.clarin.com/mundo/palacio-buckingham-confirmo-francisco-recibira-rey-carlos-iii-8-abril-vaticano_0_U3xLNx4UU6.html', '_blank')">
+                      📖 Leer más en <img src="./img/clarin.png" alt="X" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+
+
+<section id="noticias" class="section-padding">
+    <div class="container">
+        <div class="card shadow-lg">
+            <div class="card-body">
+                <h5 class="card-title text-primary text-center">
+                    📹 ¡Nuevo video en Instagram!
+                </h5>
+                <h5 class="card-title text-primary text-center" style="font-size: 1.5em;">
+                    <strong>Misa especial y reflexiones de Cuaresma</strong>
+                </h5>
+
+                <div class="video-container">
+                    <iframe 
+                        src="https://www.instagram.com/reel/DG0nDQ4iqDr/embed" 
+                        allowfullscreen 
+                        frameborder="0">
+                    </iframe>
+                </div>
+
+                <p class="card-text mt-3">
+                    En este video compartimos un momento especial de oración durante la Cuaresma. 
+                    Haz clic para verlo completo o visita el perfil de Vatican News en Instagram.
+                </p>
+
+                <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.instagram.com/reel/DG0nDQ4iqDr/', '_blank')">
+                    🔗 Ver en Instagram
+                </button>
+            </div>
+        </div>
+    </div>
+</section> 
+ <!-- Noticias -->
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/srv/2025/03/09/2025-03-09-vedute-policlinico-a--gemelli-/1741533168717.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.1500.844.jpeg" 
+                class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;"><strong> 12 de marzo</strong></h5>
+                <h5 class="card-title   text-center"  style="font-size: 1.5em; color: #ff6f00;"><strong>El Papa en condiciones estables</Strong>  
+              
+ 
+                <h5 class="card-title text-primary text-center" style="font-size: 2em;"><strong>
+                    la radiografía confirma la mejoría de los últimos días
+
+                </strong><br><br></h5>
+                <!-- <div class="author-info d-flex align-items-center">
+                    <img src="https://www.clarin.com/img/authors/julio-alganaraz___62ceca10d9846d0018678ae5.png" alt="Patricia Ynestroza" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                    <div>
+                        <h6 class="mb-0"><strong>Julio Algañaraz</strong></h6>
+                        <p class="text-muted mb-0"> <small>Vaticano, corresponsal</small></p>
+                        <p class="text-muted mb-0"> <small></small></p>
+                    </div>
+                </div> -->
+                <p class="card-text">"El estado clínico del Santo Padre, dentro de la complejidad del cuadro general, se ha mantenido estacionario. 
+                    La radiografía de tórax realizada ayer confirmó radiológicamente las mejorías registradas en los días anteriores. 
+                    El Santo Padre continúa recibiendo oxigenoterapia de alto flujo durante el día y ventilación mecánica no invasiva durante la noche..."  
+                </p>
+                <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.vaticannews.va/es/papa/news/2025-03/el-papa-en-condiciones-estables-la-radiografia-confirma-mejoria.html', '_blank')">
+                    📖 Leer más en <img src="https://www.vaticannews.va/etc/designs/vatican-news/release/library/main/images/vatican-news-header-white_retina.png" 
+                    alt="X" style="height: 1.4em; vertical-align: middle; margin-left: 0.5em;">
+                </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.clarin.com/img/2025/03/11/qBp-q6Jv1_1256x620__2.jpg#1741696096549" 
+                class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;"><strong> 11 de marzo</strong></h5>
+                <!-- <h5 class="card-title   text-center"  style="font-size: 1.5em; color: #ff6f00;"><strong>sobre Bahia Blanca:</Strong> -->
+              <!-- </p> -->
+ 
+                <h5 class="card-title text-primary text-center" style="font-size: 1.5em;"><strong>El papa Francisco amanece aliviado tras el fin del pronóstico reservado", pero su convalecencia podría llevar semanas</strong><br><br></h5>
+                <div class="author-info d-flex align-items-center">
+                    <img src="https://www.clarin.com/img/authors/julio-alganaraz___62ceca10d9846d0018678ae5.png" alt="Patricia Ynestroza" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                    <div>
+                        <h6 class="mb-0"><strong>Julio Algañaraz</strong></h6>
+                        <p class="text-muted mb-0"> <small>Vaticano, corresponsal</small></p>
+                        <p class="text-muted mb-0"> <small></small></p>
+                    </div>
+                </div>
+                <p class="card-text">El Papa despertó este martes reconfortado por las buenas noticias que le trasmitió en la noche del lunes el 
+                    equipo de médicos que lo curan y que anunciaron la decisión de disolver el pronóstico reservado tras una semana de mejorías 
+                    dentro de su grave estado. <strong>La disolución de la reserva significa que el pontífice argentino “no está en peligro de muerte”.</strong> </p>
+ 
+                    
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.clarin.com/mundo/papa-francisco-amanece-aliviado-fin-pronostico-reservado-convalecencia-podria-llevar-semanas_0_bGZ199dp9g.html', '_blank')">
+                      📖 Leer más en <img src="./img/clarin.png" alt="X" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://tn.com.ar/resizer/v2/el-mensaje-del-papa-francisco-por-las-inundaciones-en-bahia-blanca-le-pido-a-jesus-por-todos-los-afectados-foto-remo-casillireuters-DMYPP6JFFRBSJEDX5YUN45V6WI.jpg?auth=796b70b6c37099d700392c3fd0e1e62b384fd702e31374b66648bfaa7bcdb43a&width=767" 
+                class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;"><strong> 10 de marzo</strong></h5>
+                <h5 class="card-title   text-center"  style="font-size: 1.5em; color: #ff6f00;"><strong>sobre Bahia Blanca:</Strong>
+              </p>
+                <h5 class="card-title text-primary text-center"  style="font-size: 2em;"><strong> “Le pido a Jesús por todos los afectados”</strong><br><br></h5>
+                  
+                  <p class="card-text">Desde su internación, el santo padre envió un telegrama al arzobispo de la ciudad para pedir por las víctimas y los familiares de los muertos. También dijo que reza por los desaparecidos.
+                </p>
+   
+                    
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://tn.com.ar/sociedad/2025/03/10/el-mensaje-del-papa-francisco-por-las-inundaciones-en-bahia-blanca-le-pido-a-jesus-por-todos-los-afectados/', '_blank')">
+                      📖 Leer más en <img src="./img/TN.png" alt="X" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.clarin.com/img/2025/01/11/N_vfz-kg4_1256x620__1.jpg" 
+                class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;"><strong> 10 de marzo</strong></h5>
+                <h5 class="card-title   text-center"  style="font-size: 1.5em; color: #ff6f00;"><strong>Nuevo parte médico:</Strong>
+              </p>
+                <h5 class="card-title text-primary text-center" style="font-size: 2em;"><strong>El Papa ya no se encuentra en peligro “inminente”</strong><br><br></h5>
+                  
+                  <p class="card-text">Francisco ha mostrado <strong>una nueva mejora </strong> informó este lunes de manera oficial el Vaticano.
+
+                    El mismo parte da cuenta también que <strong>no se encuentra en peligro "inminente"</strong>.
+                </p>
+   
+                    
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.clarin.com/mundo/nuevo-parte-medico-papa-francisco-encuentra-peligro-inminente-permanecera-internado_0_JWmUmFivpa.html', '_blank')">
+                      📖 Leer más en <img src="./img/clarin.png" alt="X" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2025/03/09/19/1741543378839.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.1500.844.jpeg" 
+                class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;"><strong> 9 de marzo</strong></h5>
+                <h5 class="card-title   text-center"  style="font-size: 1.5em; color: #ff6f00;"><strong>El Papa desde el Gemelli:</Strong>
+              </p>
+                <h5 class="card-title text-primary text-center" style="font-size: 2em;"><strong>ha seguido los Ejercicios Espirituales por videoconferencia</strong><br><br></h5>
+                  
+                  <p class="card-text">Francisco ha asistido a Misa esta mañana, y por la tarde se ha conectado por vídeo para los Ejercicios de Cuaresma con la Curia Romana. Continúa la terapia respiratoria y motora y la fisioterapia, así como la dieta prescrita por los médicos
+                </p>
+   
+                    
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.vaticannews.va/es/papa/news/2025-03/el-papa-desde-el-gemelli-ha-seguido-los-ejercicios-espirituales.html', '_blank')">
+                      📖 Leer más en <img src="https://www.vaticannews.va/etc/designs/vatican-news/release/library/main/images/vatican-news-header-white_retina.png" alt="X" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2025/03/08/18/1741455506198.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.1500.844.jpeg" 
+                class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;"><strong> 8 de marzo</strong></h5>
+                <h5 class="card-title   text-center"  style="font-size: 1.5em; color: #ff6f00;"><strong>parte médico:</Strong>
+              </p>
+                <h5 class="card-title text-primary text-center" style="font-size: 2em;"><strong>Ligera mejoría gradual.</strong><br><br></h5>
+                  
+                  <p class="card-text">Las condiciones clínicas demuestran una buena respuesta a la terapia. El pronóstico sigue siendo reservado. Esta mañana Francisco rezó en la Capilla y por la tarde alternó actividades de descanso y trabajo..</strong>
+                </p>
+   
+                    
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.vaticannews.va/es/papa/news/2025-03/el-papa-en-el-gemelli-ligera-mejoria-gradual-8-de-marzo-2025.html', '_blank')">
+                      📖 Leer más en <img src="https://www.vaticannews.va/etc/designs/vatican-news/release/library/main/images/vatican-news-header-white_retina.png" alt="X" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.vaticannews.va/content/dam/vaticannews/multimedia/2019/04/16/15022014_093808_Siria_speranta_pace.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.1500.844.jpeg" 
+                class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00; "><strong>día de la mujer</strong></h5>
+                <h5 class="card-title text-center" style="font-size: 1.5em; color: #ff6f00;"><strong>mensaje de Francisco</strong>
+                </p>
+                <h5 class="card-title text-primary text-center" style="font-size: 1.8em;"><strong>Una sociedad justa no se construye eliminando a quienes no tienen voz</strong><br><br></h5>
+                  
+                  <p class="card-text">Desde el Policlínico “Agostino Gemelli”, Francisco envió un mensaje al Movimiento Pro Vida, invitándolos a <strong>“apostar por las mujeres, por su capacidad de acogida, generosidad y coraje” porque “el concebido representa a cada hombre y mujer que no cuenta”.</strong>
+                </p>
+   
+                    
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.vaticannews.va/es/papa/news/2025-03/el-papa-una-sociedad-justa-no-se-construye-eliminando-a-quienes.html', '_blank')">
+                      📖 Leer más en <img src="https://www.vaticannews.va/etc/designs/vatican-news/release/library/main/images/vatican-news-header-white_retina.png" alt="X" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2025/03/07/18/1741368527629.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.1500.844.jpeg" 
+                class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;"><strong>Vatican News - 7 de marzo</strong></h5>
+                <h5 class="card-title text-primary text-center" style="font-size: 1.5em;"><strong>El Papa: Una situación compleja, en un día de descanso y oración</strong><br><br></h5>
+                  
+                  <p class="card-text">"LA SITUACIÓN SE MANTIENE ESTABLE EN EL CONTEXTO DE UN CUADRO COMPLEJO CON PRONÓSTICO RESERVADO. 
+                    EL DÍA TRANSCURRIÓ 
+                    ENTRE REPOSO, ORACIÓN, TERAPIAS,INCLUIDA LA 
+                    FISIOTERAPIA RESPIRATORIA. ESTA MAÑANA, EL PAPA HA PASADO 20 MINUTOS EN LA PEQUEÑA CAPILLA CERCANA A SU HABITACIÓN Y 
+                    HA REALIZADO ALGUNAS ACTIVIDADES LABORALES COMO ESTABA PREVISTO, DURANTE EL DÍA EL PONTÍFICE UTILIZA OXIGENACIÓN NASAL DE
+                     ALTO FLUJO, MIENTRAS QUE POR LA NOCHE APLICA LA VENTILACIÓN MECÁNICA NO INVASIVA. MAÑANA SE DIVULGARÁ EL BOLETÍN MÉDICO.-" <br>
+                    <strong>Oficina de Prensa de la Santa Sede</strong>
+                </p>
+   
+                    
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.vaticannews.va/es/papa/news/2025-03/salud-papa-el-policlinico-gemelli-actualizacion-7-de-marzo-2025.html', '_blank')">
+                      📖 Leer más en <img src="https://www.vaticannews.va/etc/designs/vatican-news/release/library/main/images/vatican-news-header-white_retina.png" alt="X" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://desdelafe.mx/wp-content/uploads/2025/02/hospital-papa-francisco.jpeg.webp" class="img-fluid rounded-start card-img-right" alt="Imagen relacionada con la noticia" style="object-fit: cover; height: 100%;">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;">parte médico del 6 de marzo</h5>
+                  <h5 class="card-title text-primary  text-center" style="font-size: 1.7em;"><strong>El Papa Francisco se mantiene estable; alterna trabajo, descanso y oración</strong></h5>
+                <h6 class="card-subtitle mb-2 text-muted text-center">En vista del cuadro clínico estable, el próximo boletín médico del Papa Francisco se publicará hasta el sábado.</h6>
+                  <div class="author-info d-flex align-items-center">
+                      <img src="https://desdelafe.mx/wp-content/uploads/2024/07/WhatsApp-Image-2024-07-01-at-07.14.32-125x125.jpeg" alt="Elisa Ramrez" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                      <div>
+                          <h6 class="mb-0"><strong>Elisa Ramrez</strong></h6>
+                          <p class="text-muted mb-0"> <small>Lic. en Comunicación - DesdeLaFe.mx</small></p>
+                      </div>
+                  </div>
+                  <p class="card-text">Este jueves, el Papa Francisco no presentó ningún episodio de insuficiencia respiratoria. El estado clínico del Santo Padre se ha mantenido estable respecto a los días anteriores, según informó la Oficina de Prensa de la Santa Sede a través de un breve informe médico.</p>
+      
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://desdelafe.mx/noticias/la-voz-del-papa/salud-del-papa-francisco/', '_blank')">
+                      📖 Leer más en <img src="https://desdelafe.mx/wp-content/themes/desdelafe2023/assets/img/desdelafe.svg" alt="DesdeLaFe" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://aica.org/imagenes/noticias/el-vaticano-decreto-la-supresion-del-instituto-religioso-miles-christi-snNJ.jpg" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color:#ff6f00 "><strong>Importante</strong></h5>
+                <h5 class="card-title text-primary text-center" style="font-size: 1.5em;"><strong>El Vaticano decretó la supresión del instituto religioso Miles Christi</strong><br><br></h5>
+                  
+                  <p class="card-text">
+                    El Dicasterio para los Institutos de Vida Consagrada y Sociedades de Vida Apostólica, decretó la supresión del instituto religioso clerical de derecho diocesano Miles Christi.
+
+"Esta decisión fue aprobada en forma específica por el Papa Francisco el pasado 6 de febrero de 2025", se puntualiza en una comunicación oficial.
+
+De este modo queda concluida la tarea como comisario pontificio de monseñor Jorge Ignacio García Cuerva y el dicasterio nombró delegado pontificio para la ejecución de la supresión del instituto a monseñor Mauricio Landra, obispo auxiliar de Mercedes-Luján.
+                </p>
+   
+                    
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://aica.org/noticia-el-vaticano-decreto-la-supresion-del-instituto-religioso-miles-christi', '_blank')">
+                      📖 Leer más en <img src="https://aica.org/images/logo2.png" alt="X" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.infobae.com/resizer/v2/VG36XBCSPVCF7EAHGYYP5NLZYU.jpg?auth=8c1127ed5cb001d348619d3f7efdbbf5b8f0b18de1111891341a2e9eafeec786&smart=true&width=1200&height=675&quality=85" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="background-color: #ff6f00; color: white; padding: 5px; border-radius: 5px;"><strong>lo último sobre Francisco</strong></h5>
+                <h5 class="card-title text-primary text-center" style="font-size: 1.5em;"><strong>El Vaticano informó que el papa Francisco pasó una noche tranquila, pero su condición clínica sigue siendo “compleja”</strong><br><br></h5>
+                  
+                  <p class="card-text"><strong>La Santa Sede comunicó que el pontífice no ha presentado nuevas crisis respiratorias y que su recuperación ha mostrado signos ligeramente optimistas.</strong>
+                    El papa Francisco pasó una noche “tranquila” y “aún descansa”, según informó este jueves el Vaticano. Aunque su estado de salud sigue estable, la Santa Sede advirtió que su cuadro clínico continúa siendo “complejo” y su pronóstico es reservado.
+                </p>
+   
+                    
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.infobae.com/america/mundo/2025/03/06/el-vaticano-informo-que-el-papa-francisco-paso-una-noche-tranquila-pero-su-condicion-clinica-sigue-siendo-compleja/', '_blank')">
+                      📖 Leer más en <img src="./img/logo_infobae_naranja.svg" alt="X" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/afp/2025/03/05/13/1741177961626.jpg/_jcr_content/renditions/cq5dam.thumbnail.cropped.1500.844.jpeg" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;"><strong>Vatican News - 5 de marzo</strong></h5>
+                <h5 class="card-title text-primary text-center" style="font-size: 1.5em;"><strong>El Papa se encuentra en situación estacionaria. Recibió las Cenizas y llamó a Gaza</strong><br><br></h5>
+                  
+                  <p class="card-text">En esta jornada de Francisco en el Policlínico Gemelli, no se han producido nuevas crisis, continúa con oxígeno de alto flujo durante el día y ventilación mecánica por la noche. Ha retomado algunas actividades laborales, ha pasado el día en un sillón. Ha aumentado la fisioterapia respiratoria y motora activa.
+                    
+                    «La salud del Santo Padre, también hoy, ha permanecido estacionaria sin presentar episodios de insuficiencia respiratoria. Como estaba previsto, recibió oxigenoterapia de alto flujo durante el día y durante la noche se reanudará la ventilación mecánica no invasiva. El Santo Padre aumentó la fisioterapia respiratoria y motora activa. 
+                    </p>
+   
+                    
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.vaticannews.va/es/papa/news/2025-03/papa-francisco-en-el-hospital-gemelli-actualizacion-5-de-marzo.html', '_blank')">
+                      📖 Leer más en <img src="https://www.vaticannews.va/etc/designs/vatican-news/release/library/main/images/vatican-news-header-white_retina.png" alt="X" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.aciprensa.com/imagespp/papagemelli-050325.jpg?w=672&h=448" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center"  style="background-color: #ff6f00; color: white; padding: 5px; border-radius: 5px;" ><strong> Lo último:</strong></h5>
+                  <h5 class="card-title text-primary  text-center"  style="font-size: 1.5em;"><strong>En su día 20 de hospitalización, el Papa Francisco sigue estable y pasa el día sentado en un sillón. Participa en la imposición de cenizas en el hospital.</strong><br><br></h5>
+                  <div class="author-info d-flex align-items-center">
+                    <img src="./img/aciprensa-author.png" alt="ACI" class="rounded-circle me-3 img-autor" style="width: 50px; ">
+
+                      <div>
+                          <h6 class="mb-0"><strong>ACI PRENSA</strong></h6>
+                          <p class="text-muted mb-0"><small> Radacción Central, Roma.</small></p>
+                      </div>
+                  </div>
+                  <p class="card-text">En su día 20 de hospitalización, el Papa Francisco se mantiene estable y continúa con su tratamiento en el Gemelli. Este miércoles, participó en la imposición de cenizas y recibió la Eucaristía desde su habitación.
+
+                    El cuadro clínico del Papa Francisco continúa siendo complejo y los médicos mantienen el pronóstico reservado.</p>
+      
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.aciprensa.com/noticias/110867/en-vivo-salud-del-papa-francisco-hospitalizado-en-el-gemelli', '_blank')">
+                      📖 Leer más en <img src="./img/aciprensa-author.png" alt="ACI" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="./img/foto-cnn.jpg" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;" ><strong>  </strong></h5>
+                  <h5 class="card-title text-primary  text-center"  style="font-size: 1.5em;"><strong>El papa Francisco continúa con tratamiento de oxígeno y no participará del servicio del Miércoles de Ceniza</strong><br><br></h5>
+                  <div class="author-info d-flex align-items-center">
+                      <img src="./img/CNN_International_logo.webp" alt="CNN" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                      <div>
+                          <h6 class="mb-0"><strong> Antonia Mortensen</strong></h6>
+                          <p class="text-muted mb-0"><small>07:47 ET (12:47 GMT) 4 de marzo de 2025</small></p>
+                      </div>
+                  </div>
+                  <p class="card-text"><strong>CNN</strong>
+                    — 
+                   El papa Francisco está siendo tratado con oxígeno suplementario para ayudarlo a respirar, dijo el Vaticano este martes, un día después de que sufriera dos episodios de insuficiencia respiratoria aguda.
+                   
+                   Francisco está recibiendo oxígeno nuevamente a través de un tubo nasal, dijo el Vaticano. El lunes, el Papa recibió una máscara de oxígeno para ayudarlo con su respiración después de someterse a dos broncoscopias.</p>
+      
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://cnnespanol.cnn.com/2025/03/05/mundo/papa-francisco-oxigeno-perdera-miercoles-ceniza-trax', '_blank')">
+                      📖 Leer más en <img src="./img/CNN_International_logo.webp" alt="ACI" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section> 
+
+
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.aciprensa.com/imagespp/papaaaaaa.jpg?w=672&h=448" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;" ><strong> 4 de marzo</strong></h5>
+                  <h5 class="card-title text-primary  text-center"  style="font-size: 1.5em;"><strong>El Papa Francisco recupera la estabilidad tras las dos crisis respiratorias del lunes</strong><br><br></h5>
+                  <div class="author-info d-flex align-items-center">
+                      <img src="./img/Almudena.png" alt="Almudena Martínez-Bordiú" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                      <div>
+                          <h6 class="mb-0"><strong>Almudena Martínez-Bordiú</strong></h6>
+                          <p class="text-muted mb-0"><small> Periodismo y Publicidad. ACI Prensa, Roma</small></p>
+                      </div>
+                  </div>
+                  <p class="card-text">El Vaticano ha informado este martes que las condiciones clínicas del Papa Francisco se han mantenido estables y que no ha presentado “episodios de insuficiencia respiratoria ni broncoespasmo”.
+
+                    La Oficina de Prensa de la Santa Sede ha precisado, además, que el Pontífice “ha permanecido sin fiebre, siempre consciente, colaborando con las terapias y orientado”.</p>
+      
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.aciprensa.com/noticias/111303/el-papa-francisco-recupera-la-estabilidad', '_blank')">
+                      📖 Leer más en <img src="./img/aciprensa-author.png" alt="ACI" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://fotos.perfil.com/2025/02/23/trim/987/555/papa-francisco-1972591.jpg?webp" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                
+                    <h5 class="card-title text-primary  text-center" style="font-size: 1.7em";><strong>Tras las dos crisis respiratorias, el Papa "durmió toda la noche" pero el pronóstico sigue reservado
+                  </strong><br><br></h5>
+                  <div class="author-info d-flex align-items-center">
+
+                      <img src="./img/Perfil_editorial_logo.png" alt="Perfil" class=" me-3 img-autor" style=" height: 35px;">
+
+                  </div>
+                  <p class="card-text">Tras dos días con condiciones clínicas “estables”, la salud del papa Francisco presentó una nueva complicación el lunes, al sufrir dos crisis respiratorias agudas, lo que obligó a recurrir de nuevo a la ventilación mecánica no invasiva. Esto significa que tuvo que volver a usar el dispositivo con máscara que cubre nariz y boca, que el domingo había logrado quitarse. “El Papa durmió toda la noche, ahora sigue descansando”, informó este martes su portavoz, Matteo Bruni, sin proporcionar más detalles.</p>
+      
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.perfil.com/noticias/actualidad/dificultades-respiratorias-complican-la-recuperacion-del-papa-francisco.phtml', '_blank')">
+                      📖 Leer más en <img src="./img/Perfil_link.png" alt="ACI" style="height: 1.8em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section> 
+
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.aciprensa.com/imagespp/papa-francisco-ewtn-news-20022025.jpg?w=672&h=448" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                    <h5 class="card-title text-center" style="color: #ff6f00;"><strong>3 de marzo</strong> </h5>                  
+                    <h5 class="card-title text-primary  text-center" style="font-size: 1.7em";><strong>El Papa Francisco sufre dos episodios de insuficiencia respiratoria aguda
+                  </strong><br><br></h5>
+                  <div class="author-info d-flex align-items-center">
+
+                      <img src="./img/Almudena.png" alt="Almudena Martínez-Bordiú" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                      <div>
+                          <h6 class="mb-0"><strong>Almudena Martínez-Bordiú</strong></h6>
+                          <p class="text-muted mb-0"><small> Periodismo y Publicidad. ACI Prensa, Roma</small></p>
+                      </div>
+
+                  </div>
+                  <p class="card-text">El Papa Francisco sufrió este lunes dos episodios de insuficiencia respiratoria aguda, lo que significa que tuvo dificultades graves para respirar. 
+
+                    Según el parte médico de esta tarde, la causa fue una acumulación significativa de moco en los bronquios, lo que impidió el paso normal del aire. Esta obstrucción provocó un broncoespasmo, un estrechamiento de los bronquios debido a la contracción de los músculos que los rodean.</p>
+      
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.aciprensa.com/noticias/111287/papa-francisco-sufre-dos-episodios-de-insuficiencia-respiratoria-aguda', '_blank')">
+                      📖 Leer más en <img src="./img/aciprensa-author.png" alt="ACI" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section> 
+
+
+
+<!-- Almudena Aci Prensa -->
+ <section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.aciprensa.com/imagespp/papa-francisco-ricardo-perna-shutterstock-230225.jpg?w=672&h=448" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;">2 de marzo</h5>
+                  <h5 class="card-title text-primary  text-center " ><strong>El Papa Francisco continúa estable: La crisis respiratoria no deja consecuencias en su salud
+                  </strong><br><br></h5>
+                  <div class="author-info d-flex align-items-center">
+                    <img src="./img/Almudena.png" alt="Almudena Martínez-Bordiú" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                    <div>
+                        <h6 class="mb-0"><strong>Almudena Martínez-Bordiú</strong></h6>
+                        <p class="text-muted mb-0"><small> Periodismo y Publicidad. ACI Prensa, Roma</small></p>
+                    </div>
+                  </div>
+                  <p class="card-text">Las condiciones clínicas del Papa Francisco “se han mantenido estables” durante todo el día, informó el Vaticano en la tarde de este domingo 2 de marzo. Por lo tanto, los médicos confirman que no hay consecuencias directas en su estado de salud tras la crisis respiratoria que sufrió el pasado viernes.</p>
+      
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.aciprensa.com/noticias/111271/papa-francisco-continua-estable-y-no-requiere-ventilacion-mecanica-no-invasiva', '_blank')">
+                      📖 Leer más en <img src="./img/aciprensa-author.png" alt="ACI" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section> 
+<!-- Tweeter -->
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.infobae.com/resizer/v2/CV2SZ3SKXRBF3O4NS5SL5VIYYQ.jpg?auth=3609d25ca0c5d94137789e99ae10fbb60f3441286937ed12fa2a570aee36b5c8&smart=true&width=1200&height=675&quality=85" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+
+                  <h5 class="card-title text-primary  text-center"  style="font-size: 1.5em;"><strong>
+                    El Ángelus en X. <br>
+                    El mensaje del papa Francisco desde Gemelli
+                   </strong><br><br></h5>
+                  <div class="author-info d-flex align-items-center">
+                      <img src="./img/Xw8cztK__400x400.png" alt="X" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                      <div>
+                          <h6 class="mb-0"><strong>Papa Francisco</strong></h6>
+                          <p class="text-muted mb-0"> <small>@pontifex_es</small></p>
+                      </div>
+                  </div>
+                  <p class="card-text"><em>"Yo también rezo por ustedes. Y rezo sobre todo por la #paz. Desde aquí la guerra parece aún más absurda". expresó Francisco.
+
+                    El mensaje de paz fue por los distintos conflictos que aún afectan a la humanidad: Ucrania, por Palestina, Israel, Líbano, Myanmar, Sudán, Kivu.
+                    
+                    "Hermanas y hermanos, les mando estos pensamientos todavía desde el hospital, donde como saben estoy desde hace varios días, acompañado por médicos y trabajadores sanitarios, a quienes doy las gracias por la atención con la que me cuidan".</em></p>
+   
+                    
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://x.com/Pontifex_es', '_blank')">
+                      📖 Leer más en <img src="./img/x.png" alt="X" style="height: 1.4em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+<!-- Vatican News  -->
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.vaticannews.va/content/dam/vaticannews/agenzie/images/reuters/2025/02/23/15/1740319569262.JPG/_jcr_content/renditions/cq5dam.thumbnail.cropped.1500.844.jpeg" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;"><strong>Vatican News </strong></h5>
+                <h5 class="card-title text-primary text-center" style="font-size: 1.5em;"><strong>El Papa: Rezo por la paz. Desde aquí la guerra parece aún más absurda</strong><br><br></h5>
+                  <div class="author-info d-flex align-items-center">
+                      <img src="https://i1.rgstatic.net/ii/profile.image/11431281174142593-1689137052397_Q128/Patricia-Henostroza.jpg" alt="Patricia Ynestroza" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                      <div>
+                          <h6 class="mb-0"><strong>Patricia Ynestroza</strong></h6>
+                          <p class="text-muted mb-0"> <small>Desde ciudad del Vaticano</small></p>
+                      </div>
+                  </div>
+                  <p class="card-text">El Papa Francisco en el texto del Ángelus que ha sido entregado al mediodía, agradece al mundo sus oraciones por su salud. "Yo también rezo por ustedes. Y rezo sobre todo por la paz. Desde aquí la guerra parece aún más absurda". Dijo y recuerda los distintos conflictos que aún afectan a la humanidad: Ucrania, por Palestina, Israel, Líbano, Myanmar, Sudán, Kivu.</p>
+   
+                    
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.vaticannews.va/es/papa/news/2025-03/angelus-papa-francisco-salud-hospital-gemelli-paz-guerra-rezo.html', '_blank')">
+                      📖 Leer más en <img src="https://www.vaticannews.va/etc/designs/vatican-news/release/library/main/images/vatican-news-header-white_retina.png" alt="X" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+<!-- almudena Aci Prensa -->
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.aciprensa.com/imagespp/papamirahaciaabajo.jpg?w=672&h=448" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;"><strong>El Papa desde el hospital:</strong></h5>
+                  <h5 class="card-title text-primary  text-center"  style="font-size: 1.5em;"><strong>Siento en el corazón la "bendición" que se esconde dentro de la fragilidad</strong><br><br></h5>
+                  <div class="author-info d-flex align-items-center">
+                      <img src="./img/Almudena.png" alt="Almudena Martínez-Bordiú" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                      <div>
+                          <h6 class="mb-0"><strong>Almudena Martínez-Bordiú</strong></h6>
+                          <p class="text-muted mb-0"><small> Periodismo y Publicidad. ACI Prensa, Roma</small></p>
+                      </div>
+                  </div>
+                  <p class="card-text">El Papa Francisco envió un mensaje desde el hospital Gemelli, donde permanece ingresado desde el 14 de febrero a causa de una neumonía bilateral, en el que asegura que siente en el corazón “la bendición que se esconde dentro de la fragilidad”.
+
+                    Este es el tercer domingo que el Papa Francisco no ha podido leer el texto del Ángelus. Al inicio de su mensaje, difundido por la Oficina de Prensa de la Santa Sede, el Santo Padre agradeció a los médicos y al personal sanitario “por la atención con la que me cuidan”.</p>
+      
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.aciprensa.com/noticias/111267/papa-francisco-siento-en-el-corazon-la-bendicion-dentro-de-la-fragilidad', '_blank')">
+                      📖 Leer más en <img src="./img/aciprensa-author.png" alt="ACI" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+<!-- Elisa Ramires - Desde la Fe  -->
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://desdelafe.mx/wp-content/uploads/2025/02/papa-salud.jpeg" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;">La salud del Papa - 1 de marzo</h5>
+                  <h5 class="card-title text-primary  text-center"><strong>La salud del Papa se encuentra estable; <br> no presentó más broncoespasmos</strong><br><br></h5>
+                  <div class="author-info d-flex align-items-center">
+                      <img src="https://desdelafe.mx/wp-content/uploads/2024/07/WhatsApp-Image-2024-07-01-at-07.14.32-125x125.jpeg" alt="Elisa Ramrez" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                      <div>
+                          <h6 class="mb-0"><strong>Elisa Ramrez</strong></h6>
+                          <p class="text-muted mb-0"> <small>Lic. en Comunicación - DesdeLaFe.mx</small></p>
+                      </div>
+                  </div>
+                  <p class="card-text">El Papa Francisco ha continuado alimentándose por sí mismo y ha realizado regularmente fisioterapia respiratoria. Además, ya no ha presentado nuevos broncoespasmos. El Santo Padre alternó ventilación mecánica no invasiva con largos períodos de oxigenoterapia de alto flujo, manteniendo siempre una buena respuesta al intercambio gaseoso.</p>
+      
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://desdelafe.mx/noticias/la-voz-del-papa/salud-del-papa-francisco/', '_blank')">
+                      📖 Leer más en <img src="https://desdelafe.mx/wp-content/themes/desdelafe2023/assets/img/desdelafe.svg" alt="DesdeLaFe" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+
+<!-- Tylor Arnold - Aci Prensa  -->
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.aciprensa.com/imagespp/vance.feb.28.2025.jpg?w=672&h=448" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <h5 class="card-title text-center" style="color: #ff6f00;"><strong>28 de febrero</strong></h5>
+                  <h5 class="card-title text-primary  text-center"><strong>JD Vance dirige oración por el Papa Francisco en el Desayuno Nacional Católico de Oración de EE.UU.</strong><br><br></h5>
+                  <div class="author-info d-flex align-items-center">
+                      <img src="https://www.aciprensa.com/imagespp/tyler.jpg?w=48&h=48" alt="ACI" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                      <div>
+                          <h6 class="mb-0"><strong>Tyler Arnold</strong></h6>
+                          <p class="text-muted mb-0"> <small>Reportero del National Catholic Register</small></p>
+                      </div>
+                  </div>
+                  <p class="card-text">El vicepresidente de Estados Unidos, JD Vance, dirigió a los asistentes al Desayuno Nacional Católico de Oración de 2025 en una oración por la salud del Papa Francisco después de hablar sobre su propia conversión a la fe católica y los objetivos de la administración del presidente Donald Trump.</p>
+      
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.aciprensa.com/noticias/111261/jd-vance-dirige-oracion-por-papa-francisco-en-desayuno-nacional-catolico-de-oracion-de-eeuu', '_blank')">
+                      📖 Leer más en <img src="./img/aciprensa-author.png" alt="Tyler Arnold" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+<!-- Paola Bruni - Infobae -->
+<section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+              <div  class="col-md-4">
+                <img src="https://www.infobae.com/resizer/v2/XVNZ5CFSHVGNHJ7BZD2P7HV6GI.jpg?auth=87ca0ace1820a8b8a8e5e382e1aa521da7d2e92b77bf1f491dd12c8cdcf71989&smart=true&width=577&height=325&quality=85" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title text-center" style="color: #ff6f00;"><strong>26 de febrero</strong></h5>
+                  <h5 class="card-title text-primary  text-center"><strong>El papa Francisco se reunió en el hospital con el número 2 del Vaticano para hablar de candidatos a la santidad</strong><br><br></h5>
+                  <div class="author-info d-flex align-items-center">
+                      <img src="https://www.infobae.com/resizer/v2/https%3A%2F%2Fs3.amazonaws.com%2Farc-authors%2Finfobae%2Fb1b7950d-5fc0-4a6e-9ea6-4eeed39d1512.jpg?auth=0b32e92d78fd17a616dd4d997670e2ffffec78d2981dcbbdffbeb12a6498d864&smart=true&width=40&height=40&quality=85" alt="Paola Bruni" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                      <div>
+                          <h6 class="mb-0"><strong>Paola Bruni</strong></h6>
+                          <p class="text-muted mb-0"><small>Enviada especial de Infobae al Vaticano</small></p>
+                      </div>
+                  </div>
+                  <p class="card-text">La salud del papa Francisco sigue dando señales de leve mejoría. Aunque continúa hospitalizado desde el pasado 14 de febrero debido a una neumonía bilateral, ha podido reunirse con el secretario de Estado del Vaticano, Pietro Parolin, para discutir futuras canonizaciones.</p>
+      
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.infobae.com/espana/2025/02/25/el-papa-se-encontro-lo-suficientemente-bien-ayer-para-reunirse-con-su-numero-2-del-vaticano-en-el-hospital-para-hablar-de-candidatos-a-la-santidad/', '_blank')">
+                      📖 Leer más en <img src="./img/logo_infobae_naranja.svg" alt="Infobae" style="height: 1.2em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+    <!-- Footer -->
+
+    <footer class="footer bg-dark text-light py-5 text-center">
+        <div class="container">
+            <div class="row justify-content-center">
+                <!-- Información -->
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">Parroquia San Luis Gonzaga</h5>
+                    <p class="footer-text">Villa Elisa, Argentina</p>
+                </div>
+                <!-- Enlaces -->
+                <div class="col-md-4 mb-4 mb-md-0">
+                    <h5 class="footer-title">Enlaces Rápidos</h5>
+                    <ul class="footer-links">
+                        <li><a href="#inicio" class="footer-link">Inicio</a></li>
+                        <li><a href="#misas" class="footer-link">Horarios de Misas</a></li>
+                        <li><a href="#contacto" class="footer-link">Contacto</a></li>
+                    </ul>
+                </div>
+                <!-- Redes Sociales -->
+                <div class="col-md-4">
+                    <h5 class="footer-title">Síguenos</h5>
+                    <div class="footer-social-icons d-flex flex-column align-items-center">
+                        <a href="https://www.facebook.com/profile.php?id=100089942000666" target="_blank" class="social-link mb-2">
+                            <i class="fab fa-facebook-f"></i>
+                            <span>Facebook Parroquial</span>
+                        </a>
+                        <a href="https://www.instagram.com/colegiosanfranciscodeasis.ve?igsh=ZTV2bzZyNWpkYWI2" target="_blank" class="social-link mb-2">
+                            <i class="fab fa-instagram"></i>
+                            <span>Instagram Colegio</span>
+                        </a>
+                        <a href="https://www.instagram.com/gruposfa93usca?igsh=cHg2M3pudHJoNjh3" target="_blank" class="social-link mb-2">
+                            <i class="fab fa-instagram"></i>
+                            <span>Instagram Scout</span>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <p class="footer-copyright">&copy; 2025 Parroquia San Luis Gonzaga - Todos los Derechos Reservados.</p>
+            </div>
+            <div class="footer-icon">
+                <a href="#inicio">
+                    <img src="/img/icono.png" alt="Distintivo" class="footer-logo">
+                </a>
+            </div>
+            
+        </div>
+    </footer>
+    
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    const navLinks = document.querySelectorAll('.navbar-collapse a');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+
+    navLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+            if (navbarCollapse.classList.contains('show')) {
+                new bootstrap.Collapse(navbarCollapse).hide();
+            }
+        });
+    });
+});
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    const navLinks = document.querySelectorAll('.navbar-collapse a');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+
+    navLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+            if (navbarCollapse.classList.contains('show')) {
+                navbarCollapse.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+                navbarCollapse.style.transform = "translateY(-10px)";
+                navbarCollapse.style.opacity = "0";
+
+                setTimeout(() => {
+                    new bootstrap.Collapse(navbarCollapse).hide();
+                    navbarCollapse.style.transform = "translateY(0)";
+                    navbarCollapse.style.opacity = "1";
+                }, 300); // El timeout debe coincidir con la duración de la animación
+            }
+        });
+    });
+});
+
+    </script>
+<script> 
+document.addEventListener("DOMContentLoaded", function() {
+    const card = document.querySelector('.card');
+
+    card.addEventListener('click', function() {
+        card.classList.toggle('touched');
+    });
+
+    // Para detener la animación si tocas fuera
+    document.addEventListener('click', function(event) {
+        if (!card.contains(event.target)) {
+            card.classList.remove('touched');
+        }
+    });
+});
+    
+</script>
+<script>
+    document.getElementById("btn-como-llegar").addEventListener("click", function () {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            const destination = "-34.9037613,-57.9251084"; // Coordenadas de destino
+            const mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${latitude},${longitude}&destination=${destination}&travelmode=driving`;
+            window.open(mapsUrl, "_blank");
+        }, function (error) {
+            alert("No pudimos acceder a tu ubicación. Por favor, activa los permisos de geolocalización.");
+        });
+    } else {
+        alert("Tu navegador no soporta geolocalización.");
+    }
+});
+</script>
+
+<script>
+    window.addEventListener("scroll", function () {
+    const navbar = document.querySelector(".navbar");
+    if (window.scrollY > 50) {
+        navbar.classList.add("scrolled");
+    } else {
+        navbar.classList.remove("scrolled");
+    }
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+<script> new WOW().init(); </script>
+
+</body>
+</html>
+
+
+<!-- <section id="noticias" class="section-padding">
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://tn.com.ar/resizer/v2/el-mensaje-del-papa-francisco-por-las-inundaciones-en-bahia-blanca-le-pido-a-jesus-por-todos-los-afectados-foto-remo-casillireuters-DMYPP6JFFRBSJEDX5YUN45V6WI.jpg?auth=796b70b6c37099d700392c3fd0e1e62b384fd702e31374b66648bfaa7bcdb43a&width=767" 
+                class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+            
+                <h5 class="card-title   text-center"  style="font-size: 1.5em; color: #ff6f00;"><strong>sobre Bahia Blanca:</Strong>
+              </p>
+                <h5 class="card-title text-primary text-center"  style="font-size: 2em;"><strong> “Le pido a Jesús por todos los afectados”</strong><br><br></h5>
+                  
+                  <p class="card-text">Desde su internación, el santo padre envió un telegrama al arzobispo de la ciudad para pedir por las víctimas y los familiares de los muertos. También dijo que reza por los desaparecidos.
+                </p>
+   
+                    
+                    <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://tn.com.ar/sociedad/2025/03/10/el-mensaje-del-papa-francisco-por-las-inundaciones-en-bahia-blanca-le-pido-a-jesus-por-todos-los-afectados/', '_blank')">
+                      📖 Leer más en <img src="./img/TN.png" alt="X" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</section> -->
+
+<section id="noticias" class="section-padding">
+  <div class="container">        
+      <div class="card shadow-lg">
+          <div class="row g-0">
+          <div class="col-md-4">
+              <img src="https://aica.org/imagenes/noticias/el-vaticano-decreto-la-supresion-del-instituto-religioso-miles-christi-snNJ.jpg" class="img-fluid rounded-start card-img-left" alt="Imagen relacionada con la noticia">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+               
+              <h5 class="card-title text-center" style="color:#ff6f00 "><strong>Importante</strong></h5>
+              <h5 class="card-title text-primary text-center" style="font-size: 1.5em;"><strong>El Vaticano decretó la supresión del instituto religioso Miles Christi</strong><br><br></h5>
+                
+                <p class="card-text">
+                  El Dicasterio para los Institutos de Vida Consagrada y Sociedades de Vida Apostólica, decretó la supresión del instituto religioso clerical de derecho diocesano Miles Christi.
+
+"Esta decisión fue aprobada en forma específica por el Papa Francisco el pasado 6 de febrero de 2025", se puntualiza en una comunicación oficial.
+
+De este modo queda concluida la tarea como comisario pontificio de monseñor Jorge Ignacio García Cuerva y el dicasterio nombró delegado pontificio para la ejecución de la supresión del instituto a monseñor Mauricio Landra, obispo auxiliar de Mercedes-Luján.
+              </p>
+ 
+                  
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://aica.org/noticia-el-vaticano-decreto-la-supresion-del-instituto-religioso-miles-christi', '_blank')">
+                    📖 Leer más en <img src="https://aica.org/images/logo2.png" alt="X" style="height: 1.7em; vertical-align: middle; margin-left: 0.5em;">
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+</section>

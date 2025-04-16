@@ -1,0 +1,269 @@
+<section id="slg-news-section" class="slg-news-section">
+
+    <div class="card shadow-lg">
+        <div class="card-body">
+            <h5 class="card-title text-center" style="background-color: #ff6f00; color: white; padding: 5px; border-radius: 5px;">
+                <strong>18 de marzo</strong></h5>
+            <h5 class="card-title  text-center" style="color: #ff6f00;">
+                📹 ¡Nuevo video!
+            </h5>
+            <h5 class="card-title text-primary text-center" style="font-size: 1.5em;">
+                <strong>Carta de Francisco al director del diario italiano Corriere della Sera</strong>
+            </h5>
+
+            <div class="video-container position-relative">
+                <iframe 
+                    src="./video/18M.mp4" 
+                    allowfullscreen 
+                    frameborder="0">
+                </iframe>
+                
+            </div>
+
+            <p class="card-text mt-3">
+                el Papa reflexiona sobre la fragilidad humana y la absurda realidad de la guerra. A través de este mensaje, también lanza un llamado a la responsabilidad de los periodistas y comunicadores.
+            </p>
+
+            <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.instagram.com/vaticannews.es/reel/DHVx9KvqGRt/', '_blank')">
+                🔗 Ver en Instagram
+            </button>
+        </div>
+    </div>
+
+ 
+</section>
+
+<!-- ESTILOS -->
+<style>
+    .slg-news-section {
+        max-width: 600px;
+        margin: auto;
+        background: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease-in-out;
+        overflow: hidden;
+        text-align: center;
+    }
+    .slg-video-container {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+    .slg-video-container video {
+        width: 100%;
+        display: block;
+        border-radius: 10px;
+    }
+    .slg-button {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 20px;
+        background: #0073e6;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+    .slg-button:hover {
+        background: #005bb5;
+    }
+</style>
+
+<!-- SCRIPT PARA REPRODUCCIÓN AUTOMÁTICA -->
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const video = document.getElementById("slg-churchVideo");
+        const section = document.getElementById("slg-news-section");
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    video.muted = false; // Activar el sonido
+                    video.play();
+                } else {
+                    video.pause();
+                }
+            });
+        }, { threshold: 0.5 }); // Se activa cuando al menos el 50% de la sección es visible
+
+        observer.observe(section);
+  });
+</script>
+
+
+<section id="noticia-video-lateral" class="section-padding">
+    <div class="container">
+        <div class="card shadow-lg animated-card">
+            <div class="row g-0">
+                <!-- Columna del video -->
+                <div class="col-md-6">
+                    <div class="video-container">
+                        <iframe 
+                            src="https://www.instagram.com/reel/DGyEFxvMzGD/embed" 
+                            allowfullscreen 
+                            frameborder="0" 
+                            autoplay="1">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- Columna del texto -->
+                <div class="col-md-6 d-flex align-items-center">
+                    <div class="card-body">
+                        <h5 class="card-title text-primary text-center" style="font-size: 2em;">
+                            <strong> 🕊 Intención de oración del Papa para marzo</strong>
+                        </h5>
+                        <style>
+                            @media (max-width: 768px) {
+                                .card-title {
+                                    font-size: 1.2em !important;
+                                }
+                            }
+                        </style>
+
+                        <p class="card-text">
+                            En el vídeo que ilustra su intención de oración para el mes de marzo, grabado antes de su ingreso en el Policlínico Gemelli, el Papa pide oraciones <strong>"para que las familias divididas encuentren en el perdón la curación de sus heridas".</strong>
+                        </p>
+
+                        <button class="pulse-btn btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.instagram.com/reel/DGyEFxvMzGD/', '_blank')">
+                            🔗 Ver en Instagram
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<style>
+/* Animación de aparición */
+.animated-card {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+/* Contenedor del video */
+.video-container {
+    position: relative;
+    padding-top: 125%; /* Proporción vertical */
+    height: 0;
+    overflow: hidden;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto zoom en hover */
+.video-container:hover {
+    transform: scale(1.03);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Botón con efecto de pulso */
+.pulse-btn {
+    position: relative;
+    overflow: hidden;
+    animation: pulse 1.5s infinite;
+}
+
+.pulse-btn:hover {
+    animation: none;
+    transform: scale(1.05);
+    box-shadow: 0 0 15px rgba(0, 123, 255, 0.6);
+}
+
+/* Keyframes para animaciones */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0.7);
+    }
+    70% {
+        box-shadow: 0 0 0 15px rgba(0, 123, 255, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(0, 123, 255, 0);
+    }
+}
+</style>
+
+
+<!-- videodoblrcorto -->
+
+<section class="section-padding d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="videoAlto d-flex justify-content-center align-items-stretch flex-wrap gap-4 w-100 p-3" style="max-width: 1400px;">
+        
+        <!-- Video 1 -->
+        <div class="d-flex flex-column align-items-center flex-grow-1" style="min-width: 400px; max-width: 600px;">
+            <div class="card shadow-lg text-center w-100">
+                <h5 class="card-title text-center" style="background-color: #ff6f00; color: white; padding: 10px;">
+                    <strong>Domingo 23 de marzo<br>lo que el mundo esperaba</strong>
+                </h5>
+
+                <!-- Video -->
+                <div class="ratio ratio-16x9" style="width: 100%;">
+                    <iframe src="https://www.instagram.com/reel/DHitERnxdyU/embed" frameborder="0" allowfullscreen style="width: 100%; height: 100%;"></iframe>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title text-primary">En Primer Plano: Francisco saludó desde la ventana del Gemelli</h5>
+                    <p class="card-text text-muted">
+                        Francisco apareció por primera vez en público desde su hospitalización. Con mucho esfuerzo, ofreció una bendición y saludó a los fieles desde la ventana del Hospital.
+                    </p>
+
+                    <a href="https://www.instagram.com/reel/DHitERnxdyU/" target="_blank" class="btn btn-md3 d-flex align-items-center">
+                        <i class="fab fa-instagram"></i> Ver en Instagram
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="d-flex flex-column align-items-center flex-grow-1 planchaYellow" style="min-width: 400px; max-width: 600px;">
+            <div class="card shadow-lg text-center w-100">
+                <h5 class="card-title text-center" style="background-color: #ff6f00; color: white; padding: 10px;">
+                    <strong>Domingo 23 de marzo <br> Algarabía: aparece Francisco</strong>
+                </h5>
+
+                <!-- Video -->
+                <div class="ratio ratio-16x9" style="width: 100%;">
+                    <iframe src="https://www.instagram.com/reel/DHiit_6xHX-/embed" frameborder="0" allowfullscreen style="width: 100%; height: 100%;"></iframe>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title text-primary">La aparición de Francisco genera un estallido de emoción</h5>
+                    <p class="card-text text-muted">
+                        El Papa Francisco saluda a una multitud a las puertas del Hospital Gemelli de Roma en su primera aparición pública en más de 5 semanas. Hoy fue dado de alta.
+                    </p>
+
+                    <a href="https://www.instagram.com/reel/DHiit_6xHX-/" target="_blank" class="btn btn-md3 d-flex align-items-center">
+                        <i class="fab fa-instagram"></i> Ver en Instagram
+                    </a> 
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
