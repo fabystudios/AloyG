@@ -141,9 +141,13 @@
             <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="10"></button>
             <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="11"></button>
             <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="12"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="13"></button>
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
+                <img src="./img/fotos/slidevc.jpg" class="d-block w-100" alt="New Slide">
+            </div>
+            <div class="carousel-item">
                 <a href="#retiro-ignaciano">
                     <img src="img/fotos/banner00.png" class="d-block w-100" alt="New Slide 1">
                 </a>
@@ -222,7 +226,110 @@
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
 </section>
-
+<style>
+    .via-crucis-section {
+      background: #fff9f2;
+      padding: 60px 20px;
+      text-align: center;
+      animation: fadeIn 1s ease-in-out;
+    }
+  
+    .via-crucis-section h2 {
+      color: #8b3a00;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+  
+    .via-crucis-section p {
+      color: #333;
+      font-size: 1.1rem;
+    }
+  
+    .via-crucis-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    @media (min-width: 768px) {
+      .via-crucis-cards {
+        flex-direction: row;
+      }
+    }
+  
+    .via-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      max-width: 380px;
+    }
+  
+    .via-card:hover {
+      transform: translateY(-5px);
+    }
+  
+    .via-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  
+    .via-card .card-body {
+      padding: 1.2rem;
+    }
+  
+    .via-card .card-title {
+      color: #8b3a00;
+      font-weight: bold;
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+  
+    .via-card .card-text {
+      margin-bottom: 0.4rem;
+      font-size: 1rem;
+    }
+  
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+  
+  <section class="via-crucis-section">
+    <div class="container">
+    <h2 style="color: #5a43a0;">Horarios del Vía Crucis en nuestra Parroquia</h2>
+      <p class="mb-5">Los invitamos a participar del <strong>Camino de la Cruz</strong>, con momentos preparados especialmente para los niños y también para toda la comunidad.</p>
+  
+      <div class="via-crucis-cards">
+  
+        <!-- Card Niños -->
+        <div class="via-card">
+          <img src="./img/vc2.jpg" alt="Vía Crucis para Niños">
+          <div class="card-body">
+            <h5 class="card-title">Vía Crucis para Niños</h5>
+            <p class="card-text">Viernes <strong>18 de abril</strong> – <strong>11:30 hs</strong></p>
+            <p class="text-muted">Parroquia San Luis Gonzaga</p>
+          </div>
+        </div>
+  
+        <!-- Card General -->
+        <div class="via-card">
+          <img src="./img/vc1.jpg" alt="Vía Crucis General">
+          <div class="card-body">
+            <h5 class="card-title">Vía Crucis de la Comunidad</h5>
+            <p class="card-text">Viernes <strong>18 de abril</strong> – <strong>20:00 hs</strong></p>
+            <p class="text-muted">Parroquia San Luis Gonzaga</p>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </section>
 
 <section id="roadmap-semana-santa" class="md3-section text-white text-center" style="
     background: url('./img/semana-santa-bg4.jpg') no-repeat center center;
