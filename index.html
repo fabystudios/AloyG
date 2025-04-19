@@ -123,8 +123,7 @@
 
 
 
-
-<!-- Carousel -->
+ 
 <section class="carousel-section bg-light">
     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
@@ -145,16 +144,14 @@
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="./img/fotos/slidevc.jpg" class="d-block w-100" alt="New Slide">
+                <img src="./img/fotos/sabadoGloria.jpg" class="d-block w-100" alt="New Slide">
             </div>
             <div class="carousel-item">
                 <a href="#retiro-ignaciano">
-                    <img src="img/fotos/banner00.png" class="d-block w-100" alt="New Slide 1">
+                    <img src="img/fotos/retiro ignaciano-ph16.png" class="d-block w-100" alt="New Slide 1">
                 </a>
             </div>
-            <div class="carousel-item">
-                <img src="img/fotos/banner0ViaCrusus.png" class="d-block w-100" alt="New Slide 2">
-            </div>
+
             <div class="carousel-item">
                 <a href="#catecismo">
                 <img src="img/fotos/catequesis2025.png" class="d-block w-100" alt="New Slide">
@@ -162,50 +159,50 @@
             </div>
             <div class="carousel-item">
                 <a href="#lujan">
-                <img src="img/fotos/lujan.png" class="d-block w-100" alt="New Slide">
+                <img src="img/fotos/lujan-ph16.png" class="d-block w-100" alt="New Slide">
                 </a>
             </div>
             <div class="carousel-item">
                 <a href="#apocalipsis">
-                <img src="img/fotos/apocalipsis.png" class="d-block w-100" alt="Un Slide">
+                <img src="img/fotos/apocalipsis-ph16.png" class="d-block w-100" alt="Un Slide">
                 </a>
             </div>
 
          
             <div class="carousel-item">
                 <img src="img/fotos/banner1.png" class="d-block w-100" alt="Banner 1">
-                <div class="carousel-caption">
+                <!-- <div class="carousel-caption">
                     <h5>Bienvenidos a la Parroquia</h5>
                     <p>Un lugar de fe, comunidad y esperanza.</p>
-                </div>
+                </div> -->
             </div>
             <div class="carousel-item">
                 <img src="img/fotos/banner2.png" class="d-block w-100" alt="Banner 2">
-                <div class="carousel-caption">
+                <!-- <div class="carousel-caption">
                     <h5>Misas y Celebraciones</h5>
                     <p>Acompáñanos en nuestras actividades semanales.</p>
-                </div>
+                </div> -->
             </div>
             <div class="carousel-item">
                 <img src="img/fotos/banner3.0.png" class="d-block w-100" alt="Banner 3">
-                <div class="carousel-caption">
+                <!-- <div class="carousel-caption">
                     <h5>Espiritualidad y Reflexión</h5>
                     <p>Momentos de oración para el alma.</p>
-                </div>
+                </div> -->
             </div>
             <div class="carousel-item">
                 <img src="img/fotos/banner6.png" class="d-block w-100" alt="Banner 2">
-                <div class="carousel-caption">
+                <!-- <div class="carousel-caption">
                     <h5>Juntos al encuentro con el Señor</h5>
                     <p>Momentos de oración para el alma.</p>
-                </div>
+                </div> -->
             </div>
             <div class="carousel-item">
                 <img src="img/fotos/banner4.png" class="d-block w-100" alt="Banner 4">
-                <div class="carousel-caption">
+                <!-- <div class="carousel-caption">
                     <h5>Encuentros Comunitarios</h5>
                     <p>Unidos en la fe y la fraternidad.</p>
-                </div>
+                </div> -->
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
@@ -216,6 +213,34 @@
         </button>
     </div>
 </section>
+ 
+<!-- Asegurate de incluir Bootstrap CSS/JS antes de esto -->
+
+<style>
+  /* -----------------------------
+     1. Hacer el carrusel full‑width/full‑height
+     ----------------------------- */
+  #mainCarousel,
+  #mainCarousel .carousel-inner,
+  #mainCarousel .carousel-item {
+    width: 100vw;                /* todo el ancho del viewport */
+    height: 100vh;               /* toda la altura del viewport */
+    margin-left: calc(-50vw + 50%);  /* centra si está dentro de un grid */
+    overflow: hidden;            /* recorta lo que sobresalga */
+  }
+
+/* -----------------------------
+     2. Imagen “cover” y centrada
+     ----------------------------- */
+#mainCarousel .carousel-item img {
+    width: 100%;                /* escala al 100% del contenedor */
+    height: 100%;               /* idem para la altura */
+    object-fit: cover;          /* escala + recorta centrado */
+    object-position: center;
+}
+
+</style>
+
 
 
  
@@ -227,113 +252,7 @@
     </h2>
 </section>
 
-<section style="width: 90vw; max-width: 100%; margin: 0 auto;">
-<style>
-    .via-crucis-section {
-      background: #fff9f2;
-      padding: 60px 20px;
-      text-align: center;
-      animation: fadeIn 1s ease-in-out;
-    }
-  
-    .via-crucis-section h2 {
-      color: #8b3a00;
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-  
-    .via-crucis-section p {
-      color: #333;
-      font-size: 1.1rem;
-    }
-  
-    .via-crucis-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      align-items: center;
-      justify-content: center;
-    }
-  
-    @media (min-width: 768px) {
-      .via-crucis-cards {
-        flex-direction: row;
-      }
-    }
-  
-    .via-card {
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      transition: transform 0.3s ease;
-      max-width: 380px;
-    }
-  
-    .via-card:hover {
-      transform: translateY(-5px);
-    }
-  
-    .via-card img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-  
-    .via-card .card-body {
-      padding: 1.2rem;
-    }
-  
-    .via-card .card-title {
-      color: #8b3a00;
-      font-weight: bold;
-      font-size: 1.2rem;
-      margin-bottom: 0.8rem;
-    }
-  
-    .via-card .card-text {
-      margin-bottom: 0.4rem;
-      font-size: 1rem;
-    }
-  
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-  </style>
-  
-  <div class="via-crucis-section">
-    <div class="container">
-    <h2 style="color: #5a43a0;">Horarios del Vía Crucis en nuestra Parroquia</h2>
-      <p class="mb-5">Los invitamos a participar del <strong>Camino de la Cruz</strong>, con momentos preparados especialmente para los niños y también para toda la comunidad.</p>
-  
-      <div class="via-crucis-cards">
-  
-        <!-- Card Niños -->
-        <div class="via-card">
-          <img src="./img/vc2.jpg" alt="Vía Crucis para Niños">
-          <div class="card-body">
-            <h5 class="card-title">Vía Crucis para Niños</h5>
-            <p class="card-text">Viernes <strong>18 de abril</strong> – <strong>11:30 hs</strong></p>
-            <p class="text-muted">Parroquia San Luis Gonzaga</p>
-          </div>
-        </div>
-  
-        <!-- Card General -->
-        <div class="via-card">
-          <img src="./img/vc1.jpg" alt="Vía Crucis General">
-          <div class="card-body">
-            <h5 class="card-title">Vía Crucis de la Comunidad</h5>
-            <p class="card-text">Viernes <strong>18 de abril</strong> – <strong>20:00 hs</strong></p>
-            <p class="text-muted">Parroquia San Luis Gonzaga</p>
-          </div>
-        </div>
-  
-      </div>
-    </div>
- </div> 
-</div> 
-</section>
+
 <div id="roadmap-semana-santa" class="md3-section text-white text-center" style="
     background: url('./img/semana-santa-bg4.jpg') no-repeat center center;
     background-size: cover;
