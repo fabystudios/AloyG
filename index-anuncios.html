@@ -1394,3 +1394,210 @@ Spotify
          
      </div>
  </div>
+
+ <br><br>
+<!-- <div class="post-card shadow-lg rounded-4 overflow-hidden d-flex flex-column flex-lg-row" style="width: 90vw; max-width: 90%; margin: 0 auto;" ></div> -->
+<div id="catecismo"   class="cate-card d-flex flex-wrap" style="width: 90vw; max-width: 90%; margin: 0 auto;">
+    <div class="gif-container" style="flex: .8; ">
+        <img src="./img/catequesis.gif" alt="Catequesis GIF" style="width: 100%; height: auto; border-radius: 16px;">
+    </div>
+    <div style="flex: 1; ">
+        <h2 class="h2-cate" style="background-color: rgba(211, 211, 211, 0.5); padding: 10px; border-radius: 50px;">📢 Inscripciones Abiertas</h2>
+
+        <p style="font-size: 1.3em; color: black; line-height: 1;">Se pueden inscribir en los horarios de</p>
+        <p class="highlight" style="font-size: 1.3em; color: black; line-height: 1;">Secretaría Parroquial:</p>
+        <div class="cate-horarios">
+            <p class="text-muted" style="font-size: 1.20em; line-height: 1.6; text-align: justify; font-family: 'Montserrat', sans-serif;">
+                📅 Lunes: 16 a 18h <br>📅 Martes: 10 a 12h <br>📅 Jueves: 16 a 18h
+            </p>
+        </div>
+        <p class="highlight" style="font-size: 1.5em; color: black; line-height: 1.2;">🕒 <span>Catequesis para niños:</span></p>
+        <div class="cate-horarios">
+            <p class="text-muted" style="font-size: 1.20em; line-height: 1.6; text-align: justify; font-family: 'Montserrat', sans-serif;">
+                📅 SÁBADOS 15Hs
+            </p>
+        </div>
+        <br>
+        <p class="highlight" style="font-size: 1.5em; color: black; line-height: 1.2; background-color: rgba(211, 211, 211, 0.5); padding: 10px; border-radius: 50px;">📌 Comenzamos el sábado 26 de abril a las 15h</p>
+        <div class="whatsapp-container mb-4">
+            <a href="https://wa.me/542215947600" 
+               class="whatsapp-btn btn-lg d-inline-flex align-items-center justify-content-center gap-2"
+               target="_blank"
+               rel="noopener"
+               style="background: #25D366; color: white; border-radius: 30px; padding: 12px 25px; text-decoration: none; transition: all 0.3s ease;">
+                <i class="fab fa-whatsapp fa-2x"></i>
+                <div class="d-flex flex-column justify-content-center">
+                    <span class="fw-bold">Contactar por WhatsApp</span>
+                    <small>nro.: 221 5947600</small>
+                </div>
+            </a>
+        </div>
+        <div class="text-center mt-3">
+            <a href="mailto:sanluisvillaelisa@gmail.com" class="btn btn-md3 d-flex align-items-center" style="font-size: 1.3em;">
+                📩 Consultar por Email <i class="material-icons ms-2">arrow_forward</i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- <br><br> -->
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+
+
+
+    .cate-card {
+        animation: fadeIn 1.5s ease-in-out;
+        display: flex;
+        flex-wrap: wrap;
+     
+ 
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        width: 90vw;
+        max-width: 1200px;
+    position: relative;
+
+    color: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+
+    margin: auto;
+    overflow: hidden;
+}
+
+.posteo-catequesis {
+
+        background: white;
+      
+
+    }
+.cate-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url('./img/catequesis2.jpg');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+    transform: scale(1);
+    transition: transform 5s ease-in-out;
+    z-index: -1;
+  
+}
+
+.cate-card:hover::before {
+    transform: scale(1.10);
+}
+
+    .gif-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .gif-container img {
+        width: 100%;
+        max-width: 500px;
+        border-radius: 16px 16px 16px 16px;
+        animation: pulse 2s infinite alternate;
+        padding-bottom: 20px;
+    }
+    .text-container {
+        flex: 1;
+        text-align: center;
+        padding: 30px;
+    }
+    .h2-cate {
+        color: #d32f2f;
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+        animation: popIn 1s ease-in-out;
+    }
+    .highlight {
+        font-weight: bold;
+        color: #388e3c;
+        font-size: 22px;
+    }
+    .cate-horarios {
+        background: linear-gradient(135deg, #f7eb80, #ffc107);
+        padding: 20px;
+        padding-bottom: 5px; /* Reduce el padding inferior al 50% */
+        border-radius: 12px;
+        display: inline-block;
+        font-weight: bold;
+        /* font-size: 18px; */
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        animation: bounce 1.5s infinite;
+    }
+
+    .boton:hover {
+        background: #1565c0;
+        transform: scale(1.1);
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+        from { transform: scale(1); }
+        to { transform: scale(1.1); }
+    }
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+    @keyframes popIn {
+        from { transform: scale(0.8); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+    @media (max-width: 600px) {
+        .posteo-catequesis {
+            flex-direction: column;
+            text-align: center;
+            padding: 25px;
+        }
+        .gif-container img {
+            max-width: 90%;
+        }
+        h2 {
+            font-size: 28px;
+        }
+    }
+    /* ✅ ESTILOS GENERALES */
+
+
+
+
+/* ✅ MEDIA QUERY PARA MÓVILES */
+@media (max-width: 768px) {
+    .cate-card {
+        flex-direction: column; /* Se apila en móviles */
+        padding: 20px;
+    }
+
+    .gif-container, .text-container {
+        width: 100%;
+    }
+
+    .h2-cate {
+        font-size: 26px;
+    }
+
+    .highlight, .cate-horarios p {
+        font-size: 18px;
+    }
+}
+
+
+</style>
