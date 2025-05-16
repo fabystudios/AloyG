@@ -54,62 +54,61 @@
     <img src="./img/bot-flot.png" alt="Contacto">
 </a>
 
-<section class="cabecera" style="background-color: #0d6efd "> 
-    <div class="container">
-        <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow">
-            <div class="container">
+<section class="cabecera" style="background-color: #0d6efd;">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-dark fixed-top shadow py-0" style="min-height: 90px;">
+            <div class="container-fluid d-flex align-items-center justify-content-between flex-nowrap">
                 <!-- Logo y Título -->
-                <a class="navbar-brand d-flex align-items-center" href="#inicio">
-                    <img src="./img/logo.png" alt="Logo San Luis Gonzaga" height="80" class="me-3 logo">
+                <a class="navbar-brand d-flex align-items-center flex-shrink-0 me-4" href="#inicio" style="min-width: 270px;">
+                    <img src="./img/logo.png" alt="Logo San Luis Gonzaga" height="70" class="me-2 logo">
                     <div class="titulo-ppal d-flex flex-column text-center">
-                        <span class="linea1 fs-4 fw-bold text-center d-block">Pquia. San Luis Gonzaga</span>
+                        <span class="linea1 fs-5 fw-bold text-center d-block">Pquia. San Luis Gonzaga</span>
                         <span class="linea2 fs-6 text-muted">Villa Elisa, La Plata, Argentina</span>
                     </div>
                 </a>
                 <!-- Botón Hamburguesa -->
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <button class="navbar-toggler ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <!-- Opciones de Navegación -->
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-lg-auto">
-                        <li class="nav-item">
+                <div class="collapse navbar-collapse flex-grow-1" id="navbarNav">
+                    <ul class="navbar-nav w-100 d-flex justify-content-between align-items-center flex-row">
+                        <li class="nav-item flex-fill text-center">
                             <a class="nav-link" href="#Anuncios">
                                 <i class="material-icons align-middle">announcement</i> Anuncios
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item flex-fill text-center">
                             <a class="nav-link" href="#retiro">
                                 <i class="material-icons align-middle">spa</i> Retiro
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <!-- <a class="nav-link" href="#misas"> -->
-                                <a class="nav-link" href="#horarios-misa"> 
+                        <li class="nav-item flex-fill text-center">
+                            <a class="nav-link" href="#horarios-misa">
                                 <i class="material-icons align-middle">schedule</i> Misas
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item flex-fill text-center">
                             <a class="nav-link" href="#NOTIS">
                                 <i class="material-icons align-middle">newspaper</i> Noticias
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item flex-fill text-center">
                             <a class="nav-link" href="#educacion">
                                 <i class="material-icons align-middle">school</i> Educación
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item flex-fill text-center">
                             <a class="nav-link" href="#contacto">
                                 <i class="material-icons align-middle">contact_mail</i> Contacto
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item flex-fill text-center">
                             <a class="nav-link" href="#ubicacion">
                                 <i class="material-icons align-middle">location_on</i> Mapa
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item flex-fill text-center">
                             <a class="nav-link" href="#nosotros">
                                 <i class="material-icons align-middle">people</i> Nosotros
                             </a>
@@ -119,6 +118,35 @@
             </div>
         </nav>
     </div>
+    <style>
+        @media (min-width: 992px) {
+            .navbar-nav {
+                flex-direction: row !important;
+            }
+            .navbar-nav .nav-item {
+                flex: 1 1 0;
+                min-width: 0;
+            }
+            .navbar-nav .nav-link {
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                font-size: 1.05em;
+            }
+            .navbar-brand {
+                min-width: 270px;
+            }
+        }
+        @media (max-width: 991.98px) {
+            .navbar-nav {
+                flex-direction: column !important;
+                width: 100%;
+            }
+            .navbar-nav .nav-item {
+                width: 100%;
+                text-align: left;
+            }
+        }
+    </style>
 </section>
 
 <!-- <div class="carousel-item">
