@@ -1600,9 +1600,10 @@ section {
 
     /* Posicionar la hamburguesa a la izquierda */
     .navbar-toggler {
-        position: relative;
-        left: 0;
-        order: -1; /* Lo coloca antes que el logo */
+        /* position: relative; */
+        margin-right: 20px !important;
+        order: -1; 
+        /* Lo coloca antes que el logo */
     }
 
     /* Centrar logo y título */
