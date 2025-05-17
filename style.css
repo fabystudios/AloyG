@@ -1614,7 +1614,7 @@ section {
         justify-content: center;
         flex-grow: 1; /* Ocupa el espacio disponible */
         text-align: center;
-        margin: 0;
+        margin: 0 auto;
 
     .navbar-brand img.logo {
         height: 55px;
