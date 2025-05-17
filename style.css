@@ -1602,8 +1602,7 @@ section {
     .navbar-toggler {
         position: relative;
         left: 0;
-        order: -1; 
-        /* Lo coloca antes que el logo */
+        order: -1; /* Lo coloca antes que el logo */
     }
 
     /* Centrar logo y título */
@@ -1615,6 +1614,7 @@ section {
         flex-grow: 1; /* Ocupa el espacio disponible */
         text-align: center;
         margin: 0 auto;
+    }
 
     .navbar-brand img.logo {
         height: 55px;
