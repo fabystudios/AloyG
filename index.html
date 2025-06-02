@@ -249,17 +249,12 @@
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
 </section>
-<br><br>
-<section id="mes-sagrado-corazon" class="section-padding fade-in d-flex justify-content-center align-items-center"
-    style="position: relative; overflow: hidden; border-radius: 2rem; margin: 2rem auto; padding: 2rem 1rem; max-width: 90vw; box-shadow: 0 6px 24px rgba(0,0,0,0.12); background-color: rgba(255, 254, 248, 0.95); display: flex; justify-content: center; align-items: center;">
-    
-    <!-- Imagen de fondo difuminada -->
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-                            background: url('/img/fondo-sagrado-pintura.png') center center / cover no-repeat;
-                            opacity: 0.08; filter: blur(3px); z-index: 0;">
-    </div>
+<br>
 
-    <div class="container" style="position: relative; z-index: 1; display: flex; justify-content: center; align-items: center;">
+
+<section id="mes-sagrado-corazon" class="section-padding fade-in" >
+  <!-- Versión Escritorio / Tablet -->
+  <div class="card-escritorio" style="position: relative; z-index: 1; display: flex; justify-content: center; align-items: center; position: relative; overflow: hidden; border-radius: 2rem; margin: 2rem auto; padding: 2rem 1rem; max-width: 90vw; box-shadow: 0 6px 24px rgba(0,0,0,0.12); background-color: rgba(255, 254, 248, 0.95); display: flex; justify-content: center; align-items: center;">
         <div class="row g-0 align-items-center justify-content-center">
             <div class="col-md-5 text-center d-flex justify-content-center align-items-center">
                 <img src="/img/sagradoCorazon.jpeg" alt="Sagrado Corazón de Jesús"
@@ -271,7 +266,7 @@
                     <h2 class="text-center"
                             style="color: #8B4513; 
                                          font-family: 'Playfair Display', serif; 
-                                         font-size: 2rem; 
+                                         font-size: 3.5rem; 
                                          font-weight: bold; 
                                          text-shadow: 0 1px 1px rgba(0,0,0,0.15); 
                                          margin-bottom: 1rem;">
@@ -300,31 +295,59 @@
             </div>
         </div>
     </div>
+
+  <!-- Versión Móvil -->
+<!-- Versión Móvil con animación -->
+<div class="card-movil" style="display: none; padding: 1rem; text-align: center;">
+
+<a href="https://www.ewtn.com/es/catolicismo/devociones/mes-del-corazon-de-jesus-15240" target="_blank" rel="noopener">
+    <img src="/img/jesus.png" alt="Sagrado Corazón de Jesús - Móvil"
+             class="img-movil-animada"
+             style="width: 100%; max-width: 500px; border-radius: 1rem; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+</a>
+</div>
+
+  <!-- Estilos -->
+  <style>
+    
+    .zoom-in-out {
+      animation: zoomInOut 3s ease-in-out infinite;
+    }
+    @keyframes zoomInOut {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+
+    .shadow-pulse {
+      animation: pulse-shadow 1.5s infinite;
+      transition: box-shadow 0.3s;
+    }
+    @keyframes pulse-shadow {
+      0% {
+        box-shadow: 0 6px 24px rgba(255,111,0,0.35), 0 2px 8px rgba(0,0,0,0.18);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 12px 32px rgba(255,111,0,0.55), 0 4px 16px rgba(0,0,0,0.22);
+        transform: scale(1.05);
+      }
+      100% {
+        box-shadow: 0 6px 24px rgba(255,111,0,0.35), 0 2px 8px rgba(0,0,0,0.18);
+        transform: scale(1);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .card-escritorio {
+        display: none !important;
+      }
+      .card-movil {
+        display: block !important;
+      }
+    }
+  </style>
 </section>
-
-<!-- Estilos base -->
-<style>
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
-
-.shadow-pulse {
-  animation: pulse-shadow 2s infinite;
-  transition: all 0.3s ease-in-out;
-}
-@keyframes pulse-shadow {
-  0% { box-shadow: 0 6px 24px rgba(212,175,55,0.35), 0 2px 8px rgba(0,0,0,0.15); }
-  50% { box-shadow: 0 12px 32px rgba(212,175,55,0.6), 0 4px 16px rgba(0,0,0,0.2); transform: scale(1.03); }
-  100% { box-shadow: 0 6px 24px rgba(212,175,55,0.35), 0 2px 8px rgba(0,0,0,0.15); transform: scale(1); }
-}
-@media (max-width: 768px) {
-  #mes-sagrado-corazon h2 {
-    font-size: 1.3rem !important;
-  }
-  #mes-sagrado-corazon .sagrado-text {
-    font-size: 1em !important;
-  }
-}
-</style>
-
 
 
 <!-- GGGGGGGGGGGGGGGGGG Feria Americana GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG -->
@@ -337,7 +360,7 @@
         transform: scale(1.02);
     }
     </style> 
-<br><br>
+<br>
 <div style=" padding-top: 30px;"> 
 
   
