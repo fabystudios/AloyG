@@ -1,0 +1,107 @@
+<section class="section-padding d-flex justify-content-center align-items-center card-escritorio"  style="width: 90vw; max-width: 90%; margin: 0 auto;">
+  <div class="card shadow-lg overflow-hidden prayer-card-md3 w-100" style="max-width: 1100px;">
+    <div class="row g-0  ">
+
+      <!-- Texto -->
+    <div class="col-md-6 d-flex flex-column justify-content-center p-4 prayer-text text-center position-relative card-escritorio" style="animation: fadeInLeft 1s ease; overflow: hidden; z-index: 1;">
+        <!-- Imagen de fondo con opacidad -->
+        <!-- <img src="./img/ovejas2.jpeg" alt="Ovejas" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.10; z-index: 0;"> -->
+        <div style="position: relative; z-index: 1;">
+            <h2 class="fw-bold text-md3 mb-3" style="background: #f1e861; box-shadow: 6px 6px 12px 0px rgba(80,80,80,0.25); transform: rotate(-2deg);">Oración por las Vocaciones</h2>
+            <p class="vocaciones-text m-0" style="font-size: 1.3em;">
+                    <strong style="font-size: 1.6em;">Jesús</strong><br>
+                    Que sientes compasión al ver la multitud <br> como ovejas sin pastor<br>
+                    <strong><em>Suscita en nuestra Iglesia de <br>la Arquidiócesis de La Plata</em></strong><br>
+                    una nueva primavera de vocaciones.<br>
+                    Te pedimos que nos envíes <br>
+                    <strong>Sacerdotes</strong> según tu corazón<br>
+                    que nos alimenten con el Pan de tu Palabra y en la mesa de tu Cuerpo y de tu Sangre; <br>
+                    <strong>Consagradas y Consagrados</strong> que por su santidad <br>sean testigos de tu Reino;<br>
+                    <strong>Laicas y Laicos</strong> que en medio del mundo den testimonio de ti con su vida y con su palabra.<br><br>
+                    <strong>Buen Pastor</strong>,<br>
+                    fortalece a los que elegiste y ayúdalos a crecer en amor y santidad para que respondan plenamente a tu llamado.<br><br>
+                    <strong><em>María Madre de las vocaciones</em></strong><br>
+                    ruega por nosotros.<br>
+                    Amén. 
+            </p>
+        </div>
+    </div>
+
+      <!-- Imagen -->
+ <div class="col-md-6 p-0">
+  <!-- <div class="h-100 w-100" style="background: url('./img/buenpastor.jpeg') center/cover no-repeat;"></div> -->
+<div class="prayer-image h-100 w-100"></div>
+<img src="./img/buenpastor.jpeg" alt="Buen Pastor" class="img-fluid w-100 h-100" style="object-fit: cover; ">
+</div>
+    </div>
+  </div>
+</section>
+<!-- Versión Móvil con animación -->
+<div class="card-movil" style="display: none; padding: 1rem; text-align: center;">
+
+<a href="https://www.ewtn.com/es/catolicismo/devociones/mes-del-corazon-de-jesus-15240" target="_blank" rel="noopener">
+    <img src="/img/oracionBuenPastor.png" alt="Sagrado Corazón de Jesús - Móvil"
+             class="img-movil-animada"
+             style="width: 100%; max-width: 500px; border-radius: 1rem; box-shadow: 0 8px 24px rgba(0,0,0,0.3);">
+</a>
+</div>
+
+<style>
+/* Colores */
+.text-md3 {
+  color: #6200ea;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Imagen */
+.prayer-image {
+  background: url('./img/buenpastor.jpeg') center center / cover no-repeat;
+ 
+  border-radius: 0 0.5rem 0.5rem 0;
+}
+
+/* Fondo del texto */
+.prayer-text {
+  background-color: #fefefe;
+}
+
+/* Eliminamos todos los bordes redondeados */
+.prayer-card-md3,
+.prayer-card-md3 .card,
+.prayer-card-md3 .row,
+.prayer-card-md3 .col-md-6 {
+  border-radius: 0 !important;
+}
+
+/* Animaciones */
+@keyframes fadeInLeft {
+  from {opacity: 0; transform: translateX(-30px);}
+  to {opacity: 1; transform: translateX(0);}
+}
+
+@media (max-width: 768px) {
+  .prayer-image {
+    display: block;
+    height: 250px;
+    background-position: center top;
+  }
+}
+.prayer-card-md3 .row {
+    display: flex;
+    flex-wrap: nowrap;
+}
+@media (max-width: 768px) {
+    .prayer-card-md3 .row {
+        flex-direction: column;
+    }
+}
+  @media (max-width: 768px) {
+      .card-escritorio {
+        display: none !important;
+      }
+      .card-movil {
+        display: block !important;
+      }
+    }
+
+</style>
