@@ -251,6 +251,8 @@
 </section>
 <br><br>
 
+
+
 <!-- Versión Escritorio / Tablet -->
 <!-- <div class="card-container info d-none d-md-block" style="transform: scale(0.7); transform-origin: top center;">
   <div class="featured-card" style="box-shadow: 6px 6px 14px rgba(0, 0, 0, 0.15); height: 100%;">
@@ -284,6 +286,133 @@
     </div>
   </div>
 </div> -->
+<style>
+  @keyframes floatText {
+    0%, 100% {
+      transform: translateY(0);
+      text-shadow:
+        1px 1px 1px #444,
+        2px 2px 2px #222,
+        3px 3px 8px rgba(0, 0, 0, 0.6);
+    }
+    50% {
+      transform: translateY(-4px);
+      text-shadow:
+        1px 2px 3px #555,
+        2px 4px 6px #333,
+        3px 6px 12px rgba(0, 0, 0, 0.7);
+    }
+  }
+
+  .title-3d {
+    animation: floatText 3.5s ease-in-out infinite;
+    color: #fdf9ef;
+    font-weight: bold;
+    font-size: 2.6em;
+    letter-spacing: 1px;
+  }
+
+  .subtitle-3d {
+    animation: floatText 4s ease-in-out infinite;
+    color: #fffad0;
+    font-size: 1.3em;
+    text-shadow:
+      1px 1px 2px #333,
+      2px 2px 4px rgba(0,0,0,0.5);
+  }
+</style>
+<div class="card-container info d-none d-md-block">
+  <div class="featured-card" style="display: flex; box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.25); border-radius: 16px; overflow: hidden;">
+    
+    <!-- Imagen izquierda -->
+    <div class="card-image-container d-none d-md-block" style="flex: 1;">
+      <img src="./img/rezo.png" alt="Basílica de Luján" class="card-image" style="height: 100%; width: 100%; object-fit: cover;">
+    </div>
+    
+    <!-- Contenido derecho -->
+    <div class="card-content d-flex flex-column justify-content-center text-center" style="
+        flex: 1.2;
+        padding: 2rem;
+        background: linear-gradient(to bottom right, #f1e19b8e, #fffbea);
+        background-image: url('./img/sanluisgonzaga-fiesta-2025.png');
+        background-size: cover;
+        background-position: center;
+        background-blend-mode: lighten;
+        position: relative;
+        color: #3e2723;
+      ">
+      
+      <!-- Capa de fondo oscuro suave para legibilidad -->
+      <div style="position: absolute; inset: 0; background-color: rgba(0,0,0,0.3); border-radius: 0; z-index: 0;"></div>
+      
+      <div style="position: relative; z-index: 1;">
+        
+        <h2 class="fw-bold text-md3 mb-3 subtitle-3d" style="font-size: 3em; color: #f7f6f4;"><br><br><br>Fiestas Patronales</h2>
+        <p class="lead mb-4 title-3d" style="font-size: 1.4em; color: #ffffff;">
+          <strong>Sábado 21 de junio</strong><br>
+          Un día para celebrar juntos a nuestro <br>querido San Luis Gonzaga
+        </p>
+        <!-- Frase adicional opcional -->
+        <p style="color: #fffad0; font-style: italic;">
+          “Con alegría y fe, caminamos con San Luis”
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="card-container info d-block d-md-none">
+  <div class="featured-card text-center" style="
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    border-radius: 16px;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #f1e19b8e, #fffbea);
+  ">
+
+    <!-- Imagen de fondo estilo flyer -->
+    <div style="
+      background: url('./img/sanluisgonzaga-fiesta-2025.png') center center / cover no-repeat;
+      height: 420px;
+      position: relative;
+    ">
+      <!-- Capa oscura para legibilidad -->
+      <div style="position: absolute; inset: 0; background-color: rgba(0,0,0,0.3);"></div>
+
+      <div style="position: absolute; bottom: 0px; left: 0; right: 0; padding: 1rem; z-index: 2;">
+
+
+        
+<h2 class="fw-bold title-3d" style="
+  color: #f7f6f4;
+  font-size: 2.4em;
+  text-shadow:
+    1px 1px 0 #888,
+    2px 2px 0 #666,
+    3px 3px 5px rgba(0, 0, 0, 0.6);
+">
+  Fiestas Patronales
+</h2>
+
+<p class="subtitle-3d" style="
+  color: #fffad0;
+  font-size: 1.2em;
+  text-shadow:
+    1px 1px 0 #666,
+    2px 2px 4px rgba(0, 0, 0, 0.4);
+">
+  <strong>Sábado 21 de junio</strong><br>
+  Con alegría y fe, celebramos a San Luis Gonzaga
+</p>
+      </div>
+    </div>
+
+    <!-- Contenido adicional si se desea -->
+    <div class="p-3" style="font-size: 1em; color: #5d4037;">
+      ¡Te esperamos en la parroquia para compartir juntos esta gran fiesta!
+    </div>
+  </div>
+</div>
+
+<br><br>
 <div class="card-container info d-none d-md-block">
     <div class="featured-card" style="box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.2); height: 100%;">
         <div class="card-image-container d-none d-md-block">
@@ -425,16 +554,16 @@
 
 <!-- GGGGGGGGGGGGGGGGGG Feria Americana GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG -->
 
-  <style>
+  <!-- <style>
     .video-hover-effect iframe {
         transition: transform 0.5s ease;
     }
     .video-hover-effect:hover iframe {
         transform: scale(1.02);
     }
-    </style> 
+    </style>  -->
 
-<div style=" padding-top: 30px;"> 
+<!-- <div style=" padding-top: 30px;"> 
 
   
     <div id="feria-americana" class="feria-section text-center" style="width: 90vw; max-width: 90%; margin: 0 auto;"> 
@@ -453,7 +582,7 @@
         <img src="./img/banderines.png" class="banderin esquina" alt="banderines">
     </div>
     
-</div> 
+</div>  -->
    
 <!-- GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG -->
 
