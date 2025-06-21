@@ -46,9 +46,20 @@
 <link rel="icon" type="image/png" href="https://sanluisgonzaga.ar/favicon.png">
 <meta property="og:image" content="https://sanluisgonzaga.ar/img/preview.jpg?v=2">
 
+<!-- En el <head> -->
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
 
 </head>
 <body id="inicio">
+    <!-- Antes del cierre del body -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  AOS.init();
+</script>
     <!-- Botón Flotante con Imagen -->
 <a href="#noticias" class="btn-floating">
     <img src="./img/scdj-flot.jpeg"  alt="Contacto">
@@ -251,7 +262,204 @@
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
 </section>
+<br><br><br>
+<div id="catecismo"   class="cate-card d-flex flex-wrap" style="width: 90vw; max-width: 90%; margin: 0 auto;">
+    <div class="gif-container" style="flex: .8; ">
+        <img src="./img/san-luis-gonzaga-2025.png" alt="Catequesis GIF" style="width: 100%; height: auto; border-radius: 16px;">
+    </div>
+    <div style="flex: 1; ">
+        <h2 class="h2-cate" style="background-color: rgba(211, 211, 211, 0.5); padding: 10px; border-radius: 50px; font-size: 2.5em;">21 de Junio</h2> 
 
+        <p style="font-size: 1.3em; color: black; line-height: 1.5;">🎉 Hoy celebramos a <strong>San Luis Gonzaga</strong>, <br>patrono de la juventud católica.</p>
+
+     <div class="cate-horarios">
+  <blockquote class="text-muted px-3 py-2 rounded-3" style="font-size: 1.2em; line-height: 2; font-family: 'Montserrat', sans-serif; background-color: rgba(0,0,0,0.03); border-left: 4px solid #d32f2f;">
+    <i class="material-icons align-middle me-1" style="color: #d32f2f; font-size: 1.1em;">format_quote</i>
+    No he desperdiciado ni un solo momento <br>para amar a Dios
+    <i class="material-icons align-middle ms-1" style="color: #d32f2f; font-size: 1.1em;">format_quote</i>
+  </blockquote>
+</div>
+
+        <br><br>
+        <p class="highlight" style="font-size: 1.5em; color: rgb(53, 53, 53); line-height: 1.5; background-color: rgba(211, 211, 211, 0.5); padding: 10px; border-radius: 50px; ">
+            👉 En un mundo que exalta la fama y la superficialidad, Luis nos grita desde el cielo:<br><br>
+            <strong>Que los jóvenes no se conformen con “ser buenos”. Que sueñen con ser santos.</strong>
+            <br><br>
+            Murió con solo <strong>23 años</strong>. Renunció a sus privilegios de nobleza para cuidar enfermos de peste.
+            Murió contagiado por cuidar a uno.
+        </p>
+   
+        <div class="text-center mt-3">
+            <a href="https://www.aciprensa.com/noticias/55987/cada-21-de-junio-celebramos-a-san-luis-gonzaga-hijo-ejemplar-y-patrono-de-la-juventud" target="_blank" class="btn btn-md3 d-flex align-items-center" style="font-size: 1.3em;">
+                ✨ Saber más <i class="material-icons ms-2">arrow_forward</i>
+            </a>
+        </div>
+    </div>
+</div>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+
+
+
+    .cate-card {
+        animation: fadeIn 1.5s ease-in-out;
+        display: flex;
+        flex-wrap: wrap;
+     
+ 
+        justify-content: space-between;
+        align-items: center;
+
+        padding: 40px;
+        border-radius: 20px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        width: 90vw;
+        max-width: 1200px;
+    position: relative;
+
+    color: white;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+
+    margin: auto;
+    overflow: hidden;
+}
+
+.posteo-catequesis {
+
+        background: white;
+      
+
+    }
+.cate-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url('./img/fondo-nubes-suave.png');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.5;
+    transform: scale(1);
+    transition: transform 5s ease-in-out;
+    z-index: -1;
+  
+}
+
+.cate-card:hover::before {
+    transform: scale(1.10);
+}
+
+    .gif-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .gif-container img {
+        width: 100%;
+        max-width: 500px;
+        border-radius: 16px 16px 16px 16px;
+        animation: pulse 2s infinite alternate;
+        padding-bottom: 20px;
+    }
+    .text-container {
+        flex: 1;
+        text-align: center;
+        padding: 30px;
+    }
+    .h2-cate {
+        color: #d32f2f;
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 20px;
+        text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+        animation: popIn 1s ease-in-out;
+    }
+    .highlight {
+        font-weight: bold;
+        color: #388e3c;
+        font-size: 22px;
+    }
+    .cate-horarios {
+        background: linear-gradient(135deg, #f7eb80, #ffc107);
+        padding: 20px;
+        padding-bottom: 5px; /* Reduce el padding inferior al 50% */
+        border-radius: 12px;
+        display: inline-block;
+        font-weight: bold;
+        /* font-size: 18px; */
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        animation: bounce 1.5s infinite;
+    }
+
+    .boton:hover {
+        background: #1565c0;
+        transform: scale(1.1);
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(-20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse {
+        from { transform: scale(1); }
+        to { transform: scale(1.1); }
+    }
+    @keyframes bounce {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-5px); }
+    }
+    @keyframes popIn {
+        from { transform: scale(0.8); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+    @media (max-width: 600px) {
+        .posteo-catequesis {
+            flex-direction: column;
+            text-align: center;
+            padding: 25px;
+        }
+        .gif-container img {
+            max-width: 90%;
+        }
+        h2 {
+            font-size: 28px;
+        }
+    }
+    /* ✅ ESTILOS GENERALES */
+
+
+
+
+/* ✅ MEDIA QUERY PARA MÓVILES */
+@media (max-width: 768px) {
+    .cate-card {
+        flex-direction: column; /* Se apila en móviles */
+        padding: 20px;
+    }
+
+    .gif-container, .text-container {
+        width: 100%;
+    }
+
+    .h2-cate {
+        font-size: 26px;
+    }
+
+    .highlight, .cate-horarios p {
+        font-size: 18px;
+    }
+}
+
+
+</style>
+ 
+
+
+ 
 <br><br><br>
 <div id="corpus" "section-padding d-flex justify-content-center align-items-center" style="min-height: 65vh;">
     <div class="card shadow-lg rounded-4 overflow-hidden" style="width: 90vw; max-width: 400px; margin: 0 auto;">
