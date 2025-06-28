@@ -267,6 +267,7 @@
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
 </section>
+
 <br><br>
 <div style="
   width: 90vw;
@@ -301,7 +302,7 @@
       text-shadow: 2px 2px 4px #000;
     ">
     <span style="display: block; font-size: 2rem;">
-        27 de junio <br> celebramos al Sagrado Corazón de Jesús
+       27 y 28 de junio<br>Sagrado Corazón de Jesús e Inmaculado Corazón de María
     </span>
     <style>
     @media (max-width: 600px) {
@@ -334,6 +335,9 @@
       <div style="flex: 1 1 300px; overflow: hidden; border-radius: 1rem;">
         <img src="./img/sc2.jpg" alt="Oración" style="width: 100%; height: 100%; object-fit: cover; border-radius: 1rem;">
       </div>
+         <div style="flex: 1 1 300px; overflow: hidden; border-radius: 1rem;">
+        <img src="./img/scM.jpg" alt="Oración" style="width: 100%; height: 100%; object-fit: cover; border-radius: 1rem;">
+      </div>
     </div>
 
     <!-- BOTONES -->
@@ -357,9 +361,7 @@
     onmouseout="this.style.background='linear-gradient(to bottom, #EF5350, #C62828)'">
     Mostrar historia
 </button>
-</button>
-
-    <button onclick="toggleSection('promises')" id="btnPromises"
+<button onclick="toggleSection('promises')" id="btnPromises"
   style="
     background: linear-gradient(to bottom, #EF5350, #C62828);
     color: #fff;
@@ -378,7 +380,25 @@
   onmouseout="this.style.background='linear-gradient(to bottom, #EF5350, #C62828)'">
   Mostrar promesas
 </button>
-
+<button onclick="toggleSection('relacion')" id="btnRelacion"
+    style="
+        background: linear-gradient(to bottom, #EF5350, #C62828);
+        color: #fff;
+        border: 2px solid #B71C1C;
+        box-shadow: inset 0 2px 2px rgba(255,255,255,0.5), 0 4px 8px rgba(0,0,0,0.25);
+        padding: 0.75rem 1.5rem;
+        border-radius: 999px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        font-family: 'Roboto', sans-serif;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        line-height: 1.1;
+    "
+    onmouseover="this.style.background='linear-gradient(to bottom, #D32F2F, #B71C1C)'"
+    onmouseout="this.style.background='linear-gradient(to bottom, #EF5350, #C62828)'">
+    Mostrar Relación
+</button>
     </div>
 
     <!-- HISTORIA -->
@@ -396,9 +416,8 @@
         La devoción al Sagrado Corazón se difundió tras las visiones que tuvo Santa Margarita María de Alacoque entre 1673 y 1675, en el convento de Paray‑le‑Monial (Francia). Jesús se le apareció revelándole su Corazón, herido por el amor pero ofendido por la ingratitud humana, e invitando a propagar esta devoción.
       </p>
     </div>
-
     <!-- PROMESAS -->
-<div id="sectionPromises" style="
+    <div id="sectionPromises" style="
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.6s ease, padding 0.4s ease;
@@ -444,6 +463,25 @@
                 </style>
             </div>
         </div>
+ <!-- RELACION -->
+    <div id="sectionRelacion" style="
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s ease, padding 0.4s ease;
+      background: rgba(255,255,255,0.60);
+      border-radius: 1rem;
+      padding: 0 1rem;
+      margin-top: 1rem;
+      color: #333;
+    ">
+    <p style="font-size: 1rem; line-height: 1.6; margin: 1rem 0;">
+            Un día después de la Solemnidad del Sagrado Corazón de Jesús, la Iglesia celebra la Memoria del Corazón Inmaculado de María, que recuerda la unión del Corazón de María con el Corazón de Jesús y su papel en la redención. <br>
+            La contigüidad entre ambas celebraciones expresa simbólicamente la <strong> unidad existente entre el corazón de la Madre y del Hijo</strong>; al tiempo que subraya que en María todo está siempre en referencia a Jesús. Es por eso, precisamente, que la Iglesia entiende a María como camino seguro que conduce al Señor, y nos invita a conocer mejor y amar su Sagrado Corazón.
+
+La celebración del Inmaculado Corazón de María está vinculada a las apariciones y revelaciones de la Virgen en Fátima, Portugal, en 1917. Dijo la Virgen en una ocasión a Lucía, una de los tres pastorcitos: “Mira, hija mía, mi Corazón cercado de espinas, que los hombres ingratos me clavan sin cesar con blasfemias e ingratitudes”.
+        </p> 
+    </div>
+
     </div>
 </div>
 
@@ -458,40 +496,51 @@
 <!-- SCRIPT -->
 <script>
   function toggleSection(type) {
-    const section = document.getElementById('section' + capitalize(type));
-    const button = document.getElementById('btn' + capitalize(type));
-    const otherType = type === 'story' ? 'promises' : 'story';
-    const otherSection = document.getElementById('section' + capitalize(otherType));
-    const otherButton = document.getElementById('btn' + capitalize(otherType));
+    const sectionId = 'section' + capitalize(type);
+    const buttonId = 'btn' + capitalize(type);
+    const section = document.getElementById(sectionId);
+    const button = document.getElementById(buttonId);
+    const sections = [
+      { key: 'Story', label: 'historia' },
+      { key: 'Promises', label: 'promesas' },
+      { key: 'Relacion', label: 'relación' }
+    ];
 
-    const isOpen = section.style.maxHeight && section.style.maxHeight !== "0px";
+    // Detectar si la sección ya está abierta
+    const isOpen = section.style.maxHeight && section.style.maxHeight !== "0" && section.style.maxHeight !== "0px";
 
-    section.style.maxHeight = "0";
-    section.style.paddingTop = "0";
-    section.style.paddingBottom = "0";
-    button.textContent = "Mostrar " + (type === 'story' ? "historia" : "promesas");
+    // Cerrar todas las secciones y restaurar los textos de los botones
+    sections.forEach(s => {
+      const sec = document.getElementById('section' + s.key);
+      const btn = document.getElementById('btn' + s.key);
+      sec.style.maxHeight = "0";
+      sec.style.paddingTop = "0";
+      sec.style.paddingBottom = "0";
+      btn.textContent = "Mostrar " + capitalize(s.label);
+    });
 
-    otherSection.style.maxHeight = "0";
-    otherSection.style.paddingTop = "0";
-    otherSection.style.paddingBottom = "0";
-    otherButton.textContent = "Mostrar " + (otherType === 'story' ? "historia" : "promesas");
-
+    // Si no estaba abierta, abrirla y cambiar el texto del botón correspondiente
     if (!isOpen) {
       section.style.maxHeight = "800px";
       section.style.paddingTop = "1rem";
       section.style.paddingBottom = "1rem";
-      button.textContent = "Ocultar " + (type === 'story' ? "historia" : "promesas");
+      button.textContent = "Ocultar " + capitalize(getLabel(type));
     }
   }
 
   function capitalize(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
   }
+
+  function getLabel(type) {
+    switch (type.toLowerCase()) {
+      case 'story': return 'historia';
+      case 'promises': return 'promesas';
+      case 'relacion': return 'relación';
+      default: return '';
+    }
+  }
 </script>
-
-
-
-
 
 
 
@@ -2278,6 +2327,8 @@ El Vaticano indicó que “la imagen se concede gratuitamente y sólo puede repr
     </h2>
 </section>
 <br>
+
+
 <section id="nosotros">
     <div class="contenedor">
         <div class="contenido">
