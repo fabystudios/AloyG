@@ -52,6 +52,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
+<!-- link de toggleTailwind eliminado o reemplazado por el correcto si es necesario -->
+<!-- Tailwind CSS CDN -->
+<!-- <script src="https://cdn.tailwindcss.com"></script> -->
+
+
 
 </head>
 <body id="inicio">
@@ -262,6 +267,205 @@
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
 </section>
+<br><br>
+<div style="
+  width: 90vw;
+  max-width: 90%;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+  background: url('./img/vitral.jpg') center/cover no-repeat;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  color: #333;
+  position: relative;
+">
+  <!-- Capa de vidrio difuso -->
+  <div style="
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    border: 1px solid rgba(255,255,255,0.2);
+  ">
+
+    <!-- TÍTULO -->
+    <h2 style="
+      text-align: center;
+      color: #fff;
+      font-weight: bold;
+      font-size: 2.4rem;
+      margin-bottom: 1.5rem;
+      animation: fadeIn 1s ease-in-out;
+      text-shadow: 2px 2px 4px #000;
+    ">
+      27 de junio <br> celebramos al Sagrado Corazón de Jesús
+    </h2>
+
+    <!-- IMÁGENES -->
+    <div style="
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    ">
+      <div style="flex: 1 1 300px; overflow: hidden; border-radius: 1rem;">
+        <img src="./img/sc1.jpg" alt="Papa León XIV" style="width: 100%; height: 100%; object-fit: cover; border-radius: 1rem;">
+      </div>
+      <div style="flex: 1 1 300px; overflow: hidden; border-radius: 1rem;">
+        <img src="./img/sc2.jpg" alt="Oración" style="width: 100%; height: 100%; object-fit: cover; border-radius: 1rem;">
+      </div>
+    </div>
+
+    <!-- BOTONES -->
+    <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem;">
+<button onclick="toggleSection('story')" id="btnStory"
+    style="
+        background: linear-gradient(to bottom, #EF5350, #C62828);
+        color: #fff;
+        border: 2px solid #B71C1C;
+        box-shadow: inset 0 2px 2px rgba(255,255,255,0.5), 0 4px 8px rgba(0,0,0,0.25);
+        padding: 0.75rem 1.5rem;
+        border-radius: 999px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        font-family: 'Roboto', sans-serif;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        line-height: 1.1;
+    "
+    onmouseover="this.style.background='linear-gradient(to bottom, #D32F2F, #B71C1C)'"
+    onmouseout="this.style.background='linear-gradient(to bottom, #EF5350, #C62828)'">
+    Mostrar historia
+</button>
+</button>
+
+    <button onclick="toggleSection('promises')" id="btnPromises"
+  style="
+    background: linear-gradient(to bottom, #EF5350, #C62828);
+    color: #fff;
+    border: 2px solid #B71C1C;
+    box-shadow: inset 0 2px 2px rgba(255,255,255,0.5), 0 4px 8px rgba(0,0,0,0.25);
+    padding: 0.75rem 1.5rem;
+    border-radius: 999px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    font-family: 'Roboto', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    line-height: 1.1;
+  "
+  onmouseover="this.style.background='linear-gradient(to bottom, #D32F2F, #B71C1C)'"
+  onmouseout="this.style.background='linear-gradient(to bottom, #EF5350, #C62828)'">
+  Mostrar promesas
+</button>
+
+    </div>
+
+    <!-- HISTORIA -->
+    <div id="sectionStory" style="
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s ease, padding 0.4s ease;
+      background: rgba(255,255,255,0.60);
+      border-radius: 1rem;
+      padding: 0 1rem;
+      margin-top: 1rem;
+      color: #333;
+    ">
+      <p style="font-size: 1rem; line-height: 1.6; margin: 1rem 0;">
+        La devoción al Sagrado Corazón se difundió tras las visiones que tuvo Santa Margarita María de Alacoque entre 1673 y 1675, en el convento de Paray‑le‑Monial (Francia). Jesús se le apareció revelándole su Corazón, herido por el amor pero ofendido por la ingratitud humana, e invitando a propagar esta devoción.
+      </p>
+    </div>
+
+    <!-- PROMESAS -->
+<div id="sectionPromises" style="
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.6s ease, padding 0.4s ease;
+  background: rgba(255, 255, 255, 0.60);
+  border-radius: 1rem;
+  padding: 0 1rem;
+  margin-top: 1.5rem;
+  color: #222;
+  display: flex;
+  justify-content: center;
+">
+  <div style="
+    font-size: 1.1rem;
+    line-height: 1.5;
+    padding: 1rem;
+    max-width: 820px;
+    text-align: left;
+  ">
+
+        <div>❤️ Daré a las almas devotas las gracias necesarias para su estado de vida.</div>
+        <div>❤️ Daré la paz a las familias.</div>
+        <div>❤️ Las consolaré en todas sus aflicciones.</div>
+        <div>❤️ Seré su amparo y refugio durante la vida y en la hora de la muerte.</div>
+        <div>❤️ Derramaré bendiciones abundantes sobre sus empresas.</div>
+        <div>❤️ Los pecadores hallarán en mi Corazón un océano de misericordia.</div>
+        <div>❤️ Las almas tibias se volverán fervorosas.</div>
+        <div>❤️ Las almas fervorosas llegarán prontamente a gran perfección.</div>
+        <div>❤️ Bendeciré las casas donde se honre mi imagen.</div>
+        <div>❤️ Daré a los sacerdotes el don de ablandar corazones endurecidos.</div>
+        <div>❤️ Los que propaguen esta devoción estarán escritos en mi Corazón para siempre.</div>
+        <div>❤️ A los que comulguen nueve primeros viernes, les concederé la gracia de la perseverancia final.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ESTILO -->
+<style>
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(-10px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+</style>
+
+<!-- SCRIPT -->
+<script>
+  function toggleSection(type) {
+    const section = document.getElementById('section' + capitalize(type));
+    const button = document.getElementById('btn' + capitalize(type));
+    const otherType = type === 'story' ? 'promises' : 'story';
+    const otherSection = document.getElementById('section' + capitalize(otherType));
+    const otherButton = document.getElementById('btn' + capitalize(otherType));
+
+    const isOpen = section.style.maxHeight && section.style.maxHeight !== "0px";
+
+    section.style.maxHeight = "0";
+    section.style.paddingTop = "0";
+    section.style.paddingBottom = "0";
+    button.textContent = "Mostrar " + (type === 'story' ? "historia" : "promesas");
+
+    otherSection.style.maxHeight = "0";
+    otherSection.style.paddingTop = "0";
+    otherSection.style.paddingBottom = "0";
+    otherButton.textContent = "Mostrar " + (otherType === 'story' ? "historia" : "promesas");
+
+    if (!isOpen) {
+      section.style.maxHeight = "800px";
+      section.style.paddingTop = "1rem";
+      section.style.paddingBottom = "1rem";
+      button.textContent = "Ocultar " + (type === 'story' ? "historia" : "promesas");
+    }
+  }
+
+  function capitalize(str) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+</script>
+
+
+
+
+
+
+
+
 <br><br><br>
 <div style="max-width: 700px; margin: 2rem auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
 border-radius: 1.5rem; overflow: hidden; font-family: 'Roboto', sans-serif; background: #fff;
