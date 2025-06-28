@@ -341,7 +341,7 @@
     </div>
 
     <!-- BOTONES -->
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-top: 2rem;">
+    <!-- <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-top: 2rem;" class="botones-responsive">
         <button onclick="toggleSection('story')" id="btnStory"
             style="
                 background: linear-gradient(to bottom, #EF5350, #C62828);
@@ -402,7 +402,86 @@
             onmouseout="this.style.background='linear-gradient(to bottom, #EF5350, #C62828)'">
             Mostrar Relación
         </button>
-    </div>
+    </div> -->
+    <!-- BOTONES -->
+<div class="botonera" style="display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-top: 2rem;">
+  <button onclick="toggleSection('story')" id="btnStory"
+    style="
+        background: linear-gradient(to bottom, #EF5350, #C62828);
+        color: #fff;
+        border: 2px solid #B71C1C;
+        box-shadow: inset 0 2px 2px rgba(255,255,255,0.5), 0 4px 8px rgba(0,0,0,0.25);
+        padding: 0.75rem 1.5rem;
+        border-radius: 999px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        font-family: 'Roboto', sans-serif;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        line-height: 1.1;
+    "
+    onmouseover="this.style.background='linear-gradient(to bottom, #D32F2F, #B71C1C)'"
+    onmouseout="this.style.background='linear-gradient(to bottom, #EF5350, #C62828)'">
+    Mostrar Historia
+  </button>
+
+  <button onclick="toggleSection('promises')" id="btnPromises"
+    style="
+        background: linear-gradient(to bottom, #EF5350, #C62828);
+        color: #fff;
+        border: 2px solid #B71C1C;
+        box-shadow: inset 0 2px 2px rgba(255,255,255,0.5), 0 4px 8px rgba(0,0,0,0.25);
+        padding: 0.75rem 1.5rem;
+        border-radius: 999px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        font-family: 'Roboto', sans-serif;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        line-height: 1.1;
+    "
+    onmouseover="this.style.background='linear-gradient(to bottom, #D32F2F, #B71C1C)'"
+    onmouseout="this.style.background='linear-gradient(to bottom, #EF5350, #C62828)'">
+    Mostrar Promesas
+  </button>
+
+  <button onclick="toggleSection('relacion')" id="btnRelacion"
+    style="
+        background: linear-gradient(to bottom, #EF5350, #C62828);
+        color: #fff;
+        border: 2px solid #B71C1C;
+        box-shadow: inset 0 2px 2px rgba(255,255,255,0.5), 0 4px 8px rgba(0,0,0,0.25);
+        padding: 0.75rem 1.5rem;
+        border-radius: 999px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        font-family: 'Roboto', sans-serif;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        line-height: 1.1;
+    "
+    onmouseover="this.style.background='linear-gradient(to bottom, #D32F2F, #B71C1C)'"
+    onmouseout="this.style.background='linear-gradient(to bottom, #EF5350, #C62828)'">
+    Mostrar Relación
+  </button>
+</div>
+
+<!-- ESTILO RESPONSIVO PARA BOTONERA -->
+<style>
+  @media (max-width: 600px) {
+    .botonera {
+      flex-direction: column;
+      gap: 0.75rem !important;
+      padding: 0 0.5rem;
+    }
+
+    .botonera button {
+      font-size: 1rem !important;
+      padding: 0.6rem 1rem !important;
+    }
+  }
+</style>
+
     <style>
         @media (max-width: 700px) {
             /* Fuerza los botones a apilarse si no entran */
