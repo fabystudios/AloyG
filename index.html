@@ -341,65 +341,83 @@
     </div>
 
     <!-- BOTONES -->
-    <div style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem;">
-<button onclick="toggleSection('story')" id="btnStory"
-    style="
-        background: linear-gradient(to bottom, #EF5350, #C62828);
-        color: #fff;
-        border: 2px solid #B71C1C;
-        box-shadow: inset 0 2px 2px rgba(255,255,255,0.5), 0 4px 8px rgba(0,0,0,0.25);
-        padding: 0.75rem 1.5rem;
-        border-radius: 999px;
-        font-size: 1.1rem;
-        font-weight: 600;
-        font-family: 'Roboto', sans-serif;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        line-height: 1.1;
-    "
-    onmouseover="this.style.background='linear-gradient(to bottom, #D32F2F, #B71C1C)'"
-    onmouseout="this.style.background='linear-gradient(to bottom, #EF5350, #C62828)'">
-    Mostrar historia
-</button>
-<button onclick="toggleSection('promises')" id="btnPromises"
-  style="
-    background: linear-gradient(to bottom, #EF5350, #C62828);
-    color: #fff;
-    border: 2px solid #B71C1C;
-    box-shadow: inset 0 2px 2px rgba(255,255,255,0.5), 0 4px 8px rgba(0,0,0,0.25);
-    padding: 0.75rem 1.5rem;
-    border-radius: 999px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    font-family: 'Roboto', sans-serif;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    line-height: 1.1;
-  "
-  onmouseover="this.style.background='linear-gradient(to bottom, #D32F2F, #B71C1C)'"
-  onmouseout="this.style.background='linear-gradient(to bottom, #EF5350, #C62828)'">
-  Mostrar promesas
-</button>
-<button onclick="toggleSection('relacion')" id="btnRelacion"
-    style="
-        background: linear-gradient(to bottom, #EF5350, #C62828);
-        color: #fff;
-        border: 2px solid #B71C1C;
-        box-shadow: inset 0 2px 2px rgba(255,255,255,0.5), 0 4px 8px rgba(0,0,0,0.25);
-        padding: 0.75rem 1.5rem;
-        border-radius: 999px;
-        font-size: 1.1rem;
-        font-weight: 600;
-        font-family: 'Roboto', sans-serif;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        line-height: 1.1;
-    "
-    onmouseover="this.style.background='linear-gradient(to bottom, #D32F2F, #B71C1C)'"
-    onmouseout="this.style.background='linear-gradient(to bottom, #EF5350, #C62828)'">
-    Mostrar Relación
-</button>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem; margin-top: 2rem;">
+        <button onclick="toggleSection('story')" id="btnStory"
+            style="
+                background: linear-gradient(to bottom, #EF5350, #C62828);
+                color: #fff;
+                border: 2px solid #B71C1C;
+                box-shadow: inset 0 2px 2px rgba(255,255,255,0.5), 0 4px 8px rgba(0,0,0,0.25);
+                padding: 0.75rem 1.5rem;
+                border-radius: 999px;
+                font-size: 1.1rem;
+                font-weight: 600;
+                font-family: 'Roboto', sans-serif;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                line-height: 1.1;
+                margin-bottom: 1rem;
+            "
+            onmouseover="this.style.background='linear-gradient(to bottom, #D32F2F, #B71C1C)'"
+            onmouseout="this.style.background='linear-gradient(to bottom, #EF5350, #C62828)'">
+            Mostrar historia
+        </button>
+        <button onclick="toggleSection('promises')" id="btnPromises"
+            style="
+                background: linear-gradient(to bottom, #EF5350, #C62828);
+                color: #fff;
+                border: 2px solid #B71C1C;
+                box-shadow: inset 0 2px 2px rgba(255,255,255,0.5), 0 4px 8px rgba(0,0,0,0.25);
+                padding: 0.75rem 1.5rem;
+                border-radius: 999px;
+                font-size: 1.1rem;
+                font-weight: 600;
+                font-family: 'Roboto', sans-serif;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                line-height: 1.1;
+                margin-bottom: 1rem;
+            "
+            onmouseover="this.style.background='linear-gradient(to bottom, #D32F2F, #B71C1C)'"
+            onmouseout="this.style.background='linear-gradient(to bottom, #EF5350, #C62828)'">
+            Mostrar promesas
+        </button>
+        <button onclick="toggleSection('relacion')" id="btnRelacion"
+            style="
+                background: linear-gradient(to bottom, #EF5350, #C62828);
+                color: #fff;
+                border: 2px solid #B71C1C;
+                box-shadow: inset 0 2px 2px rgba(255,255,255,0.5), 0 4px 8px rgba(0,0,0,0.25);
+                padding: 0.75rem 1.5rem;
+                border-radius: 999px;
+                font-size: 1.1rem;
+                font-weight: 600;
+                font-family: 'Roboto', sans-serif;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                line-height: 1.1;
+                margin-bottom: 1rem;
+            "
+            onmouseover="this.style.background='linear-gradient(to bottom, #D32F2F, #B71C1C)'"
+            onmouseout="this.style.background='linear-gradient(to bottom, #EF5350, #C62828)'">
+            Mostrar Relación
+        </button>
     </div>
+    <style>
+        @media (max-width: 700px) {
+            /* Fuerza los botones a apilarse si no entran */
+            [id^="btnStory"], [id^="btnPromises"], [id^="btnRelacion"] {
+                width: 100%;
+                min-width: 180px;
+                margin-bottom: 1rem !important;
+            }
+            /* El contenedor permite salto de línea */
+            .botones-responsive {
+                flex-direction: column !important;
+                gap: 1rem !important;
+            }
+        }
+    </style>
 
     <!-- HISTORIA -->
     <div id="sectionStory" style="
