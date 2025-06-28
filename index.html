@@ -300,7 +300,25 @@
       animation: fadeIn 1s ease-in-out;
       text-shadow: 2px 2px 4px #000;
     ">
-      27 de junio <br> celebramos al Sagrado Corazón de Jesús
+    <span style="display: block; font-size: 2rem;">
+        27 de junio <br> celebramos al Sagrado Corazón de Jesús
+    </span>
+    <style>
+    @media (max-width: 600px) {
+        .sagrado-title-mobile {
+            font-size: 1.3rem !important;
+        }
+    }
+    </style>
+    <script>
+        // Aplica la clase en móviles
+        document.addEventListener("DOMContentLoaded", function() {
+            var el = document.querySelector('h2[style*="animation: fadeIn"] span');
+            if (window.innerWidth <= 600 && el) {
+                el.classList.add('sagrado-title-mobile');
+            }
+        });
+    </script>
     </h2>
 
     <!-- IMÁGENES -->
@@ -400,18 +418,27 @@
     text-align: left;
   ">
 
-        <div>❤️ Daré a las almas devotas las gracias necesarias para su estado de vida.</div>
-        <div>❤️ Daré la paz a las familias.</div>
-        <div>❤️ Las consolaré en todas sus aflicciones.</div>
-        <div>❤️ Seré su amparo y refugio durante la vida y en la hora de la muerte.</div>
-        <div>❤️ Derramaré bendiciones abundantes sobre sus empresas.</div>
-        <div>❤️ Los pecadores hallarán en mi Corazón un océano de misericordia.</div>
-        <div>❤️ Las almas tibias se volverán fervorosas.</div>
-        <div>❤️ Las almas fervorosas llegarán prontamente a gran perfección.</div>
-        <div>❤️ Bendeciré las casas donde se honre mi imagen.</div>
-        <div>❤️ Daré a los sacerdotes el don de ablandar corazones endurecidos.</div>
-        <div>❤️ Los que propaguen esta devoción estarán escritos en mi Corazón para siempre.</div>
-        <div>❤️ A los que comulguen nueve primeros viernes, les concederé la gracia de la perseverancia final.</div>
+        <div class="promesas-list">
+            <div>❤️ Daré a las almas devotas las gracias necesarias para su estado de vida.</div>
+            <div>❤️ Daré la paz a las familias.</div>
+            <div>❤️ Las consolaré en todas sus aflicciones.</div>
+            <div>❤️ Seré su amparo y refugio durante la vida y en la hora de la muerte.</div>
+            <div>❤️ Derramaré bendiciones abundantes sobre sus empresas.</div>
+            <div>❤️ Los pecadores hallarán en mi Corazón un océano de misericordia.</div>
+            <div>❤️ Las almas tibias se volverán fervorosas.</div>
+            <div>❤️ Las almas fervorosas llegarán prontamente a gran perfección.</div>
+            <div>❤️ Bendeciré las casas donde se honre mi imagen.</div>
+            <div>❤️ Daré a los sacerdotes el don de ablandar corazones endurecidos.</div>
+            <div>❤️ Los que propaguen esta devoción estarán escritos en mi Corazón para siempre.</div>
+            <div>❤️ A los que comulguen nueve primeros viernes, les concederé la gracia de la perseverancia final.</div>
+        </div>
+        <style>
+        @media (max-width: 600px) {
+            .promesas-list {
+                font-size: 70% !important;
+            }
+        }
+        </style>
       </div>
     </div>
   </div>
