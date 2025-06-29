@@ -269,18 +269,7 @@
 </section>
 
 <br><br>
-<div class="glass-card" style="
-  width: 90vw;
-  max-width: 90%;
-  margin: 2rem auto;
-  padding: 1rem;
-  border-radius: 1.5rem;
-  font-family: 'Roboto', sans-serif;
-  background: url('./img/vitral.jpg') center/cover no-repeat;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-  color: #333;
-  position: relative;
-">
+<div class="glass-card" >
   <!-- Capa de vidrio difuso -->
   <div style="
     background: rgba(255, 255, 255, 0.25);
@@ -603,6 +592,26 @@ La celebración del Inmaculado Corazón de María está vinculada a las aparicio
   }
 }
 
+
+.glass-card {
+  width: 90vw;
+  max-width: 90%;
+  margin: 2rem auto;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+  background: url('./img/vitral.jpg') center/cover no-repeat;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  color: #333;
+  position: relative;
+}
+
+/* En móviles achicamos margen inferior */
+@media (max-width: 600px) {
+  .glass-card {
+    margin: 1.5rem auto 0.5rem auto !important;
+  }
+}
 </style>
 
 <!-- SCRIPT -->
