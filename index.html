@@ -55,7 +55,8 @@
 <!-- link de toggleTailwind eliminado o reemplazado por el correcto si es necesario -->
 <!-- Tailwind CSS CDN -->
 <!-- <script src="https://cdn.tailwindcss.com"></script> -->
-
+<!-- Incluí esto en el <head> si aún no está -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
 
 
 </head>
@@ -267,8 +268,149 @@
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
 </section>
-
 <br><br>
+
+<div class="glass-card">
+  <div class="glass-inner">
+
+    <!-- TÍTULO -->
+    <h2 style="
+        text-align: center;
+        color: #fff;
+        font-weight: bold;
+        font-size: 2.4rem;
+        margin-bottom: 1.5rem;
+        animation: fadeIn 1s ease-in-out;
+        text-shadow: 2px 2px 4px #000;
+      ">
+      <span style="display: block; font-size: 2rem;">
+        Solemnidad de San Pedro y San Pablo<br>29 de junio
+      </span>
+    </h2>
+
+    <!-- IMÁGENES -->
+    <div style="
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        justify-content: center;
+        max-width: 90%;
+        margin: 0 auto;
+      ">
+      <div style="flex: 1 1 300px; overflow: hidden; border-radius: 1rem;">
+        <img src="./img/PyP1.jpg" alt="San Pedro" style="width: 100%; height: 100%; object-fit: cover; border-radius: 1rem;">
+      </div>
+      <div style="flex: 1 1 300px; overflow: hidden; border-radius: 1rem;">
+        <img src="./img/PyP2.jpg" alt="San Pablo" style="width: 100%; height: 100%; object-fit: cover; border-radius: 1rem;">
+      </div>
+    </div>
+
+<!-- BOTÓN Y DESPLIEGUE -->
+<div class="text-center mt-4">
+  <button class="boton-3d-md" type="button" data-bs-toggle="collapse" data-bs-target="#infoFogata" aria-expanded="false" aria-controls="infoFogata">
+    <span class="material-icons-outlined align-middle me-2">local_fire_department</span>
+    ¿Por qué las fogatas?
+  </button>
+
+  <div class="collapse fade mt-3" id="infoFogata">
+    <div class="card card-body border-0 bg-transparent text-start" style="animation: fadeIn 0.6s ease;">
+      <p class="fogata-text">
+        Las <b>fogatas de San Pedro y San Pablo</b> son una tradición popular de raíces antiguas. Celebradas la noche del 28 de junio, evocan purificación y renovación espiritual.
+      </p>
+      <p class="fogata-text">
+        En muchos barrios argentinos se encendían fogatas comunitarias, donde familias y vecinos se reunían a compartir chocolate, cantos y la quema simbólica de muñecos hechos con trapos y ramas, representando el mal que se quiere dejar atrás.
+      </p>
+      <p class="fogata-text">
+        Además de su carácter festivo, el fuego recuerda el martirio de los apóstoles y su luz, la fe que ilumina y guía al pueblo cristiano.
+      </p>
+    </div>
+  </div>
+</div>
+
+
+  </div>
+</div>
+
+<!-- ESTILOS -->
+<style>
+  .glass-card {
+    width: 90vw;
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0;
+    border-radius: 1.5rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+    font-family: 'Roboto', sans-serif;
+    position: relative;
+  }
+
+  .glass-inner {
+    background: rgba(255, 255, 255, 0.25) url('./img/angelines.jpg') center center/cover no-repeat;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .btn-md3-animated {
+    background-color: #D52B1E;
+    color: #fff;
+    font-weight: 500;
+    border-radius: 2rem;
+    padding: 0.6rem 1.5rem;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.3s, transform 0.2s;
+    font-size: 1.1rem;
+  }
+
+  .btn-md3-animated:hover {
+    background-color: #b92319;
+    transform: scale(1.03);
+    box-shadow: 0 4px 12px rgba(213, 43, 30, 0.5);
+  }
+
+  .fogata-text {
+    color: #4B4B4B;
+    font-size: 1.5em;
+    line-height: 1.5;
+  }
+
+  @media (max-width: 600px) {
+    .fogata-text {
+      font-size: 1.05em !important;
+      line-height: 1.3 !important;
+    }
+
+    .glass-card {
+      margin: 1rem auto;
+    }
+
+    .glass-inner {
+      padding: 1rem;
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>
+
+
+
+
+<br>
 <div class="glass-card" >
   <!-- Capa de vidrio difuso -->
   <div style="
