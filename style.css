@@ -2558,12 +2558,18 @@ body {
 }
 
 .titulo-3d {
-  color: white;
-  font-weight: bold;
-  font-size: 2.5rem;
-  text-shadow:
-    2px 2px 0 black,
-    3px 3px 0 #333;
+    color: white;
+    font-weight: bold;
+    font-size: 2.5rem;
+    text-shadow:
+        2px 2px 0 black,
+        3px 3px 0 #333;
+}
+
+@media (max-width: 768px) {
+    .titulo-3d {
+        font-size: 1.5rem; /* Ajusta el tamaño para móviles */
+    }
 }
 .boton-3d {
     background: linear-gradient(to bottom, #EF5350, #C62828);

@@ -271,7 +271,7 @@
 <br> <br>
 <!-- POSTEO NUEVO - Carrusel de fiestas de julio con estilo MD3 -->
 <div class="glass-card" style="
-  background: url('./img/clouds.jpeg') center/cover no-repeat, rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
   border-radius: 1.5rem;
@@ -286,42 +286,14 @@
 
   <!-- Título -->
   <h2 style="
-        text-align: center;
-        color: #fff;
-        font-weight: bold;
-        font-size: 2.4rem;
-        margin-bottom: 1.5rem;
-        animation: fadeIn 1s ease-in-out;
-        text-shadow: 2px 2px 4px #000;
-      ">
-      <span style="display: block; font-size: 2rem;">
-         Julio 2025: Fiestas destacadas de la Iglesia
-      </span>
+    text-align: center;
+    font-size: 2.5rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+    text-shadow: 2px 2px 6px #000;
+  ">
+    Julio 2025: Fiestas destacadas de la Iglesia
   </h2>
-
-  <!-- Controles sin barra de avance -->
-  <div class="carrusel-controles" style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-bottom: 1rem; flex-wrap: nowrap; white-space: nowrap;">
-    <button class="boton-3d-md btn-md3-animated" style="line-height: 1.1; padding: 0.7rem 2rem; min-width: 120px;" onclick="carruselScroll(-1)">
-      ◀︎ Anterior
-    </button>
-    <button class="boton-3d-md btn-md3-animated" style="line-height: 1.1; padding: 0.7rem 2rem; min-width: 120px;" onclick="carruselScroll(1)">
-      Siguiente ▶︎
-    </button>
-  </div>
-  <style>
-    @media (max-width: 600px) {
-      .carrusel-controles {
-        flex-wrap: nowrap !important;
-        white-space: nowrap !important;
-        gap: 0.7rem !important;
-      }
-      .carrusel-controles button {
-        min-width: 90px !important;
-        font-size: 1em !important;
-        padding: 0.5rem 0.7rem !important;
-      }
-    }
-  </style>
 
   <!-- Carrusel -->
   <div id="carruselFiestas" style="
@@ -331,185 +303,64 @@
     scroll-snap-type: x mandatory;
     padding-bottom: 1rem;
     scroll-behavior: smooth;
-  " onscroll="actualizarBarraCarrusel()">
+  ">
     <!-- Tarjeta 1 -->
-    <div class="card-julio">
-      <img src="./img/julio/01.jpeg" alt="Santo Tomás" />
-      <div class="text-content">
-        <h3>Santo Tomás Apóstol</h3>
-        <p>3 de julio – Uno de los doce apóstoles. Al ver a Jesús resucitado exclamó: "Señor mío y Dios mío".</p>
-      </div>
+    <div style="
+      flex: 0 0 80%;
+      scroll-snap-align: center;
+      background: rgba(255,255,255,0.9);
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      padding: 1rem;
+      position: relative;
+    ">
+      <img src="./img/fiesta-julio1.jpg" alt="Santo Tomás" style="width: 100%; border-radius: 0.75rem;">
+      <h3 style="margin-top: 1rem; font-size: 1.4rem; color: #D52B1E;">Santo Tomás Apóstol</h3>
+      <p style="font-size: 1rem; color: #333;">3 de julio – Uno de los doce apóstoles. Al ver a Jesús resucitado exclamó: "Señor mío y Dios mío".</p>
     </div>
+
     <!-- Tarjeta 2 -->
-    <div class="card-julio">
-      <img src="./img/julio/02.jpeg" alt="San Benito" />
-      <div class="text-content">
-      <h3>San Benito Abad</h3>
-      <p>11 de julio – Fundó un monasterio en Casino y compuso la Regla Benedictina.</p>
-      </div>
+    <div style="
+      flex: 0 0 80%;
+      scroll-snap-align: center;
+      background: rgba(255,255,255,0.9);
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      padding: 1rem;
+    ">
+      <img src="./img/fiesta-julio2.jpg" alt="San Benito" style="width: 100%; border-radius: 0.75rem;">
+      <h3 style="margin-top: 1rem; font-size: 1.4rem; color: #D52B1E;">San Benito Abad</h3>
+      <p style="font-size: 1rem; color: #333;">11 de julio – Fundó un monasterio en Casino y compuso la Regla Benedictina.</p>
     </div>
+
     <!-- Tarjeta 3 -->
-    <div class="card-julio">
-      <img src="./img/julio/03.jpeg" alt="San Francisco Solano" />
-      <div class="text-content">
-      <h3>San Francisco Solano</h3>
-      <p>14 de julio – Misionero franciscano en América del Sur. Muy devoto el Papa León XIV.</p>
-      </div>
+    <div style="
+      flex: 0 0 80%;
+      scroll-snap-align: center;
+      background: rgba(255,255,255,0.9);
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      padding: 1rem;
+    ">
+      <img src="./img/fiesta-julio3.jpg" alt="San Francisco Solano" style="width: 100%; border-radius: 0.75rem;">
+      <h3 style="margin-top: 1rem; font-size: 1.4rem; color: #D52B1E;">San Francisco Solano</h3>
+      <p style="font-size: 1rem; color: #333;">14 de julio – Misionero franciscano en América del Sur. Muy devoto el Papa León XIV.</p>
     </div>
-    <!-- Tarjetas nuevas -->
-    <div class="card-julio">
-      <img src="./img/julio/05.jpeg" alt="Fiesta 10" />
-      <div class="text-content">
-      <h3>Santa Kateri Tekakwitha</h3>
-      <p>14 de julio – Primera santa indígena de Norteamérica. Se convirtió al cristianismo y consagró su vida a la oración y al cuidado de los enfermos.</p>
-      </div>
-    </div>
-    <div class="card-julio">
-      <img src="./img/julio/06.jpeg" alt="Fiesta 11" />
-      <div class="text-content">
-      <h3>San Camilo de Lelis</h3>
-      <p>14 de julio – Fundador de los Camilos. Dedicó su vida a atender enfermos y moribundos con gran caridad y dignidad.</p>
-      </div>
-    </div>
-    <div class="card-julio">
-      <img src="./img/julio/07.jpeg" alt="Fiesta 14" />
-      <div class="text-content">
-      <h3> San Buenaventura</h3>
-      <p>15 de julio – Doctor de la Iglesia y teólogo franciscano. Fue Ministro General de los Franciscanos y destacó por su sabiduría y humildad.</p>
-      </div>
-    </div>
-    <div class="card-julio">
-      <img src="./img/julio/08.jpeg" alt="Fiesta 15" />
-      <div class="text-content">
-      <h3>Virgen del Carmen</h3>
-      <p>16 de julio – Patrona del Carmelo y de los marineros. Promete auxilio en vida y muerte a quienes lleven su escapulario con fe.</p>
-      </div>
-    </div>
-    <div class="card-julio">
-      <img src="./img/julio/09.jpeg" alt="Fiesta 15" />
-      <div class="text-content">
-      <h3>Santa María Magdalena</h3>
-      <p>22 de julio – Discípula de Jesús. Fue la primera en ver al Señor resucitado y anunciarlo a los apóstoles.</p>
-      </div>
-    </div>
-    <div class="card-julio">
-      <img src="./img/julio/10.jpeg" alt="Fiesta 15" />
-      <div class="text-content">
-      <h3>Santa Brígida de Suecia</h3>
-      <p>23 de julio – Mística, fundadora de la Orden del Santísimo Salvador y patrona de Europa. Recibió revelaciones sobre la Pasión de Cristo.</p>
-      </div>
-    </div>
-    <div class="card-julio">
-      <img src="./img/julio/11.jpeg" alt="Fiesta 15" />
-      <div class="text-content">
-      <h3>San Chárbel Makhlouf</h3>
-      <p>24 de julio – Monje maronita del Líbano, vivió en oración, silencio y penitencia. Su tumba es fuente de numerosos milagros.</p>
-      </div>
-    </div>
-    <div class="card-julio">
-      <img src="./img/julio/12.jpeg" alt="Fiesta 15" />
-      <div class="text-content">
-      <h3>Santiago Apóstol</h3>
-      <p>25 de julio – Hijo de Zebedeo y hermano de Juan. Fue uno de los tres apóstoles más cercanos a Jesús. Patrono de España y de los peregrinos.</p>
-      </div>
-    </div>
-    <div class="card-julio">
-      <img src="./img/julio/13.jpeg" alt="Fiesta 15" />
-      <div class="text-content">
-      <h3>Santos Joaquín y Ana</h3>
-      <p>26 de julio – Padres de la Virgen María y abuelos de Jesús. Ejemplo de fe, amor familiar y transmisión de la fe en el hogar.</p>
-      </div>
-    </div>
-    <div class="card-julio">
-      <img src="./img/julio/14.jpeg" alt="Fiesta 15" />
-      <div class="text-content">
-      <h3>Santos Marta, María y Lázaro</h3>
-      <p>29 de julio – Hermanos y amigos íntimos de Jesús. Lo recibieron en su casa de Betania. Ejemplo de servicio, escucha y fe.</p>
-      </div>
-    </div>
-    <div class="card-julio">
-      <img src="./img/julio/15.jpeg" alt="Fiesta 15" />
-      <div class="text-content">
-      <h3>San Ignacio de Loyola</h3>
-      <p>31 de julio – Fundador de la Compañía de Jesús (Jesuitas). Soldado convertido, dedicó su vida a la misión y la educación en la fe.</p>
-      </div>
-    </div>
+  </div>
+
+  <!-- Navegación -->
+  <div style="text-align: center; margin-top: 1rem;">
+    <button onclick="document.getElementById('carruselFiestas').scrollBy({ left: -300, behavior: 'smooth' })" class="btn-md3-animated">
+      ◀︎ Anterior
+    </button>
+    <button onclick="document.getElementById('carruselFiestas').scrollBy({ left: 300, behavior: 'smooth' })" class="btn-md3-animated" style="margin-left: 1rem;">
+      Siguiente ▶︎
+    </button>
   </div>
 </div>
 
-<!-- ESTILOS -->
+<!-- ESTILOS DEL BOTÓN -->
 <style>
-  .card-julio {
-    flex: 0 0 25.5%;
-    max-width: 25.5%;
-    scroll-snap-align: center;
-    background: rgba(255, 255, 255, 0.25) url('') center center/cover no-repeat;
-    backdrop-filter: blur(7px);
-    -webkit-backdrop-filter: blur(7px);
-    border-radius: 1.5rem;
-    padding: 1.275rem;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-    position: relative;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .card-julio img {
-    width: 100%;
-    height: 357px;
-    object-fit: cover;
-    border-radius: 0.75rem;
-  }
-
-  .card-julio h3 {
-    margin-top: 0.8rem;
-    font-size: 0.935rem;
-    color: #D52B1E;
-  }
-
-  .card-julio p {
-    font-size: 0.8075rem;
-    color: #333;
-    margin-top: 0.3rem;
-  }
-
-  @media (max-width: 768px) {
-    .card-julio {
-      flex: 0 0 51%;
-      max-width: 51%;
-    }
-    .card-julio img {
-      height: 300px;
-    }
-    .carrusel-controles {
-      flex-direction: column;
-      gap: 0.7rem !important;
-    }
-    .carrusel-barra {
-      max-width: 100vw !important;
-    }
-  }
-
-  @media (max-width: 480px) {
-    .card-julio {
-      flex: 0 0 76.5%;
-      max-width: 76.5%;
-    }
-    .card-julio img {
-      height: 200px;
-    }
-  }
-
-  #carruselFiestas::-webkit-scrollbar {
-    height: 8px;
-  }
-
-  #carruselFiestas::-webkit-scrollbar-thumb {
-    background: rgba(213,43,30,0.6);
-    border-radius: 4px;
-  }
-
   .btn-md3-animated {
     background-color: #D52B1E;
     color: #fff;
@@ -522,67 +373,21 @@
     box-shadow: 0 2px 6px rgba(0,0,0,0.4);
     transition: background-color 0.3s, transform 0.2s;
   }
-
   .btn-md3-animated:hover {
     background-color: #b92319;
     transform: scale(1.03);
     box-shadow: 0 4px 12px rgba(213, 43, 30, 0.5);
   }
-  /* Fondo y texto */
-  .card-julio .text-content {
-    background: rgba(0, 0, 0, 0.5);
-    border-radius: 0.75rem;
-    padding: 0.68rem 0.85rem;
-    margin-top: 0.68rem;
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+  #carruselFiestas::-webkit-scrollbar {
+    height: 8px;
   }
-
-  .card-julio h3 {
-    margin: 0 0 0.255rem 0;
-    font-size: 1.02rem;
-    color: #ec9523;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
-    font-weight: 700;
-  }
-
-  .card-julio p {
-    font-size: 0.85rem;
-    color: #fff;
-    margin: 0;
-    line-height: 1.4;
-    text-shadow: 1px 1px 4px rgba(0,0,0,0.85);
+  #carruselFiestas::-webkit-scrollbar-thumb {
+    background: rgba(213,43,30,0.6);
+    border-radius: 4px;
   }
 </style>
 
-<script>
-  // Scroll del carrusel por botón
-  function carruselScroll(dir) {
-    const carrusel = document.getElementById('carruselFiestas');
-    const card = carrusel.querySelector('.card-julio');
-    if (!card) return;
-    const cardWidth = card.offsetWidth + parseInt(getComputedStyle(carrusel).gap || 0, 10);
-    carrusel.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
-    setTimeout(actualizarBarraCarrusel, 350);
-  }
-
-  // Barra de progreso del carrusel (invisible, pero mantiene la función para scroll suave)
-  function actualizarBarraCarrusel() {
-    // No hace nada visualmente, pero mantiene la función para compatibilidad
-  }
-
-  // Inicializar barra al cargar
-  document.addEventListener('DOMContentLoaded', function() {
-    actualizarBarraCarrusel();
-    // También actualizar al redimensionar
-    window.addEventListener('resize', actualizarBarraCarrusel);
-  });
-</script>
-
-
-<br>
+<br><br>
 <div class="glass-card2">
   <div class="glass-inner2">
 
@@ -595,32 +400,11 @@
         margin-bottom: 1.5rem;
         animation: fadeIn 1s ease-in-out;
         text-shadow: 2px 2px 4px #000;
-      " class="responsive-title">
+      ">
       <span style="display: block; font-size: 2rem;">
          Intención de oración del Papa León XIV para Julio
       </span>
     </h2>
-    <style>
-      @media (max-width: 600px) {
-        .responsive-title {
-          font-size: 1.8rem !important;
-        }
-        .responsive-title span {
-          font-size: 1.5rem !important;
-        }
-      }
-    </style>
-
-    <style>
-      @media (max-width: 600px) {
-        .responsive-title {
-          font-size: 1.8rem !important;
-        }
-        .responsive-title span {
-          font-size: 1.5rem !important;
-        }
-      }
-    </style>
 
     <!-- IMÁGENES -->
     <div style="
@@ -751,22 +535,11 @@
         margin-bottom: 1.5rem;
         animation: fadeIn 1s ease-in-out;
         text-shadow: 2px 2px 4px #000;
-      " class="responsive-title">
+      ">
       <span style="display: block; font-size: 2rem;">
         Solemnidad de San Pedro y San Pablo<br>29 de junio
       </span>
     </h2>
-
-    <style>
-      @media (max-width: 600px) {
-        .responsive-title {
-          font-size: 1.8rem !important;
-        }
-        .responsive-title span {
-          font-size: 1.5rem !important;
-        }
-      }
-    </style>
 
     <!-- IMÁGENES -->
     <div style="
@@ -920,13 +693,13 @@
       animation: fadeIn 1s ease-in-out;
       text-shadow: 2px 2px 4px #000;
     ">
-    <span style="display: block; font-size: 2rem;" class="sagrado-title-mobile">
+    <span style="display: block; font-size: 2rem;">
        27 y 28 de junio<br>Sagrado Corazón de Jesús e Inmaculado Corazón de María
     </span>
     <style>
     @media (max-width: 600px) {
         .sagrado-title-mobile {
-            font-size: 1.2rem !important;
+            font-size: 1.3rem !important;
         }
     }
     </style>
