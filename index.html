@@ -173,7 +173,7 @@
         <div class="carousel-inner">
             <div class="carousel-item active">
                 <a href="#fiesta">
-                    <img src="./img/fotos/peña.jpg" class="d-block w-100" alt="Fiesta Patronal Slide">
+                    <img src="./img/fotos/rezamos.jpg" class="d-block w-100" alt="Fiesta Patronal Slide">
                 </a>
             </div>
             <!-- <div class="carousel-item active">
@@ -196,7 +196,7 @@
                     <img src="img/fotos/apocalipsis-ph162.jpg" class="d-block w-100" alt="Un Slide">
                 </a>
             </div> -->
-            <div class="carousel-item active">
+            <div class="carousel-item">
                 <img src="img/fotos/banner1.jpg" class="d-block w-100" alt="Banner 1">
             </div>
             <div class="carousel-item">
@@ -279,7 +279,7 @@
   padding: 1rem;
   margin: 2rem auto;
   width: 95vw;
-  max-width: 1200px;
+  max-width: 1380px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0,0,0,0.3);
 ">
@@ -305,15 +305,21 @@
           </style>
   <!-- Controles sin barra de avance -->
   <div class="carrusel-controles" style="display: flex; align-items: center; justify-content: center; gap: 1.5rem; margin-bottom: 1rem; flex-wrap: nowrap; white-space: nowrap; font-size: 0.95em;">
-    <button class="boton-3d-md btn-md3-animated" style="line-height: 1.1; padding: 0.7rem 2rem; min-width: 120px; font-size: 0.95em; display: flex; align-items: center; justify-content: center;">
-      ◀︎ Anterior
-    </button>
-    <button class="modal-trigger btn-md3-animated boton-3d-md" data-img="./img/julio/3deJulio.jpeg" style="line-height: 1.1; padding: 0.7rem 2rem; min-width: 120px; font-size: 0.95em; display: flex; align-items: center; justify-content: center;">
-      3 de julio
-    </button>
-    <button class="boton-3d-md btn-md3-animated" style="line-height: 1.1; padding: 0.7rem 2rem; min-width: 120px; font-size: 0.95em; display: flex; align-items: center; justify-content: center;">
-      Siguiente ▶︎
-    </button>
+  <button class="boton-3d-md btn-md3-animated" onclick="carruselScroll(-1)" style="line-height: 1.1; padding: 0.7rem 2rem; min-width: 120px; font-size: 0.95em; display: flex; align-items: center; justify-content: center;">
+  ◀︎ Anterior
+</button>
+
+<button class="modal-trigger btn-md3-animated boton-3d-md" 
+        data-img-desktop="./img/julio/3deJulio.jpeg"
+        data-img-mobile="./img/julio/3deJulio_mobile.jpeg"
+        style="line-height: 1.1; padding: 0.7rem 2rem; min-width: 120px; font-size: 0.95em; display: flex; align-items: center; justify-content: center;">
+  3 de julio
+</button>
+
+<button class="boton-3d-md btn-md3-animated" onclick="carruselScroll(1)" style="line-height: 1.1; padding: 0.7rem 2rem; min-width: 120px; font-size: 0.95em; display: flex; align-items: center; justify-content: center;">
+  Siguiente ▶︎
+</button>
+
     
   </div>
 
@@ -588,10 +594,16 @@
   });
 </script>
 <!-- MODAL -->
-<div id="modal-img" class="modal-overlay" style="display:none;">
+<!-- <div id="modal-img" class="modal-overlay" style="display:none;">
   <div class="modal-content">
     <span class="modal-close">&times;</span>
     <img id="modal-img-src" src="" alt="Imagen de fiesta" />
+  </div>
+</div> -->
+<div id="modal-img" class="modal-overlay" style="display:none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.75); justify-content: center; align-items: center; z-index: 9999;">
+  <div class="modal-content" style="position: relative; max-width: 95vw; max-height: 90vh;">
+    <span class="modal-close" style="position: absolute; top: -1.5rem; right: -1.5rem; font-size: 2rem; color: white; cursor: pointer;">&times;</span>
+    <img id="modal-img-src" src="" alt="Imagen de fiesta" style="max-width: 100%; max-height: 90vh; border-radius: 0.75rem;" />
   </div>
 </div>
 
@@ -601,71 +613,114 @@
     position: fixed;
     top: 0; left: 0;
     width: 100vw; height: 100vh;
-    background: rgba(0, 0, 0, 0.75);
-    display: flex;
-    justify-content: center;
+    background: rgba(0, 0, 0, 0.7);
+    display: none;
     align-items: center;
+    justify-content: center;
     z-index: 9999;
-    backdrop-filter: blur(4px);
   }
 
   .modal-content {
     position: relative;
-    max-width: 90%;
-    max-height: 90%;
-    padding: 1rem;
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: auto;
     background: #fff;
     border-radius: 1rem;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
-    animation: fadeInModal 0.3s ease-in-out;
+    box-shadow: 0 0 25px rgba(0,0,0,0.6);
+    padding: 0.5rem;
+    animation: fadeIn 0.3s ease-in-out;
   }
 
   .modal-content img {
-    max-width: 100%;
-    max-height: 80vh;
+    width: 100%;
+    height: auto;
     border-radius: 0.5rem;
+    display: block;
   }
 
   .modal-close {
     position: absolute;
-    top: 0.5rem;
-    right: 1rem;
-    font-size: 2rem;
-    color: #D52B1E;
-    font-weight: bold;
+    top: -1rem;
+    right: -1rem;
+    background: #d52b1e;
+    color: white;
+    border: none;
+    font-size: 1.6rem;
+    line-height: 1;
+    padding: 0.4rem 0.75rem;
+    border-radius: 50%;
     cursor: pointer;
+    z-index: 10000;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    transition: transform 0.2s;
   }
 
-  @keyframes fadeInModal {
-    from { opacity: 0; transform: scale(0.9); }
+  .modal-close:hover {
+    transform: scale(1.1);
+    background: #a11f16;
+  }
+
+  @media (max-width: 480px) {
+    .modal-content {
+      width: 95vw;
+      max-height: 85vh;
+      padding: 0.25rem;
+    }
+
+    .modal-close {
+      top: -0.5rem;
+      right: -0.5rem;
+      font-size: 1.4rem;
+      padding: 0.3rem 0.6rem;
+    }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
     to { opacity: 1; transform: scale(1); }
   }
 </style>
 
+
 <!-- SCRIPT MODAL -->
 <script>
-  // Modal dinámico
-  document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.modal-trigger').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const imgSrc = btn.getAttribute('data-img');
-        document.getElementById('modal-img-src').src = imgSrc;
-        document.getElementById('modal-img').style.display = 'flex';
-      });
-    });
-
-    document.querySelector('.modal-close').addEventListener('click', () => {
-      document.getElementById('modal-img').style.display = 'none';
-    });
-
-    // También cerrar al hacer clic fuera del contenido
-    document.getElementById('modal-img').addEventListener('click', e => {
-      if (e.target === e.currentTarget) {
-        e.currentTarget.style.display = 'none';
-      }
+  // Abrir modal con imagen adaptada según el dispositivo
+  document.querySelectorAll('.modal-trigger').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const isMobile = window.innerWidth <= 700;
+      const src = isMobile ? btn.dataset.imgMobile : btn.dataset.imgDesktop;
+      const modal = document.getElementById('modal-img');
+      const modalImg = document.getElementById('modal-img-src');
+      modalImg.src = src;
+      modal.style.display = 'flex';
     });
   });
+
+  // Cerrar con botón (cruz)
+  document.querySelector('.modal-close').addEventListener('click', cerrarModal);
+
+  // Cerrar al hacer clic fuera de la imagen
+  document.getElementById('modal-img').addEventListener('click', function (e) {
+    if (e.target === this) cerrarModal();
+  });
+
+  // Cerrar con tecla ESC
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      cerrarModal();
+    }
+  });
+
+  function cerrarModal() {
+    const modal = document.getElementById('modal-img');
+    const modalImg = document.getElementById('modal-img-src');
+    modal.style.display = 'none';
+    modalImg.src = '';
+  }
 </script>
+
+
 
 <br>
 <div class="glass-card2">
