@@ -688,7 +688,7 @@
   // Abrir modal con imagen adaptada según el dispositivo
   document.querySelectorAll('.modal-trigger').forEach(btn => {
     btn.addEventListener('click', function () {
-      const isMobile = window.innerWidth <= 768;
+      const isMobile = window.innerWidth <= 700;
       const src = isMobile ? btn.dataset.imgMobile : btn.dataset.imgDesktop;
       const modal = document.getElementById('modal-img');
       const modalImg = document.getElementById('modal-img-src');
