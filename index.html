@@ -307,17 +307,22 @@
       50%  { transform: translateY(-18px) scale(1.04) rotate(2deg);}
       100% { transform: translateY(0) scale(1) rotate(-2deg);}
     }
-    @media (max-width: 600px) {
+    @media (max-width: 800px) {
       .mujer4-animada {
-        max-width: 43vw;
+        max-width: 50vw !important;
         position: absolute;
-        left: 60%;
-        display: none;
-        /* top: 80%;  // original */
-        top: 34% !important;    /* más abajo en móviles */
+        left: 48% !important;
+        top: 69% !important;
+   
+        /*  display: none;
+       top: 80%;  // original */
+       /*   top: 34% !important;   más abajo en móviles */
         transform: translateX(-50%);
         z-index: 20;
         pointer-events: none;
+      }
+      .mujer-3 {
+        display: none;
       }
     }
     </style>
