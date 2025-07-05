@@ -2381,12 +2381,18 @@ section {
 /* Ajustes para dispositivos móviles */
         /* Adaptación para móviles */
         @media (max-width: 768px) {
-                .feria-title {
-                        font-size: 3em;
-                        padding: 0 10px;
-                        text-align: center;
-                }
-        }
+            .feria-title {
+                font-size: 3em;
+                padding: 0 10px;
+                text-align: center;
+                            }
+                            /* .mujer-3 {
+                                display: none;
+                            }    */
+
+                        
+                        
+                        }
 @media (max-width: 900px) {
     .mujer-1 {
         max-width: 25%; /* Se reduce al 50% */
