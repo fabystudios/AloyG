@@ -2664,4 +2664,17 @@ body {
     inset 0 1px 1px rgba(255, 255, 255, 0.3),
     0 4px 8px rgba(0, 0, 0, 0.3);
 }
-
+.texto3d {
+      font-weight: bold;
+        /* font-size: 2.4rem; */
+        margin-bottom: 1.5rem;
+        animation: fadeIn 1s ease-in-out;
+        text-shadow: 2px 2px 4px #000;
+/*   
+    color: white;
+    text-shadow:
+        2px 2px 0 black,
+        3px 3px 0 #333;
+    font-weight: bold;
+    text-align: center; */
+}
