@@ -2324,11 +2324,7 @@ section {
     animation-delay: 0.5s;
 }
 
-.mujer-2 {
-    top: 75%;
-    left: 5%;
-    animation-delay: 1s;
-}
+
 
 .mujer-3 {
     top: 72%;
@@ -2387,12 +2383,7 @@ section {
                 padding: 0 10px;
                 text-align: center;
                             }
-                            /* .mujer-3 {
-                                display: none;
-                            }    */
-
-                        
-                        
+                       
                         }
 @media (max-width: 900px) {
     .mujer-1 {

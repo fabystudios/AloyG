@@ -293,7 +293,7 @@
     </div>
   
     <img src="./img/mujer1.png" class="mujer mujer-1" alt="Mujer 1">
-    <img src="./img/mujer2.png" class="mujer mujer-2" alt="Mujer 2">
+    <img src="./img/mujer2.png" class=" mujer-2" alt="Mujer 2">
     <img src="./img/mujer3.png" class="mujer mujer-3" alt="Mujer 3">
     <img src="./img/mujer4.png" class="mujer4-animada" alt="Mujer 4" style="position: absolute; top: 35%; left: 65%; z-index: 20; pointer-events: none;">
     <style>
@@ -301,6 +301,17 @@
       max-width: 35vw;
       z-index: 10;
       animation: mujer4-move 2.5s ease-in-out infinite alternate;
+    }
+    .mujer-2 {
+    position: absolute;
+    max-width: 250px;
+    z-index: 20;
+    animation: floatIn 2s ease forwards, floating 3s ease-in-out infinite;
+    opacity: 0;
+    top: 55%;
+    left: 10%;
+    animation-delay: 1s;
+    scale: 1.5;
     }
     @keyframes mujer4-move {
       0%   { transform: translateY(0) scale(1) rotate(-2deg);}
@@ -324,6 +335,12 @@
       .mujer-3 {
         display: none;
       }
+      .mujer-2 {
+        top: 75%;
+        left: 5%;
+        animation-delay: 1s;
+        scale: 0.5;
+      }
     }
     @media (min-width: 324px) and (max-width: 800px) {
       .mujer4-animada {
@@ -342,6 +359,12 @@
       .mujer-3 {
         display: none;
       }
+      .mujer-2 {
+      top: 75%;
+      left: 5%;
+      animation-delay: 1s;
+      scale: 1;     
+     }
     }
     </style>
 
