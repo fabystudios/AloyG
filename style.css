@@ -2342,6 +2342,7 @@ section {
     animation-delay: 1.5s;
     /* aumentar el tamañoen 3 veces */
     transform: scale(6);
+    z-index: 11;
 }
 
 /* Efectos */
