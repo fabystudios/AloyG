@@ -2391,7 +2391,7 @@ section {
         max-width: 25%; /* Se reduce al 50% */
         z-index: 2;    /* Se va detrás de la tarjeta */
         opacity: 0.5;   /* Le baja la opacidad para integrarse con el fondo */
-        transform: scale(0.7); /* Escala la imagen al 70% */
+        transform: scale(0.9); /* Escala la imagen al 70% .7 la de verano*/
         }
         .esquina {
             max-width: 25%; /* Se reduce al 50% */
