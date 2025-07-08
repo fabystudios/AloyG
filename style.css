@@ -2331,6 +2331,7 @@ section {
     left: 50%;
     transform: translate(-50%, -50%);
     animation-delay: 1.5s;
+    /* scale: 1.4; */
 }
 .esquina {
     top: 0%;
