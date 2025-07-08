@@ -2327,11 +2327,13 @@ section {
 
 
 .mujer-3 {
-    top: 72%;
+    top: 77%;
+    /* antes la mujer estaba en top 72% */
     left: 50%;
     transform: translate(-50%, -50%);
     animation-delay: 1.5s;
     /* scale: 1.4; */
+   
 }
 .esquina {
     top: 0%;
