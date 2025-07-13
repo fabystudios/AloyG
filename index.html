@@ -166,23 +166,23 @@
             <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="6"></button>
             <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="7"></button>
             <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="8"></button>
-            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="9"></button>
-            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="10"></button>
+            <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="9"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="10"></button> -->
             <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="11"></button> -->
             <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="12"></button> -->
         </div>
         <div class="carousel-inner">
-            <div class="carousel-item active">
+            <!-- <div class="carousel-item active">
                 <a href="#encuentro">
                     <img src="./img/fotos/encuentrocoral.png" class="d-block w-100" alt="Encuentro Coral Slide">
                 </a>
-            </div>
-            <div class="carousel-item">
+            </div> -->
+            <!-- <div class="carousel-item">
                 <a href="#feria-americana">
                     <img src="img/fotos/feria.jpg" class="d-block w-100" alt="New Slide 1">
                 </a>
-            </div>
-            <div class="carousel-item">
+            </div> -->
+            <div class="carousel-item active">
                 <a href="#colabora">
                     <img src="./img/fotos/golosinas2.jpg" class="d-block w-100" alt="Colabora Slide">
                 </a>
@@ -946,186 +946,7 @@
 </script>
 
  <br><br>
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
 
-<style>
-  .coral-wrapper {
-    position: relative;
-    max-width: 800px;
-    margin: 2rem auto;
-    width: 90vw;
-  }
-
-  .coral-card {
-    position: relative;
-    background: url('/img/encuentro-coral.jpeg') center/cover no-repeat;
-    border-radius: 1.5rem;
-    padding: 3rem 2rem;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-    overflow: hidden;
-    backdrop-filter: blur(10px);
-    text-align: center;
-  }
-
-  .coral-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 0;
-  }
-
-  .coral-card * {
-    position: relative;
-    z-index: 1;
-    color: #fff;
-    text-shadow: 1px 1px 4px #000;
-  }
-
-  .coral-card h2 {
-    font-size: 2.7rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-  }
-
-  .coral-card p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-  }
-
-  .coral-card .firma {
-    font-family: 'Dancing Script', cursive;
-    font-size: 2rem;
-    margin-top: 1.5rem;
-  }
-
-  .boton-descarga {
-    display: inline-block;
-    margin-top: 1.5rem;
-    background: #fff;
-    color: #4A148C;
-    font-weight: bold;
-    padding: 0.8rem 1.8rem;
-    border-radius: 999px;
-    text-decoration: none;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-    transition: transform 0.2s ease;
-  }
-
-  .boton-descarga:hover {
-    transform: scale(1.05);
-  }
-
-  /* Imagen para móviles */
-  .coral-img-mobile {
-    display: none;
-    position: relative;
-    width: 100%;
-    border-radius: 1rem;
-    overflow: hidden;
-  }
-
-  .coral-img-mobile img {
-    width: 100%;
-    display: block;
-    border-radius: 1rem;
-  }
-
-  /* Notas musicales flotantes */
-  .nota-musical {
-    filter: brightness(2.2) drop-shadow(0 0 8px #fff);
-  }
-  .nota-musical {
-    position: absolute;
-    font-size: 2.2rem;
-    opacity: 0.4;
-    animation: flotar 8s infinite ease-in-out;
-    user-select: none;
-    z-index: 2;
-    pointer-events: none;
-  }
-
-  .nota1 { top: 15%; left: 5%; animation-delay: 0s; }
-  .nota2 { top: 30%; right: 10%; animation-delay: 2s; }
-  .nota3 { top: 60%; left: 15%; animation-delay: 4s; }
-  .nota4 { top: 80%; right: 5%; animation-delay: 6s; }
-
-  @keyframes flotar {
-    0%   { transform: translateY(0) rotate(0deg); opacity: 0.3; }
-    50%  { transform: translateY(-20px) rotate(10deg); opacity: 0.6; }
-    100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
-  }
-
-  /* Mostrar imagen solo en móviles */
-  @media (max-width: 768px) {
-    .coral-card {
-      display: none;
-    }
-    .coral-img-mobile {
-      display: block;
-    }
-  }
-</style>
-
-<div class="coral-wrapper" id="encuentro">
-  <!-- Versión de escritorio (HTML dinámico) -->
-  <div class="coral-card" stilr: "z-index: 21;">
-        <div class="nota-musical nota1">🎵</div>
-    <div class="nota-musical nota2">🎶</div>
-    <div class="nota-musical nota3">🎵</div>
-    <div class="nota-musical nota4">🎶</div>
-    <!-- Google Fonts: Comic Neue as alternativa a Comic Sans -->
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,700&display=swap" rel="stylesheet">
-    <style>
-      .coral-card h2 {
-      text-transform: capitalize !important;
-      font-family: 'Comic Neue', 'Comic Sans MS', cursive, sans-serif;
-      font-size: 3.8rem !important;
-      }
-      @media (max-width: 768px) {
-      .coral-card h2 {
-        font-size: 2.5rem !important;
-      }
-      }
-    </style>
-    <h2 style="font-family: 'Comic Neue', 'Comic Sans MS', cursive, sans-serif; color: yellow;">Encuentro Coral</h2>
-    <p style="font-size: 1.7rem;">
-      Coro de la Biblioteca Popular Alejo Iglesias<br>
-      Coro del Colegio de Médicos<br>
-      Coro Neshamá<br>
-      Coro Nonthue<br>
-      Coro de la Facultad de Ciencias Exactas
-    </p>
-    <p style="font-size: 1.5rem;">
-      Se realizará en la parroquia<br>
-      <strong>San Luis Gonzaga de Villa Elisa</strong><br>
-      Calle 8 entre 52 y 53.
-    </p>
-    <p class="firma">
-      El día sábado 12 de julio<br>
-      A las 18:30.<br>
-      ¡Los esperamos!
-    </p>
-    <!-- <a href="/pdf/encuentro-coral.pdf" class="boton-descarga">Descargar programa</a> -->
-       <!-- <img src="./img/microfono.png" class="mujer mujer-1   d-md-block" alt="Mujer 1" style="z-index: 5;"> -->
-    <!-- <img src="./img/mujer1-winter.png" class="mujer mujer-1 d-block d-md-none" alt="Mujer 1" style="z-index: 5;"> -->
-    <img src="./img/microfono.png" class="mujer-2" alt="Mujer 2" style="width: 25%; height: auto;">
-    <!-- <img src="./img/microfono.png" class="mujer mujer-3" alt="Mujer 3" style="z-index: 11;"> -->
-    <img src="./img/pentagrama.png" class="mujer4-animada" alt="Mujer 4" style="position: absolute; top: 35%; left: 65%; z-index: 5; pointer-events: none;">
-     <img src="./img/pentagrama.png" class="banderin esquina" alt="banderines" style="z-index: 11;"> 
-  </div>
-
-  <!-- Versión de móviles (imagen + notas animadas) -->
-  <div class="coral-img-mobile">
-    <img src="/img/encuentro-coral-fusionado.jpg" alt="Encuentro Coral">
-    <div class="nota-musical nota1">🎵</div>
-    <div class="nota-musical nota2">🎶</div>
-    <div class="nota-musical nota3">🎵</div>
-    <div class="nota-musical nota4">🎶</div>
-  </div>
-</div>
 
 
 
@@ -1644,57 +1465,67 @@
     }
     </style> 
 
-<div style=" padding-top: 30px;"> 
+<!-- Feria Americana: visible solo del 1 al 9 de agosto de 2025 inclusive -->
+<script>
+  // Mostrar solo entre el 1 y el 9 de agosto de 2025 inclusive
+  (function() {
+    var hoy = new Date();
+    var desde = new Date(2025, 7, 1); // Mes 7 = agosto (0-indexed)
+    var hasta = new Date(2025, 7, 9, 23, 59, 59, 999); // hasta fin del 9 de agosto
 
-  
+    if (hoy >= desde && hoy <= hasta) {
+      document.write(`
+<div style=" padding-top: 30px;"> 
   <div id="feria-americana" class="feria-section text-center" style="width: 90vw; max-width: 90%; margin: 0 auto;"> 
     <div class="feria-card" style="z-index: 10;">
       <h2 class="feria-title ">FERIA <span>AMERICANA!</span></h2>
       <p class="feria-info texto3d" style="font-size: 2em; font-weight: bold; color: #ff6f00; line-height: 1.3;">PARROQUIA SAN LUIS GONZAGA</p>
       <p class="feria-time texto3d" style="font-size: 1.3em; color: #c5ec2d; line-height: 1.5;">DE 10 A 12.30 HS </p>
-   <p class="feria-time texto3d" style="font-size: 2em; color: #c5ec2d; line-height: 1.5;">
-    <strong>SÁBADO 12 DE JULIO</strong></p>
-    <p class="feria-time" style="font-size: 1.3em; color: #c5ec2d; line-height: 1.5;">Calle 52 entre 8 y 9</p>
+      <p class="feria-time texto3d" style="font-size: 2em; color: #c5ec2d; line-height: 1.5;">
+        <strong>SÁBADO 9 DE AGOSTO</strong></p>
+      <p class="feria-time" style="font-size: 1.3em; color: #c5ec2d; line-height: 1.5;">Calle 52 entre 8 y 9</p>
     </div>
-  
     <img src="./img/mujer1-winter2.png" class="mujer mujer-1   d-md-block" alt="Mujer 1" style="z-index: 5;">
-    <!-- <img src="./img/mujer1-winter.png" class="mujer mujer-1 d-block d-md-none" alt="Mujer 1" style="z-index: 5;"> -->
     <img src="./img/mujer2-winter.png" class=" mujer-2" alt="Mujer 2">
     <img src="./img/mujer3-winter.png" class="mujer mujer-3" alt="Mujer 3" style="z-index: 11;">
     <img src="./img/mujer4.png" class="mujer4-animada" alt="Mujer 4" style="position: absolute; top: 35%; left: 65%; z-index: 20; pointer-events: none;">
     <img src="./img/banderines.png" class="banderin esquina" alt="banderines" style="z-index: 11;">
-    <style>
+   
+  </div>
+</div>
+      `);
+    }
+  })();
+</script>
+   <!-- estilo de la feria americana -->
+     <style>
     .mujer4-animada {
       max-width: 35vw;
       z-index: 10;
       animation: mujer4-move 2.5s ease-in-out infinite alternate;
     }
     .mujer-2 {
-    position: absolute;
-    max-width: 250px;
-    z-index: 20;
-    animation: floatIn 2s ease forwards, floating 3s ease-in-out infinite;
-    opacity: 0;
-    top: 55%;
-    left: 12%;
-    animation-delay: 1s;
-    scale: 1.5;
+      position: absolute;
+      max-width: 250px;
+      z-index: 20;
+      animation: floatIn 2s ease forwards, floating 3s ease-in-out infinite;
+      opacity: 0;
+      top: 55%;
+      left: 12%;
+      animation-delay: 1s;
+      scale: 1.5;
     }
     @keyframes mujer4-move {
       0%   { transform: translateY(0) scale(1) rotate(-2deg);}
       50%  { transform: translateY(-18px) scale(1.04) rotate(2deg);}
       100% { transform: translateY(0) scale(1) rotate(-2deg);}
     }
-      @media (max-width: 323px) {
+    @media (max-width: 323px) {
       .mujer4-animada {
         max-width: 60vw !important;
         position: absolute;
         left: 48% !important;
         top: 79% !important;
-   
-        /*  display: none;
-       top: 80%;  // original */
-       /*   top: 34% !important;   más abajo en móviles */
         transform: translateX(-50%);
         z-index: 20;
         pointer-events: none;
@@ -1715,10 +1546,6 @@
         position: absolute;
         left: 48% !important;
         top: 73% !important;
-   
-        /*  display: none;
-       top: 80%;  // original */
-       /*   top: 34% !important;   más abajo en móviles */
         transform: translateX(-50%);
         z-index: 20;
         pointer-events: none;
@@ -1727,19 +1554,13 @@
         display: none;
       }
       .mujer-2 {
-      top: 75%;
-      left: 5%;
-      animation-delay: 1s;
-      scale: 1;     
-     }
+        top: 75%;
+        left: 5%;
+        animation-delay: 1s;
+        scale: 1;     
+      }
     }
     </style>
-
-   
-  </div>
-  
-</div> 
-   
 <!-- GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG -->
 
 
