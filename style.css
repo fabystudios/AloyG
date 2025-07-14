@@ -902,7 +902,12 @@ h2 {
     height: auto;
     object-fit: contain; /* Ajusta la imagen sin distorsión */
 }
-
+@media (min-width: 992px) {
+    .carousel-item {
+        height: 100vh !important;
+        min-height: 700px !important; 
+    }
+}
 /* Hover en el botón */
 .btn-floating:hover {
     transform: scale(1.4); /* Aumenta ligeramente el tamaño */
