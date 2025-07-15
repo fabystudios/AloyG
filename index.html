@@ -1208,12 +1208,16 @@
 .modal-flyer-content {
     margin: auto;
     display: block;
-    width: 90%;
-    max-width: 900px;
+    max-width: 90vw;
+    max-height: 90vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
     border-radius: 16px;
     animation: zoomIn 0.5s;
     box-shadow: 0 0 30px rgba(0,0,0,0.8);
 }
+
 
 @keyframes zoomIn {
     from {transform: scale(0.7); opacity: 0;}
