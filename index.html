@@ -1148,281 +1148,286 @@
 <br><br>
 <div class="fiesta-card" id="colabora">
     <!-- Globos flotando -->
-<div class="globo globo1"></div>
-<div class="globo globo2"></div>
-<div class="globo globo3"></div>
-<!-- Confetis flotando -->
-<div class="confeti confeti1"></div>
-<div class="confeti confeti2"></div>
-<div class="confeti confeti3"></div>
-<div class="confeti confeti4"></div>
-<div class="confeti confeti5"></div>
-<div class="globo globo1"></div>
-<div class="globo globo2"></div>
-<div class="globo globo3"></div>
-  <!-- Fondo completo -->
-  <img src="./img/nube-golosinas.png" alt="Fondo Día del Niño" class="background-img" />
+    <div class="globo globo1"></div>
+    <div class="globo globo2"></div>
+    <div class="globo globo3"></div>
+    <!-- Confetis flotando -->
+    <div class="confeti confeti1"></div>
+    <div class="confeti confeti2"></div>
+    <div class="confeti confeti3"></div>
+    <div class="confeti confeti4"></div>
+    <div class="confeti confeti5"></div>
+    <div class="globo globo1"></div>
+    <div class="globo globo2"></div>
+    <div class="globo globo3"></div>
 
-  <!-- Niño caminando -->
-  <img src="./img/nino-cupcake.png" alt="Niño con cupcake" class="nino" />
+    <!-- Fondo completo -->
+    <img src="./img/nube-golosinas.png" alt="Fondo Día del Niño" class="background-img" />
 
-  <!-- Flyer flotante -->
-  <div class="flyer-container fade-in">
-    <img src="./img/flyer.jpg" alt="Flyer Día del Niño" class="flyer" />
-  </div>
+    <!-- Niño caminando -->
+    <img src="./img/nino-cupcake.png" alt="Niño con cupcake" class="nino" />
 
-  <!-- Botón de WhatsApp con efecto -->
-  <a href="https://wa.me/5492215947600" target="_blank" class="whatsapp-button fade-in">
-    <img src="https://img.icons8.com/ios-filled/50/ffffff/whatsapp.png" alt="WhatsApp" />
-    Comunicate
-  </a>
+    <!-- Flyer flotante -->
+    <div class="flyer-container fade-in">
+        <img src="./img/flyer.jpg" alt="Flyer Día del Niño" class="flyer" />
+    </div>
 
-  <!-- Frase llamativa animada -->
-  <div class="mensaje-colaborar fade-in">
-    ¡Sumate a colaborar para alegrar a muchos chicos!
-  </div>
+    <!-- Botón de WhatsApp -->
+    <a href="https://wa.me/5492215947600" target="_blank" class="whatsapp-button fade-in">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/whatsapp.png" alt="WhatsApp" />
+        Comunicate
+    </a>
 
+    <!-- Frase llamativa -->
+    <div class="mensaje-colaborar fade-in">
+        ¡Sumate a colaborar para alegrar a muchos chicos!
+    </div>
+</div>
 
+<!-- Modal para ver el flyer grande -->
+<div id="modalFlyer" class="modal-flyer">
+    <span class="close-flyer">&times;</span>
+    <img class="modal-flyer-content" id="flyerAmpliado">
 </div>
 
 <style>
-/* Card principal */
-.fiesta-card {
-  position: relative;
-  width: 90vw;
-  max-width: 1300px;
-  height: 600px;
-  margin: 2rem auto;
-  border-radius: 28px;
-  overflow: hidden;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
-  font-family: 'Roboto', sans-serif;
+/* Modal Estilo */
+.modal-flyer {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    padding-top: 60px;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.9);
 }
 
-/* Fondo */
-.background-img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
+.modal-flyer-content {
+    margin: auto;
+    display: block;
+    width: 90%;
+    max-width: 900px;
+    border-radius: 16px;
+    animation: zoomIn 0.5s;
+    box-shadow: 0 0 30px rgba(0,0,0,0.8);
 }
 
-/* Niño */
-.nino {
-  position: absolute;
-  bottom: 20px;
-  width: 150px;
-  animation: caminar 12s linear infinite;
-  z-index: 10;
+@keyframes zoomIn {
+    from {transform: scale(0.7); opacity: 0;}
+    to {transform: scale(1); opacity: 1;}
 }
 
-@keyframes caminar {
-  0% { left: 100%; }
-  100% { left: -160px; }
-}
-
-/* Flyer animado flotante */
-.flyer-container {
-  position: absolute;
-  left: 60px;
-  top: 3%;
-  transform: translateY(-50%);
-  z-index: 5;
-  animation: flotar 4s ease-in-out infinite;
-}
-
-@keyframes flotar {
-  0%, 100% { transform: translateY(-50%) translateY(0); }
-  50% { transform: translateY(-50%) translateY(-10px); }
-}
-
-.flyer {
-  max-width: 400px;
-  border-radius: 16px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-}
-
-/* Botón WhatsApp */
-.whatsapp-button {
-  position: absolute;
-  top: 100px;
-  right: 260px;
-  background-color: #25D366;
-  color: white;
-  padding: 0.6rem 1.2rem;
-  border-radius: 100px;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-weight: bold;
-  text-decoration: none;
-  font-size: 1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-  z-index: 6;
-  transition: background 0.3s;
-  animation: fadeInUp 1.5s ease forwards;
-}
-
-.whatsapp-button:hover {
-  background-color: #1ebe5d;
-  color: #f5f111;
-  box-shadow: #000;
-}
-
-.whatsapp-button img {
-  width: 24px;
-  height: 24px;
-}
-
-/* Frase */
-.mensaje-colaborar {
-  position: absolute;
-  top: 50%;
-  right: 150px;
-  width: 380px;
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: #fff;
-  text-shadow: 2px 2px 5px #000;
-  z-index: 6;
-  text-align: center;
-  animation: fadeInUp 1.8s ease forwards;
-  line-height: 1.1;
-}
-
-/* Fade in up */
-@keyframes fadeInUp {
-  0% {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.fade-in {
-  opacity: 0;
-  animation: fadeInUp 1.2s ease forwards;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .flyer {
-    max-width: 250px;
-  }
-
-  .flyer-container {
-    left: 20px;
-  }
-
-  .whatsapp-button {
-    font-size: 0.9rem;
-    padding: 0.4rem 0.8rem;
-    top: 30px;
-    right: 85px;
-  }
-
-  .mensaje-colaborar {
-    font-size: 1.5rem;
+.close-flyer {
     position: absolute;
-    top: 70%;
-    left: 10%;
-    transform: translate(-50%, -50%);
-    width: 260px;
-    text-align: center;
-  }
-
-  .nino {
-    width: 100px;
-  }
+    top: 20px;
+    right: 40px;
+    color: #fff;
+    font-size: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 1000;
 }
 
-/* === EFECTO RESPLANDOR SOBRE LA NUBE === */
+.close-flyer:hover {
+    color: #bbb;
+}
+
+/* Fiesta Card */
+.fiesta-card {
+    position: relative;
+    width: 90vw;
+    max-width: 1300px;
+    height: 600px;
+    margin: 2rem auto;
+    border-radius: 28px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    font-family: 'Roboto', sans-serif;
+}
+
 .background-img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-  animation: resplandor 6s ease-in-out infinite;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    animation: resplandor 6s ease-in-out infinite;
 }
 
 @keyframes resplandor {
-  0%, 100% { filter: brightness(1); }
-  50% { filter: brightness(1.08) saturate(1.1); }
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.08) saturate(1.1); }
 }
 
-/* === GLOBOS CON HILO === */
+.nino {
+    position: absolute;
+    bottom: 20px;
+    width: 150px;
+    animation: caminar 12s linear infinite;
+    z-index: 10;
+}
+
+@keyframes caminar {
+    0% { left: 100%; }
+    100% { left: -160px; }
+}
+
+.flyer-container {
+    position: absolute;
+    left: 60px;
+    top: 3%;
+    transform: translateY(-50%);
+    z-index: 5;
+    animation: flotar 4s ease-in-out infinite;
+}
+
+@keyframes flotar {
+    0%, 100% { transform: translateY(-50%) translateY(0); }
+    50% { transform: translateY(-50%) translateY(-10px); }
+}
+
+.flyer {
+    max-width: 400px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    cursor: pointer;
+}
+
+.whatsapp-button {
+    position: absolute;
+    top: 100px;
+    right: 260px;
+    background-color: #25D366;
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border-radius: 100px;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 1rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 6;
+    transition: background 0.3s;
+    animation: fadeInUp 1.5s ease forwards;
+}
+
+.whatsapp-button:hover {
+    background-color: #1ebe5d;
+    color: #f5f111;
+}
+
+.whatsapp-button img {
+    width: 24px;
+    height: 24px;
+}
+
+.mensaje-colaborar {
+    position: absolute;
+    top: 50%;
+    right: 150px;
+    width: 380px;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 2px 2px 5px #000;
+    z-index: 6;
+    text-align: center;
+    animation: fadeInUp 1.8s ease forwards;
+    line-height: 1.1;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    opacity: 0;
+    animation: fadeInUp 1.2s ease forwards;
+}
+
+@media (max-width: 768px) {
+    .flyer {
+        max-width: 250px;
+    }
+    .flyer-container {
+        left: 20px;
+    }
+    .whatsapp-button {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+        top: 30px;
+        right: 85px;
+    }
+    .mensaje-colaborar {
+        font-size: 1.5rem;
+        position: absolute;
+        top: 70%;
+        left: 10%;
+        transform: translate(-50%, -50%);
+        width: 260px;
+        text-align: center;
+    }
+    .nino {
+        width: 100px;
+    }
+}
+
 .globo {
-  position: absolute;
-  bottom: -100px;
-  width: 30px;
-  height: 40px;
-  border-radius: 50%;
-  opacity: 0.7;
-  animation: subir 15s linear infinite;
-  z-index: 1;
-  box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
+    position: absolute;
+    bottom: -100px;
+    width: 30px;
+    height: 40px;
+    border-radius: 50%;
+    opacity: 0.7;
+    animation: subir 15s linear infinite;
+    z-index: 1;
+    box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
 .globo::after {
-  content: '';
-  position: absolute;
-  bottom: -25px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 25px;
-  background: #666;
-  opacity: 0.5;
+    content: '';
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 25px;
+    background: #666;
+    opacity: 0.5;
 }
 
-.globo1 {
-  left: 10%;
-  background: radial-gradient(circle at 30% 30%, #ff7ecf, #e634a7);
-  animation-delay: 0s;
-}
-.globo2 {
-  left: 45%;
-  width: 40px;
-  height: 50px;
-  background: radial-gradient(circle at 30% 30%, #8ecaff, #4aa5e0);
-  animation-delay: 5s;
-}
-.globo3 {
-  left: 75%;
-  background: radial-gradient(circle at 30% 30%, #ffe48a, #f4c10b);
-  animation-delay: 10s;
-}
+.globo1 { left: 10%; background: radial-gradient(circle at 30% 30%, #ff7ecf, #e634a7); animation-delay: 0s; }
+.globo2 { left: 45%; width: 40px; height: 50px; background: radial-gradient(circle at 30% 30%, #8ecaff, #4aa5e0); animation-delay: 5s; }
+.globo3 { left: 75%; background: radial-gradient(circle at 30% 30%, #ffe48a, #f4c10b); animation-delay: 10s; }
 
 @keyframes subir {
-  0% {
-    transform: translateY(0) scale(1);
-    opacity: 0.7;
-  }
-  50% {
-    transform: translateY(-300px) scale(1.1);
-    opacity: 1;
-  }
-  100% {
-    transform: translateY(-600px) scale(1);
-    opacity: 0;
-  }
+    0% { transform: translateY(0) scale(1); opacity: 0.7; }
+    50% { transform: translateY(-300px) scale(1.1); opacity: 1; }
+    100% { transform: translateY(-600px) scale(1); opacity: 0; }
 }
 
-/* === CONFETI ANIMADO === */
 .confeti {
-  position: absolute;
-  bottom: -20px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  opacity: 0.8;
-  z-index: 1;
-  animation: flotarConfeti 12s ease-in-out infinite;
+    position: absolute;
+    bottom: -20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    opacity: 0.8;
+    z-index: 1;
+    animation: flotarConfeti 12s ease-in-out infinite;
 }
 
 .confeti1 { left: 20%; background: #ff5f5f; animation-delay: 0s; }
@@ -1432,22 +1437,34 @@
 .confeti5 { left: 80%; background: #ff85a2; animation-delay: 3.2s; }
 
 @keyframes flotarConfeti {
-  0% {
-    transform: translateY(0) rotate(0deg);
-    opacity: 1;
-  }
-  50% {
-    transform: translateY(-300px) rotate(180deg);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translateY(-600px) rotate(360deg);
-    opacity: 0;
-  }
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    50% { transform: translateY(-300px) rotate(180deg); opacity: 0.8; }
+    100% { transform: translateY(-600px) rotate(360deg); opacity: 0; }
 }
-
-
 </style>
+
+<script>
+const flyer = document.querySelector('.flyer');
+const modal = document.getElementById('modalFlyer');
+const modalImg = document.getElementById('flyerAmpliado');
+const closeBtn = document.querySelector('.close-flyer');
+
+flyer.addEventListener('click', () => {
+    modal.style.display = "block";
+    modalImg.src = flyer.src;
+});
+
+closeBtn.addEventListener('click', () => {
+    modal.style.display = "none";
+});
+
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        modal.style.display = "none";
+    }
+});
+</script>
+
 
 
 
