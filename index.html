@@ -1147,11 +1147,9 @@
 </style>
 <br><br>
 <div class="fiesta-card" id="colabora">
-    <!-- Globos flotando -->
     <div class="globo globo1"></div>
     <div class="globo globo2"></div>
     <div class="globo globo3"></div>
-    <!-- Confetis flotando -->
     <div class="confeti confeti1"></div>
     <div class="confeti confeti2"></div>
     <div class="confeti confeti3"></div>
@@ -1161,63 +1159,54 @@
     <div class="globo globo2"></div>
     <div class="globo globo3"></div>
 
-    <!-- Fondo completo -->
     <img src="./img/nube-golosinas.png" alt="Fondo Día del Niño" class="background-img" />
-
-    <!-- Niño caminando -->
     <img src="./img/nino-cupcake.png" alt="Niño con cupcake" class="nino" />
 
-    <!-- Flyer flotante -->
     <div class="flyer-container fade-in">
         <img src="./img/flyer.jpg" alt="Flyer Día del Niño" class="flyer" />
     </div>
 
-    <!-- Botón de WhatsApp -->
     <a href="https://wa.me/5492215947600" target="_blank" class="whatsapp-button fade-in">
         <img src="https://img.icons8.com/ios-filled/50/ffffff/whatsapp.png" alt="WhatsApp" />
         Comunicate
     </a>
 
-    <!-- Frase llamativa -->
     <div class="mensaje-colaborar fade-in">
         ¡Sumate a colaborar para alegrar a muchos chicos!
     </div>
 </div>
 
-<!-- Modal para ver el flyer grande -->
-<div id="modalFlyer" class="modal-flyer">
+<!-- Modal fullscreen -->
+
+<div id="modalFlyer" class="modal-flyer" style="display: none;">
     <span class="close-flyer">&times;</span>
     <img class="modal-flyer-content" id="flyerAmpliado">
 </div>
 
 <style>
-/* Modal Estilo */
+/* Modal fullscreen - Corrección final */
 .modal-flyer {
+  
     display: none;
     position: fixed;
-    z-index: 999;
-    padding-top: 60px;
-    left: 0;
-    top: 0;
+    inset: 0;
     width: 100vw;
     height: 100vh;
-    overflow: auto;
+    z-index: 999;
     background-color: rgba(0,0,0,0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .modal-flyer-content {
-    margin: auto;
-    display: block;
     max-width: 90vw;
     max-height: 90vh;
-    width: auto;
-    height: auto;
     object-fit: contain;
     border-radius: 16px;
     animation: zoomIn 0.5s;
     box-shadow: 0 0 30px rgba(0,0,0,0.8);
 }
-
 
 @keyframes zoomIn {
     from {transform: scale(0.7); opacity: 0;}
@@ -1225,7 +1214,7 @@
 }
 
 .close-flyer {
-    position: absolute;
+    position: fixed;
     top: 20px;
     right: 40px;
     color: #fff;
@@ -1235,12 +1224,11 @@
     transition: 0.3s;
     z-index: 1000;
 }
-
 .close-flyer:hover {
     color: #bbb;
 }
 
-/* Fiesta Card */
+/* Fiesta Card (tu código anterior igual) */
 .fiesta-card {
     position: relative;
     width: 90vw;
@@ -1252,7 +1240,6 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
     font-family: 'Roboto', sans-serif;
 }
-
 .background-img {
     position: absolute;
     width: 100%;
@@ -1261,12 +1248,10 @@
     z-index: 0;
     animation: resplandor 6s ease-in-out infinite;
 }
-
 @keyframes resplandor {
     0%, 100% { filter: brightness(1); }
     50% { filter: brightness(1.08) saturate(1.1); }
 }
-
 .nino {
     position: absolute;
     bottom: 20px;
@@ -1274,12 +1259,10 @@
     animation: caminar 12s linear infinite;
     z-index: 10;
 }
-
 @keyframes caminar {
     0% { left: 100%; }
     100% { left: -160px; }
 }
-
 .flyer-container {
     position: absolute;
     left: 60px;
@@ -1288,19 +1271,16 @@
     z-index: 5;
     animation: flotar 4s ease-in-out infinite;
 }
-
 @keyframes flotar {
     0%, 100% { transform: translateY(-50%) translateY(0); }
     50% { transform: translateY(-50%) translateY(-10px); }
 }
-
 .flyer {
     max-width: 400px;
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0,0,0,0.4);
     cursor: pointer;
 }
-
 .whatsapp-button {
     position: absolute;
     top: 100px;
@@ -1320,17 +1300,14 @@
     transition: background 0.3s;
     animation: fadeInUp 1.5s ease forwards;
 }
-
 .whatsapp-button:hover {
     background-color: #1ebe5d;
     color: #f5f111;
 }
-
 .whatsapp-button img {
     width: 24px;
     height: 24px;
 }
-
 .mensaje-colaborar {
     position: absolute;
     top: 50%;
@@ -1345,30 +1322,17 @@
     animation: fadeInUp 1.8s ease forwards;
     line-height: 1.1;
 }
-
 @keyframes fadeInUp {
-    0% {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
-
 .fade-in {
     opacity: 0;
     animation: fadeInUp 1.2s ease forwards;
 }
-
 @media (max-width: 768px) {
-    .flyer {
-        max-width: 250px;
-    }
-    .flyer-container {
-        left: 20px;
-    }
+    .flyer { max-width: 250px; }
+    .flyer-container { left: 20px; }
     .whatsapp-button {
         font-size: 0.9rem;
         padding: 0.4rem 0.8rem;
@@ -1377,18 +1341,14 @@
     }
     .mensaje-colaborar {
         font-size: 1.5rem;
-        position: absolute;
         top: 70%;
         left: 10%;
         transform: translate(-50%, -50%);
         width: 260px;
         text-align: center;
     }
-    .nino {
-        width: 100px;
-    }
+    .nino { width: 100px; }
 }
-
 .globo {
     position: absolute;
     bottom: -100px;
@@ -1400,7 +1360,6 @@
     z-index: 1;
     box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
-
 .globo::after {
     content: '';
     position: absolute;
@@ -1412,17 +1371,14 @@
     background: #666;
     opacity: 0.5;
 }
-
 .globo1 { left: 10%; background: radial-gradient(circle at 30% 30%, #ff7ecf, #e634a7); animation-delay: 0s; }
 .globo2 { left: 45%; width: 40px; height: 50px; background: radial-gradient(circle at 30% 30%, #8ecaff, #4aa5e0); animation-delay: 5s; }
 .globo3 { left: 75%; background: radial-gradient(circle at 30% 30%, #ffe48a, #f4c10b); animation-delay: 10s; }
-
 @keyframes subir {
     0% { transform: translateY(0) scale(1); opacity: 0.7; }
     50% { transform: translateY(-300px) scale(1.1); opacity: 1; }
     100% { transform: translateY(-600px) scale(1); opacity: 0; }
 }
-
 .confeti {
     position: absolute;
     bottom: -20px;
@@ -1433,13 +1389,11 @@
     z-index: 1;
     animation: flotarConfeti 12s ease-in-out infinite;
 }
-
 .confeti1 { left: 20%; background: #ff5f5f; animation-delay: 0s; }
 .confeti2 { left: 35%; background: #6ecbff; animation-delay: 2s; }
 .confeti3 { left: 50%; background: #ffe15f; animation-delay: 4s; }
 .confeti4 { left: 65%; background: #b78fff; animation-delay: 1.5s; }
 .confeti5 { left: 80%; background: #ff85a2; animation-delay: 3.2s; }
-
 @keyframes flotarConfeti {
     0% { transform: translateY(0) rotate(0deg); opacity: 1; }
     50% { transform: translateY(-300px) rotate(180deg); opacity: 0.8; }
@@ -1454,7 +1408,7 @@ const modalImg = document.getElementById('flyerAmpliado');
 const closeBtn = document.querySelector('.close-flyer');
 
 flyer.addEventListener('click', () => {
-    modal.style.display = "block";
+    modal.style.display = "flex";
     modalImg.src = flyer.src;
 });
 
@@ -1468,6 +1422,7 @@ window.addEventListener('click', (e) => {
     }
 });
 </script>
+
 
 
 
