@@ -286,6 +286,96 @@
     </h2>
 </section>
 <br><br>
+<div class="viewport-container">
+
+  <div class="glass-card3">
+  <div style="
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 1.5rem;
+    padding: 1rem;
+    border: 1px solid rgba(255,255,255,0.2);
+  ">
+    <h2 class="title-3d" style="padding-bottom: 0.1rem !important; margin-bottom: 0.7rem !important;">La Promesa del Papa Francisco <br> a la Virgen del Carmen:  <span style="color: #7ced3a;">"No ver Television"</span></h2>
+    <div class="images-container">
+      <img src="./img/prom1.jpeg" alt="Papa y Virgen 1">
+      <img src="./img/prom2.jpeg" alt="Papa y Virgen 2">
+      <img src="./img/prom3.jpeg" alt="Papa pensativo">
+    </div>
+  </div>
+    </div>
+</div>
+
+<style>
+.viewport-container {
+  width: 95vw;
+  max-width: 1400px;
+  height: auto;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.glass-card3 {
+  backdrop-filter: blur(12px);
+  background: url('./img/bckg2.jpeg') center/cover no-repeat, rgba(255, 255, 255, 0.08);
+  border-radius: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem; /* reducido de 2rem a 1rem */
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+}
+
+.title-3d {
+  font-size: 2rem;
+  color: #ffffff;
+  text-align: center;
+  text-shadow:
+    1px 1px 0 #444,
+    2px 2px 0 #333,
+    3px 3px 0 #222;
+  margin-bottom: 0.7rem !important; /* achica el espacio */
+}
+
+.images-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.images-container img {
+  width: 100%;
+  border-radius: 20px;
+  object-fit: cover;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s ease;
+}
+
+.images-container img:hover {
+  transform: scale(1.02);
+}
+
+@media (min-width: 768px) {
+  .images-container {
+    flex-direction: row;
+  }
+
+  .images-container img {
+    width: calc(33% - 1rem);
+  }
+}
+</style>
+
+<br><br>
 <div id="iaCatolico" class="section-padding d-flex justify-content-center align-items-center" style="min-height: 65vh;">
     <div class="d-flex flex-wrap justify-content-center gap-4" style="width: 95vw; max-width: 1400px;">
 
