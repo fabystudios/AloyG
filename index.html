@@ -287,7 +287,11 @@
 </section>
 <br><br>
 <div class="viewport-container">
-
+      <!-- Modal para imágenes de promesa -->
+      <div id="modalPromesa" class="modal-promesa" style="display:none;">
+        <span class="close-promesa" style="position:fixed;top:20px;right:40px;color:#fff;font-size:50px;font-weight:bold;cursor:pointer;z-index:1000;">&times;</span>
+        <img class="modal-promesa-content" id="promesaAmpliada" style="max-width:95vw;max-height:95vh;object-fit:contain;border-radius:16px;">
+      </div>
   <div class="glass-card3">
   <div class="glass-card4" style="
     background: rgba(255, 255, 255, 0.25);
@@ -304,15 +308,96 @@
     <style>
     @media (max-width: 600px) {
       .promesa-title-mobile {
-        font-size: 1.15rem !important;
+        font-size: 1.25rem !important;
         line-height: 1.2 !important;
       }
     }
     </style>
+    
     <div class="images-container">
-      <img src="./img/prom1.jpeg" alt="Papa y Virgen 1">
-      <img src="./img/prom2.jpeg" alt="Papa y Virgen 2">
-      <img src="./img/prom3.jpeg" alt="Papa pensativo">
+      <img src="./img/prom1.jpeg" alt="Papa y Virgen 1" class="promesa-img-modal" style="cursor:pointer;">
+      <img src="./img/prom2.jpeg" alt="Papa y Virgen 2" class="promesa-img-modal" style="cursor:pointer;">
+      <img src="./img/prom3.jpeg" alt="Papa pensativo" class="promesa-img-modal" style="cursor:pointer;">
+
+
+      <style>
+     .modal-promesa {
+    z-index: 999999;
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-promesa-content {
+    max-width: 95vw;
+    max-height: 95vh;
+    object-fit: contain;
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+    animation: zoomIn 0.5s ease;
+}
+
+@keyframes zoomIn {
+    from {
+        transform: scale(0.7);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.close-promesa {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: #fff;
+    font-size: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1000;
+    transition: 0.3s ease;
+}
+
+.close-promesa:hover {
+    color: #ccc;
+}
+
+      </style>
+      <script>
+ document.querySelectorAll('.promesa-img-modal').forEach(img => {
+    img.addEventListener('click', function () {
+        const modal = document.getElementById('modalPromesa');
+        const modalImg = document.getElementById('promesaAmpliada');
+        modal.style.display = "flex";
+        modalImg.src = img.src;
+        modalImg.alt = img.alt;
+    });
+});
+
+document.querySelector('.close-promesa').addEventListener('click', () => {
+    document.getElementById('modalPromesa').style.display = "none";
+});
+
+window.addEventListener('click', (e) => {
+    const modal = document.getElementById('modalPromesa');
+    if (e.target === modal) modal.style.display = "none";
+});
+
+document.getElementById('promesaAmpliada').addEventListener('click', () => {
+    document.getElementById('modalPromesa').style.display = "none";
+});
+
+      </script>
     </div>
   </div>
     </div>
