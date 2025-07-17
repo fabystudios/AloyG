@@ -285,13 +285,16 @@
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
 </section>
+
+
+
 <br><br><br>
 <div class="viewport-container">
-      <!-- Modal para imágenes de promesa -->
-      <div id="modalPromesa" class="modal-promesa" style="display:none;">
-        <span class="close-promesa" style="position:fixed;top:20px;right:40px;color:#fff;font-size:50px;font-weight:bold;cursor:pointer;z-index:1000;">&times;</span>
-        <img class="modal-promesa-content" id="promesaAmpliada" style="max-width:95vw;max-height:95vh;object-fit:contain;border-radius:16px;">
-      </div>
+  <!-- Modal para imágenes de promesa -->
+  <div id="modalPromesa" class="modal-promesa" style="display:none;">
+    <span class="close-promesa" style="position:fixed;top:20px;right:40px;color:#fff;font-size:50px;font-weight:bold;cursor:pointer;z-index:1000;">&times;</span>
+    <img class="modal-promesa-content" id="promesaAmpliada" style="max-width:95vw;max-height:95vh;object-fit:contain;border-radius:16px;">
+  </div>
   <div class="glass-card3">
   <div class="glass-card4" style="
     background: rgba(255, 255, 255, 0.25);
@@ -302,25 +305,25 @@
     border: 1px solid rgba(255,255,255,0.2);
   ">
     <h2 class="title-3d promesa-title-mobile" style="padding-bottom: 0.1rem !important; margin-bottom: 0.7rem !important;">
-      La Promesa del Papa Francisco <br> a la Virgen del Carmen:  
-      <span style="color: #7ced3a;">"No ver Televisión"</span>
+  La Promesa del Papa Francisco <br> a la Virgen del Carmen:  
+  <span style="color: #7ced3a;">"No ver Televisión"</span>
     </h2>
     <style>
     @media (max-width: 600px) {
-      .promesa-title-mobile {
-        font-size: 1.25rem !important;
-        line-height: 1.2 !important;
-      }
+  .promesa-title-mobile {
+    font-size: 1.25rem !important;
+    line-height: 1.2 !important;
+  }
     }
     </style>
     
     <div class="images-container">
-      <img src="./img/prom1.jpeg" alt="Papa y Virgen 1" class="promesa-img-modal" style="cursor:pointer;">
-      <img src="./img/prom2.jpeg" alt="Papa y Virgen 2" class="promesa-img-modal" style="cursor:pointer;">
-      <img src="./img/prom3.jpeg" alt="Papa pensativo" class="promesa-img-modal" style="cursor:pointer;">
+  <img src="./img/prom1.jpeg" alt="Papa y Virgen 1" class="promesa-img-modal" style="cursor:pointer;">
+  <img src="./img/prom2.jpeg" alt="Papa y Virgen 2" class="promesa-img-modal" style="cursor:pointer;">
+  <img src="./img/prom3.jpeg" alt="Papa pensativo" class="promesa-img-modal" style="cursor:pointer;">
 
 
-      <style>
+  <style>
      .modal-promesa {
     z-index: 999999;
     display: none;
@@ -347,12 +350,12 @@
 
 @keyframes zoomIn {
     from {
-        transform: scale(0.7);
-        opacity: 0;
+    transform: scale(0.7);
+    opacity: 0;
     }
     to {
-        transform: scale(1);
-        opacity: 1;
+    transform: scale(1);
+    opacity: 1;
     }
 }
 
@@ -372,15 +375,15 @@
     color: #ccc;
 }
 
-      </style>
-      <script>
+  </style>
+  <script>
  document.querySelectorAll('.promesa-img-modal').forEach(img => {
     img.addEventListener('click', function () {
-        const modal = document.getElementById('modalPromesa');
-        const modalImg = document.getElementById('promesaAmpliada');
-        modal.style.display = "flex";
-        modalImg.src = img.src;
-        modalImg.alt = img.alt;
+    const modal = document.getElementById('modalPromesa');
+    const modalImg = document.getElementById('promesaAmpliada');
+    modal.style.display = "flex";
+    modalImg.src = img.src;
+    modalImg.alt = img.alt;
     });
 });
 
@@ -397,7 +400,7 @@ document.getElementById('promesaAmpliada').addEventListener('click', () => {
     document.getElementById('modalPromesa').style.display = "none";
 });
 
-      </script>
+  </script>
     </div>
   </div>
     </div>
@@ -406,7 +409,7 @@ document.getElementById('promesaAmpliada').addEventListener('click', () => {
 <style>
 .viewport-container {
   width: 95vw;
-  max-width: 1400px;
+  max-width: 90vw;
   height: auto;
   padding: 20px;
   box-sizing: border-box;
@@ -415,6 +418,14 @@ document.getElementById('promesaAmpliada').addEventListener('click', () => {
   align-items: center;
   margin-left: auto;
   margin-right: auto;
+}
+
+@media (max-width: 600px) {
+  .viewport-container {
+    max-width: 95vw;
+    width: 95vw;
+    padding: 10px;
+  }
 }
 
 .glass-card3 {
