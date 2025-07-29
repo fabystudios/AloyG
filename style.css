@@ -2272,7 +2272,7 @@ section {
 
 #feria-americana {
     position: relative;
-    background: url('./img/feriaInvierno.jpeg') no-repeat center center/cover;
+    background: url('./img/feriaInvierno.jpg') no-repeat center center/cover;
     /* background: url('./img/feria.jpg') no-repeat center center/cover; */
     display: flex;
     justify-content: center;
@@ -2332,7 +2332,7 @@ section {
 
 
 .mujer-3 {
-    top: 77%;
+    top: 70%;
     /* antes la mujer estaba en top 72% */
     left: 50%;
     transform: translate(-50%, -50%);
