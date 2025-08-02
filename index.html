@@ -1419,11 +1419,31 @@ modalImg.addEventListener('click', () => {
   <div id="feria-americana" class="feria-section text-center" style="width: 90vw; max-width: 90%; margin: 0 auto;"> 
     <div class="feria-card card-body" style="z-index: 10;">
       <h2 class="feria-title" style="line-height: 1">GRAN FERIA <span>AMERICANA!</span></h2>
-      <p class="feria-info texto3d" style="font-size: 2em; font-weight: bold; color: #ff6f00; line-height: 1;">PARROQUIA SAN LUIS GONZAGA</p>
+      <p class="feria-info texto3d marquee-effect" style="font-size: 2em; font-weight: bold; color: #ff6f00; line-height: 1; white-space: nowrap; overflow: hidden; position: relative;">
+        <span style="display: inline-block; padding-left: 100%; animation: marquee 10s linear infinite;">
+          PARROQUIA SAN LUIS GONZAGA
+        </span>
+      </p>
+      <style>
+      @keyframes marquee {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-100%); }
+      }
+      </style>
       <p class="feria-time texto3d" style="font-size: 1.3em; color: #c5ec2d; line-height: 1;">DE 10 A 12.30 HS </p>
        <p class="feria-time texto3d" style="font-size: 1.3em; color: #c5ec2d; line-height: 1;">Ropa - Calzado - Accesorios y más usados</p>
-      <p class="feria-time texto3d" style="font-size: 2em; color: #c5ec2d; line-height: 1;">
-        <strong>SÁBADO 9 DE AGOSTO</strong></p>
+      <p class="feria-time texto3d blinking" style="font-size: 2em; color: #c5ec2d; line-height: 1;">
+        <strong>SÁBADO 9 DE AGOSTO</strong>
+      </p>
+      <style>
+        .blinking {
+          animation: blinkingText 1s infinite;
+        }
+        @keyframes blinkingText {
+          0%, 100% { opacity: 1; }
+          0.5% { opacity: 0.2; }
+        }
+      </style>
       <p class="feria-time" style="font-size: 1.3em; color: #c5ec2d; line-height: 1;">Calle 52 entre 8 y 9</p>
       <br>
     </div>
