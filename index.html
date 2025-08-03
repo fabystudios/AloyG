@@ -1109,10 +1109,21 @@ document.getElementById('promesaAmpliada').addEventListener('click', () => {
         <img src="./img/flyer.jpg" alt="Flyer Día del Niño" class="flyer" />
     </div>
 
-    <a href="https://wa.me/5492215947600" target="_blank" class="whatsapp-button fade-in">
-        <img src="https://img.icons8.com/ios-filled/50/ffffff/whatsapp.png" alt="WhatsApp" />
-        Comunicate
+   <a href="https://wa.me/5492215947600" target="_blank" class="whatsapp-button fade-in" style="right: 280px;">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/whatsapp.png" alt="WhatsApp" />
+      Comunicate
     </a>
+    <style>
+    @media (max-width: 768px) {
+      .whatsapp-button {
+        position: absolute;
+        left: 27%;
+        right: auto !important;
+        transform: translateX(-50%);
+        top: 30px;
+      }
+    }
+    </style>
 
     <div class="mensaje-colaborar fade-in">
         ¡Sumate a colaborar para alegrar a muchos chicos!
