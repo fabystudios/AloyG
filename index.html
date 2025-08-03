@@ -1075,10 +1075,21 @@ document.getElementById('promesaAmpliada').addEventListener('click', () => {
         <img src="./img/flyer.jpg" alt="Flyer Día del Niño" class="flyer" />
     </div>
 
-    <a href="https://wa.me/5492215947600" target="_blank" class="whatsapp-button fade-in">
-        <img src="https://img.icons8.com/ios-filled/50/ffffff/whatsapp.png" alt="WhatsApp" />
-        Comunicate
+    <a href="https://wa.me/5492215947600" target="_blank" class="whatsapp-button fade-in" style="right: 300px;">
+      <img src="https://img.icons8.com/ios-filled/50/ffffff/whatsapp.png" alt="WhatsApp" />
+      Comunicate
     </a>
+    <style>
+    @media (max-width: 768px) {
+      .whatsapp-button {
+        position: absolute;
+        left: 22%;
+        right: auto !important;
+        transform: translateX(-50%);
+        top: 30px;
+      }
+    }
+    </style>
 
     <div class="mensaje-colaborar fade-in">
         ¡Sumate a colaborar para alegrar a muchos chicos!
@@ -1416,10 +1427,12 @@ modalImg.addEventListener('click', () => {
     if (hoy >= desde && hoy <= hasta) {
       document.write(`
 <div style=" padding-top: 30px;"> 
-  <div id="feria-americana" class="feria-section text-center" style="width: 90vw; max-width: 90%; margin: 0 auto;"> 
+  <div id="feria-americana" class="feria-section text-center" 
+  style="width: 90vw; max-width: 90%; margin: 0 auto;"> 
     <div class="feria-card card-body" style="z-index: 10;">
       <h2 class="feria-title" style="line-height: 1">GRAN FERIA <span>AMERICANA!</span></h2>
-      <p class="feria-info texto3d marquee-effect" style="font-size: 2em; font-weight: bold; color: #ff6f00; line-height: 1; white-space: nowrap; overflow: hidden; position: relative;">
+      <p class="feria-info texto3d marquee-effect" style="font-size: 2em; font-weight: bold; 
+      color: #ff6f00; line-height: 1; white-space: nowrap; overflow: hidden; position: relative;">
         <span style="display: inline-block; padding-left: 100%; animation: marquee 10s linear infinite;">
           PARROQUIA SAN LUIS GONZAGA
         </span>
