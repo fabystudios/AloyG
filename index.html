@@ -659,7 +659,7 @@ document.getElementById('promesaAmpliada').addEventListener('click', () => {
 <!-- ----------------- Sección de videos ----------------- -->
 <!-- Título 3D -->
 <div class="text-center mb-4 d-flex justify-content-center align-items-center d-none d-lg-flex" style="gap: 0.7rem;">
-  <img src="./img/folder.png"
+  <!-- <img src="./img/folder.png"
     alt="Videos Efemérides"
     style="
       height: 5rem;
@@ -669,7 +669,7 @@ document.getElementById('promesaAmpliada').addEventListener('click', () => {
       display: inline-block;
   
       border-radius: 0.5rem;
-    ">
+    "> -->
   <h2 style="
     font-family: 'Roboto', sans-serif;
     font-weight: 900;
@@ -678,16 +678,115 @@ document.getElementById('promesaAmpliada').addEventListener('click', () => {
     padding-bottom: 0% !important;
     text-shadow:
       2px 2px 0 #fff,
-  
+      4px 4px 0 #b2ebf2,
       6px 6px 8px #00000044;
     display: inline-block;
     margin: 0;
+    position: relative;
+    z-index: 2;
   ">
     Videos Efemérides de Agosto
   </h2>
+  <!-- ...existing code... -->
+<!-- <div class="titulo-rayos-container">
+  <h2 style="
+    font-family: 'Roboto', sans-serif;
+    font-weight: 900;
+    font-size: 2.4rem;
+    letter-spacing: 1px;
+    padding-bottom: 0% !important;
+    text-shadow:
+      2px 2px 0 #fff,
+      4px 4px 0 #b2ebf2,
+      6px 6px 8px #00000044;
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+  ">
+    Videos Efemérides de Agosto
+  </h2> -->
 </div>
+<style>
+.titulo-rayos-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.titulo-rayos-container::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 480px;
+  height: 120px;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  background: repeating-conic-gradient(
+    from 0deg,
+    #ffe082 0deg 10deg,
+    transparent 10deg 20deg
+  );
+  border-radius: 50%;
+  opacity: 0.45;
+  pointer-events: none;
+  filter: blur(1px);
+}
+@media (max-width: 600px) {
+  .titulo-rayos-container::before {
+    width: 220px;
+    height: 60px;
+  }
+  .titulo-rayos-container h2 {
+    font-size: 1.3rem !important;
+    padding: 0.3em 0.5em;
+  }
+}
+</style>
+<!-- ...existing code... -->
+</div>
+<style>
+.titulo-rayos-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+.titulo-rayos-container::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 480px;
+  height: 120px;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  background: repeating-conic-gradient(
+    from 0deg,
+    #ffe082 0deg 10deg,
+    transparent 10deg 20deg
+  );
+  border-radius: 50%;
+  opacity: 0.45;
+  pointer-events: none;
+  filter: blur(1px);
+}
+@media (max-width: 600px) {
+  .titulo-rayos-container::before {
+    width: 220px;
+    height: 60px;
+  }
+  .titulo-rayos-container h2 {
+    font-size: 1.3rem !important;
+    padding: 0.3em 0.5em;
+  }
+}
+</style>
 
- <div id="VideosCatolicos" class="section-padding d-flex justify-content-center align-items-center" style="min-height: 65vh;">
+<div id="VideosCatolicos" class="section-padding d-flex justify-content-center align-items-center" style="min-height: 65vh;">
     <div class="d-flex flex-wrap justify-content-center gap-4" style="width: 95vw; max-width: 1400px;">
 <!--  -->
             <!-- CARD 0 -->
@@ -889,46 +988,6 @@ document.getElementById('promesaAmpliada').addEventListener('click', () => {
   </details>
 </div>
 
-    </div>
-</div>
-
-<!-- ESTILO Sagrado Corazón -->
-<style>
-  @keyframes fadeIn {
-    from {opacity: 0; transform: translateY(-10px);}
-    to {opacity: 1; transform: translateY(0);}
-  }
-  @media (max-width: 600px) {
-  .botonera {
-    margin-bottom: 0.5rem !important;
-  }
-
-  .glass-card {
-    margin-bottom: 0.5rem !important;
-  }
-}
-
-
-.glass-card {
-  width: 90vw;
-  max-width: 90%;
-  margin: 2rem auto;
-  padding: 1rem;
-  border-radius: 1.5rem;
-  font-family: 'Roboto', sans-serif;
-  background: url('./img/vitral.jpg') center/cover no-repeat;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-  color: #333;
-  position: relative;
-}
-
-/* En móviles achicamos margen inferior */
-@media (max-width: 600px) {
-  .glass-card {
-    margin: 1.5rem auto 0.5rem auto !important;
-  }
-}
-</style>
 
 
 
