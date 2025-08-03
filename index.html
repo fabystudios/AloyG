@@ -654,26 +654,12 @@ document.getElementById('promesaAmpliada').addEventListener('click', () => {
 <!-- GGGGGGGGGGGGGGGGGG Feria Americana GGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGGG -->
 <br><br>
 <!-- VIDEOS CATOLICOS -->
-<!-- Solo mostrar en desktop -->
- <!-- videos catolicos -->
+
 <!-- ----------------- Sección de videos ----------------- -->
 <!-- Título 3D -->
 <div class="text-center mb-4 d-flex justify-content-center align-items-center d-none d-lg-flex" style="gap: 0.7rem;">
-  <!-- <img src="./img/folder.png"
-    alt="Videos Efemérides"
-    style="
-      height: 5rem;
-      width: auto;
-      vertical-align: middle;
-      margin-right: 0.2rem;
-      display: inline-block;
   
-      border-radius: 0.5rem;
-    "> -->
-    <!-- Icono Material Design 3 (Material Symbols Rounded) -->
-    <span class="material-symbols-rounded align-middle" style="font-size:3.2rem; color:#6200ea;">movie</span>
-    <!-- Icono Font Awesome sobre movies -->
-    <!-- <i class="fas fa-film align-middle" style="font-size:2rem; color:#0d47a1; margin-left:0.5rem;"></i> -->
+    <!-- Icono Material Design 3 (Material Symbols Rounded) -->   
   <h2 style="
     font-family: 'Roboto', sans-serif;
     font-weight: 900;
@@ -682,114 +668,21 @@ document.getElementById('promesaAmpliada').addEventListener('click', () => {
     padding-bottom: 0% !important;
     text-shadow:
       2px 2px 0 #fff,
-      4px 4px 0 #b2ebf2,
       6px 6px 8px #00000044;
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
     margin: 0;
     position: relative;
     z-index: 2;
   ">
-    Videos Efemérides de Agosto
+    <span class="material-symbols-rounded align-middle" style="font-size:2.9rem; color:#6200ea;">movie</span>
+    <span>Videos Efemérides de Agosto</span>
   </h2>
-  <!-- ...existing code... -->
-<!-- <div class="titulo-rayos-container">
-  <h2 style="
-    font-family: 'Roboto', sans-serif;
-    font-weight: 900;
-    font-size: 2.4rem;
-    letter-spacing: 1px;
-    padding-bottom: 0% !important;
-    text-shadow:
-      2px 2px 0 #fff,
-      4px 4px 0 #b2ebf2,
-      6px 6px 8px #00000044;
-    display: inline-block;
-    margin: 0;
-    position: relative;
-    z-index: 2;
-  ">
-    Videos Efemérides de Agosto
-  </h2> -->
+ 
 </div>
-<style>
-.titulo-rayos-container {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-.titulo-rayos-container::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 480px;
-  height: 120px;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  background: repeating-conic-gradient(
-    from 0deg,
-    #ffe082 0deg 10deg,
-    transparent 10deg 20deg
-  );
-  border-radius: 50%;
-  opacity: 0.45;
-  pointer-events: none;
-  filter: blur(1px);
-}
-@media (max-width: 600px) {
-  .titulo-rayos-container::before {
-    width: 220px;
-    height: 60px;
-  }
-  .titulo-rayos-container h2 {
-    font-size: 1.3rem !important;
-    padding: 0.3em 0.5em;
-  }
-}
-</style>
-<!-- ...existing code... -->
-</div>
-<style>
-.titulo-rayos-container {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-.titulo-rayos-container::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 480px;
-  height: 120px;
-  transform: translate(-50%, -50%);
-  z-index: 1;
-  background: repeating-conic-gradient(
-    from 0deg,
-    #ffe082 0deg 10deg,
-    transparent 10deg 20deg
-  );
-  border-radius: 50%;
-  opacity: 0.45;
-  pointer-events: none;
-  filter: blur(1px);
-}
-@media (max-width: 600px) {
-  .titulo-rayos-container::before {
-    width: 220px;
-    height: 60px;
-  }
-  .titulo-rayos-container h2 {
-    font-size: 1.3rem !important;
-    padding: 0.3em 0.5em;
-  }
-}
-</style>
 
+<!-- ...existing code... -->
 <div id="VideosCatolicos" class="section-padding d-flex justify-content-center align-items-center" style="min-height: 65vh;">
     <div class="d-flex flex-wrap justify-content-center gap-4" style="width: 95vw; max-width: 1400px;">
 <!--  -->
@@ -873,6 +766,9 @@ document.getElementById('promesaAmpliada').addEventListener('click', () => {
 
     </div>
 </div>
+
+
+<!-- Solo mostrar en desktop -->
 <style>
 @media (max-width: 991px) {
   #VideosCatolicos {
@@ -992,6 +888,46 @@ document.getElementById('promesaAmpliada').addEventListener('click', () => {
   </details>
 </div>
 
+    </div>
+</div>
+
+<!-- ESTILO Sagrado Corazón -->
+<style>
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(-10px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+  @media (max-width: 600px) {
+  .botonera {
+    margin-bottom: 0.5rem !important;
+  }
+
+  .glass-card {
+    margin-bottom: 0.5rem !important;
+  }
+}
+
+
+.glass-card {
+  width: 90vw;
+  max-width: 90%;
+  margin: 2rem auto;
+  padding: 1rem;
+  border-radius: 1.5rem;
+  font-family: 'Roboto', sans-serif;
+  background: url('./img/vitral.jpg') center/cover no-repeat;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  color: #333;
+  position: relative;
+}
+
+/* En móviles achicamos margen inferior */
+@media (max-width: 600px) {
+  .glass-card {
+    margin: 1.5rem auto 0.5rem auto !important;
+  }
+}
+</style>
 
 
 
@@ -1148,10 +1084,6 @@ document.getElementById('promesaAmpliada').addEventListener('click', () => {
 
 
 </style>
-
-
-<!-- Colabora -->
-
 <div id="colabora">
 <br>
 <br>
@@ -1177,21 +1109,10 @@ document.getElementById('promesaAmpliada').addEventListener('click', () => {
         <img src="./img/flyer.jpg" alt="Flyer Día del Niño" class="flyer" />
     </div>
 
-    <a href="https://wa.me/5492215947600" target="_blank" class="whatsapp-button fade-in" style="right: 300px;">
-      <img src="https://img.icons8.com/ios-filled/50/ffffff/whatsapp.png" alt="WhatsApp" />
-      Comunicate
+    <a href="https://wa.me/5492215947600" target="_blank" class="whatsapp-button fade-in">
+        <img src="https://img.icons8.com/ios-filled/50/ffffff/whatsapp.png" alt="WhatsApp" />
+        Comunicate
     </a>
-    <style>
-    @media (max-width: 768px) {
-      .whatsapp-button {
-        position: absolute;
-        left: 22%;
-        right: auto !important;
-        transform: translateX(-50%);
-        top: 30px;
-      }
-    }
-    </style>
 
     <div class="mensaje-colaborar fade-in">
         ¡Sumate a colaborar para alegrar a muchos chicos!
@@ -1529,36 +1450,14 @@ modalImg.addEventListener('click', () => {
     if (hoy >= desde && hoy <= hasta) {
       document.write(`
 <div style=" padding-top: 30px;"> 
-  <div id="feria-americana" class="feria-section text-center" 
-  style="width: 90vw; max-width: 90%; margin: 0 auto;"> 
+  <div id="feria-americana" class="feria-section text-center" style="width: 90vw; max-width: 90%; margin: 0 auto;"> 
     <div class="feria-card card-body" style="z-index: 10;">
       <h2 class="feria-title" style="line-height: 1">GRAN FERIA <span>AMERICANA!</span></h2>
-      <p class="feria-info texto3d marquee-effect" style="font-size: 2em; font-weight: bold; 
-      color: #ff6f00; line-height: 1; white-space: nowrap; overflow: hidden; position: relative;">
-        <span style="display: inline-block; padding-left: 100%; animation: marquee 10s linear infinite;">
-          PARROQUIA SAN LUIS GONZAGA
-        </span>
-      </p>
-      <style>
-      @keyframes marquee {
-        0%   { transform: translateX(0); }
-        100% { transform: translateX(-100%); }
-      }
-      </style>
+      <p class="feria-info texto3d" style="font-size: 2em; font-weight: bold; color: #ff6f00; line-height: 1;">PARROQUIA SAN LUIS GONZAGA</p>
       <p class="feria-time texto3d" style="font-size: 1.3em; color: #c5ec2d; line-height: 1;">DE 10 A 12.30 HS </p>
        <p class="feria-time texto3d" style="font-size: 1.3em; color: #c5ec2d; line-height: 1;">Ropa - Calzado - Accesorios y más usados</p>
-      <p class="feria-time texto3d blinking" style="font-size: 2em; color: #c5ec2d; line-height: 1;">
-        <strong>SÁBADO <br> 9 DE AGOSTO</strong>
-      </p>
-      <style>
-        .blinking {
-          animation: blinkingText 1s infinite;
-        }
-        @keyframes blinkingText {
-          0%, 100% { opacity: 1; }
-          0.5% { opacity: 0.2; }
-        }
-      </style>
+      <p class="feria-time texto3d" style="font-size: 2em; color: #c5ec2d; line-height: 1;">
+        <strong>SÁBADO 9 DE AGOSTO</strong></p>
       <p class="feria-time" style="font-size: 1.3em; color: #c5ec2d; line-height: 1;">Calle 52 entre 8 y 9</p>
       <br>
     </div>
