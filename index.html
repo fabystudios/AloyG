@@ -1463,31 +1463,20 @@ modalImg.addEventListener('click', () => {
 <div style=" padding-top: 30px;"> 
   <div id="feria-americana" class="feria-section text-center" style="width: 90vw; max-width: 90%; margin: 0 auto;"> 
     <div class="feria-card card-body" style="z-index: 10;">
-      <h2 class="feria-title" style="line-height: 0.8; font-size: 3em;">GRAN FERIA <span>AMERICANA!</span></h2>
+      <h2 class="feria-title" style="line-height: 0.8; font-size: 2.5em;">GRAN FERIA <span>AMERICANA!</span></h2>
+      <p class="feria-info texto3d" style="font-size: 2em; font-weight: bold; color: #ff6f00; line-height: 1;">
+        PARROQUIA SAN LUIS GONZAGA
+      </p>
       <style>
-        @media (max-width: 800px) {
-          .feria-title {
-        font-size: 2.5em !important;
+        @media (max-width: 600px) {
+          .feria-info.texto3d {
+        font-size: 1.6em !important;
           }
         }
       </style>
-      <p class="feria-info texto3d marquesina" style="font-size: 2em; font-weight: bold; color: #ff6f00; line-height: 1; white-space: nowrap; overflow: hidden;">
-        <span style="display: inline-block; padding-left: 100vw; animation: marquesina 12s linear infinite;">
-          PARROQUIA SAN LUIS GONZAGA
-        </span>
-      </p>
-      <style>
-        @keyframes marquesina {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-100vw); }
-        }
-        .marquesina {
-          position: relative;
-          width: 100%;
-        }
-      </style>
-      <p class="feria-time texto3d" style="font-size: 1.3em; color: #c5ec2d; line-height: 1;">DE 10 A 12.30 HS </p>
-       <p class="feria-time texto3d" style="font-size: 1.3em; color: #c5ec2d; line-height: 1;">Ropa - Calzado - Accesorios y más usados</p>
+      <p class="feria-time texto3d" style="font-size: 1em; color: #c5ec2d; line-height: 1;">de 10 a 12.30 hs </p>
+       <p class="feria-time texto3d" style="font-size: 1.3em; color: #c5ec2d; line-height: 1;">
+        Ropa - Calzado - Accesorios <br> y más usados</p>
       <p class="feria-time texto3d blinking-llamador" style="font-size: 2em; color: #c5ec2d; line-height: 1;">
         <strong>SÁBADO <br> 9 DE AGOSTO</strong>
       </p>
@@ -1499,8 +1488,14 @@ modalImg.addEventListener('click', () => {
         0%, 100% { opacity: 1; }
         50% { opacity: 0.15; }
       }
+      @media (max-width: 600px) {
+        .blinking-llamador {
+          font-size: 1.7em !important;
+        }
+      }
       </style>
-      <p class="feria-time" style="font-size: 1.3em; color: #c5ec2d; line-height: 1;">Calle 52 entre 8 y 9</p>
+      <p class="feria-time" style="font-size: 1em; 
+      color: #c5ec2d; line-height: 1;">Calle 52 entre 8 y 9</p>
       <br>
     </div>
     <img src="./img/mujer1-winter2.png" class="mujer mujer-1   d-md-block" alt="Mujer 1" style="z-index: 5;">
