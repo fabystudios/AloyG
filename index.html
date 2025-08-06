@@ -306,7 +306,7 @@
 <div class="text-center mb-4 d-flex justify-content-center align-items-center  d-lg-flex" style="gap: 0.7rem;">
   
     <!-- Icono Material Design 3 (Material Symbols Rounded) -->   
-  <h2 style="
+  <h2 class="efemerides-title" style="
     font-family: 'Roboto', sans-serif;
     font-weight: 900;
     font-size: 2.4rem;
@@ -322,9 +322,19 @@
     position: relative;
     z-index: 2;
   ">
-    <span class="material-symbols-rounded align-middle" style="font-size:2.9rem; color:#6200ea;">movie</span>
+    <span class="material-symbols-rounded align-middle efemerides-icon" style="font-size:2.9rem; color:#6200ea;">movie</span>
     <span>Efemérides Destacadas de Agosto</span>
   </h2>
+  <style>
+    @media (max-width: 600px) {
+      .efemerides-title {
+        font-size: 1.3rem !important;
+      }
+      .efemerides-icon {
+        font-size: 1.7rem !important;
+      }
+    }
+  </style>
  
 </div>
 <!-- ...3 días... -->
