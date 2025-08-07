@@ -636,11 +636,31 @@ h2 {
     border: none;
     outline: none;
 }
-
+@media (max-width: 768px) {
+    .navbar-collapse {
+        right: 0;
+        left: auto;
+        top: 80%;
+        position: absolute;
+        width: auto;
+        min-width: 200px;
+        background: rgba(54, 0, 179, 0.74);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 10px;
+        border-radius: 8px;
+    }
+}
 .navbar-toggler-icon {
     background-image: url('data:image/svg+xml;charset=UTF8,%3csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"%3e%3cpath stroke="rgba(255, 255, 255, 1)" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"/%3e%3c/svg%3e');
 }
-
+@media (max-width: 768px) {
+    .navbar-toggler {
+        position: absolute;
+        right: 30px;
+        top: 3px;
+        z-index: 1050;
+    }
+}
 /* Estilo del Menú Colapsado */
 @media (max-width: 768px) { 
     /* 992 */
