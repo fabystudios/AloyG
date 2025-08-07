@@ -646,7 +646,7 @@ h2 {
         min-width: 200px;
         background: rgba(54, 0, 179, 0.74);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        padding: 10px;
+        padding: 5px;
         border-radius: 8px;
     }
 }
