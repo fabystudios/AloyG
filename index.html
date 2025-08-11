@@ -527,7 +527,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- fin de videodel dia -->
 
-<br>
+
 <!-- <div class="d-flex flex-wrap justify-content-center align-items-stretch gap-2" style="width: 100%; margin: 0 auto;"> -->
   <!-- Card 1: San Charbel -->
   <!-- <div class="card shadow-lg rounded-4 overflow-hidden" style="width: 90vw; max-width: 400px; margin: 0 auto;">
@@ -604,15 +604,12 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 </style> -->
 
-<div  id="clara" class="santa-clara-section" style="width: 95vw;">
-  <div class="santa-clara-container" style="width: 95vw;">
-    
+<div id="clara" class="santa-clara-section" style="width: 95vw; display: flex; justify-content: center; align-items: center;"></div>
+  <div class="santa-clara-container" style="width: 95%; max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; box-shadow: 0 8px 24px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden;">
     <!-- Imagen izquierda con efecto zoom -->
     <div class="santa-clara-img zoom-effect"></div>
-
     <!-- Texto derecha -->
-    <div   class="santa-clara-text">
-
+    <div class="santa-clara-text">
       <h2 class="md3-headline animate-fade-up text-center">Santa Clara de Asís</h2>
       <p class="md3-body animate-fade-up" style="animation-delay: 0.2s;">
         “Ama a Dios, sirve a Dios; todo está en eso.”
@@ -620,29 +617,27 @@ document.addEventListener('DOMContentLoaded', function() {
         Santa Clara de Asís, patrona de la televisión y de las clarisas, 
         nos enseña con su vida de pobreza, oración y amor fraterno, 
         que la verdadera riqueza está en Cristo.
-       
       </p>
- 
-                    <button class="btn btn-md3 d-flex align-items-center md3-btn" onclick="window.open('https://desdelafe.mx/noticias/sabias-que/quien-fue-santa-clara-de-asis-la-fundadora-de-las-clarisas/', '_blank')">
-                    <img src="./img/paloma.png" alt="Paloma" style="height: 2.2rem; vertical-align: middle; margin-left: 0.5em;">
-                    <span style="line-height: 1;">Conoce su vida</span>
-                    <img src="https://desdelafe.mx/wp-content/themes/desdelafe2023/assets/img/desdelafe.svg" alt="ACI" style="height: 2.2rem; vertical-align: middle; margin-left: 0.5em; filter: drop-shadow(0 0 8px #454220);">
-                  </button>
-      <!-- <button class="md3-btn animate-fade-up onclick="window.open('https://desdelafe.mx/noticias/sabias-que/quien-fue-santa-clara-de-asis-la-fundadora-de-las-clarisas/', '_blank')" style="animation-delay: 0.4s;">Conocer su vida</button> -->
+      <button class="btn btn-md3 d-flex align-items-center md3-btn" onclick="window.open('https://desdelafe.mx/noticias/sabias-que/quien-fue-santa-clara-de-asis-la-fundadora-de-las-clarisas/', '_blank')">
+        <img src="./img/paloma.png" alt="Paloma" style="height: 2.2rem; vertical-align: middle; margin-left: 0.5em;">
+        <span style="line-height: 1;">Conoce su vida</span>
+        <img src="https://desdelafe.mx/wp-content/themes/desdelafe2023/assets/img/desdelafe.svg" alt="ACI" style="height: 2.2rem; vertical-align: middle; margin-left: 0.5em; filter: drop-shadow(0 0 8px #454220);">
+      </button>
     </div>
-    
   </div>
 </div>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto:wght@400;500&display=swap');
 
-/* Contenedor principal */
+/* Centrado principal */
 .santa-clara-section {
+  width: 100vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2rem;
+  padding: 2rem 0;
+  box-sizing: border-box;
 }
 
 .santa-clara-container {
@@ -650,9 +645,11 @@ document.addEventListener('DOMContentLoaded', function() {
   flex-wrap: wrap;
   max-width: 1100px;
   width: 100%;
+  margin: 0 auto;
   box-shadow: 0 8px 24px rgba(0,0,0,0.2);
   border-radius: 12px;
   overflow: hidden;
+  background: #fff0;
 }
 
 /* Imagen izquierda con animación de zoom */
@@ -674,6 +671,8 @@ document.addEventListener('DOMContentLoaded', function() {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center; /* Centra el contenido vertical y horizontal */
+  text-align: center;
 }
 
 /* Títulos y texto */
@@ -689,6 +688,7 @@ document.addEventListener('DOMContentLoaded', function() {
   line-height: 1.6;
   font-size: 1.05rem;
   color: #fdfaf5;
+  margin-bottom: 1.5rem;
 }
 
 /* Botón estilo MD3 */
@@ -704,6 +704,7 @@ document.addEventListener('DOMContentLoaded', function() {
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+  justify-content: center;
 }
 .md3-btn:hover {
   background-color: #FFC107;
@@ -731,13 +732,40 @@ document.addEventListener('DOMContentLoaded', function() {
   from { background-size: 100%; }
   to { background-size: 110%; }
 }
-
+  .santa-clara-section {
+    padding: 1rem 0;
+  }
+  .santa-clara-container {
+    max-width: 99vw;
+  }
+  .santa-clara-img {
+    min-height: 180px;
+  }
+  .santa-clara-text h2 {
+    font-size: 2.5rem;
+  }
+  .santa-clara-text p {
+    font-size: 1.5rem;
+  }
 /* Responsive */
-@media (max-width: 768px) {
-  .santa-clara-img, .santa-clara-text {
+@media (max-width: 900px) {
+  .santa-clara-container {
+    flex-direction: column;
+    max-width: 95vw;
+  }
+  .santa-clara-img   {
     flex: 1 1 100%;
+    min-height: 600px;
+  }
+  .santa-clara-text {
+    padding: 2rem;
+    flex: 1 1 100%;
+    min-height: 350px;
   }
 }
+
+
+
 </style>
 <br><br><br>
 <div class="viewport-container">
