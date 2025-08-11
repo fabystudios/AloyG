@@ -215,8 +215,10 @@
         <div class="carousel-inner">
             <!-- Slide 1: ACTIVE (sin lazy loading para carga inmediata) -->
             <div class="carousel-item active">
+             <a href="#clara">
                     <img src="./img/fotos/aviso_DESKTOP.jpg" class="d-none d-md-block w-100" alt="Imagen escritorio">
                     <img src="./img/fotos/aviso_MOBILE.jpg" class="d-block d-md-none w-100" alt="Imagen móvil">
+            </a>
             </div>
             <div class="carousel-item ">
                 <a href="#diaDelNiño">
@@ -602,8 +604,142 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 </style> -->
 
+<section class="santa-clara-section">
+  <div class="santa-clara-container">
+    
+    <!-- Imagen izquierda con efecto zoom -->
+    <div class="santa-clara-img zoom-effect"></div>
 
+    <!-- Texto derecha -->
+    <div id="clara"    class="santa-clara-text">
 
+      <h2 class="md3-headline animate-fade-up text-center">Santa Clara de Asís</h2>
+      <p class="md3-body animate-fade-up" style="animation-delay: 0.2s;">
+        “Ama a Dios, sirve a Dios; todo está en eso.”
+        <br><br>
+        Santa Clara de Asís, patrona de la televisión y de las clarisas, 
+        nos enseña con su vida de pobreza, oración y amor fraterno, 
+        que la verdadera riqueza está en Cristo.
+       
+      </p>
+ 
+                    <button class="btn btn-md3 d-flex align-items-center md3-btn" onclick="window.open('https://desdelafe.mx/noticias/sabias-que/quien-fue-santa-clara-de-asis-la-fundadora-de-las-clarisas/', '_blank')">
+                                        <img src="./img/paloma.png" alt="Paloma" style="height: 2.2rem; vertical-align: middle; margin-left: 0.5em;">
+                    Conoce su vida 
+                    <img src="https://desdelafe.mx/wp-content/themes/desdelafe2023/assets/img/desdelafe.svg" alt="ACI" style="height: 2.2rem; vertical-align: middle; margin-left: 0.5em; filter: drop-shadow(0 0 8px #454220);">
+                  </button>
+      <!-- <button class="md3-btn animate-fade-up onclick="window.open('https://desdelafe.mx/noticias/sabias-que/quien-fue-santa-clara-de-asis-la-fundadora-de-las-clarisas/', '_blank')" style="animation-delay: 0.4s;">Conocer su vida</button> -->
+    </div>
+    
+  </div>
+</section>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto:wght@400;500&display=swap');
+
+/* Contenedor principal */
+.santa-clara-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.santa-clara-container {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 1100px;
+  width: 100%;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Imagen izquierda con animación de zoom */
+.santa-clara-img {
+  flex: 1 1 60%;
+  background: url('./img/santa-clara.jpeg') center/cover no-repeat;
+  min-height: 400px;
+}
+.zoom-effect {
+  animation: zoomSlow 20s ease-in-out infinite alternate;
+}
+
+/* Texto derecha */
+.santa-clara-text {
+  flex: 1 1 40%;
+  background: linear-gradient(135deg, rgba(138,76,42,0.88), rgba(211,174,115,0.88));
+  color: white;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Títulos y texto */
+.santa-clara-text h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #FFF8E1;
+  text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+}
+.santa-clara-text p {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  font-size: 1.05rem;
+  color: #fdfaf5;
+}
+
+/* Botón estilo MD3 */
+.md3-btn {
+  margin-top: 1.5rem;
+  padding: 0.8rem 1.6rem;
+  background-color: #FFD54F;
+  color: #4E342E;
+  font-weight: 600;
+  font-family: 'Roboto', sans-serif;
+  border: none;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+}
+.md3-btn:hover {
+  background-color: #FFC107;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.35);
+}
+
+/* Animaciones */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-up {
+  opacity: 0;
+  animation: fadeUp 1s ease forwards;
+}
+
+/* Efecto zoom suave */
+@keyframes zoomSlow {
+  from { background-size: 100%; }
+  to { background-size: 110%; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .santa-clara-img, .santa-clara-text {
+    flex: 1 1 100%;
+  }
+}
+</style>
+<br><br><br>
 <div class="viewport-container">
   <!-- Modal para imágenes de promesa -->
   <div id="modalPromesa" class="modal-promesa" style="display:none;">
