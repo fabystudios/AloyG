@@ -369,6 +369,15 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="header-festivo">
       <span class="globo">🎈</span>
       <h2 class="post-title post-title-3d">🌟 ¡Feliz Día del Niño! 🌟</h2>
+      <style>
+      /* Reducir ligeramente la fuente en móviles */
+      @media (max-width: 600px) {
+        .post-title.post-title-3d { font-size: 1.6rem !important; }
+      }
+      @media (max-width: 360px) {
+        .post-title.post-title-3d { font-size: 1.4rem !important; }
+      }
+      </style>
     </div>
 
     <style>
@@ -418,6 +427,15 @@ document.addEventListener('DOMContentLoaded', function() {
       El domingo 17 de agosto celebramos la <strong>alegría, inocencia y esperanza</strong> de los más pequeños. 
       <br>💖 ¡Que este día esté lleno de juegos, sonrisas y bendiciones!
     </p>
+    <style>
+      /* Reducir interlineado en móviles */
+      @media (max-width: 768px) {
+        .post-text {
+          line-height: 1.15 !important;
+          font-size: 1.05rem !important;
+        }
+      }
+    </style>
   </div>
 </section>
 
