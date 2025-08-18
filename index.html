@@ -368,8 +368,17 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- Header festivo -->
     <div class="header-festivo">
       <span class="globo">🎈</span>
-      <h2 class="post-title post-title-3d">🌟 ¡Feliz Día del Niño! 🌟</h2>
+      <h2 class="post-title">🌟 ¡Feliz Día del Niño! 🌟</h2>
       <style>
+      /* Reducir fuente en móviles */
+      @media (max-width: 600px) {
+        .header-festivo .post-title { font-size: 1.4rem !important; }
+      }
+      @media (max-width: 360px) {
+        .header-festivo .post-title { font-size: 1.2rem !important; }
+      }
+      </style>
+      <!-- <style>
       /* Reducir ligeramente la fuente en móviles */
       @media (max-width: 600px) {
         .post-title.post-title-3d { font-size: 1.4rem !important; }
@@ -377,7 +386,7 @@ document.addEventListener('DOMContentLoaded', function() {
       @media (max-width: 360px) {
         .post-title.post-title-3d { font-size: 1.2rem !important; }
       }
-      </style>
+      </style> -->
     </div>
 
     <style>
