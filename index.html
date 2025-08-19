@@ -580,8 +580,75 @@ document.addEventListener('DOMContentLoaded', function() {
   .post-text { font-size: 1.1rem; }
   .md3-card.festiva { padding: 1.5rem; }
 }
+/* Canvas confetti encima del card */
+#confetti-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none; /* para que no bloquee clicks */
+  z-index: 10;
+}
 </style>
+<script>
+// Confetti lento 🎉
+const canvas = document.getElementById("confetti-canvas");
+const ctx = canvas.getContext("2d");
+let confetti = [];
 
+function resizeCanvas() {
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
+}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+for (let i = 0; i < 100; i++) {
+  confetti.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 6 + 4,
+    d: Math.random() * 50,
+    color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+    tilt: Math.random() * 10 - 10,
+    tiltAngleIncremental: Math.random() * 0.02 + 0.005, // más lento
+    tiltAngle: 0
+  });
+}
+
+function drawConfetti() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  confetti.forEach(c => {
+    ctx.beginPath();
+    ctx.lineWidth = c.r;
+    ctx.strokeStyle = c.color;
+    ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+    ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
+    ctx.stroke();
+  });
+  updateConfetti();
+}
+
+function updateConfetti() {
+  confetti.forEach(c => {
+    c.tiltAngle += c.tiltAngleIncremental;
+    c.y += (Math.cos(c.d) + 1 + c.r / 2) * 0.3; // más lento
+    c.x += Math.sin(c.d);
+    c.tilt = Math.sin(c.tiltAngle) * 15;
+
+    if (c.y > canvas.height) {
+      c.y = -10;
+      c.x = Math.random() * canvas.width;
+    }
+  });
+}
+
+(function animateConfetti() {
+  drawConfetti();
+  requestAnimationFrame(animateConfetti);
+})();
+</script>
 <!-- - Sección de videos - -->
 <!-- Título 3D -->
  <!-- d-none -->
