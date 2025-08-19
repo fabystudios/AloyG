@@ -206,8 +206,8 @@
             <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="3"></button>
             <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="4"></button>
             <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="5"></button>
-            <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="6"></button> -->
-            <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="7"></button> -->
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="6"></button>
+            <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="7"></button>
             <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="8"></button> -->
 
           </div>
@@ -290,22 +290,58 @@
     </div>
 </section>
 
-<!-- JavaScript para precargar la siguiente imagen -->
+<!-- Bootstrap JS (required for carousel behaviour and events) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+<!-- JavaScript para precargar la siguiente imagen (más seguro) -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const carousel = document.getElementById('mainCarousel');
-    const slides = carousel.querySelectorAll('.carousel-item');
-    
-    // Precargar la siguiente imagen cuando cambia el slide
-    carousel.addEventListener('slide.bs.carousel', function(event) {
-        const nextSlide = slides[event.to];
-        const images = nextSlide.querySelectorAll('img[loading="lazy"]');
-        
-        images.forEach(img => {
-            if (img.loading === 'lazy') {
-                img.loading = 'eager'; // Cambia a carga inmediata
-            }
+    if (!carousel) return;
+    const slides = Array.from(carousel.querySelectorAll('.carousel-item'));
+
+    // Preload del segundo slide al inicio para evitar que el primer cambio se quede "esperando"
+    if (slides.length > 1) {
+        const initialImgs = Array.from(slides[1].querySelectorAll('img[loading="lazy"], img'));
+        initialImgs.forEach(img => {
+            try {
+                const src = img.getAttribute('src');
+                if (src) {
+                    const pre = new Image();
+                    pre.src = src;
+                    if (pre.decode) pre.decode().catch(()=>{});
+                }
+            } catch(e){}
         });
+    }
+
+    // Precargar la siguiente imagen DESPUÉS de que el slide haya terminado (usar 'slid' evita interferir con la transición)
+    carousel.addEventListener('slid.bs.carousel', function(event) {
+        try {
+            if (!event || typeof event.to !== 'number') return;
+
+            // Normalizar índice por si acaso (seguro ante wrap o valores inesperados)
+            const nextIndex = ((event.to % slides.length) + slides.length) % slides.length;
+            const nextSlide = slides[nextIndex];
+            if (!nextSlide) return;
+
+            // Preload seguro sin mutar atributos del DOM
+            const images = Array.from(nextSlide.querySelectorAll('img[loading="lazy"], img'));
+            images.forEach(img => {
+                try {
+                    const src = img.getAttribute('src');
+                    if (src) {
+                        const pre = new Image();
+                        pre.src = src;
+                        if (pre.decode) pre.decode().catch(()=>{});
+                    }
+                } catch(e){
+                    // ignorar errores de imagen individuales
+                }
+            });
+        } catch (err) {
+            console.error('Error al precargar imagen del carrusel:', err);
+        }
     });
 });
 </script>
