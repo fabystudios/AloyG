@@ -140,11 +140,14 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#NOTIS">
-                <i class="material-icons align-middle">newspaper</i> 
-                 <span style="font-size: 0.85em;">Noticias</span>
+              <a class="nav-link position-relative" href="#noticias" id="noticias-link">
+                <i class="material-icons align-middle">event</i>
+                <span class="ms-1" style="font-size:.85em;">Noticias</span>
+                <span id="badge-noticias" class="badge-dot hidden" aria-hidden="true"></span>
               </a>
             </li>
+
+
             <li class="nav-item">
               <a class="nav-link" href="#educacion">
                 <i class="material-icons align-middle">school</i> 
@@ -157,12 +160,7 @@
                  <span style="font-size: 0.85em;">Contacto</span>
               </a>
             </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="#ubicacion">
-                <i class="material-icons align-middle">location_on</i> 
-                 <span style="font-size: 0.85em;">Mapa</span>
-              </a>
-            </li> -->
+
             <li class="nav-item">
               <a class="nav-link" href="#nosotros">
                 <i class="material-icons align-middle">people</i> 
@@ -175,6 +173,29 @@
     </nav>
   </div>
 </section>
+<!-- PUNTO ROJO -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const VERSION = "v3";               // cambiá a v2, v3... cuando subas noticias nuevas
+  const KEY = "noticiasVistas";
+
+  const link  = document.getElementById("noticias-link");
+  const badge = document.getElementById("badge-noticias");
+  if (!link || !badge) return;        // no romper si el nodo no existe
+
+  if (localStorage.getItem(KEY) !== VERSION) {
+    badge.classList.remove("hidden");
+  }
+
+  // Marcá como visto al hacer clic (se ejecuta antes de navegar)
+  link.addEventListener("click", () => {
+    localStorage.setItem(KEY, VERSION);
+    badge.classList.add("hidden");
+  });
+});
+</script>
+
+
 <style>
 .cabecera {
   width: 100vw !important;

@@ -2702,3 +2702,18 @@ body {
     font-weight: bold;
     text-align: center; */
 }
+/* Badge punto rojo md3 */
+
+.badge-dot{
+  position: absolute;
+  top: .35rem;
+  right: .5rem;
+  width: 10px;
+  height: 10px;
+  background: #e53935;
+  border-radius: 50%;
+  box-shadow: 0 0 4px rgba(0,0,0,.3);
+  transition: opacity .25s ease, visibility .25s ease;
+}
+
+.hidden{ opacity:0; visibility:hidden; }
