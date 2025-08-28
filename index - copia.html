@@ -314,6 +314,9 @@ v
     </div>
 </section>
 
+<!-- Bootstrap JS (required for carousel behaviour and events) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
 <!-- JavaScript para precargar la siguiente imagen (más seguro) -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -5027,6 +5030,62 @@ El Vaticano indicó que “la imagen se concede gratuitamente y sólo puede repr
     </footer>
     
     
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    const navLinks = document.querySelectorAll('.navbar-collapse a');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+
+    navLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+            if (navbarCollapse.classList.contains('show')) {
+                new bootstrap.Collapse(navbarCollapse).hide();
+            }
+        });
+    });
+});
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+    const navLinks = document.querySelectorAll('.navbar-collapse a');
+    const navbarCollapse = document.querySelector('.navbar-collapse');
+
+    navLinks.forEach(function(link) {
+        link.addEventListener('click', function() {
+            if (navbarCollapse.classList.contains('show')) {
+                navbarCollapse.style.transition = "transform 0.3s ease, opacity 0.3s ease";
+                navbarCollapse.style.transform = "translateY(-10px)";
+                navbarCollapse.style.opacity = "0";
+
+                setTimeout(() => {
+                    new bootstrap.Collapse(navbarCollapse).hide();
+                    navbarCollapse.style.transform = "translateY(0)";
+                    navbarCollapse.style.opacity = "1";
+                }, 300); // El timeout debe coincidir con la duración de la animación
+            }
+        });
+    });
+});
+
+    </script>
+<script> 
+document.addEventListener("DOMContentLoaded", function() {
+    const card = document.querySelector('.card');
+
+    card.addEventListener('click', function() {
+        card.classList.toggle('touched');
+    });
+
+    // Para detener la animación si tocas fuera
+    document.addEventListener('click', function(event) {
+        if (!card.contains(event.target)) {
+            card.classList.remove('touched');
+        }
+    });
+});
+    
+</script>
 <script>
     document.getElementById("btn-como-llegar").addEventListener("click", function () {
     if (navigator.geolocation) {
@@ -5045,41 +5104,41 @@ El Vaticano indicó que “la imagen se concede gratuitamente y sólo puede repr
 });
 </script>
 
-
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-<script> new WOW().init(); </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-  const menu = document.getElementById('navbarNav');
-  const toggler = document.querySelector('.navbar-toggler');
-  if (!menu || !toggler || typeof bootstrap === 'undefined') return;
-
-  // Crear instancia única
-  const bsMenu = bootstrap.Collapse.getOrCreateInstance(menu, { toggle: false });
-
-  // Toggle al tocar el botón (abre o cierra)
-  toggler.addEventListener('click', function (e) {
-    e.preventDefault();
-    bsMenu.toggle();
-  });
-
-  // Cerrar al tocar un link del menú
-  document.querySelectorAll('#navbarNav .nav-link').forEach(link => {
-    link.addEventListener('click', () => bsMenu.hide());
-  });
-
-  // Cerrar al tocar fuera del menú
-  document.addEventListener('click', (ev) => {
-    if (!menu.classList.contains('show')) return;
-    if (menu.contains(ev.target) || toggler.contains(ev.target)) return;
-    bsMenu.hide();
-  });
+    window.addEventListener("scroll", function () {
+    const navbar = document.querySelector(".navbar");
+    if (window.scrollY > 50) {
+        navbar.classList.add("scrolled");
+    } else {
+        navbar.classList.remove("scrolled");
+    }
 });
 </script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
+<script> new WOW().init(); </script>
+ <!-- <script>
+document.addEventListener("DOMContentLoaded", function() {
+  const navLinks = document.querySelectorAll(".navbar-nav .nav-link");
+  const navbarCollapse = document.querySelector(".navbar-collapse");
 
+  // Cerrar al hacer clic en un link del menú
+  navLinks.forEach(function(link) {
+    link.addEventListener("click", () => {
+      if (navbarCollapse.classList.contains("show")) {
+        new bootstrap.Collapse(navbarCollapse).toggle();
+      }
+    });
+  });
+
+  // Cerrar si se vuelve a tocar el botón hamburguesa
+  const navbarToggler = document.querySelector(".navbar-toggler");
+  navbarToggler.addEventListener("click", () => {
+    if (navbarCollapse.classList.contains("show")) {
+      new bootstrap.Collapse(navbarCollapse).toggle();
+    }
+  });
+});
+</script> -->
 </body>
 </html>

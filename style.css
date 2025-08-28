@@ -2717,3 +2717,6 @@ body {
 }
 
 .hidden{ opacity:0; visibility:hidden; }
+/* Asegura que el toggler quede siempre encima */
+.navbar-toggler { z-index: 2050 !important; }
+.navbar-collapse { z-index: 1500 !important; pointer-events: auto; }
