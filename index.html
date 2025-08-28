@@ -119,6 +119,15 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
+        <!-- Botón Newsletter solo mobile -->
+      
+<!-- Campanita 3D solo en mobile -->
+<!-- <a href="#notis" id="btnBell" class="btn-bell d-lg-none position-relative">
+  <i class="material-icons align-middle">notifications</i>
+  <span id="badgeBell" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger d-none"></span>
+</a> -->
+
+
         <!-- Opciones de Navegación -->
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-lg-auto">
@@ -177,6 +186,20 @@
 </section>
 <!-- PUNTO ROJO   ALERTA VERSION  -->
 <script>
+  // en el periodico
+  // Ejemplo: Actualizar badge dinámicamente
+// document.addEventListener('DOMContentLoaded', function () {
+//   const badge = document.getElementById('badgeBell');
+  
+  // Ejemplo: si hay 5 noticias
+//   const unread = 5; 
+//   if (unread > 0) {
+//     badge.textContent = unread;
+//     badge.classList.remove('d-none');
+//   }
+// });
+
+// en el menu
 document.addEventListener("DOMContentLoaded", () => {
 v
   const VERSION = "v5";               // cambiá a v2, v3... cuando subas noticias nuevas
@@ -416,14 +439,14 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
 </section>
-<section class="post-dia-nino">
+<section class="post-dia-nino viewport-container">
   <div class="md3-card festiva">
     
     <!-- Canvas para el confetti -->
     <canvas id="confetti-canvas"></canvas>
 
     <!-- Header festivo -->
-    <div class="header-festivo">
+    <div class="header-festivo" >
       <span class="globo">🎈</span>
       <h2 class="post-title d-none d-md-block">🌟 ¡Feliz Día del Niño! 🌟</h2>
       <h2 class="post-title d-block d-md-none">¡Feliz Día del Niño!<br>🌟🌟🌟🌟🌟🌟</h2>
@@ -913,7 +936,8 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
 }
 </style> -->
 <br>
-<div id="clara" class="santa-clara-section" style="width: 95vw; display: flex; justify-content: center; align-items: center;"></div>
+<!-- style="width: 95vw; max-width: 1400px;" -->
+<div id="clara" class="viewport-container" style="width: 95vw; display: flex; justify-content: center; align-items: center;">
   <div class="santa-clara-container" style="width: 95%; max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; box-shadow: 0 8px 24px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden;">
     <!-- Imagen izquierda con efecto zoom -->
     <div class="santa-clara-img zoom-effect"></div>
@@ -1060,7 +1084,7 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
 @media (max-width: 900px) {
   .santa-clara-container {
     flex-direction: column;
-    max-width: 90vw;
+    max-width: 85vw;
   }
   .santa-clara-img   {
     flex: 1 1 100%;
