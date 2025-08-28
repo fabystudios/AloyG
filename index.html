@@ -178,7 +178,7 @@
 <!-- PUNTO ROJO -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const VERSION = "v4";               // cambiá a v2, v3... cuando subas noticias nuevas
+  const VERSION = "v5";               // cambiá a v2, v3... cuando subas noticias nuevas
   const KEY = "noticiasVistas";
 
   const link  = document.getElementById("noticias-link");
@@ -723,14 +723,35 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
 <!-- ******************************** -->
 <!-- *    3 VIDEOS CATOLICOS        *-->
 <!-- ******************************** -->
+      <div class="card shadow-lg rounded-4 overflow-hidden " style="width: 90vw; max-width: 400px;"> 
+        <div class="position-relative text-center p-4" 
+        style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
+          <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); "> 
+            <span>28 de Agosto </span></h2>
+        
+            <img src="./img/paloma.png" alt="Cruz-Medalla de San Benito" style="width: 30px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
+        </div>
+        <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
+          <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
+          center center / cover no-repeat; border-radius:12px; 
+          box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
+            <video id="corpusVideo10" controls style="width:100%; height:400px; 
+            border:none; border-radius:12px; background: transparent;" 
+            poster="./video/SanAgus.jpg">
+              <source src="./video/SanAgus.mp4" type="video/mp4">
+              Tu navegador no soporta la reproducción de video.
+            </video>
+          </div>
+        </div>
+      </div> 
+    <!-- ----- --> 
      <div class="card shadow-lg rounded-4 overflow-hidden " style="width: 90vw; max-width: 400px;"> 
         <div class="position-relative text-center p-4" 
         style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
           <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); "> 
             <span>27 de Agosto </span></h2>
-            <span>Santa Mónica</span> y
-            <span>Conversión de San Agustín</span>
           <img src="./img/paloma.png" alt="Cruz-Medalla de San Benito" style="width: 30px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
         </div>
         <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
@@ -3132,6 +3153,67 @@ La celebración del Inmaculado Corazón de María está vinculada a las aparicio
 </section>
 
 <br>
+  <section id="noticias" class="section-padding"> 
+    <div class="container">        
+        <div class="card shadow-lg">
+            <div class="row g-0">
+            <div class="col-md-4">
+                <img src="https://www.aciprensa.com/imagespp/leon-vm-1756383277.jpeg?w=672&h=448" 
+                    class="img-fluid rounded-start card-img-left"
+                    alt="Imagen relacionada con la noticia"
+                    style="object-fit: cover; object-position: center; width: 100%; height: 100%; min-height: 220px; border-top-left-radius: .5rem; border-bottom-left-radius: .5rem;">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                 
+                <!-- <h5 class="card-title text-center"  style="color: #fcfbfb ; background:#ff6f00"><strong>17 de Julio</strong></h5> -->
+                <h5 class="card-title text-center"  style="color: #ff6f00;">
+                  <strong>28 de Agosto</strong></h5>
+
+                <h5 class="card-title text-center bg-danger-white" style="background:#d32f2f; color:#fff; font-size:1.5em; padding:0.75em 0.6em; border-radius:0.5em;">
+                  <strong>León XIV recuerda “la vida y el testimonio” de San Agustín en su día</strong>
+                </h5>
+                <style>
+                @media (max-width: 600px) {
+                  .bg-danger-white {
+                    font-size: 1em !important;
+                    padding: 0.4em 0.3em !important;
+                  }
+                }
+                </style>
+                </strong>
+            
+                <div class="author-info d-flex align-items-center">
+                    <img src="https://www.aciprensa.com/images/autores/NicolasdeCardenas.jpg?w=48&h=48" alt="Andrés Henríquez" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">
+                    <div>
+                        <h6 class="mb-0"><strong>Nicolás de Cárdenas </strong></h6>
+                        <p class="text-muted mb-0"><small>  desde Madrid</small></p>
+                    </div>
+                </div>
+              <!-- solo desktop -->
+                    <p class="card-text text-justify d-none d-md-block" style="text-align: justify;">
+El Papa León XIV ha recordado a través de su cuenta en X la enseñanza que supone para los cristianos “la vida y el testimonio” de San Agustín en el día en que la Iglesia Católica celebra su memoria litúrgica obligatoria.
+<strong>
+“La vida y el testimonio de San Agustín nos recuerdan que cada uno de nosotros ha recibido dones y talentos de Dios, y que nuestra vocación, nuestra realización y nuestra alegría nacen de devolverlos en amoroso servicio a Dios y a los demás”, ha expresado el Pontífice.
+</strong>
+
+</p>
+<!-- solo mobile -->
+                <p class="card-text text-justify d-block d-md-none" style="text-align: justify;">
+El Papa León XIV ha recordado a través de su cuenta en X la enseñanza que supone para los cristianos “la vida y el testimonio” de San Agustín en el día en que la Iglesia Católica celebra su memoria litúrgica obligatoria.
+</p>
+
+                  <button class="btn btn-md3 d-flex align-items-center" onclick="window.open('https://www.aciprensa.com/noticias/116689/leon-xiv-recuerda-la-vida-y-el-testimonio-de-san-agustin-en-su-dia', '_blank')">
+                    📖 <span style="display: flex; align-items: center; justify-content: center;">Leer más en</span>
+                    <img src="https://www.aciprensa.com/assets/images/branding/logo-white-small.png" alt="ACI" style="height: 1.8em; vertical-align: middle; margin-left: 0.5em;">
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+    </section>
   <section id="noticias" class="section-padding"> 
     <div class="container">        
         <div class="card shadow-lg">
