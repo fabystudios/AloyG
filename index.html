@@ -937,114 +937,117 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
 </style> -->
 <br>
 <!-- style="width: 95vw; max-width: 1400px;" -->
-<div id="clara" class="viewport-container" style="width: 95vw; display: flex; justify-content: center; align-items: center;">
-  <div class="santa-clara-container" style="width: 95%; max-width: 1100px; margin: 0 auto; display: flex; flex-wrap: wrap; box-shadow: 0 8px 24px rgba(0,0,0,0.2); border-radius: 12px; overflow: hidden;">
+<div id="clara" class="santa-clara-section">
+  <div class="santa-clara-container">
     <!-- Imagen izquierda con efecto zoom -->
-    <div class="santa-clara-img zoom-effect"></div>
+    <div class="santa-clara-img"></div>
     <!-- Texto derecha -->
     <div class="santa-clara-text">
-      <h2 class="md3-headline animate-fade-up text-center">Santa Clara de Asís</h2>
-      <style>
-      /* Reducir espacio entre párrafo y botón solo en móviles */
-      @media (max-width: 600px) {
-        .santa-clara-text .md3-body {
-          margin-bottom: 0.35rem !important;
-          line-height: 1.25;
-        }
-        .santa-clara-text .md3-btn {
-          margin-top: 0.35rem !important;
-          padding-top: 0.6rem !important;
-          padding-bottom: 0.6rem !important;
-        }
-      }
-      </style>
-
-      <p class="md3-body animate-fade-up" style="animation-delay: 0.2s;">
-        “Ama a Dios, sirve a Dios;<br> todo está en eso.”
+      <h2 class="santa-clara-title">Santa Clara de Asís</h2>
+      <p class="santa-clara-description">
+        "Ama a Dios, sirve a Dios;<br> todo está en eso."
         <br><br>
         Santa Clara de Asís, patrona de la televisión y de las clarisas, 
         nos enseña con su vida de pobreza, oración y amor fraterno, 
         que la verdadera riqueza está en Cristo.
       </p>
-      <button class="btn btn-md3 d-flex align-items-center md3-btn" onclick="window.open('https://desdelafe.mx/noticias/sabias-que/quien-fue-santa-clara-de-asis-la-fundadora-de-las-clarisas/', '_blank')">
-        <img src="./img/paloma.png" alt="Paloma" style="height: 2.2rem; vertical-align: middle; margin-left: 0.5em;">
-        <span style="line-height: 1;">Conoce su vida</span>
-        <img src="https://desdelafe.mx/wp-content/themes/desdelafe2023/assets/img/desdelafe.svg" alt="ACI" style="height: 2.2rem; vertical-align: middle; margin-left: 0.5em; filter: drop-shadow(0 0 8px #454220);">
+      <button class="santa-clara-btn" onclick="window.open('https://desdelafe.mx/noticias/sabias-que/quien-fue-santa-clara-de-asis-la-fundadora-de-las-clarisas/', '_blank')">
+        <img src="./img/paloma.png" alt="Paloma" class="btn-icon">
+        <span>Conoce su vida</span>
+        <img src="https://desdelafe.mx/wp-content/themes/desdelafe2023/assets/img/desdelafe.svg" alt="Desde la Fe" class="btn-logo">
       </button>
     </div>
   </div>
 </div>
 
 <style>
+/* ==== SANTA CLARA SECTION - ESTILOS UNIFICADOS ==== */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto:wght@400;500&display=swap');
 
-/* Centrado principal */
+/* Variables CSS para mantenimiento fácil */
+:root {
+  --santa-clara-primary: rgba(138,76,42,0.88);
+  --santa-clara-secondary: rgba(211,174,115,0.88);
+  --santa-clara-text-light: #FFF8E1;
+  --santa-clara-text-main: #fdfaf5;
+  --santa-clara-btn-bg: #FFD54F;
+  --santa-clara-btn-text: #4E342E;
+  --santa-clara-btn-hover: #FFC107;
+}
+
+/* Contenedor principal */
 .santa-clara-section {
-  width: 100vw;
+  width: 95vw;
+  max-width: 95vw;
+  margin: 0 auto;
   display: flex;
   justify-content: center;
   align-items: center;
-  /* padding: 2rem 0; */
+  padding: 2rem 0;
   box-sizing: border-box;
 }
 
+/* Card container */
 .santa-clara-container {
+  width: 100%;
+  max-width: 1100px;
   display: flex;
   flex-wrap: wrap;
-  max-width: 1100px;
-  width: 100%;
-  margin: 0 auto;
   box-shadow: 0 8px 24px rgba(0,0,0,0.2);
   border-radius: 12px;
   overflow: hidden;
-  background: #fff0;
+  background: transparent;
 }
 
-/* Imagen izquierda con animación de zoom */
+/* Imagen con animación */
 .santa-clara-img {
   flex: 1 1 60%;
   background: url('./img/santa-clara.jpeg') center/cover no-repeat;
-  min-height: 400px;
-}
-.zoom-effect {
-  animation: zoomSlow 3s ease-in-out infinite alternate;
+  min-height: 600px;
+  animation: santa-clara-zoom 3s ease-in-out infinite alternate;
 }
 
-/* Texto derecha */
+/* Sección de texto */
 .santa-clara-text {
   flex: 1 1 40%;
-  background: linear-gradient(135deg, rgba(138,76,42,0.88), rgba(211,174,115,0.88));
+  background: linear-gradient(135deg, var(--santa-clara-primary), var(--santa-clara-secondary));
   color: white;
   padding: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center; /* Centra el contenido vertical y horizontal */
+  align-items: center;
   text-align: center;
 }
 
-/* Títulos y texto */
-.santa-clara-text h2 {
+/* Título */
+.santa-clara-title {
   font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
   margin-bottom: 0.5rem;
-  color: #FFF8E1;
+  color: var(--santa-clara-text-light);
   text-shadow: 1px 1px 4px rgba(0,0,0,0.5);
-}
-.santa-clara-text p {
-  font-family: 'Roboto', sans-serif;
-  line-height: 1.6;
-  font-size: 1.05rem;
-  color: #fdfaf5;
-  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: santa-clara-fadeUp 1s ease forwards;
 }
 
-/* Botón estilo MD3 */
-.md3-btn {
+/* Descripción */
+.santa-clara-description {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  font-size: 1.35rem;
+  color: var(--santa-clara-text-main);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: santa-clara-fadeUp 1s ease forwards 0.2s;
+}
+
+/* Botón */
+.santa-clara-btn {
   margin-top: 1.5rem;
   padding: 0.8rem 1.6rem;
-  background-color: #FFD54F;
-  color: #4E342E;
+  background-color: var(--santa-clara-btn-bg);
+  color: var(--santa-clara-btn-text);
   font-weight: 600;
   font-family: 'Roboto', sans-serif;
   border: none;
@@ -1052,15 +1055,30 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0,0,0,0.25);
+  display: flex;
+  align-items: center;
   justify-content: center;
+  gap: 0.5rem;
 }
-.md3-btn:hover {
-  background-color: #FFC107;
+
+.santa-clara-btn:hover {
+  background-color: var(--santa-clara-btn-hover);
   box-shadow: 0 6px 12px rgba(0,0,0,0.35);
 }
 
+/* Iconos del botón */
+.btn-icon {
+  height: 2.2rem;
+  filter: drop-shadow(0 0 4px rgba(0,0,0,0.3));
+}
+
+.btn-logo {
+  height: 2.2rem;
+  filter: drop-shadow(0 0 8px #454220);
+}
+
 /* Animaciones */
-@keyframes fadeUp {
+@keyframes santa-clara-fadeUp {
   from {
     opacity: 0;
     transform: translateY(30px);
@@ -1070,57 +1088,92 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
     transform: translateY(0);
   }
 }
-.animate-fade-up {
-  opacity: 0;
-  animation: fadeUp 1s ease forwards;
-}
 
-/* Efecto zoom suave */
-@keyframes zoomSlow {
+@keyframes santa-clara-zoom {
   from { background-size: 100%; }
   to { background-size: 110%; }
 }
-  .santa-clara-section {
-    padding: 1rem 0;
-  }
-  .santa-clara-container {
-    max-width: 99vw;
-  }
-  .santa-clara-img {
-    min-height: 180px;
-  }
-  .santa-clara-text h2 {
-    font-size: 2.5rem;
-  }
-  .santa-clara-text p {
-    font-size: 1.5rem;
-  }
-/* Responsive */
+
+/* ==== RESPONSIVE DESIGN ==== */
+/* Tablet */
 @media (max-width: 900px) {
   .santa-clara-container {
     flex-direction: column;
+    width: 95% !important;
     max-width: 95vw !important;
   }
-  .santa-clara-img   {
+  
+  .santa-clara-img {
     flex: 1 1 100%;
-    min-height: 400px;
+    min-height: 600px;
   }
+  
   .santa-clara-text {
-    padding: 1rem;
     flex: 1 1 100%;
     min-height: 350px;
+    padding: 1rem;
   }
-  .santa-clara-text p {
-    font-size: 1.2rem;
-    line-height: 0.9;
-    /* margin-bottom: 1rem; */
-    padding-bottom: 0.5rem !important;
-  }
-    .santa-clara-text h2 {
+  
+  .santa-clara-title {
     font-size: 1.8rem;
+  }
+  
+  .santa-clara-description {
+    font-size: 1.2rem;
+    line-height: 1.4;
+    padding-bottom: 0.5rem;
   }
 }
 
+/* Mobile */
+@media (max-width: 600px) {
+  .santa-clara-section {
+    width: 99vw;
+    max-width: 99vw;
+    padding: 1rem 0;
+  }
+  
+  .santa-clara-img {
+    min-height: 300px;
+  }
+  
+  .santa-clara-title {
+    font-size: 1.5rem;
+  }
+  
+  .santa-clara-description {
+    font-size: 1rem;
+    line-height: 1.25;
+    margin-bottom: 1rem;
+  }
+  
+  .santa-clara-btn {
+    margin-top: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+  
+  .btn-icon,
+  .btn-logo {
+    height: 1.8rem;
+  }
+}
+
+/* Ultra pequeño */
+@media (max-width: 360px) {
+  .santa-clara-title {
+    font-size: 1.3rem;
+  }
+  
+  .santa-clara-description {
+    font-size: 0.9rem;
+  }
+  
+  .santa-clara-btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+  }
+}
 </style>
 <br><br><br><br>
 <div class="viewport-container">
