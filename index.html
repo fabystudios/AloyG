@@ -944,6 +944,21 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
     <!-- Texto derecha -->
     <div class="santa-clara-text">
       <h2 class="md3-headline animate-fade-up text-center">Santa Clara de Asís</h2>
+      <style>
+      /* Reducir espacio entre párrafo y botón solo en móviles */
+      @media (max-width: 600px) {
+        .santa-clara-text .md3-body {
+          margin-bottom: 0.35rem !important;
+          line-height: 1.25;
+        }
+        .santa-clara-text .md3-btn {
+          margin-top: 0.35rem !important;
+          padding-top: 0.6rem !important;
+          padding-bottom: 0.6rem !important;
+        }
+      }
+      </style>
+
       <p class="md3-body animate-fade-up" style="animation-delay: 0.2s;">
         “Ama a Dios, sirve a Dios;<br> todo está en eso.”
         <br><br>
@@ -1098,15 +1113,11 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
   .santa-clara-text p {
     font-size: 1.2rem;
     line-height: 0.9;
+    /* margin-bottom: 1rem; */
+    padding-bottom: 0.5rem !important;
   }
-  .santa-clara-text h2 {
+    .santa-clara-text h2 {
     font-size: 1.8rem;
-  }
-
-  /* Reducir padding-bottom al 50% en mobile */
-  .santa-clara-container,
-  .santa-clara-text {
-    padding-bottom: calc(var(--santa-padding-bottom, 2rem) * 0.5);
   }
 }
 
