@@ -1084,7 +1084,7 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
 @media (max-width: 900px) {
   .santa-clara-container {
     flex-direction: column;
-    max-width: 95vw;
+    max-width: 95vw !important;
   }
   .santa-clara-img   {
     flex: 1 1 100%;
@@ -1099,8 +1099,14 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
     font-size: 1.2rem;
     line-height: 0.9;
   }
-    .santa-clara-text h2 {
+  .santa-clara-text h2 {
     font-size: 1.8rem;
+  }
+
+  /* Reducir padding-bottom al 50% en mobile */
+  .santa-clara-container,
+  .santa-clara-text {
+    padding-bottom: calc(var(--santa-padding-bottom, 2rem) * 0.5);
   }
 }
 
