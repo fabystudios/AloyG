@@ -962,6 +962,7 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
 
 <style>
 /* ==== SANTA CLARA SECTION - ESTILOS UNIFICADOS ==== */
+/* Sección dedicada a Santa Clara de Asís con diseño responsive y animaciones */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Roboto:wght@400;500&display=swap');
 
 /* Variables CSS para mantenimiento fácil */
@@ -999,7 +1000,7 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
   background: transparent;
 }
 
-/* Imagen con animación */
+/* Imagen con animación de zoom sutil */
 .santa-clara-img {
   flex: 1 1 60%;
   background: url('./img/santa-clara.jpeg') center/cover no-repeat;
@@ -1007,7 +1008,7 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
   animation: santa-clara-zoom 3s ease-in-out infinite alternate;
 }
 
-/* Sección de texto */
+/* Sección de texto con gradiente franciscano */
 .santa-clara-text {
   flex: 1 1 40%;
   background: linear-gradient(135deg, var(--santa-clara-primary), var(--santa-clara-secondary));
@@ -1020,7 +1021,7 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
   text-align: center;
 }
 
-/* Título */
+/* Título con animación de entrada */
 .santa-clara-title {
   font-family: 'Playfair Display', serif;
   font-size: 1.8rem;
@@ -1031,7 +1032,7 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
   animation: santa-clara-fadeUp 1s ease forwards;
 }
 
-/* Descripción */
+/* Descripción con texto inspiracional */
 .santa-clara-description {
   font-family: 'Roboto', sans-serif;
   line-height: 1.6;
@@ -1042,7 +1043,7 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
   animation: santa-clara-fadeUp 1s ease forwards 0.2s;
 }
 
-/* Botón */
+/* Botón con diseño Material Design */
 .santa-clara-btn {
   margin-top: 1.5rem;
   padding: 0.8rem 1.6rem;
@@ -1066,7 +1067,7 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
   box-shadow: 0 6px 12px rgba(0,0,0,0.35);
 }
 
-/* Iconos del botón */
+/* Iconos del botón con sombras */
 .btn-icon {
   height: 2.2rem;
   filter: drop-shadow(0 0 4px rgba(0,0,0,0.3));
@@ -1077,7 +1078,7 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
   filter: drop-shadow(0 0 8px #454220);
 }
 
-/* Animaciones */
+/* Animaciones CSS personalizadas */
 @keyframes santa-clara-fadeUp {
   from {
     opacity: 0;
@@ -1095,7 +1096,7 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
 }
 
 /* ==== RESPONSIVE DESIGN ==== */
-/* Tablet */
+/* Tablet - Reorganización en columna */
 @media (max-width: 900px) {
   .santa-clara-container {
     flex-direction: column;
@@ -1125,12 +1126,18 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
   }
 }
 
-/* Mobile */
+/* Mobile - Optimización para pantallas pequeñas */
 @media (max-width: 600px) {
   .santa-clara-section {
-    width: 95vw;
-    max-width: 95vw;
+    width: 100vw; /* Ancho completo en mobile */
+    max-width: 100vw; /* Máximo ancho completo */
     padding: 1rem 0;
+  }
+  
+  .santa-clara-container {
+    width: 90% !important; /* Card ocupa todo el ancho disponible */
+    max-width: 90vw !important; /* Sin restricciones de ancho máximo */
+    margin: 0; /* Sin márgenes adicionales */
   }
   
   .santa-clara-img {
@@ -1159,7 +1166,7 @@ align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw;
   }
 }
 
-/* Ultra pequeño */
+/* Ultra pequeño - Dispositivos muy pequeños */
 @media (max-width: 360px) {
   .santa-clara-title {
     font-size: 1.3rem;
