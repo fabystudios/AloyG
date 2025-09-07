@@ -545,6 +545,48 @@ width: 90vw; max-width: 90%; margin: 0 auto;">
         </div>
       </div>
 
+
+      <!-- Botón Saber Más -->
+      <div class="text-center mt-4" style="width: 100%; margin: 0 20px 0 20px;">
+        <button class="btn-md3" style="
+          background: linear-gradient(45deg, #7B1FA2, #9C27B0);
+          color: white;
+          border: none;
+          border-radius: 50px;
+          padding: 1rem 2rem;
+          font-size: 1.1rem;
+          font-weight: 600;
+          box-shadow: 0 4px 12px rgba(123, 31, 162, 0.3);
+          transition: all 0.3s ease;
+          cursor: pointer;
+        " 
+        onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 16px rgba(123, 31, 162, 0.4)'"
+        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(123, 31, 162, 0.3)'"
+        onclick="document.getElementById('Acutis').scrollIntoView({ behavior: 'smooth' });">
+        <span class="btn-text" style="display: flex; align-items: center; justify-content: center; text-align: center;">
+        <img src="apple-touch-icon.png" alt="Oración" class="btn-icon d-none d-md-inline" style="width: 30px; height: 30px; margin-right: 8px; vertical-align: middle;">
+        <img src="apple-touch-icon.png" alt="Oración" class="btn-icon-mobile d-block d-md-none" style="width: 20px; height: 20px; margin-right: 6px; vertical-align: middle;">
+        <span class="d-none d-md-inline">Canonización: Hoy, 7 de septiembre del 2025</span>
+        <span class="d-block d-md-none">Canonización: hoy</span>
+        <img src="apple-touch-icon.png" alt="Oración" class="btn-icon d-none d-md-inline" style="width: 30px; height: 30px; margin-left: 8px; vertical-align: middle;">
+        </span>
+        </button>
+        <style>
+        @media (max-width: 600px) {
+          .btn-md3 {
+        padding: 0.7rem 1.2rem !important;
+        font-size: 0.9rem !important;
+          }
+          .btn-text {
+        line-height: 1.2 !important;
+          }
+          .btn-icon-mobile {
+        display: inline !important;
+          }
+        }
+        </style>
+        </div>
+
   
   </div>
 </div>
@@ -2839,7 +2881,7 @@ La celebración del Inmaculado Corazón de María está vinculada a las aparicio
 </section>
 
 <br>
-  <section id="noticias" class="section-padding"> 
+  <section id="Acutis" class="section-padding"> 
     <div class="container">        
         <div class="card shadow-lg">
             <div class="row g-0">
