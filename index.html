@@ -583,220 +583,174 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- - Sección de videos - -->
 <!-- Título 3D -->
  <!-- d-none -->
-<div class="text-center mb-4 d-flex justify-content-center align-items-center  d-lg-flex" style="gap: 0.7rem; max-width: 95vw; width: 95vw; margin: 0 auto; padding: 0;">
+<div class="text-center mb-4 d-none d-lg-flex justify-content-center align-items-center" style="gap: 0.7rem; max-width: 95vw; width: 95vw; margin: 0 auto; padding: 0;">
   
-    <!-- Icono Material Design 3 (Material Symbols Rounded) -->   
+  <!-- Icono Material Design 3 (Material Symbols Rounded) -->   
   <h2 class="efemerides-title" style="
-    font-family: 'Roboto', sans-serif;
-    font-weight: 900;
-    font-size: 2.4rem;
-    letter-spacing: 1px;
-    padding-bottom: 0% !important;
-    text-shadow:
-      2px 2px 0 #fff,
-      6px 6px 8px #00000044;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    margin: 0 auto;
-    position: relative;
-    z-index: 2;
-    max-width: 95vw;
-    width: 95vw;
-    box-sizing: border-box;
-    justify-content: center; 
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  font-size: 2.4rem;
+  letter-spacing: 1px;
+  padding-bottom: 0% !important;
+  text-shadow:
+    2px 2px 0 #fff,
+    6px 6px 8px #00000044;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+  max-width: 95vw;
+  width: 95vw;
+  box-sizing: border-box;
+  justify-content: center; 
   ">
-    <span class="material-symbols-rounded align-middle" style="font-size:2.9rem; color:#6200ea;">movie</span>
-    <span>Nuevos Santos</span>
+  <span class="material-symbols-rounded align-middle" style="font-size:2.9rem; color:#6200ea;">movie</span>
+  <span>Nuevos Santos</span>
   </h2>
-  <style>
-    @media (max-width: 600px) {
-      .efemerides-title {
-        font-size: 1.8rem !important;
-      }
-      .efemerides-icon {
-        font-size: 1.7rem !important;
-      }
-    }
-  </style>
  
 </div>
 <!-- ...3 días... -->
-<div id="3VideosCatolicos" class="section-padding d-flex justify-content-center align-items-center" 
+<div id="3VideosCatolicos" class="section-padding d-none d-lg-flex justify-content-center align-items-center" 
 style="min-height: 65vh; background: url('./img/sky.jpg') center/cover no-repeat; 
 border-radius: 1.5rem; box-shadow: 0 8px 24px rgba(0,0,0,0.15), 0 4px 12px rgba(0,0,0,0.10);
 width: 90vw; max-width: 90%; margin: 0 auto;">
   <div class="d-flex flex-wrap justify-content-center gap-4" style="width: 95vw; max-width: 1400px;">
 <!--  -->
-     <!-- Primera Card - Santos -->
-      <div class="card shadow-lg rounded-4 overflow-hidden" style="width: 90vw; max-width: 400px;">
-        <style>
-          @media (max-width: 768px) {
-        .card.shadow-lg.rounded-4.overflow-hidden {
-          width: 80vw !important;
-        }
-          }
-        </style>
-        
-        <div class="position-relative text-center p-4" style="background: linear-gradient(45deg,  #f909e5, #88059f); color: white;">
-          <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
-          San Carlo y San Pier Giorgio </h2>
-          <style>
-          @media (max-width: 600px) {
-            .fw-bold.mb-0 {
-              font-size: 1.5em !important;
-            }
-          }
-          </style>
-        <img src="./img/palomita.png" alt="Cruz-Medalla de San Benito" style="width: 60px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
-        </div>
-        <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
-          <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
-          center center / cover no-repeat; border-radius:12px; 
-          box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
-        <video id="corpusVideo20" controls preload="none" style="width:100%; height:400px; 
-        border:none; border-radius:12px; background: transparent;" 
-        poster="./img/santos.jpeg">
-          <source src="./img/Santos.mp4" type="video/mp4">
-          Tu navegador no soporta la reproducción de video.
-        </video>
-          </div>
-        </div>
+   <!-- Primera Card - Santos -->
+    <div class="card shadow-lg rounded-4 overflow-hidden" style="width: 90vw; max-width: 400px;">
+    
+    <div class="position-relative text-center p-4" style="background: linear-gradient(45deg,  #f909e5, #88059f); color: white;">
+      <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
+      San Carlo y San Pier Giorgio </h2>
+    <img src="./img/palomita.png" alt="Cruz-Medalla de San Benito" style="width: 60px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
+    </div>
+    <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
+      <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
+      center center / cover no-repeat; border-radius:12px; 
+      box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
+    <video id="corpusVideo20" controls preload="none" style="width:100%; height:400px; 
+    border:none; border-radius:12px; background: transparent;" 
+    poster="./img/santos.jpeg">
+      <source src="./img/Santos.mp4" type="video/mp4">
+      Tu navegador no soporta la reproducción de video.
+    </video>
       </div>
+    </div>
+    </div>
 
-     <!-- Card 2 - San Carlo Acutis -->
-      <div class="card shadow-lg rounded-4 overflow-hidden" style="width: 90vw; max-width: 400px;">
-        
-        <div class="position-relative text-center p-4" style="background: linear-gradient(45deg,  #f909e5, #88059f); color: white;">
-          <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
-          San Carlo <br> Acutis </h2>
-          <style>
-          @media (max-width: 600px) {
-            .fw-bold.mb-0 {
-              font-size: 1.5em !important;
-            }
-          }
-          </style>
-        <img src="./img/palomita.png" alt="Cruz-Medalla de San Benito" style="width: 60px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
-        </div>
-        <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
-          <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
-          center center / cover no-repeat; border-radius:12px; 
-          box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
-        <video id="corpusVideo21" controls preload="none" style="width:100%; height:400px; 
-        border:none; border-radius:12px; background: transparent;" 
-        poster="./img/acutis.jpeg">
-          <source src="./img/acutis.mp4" type="video/mp4">
-          Tu navegador no soporta la reproducción de video.
-        </video>
-          </div>
-        </div>
+   <!-- Card 2 - San Carlo Acutis -->
+    <div class="card shadow-lg rounded-4 overflow-hidden" style="width: 90vw; max-width: 400px;">
+    
+    <div class="position-relative text-center p-4" style="background: linear-gradient(45deg,  #f909e5, #88059f); color: white;">
+      <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
+      San Carlo <br> Acutis </h2>
+    <img src="./img/palomita.png" alt="Cruz-Medalla de San Benito" style="width: 60px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
+    </div>
+    <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
+      <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
+      center center / cover no-repeat; border-radius:12px; 
+      box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
+    <video id="corpusVideo21" controls preload="none" style="width:100%; height:400px; 
+    border:none; border-radius:12px; background: transparent;" 
+    poster="./img/acutis.jpeg">
+      <source src="./img/acutis.mp4" type="video/mp4">
+      Tu navegador no soporta la reproducción de video.
+    </video>
       </div>
+    </div>
+    </div>
 
-     <!-- Card 3 - San Pier Giorgio Frassati -->
-      <div class="card shadow-lg rounded-4 overflow-hidden" style="width: 90vw; max-width: 400px;">
-        <div class="position-relative text-center p-4" style="background: linear-gradient(45deg, #f909e5, #88059f); color: white;">
-          <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
-          San Pier <br> Giorgio Frassati </h2>
-            <img src="./img/palomita.png" alt="Cruz-Medalla de San Benito" style="width: 60px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;">
-        </div>
-        <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
-          <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
-          center center / cover no-repeat; border-radius:12px; 
-          box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
-            <video id="corpusVideo22" controls preload="none" style="width:100%; height:400px; 
-            border:none; border-radius:12px; background: transparent;" 
-            poster="./img/frassati.jpeg">
-              <source src="./img/frassati.mp4" type="video/mp4">
-              Tu navegador no soporta la reproducción de video.
-            </video>
-          </div>
-        </div>
+   <!-- Card 3 - San Pier Giorgio Frassati -->
+    <div class="card shadow-lg rounded-4 overflow-hidden" style="width: 90vw; max-width: 400px;">
+    <div class="position-relative text-center p-4" style="background: linear-gradient(45deg, #f909e5, #88059f); color: white;">
+      <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
+      San Pier <br> Giorgio Frassati </h2>
+      <img src="./img/palomita.png" alt="Cruz-Medalla de San Benito" style="width: 60px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;">
+    </div>
+    <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
+      <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
+      center center / cover no-repeat; border-radius:12px; 
+      box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
+      <video id="corpusVideo22" controls preload="none" style="width:100%; height:400px; 
+      border:none; border-radius:12px; background: transparent;" 
+      poster="./img/frassati.jpeg">
+        <source src="./img/frassati.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de video.
+      </video>
       </div>
+    </div>
+    </div>
 
 
-      <!-- Botón Saber Más -->
-      <div class="text-center mt-4" style="width: 100%; margin: 0 20px 0 20px;">
-        <button class="btn-md3" style="
-          background: linear-gradient(45deg, #7B1FA2, #9C27B0);
-          color: white;
-          border: none;
-          border-radius: 50px;
-          padding: 1rem 2rem;
-          font-size: 1.1rem;
-          font-weight: 600;
-          box-shadow: 0 4px 12px rgba(123, 31, 162, 0.3);
-          transition: all 0.3s ease;
-          cursor: pointer;
-        " 
-        onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 16px rgba(123, 31, 162, 0.4)'"
-        onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(123, 31, 162, 0.3)'"
-        onclick="document.getElementById('Acutis').scrollIntoView({ behavior: 'smooth' });">
-        <span class="btn-text" style="display: flex; align-items: center; justify-content: center; text-align: center;">
-        <img src="apple-touch-icon.png" alt="Oración" class="btn-icon d-none d-md-inline" style="width: 30px; height: 30px; margin-right: 8px; vertical-align: middle;">
-        <img src="apple-touch-icon.png" alt="Oración" class="btn-icon-mobile d-block d-md-none" style="width: 20px; height: 20px; margin-right: 6px; vertical-align: middle;">
-        <span class="d-none d-md-inline">Canonización: 7 de septiembre del 2025</span>
-        <span class="d-block d-md-none">Canonización: 7/9/2025</span>
-        <img src="apple-touch-icon.png" alt="Oración" class="btn-icon d-none d-md-inline" style="width: 30px; height: 30px; margin-left: 8px; vertical-align: middle;">
-        </span>
-        </button>
-        <style>
-        @media (max-width: 600px) {
-          .btn-md3 {
-        padding: 0.7rem 1.2rem !important;
-        font-size: 0.9rem !important;
-          }
-          .btn-text {
-        line-height: 1.2 !important;
-          }
-          .btn-icon-mobile {
-        display: inline !important;
-          }
-        }
-        </style>
-        </div>
+    <!-- Botón Saber Más -->
+    <div class="text-center mt-4" style="width: 100%; margin: 0 20px 0 20px;">
+    <button class="btn-md3" style="
+      background: linear-gradient(45deg, #7B1FA2, #9C27B0);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(123, 31, 162, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    " 
+    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 16px rgba(123, 31, 162, 0.4)'"
+    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(123, 31, 162, 0.3)'"
+    onclick="document.getElementById('Acutis').scrollIntoView({ behavior: 'smooth' });">
+    <span class="btn-text" style="display: flex; align-items: center; justify-content: center; text-align: center;">
+    <img src="apple-touch-icon.png" alt="Oración" class="btn-icon" style="width: 30px; height: 30px; margin-right: 8px; vertical-align: middle;">
+    <span>Canonización: 7 de septiembre del 2025</span>
+    <img src="apple-touch-icon.png" alt="Oración" class="btn-icon" style="width: 30px; height: 30px; margin-left: 8px; vertical-align: middle;">
+    </span>
+    </button>
+    </div>
 
   
   </div>
+
 </div>
 
 <!-- Script para lazy loading de videos -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Función para cargar video cuando sea necesario
-    function loadVideo(video) {
-        if (video.getAttribute('data-loaded') !== 'true') {
-            video.load(); // Carga el video
-            video.setAttribute('data-loaded', 'true');
-        }
+  // Función para cargar video cuando sea necesario
+  function loadVideo(video) {
+    if (video.getAttribute('data-loaded') !== 'true') {
+      video.load(); // Carga el video
+      video.setAttribute('data-loaded', 'true');
     }
+  }
 
-    // Configurar Intersection Observer para lazy loading
-    const videoObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const video = entry.target;
-                loadVideo(video);
-                observer.unobserve(video); // Dejar de observar una vez cargado
-            }
-        });
-    }, {
-        rootMargin: '50px' // Cargar cuando esté a 50px de ser visible
+  // Configurar Intersection Observer para lazy loading
+  const videoObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const video = entry.target;
+        loadVideo(video);
+        observer.unobserve(video); // Dejar de observar una vez cargado
+      }
     });
+  }, {
+    rootMargin: '50px' // Cargar cuando esté a 50px de ser visible
+  });
 
-    // Observar todos los videos en esta sección
-    const videos = document.querySelectorAll('#3VideosCatolicos video');
-    videos.forEach(video => {
-        videoObserver.observe(video);
-        
-        // También cargar cuando el usuario hace clic en play
-        video.addEventListener('play', function() {
-            loadVideo(this);
-        });
+  // Observar todos los videos en esta sección
+  const videos = document.querySelectorAll('#3VideosCatolicos video');
+  videos.forEach(video => {
+    videoObserver.observe(video);
+    
+    // También cargar cuando el usuario hace clic en play
+    video.addEventListener('play', function() {
+      loadVideo(this);
     });
+  });
 });
 </script>
 
@@ -813,8 +767,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 </style>
-<br><br>
 
+  <br class="d-none d-md-block" ><br class="d-none d-md-block" >
 
 <section class="post-dia-nino viewport-container">
   <div class="md3-card festiva">
