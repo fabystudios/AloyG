@@ -98,15 +98,17 @@
 
 <!-- Modal -->
 <div id="flyerModal" 
-     class="position-fixed top-0 start-0 w-100 h-100 d-none align-items-center justify-content-center" 
-     style="background: rgba(0,0,0,0.8); z-index: 1050;">
+  class="position-fixed top-0 start-0 w-100 h-100 d-none align-items-center justify-content-center" 
+  style="background: rgba(0,0,0,0.8); z-index: 1050;"
+  onclick="closeModal()">
   <div class="position-relative w-100 h-100 d-flex align-items-center justify-content-center">
     <button onclick="closeModal()"
-            class="position-absolute top-0 end-0 m-3 btn btn-light rounded-circle">
-      ✕
+      class="position-absolute top-0 end-0 m-3 btn btn-light rounded-circle">
+   ✕
     </button>
     <img id="flyerImage" src="" alt="Flyer" 
-         class="img-fluid rounded shadow-lg" style="max-height: 90vh; max-width: 90vw;">
+      class="img-fluid rounded shadow-lg" style="max-height: 90vh; max-width: 90vw;"
+      onclick="event.stopPropagation()">
   </div>
 </div>
 
@@ -150,8 +152,8 @@
             <a href="https://wa.me/${c.whatsapp}" target="_blank"
              class="btn btn-success flex-fill rounded-pill shadow-lg"
              style="background: linear-gradient(145deg, #25d366, #128c7e); border: none; color: white; font-weight: 600; padding: 10px 15px; transition: all 0.3s ease; transform: perspective(1px) translateZ(0); width: 50%; font-size: 0.875rem;"
-             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(37, 211, 102, 0.4)'"
-             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.2)'">
+             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(37, 211, 102, 0.4)'; this.style.background='linear-gradient(145deg, #7ce49a, #5db59f)'"
+             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.2)'; this.style.background='linear-gradient(145deg, #25d366, #128c7e)'">
             <i class="fab fa-whatsapp me-2"></i>Mensaje
             </a>
 
