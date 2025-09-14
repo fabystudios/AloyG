@@ -138,10 +138,10 @@
               </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link position-relative" href="./avisos/avisos.html">
+                <a class="nav-link position-relative" href="./avisos/avisos.html" id="avisos-link">
                 <i class="material-icons align-middle">announcement</i>
                 <span class="ms-1" style="font-size:.85em;">Avisos</span>
-           
+                <span id="badge-avisos" class="badge-dot hidden" aria-hidden="true"></span>
                 </a>
             </li>
             <li class="nav-item">
@@ -214,6 +214,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const link  = document.getElementById("noticias-link");
   const badge = document.getElementById("badge-noticias");
+  if (!link || !badge) return;        // no romper si el nodo no existe
+
+  if (localStorage.getItem(KEY) !== VERSION) {
+    badge.classList.remove("hidden");
+  }
+
+  // Marcá como visto al hacer clic (se ejecuta antes de navegar)
+  link.addEventListener("click", () => {
+    localStorage.setItem(KEY, VERSION);
+    badge.classList.add("hidden");
+  });
+});
+document.addEventListener("DOMContentLoaded", () => {
+  const VERSION = "v0";               // cambiá a v2, v3... cuando subas noticias nuevas
+  const KEY = "avisosVistas";
+
+  const link  = document.getElementById("avisos-link");
+  const badge = document.getElementById("badge-avisos");
   if (!link || !badge) return;        // no romper si el nodo no existe
 
   if (localStorage.getItem(KEY) !== VERSION) {
