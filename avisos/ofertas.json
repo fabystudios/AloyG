@@ -1,0 +1,20 @@
+[
+  {
+    "nombre": "Apoyo escolar a Domicilio",
+    "thumb": "./img/aure.jpg",
+    "flyer": "./img/aure.jpg",
+    "whatsapp": "1165346704"
+  },
+  {
+    "nombre": "Stickers y Autodesivos",
+    "thumb": "./img/aure2.jpg",
+    "flyer": "./img/aure2.jpg",
+    "whatsapp": "1163762916"
+  },
+  {
+    "nombre": "Clases particulares",
+    "thumb": "./img/leonel.jpg",
+    "flyer": "./img/leonel2.jpg",
+    "whatsapp": "1158073712"
+  }
+]

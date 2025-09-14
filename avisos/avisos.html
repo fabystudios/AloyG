@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Casas de Retiro Santo Cura Brochero</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+   <!-- Bootstrap CSS -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+   <!-- Material Icons -->
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+   <!-- Font Awesome -->
+   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+   <!-- Favicon -->
+   <link rel="icon" href="/api/placeholder/32/32" type="image/png">
+   <!-- Google Fonts -->
+   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+   <!-- Custom CSS -->
+   <link rel="stylesheet" href="style.css">
+
+   <!-- Theme CSS -->
+   <link href="css/bootstrap.min.css" rel="stylesheet">
+   <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+   <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+   <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <!-- Google Fonts - Fuentes llamativas para títulos -->
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Bungee&family=Righteous&family=Bebas+Neue&family=Pacifico&display=swap" rel="stylesheet">
+  <style>
+  @font-face {
+    font-family: 'amarillo';
+    src: url('fonts/amarillo.woff2') format('woff2'),
+       url('fonts/amarillo.woff') format('woff'),
+       url('fonts/amarillo.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  </style>
+</head>
+ 
+    <body class="bg-light">
+        <!-- Navbar -->
+     
+            <!-- Header -->
+            <header id="inicio" class="bg-gradient-dark text-light py-3 shadow-sm">
+                <div class="containerHeader d-flex flex-wrap justify-content-between align-items-center">
+                    <!-- Logo y Título -->
+                    <a href="#" class="d-flex align-items-center text-light text-decoration-none">
+                        <img src="aviso-logo.png" alt="Logo Casa de Retiros" height="70" class="me-3">
+                        <div>
+                            <!-- <h1 class="fs-1 fw-bold mb-0 text-center" style="font-family: 'amarillo', sans-serif;">Avisos Parroquiales</h1> -->
+                      <h1 class="fs-1 fw-bold mb-0 text-center w-100" style="font-family: 'Fredoka One', cursive; text-shadow: 4px 4px 8px rgba(0,0,0,0.3); color: yellow;">Avisos Parroquiales</h1>
+                          </div>
+                    </a>
+        
+                    <!-- Botones de Navegación -->
+                    <div class="d-flex flex-wrap justify-content-center gap-3 ">
+                       <a href="#contacto" class="btn-md3 text-decoration-none">
+                            <i class="material-icons align-middle me-2">contact_mail</i> Contacto
+                        </a>
+
+                        <a href="../index.html" class="btn-md3 text-decoration-none">
+                        <i class="material-icons align-middle me-2">arrow_back</i> Volver
+                        </a>
+                    </div>
+                </div>
+            </header>
+    
+
+<section class="bg-gray-50 py-5 px-4">
+  <div class="container">
+    <!-- <h2 class="md3-headline" style="color: #333;">
+      <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> 
+
+    </h2> -->
+
+    <style>
+    @media (min-width: 768px) {
+      .md3-headline {
+        font-size: 2.5rem;
+      }
+    }
+    @media (max-width: 767px) {
+      .md3-headline {
+        font-size: 1.5rem;
+        line-height: 1.2;
+      }
+    }
+    </style>
+
+    <!-- Grid usando Bootstrap flex -->
+    <div id="cardsContainer" class="d-flex flex-wrap justify-content-center gap-3"></div>
+  </div>
+</section>
+
+<!-- Modal -->
+<div id="flyerModal" 
+     class="position-fixed top-0 start-0 w-100 h-100 d-none align-items-center justify-content-center" 
+     style="background: rgba(0,0,0,0.8); z-index: 1050;">
+  <div class="position-relative w-100 h-100 d-flex align-items-center justify-content-center">
+    <button onclick="closeModal()"
+            class="position-absolute top-0 end-0 m-3 btn btn-light rounded-circle">
+      ✕
+    </button>
+    <img id="flyerImage" src="" alt="Flyer" 
+         class="img-fluid rounded shadow-lg" style="max-height: 90vh; max-width: 90vw;">
+  </div>
+</div>
+
+<script>
+  // Cargar JSON externo
+  fetch("ofertas.json")
+    .then(response => response.json())
+    .then(comercios => {
+      const container = document.getElementById("cardsContainer");
+
+      comercios.forEach(c => {
+        const card = document.createElement("div");
+        card.className = "card border-0 shadow-sm rounded-3 overflow-hidden mb-3";
+        card.style.cssText = "width: 300px; min-height: 400px; transition: all 0.3s ease;";
+        
+        // Hover effect
+        card.addEventListener('mouseenter', () => {
+          card.style.transform = 'scale(1.02)';
+          card.classList.add('shadow-lg');
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = 'scale(1)';
+          card.classList.remove('shadow-lg');
+        });
+
+        card.innerHTML = `
+          <!-- Miniatura -->
+          <img src="${c.thumb}" alt="Flyer ${c.nombre}"
+               loading="lazy"
+               class="card-img-top w-100"
+               style=" object-fit: contain; object-position: center;">
+
+            <div class="card-body d-flex flex-column" style="background-color: #f8f9fa;">
+
+            <h5 class="card-title text-center fw-bold mb-3" 
+              style="color: #0d6efd; font-family: 'Bebas Neue', cursive; font-size: 1.5rem;">
+              ${c.nombre}
+            </h5>
+            <div class="d-flex gap-2 mt-auto">
+              <!-- Botón WhatsApp -->
+            <a href="https://wa.me/${c.whatsapp}" target="_blank"
+             class="btn btn-success flex-fill rounded-pill shadow-lg"
+             style="background: linear-gradient(145deg, #25d366, #128c7e); border: none; color: white; font-weight: 600; padding: 10px 15px; transition: all 0.3s ease; transform: perspective(1px) translateZ(0);"
+             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(37, 211, 102, 0.4)'"
+             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.2)'">
+            <i class="fab fa-whatsapp me-2"></i>Contactar
+            </a>
+
+              <!-- Botón Ver -->
+            <button data-flyer="${c.flyer}"
+             class="btn-ver btn-md3 flex-fill rounded-pill shadow-lg"
+             style="border: none; color: white; font-weight: 600; padding: 10px 15px; transition: all 0.3s ease; transform: perspective(1px) translateZ(0);"
+             onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(13, 110, 253, 0.4)'"
+             onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 15px rgba(0,0,0,0.2)'">
+            <i class="fas fa-search me-2"></i>Ver
+            </button>
+            </div>
+            </div>
+            `;
+            container.appendChild(card);
+            });
+
+      // Vincular eventos después de renderizar
+      document.querySelectorAll(".btn-ver").forEach(btn => {
+        btn.addEventListener("click", () => {
+          const flyerSrc = btn.getAttribute("data-flyer");
+          openModal(flyerSrc);
+        });
+      });
+    })
+    .catch(err => console.error("Error cargando ofertas.json", err));
+
+  // Funciones modal
+  function openModal(imgSrc) {
+    const flyerImg = document.getElementById('flyerImage');
+    flyerImg.src = imgSrc;
+    const modal = document.getElementById('flyerModal');
+    modal.classList.remove('d-none');
+    modal.classList.add('d-flex');
+  }
+  
+  function closeModal() {
+    const modal = document.getElementById('flyerModal');
+    modal.classList.remove('d-flex');
+    modal.classList.add('d-none');
+    document.getElementById('flyerImage').src = "";
+  }
+</script>
+
+<!-- CSS para responsividad -->
+<style>
+@media (max-width: 768px) {
+  #cardsContainer .card {
+    width: 100% !important;
+    max-width: 350px;
+  }
+}
+
+@media (min-width: 769px) {
+  #cardsContainer {
+    justify-content: flex-start !important;
+  }
+  #cardsContainer .card {
+    flex: 0 0 calc(33.333% - 1rem);
+    max-width: calc(33.333% - 1rem);
+  }
+}
+</style>
+<!-- Las cards del grid principal -->
+<div id="contacto" class="grid-container" style="margin: 20px;">
+  <!-- Información de Contacto -->
+  <div class="tarjeta">
+    <div class="contenido-contacto">
+    <h2 class="titulo-seccion">INFORMACIÓN DE CONTACTO</h2>
+    <div class="lista-contacto">
+      <div class="item-contacto">
+      <i class="material-icons icono">location_on</i>
+      <div class="texto-contacto">
+        Dirección: Calle 9 entre 52 y 54, Villa Elisa,<br>
+        Provincia de Buenos Aires, Argentina
+      </div>
+      </div>
+      
+      <div class="item-contacto">
+      <i class="material-icons icono">phone</i>
+      <div class="texto-contacto">
+        <a href="tel:+542215947600">Teléfono: +54 221 594-7600</a>
+      </div>
+      </div>
+      
+      <div class="item-contacto">
+      <i class="material-icons icono">email</i>
+      <div class="texto-contacto">
+        <a href="mailto:sanluisvillaelisa@gmail.com">Email: sanluisvillaelisa@gmail.com</a>
+      </div>
+      </div>
+    </div>
+    </div>
+  </div>
+  
+  <!-- Formulario -->
+  <div class="tarjeta">
+    <form 
+    action="https://formspree.io/f/xeoelrzv"
+    method="POST"
+    class="formulario">
+    <input type="text" name="nombre" placeholder="Nombre" class="campo-formulario">
+    <input type="email" name="email" placeholder="Email" class="campo-formulario">
+    <textarea name="mensaje" placeholder="Mensaje" class="campo-formulario"></textarea>
+    <button type="submit" class="boton-md3">
+      <i class="material-icons">send</i>
+      <span>Enviar Mensaje</span>
+    </button>
+    </form>
+  </div>
+  </div>
+  
+  <section>  
+  
+   
+  </div>
+</div>
+</section>  
+
+<footer class="footer bg-dark text-light py-5">
+    <div class="containerFooter container-fluid">
+        <div class="row text-center">
+            <!-- Información -->
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5 class="footer-title">Parroquia San Luis Gonzaga</h5>
+                <p class="footer-text">Villa Elisa, Argentina</p>
+            </div>
+            <!-- Enlaces -->
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5 class="footer-title">Enlaces Rápidos</h5>
+                <ul class="footer-links">
+                    <li><a href="#inicio" class="footer-link">Inicio</a></li>
+                    <li><a href="#galeria" class="footer-link">Galería</a></li>
+                    <li><a href="#contacto" class="footer-link">Contacto</a></li>
+                </ul>
+            </div>
+            <!-- Redes Sociales -->
+            <div class="col-md-4">
+                <h5 class="footer-title">Síguenos</h5>
+                <div class="footer-social-icons d-flex flex-column align-items-center">
+                    <a href="https://www.facebook.com/profile.php?id=100089942000666" target="_blank" class="social-link mb-2">
+                        <i class="fab fa-facebook-f"></i>
+                        <span>Facebook Parroquial</span>
+                    </a>
+                    <a href="https://www.instagram.com/colegiosanfranciscodeasis.ve?igshid=ZTV2bzZyNWpkYWI2" target="_blank" class="social-link mb-2">
+                        <i class="fab fa-instagram"></i>
+                        <span>Instagram Colegio</span>
+                    </a>
+                    <a href="https://www.instagram.com/gruposfa93usca?igshid=cHg2M3pudHJoNjh3" target="_blank" class="social-link">
+                        <i class="fab fa-instagram"></i>
+                        <span>Instagram Scout</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <p class="footer-copyright">&copy; 2025 Parroquia San Luis Gonzaga - Todos los Derechos Reservados.</p>
+        </div>
+        <div class="footer-icon">
+            <a href="#inicio">
+                <img src="/img/icono.png" alt="Distintivo" class="footer-logo">
+            </a>
+        </div>
+    </div>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simplelightbox/2.8.0/simple-lightbox.min.js"></script>
+<script src="./simple_lightbox.js"></script>
+     <!-- Script para "Volver" -->
+     <script>
+        function cerrarPagina() {
+            window.close(); // Intenta cerrar la pestaña
+            if (!window.closed) {
+                history.back(); // Vuelve atrás si cerrar no es posible
+            }
+        }
+    </script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    document.getElementById("btn-como-llegar").addEventListener("click", function () {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude; 
+            const destination = "-34.85317138715554, -58.09159247504388"; // Coordenadas de destino
+            const mapsUrl = `https://www.google.com/maps/dir/?api=1&origin=${latitude},${longitude}&destination=${destination}&travelmode=driving`;
+            window.open(mapsUrl, "_blank");
+        }, function (error) {
+            alert("No pudimos acceder a tu ubicación. Por favor, activa los permisos de geolocalización.");
+        });
+    } else {
+        alert("Tu navegador no soporta geolocalización.");
+    }
+    });
+</script>
+
+<script>
+    document.querySelector('.menu-hamburguesa').addEventListener('click', () => {
+    const menu = document.querySelector('.menu');
+    menu.classList.toggle('visible'); // Aplica la clase para mostrar/ocultar el menú
+    });
+</script>
+
+<!-- <script>    
+document.querySelector("form").addEventListener("submit", function (e) {
+    e.preventDefault();
+    emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', this)
+        .then(function () {
+            alert('Mensaje enviado exitosamente');
+        }, function (error) {
+            alert('Error al enviar el mensaje: ' + JSON.stringify(error));
+        });
+});
+</script> -->
+
+
+</body>
+</html>
