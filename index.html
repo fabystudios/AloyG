@@ -227,20 +227,20 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 document.addEventListener("DOMContentLoaded", () => {
-  const VERSION = "v0";               // cambiá a v2, v3... cuando subas noticias nuevas
+  const VERSION_Aviso = "v0";               // cambiá a v2, v3... cuando subas noticias nuevas
   const KEY = "avisosVistas";
 
   const link  = document.getElementById("avisos-link");
   const badge = document.getElementById("badge-avisos");
   if (!link || !badge) return;        // no romper si el nodo no existe
 
-  if (localStorage.getItem(KEY) !== VERSION) {
+  if (localStorage.getItem(KEY) !== VERSION_Aviso) {
     badge.classList.remove("hidden");
   }
 
   // Marcá como visto al hacer clic (se ejecuta antes de navegar)
   link.addEventListener("click", () => {
-    localStorage.setItem(KEY, VERSION);
+    localStorage.setItem(KEY, VERSION_Aviso);
     badge.classList.add("hidden");
   });
 });
