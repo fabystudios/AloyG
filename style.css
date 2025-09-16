@@ -2562,7 +2562,7 @@ body {
 
 @media (max-width: 768px) {
     .md3-headline {
-        font-size: 2rem;
+        font-size: 1.5rem;
     }
     .md3-subheadline {
         font-size: 1.2rem;
