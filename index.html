@@ -491,6 +491,24 @@ document.addEventListener('DOMContentLoaded', function() {
     <h2 class="fs-3 fw-bold text-center mb-4 align-middle" style="color: #7c3aed;">
       Excursión a Tierra Santa <br> con el grupo scout (USCA)
     </h2> 
+      <img src="./img/scout.png" alt="boy scout" style="width: 70px; position: absolute; top: 10px; right: 60px; opacity: 1; z-index: 10; border-radius: 50%;"
+    class="scout-img d-none d-md-block">
+    <img src="./img/scout2.png" alt="boy scout" style="width: 70px; position: absolute; top: 10px; right: 60px; opacity: 1; z-index: 10; border-radius: 50%; display: none;"
+    class="scout2-img d-block d-md-none">
+
+    <style>
+    @media (max-width: 768px) {
+      .scout2-img {
+        opacity: 0.7;
+        left: 30px !important;
+        right: auto !important;
+        top: 100px !important;
+        width: 50px !important;
+      }
+    }
+    </style>
+
+    <!-- <img src="./img/scout.png" alt="Grupo Scout" class="img-fluid rounded-3 mb-4" style="width: 50px; height: auto; vertical-align: middle; margin-right: 10px;"> -->
     <style>
     @media (max-width: 768px) {
       .fs-3 {
@@ -525,8 +543,16 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       </style>
     </div>
-    <button class="btn btn-md3 w-100 text-white py-3 rounded-pill fw-medium" style="background-color: #7c3aed;" onmouseover="this.style.backgroundColor='#6d28d9'" onmouseout="this.style.backgroundColor='#7c3aed'" onclick="document.getElementById('scout').scrollIntoView({ behavior: 'smooth' });">
-      ⚜️ Ver más
+    <button class="btn btn-md3 w-100 text-white py-2 rounded-pill fw-medium" style="background-color: #7c3aed;" onmouseover="this.style.backgroundColor='#6d28d9'" onmouseout="this.style.backgroundColor='#7c3aed'" onclick="document.getElementById('scout').scrollIntoView({ behavior: 'smooth' });">
+      <img src="./img/scout-simbolo-white.png" alt="Scout Symbol" style="height: 2.7em; vertical-align: middle;">
+      <style>
+      @media (max-width: 768px) {
+        img[alt="Scout Symbol"] {
+        height: 2em !important;
+        }
+      }
+      </style>
+      Ver Más
     </button>
   </div>
 </div>
