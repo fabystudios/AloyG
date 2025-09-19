@@ -78,14 +78,14 @@
   <div class="container" style="width: 100%; max-width: 100vw; padding: 0;">
     <nav class="navbar navbar-expand-lg navbar-dark shadow" style="width: 100%;">
       <div class="container d-flex align-items-center" style="width: 100%;">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
-        </button>
+        </button> -->
         <!-- Logo y Título -->
         <a class="navbar-brand d-flex align-items-center gap-2" 
-        href="../index.html" 
+        href="./index.html" 
         style="gap: 1.2rem;">
-        <img src="./aviso-logo.png" alt="Logo San Luis Gonzaga" height="80" 
+        <img src="./img/aviso-logo.png" alt="Logo San Luis Gonzaga" height="80" 
         class="me-2 logo" style="display: block;">
         <style>
         @media (max-width: 600px) {
@@ -121,79 +121,15 @@
         </div>
         </a>
 
-      
-
         <!-- Opciones de Navegación -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-lg-auto">
-
-                        <li class="nav-item">
-              <a class="nav-link position-relative" href="../index.html" >
-                <i class="material-icons align-middle">arrow_back</i>
-                <span class="ms-1" style="font-size:.85em;">Volver</span>
-              </a>
-            </li>
-          </ul>
-        </div>
+        <button class="btn btn-light d-flex align-items-center" onclick="history.back()" 
+          style="color: #0d6efd; border-radius: 50%; padding: 0.5em 0.6em; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.628);">
+          <i class="fas fa-arrow-left"></i>
+        </button>
       </div>
     </nav>
   </div>
 </section>
-<!-- PUNTO ROJO   ALERTA VERSION  -->
-<script>
-  // en el periodico
-  // Ejemplo: Actualizar badge dinámicamente
-// document.addEventListener('DOMContentLoaded', function () {
-//   const badge = document.getElementById('badgeBell');
-  
-  // Ejemplo: si hay 5 noticias
-//   const unread = 5; 
-//   if (unread > 0) {
-//     badge.textContent = unread;
-//     badge.classList.remove('d-none');
-//   }
-// });
-
-// en el menu
-//version de noticias vistas
-document.addEventListener("DOMContentLoaded", () => {
-  const VERSION = "v10";               // cambiá a v2, v3... cuando subas noticias nuevas
-  const KEY = "noticiasVistas";
-
-  const link  = document.getElementById("noticias-link");
-  const badge = document.getElementById("badge-noticias");
-  if (!link || !badge) return;        // no romper si el nodo no existe
-
-  if (localStorage.getItem(KEY) !== VERSION) {
-    badge.classList.remove("hidden");
-  }
-
-  // Marcá como visto al hacer clic (se ejecuta antes de navegar)
-  link.addEventListener("click", () => {
-    localStorage.setItem(KEY, VERSION);
-    badge.classList.add("hidden");
-  });
-});
-document.addEventListener("DOMContentLoaded", () => {
-  const VERSION_Aviso = "v1";               // cambiá a v2, v3... cuando subas noticias nuevas
-  const KEY = "avisosVistas";
-
-  const link  = document.getElementById("avisos-link");
-  const badge = document.getElementById("badge-avisos");
-  if (!link || !badge) return;        // no romper si el nodo no existe
-
-  if (localStorage.getItem(KEY) !== VERSION_Aviso) {
-    badge.classList.remove("hidden");
-  }
-
-  // Marcá como visto al hacer clic (se ejecuta antes de navegar)
-  link.addEventListener("click", () => {
-    localStorage.setItem(KEY, VERSION_Aviso);
-    badge.classList.add("hidden");
-  });
-});
-</script>
-
 
 <style>
 .cabecera {
@@ -210,7 +146,7 @@ document.addEventListener("DOMContentLoaded", () => {
 </style>
 
 
-<section id="NOTIS"  class="section-header">
+<section id="Avisos"  class="section-header">
 
     <h2 class="md3-headline" style="color: white;">
         <i class="fas fa-thumbtack align-middle"></i> Cartelera de Avisos

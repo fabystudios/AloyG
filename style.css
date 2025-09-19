@@ -2801,3 +2801,6 @@ left: 10%;  /* ajuste horizontal en porcentaje */
   top: 0.4rem;
   right: 0.4rem;
 }
+.gap-lg {
+  gap: 1.2rem;
+}
