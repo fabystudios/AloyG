@@ -904,7 +904,7 @@ h2 {
     right: 20px; /* Separación desde el lado derecho */
     width: 80px;
     height: 80px;
-    background-color: #6200ea; /* Color primario MD3 */
+    background-color: #6200ea6c; /* Color primario MD3 */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -932,7 +932,7 @@ h2 {
 .btn-floating:hover {
     transform: scale(1.4); /* Aumenta ligeramente el tamaño */
     box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3); /* Sombra más intensa */
-    background-color: #3700b3; /* Color más oscuro */
+    background-color: #df21ed3b; /* Color más oscuro */
 }
 
 /* Adaptación para pantallas pequeñas */
@@ -2823,4 +2823,16 @@ left: 10%;  /* ajuste horizontal en porcentaje */
   width: 100%;
   padding: 5;
   box-sizing: border-box;
+}
+.navbar-toggler {
+  border: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* .navbar-toggler:focus,
+.navbar-toggler:hover {
+  background-color: rgba(173, 24, 228, 0.935); /* leve resaltado */
+} */
+.navbar-toggler:active {
+  box-shadow: 0 0 10px #fff;
 }
