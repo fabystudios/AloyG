@@ -656,7 +656,7 @@ h2 {
 @media (max-width: 768px) {
     .navbar-toggler {
         position: absolute;
-        right: 30px;
+        right: 10px;
         top: 3px;
         z-index: 1050;
     }
