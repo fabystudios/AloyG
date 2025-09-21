@@ -334,46 +334,76 @@
 
                         <div class="row">
 
-                            <div class="row justify-content-center">
-                                <div class="col-lg-6 col-md-10 col-12">
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item d-flex align-items-center">
-                                            <i class="material-icons text-danger me-2">calendar_today</i>
-                                            <strong class="me-2">Lunes a Viernes:</strong> 
-                                            <span>18:00 hs</span>
-                                        </li>
+                          <!-- Ajustes de padding móviles -->
+                          <style>
+                            @media (max-width: 576px) {
+                            #misas .list-group-item {
+                              padding: .35rem .75rem;
+                            }
+                            #misas .alert {
+                              padding: .75rem !important;
+                            }
+                            #misas .list-group-item i {
+                              font-size: 1.05rem;
+                              margin-right: .4rem !important;
+                            }
+                            #misas .list-group-item strong {
+                              font-size: .9rem;
+                            }
+                            #misas .list-group-item span {
+                              font-size: .85rem;
+                            }
+                            #misas .alert h6 {
+                              font-size: .9rem;
+                              margin-bottom: .4rem;
+                            }
+                            #misas .alert p {
+                              margin-bottom: .35rem;
+                              font-size: .8rem;
+                            }
+                            }
+                          </style>
 
-                                        <li class="list-group-item d-flex align-items-center">
-                                            <i class="material-icons text-danger me-2">event</i>
-                                            <strong class="me-2">Sábados:</strong> 
-                                            <span>17:00 hs</span>
-                                        </li>
-                                        <li class="list-group-item d-flex align-items-center">
-                                            <i class="material-icons text-danger me-2">schedule</i>
-                                            <strong class="me-2">Domingos:</strong> 
-                                            <span>11:00hs y 19:00hs</span>
-                                        </li>
-                                    </ul>
-                                </div>
-                            
-                                <div class="col-lg-6 col-md-10 col-12">
-                                    <div class="alert alert-light border p-3" style="background: rgba(138, 43, 226, 0.1);">
-                                        <div class="text-center">
-                                            <h6 class="fw-bold">Capilla Nuestra Señora de Fátima</h6>
-                                        </div>
-                                        <p class="mb-2 d-flex align-items-center">
-                                            <i class="material-icons text-info me-2">schedule</i>
-                                            <strong class="me-2">Domingos:</strong> 
-                                            <span>09:30 hs</span>
-                                        </p>
-                                        <p class="text-muted mb-0 d-flex align-items-center">
-                                            <i class="material-icons text-info me-2">place</i>
-                                            <span>Calle 408 entre Camino Gral Belgrano y 26</span>
-                                        </p>
-                                    </div>
-                                </div>
+                          <div class="row justify-content-center g-2">
+                            <div class="col-lg-6 col-md-10 col-12">
+                              <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex align-items-center">
+                                  <i class="material-icons text-danger me-2">calendar_today</i>
+                                  <strong class="me-2">Lunes a Viernes:</strong> 
+                                  <span>18:00 hs</span>
+                                </li>
+
+                                <li class="list-group-item d-flex align-items-center">
+                                  <i class="material-icons text-danger me-2">event</i>
+                                  <strong class="me-2">Sábados:</strong> 
+                                  <span>17:00 hs</span>
+                                </li>
+                                <li class="list-group-item d-flex align-items-center">
+                                  <i class="material-icons text-danger me-2">schedule</i>
+                                  <strong class="me-2">Domingos:</strong> 
+                                  <span>11:00hs y 19:00hs</span>
+                                </li>
+                              </ul>
                             </div>
-                            
+                          
+                            <div class="col-lg-6 col-md-10 col-12">
+                              <div class="alert alert-light border p-3 p-sm-3 p-md-3" style="background: rgba(138, 43, 226, 0.1);">
+                                <div class="text-center">
+                                  <h6 class="fw-bold mb-2 mb-sm-2">Capilla Nuestra Señora de Fátima</h6>
+                                </div>
+                                <p class="mb-2 d-flex align-items-center">
+                                  <i class="material-icons text-info me-2">schedule</i>
+                                  <strong class="me-2">Domingos:</strong> 
+                                  <span>09:30 hs</span>
+                                </p>
+                                <p class="text-muted mb-0 d-flex align-items-center">
+                                  <i class="material-icons text-info me-2">place</i>
+                                  <span>Calle 408 entre Camino Gral Belgrano y 26</span>
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          
                         
                         </div>
                         <div class="text-center mt-4">
