@@ -161,10 +161,17 @@
       7 de Septiembre
     </div>
     <div class="card-body p-0">
-      <video class="w-100" controls preload="none" poster="./img/corpusChristi.jpg" style="border-bottom: 1px solid #ddd;">
-        <source src="./misa/h1.mp4" type="video/mp4">
-        Tu navegador no soporta la reproducción de video.
-      </video>
+      <div class="ratio ratio-16x9">
+        <iframe
+          id="homilia-video-1"
+          src="https://www.youtube.com/embed/dIXrzfh64Ks?rel=0&enablejsapi=1"
+          title="Homilía 7 de Septiembre"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy"
+          style="border:0;"
+        ></iframe>
+      </div>
     </div>
     <div class="card-footer text-center bg-light">
       <button type="button" class="btn btn-md3 btn-fullscreen-play">
@@ -178,19 +185,21 @@
         if(!btn) return;
         btn.addEventListener('click', function () {
           const card = this.closest('.card');
-          const video = card ? card.querySelector('video') : null;
-          if (!video) return;
-          const goFullAndPlay = () => {
-            const fs = video.requestFullscreen || video.webkitRequestFullscreen || video.msRequestFullscreen;
-            if (fs) fs.call(video);
-            video.play().catch(()=>{});
-          };
-          if (video.readyState === 0) {
-            video.addEventListener('loadeddata', goFullAndPlay, { once: true });
-            video.load();
-          } else {
-            goFullAndPlay();
-          }
+            const iframe = card ? card.querySelector('iframe') : null;
+            if (!iframe) return;
+            const goFullAndPlay = () => {
+              const fs = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.msRequestFullscreen;
+              if (fs) fs.call(iframe);
+              try {
+                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+              } catch(e) { /* ignore */ }
+            };
+            // Si aún no cargó, esperar un pequeño tiempo y luego ejecutar
+            if (iframe.readyState === 'loading') {
+              iframe.addEventListener('load', goFullAndPlay, { once: true });
+            } else {
+              goFullAndPlay();
+            }
         });
       })();
     </script>
