@@ -537,7 +537,212 @@ document.addEventListener('DOMContentLoaded', function() {
     </h2>
 </section>
  
- 
+<section id="adoracion" class="diptych-adoracion my-5">
+  <div class="diptych-shell">
+    <figure class="diptych-left">
+      <img src="./img/adoracion.jpg" alt="Adoración Eucarística" loading="lazy">
+    </figure>
+
+    <div class="diptych-right">
+      <div class="diptych-table-wrapper">
+        <div class="text-center w-100 mb-3">
+          <h3 class="diptych-heading">ADORACIÓN EUCARÍSTICA</h3>
+          <h4 class="diptych-subheading">Todos los jueves del año</h4>
+        </div>
+
+        <table class="diptych-table">
+          <thead>
+            <tr>
+              <th>HORARIOS</th>
+              <th colspan="2">ADORADORES</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>8:00 a 9:00</td><td>Ana Martina</td><td>Legión</td></tr>
+            <tr><td>9:00 a 10:00</td><td>Legión de María 1</td><td>-</td></tr>
+            <tr><td>10:00 a 11:00</td><td>Legión de María 2</td><td>-</td></tr>
+            <tr><td>11:00 a 12:00</td><td>Legión de María 3</td><td>-</td></tr>
+            <tr><td>12:00 a 13:00</td><td>María José</td><td>-</td></tr>
+            <tr><td>13:00 a 14:00</td><td>-</td><td>-</td></tr>
+            <tr><td>14:00 a 15:00</td><td>Patricia</td><td>-</td></tr>
+            <tr><td>15:00 a 16:00</td><td>-</td><td>-</td></tr>
+            <tr><td>16:00 a 17:00</td><td>Diana</td><td>Gladys y Tato</td></tr>
+          </tbody>
+        </table>
+
+        <div class="diptych-footer text-center mt-3">
+          <button class="btn-md3" style="min-width:220px;">
+            <i class="material-icons align-middle">favorite</i> Anotarme como adorador
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.diptych-adoracion {
+  --dip-gap: clamp(16px,2.5vw,38px);
+  --dip-radius: 28px;
+  --dip-bg: linear-gradient(135deg,#ffffff 0%,#f5f8ff 55%,#e9f0fb 100%);
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-inline: clamp(10px,2vw,24px);
+}
+.diptych-shell {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr;
+  gap: var(--dip-gap);
+  background: var(--dip-bg);
+  border-radius: var(--dip-radius);
+  padding: clamp(14px,1.9vw,34px);
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 8px 18px -6px rgba(0,0,0,0.18),
+    0 3px 8px rgba(0,0,0,0.12);
+  border: 1px solid rgba(0,0,0,0.06);
+}
+.diptych-shell:before,
+.diptych-shell:after {
+  content:"";
+  position:absolute;
+  width:340px;
+  height:340px;
+  top:-90px;
+  right:-70px;
+  background: radial-gradient(circle at 30% 30%,rgba(255,255,255,0.7),rgba(255,255,255,0));
+  filter: blur(10px);
+  pointer-events:none;
+  opacity:.55;
+}
+.diptych-shell:after {
+  top:auto;
+  bottom:-110px;
+  left:-80px;
+  background: radial-gradient(circle at 40% 40%,rgba(140,180,255,0.55),rgba(255,255,255,0));
+}
+.diptych-left {
+  margin:0;
+  border-radius: clamp(16px,1.6vw,26px);
+  overflow:hidden;
+  position:relative;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  isolation:isolate;
+  min-height: 100%;
+}
+.diptych-left img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition: transform 1.1s ease;
+  filter: contrast(1.05) saturate(1.05);
+}
+@media (hover:hover) and (pointer:fine){
+  .diptych-left:hover img {
+    transform: scale(1.05);
+  }
+}
+.diptych-right {
+  display:flex;
+  flex-direction:column;
+  justify-content:stretch;
+  min-height:100%;
+}
+.diptych-heading {
+  font-weight: 800;
+  font-size: clamp(1.35rem,2.2vw,2.35rem);
+  margin:0 0 .15em;
+  letter-spacing:.5px;
+  background: linear-gradient(90deg,#304ffe,#512da8 55%,#7c4dff);
+  -webkit-background-clip: text;
+  color: transparent;
+  text-shadow: 0 2px 6px rgba(48,79,254,0.18);
+}
+.diptych-subheading {
+  font-weight:600;
+  font-size: clamp(.95rem,1.15vw,1.25rem);
+  margin:0 0 1rem;
+  color:#455a64;
+  letter-spacing:.5px;
+}
+.diptych-table-wrapper {
+  display:flex;
+  flex-direction:column;
+  height:100%;
+  backdrop-filter: blur(4px);
+}
+.diptych-table {
+  width:100%;
+  border-collapse: collapse;
+  font-size: clamp(.78rem, .9vw, .95rem);
+  background:#ffffff;
+  border:1px solid rgba(0,0,0,0.08);
+  border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 2px 8px rgba(0,0,0,0.08);
+}
+.diptych-table thead {
+  background: linear-gradient(90deg,#3949ab,#5e35b1 60%,#7e57c2);
+  color:#fff;
+}
+.diptych-table thead th {
+  padding:.75rem .55rem;
+  font-weight:600;
+  text-align:center;
+  letter-spacing:.7px;
+  font-size: .8rem;
+}
+.diptych-table tbody td {
+  padding:.55rem .55rem;
+  text-align:center;
+  border-bottom:1px solid #e3e8f1;
+  background:#fff;
+  font-weight:500;
+  color:#37474f;
+}
+.diptych-table tbody tr:nth-child(even) td {
+  background:#f7f9fc;
+}
+.diptych-table tbody tr:last-child td {
+  border-bottom:none;
+}
+.diptych-table tbody tr:hover td {
+  background:#ede7f6;
+}
+.diptych-footer .btn-md3 {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:.35rem;
+  font-size:.9rem;
+  padding:.65rem 1.25rem;
+}
+@media (max-width: 980px){
+  .diptych-shell {
+    grid-template-columns: 1fr;
+    padding: clamp(14px,4vw,30px);
+  }
+  .diptych-left {
+    height: clamp(240px,48vw,380px);
+  }
+  .diptych-table {
+    font-size:.82rem;
+  }
+}
+@media (max-width:560px){
+  .diptych-table thead th { padding:.55rem .4rem; font-size:.72rem; }
+  .diptych-table tbody td { padding:.45rem .4rem; font-size:.72rem; }
+  .diptych-heading { font-size:1.55rem; }
+  .diptych-subheading { font-size:.9rem; }
+  .diptych-footer .btn-md3 { width:100%; }
+}
+</style>
 <!-- Triple Video Card (MD3 style) -->
 <section id="docat" class="triple-video-card">
   <div class="tv-card-surface">
