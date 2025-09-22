@@ -369,10 +369,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 </a>
             </div>  
             <div class="carousel-item">
-                <!-- <a href="#brochero"> -->
+                <a href="#docat">
                     <img src="./img/fotos/social_desktop.jpg" class="d-none d-md-block w-100" alt="Imagen escritorio">
                     <img src="./img/fotos/social_mobile.jpg" class="d-block d-md-none w-100" alt="Imagen móvil">
-                <!-- </a> -->
+                </a>
             </div>   
             <div class="carousel-item">
                 <a href="./avisos.html">
@@ -536,11 +536,164 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
 </section>
-<!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
  
-<!-- hacer una card estilo glassmorphism con triptico unido, primero la imagen:./idear/FLYER_DIFUSIÓN_FECHA-02.png, luego el video:./idear/Reel_Fechas.MOV, y seguido y tambien "pegado" la imgen:./idear/TRIADA-01.jpg . el video debe ser lazy load. -->
-<!-- Card Glassmorphism Tríptico IDEAR -->
  
+<!-- Triple Video Card (MD3 style) -->
+<section id="docat" class="triple-video-card">
+  <div class="tv-card-surface">
+    <div class="triple-video-row">
+      <div class="video-col">
+        <video class="tv-video"
+               src="./video/docat.mp4"
+               muted
+               autoplay
+               loop
+               playsinline
+               preload="auto"></video>
+      </div>
+      <div class="video-col">
+        <video class="tv-video"
+               src="./video/docat.mp4"
+               muted
+               autoplay
+               loop
+               playsinline
+               preload="auto"></video>
+      </div>
+      <div class="video-col">
+        <video class="tv-video"
+               src="./video/docat.mp4"
+               muted
+               autoplay
+               loop
+               playsinline
+               preload="auto"></video>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.triple-video-card {
+  --tv-radius: 32px;
+  --tv-pad: clamp(10px,1.8vw,24px);
+  --tv-shadow: 0 4px 8px -2px rgba(0,0,0,.18),
+               0 8px 20px -4px rgba(0,0,0,.22);
+  width:100%;
+  margin:0 auto; /* sin margen top / bottom */
+  position:relative;
+  z-index:1;
+  max-width:1400px;
+  overflow:hidden;
+}
+
+.triple-video-card .tv-card-surface {
+  background: linear-gradient(145deg,#ffffff 8%, #f2f4f8 55%, #e7edf5 100%);
+  border-radius: var(--tv-radius);
+  padding: var(--tv-pad);
+  box-shadow: var(--tv-shadow);
+  overflow: hidden;
+  border: 1px solid rgba(0,0,0,0.06);
+  position: relative;
+  isolation: isolate;
+}
+
+.triple-video-card .tv-card-surface:before {
+  content:"";
+  position:absolute;
+  top:-25%;
+  left:-10%;
+  width:55%;
+  height:140%;
+  background: radial-gradient(circle at 30% 40%, rgba(255,255,255,.55), rgba(255,255,255,0) 70%);
+  pointer-events:none;
+  mix-blend-mode: screen;
+  opacity:.65;
+}
+
+.triple-video-row {
+  display:flex;
+  gap:0;
+  width:100%;
+  aspect-ratio:16/9;
+}
+
+.triple-video-row .video-col {
+  flex:1 1 33.333%;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:#000;
+}
+
+.triple-video-row .video-col:not(:first-child){
+  margin-left:-1px;
+}
+
+.tv-video {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  background:#000;
+  display:block;
+  user-select:none;
+  -webkit-user-drag:none;
+  pointer-events:none;
+  transition:filter .6s ease, transform .6s ease;
+}
+
+@media (hover:hover) and (pointer:fine){
+  .video-col:hover .tv-video {
+    filter:brightness(1.07) contrast(1.03);
+    transform:scale(1.01);
+  }
+}
+
+@media (max-width:768px){
+  .triple-video-card {
+    margin:0 auto; /* mantiene sin margen vertical */
+    border-radius:0;
+    max-width:100%;
+  }
+  .triple-video-card .tv-card-surface {
+    padding:0;
+    border-radius:0;
+    box-shadow:none;
+    border:none;
+  }
+  .triple-video-row {
+    flex-direction:column;
+    aspect-ratio:auto;
+    min-height:100vh;
+  }
+  .triple-video-row .video-col {
+    flex:1 1 100%;
+    width:100%;
+    margin-left:0;
+    border-radius:0;
+    min-height:100vh;
+    height:100dvh;
+  }
+  .triple-video-row .video-col:not(:first-child){
+    display:none;
+  }
+  .tv-video {
+    width:100%;
+    height:100%;
+    aspect-ratio:auto;
+    object-fit:cover;
+  }
+}
+
+@media (max-width:420px){
+  .triple-video-card {
+    margin:0 auto;
+  }
+}
+</style>
+
 <section class="idear-triptych my-1 px-1" id="idear">
   <div class="triptych-wrapper triptych-uniform">
     <!-- Panel 1 (oculto en mobile) -->
