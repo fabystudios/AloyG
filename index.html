@@ -982,7 +982,6 @@ document.addEventListener('DOMContentLoaded', function() {
         preload="none"
         playsinline
         controls
-        autoplay
         data-video
         id="idearVideo"
         poster="./idear/poster1.jpg"
@@ -994,34 +993,27 @@ document.addEventListener('DOMContentLoaded', function() {
       (function(){
         const v = document.getElementById('idearVideo');
         if(!v) return;
-        let started = false;
 
         function ensureLoaded(){
-        if(!v.dataset.loaded){
-          const s = v.querySelector('source[data-src]');
-          if(s){
-          s.src = s.dataset.src;
-          s.removeAttribute('data-src');
+          if(!v.dataset.loaded){
+            const s = v.querySelector('source[data-src]');
+            if(s){
+              s.src = s.dataset.src;
+              s.removeAttribute('data-src');
+            }
+            v.load();
+            v.dataset.loaded = 'true';
+            v.classList.add('is-loaded');
           }
-          v.load();
-          v.dataset.loaded = 'true';
-          v.classList.add('is-loaded');
-        }
         }
 
         const io = new IntersectionObserver(entries=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting && !started){
-          started = true;
-          ensureLoaded();
-          v.muted = false;
-          v.play().catch(()=>{
-            const btn = document.querySelector('[data-video-trigger]');
-            if(btn) btn.classList.remove('is-hidden');
+          entries.forEach(e=>{
+            if(e.isIntersecting && !v.dataset.loaded){
+              ensureLoaded(); // solo carga; no reproducir automáticamente
+              io.disconnect();
+            }
           });
-          io.disconnect();
-          }
-        });
         },{threshold:0.45, rootMargin:'40px'});
 
         io.observe(v);
@@ -1085,19 +1077,19 @@ document.addEventListener('DOMContentLoaded', function() {
         if(!v || !btn) return;
 
         btn.addEventListener('click', () => {
-        v.play().then(()=> btn.classList.add('is-hidden')).catch(()=>{});
+          v.play().then(()=> btn.classList.add('is-hidden')).catch(()=>{});
         });
 
         v.addEventListener('play', () => btn.classList.add('is-hidden'));
         v.addEventListener('pause', () => {
-        if (v.currentTime < 0.2) btn.classList.remove('is-hidden');
+          if (v.currentTime < 0.2) btn.classList.remove('is-hidden');
         });
         v.addEventListener('ended', () => {
-        try {
-          v.currentTime = 0;
-          v.pause();
-          btn.classList.remove('is-hidden');
-        } catch(e){}
+          try {
+            v.currentTime = 0;
+            v.pause();
+            btn.classList.remove('is-hidden');
+          } catch(e){}
         });
       })();
       </script>
@@ -1264,7 +1256,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        loadVideo();
+        loadVideo(); // solo carga; no autoplay
         io.disconnect();
       }
     });
