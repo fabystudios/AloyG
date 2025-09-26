@@ -974,61 +974,85 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- Panel 2 (Video) -->
     <figure class="panel panel-video"> 
       <div class="video-shell" data-video-wrapper>
-        <button class="play-btn" aria-label="Reproducir video" data-video-trigger>
-          <span class="material-icons">play_arrow</span>
-        </button>
-        <video
-          class="triptych-video"
-          preload="none"
-          playsinline
-          controls
-          autoplay
-          data-video
-          id="idearVideo"
-          poster="./idear/poster1.jpg"
-        >
-          <source data-src="./idear/Reel_Fechas.mp4" type="video/mp4">
-          Tu navegador no soporta este formato de video.
-        </video>
-        <script>
-        (function(){
-          const v = document.getElementById('idearVideo');
-          if(!v) return;
-          let started = false;
+      <button class="play-btn" aria-label="Reproducir video" data-video-trigger>
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <video
+        class="triptych-video"
+        preload="none"
+        playsinline
+        controls
+        autoplay
+        data-video
+        id="idearVideo"
+        poster="./idear/poster1.jpg"
+      >
+        <source data-src="./idear/Reel_Fechas.mp4" type="video/mp4">
+        Tu navegador no soporta este formato de video.
+      </video>
+      <script>
+      (function(){
+        const v = document.getElementById('idearVideo');
+        if(!v) return;
+        let started = false;
 
-          function ensureLoaded(){
-            if(!v.dataset.loaded){
-              const s = v.querySelector('source[data-src]');
-              if(s){
-                s.src = s.dataset.src;
-                s.removeAttribute('data-src');
-              }
-              v.load();
-              v.dataset.loaded = 'true';
-              v.classList.add('is-loaded');
-            }
+        function ensureLoaded(){
+        if(!v.dataset.loaded){
+          const s = v.querySelector('source[data-src]');
+          if(s){
+          s.src = s.dataset.src;
+          s.removeAttribute('data-src');
           }
+          v.load();
+          v.dataset.loaded = 'true';
+          v.classList.add('is-loaded');
+        }
+        }
 
-            const io = new IntersectionObserver(entries=>{
-              entries.forEach(e=>{
-                if(e.isIntersecting && !started){
-                  started = true;
-                  ensureLoaded();
-                  v.muted = false;
-                  v.play().catch(()=>{
-                    const btn = document.querySelector('[data-video-trigger]');
-                    if(btn) btn.classList.remove('is-hidden');
-                  });
-                  io.disconnect();
-                }
-              });
-            },{threshold:0.45, rootMargin:'40px'});
+        const io = new IntersectionObserver(entries=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting && !started){
+          started = true;
+          ensureLoaded();
+          v.muted = false;
+          v.play().catch(()=>{
+            const btn = document.querySelector('[data-video-trigger]');
+            if(btn) btn.classList.remove('is-hidden');
+          });
+          io.disconnect();
+          }
+        });
+        },{threshold:0.45, rootMargin:'40px'});
 
-            io.observe(v);
-        })();
-        </script>
+        io.observe(v);
+      })();
+      </script>
       </div>
     </figure>
+
+    <!-- Forzar que el panel 3 también sea visible y apilado en mobile -->
+    <style>
+      @media (max-width: 767.98px){
+      /* Asegurar apilado vertical */
+      #idear .triptych-wrapper { display: block !important; }
+
+      /* Mostrar el 3er figure (Padre-Marcelo) también en mobile */
+      #idear .triptych-wrapper > figure:nth-of-type(3) {
+        display: flex !important;
+      }
+
+      /* Ambos paneles a ancho completo y altura cómoda */
+      #idear .triptych-wrapper > figure {
+        width: 100%;
+        margin: 0 0 12px 0;
+      }
+      #idear .triptych-wrapper > figure.panel-video,
+      #idear .triptych-wrapper > figure:nth-of-type(3) {
+        min-height: 60vh;
+        aspect-ratio: auto;
+      }
+      }
+    </style>
 
     <!-- Panel 3 (oculto en mobile) -->
     <figure class="panel panel-side">
