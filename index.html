@@ -1030,6 +1030,31 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </figure>
 
+    <!-- Panel 3 (oculto en mobile) -->
+    <figure class="panel panel-side">
+      <div class="video-shell"> 
+      <button class="play-btn" aria-label="Reproducir video" id="pmPlayBtn">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <video
+        id="pmVideo"
+        controls
+        playsinline
+        preload="metadata"
+        poster="./video/padre-marcelo-cover.png"
+        style="width:100%; height:100%; object-fit:cover; background:#000;">
+        <source src="./video/Padre-Marcelo.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de video.
+      </video>
+      </div>
+
+    </figure>
+
+<!-- <figure class="panel panel-side">
+      <img src="./idear/difu-03.jpg" alt="Triada IDEAR">
+    </figure> -->
+  </div>
+</section>
     <!-- Forzar que el panel 3 también sea visible y apilado en mobile -->
     <style>
       @media (max-width: 767.98px){
@@ -1053,24 +1078,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       }
     </style>
-
-    <!-- Panel 3 (oculto en mobile) -->
-    <figure class="panel panel-side">
-      <div class="video-shell"> 
-      <button class="play-btn" aria-label="Reproducir video" id="pmPlayBtn">
-        <span class="material-icons">play_arrow</span>
-      </button>
-      <video
-        id="pmVideo"
-        controls
-        playsinline
-        preload="metadata"
-        poster="./video/padre-marcelo-cover.png"
-        style="width:100%; height:100%; object-fit:cover; background:#000;">
-        <source src="./video/Padre-Marcelo.mp4" type="video/mp4">
-        Tu navegador no soporta la reproducción de video.
-      </video>
-      </div>
       <script>
       (function(){
         const v = document.getElementById('pmVideo');
@@ -1094,13 +1101,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
       })();
       </script>
-    </figure>
-<!-- <figure class="panel panel-side">
-      <img src="./idear/difu-03.jpg" alt="Triada IDEAR">
-    </figure> -->
-  </div>
-</section>
-
 <style>
 /* Mobile: mostrar solo el video ocupando todo el contenedor */
 @media (max-width: 767.98px) {
