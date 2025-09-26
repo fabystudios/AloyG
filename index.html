@@ -831,13 +831,28 @@ document.addEventListener('DOMContentLoaded', function() {
                preload="auto"></video>
       </div>
       <div class="video-col">
-        <video class="tv-video"
-               src="./video/docat.mp4"
-               muted
-               autoplay
-               loop
-               playsinline
-               preload="auto"></video>
+        <video
+          id="docatVideo3"
+          class="tv-video"
+          src="./video/docat.mp4"
+          poster="./video/docat_poster.jpg"
+          muted
+          autoplay
+          loop
+          playsinline
+          preload="metadata"></video>
+        <script>
+          (function () {
+        const v = document.getElementById('docatVideo3');
+        if (!v) return;
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        if (isMobile) {
+          v.removeAttribute('autoplay');
+          v.removeAttribute('loop');
+          try { v.pause(); v.load(); } catch(e){}
+        }
+          })();
+        </script>
       </div>
     </div>
   </div>
