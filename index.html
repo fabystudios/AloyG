@@ -543,7 +543,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
 </section>
- <section class="idear-triptych my-1 px-1" id="idear">
+<section class="idear-triptych my-1 px-1" id="idear"></section>
   <div class="triptych-wrapper triptych-uniform">
     <!-- Panel 1 (oculto en mobile) -->
     <figure class="panel panel-side">
@@ -561,9 +561,8 @@ document.addEventListener('DOMContentLoaded', function() {
           preload="none"
           playsinline
           controls
-          autoplay
           data-video
-          id="idearVideo"
+          id="idearVideo2"
           poster="./video/Padre-Marcelo-cover.png"
         >
           <source data-src="./video/Padre-Marcelo.mp4" type="video/mp4">
@@ -571,7 +570,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </video>
         <script>
         (function(){
-          const v = document.getElementById('idearVideo');
+          const v = document.getElementById('idearVideo2');
           if(!v) return;
           let started = false;
 
@@ -588,22 +587,37 @@ document.addEventListener('DOMContentLoaded', function() {
             }
           }
 
-            const io = new IntersectionObserver(entries=>{
-              entries.forEach(e=>{
-                if(e.isIntersecting && !started){
-                  started = true;
-                  ensureLoaded();
-                  v.muted = false;
-                  v.play().catch(()=>{
-                    const btn = document.querySelector('[data-video-trigger]');
-                    if(btn) btn.classList.remove('is-hidden');
-                  });
-                  io.disconnect();
-                }
-              });
-            },{threshold:0.45, rootMargin:'40px'});
+          const btn = document.querySelector('[data-video-trigger]');
+          if(btn){
+            btn.addEventListener('click', () => {
+              ensureLoaded();
+              btn.classList.add('is-hidden');
+              v.play().catch(()=>{});
+            });
+          }
 
-            io.observe(v);
+          v.addEventListener('play', () => {
+            if(btn) btn.classList.add('is-hidden');
+          });
+          v.addEventListener('pause', () => {
+            if (v.currentTime < 0.2 && btn) btn.classList.remove('is-hidden');
+          });
+
+          const io = new IntersectionObserver(entries=>{
+            entries.forEach(e=>{
+              if(e.isIntersecting && !started){
+                started = true;
+                ensureLoaded();
+                v.muted = false;
+                v.play().catch(()=>{
+                  if(btn) btn.classList.remove('is-hidden');
+                });
+                io.disconnect();
+              }
+            });
+          },{threshold:0.45, rootMargin:'40px'});
+
+          io.observe(v);
         })();
         </script>
       </div>
