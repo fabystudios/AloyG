@@ -543,79 +543,8 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
 </section>
- <section class="idear-triptych my-1 px-1" id="idear">
-  <div class="triptych-wrapper triptych-uniform">
-    <!-- Panel 1 (oculto en mobile) -->
-    <figure class="panel panel-side">
-      <img src="./idear/FLYER_DIFUSIÓN_01.png" alt="Flyer IDEAR">
-    </figure>
-
-    <!-- Panel 2 (Video) -->
-    <figure class="panel panel-video"> 
-      <div class="video-shell" data-video-wrapper>
-        <button class="play-btn" aria-label="Reproducir video" data-video-trigger>
-          <span class="material-icons">play_arrow</span>
-        </button>
-        <video
-          class="triptych-video"
-          preload="none"
-          playsinline
-          controls
-          autoplay
-          data-video
-          id="idearVideo"
-          poster="./video/Padre-Marcelo-cover.png"
-        >
-          <source data-src="./video/Padre-Marcelo.mp4" type="video/mp4">
-          Tu navegador no soporta este formato de video.
-        </video>
-        <script>
-        (function(){
-          const v = document.getElementById('idearVideo');
-          if(!v) return;
-          let started = false;
-
-          function ensureLoaded(){
-            if(!v.dataset.loaded){
-              const s = v.querySelector('source[data-src]');
-              if(s){
-                s.src = s.dataset.src;
-                s.removeAttribute('data-src');
-              }
-              v.load();
-              v.dataset.loaded = 'true';
-              v.classList.add('is-loaded');
-            }
-          }
-
-            const io = new IntersectionObserver(entries=>{
-              entries.forEach(e=>{
-                if(e.isIntersecting && !started){
-                  started = true;
-                  ensureLoaded();
-                  v.muted = false;
-                  v.play().catch(()=>{
-                    const btn = document.querySelector('[data-video-trigger]');
-                    if(btn) btn.classList.remove('is-hidden');
-                  });
-                  io.disconnect();
-                }
-              });
-            },{threshold:0.45, rootMargin:'40px'});
-
-            io.observe(v);
-        })();
-        </script>
-      </div>
-    </figure>
-
-    <!-- Panel 3 (oculto en mobile) -->
-    <figure class="panel panel-side">
-      <img src="./idear/difu-03.jpg" alt="Triada IDEAR">
-    </figure>
-  </div>
-</section>
-<section id="adoracion" class="diptych-adoracion my-5">
+ 
+<section id="adoracion" class="diptych-adoracion my-2">
   <div class="diptych-shell">
     <figure class="diptych-left">
       <div class="video-shell" id="adoracion-shell">
@@ -878,6 +807,7 @@ document.addEventListener('DOMContentLoaded', function() {
   .diptych-footer .btn-md3 { width:100%; }
 }
 </style>
+
 <!-- Triple Video Card (MD3 style) -->
 <section id="docat" class="triple-video-card">
   <div class="tv-card-surface">
@@ -901,13 +831,28 @@ document.addEventListener('DOMContentLoaded', function() {
                preload="auto"></video>
       </div>
       <div class="video-col">
-        <video class="tv-video"
-               src="./video/docat.mp4"
-               muted
-               autoplay
-               loop
-               playsinline
-               preload="auto"></video>
+        <video
+          id="docatVideo3"
+          class="tv-video"
+          src="./video/docat.mp4"
+          poster="./video/docat_poster.jpg"
+          muted
+          autoplay
+          loop
+          playsinline
+          preload="metadata"></video>
+        <script>
+          (function () {
+        const v = document.getElementById('docatVideo3');
+        if (!v) return;
+        const isMobile = window.matchMedia('(max-width: 768px)').matches;
+        if (isMobile) {
+          v.removeAttribute('autoplay');
+          v.removeAttribute('loop');
+          try { v.pause(); v.load(); } catch(e){}
+        }
+          })();
+        </script>
       </div>
     </div>
   </div>
@@ -1044,69 +989,125 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- Panel 2 (Video) -->
     <figure class="panel panel-video"> 
       <div class="video-shell" data-video-wrapper>
-        <button class="play-btn" aria-label="Reproducir video" data-video-trigger>
-          <span class="material-icons">play_arrow</span>
-        </button>
-        <video
-          class="triptych-video"
-          preload="none"
-          playsinline
-          controls
-          autoplay
-          data-video
-          id="idearVideo"
-          poster="./idear/poster1.jpg"
-        >
-          <source data-src="./idear/Reel_Fechas.mp4" type="video/mp4">
-          Tu navegador no soporta este formato de video.
-        </video>
-        <script>
-        (function(){
-          const v = document.getElementById('idearVideo');
-          if(!v) return;
-          let started = false;
+      <button class="play-btn" aria-label="Reproducir video" data-video-trigger>
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <video
+        class="triptych-video"
+        preload="none"
+        playsinline
+        controls
+        data-video
+        id="idearVideo"
+        poster="./idear/poster1.jpg"
+      >
+        <source data-src="./idear/Reel_Fechas.mp4" type="video/mp4">
+        Tu navegador no soporta este formato de video.
+      </video>
+      <script>
+      (function(){
+        const v = document.getElementById('idearVideo');
+        if(!v) return;
 
-          function ensureLoaded(){
-            if(!v.dataset.loaded){
-              const s = v.querySelector('source[data-src]');
-              if(s){
-                s.src = s.dataset.src;
-                s.removeAttribute('data-src');
-              }
-              v.load();
-              v.dataset.loaded = 'true';
-              v.classList.add('is-loaded');
+        function ensureLoaded(){
+          if(!v.dataset.loaded){
+            const s = v.querySelector('source[data-src]');
+            if(s){
+              s.src = s.dataset.src;
+              s.removeAttribute('data-src');
             }
+            v.load();
+            v.dataset.loaded = 'true';
+            v.classList.add('is-loaded');
           }
+        }
 
-            const io = new IntersectionObserver(entries=>{
-              entries.forEach(e=>{
-                if(e.isIntersecting && !started){
-                  started = true;
-                  ensureLoaded();
-                  v.muted = false;
-                  v.play().catch(()=>{
-                    const btn = document.querySelector('[data-video-trigger]');
-                    if(btn) btn.classList.remove('is-hidden');
-                  });
-                  io.disconnect();
-                }
-              });
-            },{threshold:0.45, rootMargin:'40px'});
+        const io = new IntersectionObserver(entries=>{
+          entries.forEach(e=>{
+            if(e.isIntersecting && !v.dataset.loaded){
+              ensureLoaded(); // solo carga; no reproducir automáticamente
+              io.disconnect();
+            }
+          });
+        },{threshold:0.45, rootMargin:'40px'});
 
-            io.observe(v);
-        })();
-        </script>
+        io.observe(v);
+      })();
+      </script>
       </div>
     </figure>
 
     <!-- Panel 3 (oculto en mobile) -->
     <figure class="panel panel-side">
-      <img src="./idear/difu-03.jpg" alt="Triada IDEAR">
+      <div class="video-shell"> 
+      <button class="play-btn" aria-label="Reproducir video" id="pmPlayBtn">
+        <span class="material-icons">play_arrow</span>
+      </button>
+      <video
+        id="pmVideo"
+        controls
+        playsinline
+        preload="metadata"
+        poster="./video/padre-marcelo-cover.png"
+        style="width:100%; height:100%; object-fit:cover; background:#000;">
+        <source src="./video/Padre-Marcelo.mp4" type="video/mp4">
+        Tu navegador no soporta la reproducción de video.
+      </video>
+      </div>
+
     </figure>
+
+<!-- <figure class="panel panel-side">
+      <img src="./idear/difu-03.jpg" alt="Triada IDEAR">
+    </figure> -->
   </div>
 </section>
+    <!-- Forzar que el panel 3 también sea visible y apilado en mobile -->
+    <style>
+      @media (max-width: 767.98px){
+      /* Asegurar apilado vertical */
+      #idear .triptych-wrapper { display: block !important; }
 
+      /* Mostrar el 3er figure (Padre-Marcelo) también en mobile */
+      #idear .triptych-wrapper > figure:nth-of-type(3) {
+        display: flex !important;
+      }
+
+      /* Ambos paneles a ancho completo y altura cómoda */
+      #idear .triptych-wrapper > figure {
+        width: 100%;
+        margin: 0 0 12px 0;
+      }
+      #idear .triptych-wrapper > figure.panel-video,
+      #idear .triptych-wrapper > figure:nth-of-type(3) {
+        min-height: 60vh;
+        aspect-ratio: auto;
+      }
+      }
+    </style>
+      <script>
+      (function(){
+        const v = document.getElementById('pmVideo');
+        const btn = document.getElementById('pmPlayBtn');
+        if(!v || !btn) return;
+
+        btn.addEventListener('click', () => {
+          v.play().then(()=> btn.classList.add('is-hidden')).catch(()=>{});
+        });
+
+        v.addEventListener('play', () => btn.classList.add('is-hidden'));
+        v.addEventListener('pause', () => {
+          if (v.currentTime < 0.2) btn.classList.remove('is-hidden');
+        });
+        v.addEventListener('ended', () => {
+          try {
+            v.currentTime = 0;
+            v.pause();
+            btn.classList.remove('is-hidden');
+          } catch(e){}
+        });
+      })();
+      </script>
 <style>
 /* Mobile: mostrar solo el video ocupando todo el contenedor */
 @media (max-width: 767.98px) {
@@ -1270,7 +1271,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
       if (e.isIntersecting) {
-        loadVideo();
+        loadVideo(); // solo carga; no autoplay
         io.disconnect();
       }
     });
@@ -1307,7 +1308,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- Card -->
   <div class="bg-white rounded-4 shadow-lg w-100 p-4 position-relative overflow-auto" style="max-width: 48rem; background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); z-index: 10;">
     <h2 class="fs-3 fw-bold text-center mb-4 align-middle" style="color: #7c3aed;">
-      Excursión a Tierra Santa <br> con el grupo scout (USCA)
+      Excursión a Tierra Santa con el grupo scout (USCA)
     </h2> 
       <img src="./img/scout.png" alt="boy scout" style="width: 70px; position: absolute; top: 10px; right: 60px; opacity: 1; z-index: 10; border-radius: 50%;"
     class="scout-img d-none d-md-block">
