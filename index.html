@@ -543,6 +543,116 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
 </section>
+
+<!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+ 
+<!-- ...3 días... -->
+ <div id="3VideosCatolicos" class="section-padding d-flex justify-content-center align-items-center deshabilitado" style="min-height: 65vh;">
+  <div class="d-flex flex-wrap justify-content-center gap-4" style="width: 95vw; max-width: 1400px;">
+<!--  -->
+         <!-- Card 3 solo desktop  d-none d-md-block-->
+        <div class="card90 shadow-lg rounded-4 overflow-hidden " style="width: 90vw; max-width: 400px;">
+        <div class="position-relative text-center p-4" style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
+          <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
+          30 de Septiembre </h2>
+          <img src="./img/paloma.png" alt="Cruz-Medalla de San Benito" style="width: 30px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
+        </div>
+        <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
+          <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
+          center center / cover no-repeat; border-radius:12px; 
+          box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
+        <video id="corpusVideo10" controls style="width:100%; height:400px; 
+        border:none; border-radius:12px; background: transparent;" 
+        poster="./video/Jero.jpg">
+          <source src="./video/Jero.mp4" type="video/mp4">
+          Tu navegador no soporta la reproducción de video.
+        </video>
+          </div>
+        </div>
+      </div>
+    <!--  -->
+     <!-- Card 3 solo desktop  d-none d-md-block-->
+        <div class="d-none d-md-block card90 shadow-lg rounded-4 overflow-hidden " style="width: 90vw; max-width: 400px;">
+        <div class="position-relative text-center p-4" style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
+          <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
+          29 de Septiembre </h2>
+          <img src="./img/paloma.png" alt="Cruz-Medalla de San Benito" style="width: 30px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
+        </div>
+        <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
+          <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
+          center center / cover no-repeat; border-radius:12px; 
+          box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
+        <video id="corpusVideo10" controls style="width:100%; height:400px; 
+        border:none; border-radius:12px; background: transparent;" 
+        poster="./video/arcangeles.jpg">
+          <source src="./video/arcangeles.mp4" type="video/mp4">
+          Tu navegador no soporta la reproducción de video.
+        </video>
+          </div>
+        </div>
+      </div>
+    <!--  -->
+     <!-- Card 3 solo desktop  d-none d-md-block -->
+            <div class="d-none d-md-block card90 shadow-lg rounded-4 overflow-hidden " style="width: 90vw; max-width: 400px;">
+        <div class="position-relative text-center p-4" style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
+          <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
+          28 de Septiembre </h2>
+          <img src="./img/paloma.png" alt="Cruz-Medalla de San Benito" style="width: 30px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
+        </div>
+        <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
+          <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
+          center center / cover no-repeat; border-radius:12px; 
+          box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
+        <video id="corpusVideo10" controls style="width:100%; height:400px; 
+        border:none; border-radius:12px; background: transparent;" 
+        poster="./video/wenses.jpg">
+          <source src="./video/wenses.mp4" type="video/mp4">
+          Tu navegador no soporta la reproducción de video.
+        </video>
+          </div>
+        </div>
+      </div>
+      <style>
+        @media (max-width: 768px) {
+          #corpusVideo10 {
+        height: auto !important; /* Ensure video height adjusts properly on mobile */
+          }
+        }
+      </style>
+<!-- d-none d-md-block" -->
+     <!-- Fin de la tarjeta -->
+  </div>
+</div>
+<br class="d-none d-lg-block"><br class="d-none d-lg-block"><br class="d-none d-lg-block">
+
+<!-- Mostrar SIEMPRE en todos los dispositivos -->
+<style>
+  @media (max-width: 991px) {
+    #VideosCatolicos {
+      display: flex !important;
+    }
+  }
+  @media (min-width: 992px) {
+    #VideosCatolicos {
+      display: flex !important;
+    }
+  }
+  /* .deshabilitado {
+    display: none !important;
+  }  */
+</style>
+
+
+
 <section class="idear-triptych my-1 px-1" id="idear"> 
   <div class="triptych-wrapper triptych-uniform">
     <!-- Panel 1 (oculto en mobile) -->
@@ -629,6 +739,280 @@ document.addEventListener('DOMContentLoaded', function() {
     </figure>
   </div>
 </section>
+
+<section class="idear-triptych my-1 px-1" id="idear">
+  <div class="triptych-wrapper triptych-uniform">
+    <!-- Panel 1 (oculto en mobile) -->
+    <figure class="panel panel-side">
+      <img src="./idear/FLYER_DIFUSIÓN_01.png" alt="Flyer IDEAR">
+    </figure>
+
+    <!-- Panel 2 (Video) -->
+    <figure class="panel panel-video"> 
+      <div class="video-shell" data-video-wrapper>
+        <button class="play-btn" aria-label="Reproducir video" id="idearPlayBtn">
+          <span class="material-icons">play_arrow</span>
+        </button>
+        <video
+          class="triptych-video"
+          preload="none"
+          playsinline
+          controls
+          autoplay
+          id="idearVideo"
+          poster="./idear/poster1.jpg"
+        >
+          <source data-src="./idear/Reel_Fechas.mp4" type="video/mp4">
+          Tu navegador no soporta este formato de video.
+        </video>
+        <script>
+        (function(){
+          const v = document.getElementById('idearVideo');
+          const btn = document.getElementById('idearPlayBtn');
+          if(!v || !btn) return;
+          let started = false;
+        
+          function ensureLoaded(){
+            if(!v.dataset.loaded){
+              const s = v.querySelector('source[data-src]');
+              if(s){
+                s.src = s.dataset.src;
+                s.removeAttribute('data-src');
+              }
+              v.load();
+              v.dataset.loaded = 'true';
+              v.classList.add('is-loaded');
+            }
+          }
+        
+          btn.addEventListener('click', () => {
+            ensureLoaded();
+            v.play().then(() => {
+              btn.classList.add('is-hidden');
+            }).catch(()=>{
+              btn.classList.remove('is-hidden');
+            });
+          });
+        
+          v.addEventListener('play', () => {
+            btn.classList.add('is-hidden');
+          });
+          v.addEventListener('pause', () => {
+            if (v.currentTime < 0.2) btn.classList.remove('is-hidden');
+          });
+        
+          const io = new IntersectionObserver(entries=>{
+            entries.forEach(e=>{
+              if(e.isIntersecting && !started){
+                started = true;
+                ensureLoaded();
+                v.muted = false;
+                v.play().then(()=>{
+                  btn.classList.add('is-hidden');
+                }).catch(()=>{
+                  btn.classList.remove('is-hidden');
+                });
+                io.disconnect();
+              }
+            });
+          },{threshold:0.45, rootMargin:'40px'});
+        
+          io.observe(v);
+        })();
+        </script>
+      </div>
+    </figure>
+
+    <!-- Panel 3 (oculto en mobile) -->
+    <figure class="panel panel-side">
+      <img src="./idear/difu-03.jpg" alt="Triada IDEAR">
+    </figure>
+  </div>
+</section>
+
+<style>
+/* Mobile: mostrar solo el video ocupando todo el contenedor */
+@media (max-width: 767.98px) {
+  #idear .triptych-wrapper {
+    display:block;
+    padding:0;
+    background:transparent;
+    border:none;
+    box-shadow:none;
+  }
+  #idear .panel-side { display:none !important; }
+  #idear .panel-video {
+    border-radius:0;
+    aspect-ratio:auto;
+    width:100%;
+    height:100%;
+    min-height:70vh; /* ajusta si querés más/menos alto */
+    margin:0;
+  }
+  #idear .panel-video .video-shell,
+  #idear .panel-video .triptych-video {
+    width:100%;
+    height:100%;
+  }
+  #idear .panel-video .triptych-video {
+    object-fit:cover;
+  }
+  #idear .play-btn {
+    /* centrar mejor en full height */
+    transform:translateY(0);
+  }
+}
+</style>
+
+<style>
+.idear-triptych {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.triptych-wrapper {
+  --panel-ratio: 9/16; /* misma relación para imágenes y video */
+  display: grid;
+  gap: clamp(6px,1.2vw,14px);
+  grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), rgba(255,255,255,.08));
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  border: 1px solid rgba(255,255,255,0.35);
+  border-radius: 30px;
+  padding: clamp(10px,2vw,26px);
+  box-shadow:
+    0 10px 25px -8px rgba(0,0,0,.25),
+    0 2px 8px rgba(0,0,0,.15),
+    inset 0 0 0 1px rgba(255,255,255,.25);
+  overflow: hidden;
+  position: relative;
+}
+.triptych-wrapper:before,
+.triptych-wrapper:after {
+  content:"";
+  position:absolute;
+  width:280px;
+  height:280px;
+  background: radial-gradient(circle,#ffffff55,#ffffff05 70%);
+  top:-60px;
+  right:-40px;
+  filter: blur(18px);
+  pointer-events:none;
+}
+.triptych-wrapper:after {
+  left:-40px;
+  top:auto;
+  bottom:-70px;
+  background: radial-gradient(circle,#b1d5ff66,#ffffff05 70%);
+}
+.panel {
+  margin:0;
+  position:relative;
+  border-radius: 22px;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: linear-gradient(145deg,#ffffff30,#ffffff10);
+  box-shadow: 0 4px 14px -4px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.25);
+  aspect-ratio: var(--panel-ratio);
+}
+.panel img,
+.triptych-video {
+  width:100%;
+  height:100%;
+  object-fit:cover; /* igual altura y relleno */
+  display:block;
+}
+.video-shell {
+  position:relative;
+  width:100%;
+  height:100%;
+}
+.play-btn {
+  position:absolute;
+  inset:0;
+  margin:auto;
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  border:none;
+  background:linear-gradient(135deg,#6d28d9,#9333ea);
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:40px;
+  cursor:pointer;
+  box-shadow:0 8px 18px -6px rgba(109,40,217,.55);
+  transition:.3s;
+  z-index:2;
+}
+.play-btn:hover {
+  transform:scale(1.08);
+  box-shadow:0 10px 24px -4px rgba(109,40,217,.6);
+}
+.play-btn:active { transform:scale(.95); }
+.play-btn.is-hidden { opacity:0; pointer-events:none; }
+.triptych-video {
+  opacity:0;
+  transition:opacity .5s ease;
+  background:#000;
+}
+.triptych-video.is-loaded { opacity:1; }
+@media (max-width:900px) {
+  .triptych-wrapper { --panel-ratio: 10/16; }
+}
+@media (max-width:620px) {
+  .triptych-wrapper {
+    grid-template-columns:1fr;
+    --panel-ratio: 16/9;
+  }
+  .play-btn { width:64px; height:64px; font-size:38px; }
+}
+</style>
+
+<script>
+(function() {
+  const video = document.querySelector('[data-video]');
+  if (!video) return;
+  const source = video.querySelector('source[data-src]');
+  const btn = document.querySelector('[data-video-trigger]');
+
+  function loadVideo() {
+    if (video.dataset.loaded) return;
+    if (source && source.dataset.src) {
+      source.src = source.dataset.src;
+      source.removeAttribute('data-src');
+    }
+    video.load();
+    video.dataset.loaded = 'true';
+    video.classList.add('is-loaded');
+  }
+
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        loadVideo();
+        io.disconnect();
+      }
+    });
+  }, { rootMargin: '120px' });
+  io.observe(video);
+
+  btn.addEventListener('click', () => {
+    loadVideo();
+    btn.classList.add('is-hidden');
+    video.play().catch(()=>{});
+  });
+
+  video.addEventListener('play', () => btn.classList.add('is-hidden'));
+  video.addEventListener('pause', () => {
+    if (video.currentTime < 0.2 && video.paused) btn.classList.remove('is-hidden');
+  });
+})();
+</script>
+
 <section id="adoracion" class="diptych-adoracion my-5">
   <div class="diptych-shell">
     <figure class="diptych-left">
@@ -1049,279 +1433,13 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 </style> -->
 
-<section class="idear-triptych my-1 px-1" id="idear">
-  <div class="triptych-wrapper triptych-uniform">
-    <!-- Panel 1 (oculto en mobile) -->
-    <figure class="panel panel-side">
-      <img src="./idear/FLYER_DIFUSIÓN_01.png" alt="Flyer IDEAR">
-    </figure>
-
-    <!-- Panel 2 (Video) -->
-    <figure class="panel panel-video"> 
-      <div class="video-shell" data-video-wrapper>
-        <button class="play-btn" aria-label="Reproducir video" data-video-trigger>
-          <span class="material-icons">play_arrow</span>
-        </button>
-        <video
-          class="triptych-video"
-          preload="none"
-          playsinline
-          controls
-          autoplay
-          data-video
-          id="idearVideo"
-          poster="./idear/poster1.jpg"
-        >
-          <source data-src="./idear/Reel_Fechas.mp4" type="video/mp4">
-          Tu navegador no soporta este formato de video.
-        </video>
-        <script>
-        (function(){
-          const v = document.getElementById('idearVideo');
-          const btn = document.querySelector('[data-video-trigger]');
-          if(!v || !btn) return;
-          let started = false;
-
-          function ensureLoaded(){
-            if(!v.dataset.loaded){
-              const s = v.querySelector('source[data-src]');
-              if(s){
-                s.src = s.dataset.src;
-                s.removeAttribute('data-src');
-              }
-              v.load();
-              v.dataset.loaded = 'true';
-              v.classList.add('is-loaded');
-            }
-          }
-
-          btn.addEventListener('click', () => {
-            ensureLoaded();
-            v.play().then(() => {
-              btn.classList.add('is-hidden');
-            }).catch(()=>{
-              btn.classList.remove('is-hidden');
-            });
-          });
-
-          v.addEventListener('play', () => {
-            btn.classList.add('is-hidden');
-          });
-          v.addEventListener('pause', () => {
-            if (v.currentTime < 0.2) btn.classList.remove('is-hidden');
-          });
-
-          const io = new IntersectionObserver(entries=>{
-            entries.forEach(e=>{
-              if(e.isIntersecting && !started){
-                started = true;
-                ensureLoaded();
-                v.muted = false;
-                v.play().then(()=>{
-                  btn.classList.add('is-hidden');
-                }).catch(()=>{
-                  btn.classList.remove('is-hidden');
-                });
-                io.disconnect();
-              }
-            });
-          },{threshold:0.45, rootMargin:'40px'});
-
-          io.observe(v);
-        })();
-        </script>
-      </div>
-    </figure>
-
-    <!-- Panel 3 (oculto en mobile) -->
-    <figure class="panel panel-side">
-      <img src="./idear/difu-03.jpg" alt="Triada IDEAR">
-    </figure>
-  </div>
-</section>
-
-<style>
-/* Mobile: mostrar solo el video ocupando todo el contenedor */
-@media (max-width: 767.98px) {
-  #idear .triptych-wrapper {
-    display:block;
-    padding:0;
-    background:transparent;
-    border:none;
-    box-shadow:none;
-  }
-  #idear .panel-side { display:none !important; }
-  #idear .panel-video {
-    border-radius:0;
-    aspect-ratio:auto;
-    width:100%;
-    height:100%;
-    min-height:70vh; /* ajusta si querés más/menos alto */
-    margin:0;
-  }
-  #idear .panel-video .video-shell,
-  #idear .panel-video .triptych-video {
-    width:100%;
-    height:100%;
-  }
-  #idear .panel-video .triptych-video {
-    object-fit:cover;
-  }
-  #idear .play-btn {
-    /* centrar mejor en full height */
-    transform:translateY(0);
-  }
-}
-</style>
-
-<style>
-.idear-triptych {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-.triptych-wrapper {
-  --panel-ratio: 9/16; /* misma relación para imágenes y video */
-  display: grid;
-  gap: clamp(6px,1.2vw,14px);
-  grid-template-columns: repeat(auto-fit,minmax(230px,1fr));
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.55), rgba(255,255,255,.08));
-  backdrop-filter: blur(18px) saturate(140%);
-  -webkit-backdrop-filter: blur(18px) saturate(140%);
-  border: 1px solid rgba(255,255,255,0.35);
-  border-radius: 30px;
-  padding: clamp(10px,2vw,26px);
-  box-shadow:
-    0 10px 25px -8px rgba(0,0,0,.25),
-    0 2px 8px rgba(0,0,0,.15),
-    inset 0 0 0 1px rgba(255,255,255,.25);
-  overflow: hidden;
-  position: relative;
-}
-.triptych-wrapper:before,
-.triptych-wrapper:after {
-  content:"";
-  position:absolute;
-  width:280px;
-  height:280px;
-  background: radial-gradient(circle,#ffffff55,#ffffff05 70%);
-  top:-60px;
-  right:-40px;
-  filter: blur(18px);
-  pointer-events:none;
-}
-.triptych-wrapper:after {
-  left:-40px;
-  top:auto;
-  bottom:-70px;
-  background: radial-gradient(circle,#b1d5ff66,#ffffff05 70%);
-}
-.panel {
-  margin:0;
-  position:relative;
-  border-radius: 22px;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  background: linear-gradient(145deg,#ffffff30,#ffffff10);
-  box-shadow: 0 4px 14px -4px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.25);
-  aspect-ratio: var(--panel-ratio);
-}
-.panel img,
-.triptych-video {
-  width:100%;
-  height:100%;
-  object-fit:cover; /* igual altura y relleno */
-  display:block;
-}
-.video-shell {
-  position:relative;
-  width:100%;
-  height:100%;
-}
-.play-btn {
-  position:absolute;
-  inset:0;
-  margin:auto;
-  width:70px;
-  height:70px;
-  border-radius:50%;
-  border:none;
-  background:linear-gradient(135deg,#6d28d9,#9333ea);
-  color:#fff;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:40px;
-  cursor:pointer;
-  box-shadow:0 8px 18px -6px rgba(109,40,217,.55);
-  transition:.3s;
-  z-index:2;
-}
-.play-btn:hover {
-  transform:scale(1.08);
-  box-shadow:0 10px 24px -4px rgba(109,40,217,.6);
-}
-.play-btn:active { transform:scale(.95); }
-.play-btn.is-hidden { opacity:0; pointer-events:none; }
-.triptych-video {
-  opacity:0;
-  transition:opacity .5s ease;
-  background:#000;
-}
-.triptych-video.is-loaded { opacity:1; }
-@media (max-width:900px) {
-  .triptych-wrapper { --panel-ratio: 10/16; }
-}
-@media (max-width:620px) {
-  .triptych-wrapper {
-    grid-template-columns:1fr;
-    --panel-ratio: 16/9;
-  }
-  .play-btn { width:64px; height:64px; font-size:38px; }
-}
-</style>
-
-<script>
-(function() {
-  const video = document.querySelector('[data-video]');
-  if (!video) return;
-  const source = video.querySelector('source[data-src]');
-  const btn = document.querySelector('[data-video-trigger]');
-
-  function loadVideo() {
-    if (video.dataset.loaded) return;
-    if (source && source.dataset.src) {
-      source.src = source.dataset.src;
-      source.removeAttribute('data-src');
-    }
-    video.load();
-    video.dataset.loaded = 'true';
-    video.classList.add('is-loaded');
-  }
-
-  const io = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        loadVideo();
-        io.disconnect();
-      }
-    });
-  }, { rootMargin: '120px' });
-  io.observe(video);
-
-  btn.addEventListener('click', () => {
-    loadVideo();
-    btn.classList.add('is-hidden');
-    video.play().catch(()=>{});
-  });
-
-  video.addEventListener('play', () => btn.classList.add('is-hidden'));
-  video.addEventListener('pause', () => {
-    if (video.currentTime < 0.2 && video.paused) btn.classList.remove('is-hidden');
-  });
-})();
-</script>
+<!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+ 
+ 
+ 
 
 
 <div class="min-vh-50 d-flex align-items-center justify-content-center position-relative overflow-hidden rounded-4"
@@ -1425,110 +1543,16 @@ document.addEventListener('DOMContentLoaded', function() {
   animation: fall 7s linear infinite;
 }
 </style>
-<!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
 
-
-  
-    
-<!-- ...3 días... -->
- <div id="3VideosCatolicos" class="section-padding d-flex justify-content-center align-items-center deshabilitado" style="min-height: 65vh;">
-  <div class="d-flex flex-wrap justify-content-center gap-4" style="width: 95vw; max-width: 1400px;">
-<!--  -->
-         <!-- Card 3 solo desktop  d-none d-md-block-->
-        <div class="card90 shadow-lg rounded-4 overflow-hidden " style="width: 90vw; max-width: 400px;">
-        <div class="position-relative text-center p-4" style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
-          <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
-          30 de Septiembre </h2>
-          <img src="./img/paloma.png" alt="Cruz-Medalla de San Benito" style="width: 30px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
-        </div>
-        <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
-          <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
-          center center / cover no-repeat; border-radius:12px; 
-          box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
-        <video id="corpusVideo10" controls style="width:100%; height:400px; 
-        border:none; border-radius:12px; background: transparent;" 
-        poster="./video/Jero.jpg">
-          <source src="./video/Jero.mp4" type="video/mp4">
-          Tu navegador no soporta la reproducción de video.
-        </video>
-          </div>
-        </div>
-      </div>
-    <!--  -->
-     <!-- Card 3 solo desktop  d-none d-md-block-->
-        <div class="d-none d-md-block card90 shadow-lg rounded-4 overflow-hidden " style="width: 90vw; max-width: 400px;">
-        <div class="position-relative text-center p-4" style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
-          <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
-          29 de Septiembre </h2>
-          <img src="./img/paloma.png" alt="Cruz-Medalla de San Benito" style="width: 30px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
-        </div>
-        <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
-          <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
-          center center / cover no-repeat; border-radius:12px; 
-          box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
-        <video id="corpusVideo10" controls style="width:100%; height:400px; 
-        border:none; border-radius:12px; background: transparent;" 
-        poster="./video/arcangeles.jpg">
-          <source src="./video/arcangeles.mp4" type="video/mp4">
-          Tu navegador no soporta la reproducción de video.
-        </video>
-          </div>
-        </div>
-      </div>
-    <!--  -->
-     <!-- Card 3 solo desktop  d-none d-md-block -->
-            <div class="d-none d-md-block card90 shadow-lg rounded-4 overflow-hidden " style="width: 90vw; max-width: 400px;">
-        <div class="position-relative text-center p-4" style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
-          <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
-          28 de Septiembre </h2>
-          <img src="./img/paloma.png" alt="Cruz-Medalla de San Benito" style="width: 30px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
-        </div>
-        <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
-          <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
-          center center / cover no-repeat; border-radius:12px; 
-          box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
-        <video id="corpusVideo10" controls style="width:100%; height:400px; 
-        border:none; border-radius:12px; background: transparent;" 
-        poster="./video/wenses.jpg">
-          <source src="./video/wenses.mp4" type="video/mp4">
-          Tu navegador no soporta la reproducción de video.
-        </video>
-          </div>
-        </div>
-      </div>
-      <style>
-        @media (max-width: 768px) {
-          #corpusVideo10 {
-        height: auto !important; /* Ensure video height adjusts properly on mobile */
-          }
-        }
-      </style>
-<!-- d-none d-md-block" -->
-     <!-- Fin de la tarjeta -->
-  </div>
-</div>
-<br class="d-none d-lg-block"><br class="d-none d-lg-block"><br class="d-none d-lg-block">
-
-<!-- Mostrar SIEMPRE en todos los dispositivos -->
-<style>
-  @media (max-width: 991px) {
-    #VideosCatolicos {
-      display: flex !important;
-    }
-  }
-  @media (min-width: 992px) {
-    #VideosCatolicos {
-      display: flex !important;
-    }
-  }
-  /* .deshabilitado {
-    display: none !important;
-  }  */
-</style>
-<!-- - Sección de videos - -->
+<!-- - Sección de videos Nuevos Santos - -->
+ <!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
 <!-- Título 3D -->
  <!-- d-none -->
 <div class="text-center mb-4 d-none d-lg-flex justify-content-center align-items-center" 
@@ -1718,7 +1742,14 @@ document.addEventListener('DOMContentLoaded', function() {
 </style>
 
   <br class="d-none d-md-block" ><br class="d-none d-md-block" >
-
+<!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
 <section class="post-dia-nino viewport-container">
   <div class="md3-card festiva">
     
@@ -1974,8 +2005,15 @@ function updateConfetti() {
 })();
 </script>
 
-<br>
-
+ 
+<!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
+<br class="d-none d-lg-block">
 <div id="feria"></div>
 <!-- Feria Americana: visible solo del 1 al 9 de agosto de 2025 inclusive -->
 <script>
