@@ -2836,3 +2836,20 @@ left: 10%;  /* ajuste horizontal en porcentaje */
 .navbar-toggler:active {
   box-shadow: 0 0 10px #fff;
 }
+
+/* Reducir espaciado general entre secciones */
+.section-spacing-tight {
+  margin-top: 0.5rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+/* Aplicar a elementos específicos */
+#idear {
+  margin-top: 0 !important;
+  margin-bottom: 1rem !important;
+}
+
+/* Reducir padding del triptych */
+.triptych-wrapper {
+  padding: clamp(8px,1.5vw,20px) !important;
+}

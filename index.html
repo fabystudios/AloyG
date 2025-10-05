@@ -543,9 +543,8 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
 </section>
-  <div class="d-none d-md-block my-3 px-2 text-center position-relative" style="z-index:10;">
-    <div class="scrolling-text-wrapper" style="width:100%; overflow:hidden; position:relative;">
-      <span class="scrolling-text" style="
+
+<div class="d-none d-md-block my-1 px-2 text-center position-relative" style="z-index:10;">      <span class="scrolling-text" style="
         display:inline-block;
         white-space:nowrap;
         background: linear-gradient(90deg,rgba(213,0,0,0.85),rgba(255,23,68,0.85),rgba(255,138,101,0.85));
@@ -571,7 +570,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </style>
   </div>
 <!-- insertar aqui ./idear/FLYER_DIFUSIÓN_01.png solo en mobile -->
-<div class="d-block d-md-none my-3 px-2 text-center position-relative" style="z-index:10;">
+<div class="d-block d-md-none my-1 px-2 text-center position-relative" style="z-index:10;">
   <div style="position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index:10;">
     <marquee behavior="scroll" direction="left" scrollamount="7" style="width:100%;">
       <span style="
@@ -868,7 +867,11 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 })();
 </script>
-<!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
+<br class="d-none d-lg-block"><br class="d-none d-lg-block">
+<br class="d-none d-lg-block"><br class="d-none d-lg-block">
+<br class="d-none d-lg-block"><br class="d-none d-lg-block">
+<br class="d-none d-lg-block"><br class="d-none d-lg-block">
+<br class="d-none d-lg-block"><br class="d-none d-lg-block">
 
  
 <!-- ...3 días... -->
@@ -877,6 +880,28 @@ document.addEventListener('DOMContentLoaded', function() {
 <!--  -->
              <!-- Card 3 solo desktop  d-none d-md-block-->
         <div class="card90 shadow-lg rounded-4 overflow-hidden " style="width: 90vw; max-width: 400px;">
+        <div class="position-relative text-center p-4" style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
+          <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
+          5 de Octubre </h2>
+          <img src="./img/paloma.png" alt="Cruz-Medalla de San Benito" style="width: 30px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
+        </div>
+        <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
+          <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
+          center center / cover no-repeat; border-radius:12px; 
+          box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
+        <video id="corpusVideo10" controls style="width:100%; height:400px; 
+        border:none; border-radius:12px; background: transparent;" 
+        poster="./video/faustina.jpg">
+          <source src="./video/faustina.mp4" type="video/mp4">
+          Tu navegador no soporta la reproducción de video.
+        </video>
+          </div>
+        </div>
+      </div>
+    <!--  -->
+             <!-- Card 3 solo desktop  d-none d-md-block-->
+        <div class="d-none d-md-block card90 shadow-lg rounded-4 overflow-hidden " style="width: 90vw; max-width: 400px;">
         <div class="position-relative text-center p-4" style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
           <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
           text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
@@ -941,28 +966,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
       </div>
     <!--  -->
-         <!-- Card 3 solo desktop  d-none d-md-block-->
-        <div class="d-none d-md-block card90 shadow-lg rounded-4 overflow-hidden " style="width: 90vw; max-width: 400px;">
-        <div class="position-relative text-center p-4" style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
-          <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
-          30 de Septiembre </h2>
-          <img src="./img/paloma.png" alt="Cruz-Medalla de San Benito" style="width: 30px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
-        </div>
-        <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
-          <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
-          center center / cover no-repeat; border-radius:12px; 
-          box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
-        <video id="corpusVideo10" controls style="width:100%; height:400px; 
-        border:none; border-radius:12px; background: transparent;" 
-        poster="./video/Jero.jpg">
-          <source src="./video/Jero.mp4" type="video/mp4">
-          Tu navegador no soporta la reproducción de video.
-        </video>
-          </div>
-        </div>
-      </div>
-    <!--  -->
+
 
    
     
@@ -991,9 +995,9 @@ document.addEventListener('DOMContentLoaded', function() {
       display: flex !important;
     }
   }
-  .deshabilitado {
+  /* .deshabilitado {
     display: none !important;
-  } 
+  }  */
 </style>
 
 
@@ -1421,9 +1425,9 @@ document.addEventListener('DOMContentLoaded', function() {
 </style> -->
 
 <!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
+<!-- <br class="d-none d-lg-block">
 <br class="d-none d-lg-block">
-<br class="d-none d-lg-block">
-<br class="d-none d-lg-block">
+<br class="d-none d-lg-block"> -->
  
  
  
@@ -1513,7 +1517,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </button>
   </div>
 </div>
-<br>
+ 
 <style>
 @keyframes fall {
   0% { transform: translateY(-10%) rotate(0deg); opacity: 0; }
@@ -1614,7 +1618,9 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 </style>
 
- 
+ <br class="d-none d-lg-block"><br class="d-none d-lg-block">
+<br class="d-none d-lg-block"><br class="d-none d-lg-block">
+
 <section class="post-dia-nino viewport-container">
   <div class="md3-card festiva">
     
@@ -1869,6 +1875,8 @@ function updateConfetti() {
   requestAnimationFrame(animateConfetti);
 })();
 </script>
+<br class="d-none d-lg-block"><br class="d-none d-lg-block">
+<br class="d-none d-lg-block"><br class="d-none d-lg-block">
 
  
 <!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
