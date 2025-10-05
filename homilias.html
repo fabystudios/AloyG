@@ -206,6 +206,56 @@
       })();
     </script>
   </div>
+  <!-- ----------------------------- -->
+   <!-- https://youtu.be/heEy1S9BcYE -->
+    <div class="card shadow-md3" style="width: 100%; max-width: 300px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);"> 
+    <div class="card-header bg-primary text-white text-center" style="font-family:'Roboto',serif; font-size:1.25rem; font-weight:700; letter-spacing:.5px;">
+      3 de Octubre
+    </div>
+    <div class="card-body p-0">
+      <div class="ratio ratio-16x9">
+        <iframe
+          id="homilia-video-1"
+          src="https://www.youtube.com/embed/heEy1S9BcYE?rel=0&enablejsapi=1"
+          title="Homilía 28 de Septiembre"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          loading="lazy"
+          style="border:0;"
+        ></iframe>
+      </div>
+    </div>
+    <div class="card-footer text-center bg-light">
+      <button type="button" class="btn btn-md3 btn-fullscreen-play">
+        <i class="material-icons align-middle">play_arrow</i> Pantalla completa
+      </button>
+    </div>
+    <script>
+      (function () {
+        const footer = document.currentScript.previousElementSibling;
+        const btn = footer.querySelector('.btn-fullscreen-play');
+        if(!btn) return;
+        btn.addEventListener('click', function () {
+          const card = this.closest('.card');
+            const iframe = card ? card.querySelector('iframe') : null;
+            if (!iframe) return;
+            const goFullAndPlay = () => {
+              const fs = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.msRequestFullscreen;
+              if (fs) fs.call(iframe);
+              try {
+                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+              } catch(e) { /* ignore */ }
+            };
+            // Si aún no cargó, esperar un pequeño tiempo y luego ejecutar
+            if (iframe.readyState === 'loading') {
+              iframe.addEventListener('load', goFullAndPlay, { once: true });
+            } else {
+              goFullAndPlay();
+            }
+        });
+      })();
+    </script>
+  </div>
   <!-- ---  -->
   <div class="card shadow-md3" style="width: 100%; max-width: 300px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);"> 
     <div class="card-header bg-primary text-white text-center" style="font-family:'Roboto',serif; font-size:1.25rem; font-weight:700; letter-spacing:.5px;">
