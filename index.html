@@ -543,7 +543,6 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
 </section>
-
 <div class="d-none d-md-block my-1 px-2 text-center position-relative" style="z-index:10;">      <span class="scrolling-text" style="
         display:inline-block;
         white-space:nowrap;
@@ -569,7 +568,162 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     </style>
   </div>
-<!-- insertar aqui ./idear/FLYER_DIFUSIÓN_01.png solo en mobile -->
+
+
+
+  <div class="card card-idear mx-auto my-5">
+  <div class="card-body text-center">
+    <div class="logo-wrapper-idear">
+      <img src="./idear/recursos/Recurso_10.png" alt="Logo IDEAR" class="logo-idear">
+    </div>
+    <h5 class="title-idear">Expo IDEAR — Celebración 10 Años</h5>
+    <p class="text-idear">
+      Últimos días de la exposición en <strong>Casa Nuestra Señora de Luján</strong>, Villa Elisa.
+    </p>
+    <div class="badges-idear">
+      <span class="badge-idear"><i class="material-icons">calendar_today</i> 10 de Octubre</span>
+      <span class="badge-idear"><i class="material-icons">location_on</i> Villa Elisa</span>
+    </div>
+    <div class="actions-idear">
+      <a href="https://idearlaplata.com.ar/" class="btn-idear" target="_blank">
+        <i class="material-icons">language</i> Ver Sitio Web
+      </a>
+      <a href="https://idearlaplata.com.ar/plano.html" class="btn-outline-idear" target="_blank">
+        <i class="material-icons">map</i> Ver Plano
+      </a>
+    </div>
+  </div>
+</div>
+
+<style>
+.card-idear {
+  max-width: 500px;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(12px);
+  border-radius: 28px; /* pilled */
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.1);
+  padding: 2rem 1.5rem;
+  transition: all 0.35s ease;
+}
+.card-idear:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.18);
+}
+
+/* Logo */
+.logo-wrapper-idear {
+  background: radial-gradient(circle at center, rgba(106,27,154,0.15), transparent 70%);
+  border-radius: 50%;
+  display: inline-block;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  animation: float-idear 3s ease-in-out infinite;
+}
+.logo-idear {
+  max-height: 80px;
+  width: auto;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+@keyframes float-idear {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* Textos */
+.title-idear {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #2b2b2b;
+  margin-bottom: 0.75rem;
+}
+.text-idear {
+  color: #444;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Badges */
+.badges-idear {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+.badge-idear {
+  background: rgba(33,150,243,0.15); /* celeste translúcido */
+  color: #1565c0;
+  font-weight: 500;
+  border-radius: 50px; /* pilled */
+  padding: 0.4rem 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+}
+
+/* Botones */
+.actions-idear {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.btn-idear,
+.btn-outline-idear {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.7rem 1.4rem;
+  font-size: 0.9rem;
+  border-radius: 999px; /* pilled */
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.btn-idear {
+  background: linear-gradient(135deg, #7e57c2, #6a1b9a);
+  /* 👆 Cambiá esta línea por un gradiente que incluya tu naranja */
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(106,27,154,0.25);
+}
+
+.btn-idear:hover {
+  background: linear-gradient(135deg, #6a1b9a, #4a148c);
+  color: orange;
+  box-shadow: 0 6px 14px rgba(106,27,154,0.35);
+  transform: translateY(-2px);
+}
+.btn-idear:active {
+  transform: translateY(0);
+}
+
+.btn-outline-idear {
+  border: 2px solid #2196f3;
+  color: #1565c0;
+  background: transparent;
+}
+.btn-outline-idear:hover {
+  background: #ee6b0d;
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(33,150,243,0.25);
+}
+.btn-outline-idear:active {
+  transform: translateY(0);
+}
+
+.material-icons {
+  font-size: 18px;
+  vertical-align: middle;
+}
+</style>
+
+
+
+
+
 <div class="d-block d-md-none my-1 px-2 text-center position-relative" style="z-index:10;">
   <div style="position: absolute; top: 12px; left: 50%; transform: translateX(-50%); z-index:10;">
     <marquee behavior="scroll" direction="left" scrollamount="7" style="width:100%;">
