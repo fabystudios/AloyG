@@ -70,10 +70,14 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
   
+<!-- SweetAlert2 CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
+<!-- SweetAlert2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
 </head>
 <body id="inicio">
- 
+<link rel="stylesheet" href="./rifa.css">
 
     <!-- Antes del cierre del body -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -81,7 +85,7 @@
 
     <!-- Botón Flotante con Imagen -->
 <a href="#inicio" class="btn-floating">
-    <img src="./cartelera/chica.png"  alt="Contacto">
+    <img src="./rifa/Rifis3.png"  alt="Contacto">
 </a>
 
 <section class="cabecera" style="background-color: #0d6efd; width: 100vw; max-width: 95vw; margin: 0 auto;"> 
@@ -100,8 +104,8 @@
         <style>
         @media (max-width: 600px) {
           .navbar-brand .logo {
-            height: 50px !important;
-            max-height: 50px !important;
+            height: 80px !important;
+            max-height: 80px !important;
           }
         }
         </style>
@@ -141,126 +145,7 @@
   </div>
 </section>
 
-<style>
-.cabecera {
-  width: 100vw !important;
-  max-width: 100vw !important;
-  margin: 0 auto !important;
-}
-@media (max-width: 600px) {
-  .cabecera {
-    width: 99vw !important;
-    max-width: 99vw !important;
-  }
-}
-.rifa-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 32px;
-  text-align: center;
-  margin-bottom: 32px;
-}
 
-.rifa-info-card {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  background: var(--md-sys-color-surface-variant);
-  border-radius: 24px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  padding: 24px 32px;
-  gap: 40px;
-  max-width: 900px;
-  width: 100%;
-}
-
-.rifa-title {
-  color: var(--md-sys-color-primary);
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.rifa-prizes ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  font-size: 16px;
-  color: #333;
-}
-
-.rifa-prizes li {
-  margin-bottom: 6px;
-}
-
-.rifa-payment {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.payment-data p {
-  margin: 4px 0;
-  color: #333;
-  font-size: 15px;
-}
-
-.payment-data strong {
-  color: #073767;
-}
-
-.payment-data span {
-  color: #0066CC;
-  font-weight: 600;
-  user-select: all;
-}
-
-.rifa-qr img {
-  margin-top: 12px;
-  max-width: 140px;
-  border-radius: 12px;
-  background: #fff;
-  padding: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-}
-
-.rifa-mascota {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.rifa-mascota img {
-  max-width: 180px;
-  border-radius: 18px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-}
-
-.rifa-caption {
-  color: var(--md-sys-color-outline);
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .rifa-info-card {
-    flex-direction: column;
-    padding: 20px;
-    gap: 24px;
-  }
-  .rifa-title {
-    font-size: 18px;
-  }
-  .payment-data p {
-    font-size: 14px;
-  }
-}
-
-</style>
 
 
 <section id="Rifa"  class="section-header">
@@ -283,9 +168,11 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   
   <!-- Firebase SDK -->
+   
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  
   
   <style>
     * {
@@ -890,658 +777,747 @@
   </style>
 </head>
 <body>
-  <section class="rifa-section">
-    <div class="container">
-      <!-- Vista Pública -->
-      <div id="public-view" class="card">
-        <!-- Header con premios y pago -->
-      <!-- Header con premios y pago -->
-<div class="rifa-header" style="align-items: center;">
-  <div class="rifa-info-card" style="justify-content: center; align-items: center; text-align: center;">
-    <div class="rifa-prizes" style="display: flex; flex-direction: column; align-items: center;">
-      <h2 class="rifa-title">🎁 Premios</h2>
-      <ul style="text-align: left; margin: 0 auto;">
-        <li><strong>1° Premio:</strong> Bicicleta</li>
-        <li><strong>2° Premio:</strong> Tablet</li>
-        <li><strong>Valor:</strong> $20.000 ARS</li>
-      </ul>
+
+
+<section class="rifa-section">
+  <div class="container">
+    <!-- Vista Pública -->
+    <div id="public-view" class="card">
+      <div class="rifa-header" style="align-items: center;">
+        <div class="rifa-info-card" style="justify-content: center; align-items: center; text-align: center;">
+          <div class="rifa-prizes" style="display: flex; flex-direction: column; align-items: center;">
+            <h2 class="rifa-title">🎁 Premios</h2>
+            <ul style="text-align: left; margin: 0 auto;">
+              <li><strong>1° Premio:</strong> Bicicleta</li>
+              <li><strong>2° Premio:</strong> Tablet</li>
+              <li><strong>Valor:</strong> $20.000 ARS</li>
+            </ul>
+          </div>
+          <div class="rifa-payment" style="display: flex; flex-direction: column; align-items: center;">
+            <h2 class="rifa-title">💳 Datos de Pago</h2>
+            <div class="payment-data" style="text-align: center;">
+              <p><strong>Alias:</strong> <span>luis.villaelisa.mp</span></p>
+              <p><strong>CVU:</strong> <span>0000003100045333653297</span></p>
+              <p><strong>Titular:</strong> <span>Marcelo Alejandro Cerniato</span></p>
+            </div>
+          </div>
+          <div class="rifa-qr" style="display: flex; flex-direction: column; align-items: center;">
+            <img src="./rifa/qr.jpg" alt="QR Mercado Pago" style="margin: 0 auto;">
+          </div>
+        </div>
+      </div>
+      
+      <div style="display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; margin-top: 8px;">
+        <div class="rifa-mascota" style="display: flex; flex-direction: column; align-items: center;">
+          <img src="./rifa/rifi-premio2.png" alt="Mascota de la rifa" style="max-width: 180px; border-radius: 18px; box-shadow: none;">
+          <p class="rifa-caption">🎟️ <strong>¡Elegí tu número y participá!</strong> </p>
+        </div>
+        <div class="rifa-premios-imgs" style="display: flex; gap: 5px; align-items: center;">
+          <img src="./rifa/p1.png" alt="Premio 1" style="max-width: 180px; border-radius: 12px;">
+          <img src="./rifa/p2.png" alt="Premio 2" style="max-width: 180px; border-radius: 12px;">
+        </div>
+      </div>
+
+      <div class="mode-toggle">
+        <button class="md-button btn-secondary" onclick="showAdminLogin()">
+          <span class="material-icons">admin_panel_settings</span>
+          Acceso Admin
+        </button>
+      </div>
+
+      <div class="info-box">
+        <p><strong>📌 Cómo funciona:</strong> Haz clic en un número disponible (verde) para reservarlo. Los números naranjas están reservados y los morados ya están pagados.</p>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="number" id="public-stat-disponibles">0</div>
+          <div class="label">Disponibles</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" id="public-stat-reservados">0</div>
+          <div class="label">Reservados</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" id="public-stat-pagados">0</div>
+          <div class="label">Pagados</div>
+        </div>
+      </div>
+
+      <div id="public-loading" class="loading">
+        <div class="spinner"></div>
+        <p>Cargando números disponibles...</p>
+      </div>
+
+      <div id="public-rifa-grid" class="rifa-grid" style="display:none;"></div>
     </div>
-    <div class="rifa-payment" style="display: flex; flex-direction: column; align-items: center;">
-      <h2 class="rifa-title">💳 Datos de Pago</h2>
-      <div class="payment-data" style="text-align: center;">
-        <p><strong>Alias:</strong> <span>luis.villaelisa.mp</span></p>
-        <p><strong>CVU:</strong> <span>0000003100045333653297</span></p>
-        <p><strong>Titular:</strong> <span>Marcelo Alejandro Cerniato</span></p>
+
+    <!-- Login Admin -->
+    <div id="admin-login" class="card" style="display:none;">
+      <div style="text-align: center; margin-bottom: 24px;">
+        <h1 style="color: var(--md-sys-color-primary); font-size: 28px; margin-bottom: 8px;">🔐 Admin Rifa</h1>
+        <p class="subtitle">Acceso exclusivo para administradores</p>
+      </div>
+
+      <button class="md-button btn-secondary" onclick="showPublicView()" style="margin-bottom: 24px; width: 100%;">
+        <span class="material-icons">arrow_back</span>
+        Volver a vista pública
+      </button>
+
+      <div class="login-buttons">
+        <button id="login-google" class="md-button btn-google">
+          <svg width="20" height="20" viewBox="0 0 20 20">
+            <path fill="#4285F4" d="M19.6 10.23c0-.82-.1-1.42-.25-2.05H10v3.72h5.5c-.15.96-.74 2.31-2.04 3.22v2.45h3.16c1.89-1.73 2.98-4.3 2.98-7.34z"/>
+            <path fill="#34A853" d="M13.46 15.13c-.83.59-1.96 1-3.46 1-2.64 0-4.88-1.74-5.68-4.15H1.07v2.52C2.72 17.75 6.09 20 10 20c2.7 0 4.96-.89 6.62-2.42l-3.16-2.45z"/>
+            <path fill="#FBBC05" d="M3.99 10c0-.69.12-1.35.32-1.97V5.51H1.07A9.973 9.973 0 000 10c0 1.61.39 3.14 1.07 4.49l3.24-2.52c-.2-.62-.32-1.28-.32-1.97z"/>
+            <path fill="#EA4335" d="M10 3.88c1.88 0 3.13.81 3.85 1.48l2.84-2.76C14.96.99 12.7 0 10 0 6.09 0 2.72 2.25 1.07 5.51l3.24 2.52C5.12 5.62 7.36 3.88 10 3.88z"/>
+          </svg>
+          Ingresar con Google
+        </button>
       </div>
     </div>
-    <div class="rifa-qr" style="display: flex; flex-direction: column; align-items: center;">
-      <img src="./rifa/qr.jpg" alt="QR Mercado Pago" style="margin: 0 auto;">
+
+    <!-- Vista Admin -->
+    <div id="admin-view" class="card" style="display:none;">
+      <div class="admin-header">
+        <div class="user-info">
+          <img id="user-avatar" class="user-avatar" src="" alt="Avatar">
+          <div>
+            <h3 id="user-name" style="margin:0; font-size: 16px;"></h3>
+            <span class="admin-badge">Administrador</span>
+          </div>
+        </div>
+        <button id="logout-btn" class="md-button btn-logout">
+          <span class="material-icons">logout</span>
+          Salir
+        </button>
+      </div>
+
+      <div style="text-align: center; margin-bottom: 24px;">
+        <h2 style="color: var(--md-sys-color-primary); font-size: 24px;">Panel de Administración</h2>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="number" id="admin-stat-disponibles">0</div>
+          <div class="label">Disponibles</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" id="admin-stat-reservados">0</div>
+          <div class="label">Reservados</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" id="admin-stat-pagados">0</div>
+          <div class="label">Pagados</div>
+        </div>
+      </div>
+
+      <div id="admin-loading" class="loading">
+        <div class="spinner"></div>
+        <p>Cargando datos...</p>
+      </div>
+
+      <div id="admin-rifa-grid" class="rifa-grid" style="display:none;"></div>
     </div>
   </div>
 
-</div>
-  <div style="display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; margin-top: 8px;">
-    <div class="rifa-mascota" style="display: flex; flex-direction: column; align-items: center;">
-      <img src="./rifa/Rifis2.png" alt="Mascota de la rifa" style="max-width: 180px; border-radius: 18px;">
-      <p class="rifa-caption">🎟️ ¡Elegí tu número y participá!</p>
-    </div>
-    <div class="rifa-premios-imgs" style="display: flex; gap: 16px; align-items: center;">
-      <img src="./rifa/p1.png" alt="Premio 1" style="max-width: 180px; border-radius: 12px;">
-      <img src="./rifa/p2.png" alt="Premio 2" style="max-width: 180px; border-radius: 12px;">
-    </div>
-  </div>
-
-        <div class="mode-toggle">
-          <button class="md-button btn-secondary" onclick="showAdminLogin()">
-            <span class="material-icons">admin_panel_settings</span>
-            Acceso Admin
-          </button>
+  <!-- Modal Reserva Pública -->
+  <div id="public-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Reservar Número <span id="public-modal-numero"></span></h3>
+        <button class="close-btn" onclick="closePublicModal()">×</button>
+      </div>
+      <form id="public-form">
+        <div class="form-group">
+          <label for="public-nombre-input">Tu Nombre Completo *</label>
+          <input type="text" id="public-nombre-input" placeholder="Ej: Juan Pérez" required>
+        </div>
+        <div class="form-group">
+          <label for="public-email-input">Tu Email (opcional)</label>
+          <input type="email" id="public-email-input" placeholder="tu@email.com">
         </div>
 
         <div class="info-box">
-          <p><strong>📌 Cómo funciona:</strong> Haz clic en un número disponible (verde) para reservarlo. Los números naranjas están reservados y los morados ya están pagados.</p>
+          <p>⏰ Los administradores confirmarán tu pago en breve</p>
         </div>
-
-        <div class="stats">
-          <div class="stat-card">
-            <div class="number" id="public-stat-disponibles">0</div>
-            <div class="label">Disponibles</div>
-          </div>
-          <div class="stat-card">
-            <div class="number" id="public-stat-reservados">0</div>
-            <div class="label">Reservados</div>
-          </div>
-          <div class="stat-card">
-            <div class="number" id="public-stat-pagados">0</div>
-            <div class="label">Pagados</div>
-          </div>
-        </div>
-
-        <div id="public-loading" class="loading">
-          <div class="spinner"></div>
-          <p>Cargando números disponibles...</p>
-        </div>
-
-        <div id="public-rifa-grid" class="rifa-grid" style="display:none;"></div>
-      </div>
-
-      <!-- Login Admin -->
-      <div id="admin-login" class="card" style="display:none;">
-        <div style="text-align: center; margin-bottom: 24px;">
-          <h1 style="color: var(--md-sys-color-primary); font-size: 28px; margin-bottom: 8px;">🔐 Admin Rifa</h1>
-          <p class="subtitle">Acceso exclusivo para administradores</p>
-        </div>
-
-        <button class="md-button btn-secondary" onclick="showPublicView()" style="margin-bottom: 24px; width: 100%;">
-          <span class="material-icons">arrow_back</span>
-          Volver a vista pública
-        </button>
-
-        <div class="login-buttons">
-          <button id="login-google" class="md-button btn-google">
-            <svg width="20" height="20" viewBox="0 0 20 20">
-              <path fill="#4285F4" d="M19.6 10.23c0-.82-.1-1.42-.25-2.05H10v3.72h5.5c-.15.96-.74 2.31-2.04 3.22v2.45h3.16c1.89-1.73 2.98-4.3 2.98-7.34z"/>
-              <path fill="#34A853" d="M13.46 15.13c-.83.59-1.96 1-3.46 1-2.64 0-4.88-1.74-5.68-4.15H1.07v2.52C2.72 17.75 6.09 20 10 20c2.7 0 4.96-.89 6.62-2.42l-3.16-2.45z"/>
-              <path fill="#FBBC05" d="M3.99 10c0-.69.12-1.35.32-1.97V5.51H1.07A9.973 9.973 0 000 10c0 1.61.39 3.14 1.07 4.49l3.24-2.52c-.2-.62-.32-1.28-.32-1.97z"/>
-              <path fill="#EA4335" d="M10 3.88c1.88 0 3.13.81 3.85 1.48l2.84-2.76C14.96.99 12.7 0 10 0 6.09 0 2.72 2.25 1.07 5.51l3.24 2.52C5.12 5.62 7.36 3.88 10 3.88z"/>
-            </svg>
-            Ingresar con Google
-          </button>
-          <!-- <button id="login-facebook" class="md-button btn-facebook">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
-              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-            </svg>
-            Ingresar con Facebook
-          </button> -->
-        </div>
-      </div>
-
-      <!-- Vista Admin -->
-      <div id="admin-view" class="card" style="display:none;">
-        <div class="admin-header">
-          <div class="user-info">
-            <img id="user-avatar" class="user-avatar" src="" alt="Avatar">
-            <div>
-              <h3 id="user-name" style="margin:0; font-size: 16px;"></h3>
-              <span class="admin-badge">Administrador</span>
-            </div>
-          </div>
-          <button id="logout-btn" class="md-button btn-logout">
-            <span class="material-icons">logout</span>
-            Salir
-          </button>
-        </div>
-
-        <div style="text-align: center; margin-bottom: 24px;">
-          <h2 style="color: var(--md-sys-color-primary); font-size: 24px;">Panel de Administración</h2>
-        </div>
-
-        <div class="stats">
-          <div class="stat-card">
-            <div class="number" id="admin-stat-disponibles">0</div>
-            <div class="label">Disponibles</div>
-          </div>
-          <div class="stat-card">
-            <div class="number" id="admin-stat-reservados">0</div>
-            <div class="label">Reservados</div>
-          </div>
-          <div class="stat-card">
-            <div class="number" id="admin-stat-pagados">0</div>
-            <div class="label">Pagados</div>
-          </div>
-        </div>
-
-        <div id="admin-loading" class="loading">
-          <div class="spinner"></div>
-          <p>Cargando datos...</p>
-        </div>
-
-        <div id="admin-rifa-grid" class="rifa-grid" style="display:none;"></div>
-      </div>
-    </div>
-
-    <!-- Modal Reserva Pública -->
-    <div id="public-modal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Reservar Número <span id="public-modal-numero"></span></h3>
-          <button class="close-btn" onclick="closePublicModal()">×</button>
-        </div>
-        <form id="public-form">
-          <div class="form-group">
-            <label for="public-nombre-input">Tu Nombre Completo *</label>
-            <input type="text" id="public-nombre-input" placeholder="Ej: Juan Pérez" required>
-          </div>
-          <div class="form-group">
-            <label for="public-email-input">Tu Email (opcional)</label>
-            <input type="email" id="public-email-input" placeholder="tu@email.com">
-          </div>
-
-          <div class="info-box">
-            <p>⏰ Los administradores confirmarán tu pago en breve</p>
-          </div>
-          
-          <div class="modal-actions">
-            <div class="btn-group-mobile">
-              <button type="submit" class="md-button btn-primary">
-                <span class="material-icons">check_circle</span>
-                Confirmar Reserva
-              </button>
-              <a href="https://mpago.la/2jYzB9u" 
-                 target="_blank" 
-                 class="md-button btn-mercadopago"
-                 id="btn-pagar-mercadopago">
-                <span class="material-icons">payment</span>
-                Pagar con Mercado Pago
-              </a>
-              <button type="button" class="md-button btn-secondary" onclick="closePublicModal()">
-                Cancelar
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Modal Edición Admin -->
-    <div id="admin-modal" class="modal">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3>Editar Número <span id="admin-modal-numero"></span></h3>
-          <button class="close-btn" onclick="closeAdminModal()">×</button>
-        </div>
-        <form id="admin-form">
-          <div class="form-group">
-            <label for="admin-nombre-input">Nombre del Participante</label>
-            <input type="text" id="admin-nombre-input" placeholder="Ingrese el nombre">
-          </div>
-          <div class="form-group">
-            <label for="admin-email-input">Email (opcional)</label>
-            <input type="email" id="admin-email-input" placeholder="email@ejemplo.com">
-          </div>
-          <div class="form-group">
-            <label for="admin-estado-select">Estado</label>
-            <select id="admin-estado-select">
-              <option value="1">Disponible</option>
-              <option value="2">Reservado</option>
-              <option value="3">Pagado ✓</option>
-            </select>
-          </div>
-          <div class="modal-actions">
+        
+        <div class="modal-actions">
+          <div class="btn-group-mobile">
             <button type="submit" class="md-button btn-primary">
-              <span class="material-icons">save</span>
-              Guardar Cambios
+              <span class="material-icons">check_circle</span>
+              Confirmar Reserva
             </button>
-            <button type="button" class="md-button btn-secondary" onclick="closeAdminModal()">
+            <!-- <a href="https://mpago.la/2jYzB9u" 
+               target="_blank" 
+               class="md-button btn-mercadopago d-block d-md-none"
+               id="btn-pagar-mercadopago">
+              <div style="display: flex; align-items: center; justify-content: center; width: 100%;">
+                <span class="material-icons" style="vertical-align: middle; font-size: 20px;">payment</span>
+                <span style="font-weight: bold; text-transform: uppercase; white-space: nowrap; margin-left: 6px;">PAGAR CON MERCADO PAGO</span>
+              </div>
+            </a> -->
+            <button type="button" class="md-button btn-secondary" onclick="closePublicModal()">
               Cancelar
             </button>
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
-  </section>
+  </div>
 
-  <script>
-    // Configuración Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyD-3xKx4M5GxSQ-oJdnqz33hEZqFNBHoxM",
-      authDomain: "aloy-726.firebaseapp.com",
-      projectId: "aloy-726",
-      storageBucket: "aloy-726.appspot.com",
-      messagingSenderId: "441895072453",
-      appId: "1:441895072453:web:7d1ec25a4800047385b6ac",
-      measurementId: "G-6CQ8TJHCGK"
-    };
+  <!-- Modal Edición Admin -->
+  <div id="admin-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Editar Número <span id="admin-modal-numero"></span></h3>
+        <button class="close-btn" onclick="closeAdminModal()">×</button>
+      </div>
+      <form id="admin-form">
+        <div class="form-group">
+          <label for="admin-nombre-input">Nombre del Participante</label>
+          <input type="text" id="admin-nombre-input" placeholder="Ingrese el nombre">
+        </div>
+        <div class="form-group">
+          <label for="admin-email-input">Email (opcional)</label>
+          <input type="email" id="admin-email-input" placeholder="email@ejemplo.com">
+        </div>
+        <div class="form-group">
+          <label for="admin-estado-select">Estado</label>
+          <select id="admin-estado-select">
+            <option value="1">Disponible</option>
+            <option value="2">Reservado</option>
+            <option value="3">Pagado ✓</option>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="md-button btn-primary">
+            <span class="material-icons">save</span>
+            Guardar Cambios
+          </button>
+          <button type="button" class="md-button btn-secondary" onclick="closeAdminModal()">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+ <script>
+// Configuración Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyD-3xKx4M5GxSQ-oJdnqz33hEZqFNBHoxM",
+  authDomain: "aloy-726.firebaseapp.com",
+  projectId: "aloy-726",
+  storageBucket: "aloy-726.appspot.com",
+  messagingSenderId: "441895072453",
+  appId: "1:441895072453:web:aeaabb2d4f5fbc1a85b6ac",
+  measurementId: "G-GX6KWD2LR7"
+};
 
-    const allowedAdmins = ["willyescobar@gmail.com", "meichtryes@gmail.com"];
+// Inicialización con verificación
+try {
+  firebase.initializeApp(firebaseConfig);
+  console.log('✅ Firebase inicializado correctamente');
+} catch (error) {
+  console.error('❌ Error al inicializar Firebase:', error);
+  Swal.fire({
+    icon: 'error',
+    title: 'Error de Configuración',
+    text: 'Error de configuración de Firebase: ' + error.message,
+    confirmButtonText: 'Recargar Página',
+    allowOutsideClick: false
+  }).then(() => {
+    location.reload();
+  });
+}
+
+let db;
+try {
+  db = firebase.firestore();
+  console.log('✅ Firestore conectado');
+} catch (error) {
+  console.error('❌ Error al conectar Firestore:', error);
+  Swal.fire({
+    icon: 'error',
+    title: 'Error de Conexión',
+    text: 'Error de conexión con Firestore: ' + error.message,
+    confirmButtonText: 'Reintentar',
+    allowOutsideClick: false
+  }).then(() => {
+    location.reload();
+  });
+}
+
+const auth = firebase.auth();
+const allowedAdmins = ["willyescobar@gmail.com", "meichtryes@gmail.com"];
+
+let currentUser = null;
+let rifaData = [];
+let currentEditingId = null;
+let isAdmin = false;
+
+const estadoLabels = { 1: 'Disponible', 2: 'Reservado', 3: 'Pagado' };
+const estadoClasses = { 1: 'disponible', 2: 'reservado', 3: 'pagado' };
+
+// Navegación
+function showPublicView() {
+  document.getElementById('admin-login').style.display = 'none';
+  document.getElementById('admin-view').style.display = 'none';
+  document.getElementById('public-view').style.display = 'block';
+  isAdmin = false;
+}
+
+function showAdminLogin() {
+  document.getElementById('public-view').style.display = 'none';
+  document.getElementById('admin-view').style.display = 'none';
+  document.getElementById('admin-login').style.display = 'block';
+}
+
+function showAdminView() {
+  document.getElementById('public-view').style.display = 'none';
+  document.getElementById('admin-login').style.display = 'none';
+  document.getElementById('admin-view').style.display = 'block';
+  isAdmin = true;
+}
+
+// Login
+document.getElementById('login-google').onclick = function() {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider)
+    .then(result => handleAuthResult(result))
+    .catch(error => {
+      console.error('❌ Error en login:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de Login',
+        text: 'Error al iniciar sesión: ' + error.message,
+        confirmButtonText: 'Reintentar'
+      });
+    });
+};
+
+function handleAuthResult(result) {
+  const email = result.user.email;
+  if (allowedAdmins.includes(email)) {
+    currentUser = result.user;
+    document.getElementById('user-name').textContent = currentUser.displayName || currentUser.email;
+    document.getElementById('user-avatar').src = currentUser.photoURL || 
+      'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.displayName || 'Admin');
+    showAdminView();
+    loadRifaData(true);
+  } else {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Acceso Denegado',
+      text: 'No tienes permisos de administrador.',
+      confirmButtonText: 'Entendido'
+    });
+    auth.signOut();
+  }
+}
+
+document.getElementById('logout-btn').onclick = function() {
+  auth.signOut().then(() => {
+    currentUser = null;
+    showPublicView();
+  });
+};
+
+// Cargar datos
+function loadRifaData(adminMode = false) {
+  console.log('📡 Intentando cargar datos de Firestore...');
+  db.collection('rifa').orderBy('numero').onSnapshot((snapshot) => {
+    rifaData = [];
+    snapshot.forEach((doc) => {
+      rifaData.push({
+        id: doc.id,
+        ...doc.data()
+      });
+    });
     
-    let currentUser = null;
-    let rifaData = [];
-    let currentEditingId = null;
-    let isAdmin = false;
-
-    const estadoLabels = { 1: 'Disponible', 2: 'Reservado', 3: 'Pagado' };
-    const estadoClasses = { 1: 'disponible', 2: 'reservado', 3: 'pagado' };
-
-    // Navegación
-    function showPublicView() {
-      document.getElementById('admin-login').style.display = 'none';
-      document.getElementById('admin-view').style.display = 'none';
-      document.getElementById('public-view').style.display = 'block';
-      isAdmin = false;
+    console.log('✅ Datos cargados:', rifaData.length, 'registros');
+    
+    if (rifaData.length === 0) {
+      console.log('🔨 Base vacía, inicializando números...');
+      initializeRifaNumbers();
+    } else {
+      renderRifaGrid(adminMode);
+      updateStats(adminMode);
     }
+  }, (error) => {
+    console.error('❌ Error al cargar datos:', error);
+    document.getElementById(adminMode ? 'admin-loading' : 'public-loading').innerHTML = 
+      '<p style="color: red;">❌ Error de conexión con Firebase<br><small>Verifica la consola del navegador (F12)</small></p>';
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al Cargar Datos',
+      text: 'No se pudieron cargar los números. Verifica tu conexión.',
+      confirmButtonText: 'Reintentar'
+    });
+  });
+}
 
-    function showAdminLogin() {
-      document.getElementById('public-view').style.display = 'none';
-      document.getElementById('admin-view').style.display = 'none';
-      document.getElementById('admin-login').style.display = 'block';
-    }
-
-    function showAdminView() {
-      document.getElementById('public-view').style.display = 'none';
-      document.getElementById('admin-login').style.display = 'none';
-      document.getElementById('admin-view').style.display = 'block';
-      isAdmin = true;
-    }
-
-    // Login
-    document.getElementById('login-google').onclick = function() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      auth.signInWithPopup(provider)
-        .then(result => handleAuthResult(result))
-        .catch(error => {
-          console.error('❌ Error en login:', error);
-          alert('Error al iniciar sesión: ' + error.message);
-        });
-    };
-
-    document.getElementById('login-facebook').onclick = function() {
-      const provider = new firebase.auth.FacebookAuthProvider();
-      auth.signInWithPopup(provider)
-        .then(result => handleAuthResult(result))
-        .catch(error => {
-          console.error('❌ Error en login:', error);
-          alert('Error al iniciar sesión: ' + error.message);
-        });
-    };
-
-    function handleAuthResult(result) {
-      const email = result.user.email;
-      if (allowedAdmins.includes(email)) {
-        currentUser = result.user;
-        document.getElementById('user-name').textContent = currentUser.displayName || currentUser.email;
-        document.getElementById('user-avatar').src = currentUser.photoURL || 
-          'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.displayName || 'Admin');
-        showAdminView();
-        loadRifaData(true);
-      } else {
-        alert('⚠️ No tienes permisos de administrador.');
-        auth.signOut();
-      }
-    }
-
-    document.getElementById('logout-btn').onclick = function() {
-      auth.signOut().then(() => {
-        currentUser = null;
-        showPublicView();
-      });
-    };
-
-    // Cargar datos
-    function loadRifaData(adminMode = false) {
-      const loadingEl = adminMode ? 'admin-loading' : 'public-loading';
-      const gridEl = adminMode ? 'admin-rifa-grid' : 'public-rifa-grid';
-      
-      document.getElementById(loadingEl).style.display = 'block';
-      document.getElementById(gridEl).style.display = 'none';
-      
-      db.collection('rifa').orderBy('numero').onSnapshot((snapshot) => {
-        rifaData = [];
-        snapshot.forEach((doc) => {
-          rifaData.push({
-            id: doc.id,
-            ...doc.data()
-          });
-        });
-        
-        console.log('✅ Datos cargados:', rifaData.length, 'registros');
-        
-        if (rifaData.length === 0) {
-          console.log('📝 Base vacía, inicializando números...');
-          initializeRifaNumbers();
-        } else {
-          renderRifaGrid(adminMode);
-          updateStats(adminMode);
-        }
-      }, (error) => {
-        console.error('❌ Error al cargar datos:', error);
-        document.getElementById(loadingEl).innerHTML = 
-          '<p style="color: red;">❌ Error de conexión con Firebase<br><small>Verifica la consola del navegador (F12)</small></p>';
+async function initializeRifaNumbers() {
+  try {
+    console.log('🔧 Creando 100 números en Firebase...');
+    const batch = db.batch();
+    
+    for (let i = 1; i <= 100; i++) {
+      const docRef = db.collection('rifa').doc(i.toString().padStart(3, '0'));
+      batch.set(docRef, {
+        numero: i,
+        nombre: '',
+        buyer: '',
+        email: '',
+        state: 1,
+        time: null
       });
     }
+    
+    await batch.commit();
+    console.log('✅ 100 números creados exitosamente');
+  } catch (error) {
+    console.error('❌ Error al inicializar números:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al Crear Números',
+      text: 'Error al crear números: ' + error.message,
+      confirmButtonText: 'Intentar de Nuevo'
+    });
+  }
+}
 
-    async function initializeRifaNumbers() {
-      try {
-        console.log('🔧 Creando 100 números en Firebase...');
-        const batch = db.batch();
-        
-        for (let i = 1; i <= 100; i++) {
-          const docRef = db.collection('rifa').doc(i.toString().padStart(3, '0'));
-          batch.set(docRef, {
-            numero: i,
-            nombre: '',
-            buyer: '',
-            email: '',
-            state: 1,
-            time: null
-          });
-        }
-        
-        await batch.commit();
-        console.log('✅ 100 números creados exitosamente');
-      } catch (error) {
-        console.error('❌ Error al inicializar números:', error);
-        alert('Error al crear números: ' + error.message);
+function renderRifaGrid(adminMode) {
+  const gridEl = adminMode ? 'admin-rifa-grid' : 'public-rifa-grid';
+  const loadingEl = adminMode ? 'admin-loading' : 'public-loading';
+  const grid = document.getElementById(gridEl);
+  
+  // Limpiar completamente el grid antes de renderizar
+  grid.innerHTML = '';
+  grid.style.display = 'none';
+  
+  rifaData.forEach(item => {
+    const card = document.createElement('div');
+    let isDisabled = false;
+    let actionText = '';
+    
+    if (adminMode) {
+      actionText = 'Editar';
+    } else {
+      if (item.state === 1) {
+        actionText = 'Reservar';
+      } else if (item.state === 2) {
+        actionText = 'Desreservar';
+      } else if (item.state === 3) {
+        isDisabled = true;
+        actionText = 'Pagado';
       }
     }
-
-    function renderRifaGrid(adminMode) {
-      const gridEl = adminMode ? 'admin-rifa-grid' : 'public-rifa-grid';
-      const loadingEl = adminMode ? 'admin-loading' : 'public-loading';
-      const grid = document.getElementById(gridEl);
-      grid.innerHTML = '';
-      
-      rifaData.forEach(item => {
-        const card = document.createElement('div');
-        const isDisabled = !adminMode && item.state !== 1;
-        card.className = `numero-card ${estadoClasses[item.state]} ${isDisabled ? 'disabled' : ''}`;
-        
-        let nombreDisplay = '';
-        if (item.nombre) {
-          const nombreCorto = item.nombre.split(' ')[0];
-          nombreDisplay = `<div class="nombre-mini">${nombreCorto}</div>`;
-        }
-        
-        card.innerHTML = `
-          <div class="numero">${item.numero}</div>
-          <div class="estado">${estadoLabels[item.state]}</div>
-          ${nombreDisplay}
-        `;
-        
+    
+    card.className = `numero-card ${estadoClasses[item.state]} ${isDisabled ? 'disabled' : ''}`;
+    
+    let nombreDisplay = '';
+    if (item.nombre) {
+      const nombreCorto = item.nombre.split(' ')[0];
+      nombreDisplay = `<div class="nombre-mini">${nombreCorto}</div>`;
+    }
+    
+    card.innerHTML = `
+      <div class="numero">${item.numero}</div>
+      <div class="estado">${estadoLabels[item.state]}</div>
+      ${nombreDisplay}
+    `;
+    
+    if (!isDisabled) {
+      // Usar addEventListener en lugar de onclick para mejor control
+      card.addEventListener('click', function() {
         if (adminMode) {
-          card.onclick = () => openAdminModal(item);
+          openAdminModal(item);
         } else {
-          if (item.state === 1) {
-            card.onclick = () => openPublicModal(item);
-          }
+          openPublicModal(item);
         }
-        
-        grid.appendChild(card);
       });
-      
-      document.getElementById(loadingEl).style.display = 'none';
-      document.getElementById(gridEl).style.display = 'grid';
     }
+    
+    grid.appendChild(card);
+  });
+  
+  document.getElementById(loadingEl).style.display = 'none';
+  document.getElementById(gridEl).style.display = 'grid';
+}
 
-    function updateStats(adminMode) {
-      const prefix = adminMode ? 'admin' : 'public';
-      const disponibles = rifaData.filter(item => item.state === 1).length;
-      const reservados = rifaData.filter(item => item.state === 2).length;
-      const pagados = rifaData.filter(item => item.state === 3).length;
-      
-      document.getElementById(`${prefix}-stat-disponibles`).textContent = disponibles;
-      document.getElementById(`${prefix}-stat-reservados`).textContent = reservados;
-      document.getElementById(`${prefix}-stat-pagados`).textContent = pagados;
-    }
+function updateStats(adminMode) {
+  const prefix = adminMode ? 'admin' : 'public';
+  const disponibles = rifaData.filter(item => item.state === 1).length;
+  const reservados = rifaData.filter(item => item.state === 2).length;
+  const pagados = rifaData.filter(item => item.state === 3).length;
+  
+  document.getElementById(`${prefix}-stat-disponibles`).textContent = disponibles;
+  document.getElementById(`${prefix}-stat-reservados`).textContent = reservados;
+  document.getElementById(`${prefix}-stat-pagados`).textContent = pagados;
+}
 
-    // Modal Público
-    function openPublicModal(item) {
-      currentEditingId = item.id;
-      document.getElementById('public-modal-numero').textContent = item.numero;
-      document.getElementById('public-nombre-input').value = '';
-      document.getElementById('public-email-input').value = '';
-      document.getElementById('public-modal').classList.add('active');
-    }
-
-    function closePublicModal() {
-      document.getElementById('public-modal').classList.remove('active');
-      currentEditingId = null;
-    }
-
-    document.getElementById('public-form').onsubmit = async function(e) {
-      e.preventDefault();
-      
-      const nombre = document.getElementById('public-nombre-input').value.trim();
-      const email = document.getElementById('public-email-input').value.trim();
-      
-      if (!nombre) {
-        alert('Por favor ingresa tu nombre');
-        return;
-      }
-      
-      try {
-        const numero = rifaData.find(item => item.id === currentEditingId)?.numero;
-        
-        // Guardar en Firebase con todos los campos
-        await db.collection('rifa').doc(currentEditingId).update({
-          nombre: nombre,
-          buyer: email || '',
-          email: email || '',
-          state: 2,
-          time: firebase.firestore.FieldValue.serverTimestamp()
-        });
-        
-        console.log('✅ Reserva guardada:', { numero, nombre, email });
-        
-        closePublicModal();
-        alert('✅ ¡Número ' + numero + ' reservado exitosamente!\n\n' +
-              'Ya puedes realizar el pago usando los datos mostrados arriba.\n\n' +
-              'Los administradores confirmarán tu pago pronto.');
-      } catch (error) {
-        console.error('❌ Error:', error);
-        alert('Error al reservar: ' + error.message);
-      }
-    };
-
-    // Modal Admin
-    function openAdminModal(item) {
-      currentEditingId = item.id;
-      document.getElementById('admin-modal-numero').textContent = item.numero;
-      document.getElementById('admin-nombre-input').value = item.nombre || '';
-      document.getElementById('admin-email-input').value = item.email || '';
-      document.getElementById('admin-estado-select').value = item.state;
-      document.getElementById('admin-modal').classList.add('active');
-    }
-
-    function closeAdminModal() {
-      document.getElementById('admin-modal').classList.remove('active');
-      currentEditingId = null;
-    }
-
-    document.getElementById('admin-form').onsubmit = async function(e) {
-      e.preventDefault();
-      
-      const nombre = document.getElementById('admin-nombre-input').value.trim();
-      const email = document.getElementById('admin-email-input').value.trim();
-      const state = parseInt(document.getElementById('admin-estado-select').value);
-      const timestamp = firebase.firestore.FieldValue.serverTimestamp();
-      try {
-        const updateData = {
-          nombre: nombre,
-          email: email,
-          time: timestamp,
-          state: state
-        };
-        
-        // Si se marca como disponible, limpiar datos
-        if (state === 1) {
-          updateData.nombre = '';
-          updateData.email = '';
-          updateData.time = null;
-        }
-        
-        await db.collection('rifa').doc(currentEditingId).update(updateData);
-        
-        console.log('✅ Cambios guardados:', updateData);
-        closeAdminModal();
-        alert('✅ Cambios guardados correctamente');
-      } catch (error) {
-        console.error('❌ Error:', error);
-        alert('Error al guardar: ' + error.message);
-      }
-    };
-
-    // Cerrar modales al hacer clic fuera
-    document.getElementById('public-modal').onclick = function(e) {
-      if (e.target === this) closePublicModal();
-    };
-
-    document.getElementById('admin-modal').onclick = function(e) {
-      if (e.target === this) closeAdminModal();
-    };
-
-    // Inicializar
-    auth.onAuthStateChanged(user => {
-      if (user && allowedAdmins.includes(user.email)) {
-        currentUser = user;
-        document.getElementById('user-name').textContent = currentUser.displayName || currentUser.email;
-        document.getElementById('user-avatar').src = currentUser.photoURL || 
-          'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.displayName || 'Admin');
-        showAdminView();
-        loadRifaData(true);
-      } else {
-        loadRifaData(false);
+// Modal Público
+function openPublicModal(item) {
+  currentEditingId = item.id;
+  
+  const isReserva = item.state === 1;
+  
+  if (isReserva) {
+    // Para reserva: abrir el modal normal
+    document.getElementById('public-modal-numero').textContent = item.numero;
+    
+    const modalTitle = 'Reservar Número';
+    document.querySelector('#public-modal .modal-header h3').innerHTML = modalTitle + ' <span id="public-modal-numero">' + item.numero + '</span>';
+    
+    const formFields = document.querySelectorAll('#public-form .form-group');
+    formFields.forEach(field => field.style.display = 'block');
+    
+    const submitBtn = document.querySelector('#public-form .md-button[type="submit"]');
+    submitBtn.innerHTML = `<span class="material-icons">check_circle</span> Confirmar Reserva`;
+    
+    const infoBox = document.querySelector('#public-modal .info-box p');
+    infoBox.textContent = '⏰ Los administradores confirmarán tu pago en breve';
+    
+    document.getElementById('public-modal').classList.add('active');
+  } else {
+    // Para desreserva: mostrar confirmación con SweetAlert2
+    Swal.fire({
+      title: '¿Desreservar Número?',
+      text: '¿Seguro que quieres desreservar el número ' + item.numero + '?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, Desreservar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Llamar a la función de desreserva
+        desreservarNumero(item);
       }
     });
+  }
+}
 
-    // Log de diagnóstico
-    console.log('🚀 Sistema de Rifa iniciado');
-    console.log('📱 Firebase conectado:', firebase.app().name === '[DEFAULT]' ? '✅ SI' : '❌ NO');
-    console.log('🔧 Verificando conexión a Firestore...');
-  </script>
-</body>
-</html>
-
-
-    <!-- Footer -->
-
-    <footer class="footer bg-dark text-light py-5 text-center">
-        <div class="container">
-            <img src="IsoTipo-2-SanLuisGonzaga-Amarillo.png" alt="" 
-            style="max-width: 320px";>
-           
-          <br><br>
-            <div class="row justify-content-center">
-
-                <!-- Información -->
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <h5 class="footer-title">Parroquia San Luis Gonzaga</h5>
-                    <p class="footer-text">Villa Elisa, Argentina</p>
-                </div>
-                <!-- Enlaces -->
-                <div class="col-md-4 mb-4 mb-md-0">
-                    <h5 class="footer-title">Enlaces Rápidos</h5>
-                    <ul class="footer-links">
-                        <li><a href="#inicio" class="footer-link">Inicio</a></li>
-                        <li><a href="#misas" class="footer-link">Horarios de Misas</a></li>
-                        <li><a href="#contacto" class="footer-link">Contacto</a></li>
-                    </ul>
-                </div>
-                <!-- Redes Sociales -->
-                <div class="col-md-4">
-                    <h5 class="footer-title">Síguenos</h5>
-                    <div class="footer-social-icons d-flex flex-column align-items-center">
-                        <a href="https://www.facebook.com/profile.php?id=100089942000666" target="_blank" class="social-link mb-2">
-                            <i class="fab fa-facebook-f"></i>
-                            <span>Facebook Parroquial</span>
-                        </a>
-                        <a href="https://www.instagram.com/parroquiasanluisgonzaga_?igsh=MWs4cTgyMGJnZnI0OA==" target="_blank" class="social-link mb-2">
-                            <i class="fab fa-instagram"></i>
-                            <span>Instagram Parroquial</span>
-                        </a>
-                        <a href="https://www.instagram.com/colegiosanfranciscodeasis.ve?igsh=ZTV2bzZyNWpkYWI2" target="_blank" class="social-link mb-2">
-                            <i class="fab fa-instagram"></i>
-                            <span>Instagram Colegio</span>
-                        </a>
-                        <a href="https://www.instagram.com/gruposfa93usca?igsh=cHg2M3pudHJoNjh3" target="_blank" class="social-link mb-2">
-                            <i class="fab fa-instagram"></i>
-                            <span>Instagram Scout</span>
-                        </a>
-
-                    </div>
-                </div>
-            </div>
-            <div class="text-center mt-4">
-                <p class="footer-copyright">&copy; 2025 Parroquia San Luis Gonzaga - Todos los Derechos Reservados.</p>
-            </div>
-            <div class="footer-icon">
-                <a href="#inicio">
-                    <img src="/img/icono.png" alt="Distintivo" class="footer-logo">
-                </a>
-            </div>
-            
-        </div>
-    </footer>
+document.getElementById('public-form').onsubmit = async function(e) {
+  e.preventDefault();
+  
+  const item = rifaData.find(item => item.id === currentEditingId);
+  const nombre = document.getElementById('public-nombre-input').value.trim();
+  const email = document.getElementById('public-email-input').value.trim();
+  
+  if (!nombre) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Nombre requerido',
+      text: 'Por favor ingresa tu nombre.',
+      confirmButtonText: 'OK'
+    });
+    return;
+  }
+  
+  try {
+    await db.collection('rifa').doc(currentEditingId).update({
+      nombre: nombre,
+      buyer: email || '',
+      email: email || '',
+      state: 2,
+      time: firebase.firestore.FieldValue.serverTimestamp()
+    });
     
+    console.log('✅ Reserva guardada');
+    closePublicModal();
+    Swal.fire({
+      icon: 'success',
+      title: '¡Reserva Exitosa!',
+      html: `
+        <img src="./rifa/rifi-guiño.png" alt="Rifi guiño" style="max-width:100px;display:block;margin:0 auto 12px;">
+        Número ${item.numero} reservado exitosamente. Ya puedes realizar el pago.
+      `,
+      confirmButtonText: '¡Genial!'
+    });
+  } catch (error) {
+    console.error('❌ Error:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al Reservar',
+      text: 'Error al reservar: ' + error.message,
+      confirmButtonText: 'Intentar de Nuevo'
+    });
+  }
+};
+
+function closePublicModal() {
+  document.getElementById('public-modal').classList.remove('active');
+  document.getElementById('public-form').reset();
+  document.getElementById('public-nombre-input').value = '';
+  document.getElementById('public-email-input').value = '';
+  currentEditingId = null;
+}
+
+// Función para desreservar (llamada desde openPublicModal)
+async function desreservarNumero(item) {
+  try {
+    await db.collection('rifa').doc(item.id).update({
+      nombre: '',
+      buyer: '',
+      email: '',
+      state: 1,
+      time: null
+    });
     
+    console.log('✅ Desreserva guardada');
+    Swal.fire({
+      icon: 'info',
+      title: 'Número Desreservado',
+      text: 'Número ' + item.numero + ' desreservado.',
+      confirmButtonText: 'OK'
+    });
+  } catch (error) {
+    console.error('❌ Error:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al Desreservar',
+      text: 'Error al desreservar: ' + error.message,
+      confirmButtonText: 'Intentar de Nuevo'
+    });
+  }
+}
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
-<script> new WOW().init(); </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+// Modal Admin
+function openAdminModal(item) {
+  currentEditingId = item.id;
+  document.getElementById('admin-modal-numero').textContent = item.numero;
+  document.getElementById('admin-nombre-input').value = item.nombre || '';
+  document.getElementById('admin-email-input').value = item.email || '';
+  
+  const estadoSelect = document.getElementById('admin-estado-select');
+  estadoSelect.value = item.state;
+  
+  document.getElementById('admin-modal').classList.add('active');
+}
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  const menu = document.getElementById('navbarNav');
-  const toggler = document.querySelector('.navbar-toggler');
-  if (!menu || !toggler || typeof bootstrap === 'undefined') return;
+function closeAdminModal() {
+  document.getElementById('admin-modal').classList.remove('active');
+  document.getElementById('admin-form').reset();
+  document.getElementById('admin-nombre-input').value = '';
+  document.getElementById('admin-email-input').value = '';
+  currentEditingId = null;
+}
 
-  // Crear instancia única
-  const bsMenu = bootstrap.Collapse.getOrCreateInstance(menu, { toggle: false });
+document.getElementById('admin-form').onsubmit = async function(e) {
+  e.preventDefault();
+  
+  const nombre = document.getElementById('admin-nombre-input').value.trim();
+  const email = document.getElementById('admin-email-input').value.trim();
+  const state = parseInt(document.getElementById('admin-estado-select').value);
+  
+  try {
+    const updateData = {
+      nombre: nombre,
+      email: email,
+      state: state,
+      time: firebase.firestore.FieldValue.serverTimestamp()
+    };
+    
+    if (state === 1) {
+      updateData.nombre = '';
+      updateData.email = '';
+      updateData.time = null;
+    }
+    
+    await db.collection('rifa').doc(currentEditingId).update(updateData);
+    
+    console.log('✅ Cambios guardados:', updateData);
+    closeAdminModal();
+    Swal.fire({
+      icon: 'success',
+      title: 'Cambios Guardados',
+      text: 'Los cambios se han guardado correctamente.',
+      confirmButtonText: 'Perfecto'
+    });
+  } catch (error) {
+    console.error('❌ Error:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al Guardar',
+      text: 'Error al guardar: ' + error.message,
+      confirmButtonText: 'Reintentar'
+    });
+  }
+};
 
-  // Toggle al tocar el botón (abre o cierra)
-  toggler.addEventListener('click', function (e) {
-    e.preventDefault();
-    bsMenu.toggle();
-  });
-
-  // Cerrar al tocar un link del menú
-  document.querySelectorAll('#navbarNav .nav-link').forEach(link => {
-    link.addEventListener('click', () => bsMenu.hide());
-  });
-
-  // Cerrar al tocar fuera del menú
-  document.addEventListener('click', (ev) => {
-    if (!menu.classList.contains('show')) return;
-    if (menu.contains(ev.target) || toggler.contains(ev.target)) return;
-    bsMenu.hide();
-  });
+// Cerrar modales al hacer clic fuera (usar addEventListener una sola vez)
+document.getElementById('public-modal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closePublicModal();
+  }
 });
+
+document.getElementById('admin-modal').addEventListener('click', function(e) {
+  if (e.target === this) {
+    closeAdminModal();
+  }
+});
+
+// Inicializar
+auth.onAuthStateChanged(user => {
+  if (user && allowedAdmins.includes(user.email)) {
+    currentUser = user;
+    document.getElementById('user-name').textContent = currentUser.displayName || currentUser.email;
+    document.getElementById('user-avatar').src = currentUser.photoURL || 
+      'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.displayName || 'Admin');
+    showAdminView();
+    loadRifaData(true);
+  } else {
+    showPublicView();
+    loadRifaData(false);
+  }
+});
+
+console.log('🚀 Sistema de Rifa iniciado');
 </script>
+<!-- <script src="./rifa.js"></script> -->
+<footer class="footer bg-dark text-light py-5 text-center">
+  <div class="container">
+    <img src="./img/IsoTipo-2-SanLuisGonzaga-Amarillo.png" alt="" style="max-width: 320px">
+    <br><br>
+    <div class="row justify-content-center">
+      <div class="col-md-4 mb-4 mb-md-0">
+        <h5 class="footer-title">Parroquia San Luis Gonzaga</h5>
+        <p class="footer-text">Villa Elisa, Argentina</p>
+      </div>
+      <div class="col-md-4 mb-4 mb-md-0">
+        <h5 class="footer-title">Enlaces Rápidos</h5>
+        <ul class="footer-links">
+          <li><a href="#inicio" class="footer-link">Inicio</a></li>
+          <li><a href="#misas" class="footer-link">Horarios de Misas</a></li>
+          <li><a href="#contacto" class="footer-link">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h5 class="footer-title">Síguenos</h5>
+        <div class="footer-social-icons d-flex flex-column align-items-center">
+          <a href="https://www.facebook.com/profile.php?id=100089942000666" target="_blank" class="social-link mb-2">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook Parroquial</span>
+          </a>
+          <a href="https://www.instagram.com/parroquiasanluisgonzaga_?igsh=MWs4cTgyMGJnZnI0OA==" target="_blank" class="social-link mb-2">
+            <i class="fab fa-instagram"></i>
+            <span>Instagram Parroquial</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <p class="footer-copyright">&copy; 2025 Parroquia San Luis Gonzaga - Todos los Derechos Reservados.</p>
+    </div>
+  </div>
+</footer>
 
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
