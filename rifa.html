@@ -942,7 +942,7 @@
         </div>
        <div class="form-group">
           <label for="public-dni-input">Tu DNI *</label>
-          <input type="text" id="public-dni-input" placeholder="Tu DNI" required>
+          <input type="number" id="public-dni-input" placeholder="Tu DNI" required>
         </div>
         <div class="info-box">
           <p>⏰ Los administradores confirmarán tu pago en breve</p>
@@ -990,11 +990,11 @@
         </div>
         <div class="form-group">
           <label for="admin-dni-input">DNI del Pagador</label>
-          <input type="text" id="admin-dni-input" placeholder="Ingrese el DNI">
+          <input type="number" id="admin-dni-input" placeholder="Ingrese el DNI">
         </div>
         <div class="form-group">
           <label for="admin-nro_op-input">Número de Operación</label>
-          <input type="text" id="admin-nro_op-input" placeholder="Ingrese el Número de transacción">
+          <input type="number" id="admin-nro_op-input" placeholder="Ingrese el Número de transacción" oninput="if(this.value && this.value.trim() !== '') document.getElementById('admin-estado-select').value = '3';">
         </div>
         <div class="form-group">
           <label for="admin-estado-select">Estado</label>
@@ -1370,7 +1370,7 @@ function closePublicModal() {
   document.getElementById('public-form').reset();
   document.getElementById('public-nombre-input').value = '';
   document.getElementById('public-email-input').value = '';
-  document.getElementById('public-dni-input').value = '';
+  document.getElementById('public-dni-input').value = null;
   currentEditingId = null;
 }
 
@@ -1383,8 +1383,8 @@ async function desreservarNumero(item) {
       email: '',
       state: 1,
       time: null,
-      dni: ''
-    });
+      dni: null
+      });
     
     console.log('✅ Desreserva guardada');
     Swal.fire({
@@ -1410,8 +1410,9 @@ function openAdminModal(item) {
   document.getElementById('admin-modal-numero').textContent = item.numero;
   document.getElementById('admin-nombre-input').value = item.nombre || '';
   document.getElementById('admin-email-input').value = item.email || '';
-  document.getElementById('admin-nro_op-input').value = item.nro_op || '';
-  document.getElementById('admin-dni-input').value = item.dni || '';
+  document.getElementById('admin-nro_op-input').value = item.nro_op;
+  document.getElementById('admin-dni-input').value = item.dni;
+
   
   const estadoSelect = document.getElementById('admin-estado-select');
   estadoSelect.value = item.state;
@@ -1424,8 +1425,8 @@ function closeAdminModal() {
   document.getElementById('admin-form').reset();
   document.getElementById('admin-nombre-input').value = '';
   document.getElementById('admin-email-input').value = '';
-  document.getElementById('admin-nro_op-input').value = '';
-  document.getElementById('admin-dni-input').value = '';
+  document.getElementById('admin-nro_op-input').value = 0;
+  document.getElementById('admin-dni-input').value = 0;
   currentEditingId = null;
 }
 
@@ -1453,8 +1454,8 @@ document.getElementById('admin-form').onsubmit = async function(e) {
       updateData.nombre = '';
       updateData.email = '';
       updateData.time = null;
-      updateData.nro_op = '';
-      updateData.dni = '';
+      updateData.nro_op = null;
+      updateData.dni = null;
     }
     
     await db.collection('rifa').doc(currentEditingId).update(updateData);
