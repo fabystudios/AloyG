@@ -308,9 +308,19 @@ async function generarPDF(preview = false) {
       document.body.removeChild(link);
       
       // Abrir en nueva pestaña
-      setTimeout(() => {
-        window.open(pdfUrl, '_blank');
-      }, 500);
+      const isMobile = (typeof navigator !== 'undefined') && (
+        /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+        (navigator.userAgentData && navigator.userAgentData.mobile)
+      );
+
+      if (!isMobile) {
+        setTimeout(() => {
+          window.open(pdfUrl, '_blank');
+        }, 500);
+      } else {
+        // En mobile no forzar cambio de pestaña; el archivo ya fue descargado
+        console.log('Mobile detectado: no se abrirá nueva pestaña para el PDF.');
+      }
       
       Swal.fire({
         icon: 'success',
@@ -322,7 +332,8 @@ async function generarPDF(preview = false) {
           </p>
           <p style="font-size: 14px; color: #666; margin-top: 12px;">
             ✓ ${participantes.length} participantes exportados<br>
-            ✓ El PDF se abrirá automáticamente
+            ✓ El PDF se abrirá automáticamente <br/>
+            si están habilitados los pop-ups en su Browser.
           </p>
         `,
         confirmButtonText: 'Entendido',
