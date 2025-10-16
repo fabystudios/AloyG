@@ -1,9 +1,6 @@
 // ========================================
-// SISTEMA DE EXPORTACIÓN PDF - RIFA
-// Versión mejorada sin emojis y con auto-apertura
-// ========================================
-
-// FUNCIONES PRINCIPALES
+// SISTEMA DE EXPORTACIÓN PDF - RIFA OPTIMIZADO
+// Versión mejorada: más compacto y atractivo
 // ========================================
 
 // Función para generar el PDF
@@ -33,11 +30,10 @@ async function generarPDF(preview = false) {
   });
 
   try {
-    // Filtrar solo reservados y pagados, ordenar SOLO por número
+    // Filtrar y ordenar por número
     const participantes = rifaData
       .filter(item => item.state === 2 || item.state === 3)
       .sort((a, b) => {
-        // Convertir a número para asegurar orden correcto
         const numA = parseInt(a.numero) || 0;
         const numB = parseInt(b.numero) || 0;
         return numA - numB;
@@ -60,61 +56,50 @@ async function generarPDF(preview = false) {
     const pageHeight = doc.internal.pageSize.getHeight();
 
     // ========================================
-    // ENCABEZADO CON LOGO (REDUCIDO)
+    // ENCABEZADO OPTIMIZADO
     // ========================================
-    doc.setFillColor(103, 80, 164); // Color primario MD3
-    doc.rect(0, 0, pageWidth, 28, 'F');
+    doc.setFillColor(103, 80, 164);
+    doc.rect(0, 0, pageWidth, 25, 'F');
 
-    // Cargar y agregar logo más grande
+    // Logo
     try {
       const logo = new Image();
       logo.crossOrigin = 'anonymous';
-      
-      // Usar ruta absoluta desde el dominio
       const logoPath = window.location.origin + '/img/IsoTipo-2-SanLuisGonzaga-Amarillo.png';
       
       await new Promise((resolve) => {
         logo.onload = () => {
           try {
-            // Calcular proporciones reales de la imagen
             const imgRatio = logo.width / logo.height;
+            let logoWidth = 100;
+            let logoHeight = logoWidth / imgRatio;
             
-            // Tamaño máximo deseado (más grande)
-            let logoWidth = 120; // ancho en mm (aumentado de 60)
-            let logoHeight = logoWidth / imgRatio; // altura proporcional
-            
-            // Si la altura es muy grande, ajustar por altura
-            if (logoHeight > 22) {
-              logoHeight = 22;
+            if (logoHeight > 18) {
+              logoHeight = 18;
               logoWidth = logoHeight * imgRatio;
             }
             
             const logoX = (pageWidth - logoWidth) / 2;
-            const logoY = 3;
+            const logoY = 3.5;
             
             doc.addImage(logo, 'PNG', logoX, logoY, logoWidth, logoHeight);
-            console.log('✅ Logo agregado al PDF con proporciones:', logoWidth, 'x', logoHeight);
           } catch (e) {
             console.warn('Error al agregar logo:', e);
           }
           resolve();
         };
         logo.onerror = () => {
-          console.warn('No se pudo cargar el logo desde:', logoPath);
-          resolve(); // Continuar sin logo
+          console.warn('No se pudo cargar el logo');
+          resolve();
         };
         logo.src = logoPath;
-        
-        // Timeout de 3 segundos
         setTimeout(() => resolve(), 3000);
       });
     } catch (e) {
       console.warn('Error cargando logo:', e);
     }
 
-    // Fecha y hora de generación
-    doc.setFontSize(8);
-    doc.setTextColor(100, 100, 100);
+    // Info y fecha
     const fecha = new Date().toLocaleString('es-AR', {
       day: '2-digit',
       month: '2-digit',
@@ -122,81 +107,125 @@ async function generarPDF(preview = false) {
       hour: '2-digit',
       minute: '2-digit'
     });
-    doc.text(`Generado: ${fecha}`, 14, 35);
+    
+    doc.setFontSize(7);
+    doc.setTextColor(100, 100, 100);
+    doc.text(`Generado: ${fecha}`, 14, 29);
 
-    // Estadísticas
+    // Estadísticas en el header
     const totalReservados = participantes.filter(p => p.state === 2).length;
     const totalPagados = participantes.filter(p => p.state === 3).length;
-    const totalRecaudado = totalPagados * 20000; // $20.000 por número
+    const totalRecaudado = totalPagados * 20000;
 
-    doc.setTextColor(103, 80, 164);
+    doc.setFontSize(8);
+    doc.setTextColor(255, 255, 255);
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(9);
-    doc.text('Rifa Solidaria - Listado por Numero', pageWidth / 2, 35, { align: 'center' });
-    doc.setFontSize(7);
+    doc.text('RIFA SOLIDARIA 2025', pageWidth / 2, 29, { align: 'center' });
+    
     doc.setFont('helvetica', 'normal');
-    doc.text(`Reservados: ${totalReservados} | Pagados: ${totalPagados} | Recaudado: ${totalRecaudado.toLocaleString('es-AR')}`, pageWidth - 14, 35, { align: 'right' });
+    doc.setFontSize(7);
+    doc.text(`Res: ${totalReservados} | Pag: ${totalPagados} | Recaudado: $${totalRecaudado.toLocaleString('es-AR')}`, 
+      pageWidth - 14, 29, { align: 'right' });
 
     // ========================================
-    // TABLA
+    // TABLA OPTIMIZADA - MÁS COMPACTA
     // ========================================
-    const tableData = participantes.map(item => [
-      item.numero.toString().padStart(3, '0'),
-      item.nombre || 'Sin nombre',
-      item.dni || '-',
-      item.email || '-',
-      item.state === 3 ? 'Pagado' : 'Reservado',
-      item.nro_op || '-',
-      item.time ? new Date(item.time.seconds * 1000).toLocaleDateString('es-AR') : '-'
-    ]);
+    const tableData = participantes.map(item => {
+      // Truncar nombre si es muy largo
+      let nombre = item.nombre || 'Sin nombre';
+      if (nombre.length > 25) {
+        nombre = nombre.substring(0, 22) + '...';
+      }
+
+      // Email truncado
+      let email = item.email || '-';
+      if (email.length > 28) {
+        email = email.substring(0, 25) + '...';
+      }
+
+      // Nº Op con admin
+      let nroOpCell = item.nro_op || '-';
+      if (item.nro_op && item.admin_user) {
+        const adminName = item.admin_user.split(' ')[0] || item.admin_user;
+        nroOpCell = `${item.nro_op}\n(${adminName})`;
+      }
+
+      return [
+        item.numero.toString().padStart(3, '0'),
+        nombre,
+        item.dni || '-',
+        email,
+        item.state === 3 ? 'Pagado' : 'Reserv.',
+        nroOpCell,
+        item.time ? new Date(item.time.seconds * 1000).toLocaleDateString('es-AR', {
+          day: '2-digit',
+          month: '2-digit',
+          year: '2-digit'
+        }) : '-'
+      ];
+    });
 
     doc.autoTable({
-      startY: 40,
-      head: [['#', 'Nombre', 'DNI', 'Email', 'Estado', 'N° Op', 'Fecha']],
+      startY: 34,
+      head: [['#', 'Nombre', 'DNI', 'Email', 'Estado', 'Nº Op', 'Fecha']],
       body: tableData,
       theme: 'grid',
+      styles: {
+        fontSize: 8,
+        cellPadding: 1.5, // REDUCIDO a la mitad
+        lineColor: [200, 200, 200],
+        lineWidth: 0.1
+      },
       headStyles: {
         fillColor: [103, 80, 164],
         textColor: [255, 255, 255],
         fontStyle: 'bold',
-        fontSize: 10,
-        halign: 'center'
+        fontSize: 9,
+        halign: 'center',
+        cellPadding: 2 // Header un poco más espaciado
       },
       bodyStyles: {
-        fontSize: 9,
-        cellPadding: 4
+        fontSize: 8,
+        cellPadding: 1.5, // REDUCIDO a la mitad
+        valign: 'middle'
       },
       columnStyles: {
-        0: { halign: 'center', cellWidth: 15 },
-        1: { cellWidth: 40 },
-        2: { halign: 'center', cellWidth: 25 },
-        3: { cellWidth: 40 },
-        4: { halign: 'center', cellWidth: 25 },
-        5: { halign: 'center', cellWidth: 20 },
-        6: { halign: 'center', cellWidth: 25 }
+        0: { halign: 'center', cellWidth: 12, fontStyle: 'bold' }, // #
+        1: { cellWidth: 42 }, // Nombre - más ancho
+        2: { halign: 'center', cellWidth: 20 }, // DNI
+        3: { cellWidth: 45, fontSize: 7 }, // Email - más ancho, letra más chica
+        4: { halign: 'center', cellWidth: 18, fontStyle: 'bold' }, // Estado
+        5: { halign: 'center', cellWidth: 18, fontSize: 7 }, // Nº Op - letra más chica
+        6: { halign: 'center', cellWidth: 18, fontSize: 7 } // Fecha - letra más chica
+      },
+      alternateRowStyles: {
+        fillColor: [248, 248, 248]
       },
       didParseCell: function(data) {
-        // Alternar colores de fondo para mejor legibilidad
         if (data.section === 'body') {
           const rowData = participantes[data.row.index];
           
-          // Color según estado
-          if (rowData.state === 3) {
-            // Pagado - Verde suave
-            data.cell.styles.fillColor = [232, 245, 233];
-          } else {
-            // Reservado - Amarillo suave
-            data.cell.styles.fillColor = [255, 248, 225];
+          // Colores según estado - más suaves
+          if (data.column.index === 4) {
+            if (rowData.state === 3) {
+              // Pagado - Verde
+              data.cell.styles.fillColor = [200, 230, 201];
+              data.cell.styles.textColor = [27, 94, 32];
+            } else {
+              // Reservado - Naranja
+              data.cell.styles.fillColor = [255, 224, 178];
+              data.cell.styles.textColor = [230, 81, 0];
+            }
           }
 
-          // Interlineado alternado (más oscuro)
-          if (data.row.index % 2 === 0) {
-            const currentColor = data.cell.styles.fillColor;
-            data.cell.styles.fillColor = [
-              Math.max(currentColor[0] - 10, 0),
-              Math.max(currentColor[1] - 10, 0),
-              Math.max(currentColor[2] - 10, 0)
-            ];
+          // Color para el número
+          if (data.column.index === 0) {
+            data.cell.styles.textColor = [103, 80, 164];
+          }
+
+          // Texto más tenue para admin en Nº Op
+          if (data.column.index === 5 && data.cell.text[0] && data.cell.text[0].includes('(')) {
+            data.cell.styles.textColor = [100, 100, 100];
           }
         }
       },
@@ -205,58 +234,72 @@ async function generarPDF(preview = false) {
         const pageCount = doc.internal.getNumberOfPages();
         const currentPage = doc.internal.getCurrentPageInfo().pageNumber;
         
+        // Línea decorativa
+        doc.setDrawColor(103, 80, 164);
+        doc.setLineWidth(0.3);
+        doc.line(14, pageHeight - 15, pageWidth - 14, pageHeight - 15);
+        
+        // Número de página
         doc.setFontSize(8);
-        doc.setTextColor(150, 150, 150);
+        doc.setTextColor(120, 120, 120);
         doc.text(
-          `Pagina ${currentPage} de ${pageCount}`,
+          `Página ${currentPage} de ${pageCount}`,
           pageWidth / 2,
           pageHeight - 10,
           { align: 'center' }
         );
-
-        // Línea decorativa
-        doc.setDrawColor(103, 80, 164);
-        doc.setLineWidth(0.5);
-        doc.line(14, pageHeight - 15, pageWidth - 14, pageHeight - 15);
+        
+        // Info de contacto
+        doc.setFontSize(7);
+        doc.setTextColor(150, 150, 150);
+        doc.text('Parroquia San Luis Gonzaga - Villa Elisa', 14, pageHeight - 10);
+        doc.text('www.sanluisgonzaga.ar', pageWidth - 14, pageHeight - 10, { align: 'right' });
       }
     });
 
     // ========================================
-    // RESUMEN FINAL
+    // RESUMEN FINAL COMPACTO
     // ========================================
-    const finalY = doc.lastAutoTable.finalY + 10;
+    const finalY = doc.lastAutoTable.finalY + 8;
     
-    doc.setFillColor(234, 221, 255); // Color contenedor primario MD3
-    doc.roundedRect(14, finalY, pageWidth - 28, 25, 3, 3, 'F');
+    // Verificar si hay espacio suficiente, sino nueva página
+    if (finalY > pageHeight - 35) {
+      doc.addPage();
+      finalY = 20;
+    }
+    
+    doc.setFillColor(234, 221, 255);
+    doc.roundedRect(14, finalY, pageWidth - 28, 20, 2, 2, 'F');
 
-    doc.setFontSize(11);
+    doc.setFontSize(10);
     doc.setTextColor(103, 80, 164);
     doc.setFont('helvetica', 'bold');
-    doc.text('RESUMEN', 20, finalY + 8);
+    doc.text('RESUMEN FINAL', 20, finalY + 6);
 
     doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8);
+    doc.text(`Total Participantes: ${participantes.length}`, 20, finalY + 12);
+    doc.text(`Reservados: ${totalReservados}`, 70, finalY + 12);
+    doc.text(`Pagados: ${totalPagados}`, 120, finalY + 12);
+    
+    doc.setFont('helvetica', 'bold');
     doc.setFontSize(9);
-    doc.text(`Reservados: ${totalReservados}`, 20, finalY + 15);
-    doc.text(`Pagados: ${totalPagados}`, 60, finalY + 15);
-    doc.text(`Total Recaudado: $${totalRecaudado.toLocaleString('es-AR')}`, 100, finalY + 15);
+    doc.text(`Total Recaudado: $${totalRecaudado.toLocaleString('es-AR')}`, 20, finalY + 17);
 
     // ========================================
-    // FINALIZAR Y ABRIR AUTOMÁTICAMENTE
+    // FINALIZAR Y ABRIR
     // ========================================
     Swal.close();
 
-    // Generar el PDF como blob
     const pdfBlob = doc.output('blob');
     const pdfUrl = URL.createObjectURL(pdfBlob);
 
     if (preview) {
-      // Solo vista previa en nueva ventana
       window.open(pdfUrl, '_blank');
     } else {
-      // Descargar Y abrir automáticamente
       const filename = `Rifa_SanLuisGonzaga_${new Date().toISOString().split('T')[0]}.pdf`;
       
-      // 1. Descargar el archivo
+      // Descargar
       const link = document.createElement('a');
       link.href = pdfUrl;
       link.download = filename;
@@ -264,28 +307,29 @@ async function generarPDF(preview = false) {
       link.click();
       document.body.removeChild(link);
       
-      // 2. Abrir en nueva pestaña después de un breve delay
+      // Abrir en nueva pestaña
       setTimeout(() => {
         window.open(pdfUrl, '_blank');
       }, 500);
       
-    Swal.fire({
-      icon: 'success',
-      title: 'PDF Generado Exitosamente',
-      html: `
-        <p style="font-size: 18px; margin: 16px 0;">
-        <strong style="font-size: 20px; font-weight: bold;">Archivo descargado:</strong><br>
-        <span style="color: #6750A4; font-size: 18px; font-weight: bold;">${filename}</span>
-        </p>
-        <strong style="font-size: 16px; color: #450acdff; margin-top: 12px;">
-        El PDF se abrirá automáticamente en una nueva pestaña
-        </strong>
-      `,
-      confirmButtonText: 'Entendido',
-      confirmButtonColor: '#6750A4',
-      timer: 100000,
-      timerProgressBar: true
-    });
+      Swal.fire({
+        icon: 'success',
+        title: 'PDF Generado Exitosamente',
+        html: `
+          <p style="font-size: 18px; margin: 16px 0;">
+            <strong>Archivo descargado:</strong><br>
+            <span style="color: #6750A4; font-size: 16px; font-weight: bold;">${filename}</span>
+          </p>
+          <p style="font-size: 14px; color: #666; margin-top: 12px;">
+            ✓ ${participantes.length} participantes exportados<br>
+            ✓ El PDF se abrirá automáticamente
+          </p>
+        `,
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#6750A4',
+        timer: 5000,
+        timerProgressBar: true
+      });
     }
 
   } catch (error) {
@@ -310,7 +354,7 @@ async function generarPDF(preview = false) {
 }
 
 // ========================================
-// TABLA EN PANTALLA (ordenada por número)
+// TABLA EN PANTALLA (optimizada)
 // ========================================
 function mostrarTablaParticipantes() {
   const participantes = rifaData
@@ -327,16 +371,16 @@ function mostrarTablaParticipantes() {
   }
 
   let html = `
-    <table style="width: 100%; border-collapse: collapse; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+    <table style="width: 100%; border-collapse: collapse; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 13px;">
       <thead style="background: #6750A4; color: white;">
         <tr>
-          <th style="padding: 12px; text-align: center;">#</th>
-          <th style="padding: 12px;">Nombre</th>
-          <th style="padding: 12px; text-align: center;">DNI</th>
-          <th style="padding: 12px;">Email</th>
-          <th style="padding: 12px; text-align: center;">Estado</th>
-          <th style="padding: 12px; text-align: center;">N° Op</th>
-          <th style="padding: 12px; text-align: center;">Fecha</th>
+          <th style="padding: 8px; text-align: center;">#</th>
+          <th style="padding: 8px;">Nombre</th>
+          <th style="padding: 8px; text-align: center;">DNI</th>
+          <th style="padding: 8px;">Email</th>
+          <th style="padding: 8px; text-align: center;">Estado</th>
+          <th style="padding: 8px; text-align: center;">Nº Op</th>
+          <th style="padding: 8px; text-align: center;">Fecha</th>
         </tr>
       </thead>
       <tbody>
@@ -344,23 +388,34 @@ function mostrarTablaParticipantes() {
 
   participantes.forEach((item, index) => {
     const bgColor = item.state === 3 
-      ? (index % 2 === 0 ? '#e8f5e9' : '#c8e6c9')
+      ? (index % 2 === 0 ? '#e8f5e9' : '#d4edda')
       : (index % 2 === 0 ? '#fff8e1' : '#ffecb3');
     
-    const estadoText = item.state === 3 ? 'Pagado' : 'Reservado';
-    const fecha = item.time ? new Date(item.time.seconds * 1000).toLocaleDateString('es-AR') : '-';
+    const estadoText = item.state === 3 ? '✓ Pagado' : '⏰ Reservado';
+    const estadoColor = item.state === 3 ? '#1b5e20' : '#e65100';
+    const fecha = item.time ? new Date(item.time.seconds * 1000).toLocaleDateString('es-AR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: '2-digit'
+    }) : '-';
+
+    let nroOpDisplay = item.nro_op || '-';
+    if (item.nro_op && item.admin_user) {
+      const adminName = item.admin_user.split(' ')[0] || item.admin_user;
+      nroOpDisplay = `${item.nro_op}<br><small style="color: #666; font-size: 10px;">(${adminName})</small>`;
+    }
 
     html += `
       <tr style="background: ${bgColor}; transition: all 0.2s;" 
-          onmouseover="this.style.transform='scale(1.01)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.1)';"
+          onmouseover="this.style.transform='scale(1.005)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)';"
           onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
-        <td style="padding: 10px; text-align: center; font-weight: bold;">${item.numero.toString().padStart(3, '0')}</td>
-        <td style="padding: 10px;">${item.nombre || 'Sin nombre'}</td>
-        <td style="padding: 10px; text-align: center;">${item.dni || '-'}</td>
-        <td style="padding: 10px; font-size: 12px;">${item.email || '-'}</td>
-        <td style="padding: 10px; text-align: center;">${estadoText}</td>
-        <td style="padding: 10px; text-align: center;">${item.nro_op || '-'}</td>
-        <td style="padding: 10px; text-align: center; font-size: 12px;">${fecha}</td>
+        <td style="padding: 6px; text-align: center; font-weight: bold; color: #6750A4;">${item.numero.toString().padStart(3, '0')}</td>
+        <td style="padding: 6px;">${item.nombre || 'Sin nombre'}</td>
+        <td style="padding: 6px; text-align: center;">${item.dni || '-'}</td>
+        <td style="padding: 6px; font-size: 11px;">${item.email || '-'}</td>
+        <td style="padding: 6px; text-align: center; font-weight: bold; color: ${estadoColor};">${estadoText}</td>
+        <td style="padding: 6px; text-align: center;">${nroOpDisplay}</td>
+        <td style="padding: 6px; text-align: center; font-size: 11px;">${fecha}</td>
       </tr>
     `;
   });
@@ -405,4 +460,4 @@ window.renderRifaGrid = function(adminMode) {
   }
 };
 
-console.log('✅ Sistema de exportación PDF cargado');
+console.log('✅ Sistema de exportación PDF optimizado cargado');
