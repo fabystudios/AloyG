@@ -308,20 +308,16 @@ async function generarPDF(preview = false) {
       document.body.removeChild(link);
       
       // Abrir en nueva pestaña
-      const isMobile = (typeof navigator !== 'undefined') && (
-        /Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
-        (navigator.userAgentData && navigator.userAgentData.mobile)
-      );
-
+      // Abrir en nueva pestaña solo en desktop (no abrir automáticamente en mobile)
+      const isMobile = /Mobi|Android|iPhone|iPad|iPod|webOS|BlackBerry|BB10|Opera Mini/i.test(navigator.userAgent);
       if (!isMobile) {
         setTimeout(() => {
           window.open(pdfUrl, '_blank');
         }, 500);
       } else {
-        // En mobile no forzar cambio de pestaña; el archivo ya fue descargado
-        console.log('Mobile detectado: no se abrirá nueva pestaña para el PDF.');
+        // En mobile dejamos que el usuario abra el PDF manualmente (o se descargue según navegador)
+        console.log('Mobile detected: omitiendo apertura automática del PDF.');
       }
-      
       Swal.fire({
         icon: 'success',
         title: 'PDF Generado Exitosamente',
