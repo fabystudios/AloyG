@@ -940,7 +940,10 @@
           <label for="public-email-input">Tu Email (opcional)</label>
           <input type="email" id="public-email-input" placeholder="tu@email.com">
         </div>
-
+       <div class="form-group">
+          <label for="public-dni-input">Tu DNI *</label>
+          <input type="text" id="public-dni-input" placeholder="Tu DNI" required>
+        </div>
         <div class="info-box">
           <p>⏰ Los administradores confirmarán tu pago en breve</p>
         </div>
@@ -984,6 +987,14 @@
         <div class="form-group">
           <label for="admin-email-input">Email (opcional)</label>
           <input type="email" id="admin-email-input" placeholder="email@ejemplo.com">
+        </div>
+        <div class="form-group">
+          <label for="admin-dni-input">DNI del Pagador</label>
+          <input type="text" id="admin-dni-input" placeholder="Ingrese el DNI">
+        </div>
+        <div class="form-group">
+          <label for="admin-nro_op-input">Número de Operación</label>
+          <input type="text" id="admin-nro_op-input" placeholder="Ingrese el Número de transacción">
         </div>
         <div class="form-group">
           <label for="admin-estado-select">Estado</label>
@@ -1311,6 +1322,7 @@ document.getElementById('public-form').onsubmit = async function(e) {
   const item = rifaData.find(item => item.id === currentEditingId);
   const nombre = document.getElementById('public-nombre-input').value.trim();
   const email = document.getElementById('public-email-input').value.trim();
+  const dni = document.getElementById('public-dni-input').value.trim();
   
   if (!nombre) {
     Swal.fire({
@@ -1325,10 +1337,10 @@ document.getElementById('public-form').onsubmit = async function(e) {
   try {
     await db.collection('rifa').doc(currentEditingId).update({
       nombre: nombre,
-      buyer: email || '',
       email: email || '',
       state: 2,
-      time: firebase.firestore.FieldValue.serverTimestamp()
+      time: firebase.firestore.FieldValue.serverTimestamp(),
+      dni: dni 
     });
     
     console.log('✅ Reserva guardada');
@@ -1358,6 +1370,7 @@ function closePublicModal() {
   document.getElementById('public-form').reset();
   document.getElementById('public-nombre-input').value = '';
   document.getElementById('public-email-input').value = '';
+  document.getElementById('public-dni-input').value = '';
   currentEditingId = null;
 }
 
@@ -1369,7 +1382,8 @@ async function desreservarNumero(item) {
       buyer: '',
       email: '',
       state: 1,
-      time: null
+      time: null,
+      dni: ''
     });
     
     console.log('✅ Desreserva guardada');
@@ -1396,6 +1410,8 @@ function openAdminModal(item) {
   document.getElementById('admin-modal-numero').textContent = item.numero;
   document.getElementById('admin-nombre-input').value = item.nombre || '';
   document.getElementById('admin-email-input').value = item.email || '';
+  document.getElementById('admin-nro_op-input').value = item.nro_op || '';
+  document.getElementById('admin-dni-input').value = item.dni || '';
   
   const estadoSelect = document.getElementById('admin-estado-select');
   estadoSelect.value = item.state;
@@ -1408,6 +1424,8 @@ function closeAdminModal() {
   document.getElementById('admin-form').reset();
   document.getElementById('admin-nombre-input').value = '';
   document.getElementById('admin-email-input').value = '';
+  document.getElementById('admin-nro_op-input').value = '';
+  document.getElementById('admin-dni-input').value = '';
   currentEditingId = null;
 }
 
@@ -1417,19 +1435,26 @@ document.getElementById('admin-form').onsubmit = async function(e) {
   const nombre = document.getElementById('admin-nombre-input').value.trim();
   const email = document.getElementById('admin-email-input').value.trim();
   const state = parseInt(document.getElementById('admin-estado-select').value);
-  
+  const nro_op = document.getElementById('admin-nro_op-input').value.trim();
+  const dni = document.getElementById('admin-dni-input').value.trim();
+
   try {
     const updateData = {
       nombre: nombre,
       email: email,
       state: state,
-      time: firebase.firestore.FieldValue.serverTimestamp()
+      time: firebase.firestore.FieldValue.serverTimestamp(),
+      nro_op: nro_op,
+      dni: dni,
+      admin_user: currentUser ? (currentUser.displayName || currentUser.email) : 'Desconocido'
     };
     
     if (state === 1) {
       updateData.nombre = '';
       updateData.email = '';
       updateData.time = null;
+      updateData.nro_op = '';
+      updateData.dni = '';
     }
     
     await db.collection('rifa').doc(currentEditingId).update(updateData);
