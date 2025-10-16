@@ -327,7 +327,7 @@ async function generarPDF(preview = false) {
         `,
         confirmButtonText: 'Entendido',
         confirmButtonColor: '#6750A4',
-        timer: 5000,
+        timer: 50000,
         timerProgressBar: true
       });
     }
