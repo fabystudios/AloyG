@@ -15,6 +15,7 @@
     <link rel="icon" href="/api/placeholder/32/32" type="image/png">
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../style.css">
 
@@ -80,6 +81,8 @@
 
 <!-- SweetAlert2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 </head>
 <body id="inicio">
 <link rel="stylesheet" href="./rifa.css">
@@ -1170,17 +1173,43 @@
     <span class="material-icons">search</span>
   </div>
 
-  <div class="export-buttons">
-    <button class="btn-export btn-export-excel" onclick="exportToExcel()">
+  <div class="export-buttons" style="gap: 0.5rem;">
+    <button class="btn-export btn-export-excel" onclick="exportToExcel()" style="border-radius: 999px; padding: 10px 28px;">
       <span class="material-icons" style="font-size: 18px;">table_chart</span>
       Exportar Excel
     </button>
-    <button class="btn-export btn-export-pdf" onclick="exportToPDF()">
-      <span class="material-icons" style="font-size: 18px;">picture_as_pdf</span>
+    <button id="btn-export-pdf" class="btn-export btn-export-pdf"  style="border-radius: 999px; padding: 10px 28px;">
+      <span class="material-icons">picture_as_pdf</span>
       Exportar PDF
     </button>
   </div>
 
+  <!-- ----- -->
+<!-- <div style="display: flex; gap: 12px; margin-bottom: 24px; flex-wrap: wrap;">
+  <button id="btn-export-pdf" class="md-button btn-primary">
+    <span class="material-icons">picture_as_pdf</span>
+    Exportar PDF
+  </button>
+  <button id="btn-preview-pdf" class="md-button btn-secondary">
+    <span class="material-icons">preview</span>
+    Vista Previa
+  </button>
+  <input type="text" id="search-participantes" placeholder="🔍 Buscar..." class="form-control" style="max-width: 300px;">
+</div> -->
+
+
+
+
+
+<!-- ---------- -->
+<div id="tabla-participantes" style="margin-top: 24px; display: none;">
+  <div class="card" style="padding: 20px;">
+    <h3 style="color: var(--md-sys-color-primary);">📋 Participantes</h3>
+    <div style="overflow-x: auto;">
+      <table id="tabla-lista"></table>
+    </div>
+  </div>
+</div>
   <div class="data-table-container">
     <table class="data-table">
       <thead>
@@ -1296,6 +1325,9 @@
     </div>
   </div>
 </section>
+
+<script src="./pdf.js"></script>
+
 
  <script>
 // Configuración Firebase
@@ -1950,14 +1982,14 @@ function exportToExcel() {
 }
 
 // Función para exportar a PDF (simple)
-function exportToPDF() {
-  Swal.fire({
-    icon: 'info',
-    title: 'Función en desarrollo',
-    text: 'La exportación a PDF estará disponible próximamente. Por ahora puedes usar Excel.',
-    confirmButtonText: 'Entendido'
-  });
-}
+// function exportToPDF() {
+//   Swal.fire({
+//     icon: 'info',
+//     title: 'Función en desarrollo',
+//     text: 'La exportación a PDF estará disponible próximamente. Por ahora puedes usar Excel.',
+//     confirmButtonText: 'Entendido'
+//   });
+// }
 
 // Modificar la función loadRifaData existente para actualizar la tabla
 const originalLoadRifaData = loadRifaData;
