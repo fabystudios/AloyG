@@ -2318,7 +2318,7 @@ function exportToExcel() {
     return;
   }
   
-  let csv = 'Número,Nombre,Email,DNI,Estado,Nº Operación,Fecha\n';
+  let csv = ''; // Sin línea de cabecera
   
   data.forEach(item => {
     const fecha = item.time ? formatDate(item.time.toDate()) : '';
