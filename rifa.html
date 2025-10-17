@@ -2118,6 +2118,8 @@ document.getElementById('admin-form').onsubmit = async function(e) {
     
     console.log('✅ Cambios guardados:', updateData);
     closeAdminModal();
+    // ⭐  REFRESCAR EL LISTADO
+    renderDataTable();
     Swal.fire({
       icon: 'success',
       title: 'Cambios Guardados',
