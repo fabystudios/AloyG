@@ -1013,6 +1013,262 @@
   }
 }
 </style>
+<!-- ===========================================
+     PARTE 1: CSS MEJORADO PARA HEADER DE PREMIOS
+     =========================================== -->
+<style>
+/* Header de premios rediseñado */
+.rifa-header-redesign {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 24px;
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.prizes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.prize-card {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 24px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.prize-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 70%);
+  transition: transform 0.5s;
+}
+
+.prize-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+}
+
+.prize-card:hover::before {
+  transform: scale(1.2);
+}
+
+.prize-icon {
+  font-size: 48px;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.prize-card h3 {
+  color: #6750A4;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  position: relative;
+}
+
+.prize-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.prize-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(103, 80, 164, 0.1);
+  font-size: 15px;
+  color: #333;
+}
+
+.prize-list li:last-child {
+  border-bottom: none;
+}
+
+.prize-value {
+  background: linear-gradient(135deg, #FFD700, #FFA500);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-weight: 700;
+  font-size: 20px;
+  display: inline-block;
+  margin-top: 12px;
+  box-shadow: 0 4px 15px rgba(255, 165, 0, 0.4);
+}
+
+/* Tarjeta de pago moderna */
+.payment-card-modern {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: center;
+}
+
+.payment-info h3 {
+  color: #6750A4;
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.payment-row-modern {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  padding: 10px;
+  background: rgba(103, 80, 164, 0.05);
+  border-radius: 12px;
+  transition: background 0.3s;
+}
+
+.payment-row-modern:hover {
+  background: rgba(103, 80, 164, 0.1);
+}
+
+.payment-row-modern i {
+  color: #6750A4;
+  font-size: 20px;
+}
+
+.payment-row-modern .label {
+  font-weight: 600;
+  color: #333;
+  min-width: 60px;
+}
+
+.payment-row-modern .value {
+  color: #0066CC;
+  font-weight: 500;
+  user-select: all;
+  flex: 1;
+}
+
+.qr-container-modern {
+  background: white;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.qr-container-modern img {
+  max-width: 200px;
+  width: 100%;
+  border-radius: 12px;
+}
+
+.qr-container-modern p {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+/* Sección de imágenes mejorada */
+.visual-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 24px;
+}
+
+.mascot-card, .prizes-images {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  transition: transform 0.3s;
+}
+
+.mascot-card:hover, .prizes-images:hover {
+  transform: scale(1.02);
+}
+
+.mascot-card img {
+  max-width: 180px;
+  width: 100%;
+  border-radius: 16px;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.15));
+}
+
+.mascot-caption {
+  color: #6750A4;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.prizes-images {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.prizes-images img {
+  max-width: 140px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s;
+}
+
+.prizes-images img:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .rifa-header-redesign {
+    padding: 20px;
+  }
+
+  .prizes-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .payment-card-modern {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .visual-section {
+    grid-template-columns: 1fr;
+  }
+
+  .prize-value {
+    font-size: 18px;
+    padding: 10px 20px;
+  }
+}
+</style>
 </head>
 <body>
 
@@ -1021,7 +1277,7 @@
   <div class="container">
     <!-- Vista Pública -->
     <div id="public-view" class="card">
-      <div class="rifa-header" style="align-items: center;">
+      <!-- <div class="rifa-header" style="align-items: center;">
         <div class="rifa-info-card" style="justify-content: center; align-items: center; text-align: center;">
           <div class="rifa-prizes" style="display: flex; flex-direction: column; align-items: center;">
             <h2 class="rifa-title">🎁 Premios</h2>
@@ -1043,9 +1299,68 @@
               <img src="./rifa/qr.jpg" alt="QR Mercado Pago" style="margin: 0 auto; border: none; box-shadow: none; max-width: 250px; width: 100%;">
             </div>
         </div>
+      </div> -->
+      <!-- ===========================================
+     PARTE 2: HTML MEJORADO PARA HEADER
+     =========================================== -->
+<!-- Reemplazar el div con class="rifa-header" por esto: -->
+<div class="rifa-header-redesign">
+  <!-- Premios -->
+  <div class="prizes-grid">
+    <div class="prize-card">
+      <span class="prize-icon">🎁</span>
+      <h3>Premios del Sorteo</h3>
+      <ul class="prize-list">
+        <li><strong>1° Premio:</strong> Bicicleta</li>
+        <li><strong>2° Premio:</strong> Tablet</li>
+      </ul>
+      <div class="prize-value">$20.000</div>
+    </div>
+
+    <div class="prize-card">
+      <span class="prize-icon">💳</span>
+      <h3>Datos de Pago</h3>
+      <div style="text-align: left;">
+        <div class="payment-row-modern">
+          <i class="fas fa-at"></i>
+          <span class="label">Alias:</span>
+          <span class="value">luis.villaelisa.mp</span>
+        </div>
+        <div class="payment-row-modern">
+          <i class="fas fa-credit-card"></i>
+          <span class="label">CVU:</span>
+          <span class="value" style="font-size: 12px;">0000003100045333653297</span>
+        </div>
+        <div class="payment-row-modern">
+          <i class="fas fa-user"></i>
+          <span class="label">Titular:</span>
+          <span class="value">Marcelo A. Cerniato</span>
+        </div>
       </div>
-      
-      <div style="display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; margin-top: 8px;">
+    </div>
+
+    <div class="prize-card">
+      <div class="qr-container-modern">
+        <img src="./rifa/qr.jpg" alt="QR Mercado Pago">
+        <p>📱 Escaneá y pagá</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Imágenes -->
+  <div class="visual-section">
+    <div class="mascot-card">
+      <img src="./rifa/rifi-premio2.png" alt="Mascota Rifi">
+      <p class="mascot-caption">🎟️ ¡Elegí tu número!</p>
+    </div>
+
+    <div class="prizes-images">
+      <img src="./rifa/p1.png" alt="Bicicleta">
+      <img src="./rifa/p2.png" alt="Tablet">
+    </div>
+  </div>
+</div>
+      <!-- <div style="display: flex; align-items: center; justify-content: center; gap: 32px; flex-wrap: wrap; margin-top: 8px;">
         <div class="rifa-mascota" style="display: flex; flex-direction: column; align-items: center;">
           <img src="./rifa/rifi-premio2.png" alt="Mascota de la rifa" style="max-width: 180px; border-radius: 18px; box-shadow: none;">
           <p class="rifa-caption">🎟️ <strong>¡Elegí tu número y participá!</strong> </p>
@@ -1054,7 +1369,7 @@
           <img src="./rifa/p1.png" alt="Premio 1" style="max-width: 180px; border-radius: 12px;">
           <img src="./rifa/p2.png" alt="Premio 2" style="max-width: 180px; border-radius: 12px;">
         </div>
-      </div>
+      </div> -->
 
       <div class="mode-toggle">
         <button class="md-button btn-secondary" onclick="showAdminLogin()">

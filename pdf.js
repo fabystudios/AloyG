@@ -468,3 +468,130 @@ window.renderRifaGrid = function(adminMode) {
 };
 
 console.log('✅ Sistema de exportación PDF optimizado cargado');
+// <!-- ===========================================
+//      PARTE 3: FIX JAVASCRIPT PARA MOBILE
+//      =========================================== */
+// Fix para el problema de listado vacío en mobile
+(function() {
+  let loadTimeout = null;
+  
+  // Función mejorada de renderRifaGrid con retry
+  const originalRenderRifaGrid = window.renderRifaGrid;
+  
+  window.renderRifaGrid = function(adminMode) {
+    try {
+      // Limpiar timeout previo
+      if (loadTimeout) {
+        clearTimeout(loadTimeout);
+      }
+
+      const gridEl = adminMode ? 'admin-rifa-grid' : 'public-rifa-grid';
+      const loadingEl = adminMode ? 'admin-loading' : 'public-loading';
+      const grid = document.getElementById(gridEl);
+      
+      if (!grid) {
+        console.warn('Grid element not found, retrying...');
+        loadTimeout = setTimeout(() => window.renderRifaGrid(adminMode), 500);
+        return;
+      }
+
+      // Verificar que rifaData existe y tiene elementos
+      if (!window.rifaData || window.rifaData.length === 0) {
+        console.warn('rifaData is empty, showing loading...');
+        document.getElementById(loadingEl).style.display = 'block';
+        return;
+      }
+
+      // Limpiar completamente el grid
+      grid.innerHTML = '';
+      grid.style.display = 'none';
+      
+      // Renderizar cada número
+      window.rifaData.forEach(item => {
+        const card = document.createElement('div');
+        let isDisabled = false;
+        
+        if (adminMode) {
+          // Modo admin
+        } else {
+          if (item.state === 3) {
+            isDisabled = true;
+          }
+        }
+        
+        const estadoClasses = { 1: 'disponible', 2: 'reservado', 3: 'pagado' };
+        const estadoLabels = { 1: 'Disponible', 2: 'Reservado', 3: 'Pagado' };
+        
+        card.className = `numero-card ${estadoClasses[item.state]} ${isDisabled ? 'disabled' : ''}`;
+        
+        let nombreDisplay = '';
+        if (item.nombre) {
+          const nombreCorto = item.nombre.split(' ')[0];
+          nombreDisplay = `<div class="nombre-mini">${nombreCorto}</div>`;
+        }
+        
+        card.innerHTML = `
+          <div class="numero">${item.numero}</div>
+          <div class="estado">${estadoLabels[item.state]}</div>
+          ${nombreDisplay}
+        `;
+        
+        if (!isDisabled) {
+          card.addEventListener('click', function() {
+            if (adminMode) {
+              window.openAdminModal(item);
+            } else {
+              window.openPublicModal(item);
+            }
+          });
+        }
+        
+        grid.appendChild(card);
+      });
+      
+      // Mostrar grid
+      document.getElementById(loadingEl).style.display = 'none';
+      grid.style.display = 'grid';
+
+      // Si es admin, actualizar tabla de datos
+      if (adminMode && typeof window.renderDataTable === 'function') {
+        setTimeout(() => {
+          document.getElementById('admin-data-display').style.display = 'block';
+          window.renderDataTable();
+        }, 300);
+      }
+
+      console.log('✅ Grid renderizado correctamente:', window.rifaData.length, 'números');
+      
+    } catch (error) {
+      console.error('❌ Error en renderRifaGrid:', error);
+      // Retry en caso de error
+      loadTimeout = setTimeout(() => window.renderRifaGrid(adminMode), 1000);
+    }
+  };
+
+  // Listener para cambios de visibilidad (cuando vuelves al tab en mobile)
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden && window.isAdmin) {
+      console.log('🔄 Tab visible, verificando grid...');
+      const grid = document.getElementById('admin-rifa-grid');
+      if (grid && grid.children.length === 0 && window.rifaData && window.rifaData.length > 0) {
+        console.log('⚠️ Grid vacío detectado, re-renderizando...');
+        window.renderRifaGrid(true);
+      }
+    }
+  });
+
+  // Listener para orientación (rotación de pantalla en mobile)
+  window.addEventListener('orientationchange', function() {
+    if (window.isAdmin) {
+      console.log('🔄 Orientación cambiada, re-renderizando...');
+      setTimeout(() => {
+        window.renderRifaGrid(true);
+      }, 500);
+    }
+  });
+
+  console.log('✅ Fixes para mobile aplicados');
+})();
+ 
