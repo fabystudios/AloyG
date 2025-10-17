@@ -1135,7 +1135,24 @@
   font-weight: 700;
   margin-bottom: 16px;
 }
+@media (max-width: 480px) {
+  .prizes-grid,
+  .visual-section,
+  .prizes-images,
+  .payment-card-modern,
+  .rifa-grid,
+  .stats {
+    gap: 5px !important;
+  }
 
+  /* Ajustes complementarios para mantener proporciones con gap reducido */
+  .prize-card,
+  .mascot-card,
+  .prizes-images img,
+  .qr-container-modern img {
+    margin: 0;
+  }
+}
 .payment-row-modern {
   display: flex;
   align-items: center;
