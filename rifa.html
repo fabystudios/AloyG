@@ -1428,7 +1428,13 @@
       </div>
 
       <div id="public-loading" class="loading">
-        <div class="spinner"></div>
+        <div class="spinner-img" style="margin-bottom:16px;">
+          <img src="./rifa/spinner.gif" alt="Cargando números..." 
+               style="max-width:120px; width:100%; display:block; margin:0 auto;"
+               onerror="this.style.display='none'; document.querySelector('#public-loading .spinner').style.display='block'">
+        </div>
+        <!-- Fallback CSS spinner si la imagen no carga -->
+        <div class="spinner" style="display:none;"></div>
         <p>Cargando números disponibles...</p>
       </div>
 
@@ -1496,7 +1502,12 @@
       </div>
 
       <div id="admin-loading" class="loading">
-        <div class="spinner"></div>
+        <div class="spinner-img" style="margin-bottom:16px;">
+          <img src="./rifa/spinner.gif" alt="Cargando datos..." style="max-width:120px; width:100%; display:block; margin:0 auto;"
+               onerror="this.style.display='none'; document.querySelector('#admin-loading .spinner').style.display='block'">
+        </div>
+        <!-- Fallback CSS spinner si la imagen no carga -->
+        <div class="spinner" style="display:none;"></div>
         <p>Cargando datos...</p>
       </div>
 
