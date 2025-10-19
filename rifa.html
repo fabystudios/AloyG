@@ -1428,13 +1428,7 @@
       </div>
 
       <div id="public-loading" class="loading">
-        <div class="spinner-img" style="margin-bottom:16px;">
-          <img src="./rifa/spinner.gif" alt="Cargando números..." 
-               style="max-width:120px; width:100%; display:block; margin:0 auto;"
-               onerror="this.style.display='none'; document.querySelector('#public-loading .spinner').style.display='block'">
-        </div>
-        <!-- Fallback CSS spinner si la imagen no carga -->
-        <div class="spinner" style="display:none;"></div>
+        <div class="spinner"></div>
         <p>Cargando números disponibles...</p>
       </div>
 
@@ -1502,12 +1496,7 @@
       </div>
 
       <div id="admin-loading" class="loading">
-        <div class="spinner-img" style="margin-bottom:16px;">
-          <img src="./rifa/spinner.gif" alt="Cargando datos..." style="max-width:120px; width:100%; display:block; margin:0 auto;"
-               onerror="this.style.display='none'; document.querySelector('#admin-loading .spinner').style.display='block'">
-        </div>
-        <!-- Fallback CSS spinner si la imagen no carga -->
-        <div class="spinner" style="display:none;"></div>
+        <div class="spinner"></div>
         <p>Cargando datos...</p>
       </div>
 
@@ -1701,10 +1690,8 @@
 <script src="./pdf.js"></script>
 
 
-<script>
-  // ========================================
-// CONFIGURACIÓN FIREBASE
-// ========================================
+ <script>
+// Configuración Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyD-3xKx4M5GxSQ-oJdnqz33hEZqFNBHoxM",
   authDomain: "aloy-726.firebaseapp.com",
@@ -1750,10 +1737,8 @@ try {
 }
 
 const auth = firebase.auth();
+const allowedAdmins = ["willyescobar@gmail.com", "meichtryes@gmail.com"];
 
-// ========================================
-// VARIABLES GLOBALES
-// ========================================
 let currentUser = null;
 let rifaData = [];
 let currentEditingId = null;
@@ -1762,9 +1747,7 @@ let isAdmin = false;
 const estadoLabels = { 1: 'Disponible', 2: 'Reservado', 3: 'Pagado' };
 const estadoClasses = { 1: 'disponible', 2: 'reservado', 3: 'pagado' };
 
-// ========================================
-// FUNCIONES DE NAVEGACIÓN
-// ========================================
+// Navegación
 function showPublicView() {
   document.getElementById('admin-login').style.display = 'none';
   document.getElementById('admin-view').style.display = 'none';
@@ -1786,165 +1769,50 @@ function showAdminView() {
   isAdmin = true;
 }
 
-// ========================================
-// VERIFICAR SI ES ADMIN (FIRESTORE)
-// ========================================
-async function checkIfAdmin(email) {
-  try {
-    console.log('🔍 Verificando admin para:', email);
-    
-    const adminQuery = await db.collection('admins')
-      .where('email', '==', email)
-      .limit(1)
-      .get();
-    
-    if (adminQuery.empty) {
-      console.log('❌ Email no encontrado en admins');
-      return false;
-    }
-    
-    const adminDoc = adminQuery.docs[0];
-    const adminData = adminDoc.data();
-    
-    console.log('✅ Admin encontrado:', adminData);
-    
-    return adminData.role === 'admin';
-  } catch (error) {
-    console.error('❌ Error al verificar admin:', error);
-    return false;
-  }
-}
-
-// ========================================
-// LOGIN CON GOOGLE
-// ========================================
-document.getElementById('login-google').onclick = async function() {
+// Login
+document.getElementById('login-google').onclick = function() {
   const provider = new firebase.auth.GoogleAuthProvider();
-  
-  try {
-    const result = await auth.signInWithPopup(provider);
-    await handleAuthResult(result);
-  } catch (error) {
-    console.error('❌ Error en login:', error);
-    
-    Swal.fire({
-      icon: 'error',
-      title: 'Error de Login',
-      text: 'No se pudo iniciar sesión: ' + error.message,
-      confirmButtonText: 'Reintentar',
-      confirmButtonColor: '#6750A4'
+  auth.signInWithPopup(provider)
+    .then(result => handleAuthResult(result))
+    .catch(error => {
+      console.error('❌ Error en login:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de Login',
+        text: 'Error al iniciar sesión: ' + error.message,
+        confirmButtonText: 'Reintentar'
+      });
     });
-  }
 };
 
-// ========================================
-// MANEJAR RESULTADO DE AUTENTICACIÓN
-// ========================================
-async function handleAuthResult(result) {
+function handleAuthResult(result) {
   const email = result.user.email;
-  
-  Swal.fire({
-    title: 'Verificando permisos...',
-    html: '<div class="spinner"></div>',
-    allowOutsideClick: false,
-    showConfirmButton: false,
-    didOpen: () => {
-      Swal.showLoading();
-    }
-  });
-  
-  const esAdmin = await checkIfAdmin(email);
-  
-  Swal.close();
-  
-  if (esAdmin) {
+  if (allowedAdmins.includes(email)) {
     currentUser = result.user;
-    
     document.getElementById('user-name').textContent = currentUser.displayName || currentUser.email;
     document.getElementById('user-avatar').src = currentUser.photoURL || 
       'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.displayName || 'Admin');
-    
     showAdminView();
     loadRifaData(true);
-    
-    Swal.fire({
-      icon: 'success',
-      title: '¡Bienvenido Administrador!',
-      text: `Hola ${currentUser.displayName || currentUser.email}`,
-      timer: 2000,
-      showConfirmButton: false
-    });
-    
   } else {
-    await auth.signOut();
-    
     Swal.fire({
       icon: 'warning',
       title: 'Acceso Denegado',
-      html: `
-        <p style="margin: 12px 0;">El email <strong>${email}</strong> no tiene permisos de administrador.</p>
-        <p style="font-size: 13px; color: #666;">Si crees que esto es un error, contacta al administrador del sistema.</p>
-      `,
-      confirmButtonText: 'Entendido',
-      confirmButtonColor: '#6750A4'
+      text: 'No tienes permisos de administrador.',
+      confirmButtonText: 'Entendido'
     });
+    auth.signOut();
   }
 }
 
-// ========================================
-// LOGOUT
-// ========================================
-document.getElementById('logout-btn').onclick = async function() {
-  try {
-    await auth.signOut();
+document.getElementById('logout-btn').onclick = function() {
+  auth.signOut().then(() => {
     currentUser = null;
-    isAdmin = false;
     showPublicView();
-    
-    Swal.fire({
-      icon: 'info',
-      title: 'Sesión Cerrada',
-      text: 'Has cerrado sesión correctamente',
-      timer: 1500,
-      showConfirmButton: false
-    });
-  } catch (error) {
-    console.error('Error al cerrar sesión:', error);
-  }
+  });
 };
 
-// ========================================
-// VERIFICAR SESIÓN AL CARGAR LA PÁGINA
-// ========================================
-auth.onAuthStateChanged(async (user) => {
-  if (user) {
-    console.log('👤 Usuario detectado:', user.email);
-    
-    const esAdmin = await checkIfAdmin(user.email);
-    
-    if (esAdmin) {
-      currentUser = user;
-      document.getElementById('user-name').textContent = currentUser.displayName || currentUser.email;
-      document.getElementById('user-avatar').src = currentUser.photoURL || 
-        'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.displayName || 'Admin');
-      
-      showAdminView();
-      loadRifaData(true);
-    } else {
-      await auth.signOut();
-      showPublicView();
-      loadRifaData(false);
-    }
-  } else {
-    console.log('👁️ Usuario no autenticado - Vista pública');
-    showPublicView();
-    loadRifaData(false);
-  }
-});
-
-// ========================================
-// CARGAR DATOS DE RIFA
-// ========================================
+// Cargar datos
 function loadRifaData(adminMode = false) {
   console.log('📡 Intentando cargar datos de Firestore...');
   db.collection('rifa').orderBy('numero').onSnapshot((snapshot) => {
@@ -1978,9 +1846,6 @@ function loadRifaData(adminMode = false) {
   });
 }
 
-// ========================================
-// INICIALIZAR NÚMEROS DE RIFA
-// ========================================
 async function initializeRifaNumbers() {
   try {
     console.log('🔧 Creando 100 números en Firebase...');
@@ -2011,14 +1876,12 @@ async function initializeRifaNumbers() {
   }
 }
 
-// ========================================
-// RENDERIZAR GRILLA DE NÚMEROS
-// ========================================
 function renderRifaGrid(adminMode) {
   const gridEl = adminMode ? 'admin-rifa-grid' : 'public-rifa-grid';
   const loadingEl = adminMode ? 'admin-loading' : 'public-loading';
   const grid = document.getElementById(gridEl);
   
+  // Limpiar completamente el grid antes de renderizar
   grid.innerHTML = '';
   grid.style.display = 'none';
   
@@ -2055,6 +1918,7 @@ function renderRifaGrid(adminMode) {
     `;
     
     if (!isDisabled) {
+      // Usar addEventListener en lugar de onclick para mejor control
       card.addEventListener('click', function() {
         if (adminMode) {
           openAdminModal(item);
@@ -2071,9 +1935,6 @@ function renderRifaGrid(adminMode) {
   document.getElementById(gridEl).style.display = 'grid';
 }
 
-// ========================================
-// ACTUALIZAR ESTADÍSTICAS
-// ========================================
 function updateStats(adminMode) {
   const prefix = adminMode ? 'admin' : 'public';
   const disponibles = rifaData.filter(item => item.state === 1).length;
@@ -2085,15 +1946,14 @@ function updateStats(adminMode) {
   document.getElementById(`${prefix}-stat-pagados`).textContent = pagados;
 }
 
-// ========================================
-// MODAL PÚBLICO - RESERVAR
-// ========================================
+// Modal Público
 function openPublicModal(item) {
   currentEditingId = item.id;
   
   const isReserva = item.state === 1;
   
   if (isReserva) {
+    // Para reserva: abrir el modal normal
     document.getElementById('public-modal-numero').textContent = item.numero;
     
     const modalTitle = 'Reservar Número';
@@ -2110,6 +1970,7 @@ function openPublicModal(item) {
     
     document.getElementById('public-modal').classList.add('active');
   } else {
+    // Para desreserva: mostrar confirmación con SweetAlert2
     Swal.fire({
       title: '¿Desreservar Número?',
       text: '¿Seguro que quieres desreservar el número ' + item.numero + '?',
@@ -2121,24 +1982,13 @@ function openPublicModal(item) {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
+        // Llamar a la función de desreserva
         desreservarNumero(item);
       }
     });
   }
 }
 
-function closePublicModal() {
-  document.getElementById('public-modal').classList.remove('active');
-  document.getElementById('public-form').reset();
-  document.getElementById('public-nombre-input').value = '';
-  document.getElementById('public-email-input').value = '';
-  document.getElementById('public-dni-input').value = null;
-  currentEditingId = null;
-}
-
-// ========================================
-// SUBMIT RESERVA PÚBLICA
-// ========================================
 document.getElementById('public-form').onsubmit = async function(e) {
   e.preventDefault();
   
@@ -2188,9 +2038,16 @@ document.getElementById('public-form').onsubmit = async function(e) {
   }
 };
 
-// ========================================
-// DESRESERVAR NÚMERO
-// ========================================
+function closePublicModal() {
+  document.getElementById('public-modal').classList.remove('active');
+  document.getElementById('public-form').reset();
+  document.getElementById('public-nombre-input').value = '';
+  document.getElementById('public-email-input').value = '';
+  document.getElementById('public-dni-input').value = null;
+  currentEditingId = null;
+}
+
+// Función para desreservar (llamada desde openPublicModal)
 async function desreservarNumero(item) {
   try {
     await db.collection('rifa').doc(item.id).update({
@@ -2200,7 +2057,7 @@ async function desreservarNumero(item) {
       state: 1,
       time: null,
       dni: null
-    });
+      });
     
     console.log('✅ Desreserva guardada');
     Swal.fire({
@@ -2220,95 +2077,20 @@ async function desreservarNumero(item) {
   }
 }
 
-// ========================================
-// MODAL ADMIN - EDITAR (CON AUDITORÍA)
-// ========================================
+// Modal Admin
 function openAdminModal(item) {
   currentEditingId = item.id;
   document.getElementById('admin-modal-numero').textContent = item.numero;
   document.getElementById('admin-nombre-input').value = item.nombre || '';
   document.getElementById('admin-email-input').value = item.email || '';
-  document.getElementById('admin-nro_op-input').value = item.nro_op || '';
-  document.getElementById('admin-dni-input').value = item.dni || '';
+  document.getElementById('admin-nro_op-input').value = item.nro_op;
+  document.getElementById('admin-dni-input').value = item.dni;
+
   
   const estadoSelect = document.getElementById('admin-estado-select');
   estadoSelect.value = item.state;
   
-  // Mostrar info de auditoría
-  mostrarInfoAuditoria(item);
-  
   document.getElementById('admin-modal').classList.add('active');
-}
-
-// ========================================
-// MOSTRAR INFO DE AUDITORÍA EN EL MODAL
-// ========================================
-function mostrarInfoAuditoria(item) {
-  let auditoriaBox = document.getElementById('auditoria-info-box');
-  
-  if (!auditoriaBox) {
-    auditoriaBox = document.createElement('div');
-    auditoriaBox.id = 'auditoria-info-box';
-    auditoriaBox.style.cssText = `
-      background: #E8DEF8;
-      border-left: 4px solid #6750A4;
-      padding: 12px;
-      border-radius: 8px;
-      margin-bottom: 16px;
-      font-size: 13px;
-    `;
-    
-    const modalContent = document.querySelector('#admin-modal .modal-content');
-    const primeraFormGroup = modalContent.querySelector('.form-group');
-    primeraFormGroup.parentNode.insertBefore(auditoriaBox, primeraFormGroup);
-  }
-  
-  let infoHTML = '<div style="color: #6750A4;">';
-  
-  if (item.admin_registro_pago) {
-    infoHTML += `<strong>💰 Pago registrado por:</strong> ${item.admin_registro_pago}<br>`;
-  }
-  
-  if (item.admin_correccion) {
-    infoHTML += `<strong>🔧 Última corrección por:</strong> ${item.admin_correccion}<br>`;
-  }
-  
-  if (item.admin_elimino_pago) {
-    infoHTML += `<strong>🗑️ Pago eliminado por:</strong> ${item.admin_elimino_pago}<br>`;
-  }
-  
-  if (item.ultimo_admin) {
-    infoHTML += `<strong>👤 Última modificación:</strong> ${item.ultimo_admin}<br>`;
-  }
-  
-  if (item.historial && item.historial.length > 0) {
-    infoHTML += `
-      <button type="button" 
-              onclick="verHistorialNumero('${item.id}')" 
-              style="
-                margin-top: 8px;
-                padding: 6px 12px;
-                background: #6750A4;
-                color: white;
-                border: none;
-                border-radius: 8px;
-                cursor: pointer;
-                font-size: 12px;
-                display: inline-flex;
-                align-items: center;
-                gap: 6px;
-              ">
-        <span class="material-icons" style="font-size: 16px;">history</span>
-        Ver Historial Completo (${item.historial.length} cambios)
-      </button>
-    `;
-  } else {
-    infoHTML += '<p style="margin-top: 8px; opacity: 0.7;">📋 Sin historial de cambios</p>';
-  }
-  
-  infoHTML += '</div>';
-  
-  auditoriaBox.innerHTML = infoHTML;
 }
 
 function closeAdminModal() {
@@ -2316,14 +2098,11 @@ function closeAdminModal() {
   document.getElementById('admin-form').reset();
   document.getElementById('admin-nombre-input').value = '';
   document.getElementById('admin-email-input').value = '';
-  document.getElementById('admin-nro_op-input').value = '';
-  document.getElementById('admin-dni-input').value = '';
+  document.getElementById('admin-nro_op-input').value = 0;
+  document.getElementById('admin-dni-input').value = 0;
   currentEditingId = null;
 }
 
-// ========================================
-// SUBMIT EDICIÓN ADMIN (CON AUDITORÍA)
-// ========================================
 document.getElementById('admin-form').onsubmit = async function(e) {
   e.preventDefault();
   
@@ -2334,85 +2113,35 @@ document.getElementById('admin-form').onsubmit = async function(e) {
   const dni = document.getElementById('admin-dni-input').value.trim();
 
   try {
-    const docSnapshot = await db.collection('rifa').doc(currentEditingId).get();
-    const dataActual = docSnapshot.data();
-    
-    const adminActual = currentUser ? (currentUser.displayName || currentUser.email) : 'Desconocido';
-    
     const updateData = {
       nombre: nombre,
       email: email,
       state: state,
+      time: firebase.firestore.FieldValue.serverTimestamp(),
+      nro_op: nro_op,
       dni: dni,
-      nro_op: nro_op || null,
-      ultima_modificacion: firebase.firestore.FieldValue.serverTimestamp(),
-      ultimo_admin: adminActual
+      admin_user: currentUser ? (currentUser.displayName || currentUser.email) : 'Desconocido'
     };
-    
-    // LÓGICA DE AUDITORÍA
-    if (nro_op && !dataActual.nro_op) {
-      updateData.admin_registro_pago = adminActual;
-      updateData.fecha_pago = firebase.firestore.FieldValue.serverTimestamp();
-      updateData.state = 3;
-      console.log('✅ Primer registro de pago por:', adminActual);
-    }
-    else if (nro_op && dataActual.nro_op && nro_op !== dataActual.nro_op) {
-      updateData.admin_correccion = adminActual;
-      updateData.fecha_correccion = firebase.firestore.FieldValue.serverTimestamp();
-      updateData.nro_op_anterior = dataActual.nro_op;
-      updateData.state = 3;
-      console.log('🔧 Corrección de nro operación por:', adminActual);
-    }
-    else if (!nro_op && dataActual.nro_op) {
-      updateData.admin_elimino_pago = adminActual;
-      updateData.fecha_eliminacion = firebase.firestore.FieldValue.serverTimestamp();
-      updateData.nro_op_eliminado = dataActual.nro_op;
-      updateData.nro_op = null;
-      console.log('🗑️ Eliminación de pago por:', adminActual);
-    }
     
     if (state === 1) {
       updateData.nombre = '';
       updateData.email = '';
-      updateData.dni = null;
-      updateData.nro_op = null;
       updateData.time = null;
-      updateData.admin_reseteo = adminActual;
-      updateData.fecha_reseteo = firebase.firestore.FieldValue.serverTimestamp();
-      console.log('🔄 Reseteo del número por:', adminActual);
+      updateData.nro_op = null;
+      updateData.dni = null;
     }
-    
-    // HISTORIAL
-    const entradaHistorial = {
-      admin: adminActual,
-      fecha: new Date().toISOString(),
-      accion: getAccionRealizada(dataActual, updateData),
-      estado_anterior: dataActual.state,
-      estado_nuevo: state,
-      nro_op_anterior: dataActual.nro_op || null,
-      nro_op_nuevo: nro_op || null
-    };
-    
-    updateData.historial = firebase.firestore.FieldValue.arrayUnion(entradaHistorial);
     
     await db.collection('rifa').doc(currentEditingId).update(updateData);
     
-    console.log('✅ Cambios guardados con auditoría:', updateData);
+    console.log('✅ Cambios guardados:', updateData);
     closeAdminModal();
-    
-    if (typeof renderDataTable === 'function') {
-      renderDataTable();
-    }
-    
+    // ⭐  REFRESCAR EL LISTADO
+    renderDataTable();
     Swal.fire({
       icon: 'success',
       title: 'Cambios Guardados',
-      html: `
-        <p style="margin: 12px 0;"><strong>Acción:</strong> ${entradaHistorial.accion}</p>
-        <p style="font-size: 13px; color: #666;">Registrado por: ${adminActual}</p>
-      `,
-      confirmButtonText: 'Perfecto',
-      timer: 3000
+      text: 'Los cambios se han guardado correctamente.',
+      confirmButtonText: 'Perfecto'
     });
   } catch (error) {
     console.error('❌ Error:', error);
@@ -2425,142 +2154,7 @@ document.getElementById('admin-form').onsubmit = async function(e) {
   }
 };
 
-// ========================================
-// FUNCIÓN AUXILIAR: Determinar acción
-// ========================================
-function getAccionRealizada(dataAnterior, dataNueva) {
-  if (dataNueva.nro_op && !dataAnterior.nro_op) {
-    return '💰 Registró pago (Nro Op: ' + dataNueva.nro_op + ')';
-  }
-  
-  if (dataNueva.nro_op && dataAnterior.nro_op && dataNueva.nro_op !== dataAnterior.nro_op) {
-    return '🔧 Corrigió nro operación (' + dataAnterior.nro_op + ' → ' + dataNueva.nro_op + ')';
-  }
-  
-  if (!dataNueva.nro_op && dataAnterior.nro_op) {
-    return '🗑️ Eliminó pago (Nro Op: ' + dataAnterior.nro_op + ')';
-  }
-  
-  if (dataAnterior.state !== dataNueva.state) {
-    const estados = { 1: 'Disponible', 2: 'Reservado', 3: 'Pagado' };
-    return '📝 Cambió estado: ' + estados[dataAnterior.state] + ' → ' + estados[dataNueva.state];
-  }
-  
-  if (dataNueva.nombre !== dataAnterior.nombre || dataNueva.email !== dataAnterior.email || dataNueva.dni !== dataAnterior.dni) {
-    return '✏️ Modificó datos del participante';
-  }
-  
-  return '📋 Editó información';
-}
-
-// ========================================
-// VER HISTORIAL COMPLETO EN MODAL
-// ========================================
-async function verHistorialNumero(numeroId) {
-  try {
-    const doc = await db.collection('rifa').doc(numeroId).get();
-    const data = doc.data();
-    
-    if (!data.historial || data.historial.length === 0) {
-      Swal.fire({
-        icon: 'info',
-        title: 'Sin Historial',
-        text: 'Este número no tiene historial de cambios registrados.',
-        confirmButtonText: 'OK',
-        confirmButtonColor: '#6750A4'
-      });
-      return;
-    }
-    
-    let historialHTML = '<div style="text-align: left; max-height: 450px; overflow-y: auto; padding-right: 8px;">';
-    
-    const historialOrdenado = [...data.historial].sort((a, b) => {
-      return new Date(b.fecha) - new Date(a.fecha);
-    });
-    
-    historialOrdenado.forEach((entrada, index) => {
-      const fecha = new Date(entrada.fecha).toLocaleString('es-AR', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit'
-      });
-      
-      let borderColor = '#6750A4';
-      if (entrada.accion.includes('Registró pago')) borderColor = '#4CAF50';
-      if (entrada.accion.includes('Eliminó')) borderColor = '#F44336';
-      if (entrada.accion.includes('Corrigió')) borderColor = '#FF9800';
-      
-      historialHTML += `
-        <div style="
-          padding: 14px;
-          border-left: 4px solid ${borderColor};
-          margin-bottom: 12px;
-          background: ${index % 2 === 0 ? '#f9f9f9' : '#ffffff'};
-          border-radius: 8px;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        ">
-          <div style="font-weight: 600; color: ${borderColor}; margin-bottom: 6px;">
-            ${entrada.accion}
-          </div>
-          <div style="font-size: 12px; color: #666; display: flex; flex-direction: column; gap: 4px;">
-            <span><strong>👤 Admin:</strong> ${entrada.admin}</span>
-            <span><strong>📅 Fecha:</strong> ${fecha}</span>
-            ${entrada.nro_op_anterior ? `<span><strong>🔢 Nro Op anterior:</strong> ${entrada.nro_op_anterior}</span>` : ''}
-            ${entrada.nro_op_nuevo ? `<span><strong>🔢 Nro Op nuevo:</strong> ${entrada.nro_op_nuevo}</span>` : ''}
-          </div>
-        </div>
-      `;
-    });
-    
-    historialHTML += '</div>';
-    
-    const totalCambios = data.historial.length;
-    const adminsUnicos = [...new Set(data.historial.map(h => h.admin))];
-    
-    historialHTML += `
-      <div style="
-        margin-top: 16px;
-        padding: 12px;
-        background: #E8DEF8;
-        border-radius: 8px;
-        font-size: 13px;
-        text-align: center;
-      ">
-        <strong>📊 Resumen:</strong> ${totalCambios} cambio${totalCambios > 1 ? 's' : ''} realizado${totalCambios > 1 ? 's' : ''} por ${adminsUnicos.length} administrador${adminsUnicos.length > 1 ? 'es' : ''}
-      </div>
-    `;
-    
-    Swal.fire({
-      title: `📋 Historial del Número ${data.numero}`,
-      html: historialHTML,
-      width: '650px',
-      confirmButtonText: 'Cerrar',
-      confirmButtonColor: '#6750A4',
-      showClass: {
-        popup: 'animate__animated animate__fadeInDown'
-      },
-      hideClass: {
-        popup: 'animate__animated animate__fadeOutUp'
-      }
-    });
-    
-  } catch (error) {
-    console.error('Error al cargar historial:', error);
-    Swal.fire({
-      icon: 'error',
-      title: 'Error',
-      text: 'No se pudo cargar el historial: ' + error.message,
-      confirmButtonText: 'OK',
-      confirmButtonColor: '#B3261E'
-    });
-  }
-}
-
-// ========================================
-// CERRAR MODALES AL HACER CLIC FUERA
-// ========================================
+// Cerrar modales al hacer clic fuera (usar addEventListener una sola vez)
 document.getElementById('public-modal').addEventListener('click', function(e) {
   if (e.target === this) {
     closePublicModal();
@@ -2573,9 +2167,22 @@ document.getElementById('admin-modal').addEventListener('click', function(e) {
   }
 });
 
-console.log('🚀 Sistema de Rifa iniciado correctamente');
-console.log('🔐 Autenticación configurada con Firestore');
-console.log('📋 Sistema de auditoría completo activado');
+// Inicializar
+auth.onAuthStateChanged(user => {
+  if (user && allowedAdmins.includes(user.email)) {
+    currentUser = user;
+    document.getElementById('user-name').textContent = currentUser.displayName || currentUser.email;
+    document.getElementById('user-avatar').src = currentUser.photoURL || 
+      'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.displayName || 'Admin');
+    showAdminView();
+    loadRifaData(true);
+  } else {
+    showPublicView();
+    loadRifaData(false);
+  }
+});
+
+console.log('🚀 Sistema de Rifa iniciado');
 </script>
 <!-- <script src="./rifa.js"></script> -->
  <!-- logica del listado  -->

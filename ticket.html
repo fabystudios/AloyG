@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema de Tickets - Rifa San Luis Gonzaga</title>
+  <title>Mi Ticket - Rifa San Luis Gonzaga</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -20,27 +20,76 @@
       font-family: 'Roboto', sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       padding: 20px;
     }
 
     .container {
-      max-width: 800px;
-      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
     }
 
-    /* TICKET DESIGN */
+    /* SELECTOR DE VERSIÓN */
+    .version-selector {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .version-selector h3 {
+      color: #6750A4;
+      margin-bottom: 15px;
+      font-size: 18px;
+    }
+
+    .version-tabs {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 12px 24px;
+      border: 2px solid #6750A4;
+      background: white;
+      color: #6750A4;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .tab-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .tab-btn.active {
+      background: #6750A4;
+      color: white;
+    }
+
+    /* TICKET BASE */
     .ticket {
       background: white;
       border-radius: 20px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.3);
       overflow: hidden;
       position: relative;
+      display: none;
     }
 
-    .ticket-header {
+    .ticket.active {
+      display: block;
+    }
+
+    /* TICKET CERTIFICADO */
+    .ticket-certificado .ticket-header {
       background: linear-gradient(135deg, #6750A4 0%, #4527A0 100%);
       color: white;
       padding: 30px;
@@ -49,7 +98,7 @@
       overflow: hidden;
     }
 
-    .ticket-header::before {
+    .ticket-certificado .ticket-header::before {
       content: '🎟️';
       position: absolute;
       font-size: 200px;
@@ -57,6 +106,19 @@
       top: -50px;
       right: -30px;
       transform: rotate(-15deg);
+    }
+
+    /* TICKET REDES SOCIALES */
+    .ticket-redes {
+      background: linear-gradient(135deg, #FF6B9D 0%, #C06C84 50%, #6C5B7B 100%);
+    }
+
+    .ticket-redes .ticket-header {
+      background: transparent;
+      color: white;
+      padding: 30px;
+      text-align: center;
+      position: relative;
     }
 
     .ticket-logo {
@@ -75,6 +137,26 @@
       object-fit: contain;
     }
 
+    /* MASCOTA GRANDE PARA REDES */
+    .mascota-hero {
+      width: 200px;
+      height: 200px;
+      margin: 20px auto;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .mascota-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 30px rgba(0,0,0,0.3));
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
     .ticket-title {
       font-size: 28px;
       font-weight: 900;
@@ -91,6 +173,12 @@
 
     .ticket-body {
       padding: 40px 30px;
+    }
+
+    .ticket-redes .ticket-body {
+      background: white;
+      border-radius: 20px 20px 0 0;
+      margin-top: -20px;
     }
 
     .status-badge {
@@ -120,6 +208,11 @@
       border: 3px dashed #6750A4;
     }
 
+    .ticket-redes .ticket-number {
+      background: linear-gradient(135deg, #FFE5EC, #FFC9DE);
+      border-color: #FF6B9D;
+    }
+
     .ticket-number-label {
       font-size: 14px;
       color: #666;
@@ -134,6 +227,10 @@
       color: #6750A4;
       line-height: 1;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .ticket-redes .ticket-number-value {
+      color: #FF6B9D;
     }
 
     .participant-info {
@@ -170,6 +267,10 @@
       font-size: 20px;
     }
 
+    .ticket-redes .info-icon {
+      background: #FF6B9D;
+    }
+
     .info-content {
       flex: 1;
     }
@@ -186,6 +287,29 @@
       font-size: 16px;
       font-weight: 700;
       color: #333;
+    }
+
+    /* MENSAJE PARA REDES */
+    .share-message {
+      text-align: center;
+      padding: 25px;
+      background: linear-gradient(135deg, #FFE5EC, #FFF0F5);
+      border-radius: 16px;
+      margin: 20px 0;
+      border: 2px solid #FF6B9D;
+    }
+
+    .share-message h3 {
+      font-size: 24px;
+      color: #FF6B9D;
+      margin-bottom: 12px;
+      font-weight: 900;
+    }
+
+    .share-message p {
+      font-size: 16px;
+      color: #666;
+      line-height: 1.6;
     }
 
     .prizes-section {
@@ -249,6 +373,10 @@
       margin: 15px 0;
     }
 
+    .ticket-redes .sorteo-date {
+      color: #FF6B9D;
+    }
+
     .hashtag {
       font-size: 14px;
       color: #999;
@@ -307,6 +435,11 @@
         font-size: 22px;
       }
 
+      .mascota-hero {
+        width: 150px;
+        height: 150px;
+      }
+
       .actions {
         flex-direction: column;
       }
@@ -315,45 +448,149 @@
         width: 100%;
         justify-content: center;
       }
-    }
+
+      .version-tabs {
+        flex-direction: column;
+      }
+
+      .tab-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    } 
+/* Botón Ver Ticket - PILLED */
+.btn-ticket {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 4px 8px;
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border: none;
+  border-radius: 20px; /* ✅ PILLED */
+  font-size: 9px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 2px 6px rgba(76, 175, 80, 0.3);
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.btn-ticket:hover {
+  transform: translateX(-50%) scale(1.05);
+  box-shadow: 0 3px 10px rgba(76, 175, 80, 0.5);
+  background: linear-gradient(135deg, #45a049, #3d8b40);
+}
+
+.btn-ticket .material-icons {
+  font-size: 12px;
+}
+
+/* Texto del botón solo en desktop */
+.btn-ticket-text {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .btn-ticket-text {
+    display: inline;
+  }
+  
+  .btn-ticket {
+    padding: 5px 12px;
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .numero-card {
+    border-radius: 8px;
+  }
+  
+  .btn-ticket {
+    padding: 3px 6px;
+    font-size: 8px;
+  }
+  
+  .btn-ticket .material-icons {
+    font-size: 10px;
+  }
+}
+*/
   </style>
+  <!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+<script>
+// Configuración Firebase (misma que en rifa.html)
+const firebaseConfig = {
+  apiKey: "AIzaSyD-3xKx4M5GxSQ-oJdnqz33hEZqFNBHoxM",
+  authDomain: "aloy-726.firebaseapp.com",
+  projectId: "aloy-726",
+  storageBucket: "aloy-726.appspot.com",
+  messagingSenderId: "441895072453",
+  appId: "1:441895072453:web:aeaabb2d4f5fbc1a85b6ac",
+  measurementId: "G-GX6KWD2LR7"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
 </head>
 <body>
 
   <div class="container">
-    <!-- TICKET -->
-    <div class="ticket" id="ticket">
-      <!-- Header -->
+    <!-- SELECTOR DE VERSIÓN -->
+    <div class="version-selector">
+      <h3>🎫 Elegí la versión de tu ticket</h3>
+      <div class="version-tabs">
+        <button class="tab-btn active" onclick="cambiarVersion('certificado')">
+          <span class="material-icons">verified</span>
+          Certificado (Completo)
+        </button>
+        <button class="tab-btn" onclick="cambiarVersion('redes')">
+          <span class="material-icons">share</span>
+          Para Redes Sociales
+        </button>
+      </div>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- TICKET CERTIFICADO (VERSIÓN COMPLETA) -->
+    <!-- ===================================== -->
+    <div class="ticket ticket-certificado active" id="ticket-certificado">
       <div class="ticket-header">
         <div class="ticket-logo">
           <img src="./rifa/logo-rifa.png" alt="Logo San Luis Gonzaga">
         </div>
-        <div class="ticket-title">Rifa Solidaria</div>
-        <div class="ticket-subtitle">Parroquia San Luis Gonzaga</div>
+        <div class="ticket-title">Certificado de Participación</div>
+        <div class="ticket-subtitle">Rifa Solidaria - Parroquia San Luis Gonzaga</div>
       </div>
 
-      <!-- Body -->
       <div class="ticket-body">
-        <!-- Estado -->
         <div style="text-align: center;">
           <span class="status-badge">
             ✅ PAGO CONFIRMADO
           </span>
         </div>
 
-        <!-- Número del ticket -->
         <div class="ticket-number">
-          <div class="ticket-number-label">Tu Número</div>
-          <div class="ticket-number-value" id="numero-display">042</div>
+          <div class="ticket-number-label">Número Asignado</div>
+          <div class="ticket-number-value" id="numero-cert">042</div>
         </div>
 
-        <!-- Info del participante -->
         <div class="participant-info">
           <div class="info-row">
             <div class="info-icon">👤</div>
             <div class="info-content">
               <div class="info-label">Participante</div>
-              <div class="info-value" id="nombre-display">Juan Pérez</div>
+              <div class="info-value" id="nombre-cert">Juan Pérez</div>
             </div>
           </div>
 
@@ -361,7 +598,7 @@
             <div class="info-icon">🆔</div>
             <div class="info-content">
               <div class="info-label">DNI</div>
-              <div class="info-value" id="dni-display">12.345.678</div>
+              <div class="info-value" id="dni-cert">12.345.678</div>
             </div>
           </div>
 
@@ -369,7 +606,7 @@
             <div class="info-icon">📧</div>
             <div class="info-content">
               <div class="info-label">Email</div>
-              <div class="info-value" id="email-display">juan@example.com</div>
+              <div class="info-value" id="email-cert">juan@example.com</div>
             </div>
           </div>
 
@@ -377,12 +614,11 @@
             <div class="info-icon">💳</div>
             <div class="info-content">
               <div class="info-label">Nº Operación</div>
-              <div class="info-value" id="nro-op-display">123456789</div>
+              <div class="info-value" id="nro-op-cert">123456789</div>
             </div>
           </div>
         </div>
 
-        <!-- Premios -->
         <div class="prizes-section">
           <div class="prizes-title">
             🎁 Premios del Sorteo
@@ -399,21 +635,82 @@
         </div>
       </div>
 
-      <!-- Footer -->
       <div class="ticket-footer">
         <div class="sorteo-date">
           📅 Sorteo: 25 de Diciembre 2025
         </div>
 
-        <!-- QR Code -->
         <div class="qr-container">
-          <div class="qr-code" id="qrcode"></div>
+          <div class="qr-code" id="qrcode-cert"></div>
         </div>
         <div class="verification-text">
-          Escaneá el código QR para verificar tu participación
+          Código QR de verificación
         </div>
 
         <div class="hashtag">
+          #RifaSanLuisGonzaga #VillaElisa
+        </div>
+      </div>
+    </div>
+
+    <!-- ===================================== -->
+    <!-- TICKET PARA REDES (VERSIÓN PÚBLICA) -->
+    <!-- ===================================== -->
+    <div class="ticket ticket-redes" id="ticket-redes">
+      <div class="ticket-header">
+        <div class="mascota-hero">
+          <img src="./rifa/rifis3.png" alt="Mascota Rifis">
+        </div>
+        <div class="ticket-title">¡Estoy Participando!</div>
+        <div class="ticket-subtitle">Rifa San Luis Gonzaga</div>
+      </div>
+
+      <div class="ticket-body">
+        <div style="text-align: center;">
+          <span class="status-badge">
+            ✅ CONFIRMADO
+          </span>
+        </div>
+
+        <div class="ticket-number">
+          <div class="ticket-number-label">Mi Número de la Suerte</div>
+          <div class="ticket-number-value" id="numero-redes">042</div>
+        </div>
+
+        <div class="share-message">
+          <h3>🎉 ¡Unite a la Rifa!</h3>
+          <p>
+            <strong id="nombre-redes">Juan</strong> está participando.<br>
+            ¡Vos también podés ganar!
+          </p>
+        </div>
+
+        <div class="prizes-section">
+          <div class="prizes-title">
+            🎁 Premios Increíbles
+          </div>
+          <div class="prize-item">
+            🚴 <strong>Bicicleta</strong>
+          </div>
+          <div class="prize-item">
+            📱 <strong>Tablet</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="ticket-footer">
+        <div class="sorteo-date">
+          🎄 Sorteo: 25 de Diciembre
+        </div>
+
+        <div style="background: white; padding: 15px; border-radius: 12px; margin: 15px 0;">
+          <p style="font-size: 14px; color: #666; margin: 0;">
+            <strong style="color: #FF6B9D;">¿Querés participar?</strong><br>
+            👉 sanluisgonzaga.ar/rifa.html
+          </p>
+        </div>
+
+        <div class="hashtag" style="font-size: 16px; color: #FF6B9D; font-weight: 700;">
           #RifaSanLuisGonzaga #VillaElisa
         </div>
       </div>
@@ -423,28 +720,60 @@
     <div class="actions">
       <button class="btn btn-primary" onclick="descargarTicket()">
         <span class="material-icons">download</span>
-        Descargar Ticket
+        Descargar
       </button>
       <button class="btn btn-secondary" onclick="compartirWhatsApp()">
         <span class="material-icons">share</span>
-        Compartir en WhatsApp
+        Compartir WhatsApp
       </button>
-      <button class="btn btn-share" onclick="compartirRedes()">
-        <span class="material-icons">photo_camera</span>
-        Compartir en Redes
-      </button>
+      <a href="./rifa.html" class="btn btn-share">
+        <span class="material-icons">arrow_back</span>
+        Volver a la Rifa
+      </a>
     </div>
   </div>
 
   <script>
     // ========================================
+    // DATOS DEL TICKET (cargar desde Firebase)
+    // ========================================
+    let ticketData = {
+      numero: '042',
+      nombreCompleto: 'Juan Pérez',
+      nombrePila: 'Juan',
+      dni: '12345678',
+      email: 'juan@example.com',
+      nro_op: '123456789'
+    };
+
+    let versionActual = 'certificado';
+
+    // ========================================
+    // CAMBIAR VERSIÓN
+    // ========================================
+    function cambiarVersion(version) {
+      versionActual = version;
+      
+      // Ocultar todos los tickets
+      document.querySelectorAll('.ticket').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      
+      // Mostrar ticket seleccionado
+      if (version === 'certificado') {
+        document.getElementById('ticket-certificado').classList.add('active');
+        document.querySelectorAll('.tab-btn')[0].classList.add('active');
+      } else {
+        document.getElementById('ticket-redes').classList.add('active');
+        document.querySelectorAll('.tab-btn')[1].classList.add('active');
+      }
+    }
+
+    // ========================================
     // GENERAR QR CODE
     // ========================================
-    const numeroTicket = document.getElementById('numero-display').textContent;
-    const dniParticipante = document.getElementById('dni-display').textContent;
-    const urlVerificacion = `https://sanluisgonzaga.ar/verificar?numero=${numeroTicket}&dni=${dniParticipante}`;
+    const urlVerificacion = `https://sanluisgonzaga.ar/verificar?numero=${ticketData.numero}&dni=${ticketData.dni}`;
 
-    new QRCode(document.getElementById("qrcode"), {
+    new QRCode(document.getElementById("qrcode-cert"), {
       text: urlVerificacion,
       width: 120,
       height: 120,
@@ -454,24 +783,28 @@
     });
 
     // ========================================
-    // DESCARGAR TICKET COMO IMAGEN
+    // DESCARGAR TICKET
     // ========================================
     async function descargarTicket() {
-      const ticket = document.getElementById('ticket');
+      const ticketId = versionActual === 'certificado' ? 'ticket-certificado' : 'ticket-redes';
+      const ticket = document.getElementById(ticketId);
       const actions = document.querySelector('.actions');
+      const selector = document.querySelector('.version-selector');
       
-      // Ocultar botones temporalmente
+      // Ocultar elementos temporalmente
       actions.style.display = 'none';
+      selector.style.display = 'none';
       
       try {
         const canvas = await html2canvas(ticket, {
           scale: 2,
-          backgroundColor: 'white',
+          backgroundColor: versionActual === 'redes' ? null : 'white',
           logging: false
         });
         
         const link = document.createElement('a');
-        link.download = `ticket-rifa-${numeroTicket}.png`;
+        const tipoNombre = versionActual === 'certificado' ? 'certificado' : 'redes';
+        link.download = `ticket-${tipoNombre}-${ticketData.numero}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
         
@@ -481,6 +814,7 @@
         alert('❌ Error al descargar el ticket');
       } finally {
         actions.style.display = 'flex';
+        selector.style.display = 'block';
       }
     }
 
@@ -488,49 +822,84 @@
     // COMPARTIR POR WHATSAPP
     // ========================================
     function compartirWhatsApp() {
-      const nombre = document.getElementById('nombre-display').textContent;
-      const numero = document.getElementById('numero-display').textContent;
+      let mensaje;
       
-      const mensaje = `🎟️ ¡Estoy participando de la Rifa San Luis Gonzaga!\n\n` +
-                     `Mi número: ${numero}\n` +
-                     `Participante: ${nombre}\n\n` +
-                     `🎁 Premios: Bicicleta y Tablet\n` +
-                     `📅 Sorteo: 25 de Diciembre\n\n` +
-                     `¡Participá vos también! 👉 https://sanluisgonzaga.ar/rifa.html\n\n` +
-                     `#RifaSanLuisGonzaga`;
+      if (versionActual === 'certificado') {
+        mensaje = `🎟️ ¡Participando de la Rifa San Luis Gonzaga!\n\n` +
+                 `Mi número: ${ticketData.numero}\n` +
+                 `🎁 Premios: Bicicleta y Tablet\n` +
+                 `📅 Sorteo: 25 de Diciembre\n\n` +
+                 `¡Participá vos también! 👉 https://sanluisgonzaga.ar/rifa.html`;
+      } else {
+        mensaje = `🎉 ¡Estoy en la Rifa de San Luis Gonzaga!\n\n` +
+                 `🎟️ Mi número de la suerte: ${ticketData.numero}\n` +
+                 `🚴 Podés ganar una Bicicleta\n` +
+                 `📱 O una Tablet\n\n` +
+                 `📅 Sorteo: 25 de Diciembre\n\n` +
+                 `Unite vos también 👉 sanluisgonzaga.ar/rifa.html\n\n` +
+                 `#RifaSanLuisGonzaga`;
+      }
       
       const url = `https://wa.me/?text=${encodeURIComponent(mensaje)}`;
       window.open(url, '_blank');
     }
 
     // ========================================
-    // COMPARTIR EN REDES SOCIALES
-    // ========================================
-    function compartirRedes() {
-      alert('📱 Descargá tu ticket y compartilo en tus redes sociales!\n\n' +
-            '💡 Tip: Subilo a Instagram Stories, Facebook o Twitter usando el hashtag #RifaSanLuisGonzaga');
-      
-      // Trigger descarga automática
-      descargarTicket();
-    }
-
-    // ========================================
-    // CARGAR DATOS DINÁMICOS (conectar con Firebase)
+    // CARGAR DATOS DESDE FIREBASE
     // ========================================
     function cargarDatosTicket(data) {
-      document.getElementById('numero-display').textContent = data.numero.toString().padStart(3, '0');
-      document.getElementById('nombre-display').textContent = data.nombre;
-      document.getElementById('dni-display').textContent = formatearDNI(data.dni);
-      document.getElementById('email-display').textContent = data.email || 'No proporcionado';
-      document.getElementById('nro-op-display').textContent = data.nro_op || 'Pendiente';
+      ticketData = {
+        numero: data.numero.toString().padStart(3, '0'),
+        nombreCompleto: data.nombre,
+        nombrePila: data.nombre.split(' ')[0],
+        dni: data.dni,
+        email: data.email || 'No proporcionado',
+        nro_op: data.nro_op || 'Pendiente'
+      };
+      
+      // Actualizar ticket certificado
+      document.getElementById('numero-cert').textContent = ticketData.numero;
+      document.getElementById('nombre-cert').textContent = ticketData.nombreCompleto;
+      document.getElementById('dni-cert').textContent = formatearDNI(ticketData.dni);
+      document.getElementById('email-cert').textContent = ticketData.email;
+      document.getElementById('nro-op-cert').textContent = ticketData.nro_op;
+      
+      // Actualizar ticket redes (solo nombre de pila)
+      document.getElementById('numero-redes').textContent = ticketData.numero;
+      document.getElementById('nombre-redes').textContent = ticketData.nombrePila;
     }
 
     function formatearDNI(dni) {
       return dni.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
-    console.log('✅ Sistema de tickets cargado');
-    console.log('📋 Listo para generar tickets personalizados');
+    // ========================================
+    // CARGAR DATOS AL INICIAR
+    // ========================================
+    window.onload = async function() {
+      const params = new URLSearchParams(window.location.search);
+      const numeroId = params.get('id');
+      
+      if (numeroId && typeof db !== 'undefined') {
+        try {
+          const doc = await db.collection('rifa').doc(numeroId).get();
+          const data = doc.data();
+          
+          if (data && data.state === 3) {
+            cargarDatosTicket(data);
+          } else {
+            alert('⚠️ Este número aún no está confirmado como pagado');
+            window.location.href = './rifa.html';
+          }
+        } catch (error) {
+          console.error('Error al cargar datos:', error);
+        }
+      }
+    };
+
+    console.log('✅ Sistema de tickets dual cargado');
+    console.log('🎫 Certificado: Completo con datos sensibles');
+    console.log('📱 Redes: Optimizado para compartir sin datos sensibles');
   </script>
 
 </body>
