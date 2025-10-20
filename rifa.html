@@ -2671,102 +2671,443 @@ async function reenviarEmail(numeroId) {
 <script src="./rifa.js"></script>
 
 
-  <section id="CONTACTO" class="section-header">
-    <h2 class="md3-headline" style="color: white;">
-        <i class="material-icons align-middle" style="font-size:1.4em;">phone</i> Contacto
-    </h2>
-  </section>
+<!-- ============================================
+     REEMPLAZAR SECCIONES DE CONTACTO Y UBICACIÓN
+     en rifa.html
+     ============================================ -->
 
-    
-    <!-- Contacto -->
-    <section id="contacto" class="section-padding bg-light">
-        <div class="container">
-            <!-- <h2 class="text-center mb-5 contacto">Contacto Parroquia</h2> -->
-            <div class="row">
-                <div class="col-md-6 contacto-info">
-                    <h4 class="text-center">Información de Contacto</h4>
-                    <br>
-                    <ul class="contact-list">
-                        <li>
-                            <a href="https://maps.google.com/maps?ll=-34.852837,-58.090878&z=16&t=m&hl=es-419&gl=AR&mapclient=embed&cid=14552632988079411306" style="text-decoration: none;" target="_blank">
-                                <i class="material-icons align-middle icono-contacto">location_on</i>
-                            </a>
-                            <span class="texto-contacto">
-                                Dirección:  calle 8,  N° 1950.  Villa Elisa, <br> Provincia de Buenos Aires, Argentina
-                            </span>
-                        
-                        </li>
-                        <li>
-                            <a href="tel:+542215947600"  style="text-decoration: none;">
-                                <i class="material-icons align-middle icono-contacto">phone</i>
-                                <span class="texto-contacto">Teléfono:</span>
-                                <span> +54 221 594-7600</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="mailto:sanluisvillaelisa@gmail.com" style="text-decoration: none;">
-                                <i class="material-icons align-middle icono-contacto">email</i>
-                                <span class="texto-contacto">Email:</span>
-                                <span >sanluisvillaelisa@gmail.com</span>
-                            </a>
-                        </li>
-                      
-                        
-                    </ul>
-                </div>
-                
-                <div class="col-md-6">
-                    <form
-                        action="https://formspree.io/f/mvgzbwre"
-                        method="POST"
-                        class="contact-form"
-                    >
-                        <div class="mb-3">
-                            <input type="text" class="form-control" name="name" placeholder="Nombre" required>
-                        </div>
-                        <div class="mb-3">
-                            <input type="email" class="form-control" name="_replyto" placeholder="Email" required>
-                        </div>
-                        <div class="mb-3">
-                            <textarea class="form-control" name="message" rows="3" placeholder="Mensaje" required></textarea>
-                        </div>
-                        <button type="submit" class="btn-md3 w-100">
-                            <i class="material-icons align-middle">send</i> Enviar Mensaje
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+<!-- ESTILOS MEJORADOS -->
+<style>
+/* Sección de Contacto Mejorada */
+.contacto-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  padding: 60px 0;
+}
 
-    <section id="UBICACION" class="section-header">
-        <h2 class="md3-headline" style="color: white;">
-            📍 Ubicación
-        </h2>
-    </section>
-    
-    <section id="ubicacion" class="section-padding bg-light">
-        <div class="container text-center">
-            <!-- <h2 class="mb-4">Nuestra Ubicación</h2> -->
-            <!-- Google Maps Iframe        src="https://maps.google.com/maps?q=-34.9037613,-57.9251084&z=15&output=embed"  -->
-            <div class="iframe-container">
-                <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3002.393485373286!2d-58.09356284990616!3d-34.85287746264052!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a2ded64133dd97%3A0xc9f55699791ad06a!2sParroquia%20San%20Luis%20Gonzaga!5e0!3m2!1ses-419!2sar!4v1737488346882!5m2!1ses-419!2sar"
-                    width="100%" 
-                    height="400" 
-                    frameborder="0" 
-                    style="border:0;" 
-                    allowfullscreen="" 
-                    loading="lazy">
-                </iframe>
-                <!-- <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3002.393485373286!2d-58.09356284990616!3d-34.85287746264052!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a2ded64133dd97%3A0xc9f55699791ad06a!2sParroquia%20San%20Luis%20Gonzaga!5e0!3m2!1ses-419!2sar!4v1737488346882!5m2!1ses-419!2sar" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe> -->
-            </div>
-            <!-- Botón de Cómo llegar -->
-            <button id="btn-como-llegar" class="btn-md3 mt-3">
-                <i class="material-icons">directions</i> Cómo Llegar
-            </button>
+.contacto-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.contacto-card {
+  background: white;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s;
+}
+
+.contacto-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.contacto-card h4 {
+  color: #6750A4;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.contact-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  padding: 15px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #f5f5f5, #fafafa);
+  border-radius: 12px;
+  transition: all 0.3s;
+}
+
+.contact-list li:hover {
+  background: linear-gradient(135deg, #E8DEF8, #f0ebf8);
+  transform: translateX(5px);
+}
+
+.contact-list li a {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  width: 100%;
+}
+
+.icono-contacto {
+  color: #6750A4;
+  font-size: 28px !important;
+  background: white;
+  padding: 8px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(103, 80, 164, 0.2);
+  flex-shrink: 0;
+}
+
+.texto-contacto {
+  flex: 1;
+  line-height: 1.6;
+}
+
+.texto-contacto strong {
+  display: block;
+  color: #6750A4;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* Formulario de Contacto Mejorado */
+.contact-form {
+  background: white;
+  padding: 10px;
+  border-radius: 16px;
+}
+
+.contact-form .form-control {
+  border: 2px solid #E7E0EC;
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 15px;
+  transition: all 0.3s;
+}
+
+.contact-form .form-control:focus {
+  border-color: #6750A4;
+  box-shadow: 0 0 0 3px rgba(103, 80, 164, 0.1);
+  outline: none;
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.btn-md3 {
+  background: linear-gradient(135deg, #6750A4, #4527A0);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.btn-md3:hover {
+  background: linear-gradient(135deg, #4527A0, #311B92);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(103, 80, 164, 0.4);
+}
+
+.btn-md3 .material-icons {
+  font-size: 20px;
+}
+
+/* Sección de Ubicación Mejorada */
+.ubicacion-section {
+  /* background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); */
+  padding: 60px 0;
+}
+
+.ubicacion-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.map-card {
+  background: white;
+  border-radius: 24px;
+  padding: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.iframe-container {
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  margin-bottom: 20px;
+}
+
+.iframe-container iframe {
+  display: block;
+  border: none;
+}
+
+.direccion-display {
+  background: linear-gradient(135deg, #E8DEF8, #f0ebf8);
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.direccion-display p {
+  margin: 0;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.direccion-display strong {
+  color: #6750A4;
+  font-size: 18px;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.btn-como-llegar {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+}
+
+.btn-como-llegar:hover {
+  background: linear-gradient(135deg, #45a049, #3d8b40);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 25px rgba(76, 175, 80, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contacto-section,
+  .ubicacion-section {
+    padding: 40px 0;
+  }
+
+  .contacto-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .contacto-card {
+    padding: 20px;
+  }
+
+  .contact-list li {
+    padding: 12px;
+  }
+
+  .icono-contacto {
+    font-size: 24px !important;
+    padding: 6px;
+  }
+
+  .btn-md3,
+  .btn-como-llegar {
+    padding: 12px 24px;
+    font-size: 15px;
+  }
+
+  .direccion-display {
+    padding: 15px;
+  }
+}
+</style>
+
+<!-- SECCIÓN DE CONTACTO MEJORADA -->
+<section id="CONTACTO" class="section-header">
+  <h2 class="md3-headline" style="color: white;">
+    <i class="material-icons align-middle" style="font-size:1.4em;">phone</i> Contacto
+  </h2>
+</section>
+
+<section id="contacto" class="contacto-section">
+  <div class="container">
+    <div class="contacto-grid">
+      
+      <!-- Información de Contacto -->
+      <div class="contacto-card">
+        <h4>
+          <i class="material-icons">info</i>
+          Información de Contacto
+        </h4>
+        <ul class="contact-list">
+          <li>
+            <a href="https://maps.google.com/maps?ll=-34.852837,-58.090878&z=16&t=m&hl=es-419&gl=AR&mapclient=embed&cid=14552632988079411306" 
+               target="_blank" 
+               rel="noopener noreferrer">
+              <i class="material-icons icono-contacto">location_on</i>
+              <span class="texto-contacto">
+                <strong>Dirección</strong>
+                Calle 8, Nº 1950<br>
+                Villa Elisa, Provincia de Buenos Aires<br>
+                Argentina
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            <a href="tel:+542215947600">
+              <i class="material-icons icono-contacto">phone</i>
+              <span class="texto-contacto">
+                <strong>Teléfono</strong>
+                +54 221 594-7600
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            <a href="mailto:sanluisvillaelisa@gmail.com">
+              <i class="material-icons icono-contacto">email</i>
+              <span class="texto-contacto">
+                <strong>Email</strong>
+                sanluisvillaelisa@gmail.com
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Formulario de Contacto -->
+      <div class="contacto-card">
+        <h4>
+          <i class="material-icons">mail_outline</i>
+          Envíanos un Mensaje
+        </h4>
+        <form action="https://formspree.io/f/mvgzbwre" method="POST" class="contact-form">
+          <div class="mb-3">
+            <input type="text" 
+                   class="form-control" 
+                   name="name" 
+                   placeholder="Tu Nombre Completo" 
+                   required>
+          </div>
+          <div class="mb-3">
+            <input type="email" 
+                   class="form-control" 
+                   name="_replyto" 
+                   placeholder="Tu Email" 
+                   required>
+          </div>
+          <div class="mb-3">
+            <textarea class="form-control" 
+                      name="message" 
+                      rows="4" 
+                      placeholder="Tu Mensaje" 
+                      required></textarea>
+          </div>
+          <button type="submit" class="btn-md3">
+            <i class="material-icons">send</i> 
+            Enviar Mensaje
+          </button>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- SECCIÓN DE UBICACIÓN MEJORADA -->
+<section id="UBICACION" class="section-header">
+  <h2 class="md3-headline" style="color: white;">
+    <i class="material-icons align-middle" style="font-size:1.4em;">place</i>
+    Ubicación
+  </h2>
+</section>
+
+<section id="ubicacion" class="ubicacion-section">
+  <div class="container">
+    <div class="ubicacion-container">
+      <div class="map-card">
+        
+        <!-- Dirección Destacada -->
+        <div class="direccion-display">
+          <strong>📍 Parroquia San Luis Gonzaga</strong>
+          <p>
+            Calle 8, Nº 1950<br>
+            Villa Elisa, La Plata<br>
+            Buenos Aires, Argentina
+          </p>
         </div>
-    </section>
+
+        <!-- Mapa de Google -->
+        <div class="iframe-container">
+          <iframe 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3002.393485373286!2d-58.09356284990616!3d-34.85287746264052!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a2ded64133dd97%3A0xc9f55699791ad06a!2sParroquia%20San%20Luis%20Gonzaga!5e0!3m2!1ses-419!2sar!4v1737488346882!5m2!1ses-419!2sar"
+            width="100%" 
+            height="400" 
+            style="border:0;" 
+            allowfullscreen="" 
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+
+        <!-- Botón de Cómo Llegar -->
+        <div class="text-center">
+          <button id="btn-como-llegar" class="btn-como-llegar">
+            <i class="material-icons">directions</i> 
+            Cómo Llegar
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCRIPT PARA BOTÓN "CÓMO LLEGAR" -->
+<script>
+document.getElementById('btn-como-llegar').addEventListener('click', function() {
+  // Coordenadas de la parroquia
+  const lat = -34.852877;
+  const lng = -58.090878;
+  
+  // Detectar si es móvil
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  
+  let url;
+  if (isMobile) {
+    // En móvil: abrir app de Google Maps o Apple Maps
+    if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+      // iOS: intenta Apple Maps primero, si no Google Maps
+      url = `maps://maps.google.com/maps?daddr=${lat},${lng}`;
+      setTimeout(() => {
+        window.location = `https://maps.google.com/maps?daddr=${lat},${lng}`;
+      }, 500);
+    } else {
+      // Android: Google Maps
+      url = `https://maps.google.com/maps?daddr=${lat},${lng}`;
+    }
+  } else {
+    // En desktop: abrir Google Maps en nueva pestaña
+    url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`;
+  }
+  
+  window.open(url, '_blank');
+});
+</script>
 
 <footer class="footer bg-dark text-light py-5 text-center">
   <div class="container">
