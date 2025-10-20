@@ -301,32 +301,68 @@ function updateStats(adminMode) {
 }
 
 // ========================================
-// MODAL PÚBLICO
+// MODAL PÚBLICO CON VALIDACIÓN DE IDENTIDAD
 // ========================================
 function openPublicModal(item) {
   currentEditingId = item.id;
   
   if (item.state === 1) {
-    // Reservar
+    // RESERVAR - Modal normal
     document.getElementById('public-modal-numero').textContent = item.numero;
     document.querySelector('#public-modal .modal-header h3').innerHTML = 
       'Reservar Número <span id="public-modal-numero">' + item.numero + '</span>';
     
     document.getElementById('public-modal').classList.add('active');
+    
   } else if (item.state === 2) {
-    // Desreservar
+    // DESRESERVAR - Solicitar DNI para verificar identidad
     Swal.fire({
-      title: '¿Desreservar Número?',
-      text: '¿Seguro que quieres desreservar el número ' + item.numero + '?',
-      icon: 'question',
+      title: '🔒 Verificación de Identidad',
+      html: `
+        <p style="margin-bottom: 20px;">Para desreservar el número <strong>${item.numero}</strong>, 
+        debes ingresar el DNI con el que se registró.</p>
+        <input type="number" id="dni-verificacion" class="swal2-input" placeholder="Ingresa tu DNI" 
+               style="font-size: 18px; text-align: center;">
+      `,
+      icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, Desreservar',
-      cancelButtonText: 'Cancelar'
+      confirmButtonText: 'Verificar y Desreservar',
+      cancelButtonText: 'Cancelar',
+      preConfirm: () => {
+        const dniIngresado = document.getElementById('dni-verificacion').value.trim();
+        
+        if (!dniIngresado) {
+          Swal.showValidationMessage('Debes ingresar tu DNI');
+          return false;
+        }
+        
+        // Verificar que el DNI coincida
+        if (dniIngresado !== String(item.dni)) {
+          Swal.showValidationMessage('❌ El DNI no coincide con el registrado');
+          return false;
+        }
+        
+        return dniIngresado;
+      }
     }).then((result) => {
       if (result.isConfirmed) {
-        desreservarNumero(item);
+        // DNI verificado, proceder con desreserva
+        Swal.fire({
+          title: '¿Confirmar Desreserva?',
+          text: `Se liberará el número ${item.numero}. ¿Estás seguro?`,
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Sí, Desreservar',
+          cancelButtonText: 'Cancelar'
+        }).then((confirmResult) => {
+          if (confirmResult.isConfirmed) {
+            desreservarNumero(item);
+          }
+        });
       }
     });
   }
@@ -389,20 +425,32 @@ function closePublicModal() {
 
 async function desreservarNumero(item) {
   try {
+    const entradaHistorial = {
+      admin: 'Usuario Público (DNI verificado)',
+      fecha: new Date().toISOString(),
+      accion: '🔓 Desreservó el número (con DNI: ' + item.dni + ')',
+      estado_anterior: 2,
+      estado_nuevo: 1,
+      nro_op_anterior: null,
+      nro_op_nuevo: null
+    };
+    
     await db.collection('rifa').doc(item.id).update({
       nombre: '',
       buyer: '',
       email: '',
       state: 1,
       time: null,
-      dni: null
+      dni: null,
+      ultima_modificacion: firebase.firestore.FieldValue.serverTimestamp(),
+      historial: firebase.firestore.FieldValue.arrayUnion(entradaHistorial)
     });
     
-    console.log('✅ Desreserva guardada');
+    console.log('✅ Desreserva guardada con auditoría');
     Swal.fire({
-      icon: 'info',
+      icon: 'success',
       title: 'Número Desreservado',
-      text: 'Número ' + item.numero + ' desreservado.',
+      text: 'El número ' + item.numero + ' ha sido liberado correctamente.',
       confirmButtonText: 'OK'
     });
   } catch (error) {
@@ -451,8 +499,16 @@ async function enviarEmailCertificado(numeroData) {
       return false;
     }
     
+    // Verificar que hay un email válido
+    if (!numeroData.email || numeroData.email.trim() === '') {
+      console.error('❌ Email vacío o inválido');
+      return false;
+    }
+    
     const templateParams = {
-      to_email: numeroData.email,
+      to_email: numeroData.email,           // Variable para el template
+      reply_to: numeroData.email,           // Para reply-to
+      user_email: numeroData.email,         // Alternativa
       to_name: numeroData.nombre,
       numero: numeroData.numero.toString().padStart(3, '0'),
       dni: numeroData.dni || 'N/A',
@@ -481,7 +537,11 @@ async function enviarEmailCertificado(numeroData) {
     console.error('   - Objeto completo:', JSON.stringify(error, null, 2));
     
     // Mostrar error específico en consola
-    if (error.status === 400) {
+    if (error.status === 422) {
+      console.error('⚠️ Error 422: El template no tiene configurado el destinatario');
+      console.error('💡 SOLUCIÓN: En EmailJS Dashboard → Template → Settings');
+      console.error('   Configura "Send To" con la variable: {{to_email}}');
+    } else if (error.status === 400) {
       console.error('⚠️ Error 400: Verifica que el Service ID y Template ID sean correctos');
     } else if (error.status === 401) {
       console.error('⚠️ Error 401: Verifica la Public Key');
