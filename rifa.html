@@ -1292,7 +1292,1001 @@
   }
 }
 </style>
+<style>
+  .btn-reenviar {
+  background: #2196F3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-reenviar:hover {
+  background: #1976D2;
+  transform: translateY(-2px);
+}
+</style>
+<script>
+  // ========================================
+// PASO 7: VALIDACIÓN DE CONFIGURACIÓN
+// ========================================
+function verificarConfiguracionEmailJS() {
+  if (typeof emailjs === 'undefined') {
+    console.error('❌ EmailJS no está cargado');
+    return false;
+  }
+  
+  console.log('✅ EmailJS está cargado correctamente');
+  
+  // Verificar que las credenciales estén configuradas
+  const credencialesValidas = 
+    'TU_PUBLIC_KEY' !== 'TU_PUBLIC_KEY' && 
+    'TU_SERVICE_ID' !== 'TU_SERVICE_ID' && 
+    'TU_TEMPLATE_ID' !== 'TU_TEMPLATE_ID';
+  
+  if (!credencialesValidas) {
+    console.warn('⚠️ Recordá configurar las credenciales de EmailJS');
+    console.warn('   1. Public Key');
+    console.warn('   2. Service ID');
+    console.warn('   3. Template ID');
+  }
+  
+  return credencialesValidas;
+}
+
+// Ejecutar al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+  verificarConfiguracionEmailJS();
+});
+
+// ========================================
+// RESUMEN DE IMPLEMENTACIÓN
+// ========================================
+console.log('========================================');
+console.log('🎟️ SISTEMA COMPLETO IMPLEMENTADO');
+console.log('========================================');
+console.log('✅ Auditoría automática de cambios');
+console.log('✅ Historial completo por número');
+console.log('✅ Envío automático de emails');
+console.log('✅ Reenvío manual de confirmaciones');
+console.log('✅ Registro de quién hizo cada cambio');
+console.log('========================================');
+console.log('');
+console.log('📋 PRÓXIMOS PASOS:');
+console.log('   1. Crear cuenta en EmailJS.com');
+console.log('   2. Configurar Service (Gmail, Outlook, etc.)');
+console.log('   3. Crear Template con el HTML proporcionado');
+console.log('   4. Reemplazar credenciales en el código');
+console.log('   5. Probar envío con un número de prueba');
+console.log('========================================');
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script>
+  // ⚠️tu Public Key sistema de mails
+  emailjs.init('l3sgGBbIqyzK8_Sfd');
+</script>
+ 
+<script>
+  
+</script>
+<style>
+  /* ========================================
+   ESTILOS PARA SISTEMA DE AUDITORÍA Y EMAILS
+   Agregar en rifa.css o en el <style> de rifa.html
+   ======================================== */
+
+/* Botón de reenvío de email */
+.btn-reenviar {
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.btn-reenviar:hover {
+  background: linear-gradient(135deg, #1976D2, #1565C0);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+}
+
+.btn-reenviar:active {
+  transform: translateY(0);
+}
+
+/* Botón de historial */
+.btn-historial {
+  background: linear-gradient(135deg, #FF9800, #F57C00);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.btn-historial:hover {
+  background: linear-gradient(135deg, #F57C00, #E65100);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+}
+
+/* Badge de email enviado */
+.email-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.email-badge.enviado {
+  background: #E8F5E9;
+  color: #2E7D32;
+  border: 1px solid #81C784;
+}
+
+.email-badge.pendiente {
+  background: #FFF3E0;
+  color: #E65100;
+  border: 1px solid #FFB74D;
+}
+
+.email-badge.error {
+  background: #FFEBEE;
+  color: #C62828;
+  border: 1px solid #E57373;
+}
+
+/* Sección de historial en tabla */
+.historial-section {
+  margin-top: 30px;
+  padding: 20px;
+  background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
+  border-radius: 16px;
+}
+
+.historial-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #ddd;
+}
+
+.historial-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #6750A4;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.historial-stats {
+  display: flex;
+  gap: 15px;
+}
+
+.stat-item {
+  background: white;
+  padding: 8px 16px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: 700;
+  color: #6750A4;
+}
+
+.stat-label {
+  font-size: 11px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Entrada de historial individual */
+.historial-entry {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  border-left: 4px solid #6750A4;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  transition: all 0.3s;
+}
+
+.historial-entry:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+.historial-entry.pago {
+  border-left-color: #4CAF50;
+}
+
+.historial-entry.correccion {
+  border-left-color: #FF9800;
+}
+
+.historial-entry.eliminacion {
+  border-left-color: #F44336;
+}
+
+.historial-entry.reseteo {
+  border-left-color: #9E9E9E;
+}
+
+.historial-accion {
+  font-size: 15px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.historial-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  font-size: 12px;
+  color: #666;
+}
+
+.historial-meta-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.historial-meta-item .material-icons {
+  font-size: 16px;
+  color: #999;
+}
+
+/* Indicador de admin actual */
+.admin-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: linear-gradient(135deg, #E8DEF8, #D1C4E9);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #6750A4;
+}
+
+.admin-indicator .material-icons {
+  font-size: 16px;
+}
+
+/* Loading spinner para envío de email */
+.email-spinner {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 3px solid rgba(103, 80, 164, 0.2);
+  border-top-color: #6750A4;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Modal de historial mejorado */
+.swal2-popup .historial-timeline {
+  position: relative;
+  padding-left: 30px;
+}
+
+.swal2-popup .historial-timeline::before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #6750A4, transparent);
+}
+
+.swal2-popup .historial-timeline-item {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.swal2-popup .historial-timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -24px;
+  top: 5px;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border: 3px solid #6750A4;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Tabla de emails mejorada */
+.email-table-container {
+  margin-top: 20px;
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.email-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.email-table thead {
+  background: linear-gradient(135deg, #6750A4, #4527A0);
+  color: white;
+}
+
+.email-table th {
+  padding: 16px 12px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.email-table td {
+  padding: 14px 12px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 14px;
+}
+
+.email-table tbody tr {
+  transition: background 0.2s;
+}
+
+.email-table tbody tr:hover {
+  background: rgba(103, 80, 164, 0.04);
+}
+
+.email-status-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 18px;
+}
+
+.email-status-icon.success {
+  background: #E8F5E9;
+  color: #4CAF50;
+}
+
+.email-status-icon.error {
+  background: #FFEBEE;
+  color: #F44336;
+}
+
+.email-status-icon.pending {
+  background: #FFF3E0;
+  color: #FF9800;
+}
+
+/* Resumen de auditoría */
+.audit-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.audit-summary-card {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: all 0.3s;
+}
+
+.audit-summary-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+.audit-summary-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 15px;
+  background: linear-gradient(135deg, #E8DEF8, #D1C4E9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.audit-summary-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #6750A4;
+  margin-bottom: 5px;
+}
+
+.audit-summary-label {
+  font-size: 13px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .historial-stats {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .email-table {
+    font-size: 12px;
+  }
+  
+  .email-table th,
+  .email-table td {
+    padding: 10px 8px;
+  }
+  
+  .btn-reenviar,
+  .btn-historial {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  
+  .audit-summary {
+    grid-template-columns: 1fr;
+  }
+  
+  .historial-meta {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+/* Animación de entrada para elementos nuevos */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.historial-entry,
+.email-badge,
+.admin-indicator {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+/* Tooltip personalizado */
+.tooltip-custom {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-custom:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  font-size: 12px;
+  border-radius: 6px;
+  white-space: nowrap;
+  z-index: 1000;
+  margin-bottom: 5px;
+}
+
+.tooltip-custom:hover::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 5px solid transparent;
+  border-top-color: rgba(0, 0, 0, 0.9);
+  margin-bottom: -5px;
+}
+
+/* Estados visuales para diferentes acciones */
+.action-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.action-badge.pago {
+  background: #E8F5E9;
+  color: #2E7D32;
+}
+
+.action-badge.correccion {
+  background: #FFF3E0;
+  color: #E65100;
+}
+
+.action-badge.eliminacion {
+  background: #FFEBEE;
+  color: #C62828;
+}
+
+.action-badge.modificacion {
+  background: #E3F2FD;
+  color: #1565C0;
+}
+</style>
 </head>
+<script>
+  // ========================================
+// PASO 2: FUNCIÓN PARA ENVIAR EMAILS
+// Agregar ANTES del submit del admin-form
+// ========================================
+
+  try {
+    console.log('📧 Preparando email para:', numeroData.email);
+    
+    const templateParams = {
+      to_email: numeroData.email,
+      to_name: numeroData.nombre,
+      numero: numeroData.numero.toString().padStart(3, '0'),
+      dni: numeroData.dni,
+      nro_op: numeroData.nro_op,
+      link_ticket: `https://sanluisgonzaga.ar/ticket.html?id=${numeroData.id}`,
+      fecha_sorteo: '25 de Diciembre 2025'
+    };
+
+    const response = await emailjs.send(
+      'service_7lbeylp',      // ⚠️ Reemplazar con tu Service ID
+      'template_egop7d7',     // ⚠️ Reemplazar con tu Template ID
+      templateParams
+    );
+
+    console.log('✅ Email enviado exitosamente:', response);
+    return true;
+    
+  } catch (error) {
+    console.error('❌ Error enviando email:', error);
+    return false;
+  }
+}
+
+// ========================================
+// PASO 3: SUBMIT MEJORADO DEL FORMULARIO ADMIN
+// REEMPLAZAR el existente en rifa.html
+// ========================================
+document.getElementById('admin-form').onsubmit = async function(e) {
+  e.preventDefault();
+  
+  const nombre = document.getElementById('admin-nombre-input').value.trim();
+  const email = document.getElementById('admin-email-input').value.trim();
+  const state = parseInt(document.getElementById('admin-estado-select').value);
+  const nro_op = document.getElementById('admin-nro_op-input').value.trim();
+  const dni = document.getElementById('admin-dni-input').value.trim();
+
+  try {
+    // Obtener datos actuales
+    const docSnapshot = await db.collection('rifa').doc(currentEditingId).get();
+    const dataActual = docSnapshot.data();
+    
+    const adminActual = currentUser ? (currentUser.displayName || currentUser.email) : 'Desconocido';
+    
+    const updateData = {
+      nombre: nombre,
+      email: email,
+      state: state,
+      dni: dni,
+      nro_op: nro_op || null,
+      ultima_modificacion: firebase.firestore.FieldValue.serverTimestamp(),
+      ultimo_admin: adminActual
+    };
+    
+    // ========================================
+    // LÓGICA DE AUDITORÍA
+    // ========================================
+    let esPrimerRegistroPago = false;
+    
+    if (nro_op && !dataActual.nro_op) {
+      // PRIMER REGISTRO DE PAGO
+      updateData.admin_registro_pago = adminActual;
+      updateData.fecha_pago = firebase.firestore.FieldValue.serverTimestamp();
+      updateData.state = 3;
+      esPrimerRegistroPago = true;
+      console.log('✅ Primer registro de pago por:', adminActual);
+    }
+    else if (nro_op && dataActual.nro_op && nro_op !== dataActual.nro_op) {
+      // CORRECCIÓN DE NRO OPERACIÓN
+      updateData.admin_correccion = adminActual;
+      updateData.fecha_correccion = firebase.firestore.FieldValue.serverTimestamp();
+      updateData.nro_op_anterior = dataActual.nro_op;
+      updateData.state = 3;
+      console.log('🔧 Corrección de nro operación por:', adminActual);
+    }
+    else if (!nro_op && dataActual.nro_op) {
+      // ELIMINACIÓN DE PAGO
+      updateData.admin_elimino_pago = adminActual;
+      updateData.fecha_eliminacion = firebase.firestore.FieldValue.serverTimestamp();
+      updateData.nro_op_eliminado = dataActual.nro_op;
+      updateData.nro_op = null;
+      console.log('🗑️ Eliminación de pago por:', adminActual);
+    }
+    
+    if (state === 1) {
+      // RESETEO COMPLETO
+      updateData.nombre = '';
+      updateData.email = '';
+      updateData.dni = null;
+      updateData.nro_op = null;
+      updateData.time = null;
+      updateData.admin_reseteo = adminActual;
+      updateData.fecha_reseteo = firebase.firestore.FieldValue.serverTimestamp();
+      console.log('🔄 Reseteo del número por:', adminActual);
+    }
+    
+    // ========================================
+    // HISTORIAL DE CAMBIOS
+    // ========================================
+    const entradaHistorial = {
+      admin: adminActual,
+      fecha: new Date().toISOString(),
+      accion: getAccionRealizada(dataActual, updateData),
+      estado_anterior: dataActual.state,
+      estado_nuevo: state,
+      nro_op_anterior: dataActual.nro_op || null,
+      nro_op_nuevo: nro_op || null
+    };
+    
+    updateData.historial = firebase.firestore.FieldValue.arrayUnion(entradaHistorial);
+    
+    // Guardar en Firestore
+    await db.collection('rifa').doc(currentEditingId).update(updateData);
+    
+    console.log('✅ Cambios guardados con auditoría:', updateData);
+    
+    // ========================================
+    // ENVIAR EMAIL SI ES PRIMER REGISTRO DE PAGO
+    // ========================================
+    let emailEnviado = false;
+    if (esPrimerRegistroPago && email) {
+      console.log('📧 Intentando enviar email de confirmación...');
+      
+      const numeroData = {
+        id: currentEditingId,
+        numero: dataActual.numero,
+        nombre: nombre,
+        email: email,
+        dni: dni,
+        nro_op: nro_op
+      };
+      
+      emailEnviado = await enviarEmailCertificado(numeroData);
+      
+      if (emailEnviado) {
+        await db.collection('rifa').doc(currentEditingId).update({
+          email_enviado: true,
+          email_enviado_fecha: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+    }
+    
+    closeAdminModal();
+    
+    if (typeof renderDataTable === 'function') {
+      renderDataTable();
+    }
+    
+    // Mensaje de éxito
+    let mensajeExito = `
+      <p style="margin: 12px 0;"><strong>Acción:</strong> ${entradaHistorial.accion}</p>
+      <p style="font-size: 13px; color: #666;">Registrado por: ${adminActual}</p>
+    `;
+    
+    if (esPrimerRegistroPago && email) {
+      if (emailEnviado) {
+        mensajeExito += `
+          <p style="margin-top: 12px; padding: 10px; background: #E8F5E9; border-radius: 8px; color: #2E7D32;">
+            📧 Email de confirmación enviado a:<br><strong>${email}</strong>
+          </p>
+        `;
+      } else {
+        mensajeExito += `
+          <p style="margin-top: 12px; padding: 10px; background: #FFF3E0; border-radius: 8px; color: #E65100;">
+            ⚠️ No se pudo enviar el email.<br>Puedes reenviarlo manualmente.
+          </p>
+        `;
+      }
+    }
+    
+    Swal.fire({
+      icon: 'success',
+      title: 'Cambios Guardados',
+      html: mensajeExito,
+      confirmButtonText: 'Perfecto',
+      timer: emailEnviado ? 5000 : 3000
+    });
+    
+  } catch (error) {
+    console.error('❌ Error:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al Guardar',
+      text: 'Error al guardar: ' + error.message,
+      confirmButtonText: 'Reintentar'
+    });
+  }
+};
+
+// ========================================
+// FUNCIÓN AUXILIAR: Determinar acción realizada
+// ========================================
+function getAccionRealizada(dataAnterior, dataNueva) {
+  if (dataNueva.nro_op && !dataAnterior.nro_op) {
+    return '💰 Registró pago (Nro Op: ' + dataNueva.nro_op + ')';
+  }
+  
+  if (dataNueva.nro_op && dataAnterior.nro_op && dataNueva.nro_op !== dataAnterior.nro_op) {
+    return '🔧 Corrigió nro operación (' + dataAnterior.nro_op + ' → ' + dataNueva.nro_op + ')';
+  }
+  
+  if (!dataNueva.nro_op && dataAnterior.nro_op) {
+    return '🗑️ Eliminó pago (Nro Op: ' + dataAnterior.nro_op + ')';
+  }
+  
+  if (dataAnterior.state !== dataNueva.state) {
+    const estados = { 1: 'Disponible', 2: 'Reservado', 3: 'Pagado' };
+    return '📝 Cambió estado: ' + estados[dataAnterior.state] + ' → ' + estados[dataNueva.state];
+  }
+  
+  if (dataNueva.nombre !== dataAnterior.nombre || dataNueva.email !== dataAnterior.email || dataNueva.dni !== dataAnterior.dni) {
+    return '✏️ Modificó datos del participante';
+  }
+  
+  return '📋 Editó información';
+}
+
+// ========================================
+// VER HISTORIAL COMPLETO EN MODAL
+// ========================================
+async function verHistorialNumero(numeroId) {
+  try {
+    const doc = await db.collection('rifa').doc(numeroId).get();
+    const data = doc.data();
+    
+    if (!data.historial || data.historial.length === 0) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Sin Historial',
+        text: 'Este número no tiene historial de cambios registrados.',
+        confirmButtonText: 'OK',
+        confirmButtonColor: '#6750A4'
+      });
+      return;
+    }
+    
+    let historialHTML = '<div style="text-align: left; max-height: 450px; overflow-y: auto; padding-right: 8px;">';
+    
+    const historialOrdenado = [...data.historial].sort((a, b) => {
+      return new Date(b.fecha) - new Date(a.fecha);
+    });
+    
+    historialOrdenado.forEach((entrada, index) => {
+      const fecha = new Date(entrada.fecha).toLocaleString('es-AR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      
+      let borderColor = '#6750A4';
+      if (entrada.accion.includes('Registró pago')) borderColor = '#4CAF50';
+      if (entrada.accion.includes('Eliminó')) borderColor = '#F44336';
+      if (entrada.accion.includes('Corrigió')) borderColor = '#FF9800';
+      
+      historialHTML += `
+        <div style="
+          padding: 14px;
+          border-left: 4px solid ${borderColor};
+          margin-bottom: 12px;
+          background: ${index % 2 === 0 ? '#f9f9f9' : '#ffffff'};
+          border-radius: 8px;
+          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        ">
+          <div style="font-weight: 600; color: ${borderColor}; margin-bottom: 6px;">
+            ${entrada.accion}
+          </div>
+          <div style="font-size: 12px; color: #666; display: flex; flex-direction: column; gap: 4px;">
+            <span><strong>👤 Admin:</strong> ${entrada.admin}</span>
+            <span><strong>📅 Fecha:</strong> ${fecha}</span>
+            ${entrada.nro_op_anterior ? `<span><strong>🔢 Nro Op anterior:</strong> ${entrada.nro_op_anterior}</span>` : ''}
+            ${entrada.nro_op_nuevo ? `<span><strong>🔢 Nro Op nuevo:</strong> ${entrada.nro_op_nuevo}</span>` : ''}
+          </div>
+        </div>
+      `;
+    });
+    
+    historialHTML += '</div>';
+    
+    const totalCambios = data.historial.length;
+    const adminsUnicos = [...new Set(data.historial.map(h => h.admin))];
+    
+    historialHTML += `
+      <div style="
+        margin-top: 16px;
+        padding: 12px;
+        background: #E8DEF8;
+        border-radius: 8px;
+        font-size: 13px;
+        text-align: center;
+      ">
+        <strong>📊 Resumen:</strong> ${totalCambios} cambio${totalCambios > 1 ? 's' : ''} realizado${totalCambios > 1 ? 's' : ''} por ${adminsUnicos.length} administrador${adminsUnicos.length > 1 ? 'es' : ''}
+      </div>
+    `;
+    
+    Swal.fire({
+      title: `📋 Historial del Número ${data.numero}`,
+      html: historialHTML,
+      width: '650px',
+      confirmButtonText: 'Cerrar',
+      confirmButtonColor: '#6750A4'
+    });
+    
+  } catch (error) {
+    console.error('Error al cargar historial:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'No se pudo cargar el historial: ' + error.message,
+      confirmButtonText: 'OK',
+      confirmButtonColor: '#B3261E'
+    });
+  }
+}
+</script>
+<script>
+  // ========================================
+// PASO 5: FUNCIÓN PARA REENVIAR EMAIL MANUALMENTE
+// ========================================
+async function reenviarEmail(numeroId) {
+  try {
+    const doc = await db.collection('rifa').doc(numeroId).get();
+    const data = doc.data();
+    
+    if (!data || data.state !== 3) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'No se puede enviar',
+        text: 'Este número no está marcado como pagado.',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+    
+    if (!data.email) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Sin Email',
+        text: 'Este participante no tiene email registrado.',
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+    
+    Swal.fire({
+      title: '📧 Reenviar Email',
+      html: `
+        <p>¿Reenviar email de confirmación a:</p>
+        <p style="font-weight: bold; color: #6750A4;">${data.email}</p>
+      `,
+      showCancelButton: true,
+      confirmButtonText: 'Sí, Reenviar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#6750A4'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        Swal.fire({
+          title: 'Enviando...',
+          html: '<div class="spinner"></div>',
+          allowOutsideClick: false,
+          showConfirmButton: false,
+          didOpen: () => {
+            Swal.showLoading();
+          }
+        });
+        
+        const numeroData = {
+          id: numeroId,
+          numero: data.numero,
+          nombre: data.nombre,
+          email: data.email,
+          dni: data.dni,
+          nro_op: data.nro_op
+        };
+        
+        const enviado = await enviarEmailCertificado(numeroData);
+        
+        if (enviado) {
+          await db.collection('rifa').doc(numeroId).update({
+            email_reenviado: true,
+            email_reenviado_fecha: firebase.firestore.FieldValue.serverTimestamp(),
+            email_reenviado_por: currentUser ? (currentUser.displayName || currentUser.email) : 'Desconocido'
+          });
+          
+          Swal.fire({
+            icon: 'success',
+            title: '✅ Email Reenviado',
+            text: 'El email se envió correctamente.',
+            confirmButtonText: 'Perfecto'
+          });
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: '❌ Error',
+            text: 'No se pudo enviar el email. Verificá la configuración de EmailJS.',
+            confirmButtonText: 'Entendido'
+          });
+        }
+      }
+    });
+    
+  } catch (error) {
+    console.error('Error al reenviar email:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'Error al reenviar: ' + error.message,
+      confirmButtonText: 'OK'
+    });
+  }
+}
+</script>
 <body>
 
 
@@ -1631,6 +2625,10 @@
 
   <!-- Modal Edición Admin -->
   <div id="admin-modal" class="modal">
+    <button type="button" class="md-button btn-secondary" onclick="verHistorialNumero(currentEditingId)">
+  <span class="material-icons">history</span>
+  Ver Historial
+</button>
     <div class="modal-content">
       <div class="modal-header">
         <h3>Editar Número <span id="admin-modal-numero"></span></h3>
@@ -2430,6 +3428,14 @@ function renderDataTable() {
             <p style="font-size: 13px;">Los datos aparecerán aquí cuando se registren</p>
           </div>
         </td>
+        <td>
+          ${item.email_enviado ? 
+            `<button class="btn-reenviar" onclick="reenviarEmail('${item.id}')" title="Reenviar email">
+              <span class="material-icons" style="font-size: 18px;">forward_to_inbox</span>
+            </button>` 
+            : '-'
+          }
+       </td>
       </tr>
     `;
     return;
