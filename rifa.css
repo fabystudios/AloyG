@@ -345,4 +345,169 @@
     justify-content: center;
   }
 }
- 
+/* ========================================
+   ESTILOS PARA BOTONES DE TICKET Y ACCIONES
+   Agregar al final de rifa.css
+   ======================================== */
+
+/* Botón Ver Ticket en la grilla */
+.btn-ticket {
+  background: linear-gradient(135deg, #6750A4, #4527A0);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 4px 8px;
+  margin-top: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  width: 100%;
+  justify-content: center;
+}
+
+.btn-ticket:hover {
+  background: linear-gradient(135deg, #4527A0, #311B92);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(103, 80, 164, 0.4);
+}
+
+.btn-ticket .material-icons {
+  font-size: 14px;
+}
+
+/* Botón de reenvío de email */
+.btn-reenviar {
+  background: linear-gradient(135deg, #2196F3, #1976D2);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.btn-reenviar:hover {
+  background: linear-gradient(135deg, #1976D2, #1565C0);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(33, 150, 243, 0.4);
+}
+
+.btn-reenviar:active {
+  transform: translateY(0);
+}
+
+/* Botón de historial */
+.btn-historial {
+  background: linear-gradient(135deg, #FF9800, #F57C00);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.btn-historial:hover {
+  background: linear-gradient(135deg, #F57C00, #E65100);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
+}
+
+/* Badge de email enviado */
+.email-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.email-badge.enviado {
+  background: #E8F5E9;
+  color: #2E7D32;
+  border: 1px solid #81C784;
+}
+
+.email-badge.pendiente {
+  background: #FFF3E0;
+  color: #E65100;
+  border: 1px solid #FFB74D;
+}
+
+.email-badge.error {
+  background: #FFEBEE;
+  color: #C62828;
+  border: 1px solid #E57373;
+}
+
+/* Spinner para loading */
+.spinner {
+  border: 3px solid var(--md-sys-color-surface-variant);
+  border-top: 3px solid var(--md-sys-color-primary);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 16px;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive para botones en tabla */
+@media (max-width: 768px) {
+  .btn-reenviar,
+  .btn-historial {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  
+  .btn-reenviar .material-icons,
+  .btn-historial .material-icons {
+    font-size: 14px;
+  }
+  
+  .btn-ticket {
+    font-size: 9px;
+    padding: 3px 6px;
+  }
+  
+  .email-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .data-table th:nth-child(8),
+  .data-table td:nth-child(8),
+  .data-table th:nth-child(9),
+  .data-table td:nth-child(9) {
+    font-size: 11px;
+  }
+  
+  .btn-reenviar,
+  .btn-historial {
+    padding: 3px 6px;
+    font-size: 10px;
+  }
+}
