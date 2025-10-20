@@ -301,7 +301,7 @@ function updateStats(adminMode) {
 }
 
 // ========================================
-// MODAL PÚBLICO CON VALIDACIÓN DE IDENTIDAD
+// MODAL PÚBLICO CON VALIDACIÓN DE IDENTIDAD POR NÚMERO
 // ========================================
 function openPublicModal(item) {
   currentEditingId = item.id;
@@ -315,14 +315,17 @@ function openPublicModal(item) {
     document.getElementById('public-modal').classList.add('active');
     
   } else if (item.state === 2) {
-    // DESRESERVAR - Solicitar DNI para verificar identidad
+    // DESRESERVAR - SIEMPRE solicitar DNI (verificación por número específico)
     Swal.fire({
       title: '🔒 Verificación de Identidad',
       html: `
         <p style="margin-bottom: 20px;">Para desreservar el número <strong>${item.numero}</strong>, 
         debes ingresar el DNI con el que se registró.</p>
+        <p style="font-size: 13px; color: #666; margin-bottom: 15px;">
+          ⚠️ Solo puedes desreservar números registrados con tu DNI
+        </p>
         <input type="number" id="dni-verificacion" class="swal2-input" placeholder="Ingresa tu DNI" 
-               style="font-size: 18px; text-align: center;">
+               style="font-size: 18px; text-align: center;" autofocus>
       `,
       icon: 'warning',
       showCancelButton: true,
@@ -330,17 +333,19 @@ function openPublicModal(item) {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Verificar y Desreservar',
       cancelButtonText: 'Cancelar',
+      allowOutsideClick: false,
+      allowEscapeKey: false,
       preConfirm: () => {
         const dniIngresado = document.getElementById('dni-verificacion').value.trim();
         
         if (!dniIngresado) {
-          Swal.showValidationMessage('Debes ingresar tu DNI');
+          Swal.showValidationMessage('⚠️ Debes ingresar tu DNI');
           return false;
         }
         
-        // Verificar que el DNI coincida
+        // Verificar que el DNI coincida CON ESTE NÚMERO ESPECÍFICO
         if (dniIngresado !== String(item.dni)) {
-          Swal.showValidationMessage('❌ El DNI no coincide con el registrado');
+          Swal.showValidationMessage('❌ El DNI no coincide con el registrado para este número');
           return false;
         }
         
@@ -348,10 +353,13 @@ function openPublicModal(item) {
       }
     }).then((result) => {
       if (result.isConfirmed) {
-        // DNI verificado, proceder con desreserva
+        // DNI verificado PARA ESTE NÚMERO, proceder con desreserva
         Swal.fire({
           title: '¿Confirmar Desreserva?',
-          text: `Se liberará el número ${item.numero}. ¿Estás seguro?`,
+          html: `
+            <p>Se liberará el número <strong>${item.numero}</strong></p>
+            <p style="font-size: 13px; color: #666;">Esta acción es irreversible</p>
+          `,
           icon: 'question',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
@@ -360,7 +368,7 @@ function openPublicModal(item) {
           cancelButtonText: 'Cancelar'
         }).then((confirmResult) => {
           if (confirmResult.isConfirmed) {
-            desreservarNumero(item);
+            desreservarNumero(item, result.value);
           }
         });
       }
@@ -423,16 +431,17 @@ function closePublicModal() {
   currentEditingId = null;
 }
 
-async function desreservarNumero(item) {
+async function desreservarNumero(item, dniVerificado) {
   try {
     const entradaHistorial = {
-      admin: 'Usuario Público (DNI verificado)',
+      admin: 'Usuario Público (DNI: ' + dniVerificado + ' ✓)',
       fecha: new Date().toISOString(),
-      accion: '🔓 Desreservó el número (con DNI: ' + item.dni + ')',
+      accion: '🔓 Desreservó el número (DNI verificado: ' + dniVerificado + ')',
       estado_anterior: 2,
       estado_nuevo: 1,
       nro_op_anterior: null,
-      nro_op_nuevo: null
+      nro_op_nuevo: null,
+      dni_verificado: dniVerificado
     };
     
     await db.collection('rifa').doc(item.id).update({
@@ -446,12 +455,18 @@ async function desreservarNumero(item) {
       historial: firebase.firestore.FieldValue.arrayUnion(entradaHistorial)
     });
     
-    console.log('✅ Desreserva guardada con auditoría');
+    console.log('✅ Desreserva guardada con auditoría y DNI verificado:', dniVerificado);
     Swal.fire({
       icon: 'success',
       title: 'Número Desreservado',
-      text: 'El número ' + item.numero + ' ha sido liberado correctamente.',
-      confirmButtonText: 'OK'
+      html: `
+        <p>El número <strong>${item.numero}</strong> ha sido liberado correctamente.</p>
+        <p style="font-size: 13px; color: #666; margin-top: 10px;">
+          ✓ Identidad verificada con DNI: ${dniVerificado}
+        </p>
+      `,
+      confirmButtonText: 'OK',
+      timer: 3000
     });
   } catch (error) {
     console.error('❌ Error:', error);
