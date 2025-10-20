@@ -438,33 +438,59 @@ function closeAdminModal() {
 }
 
 // ========================================
-// ENVÍO DE EMAILS
+// ENVÍO DE EMAILS CON DIAGNÓSTICO MEJORADO
 // ========================================
 async function enviarEmailCertificado(numeroData) {
   try {
     console.log('📧 Preparando email para:', numeroData.email);
+    console.log('📋 Datos completos:', numeroData);
+    
+    // Verificar que EmailJS esté cargado
+    if (typeof emailjs === 'undefined') {
+      console.error('❌ EmailJS no está cargado');
+      return false;
+    }
     
     const templateParams = {
       to_email: numeroData.email,
       to_name: numeroData.nombre,
       numero: numeroData.numero.toString().padStart(3, '0'),
-      dni: numeroData.dni,
-      nro_op: numeroData.nro_op,
+      dni: numeroData.dni || 'N/A',
+      nro_op: numeroData.nro_op || 'N/A',
       link_ticket: `https://sanluisgonzaga.ar/ticket.html?id=${numeroData.id}`,
       fecha_sorteo: '25 de Diciembre 2025'
     };
 
+    console.log('📤 Enviando con parámetros:', templateParams);
+
     const response = await emailjs.send(
-      'service_7lbeylp',
-      'template_egop7d7',
+      'service_7lbeylp',      // Service ID
+      'template_egop7d7',     // Template ID
       templateParams
     );
 
-    console.log('✅ Email enviado exitosamente:', response);
+    console.log('✅ Email enviado exitosamente');
+    console.log('📊 Respuesta completa:', response);
     return true;
     
   } catch (error) {
-    console.error('❌ Error enviando email:', error);
+    console.error('❌ Error completo al enviar email:', error);
+    console.error('📋 Detalles del error:');
+    console.error('   - Mensaje:', error.text || error.message);
+    console.error('   - Status:', error.status);
+    console.error('   - Objeto completo:', JSON.stringify(error, null, 2));
+    
+    // Mostrar error específico en consola
+    if (error.status === 400) {
+      console.error('⚠️ Error 400: Verifica que el Service ID y Template ID sean correctos');
+    } else if (error.status === 401) {
+      console.error('⚠️ Error 401: Verifica la Public Key');
+    } else if (error.status === 403) {
+      console.error('⚠️ Error 403: Verifica los permisos del servicio');
+    } else if (error.status === 404) {
+      console.error('⚠️ Error 404: El template o servicio no existe');
+    }
+    
     return false;
   }
 }
