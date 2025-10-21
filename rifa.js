@@ -571,9 +571,10 @@ async function enviarEmailCertificado(numeroData) {
 }
 
 // ========================================
-// FUNCIONES DE AUDITORÍA
+// FUNCIONES DE AUDITORÍA MEJORADAS
 // ========================================
 function getAccionRealizada(dataAnterior, dataNueva) {
+  // Prioridad 1: Cambios en número de operación
   if (dataNueva.nro_op && !dataAnterior.nro_op) {
     return '💰 Registró pago (Nro Op: ' + dataNueva.nro_op + ')';
   }
@@ -586,16 +587,61 @@ function getAccionRealizada(dataAnterior, dataNueva) {
     return '🗑️ Eliminó pago (Nro Op: ' + dataAnterior.nro_op + ')';
   }
   
+  // Prioridad 2: Cambios de estado sin modificar nro_op
   if (dataAnterior.state !== dataNueva.state) {
     const estados = { 1: 'Disponible', 2: 'Reservado', 3: 'Pagado' };
     return '📝 Cambió estado: ' + estados[dataAnterior.state] + ' → ' + estados[dataNueva.state];
   }
   
-  if (dataNueva.nombre !== dataAnterior.nombre || dataNueva.email !== dataAnterior.email || dataNueva.dni !== dataAnterior.dni) {
-    return '✏️ Modificó datos del participante';
+  // Prioridad 3: Cambios en datos personales (detallados)
+  let cambios = [];
+  
+  if (dataNueva.nombre !== dataAnterior.nombre) {
+    cambios.push('nombre');
+  }
+  if (dataNueva.email !== dataAnterior.email) {
+    cambios.push('email');
+  }
+  if (dataNueva.dni !== dataAnterior.dni) {
+    cambios.push('DNI');
+  }
+  
+  if (cambios.length > 0) {
+    return '✏️ Modificó ' + cambios.join(', ') + ' del participante';
   }
   
   return '📋 Editó información';
+}
+
+function getDetallesCambios(dataAnterior, dataNueva) {
+  const detalles = {
+    nombre_anterior: null,
+    nombre_nuevo: null,
+    email_anterior: null,
+    email_nuevo: null,
+    dni_anterior: null,
+    dni_nuevo: null,
+    nro_op_anterior: dataAnterior.nro_op || null,
+    nro_op_nuevo: dataNueva.nro_op || null
+  };
+  
+  // Solo agregar detalles si hubo cambios reales
+  if (dataAnterior.nombre !== dataNueva.nombre) {
+    detalles.nombre_anterior = dataAnterior.nombre || 'Sin nombre';
+    detalles.nombre_nuevo = dataNueva.nombre || 'Sin nombre';
+  }
+  
+  if (dataAnterior.email !== dataNueva.email) {
+    detalles.email_anterior = dataAnterior.email || 'Sin email';
+    detalles.email_nuevo = dataNueva.email || 'Sin email';
+  }
+  
+  if (dataAnterior.dni !== dataNueva.dni) {
+    detalles.dni_anterior = dataAnterior.dni || 'Sin DNI';
+    detalles.dni_nuevo = dataNueva.dni || 'Sin DNI';
+  }
+  
+  return detalles;
 }
 
 // ========================================
@@ -767,7 +813,7 @@ document.getElementById('admin-form').onsubmit = async function(e) {
 };
 
 // ========================================
-// VER HISTORIAL
+// VER HISTORIAL CON DETALLES MEJORADOS
 // ========================================
 async function verHistorialNumero(numeroId) {
   try {
@@ -804,6 +850,7 @@ async function verHistorialNumero(numeroId) {
       if (entrada.accion.includes('Registró pago')) borderColor = '#4CAF50';
       if (entrada.accion.includes('Eliminó')) borderColor = '#F44336';
       if (entrada.accion.includes('Corrigió')) borderColor = '#FF9800';
+      if (entrada.accion.includes('Modificó')) borderColor = '#2196F3';
       
       historialHTML += `
         <div style="
@@ -820,8 +867,48 @@ async function verHistorialNumero(numeroId) {
           <div style="font-size: 12px; color: #666; display: flex; flex-direction: column; gap: 4px;">
             <span><strong>👤 Admin:</strong> ${entrada.admin}</span>
             <span><strong>📅 Fecha:</strong> ${fecha}</span>
-            ${entrada.nro_op_anterior ? `<span><strong>🔢 Nro Op anterior:</strong> ${entrada.nro_op_anterior}</span>` : ''}
-            ${entrada.nro_op_nuevo ? `<span><strong>🔢 Nro Op nuevo:</strong> ${entrada.nro_op_nuevo}</span>` : ''}
+      `;
+      
+      // Mostrar solo los cambios relevantes
+      if (entrada.nro_op_anterior && entrada.nro_op_nuevo && entrada.nro_op_anterior !== entrada.nro_op_nuevo) {
+        historialHTML += `
+          <span style="background: #FFF3E0; padding: 4px 8px; border-radius: 4px; margin-top: 4px;">
+            <strong>🔢 Nro Op:</strong> ${entrada.nro_op_anterior} → ${entrada.nro_op_nuevo}
+          </span>
+        `;
+      } else if (entrada.nro_op_nuevo && !entrada.nro_op_anterior) {
+        historialHTML += `
+          <span style="background: #E8F5E9; padding: 4px 8px; border-radius: 4px; margin-top: 4px;">
+            <strong>🔢 Nro Op registrado:</strong> ${entrada.nro_op_nuevo}
+          </span>
+        `;
+      }
+      
+      if (entrada.nombre_anterior && entrada.nombre_nuevo) {
+        historialHTML += `
+          <span style="background: #E3F2FD; padding: 4px 8px; border-radius: 4px; margin-top: 4px;">
+            <strong>👤 Nombre:</strong> ${entrada.nombre_anterior} → ${entrada.nombre_nuevo}
+          </span>
+        `;
+      }
+      
+      if (entrada.email_anterior && entrada.email_nuevo) {
+        historialHTML += `
+          <span style="background: #E3F2FD; padding: 4px 8px; border-radius: 4px; margin-top: 4px;">
+            <strong>📧 Email:</strong> ${entrada.email_anterior} → ${entrada.email_nuevo}
+          </span>
+        `;
+      }
+      
+      if (entrada.dni_anterior && entrada.dni_nuevo) {
+        historialHTML += `
+          <span style="background: #E3F2FD; padding: 4px 8px; border-radius: 4px; margin-top: 4px;">
+            <strong>🆔 DNI:</strong> ${entrada.dni_anterior} → ${entrada.dni_nuevo}
+          </span>
+        `;
+      }
+      
+      historialHTML += `
           </div>
         </div>
       `;
