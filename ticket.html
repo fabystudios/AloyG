@@ -844,35 +844,69 @@ const db = firebase.firestore();
       window.open(url, '_blank');
     }
 
-    // ========================================
-    // CARGAR DATOS DESDE FIREBASE
-    // ========================================
-    function cargarDatosTicket(data) {
-      ticketData = {
-        numero: data.numero.toString().padStart(3, '0'),
-        nombreCompleto: data.nombre,
-        nombrePila: data.nombre.split(' ')[0],
-        dni: data.dni,
-        email: data.email || 'No proporcionado',
-        nro_op: data.nro_op || 'Pendiente'
-      };
-      
-      // Actualizar ticket certificado
-      document.getElementById('numero-cert').textContent = ticketData.numero;
-      document.getElementById('nombre-cert').textContent = ticketData.nombreCompleto;
-      document.getElementById('dni-cert').textContent = formatearDNI(ticketData.dni);
-      document.getElementById('email-cert').textContent = ticketData.email;
-      document.getElementById('nro-op-cert').textContent = ticketData.nro_op;
-      
-      // Actualizar ticket redes (solo nombre de pila)
-      document.getElementById('numero-redes').textContent = ticketData.numero;
-      document.getElementById('nombre-redes').textContent = ticketData.nombrePila;
-    }
+   // ========================================
+// FUNCIONES DE OCULTAMIENTO DE DATOS SENSIBLES
+// ========================================
+function ocultarEmail(email) {
+  if (!email || email === 'No proporcionado') return 'No proporcionado';
+  
+  const partes = email.split('@');
+  if (partes.length !== 2) return email;
+  
+  const usuario = partes[0];
+  const dominio = partes[1];
+  
+  // Mostrar primeras 2 letras + *** + @dominio
+  const usuarioOculto = usuario.substring(0, 2) + '***';
+  return `${usuarioOculto}@${dominio}`;
+}
 
-    function formatearDNI(dni) {
-      return dni.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-    }
+function ocultarDNI(dni) {
+  if (!dni) return 'No proporcionado';
+  const dniStr = dni.toString();
+  
+  // Mostrar solo últimos 4 dígitos: ***1234
+  if (dniStr.length > 4) {
+    const ultimos4 = dniStr.slice(-4);
+    return `***${ultimos4}`;
+  }
+  return '***' + dniStr;
+}
 
+function obtenerSoloNombre(nombreCompleto) {
+  if (!nombreCompleto) return 'Participante';
+  // Retorna solo el primer nombre (sin apellidos)
+  return nombreCompleto.split(' ')[0];
+}
+
+function formatearDNI(dni) {
+  return dni.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+}
+
+// ========================================
+// CARGAR DATOS DESDE FIREBASE
+// ========================================
+function cargarDatosTicket(data) {
+  ticketData = {
+    numero: data.numero.toString().padStart(3, '0'),
+    nombreCompleto: data.nombre,
+    nombrePila: obtenerSoloNombre(data.nombre),
+    dni: data.dni,
+    email: data.email || 'No proporcionado',
+    nro_op: data.nro_op || 'Pendiente'
+  };
+  
+  // Actualizar ticket certificado (CON DATOS OCULTOS)
+  document.getElementById('numero-cert').textContent = ticketData.numero;
+  document.getElementById('nombre-cert').textContent = ticketData.nombrePila; // ✅ Solo nombre
+  document.getElementById('dni-cert').textContent = ocultarDNI(ticketData.dni); // ✅ DNI oculto
+  document.getElementById('email-cert').textContent = ocultarEmail(ticketData.email); // ✅ Email oculto
+  document.getElementById('nro-op-cert').textContent = ticketData.nro_op;
+  
+  // Actualizar ticket redes (solo nombre de pila)
+  document.getElementById('numero-redes').textContent = ticketData.numero;
+  document.getElementById('nombre-redes').textContent = ticketData.nombrePila;
+}
     // ========================================
     // CARGAR DATOS AL INICIAR
     // ========================================
