@@ -658,13 +658,32 @@ document.getElementById('admin-form').onsubmit = async function(e) {
   
   const nombre = document.getElementById('admin-nombre-input').value.trim();
   const email = document.getElementById('admin-email-input').value.trim();
-  const state = parseInt(document.getElementById('admin-estado-select').value);
+  let state = parseInt(document.getElementById('admin-estado-select').value);
   const nro_op = document.getElementById('admin-nro_op-input').value.trim();
   const dni = document.getElementById('admin-dni-input').value.trim();
 
   try {
     const docSnapshot = await db.collection('rifa').doc(currentEditingId).get();
     const dataActual = docSnapshot.data();
+    
+    // ========================================
+    // LÓGICA AUTOMÁTICA DE ESTADO
+    // ========================================
+    // Si el número estaba disponible (state=1) y ahora tiene datos, asignar estado automáticamente
+    if (dataActual.state === 1 && nombre) {
+      if (nro_op) {
+        state = 3; // Si tiene nro_op, va directo a Pagado
+        console.log('✅ Auto-asignación: Disponible → Pagado (tiene nro_op)');
+      } else {
+        state = 2; // Si solo tiene nombre, va a Reservado
+        console.log('✅ Auto-asignación: Disponible → Reservado');
+      }
+    }
+    // Si estaba reservado y ahora se agrega nro_op, cambiar a Pagado
+    else if (dataActual.state === 2 && nro_op && !dataActual.nro_op) {
+      state = 3;
+      console.log('✅ Auto-asignación: Reservado → Pagado (se agregó nro_op)');
+    }
     
     // ========================================
     // VERIFICAR SI HUBO CAMBIOS REALES
@@ -736,23 +755,23 @@ document.getElementById('admin-form').onsubmit = async function(e) {
       console.log('🔄 Reseteo del número por:', adminActual);
     }
     
-const detallesCambios = getDetallesCambios(dataActual, updateData);
+    const detallesCambios = getDetallesCambios(dataActual, updateData);
 
-const entradaHistorial = {
-  admin: adminActual,
-  fecha: new Date().toISOString(),
-  accion: getAccionRealizada(dataActual, updateData),
-  estado_anterior: dataActual.state,
-  estado_nuevo: state,
-  nro_op_anterior: detallesCambios.nro_op_anterior,
-  nro_op_nuevo: detallesCambios.nro_op_nuevo,
-  nombre_anterior: detallesCambios.nombre_anterior,
-  nombre_nuevo: detallesCambios.nombre_nuevo,
-  email_anterior: detallesCambios.email_anterior,
-  email_nuevo: detallesCambios.email_nuevo,
-  dni_anterior: detallesCambios.dni_anterior,
-  dni_nuevo: detallesCambios.dni_nuevo
-};
+    const entradaHistorial = {
+      admin: adminActual,
+      fecha: new Date().toISOString(),
+      accion: getAccionRealizada(dataActual, updateData),
+      estado_anterior: dataActual.state,
+      estado_nuevo: state,
+      nro_op_anterior: detallesCambios.nro_op_anterior,
+      nro_op_nuevo: detallesCambios.nro_op_nuevo,
+      nombre_anterior: detallesCambios.nombre_anterior,
+      nombre_nuevo: detallesCambios.nombre_nuevo,
+      email_anterior: detallesCambios.email_anterior,
+      email_nuevo: detallesCambios.email_nuevo,
+      dni_anterior: detallesCambios.dni_anterior,
+      dni_nuevo: detallesCambios.dni_nuevo
+    };
     
     updateData.historial = firebase.firestore.FieldValue.arrayUnion(entradaHistorial);
     
