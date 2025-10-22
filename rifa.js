@@ -230,8 +230,9 @@ function renderRifaGrid(adminMode) {
     if (item.state === 3) {
       ticketButton = `
         <button class="btn-ticket" onclick="event.stopPropagation(); abrirTicket('${item.id}')">
-          <span class="material-icons" style="font-size: 14px;">confirmation_number</span>
-          <span>Ver Ticket</span>
+          <span class="material-icons">confirmation_number</span>
+          <span class="btn-ticket-text">Ver Ticket</span>
+          <span class="btn-ticket-tooltip">🎟️ Abrir Ticket Digital</span>
         </button>
       `;
     }
@@ -735,15 +736,23 @@ document.getElementById('admin-form').onsubmit = async function(e) {
       console.log('🔄 Reseteo del número por:', adminActual);
     }
     
-    const entradaHistorial = {
-      admin: adminActual,
-      fecha: new Date().toISOString(),
-      accion: getAccionRealizada(dataActual, updateData),
-      estado_anterior: dataActual.state,
-      estado_nuevo: state,
-      nro_op_anterior: dataActual.nro_op || null,
-      nro_op_nuevo: nro_op || null
-    };
+const detallesCambios = getDetallesCambios(dataActual, updateData);
+
+const entradaHistorial = {
+  admin: adminActual,
+  fecha: new Date().toISOString(),
+  accion: getAccionRealizada(dataActual, updateData),
+  estado_anterior: dataActual.state,
+  estado_nuevo: state,
+  nro_op_anterior: detallesCambios.nro_op_anterior,
+  nro_op_nuevo: detallesCambios.nro_op_nuevo,
+  nombre_anterior: detallesCambios.nombre_anterior,
+  nombre_nuevo: detallesCambios.nombre_nuevo,
+  email_anterior: detallesCambios.email_anterior,
+  email_nuevo: detallesCambios.email_nuevo,
+  dni_anterior: detallesCambios.dni_anterior,
+  dni_nuevo: detallesCambios.dni_nuevo
+};
     
     updateData.historial = firebase.firestore.FieldValue.arrayUnion(entradaHistorial);
     

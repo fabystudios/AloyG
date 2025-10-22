@@ -1,385 +1,200 @@
- 
-.cabecera {
-  width: 100vw !important;
-  max-width: 100vw !important;
-  margin: 0 auto !important;
-}
-@media (max-width: 600px) {
-  .cabecera {
-    width: 99vw !important;
-    max-width: 99vw !important;
-  }
-}
-.rifa-header {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 32px;
-  text-align: center;
-  margin-bottom: 32px;
-}
-
-.rifa-info-card {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  background: var(--md-sys-color-surface-variant);
-  border-radius: 24px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-  padding: 24px 32px;
-  gap: 40px;
-  max-width: 900px;
-  width: 100%;
-}
-
-.rifa-title {
-  color: var(--md-sys-color-primary);
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 12px;
-}
-
-.rifa-prizes ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  font-size: 16px;
-  color: #333;
-}
-
-.rifa-prizes li {
-  margin-bottom: 6px;
-}
-
-.rifa-payment {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.payment-data p {
-  margin: 4px 0;
-  color: #333;
-  font-size: 15px;
-}
-
-.payment-data strong {
-  color: #073767;
-}
-
-.payment-data span {
-  color: #0066CC;
-  font-weight: 600;
-  user-select: all;
-}
-
-.rifa-qr img {
-  margin-top: 12px;
-  max-width: 140px;
-  border-radius: 12px;
-  background: #fff;
-  padding: 8px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
-}
-
-.rifa-mascota {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.rifa-mascota img {
-  max-width: 180px;
-  border-radius: 18px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-}
-
-.rifa-caption {
-  color: var(--md-sys-color-outline);
-  font-size: 16px;
-  font-weight: 500;
-  letter-spacing: 0.3px;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .rifa-info-card {
-    flex-direction: column;
-    padding: 20px;
-    gap: 24px;
-  }
-  .rifa-title {
-    font-size: 18px;
-  }
-  .payment-data p {
-    font-size: 14px;
-  }
-}
-
-
-.data-display-section {
-  margin-top: 32px;
-  animation: slideUp 0.4s ease-out;
-}
-
-.data-tabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
-  border-bottom: 2px solid var(--md-sys-color-surface-variant);
-  padding-bottom: 0;
-}
-
-.tab-button {
-  padding: 12px 24px;
-  border: none;
-  background: transparent;
-  color: var(--md-sys-color-outline);
-  font-weight: 500;
-  cursor: pointer;
-  border-bottom: 3px solid transparent;
-  transition: all 0.3s;
-  font-size: 15px;
-}
-
-.tab-button:hover {
-  background: rgba(103, 80, 164, 0.08);
-  color: var(--md-sys-color-primary);
-}
-
-.tab-button.active {
-  color: var(--md-sys-color-primary);
-  border-bottom-color: var(--md-sys-color-primary);
-}
-
-.data-table-container {
-  background: white;
-  border-radius: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  overflow: hidden;
-}
-
-.data-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.data-table thead {
-  background: var(--md-sys-color-primary-container);
-}
-
-.data-table th {
-  padding: 16px 12px;
-  text-align: left;
-  font-weight: 600;
-  color: var(--md-sys-color-primary);
-  font-size: 14px;
-  border-bottom: 2px solid var(--md-sys-color-primary);
-}
-
-.data-table td {
-  padding: 14px 12px;
-  border-bottom: 1px solid var(--md-sys-color-surface-variant);
-  font-size: 14px;
-  color: #333;
-}
-
-.data-table tbody tr {
-  transition: background 0.2s;
-}
-
-.data-table tbody tr:hover {
-  background: rgba(103, 80, 164, 0.04);
-}
-
-.numero-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  font-weight: 700;
-  font-size: 16px;
-  color: white;
-}
-
-.numero-badge.reservado {
-  background: var(--md-sys-color-warning);
-}
-
-.numero-badge.pagado {
-  background: var(--md-sys-color-primary);
-}
-
-.estado-badge {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.estado-badge.reservado {
-  background: #FFF3E0;
-  color: #F57C00;
-}
-
-.estado-badge.pagado {
-  background: #E8DEF8;
-  color: #6750A4;
-}
-
-.empty-state {
-  text-align: center;
-  padding: 48px 20px;
-  color: var(--md-sys-color-outline);
-}
-
-.empty-state-icon {
-  font-size: 64px;
-  opacity: 0.3;
-  margin-bottom: 16px;
-}
-
-.export-buttons {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 16px;
-  justify-content: flex-end;
-}
-
-.btn-export {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  transition: all 0.2s;
-}
-
-.btn-export-excel {
-  background: #217346;
-  color: white;
-}
-
-.btn-export-excel:hover {
-  background: #1a5c37;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(33, 115, 70, 0.3);
-}
-
-.btn-export-pdf {
-  background: #D32F2F;
-  color: white;
-}
-
-.btn-export-pdf:hover {
-  background: #B71C1C;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.3);
-}
-
-.search-box {
-  margin-bottom: 16px;
-  position: relative;
-}
-
-.search-box input {
-  width: 100%;
-  padding: 12px 40px 12px 16px;
-  border: 2px solid var(--md-sys-color-outline);
-  border-radius: 12px;
-  font-size: 14px;
-  transition: border 0.2s;
-}
-
-.search-box input:focus {
-  outline: none;
-  border-color: var(--md-sys-color-primary);
-}
-
-.search-box .material-icons {
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--md-sys-color-outline);
-}
-
-.time-badge {
-  font-size: 11px;
-  color: var(--md-sys-color-outline);
-  display: block;
-  margin-top: 4px;
-}
-
-@media (max-width: 768px) {
-  .data-table {
-    font-size: 12px;
-  }
-  
-  .data-table th,
-  .data-table td {
-    padding: 10px 8px;
-  }
-  
-  .numero-badge {
-    width: 32px;
-    height: 32px;
-    font-size: 14px;
-  }
-  
-  .export-buttons {
-    flex-direction: column;
-  }
-  
-  .btn-export {
-    width: 100%;
-    justify-content: center;
-  }
-}
 /* ========================================
    ESTILOS PARA BOTONES DE TICKET Y ACCIONES
-   Agregar al final de rifa.css
+   VERSIÓN FINAL LIMPIA - Sin duplicados
    ======================================== */
 
-/* Botón Ver Ticket en la grilla */
+/* Botón Ver Ticket en la grilla - Layout Vertical */
 .btn-ticket {
   background: linear-gradient(135deg, #6750A4, #4527A0);
   color: white;
   border: none;
   border-radius: 8px;
-  padding: 4px 8px;
-  margin-top: 4px;
+  padding: 6px 4px;
+  margin-top: 6px;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 4px;
-  font-size: 10px;
-  font-weight: 600;
-  width: 100%;
   justify-content: center;
+  gap: 2px;
+  font-size: 9px;
+  font-weight: 700;
+  width: 100%;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(103, 80, 164, 0.4),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  z-index: 10;
 }
 
+/* Efecto de brillo radial animado */
+.btn-ticket::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(255, 255, 255, 0.4) 0%,
+    rgba(255, 255, 255, 0.2) 40%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.6s ease-out;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.btn-ticket:hover::before {
+  animation: shine-radial 0.8s ease-out;
+}
+
+@keyframes shine-radial {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+/* Pulsación sutil continua */
+@keyframes pulse-subtle {
+  0%, 100% {
+    box-shadow: 0 2px 8px rgba(103, 80, 164, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  50% {
+    box-shadow: 0 4px 12px rgba(103, 80, 164, 0.6),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  }
+}
+
+.numero-card.pagado .btn-ticket {
+  animation: pulse-subtle 3s ease-in-out infinite;
+}
+
+/* Hover del botón */
 .btn-ticket:hover {
-  background: linear-gradient(135deg, #4527A0, #311B92);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(103, 80, 164, 0.4);
+  background: linear-gradient(135deg, #7C64B8, #5C3FB5);
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 16px rgba(103, 80, 164, 0.6),
+              inset 0 2px 0 rgba(255, 255, 255, 0.3);
 }
 
+.btn-ticket:active {
+  transform: translateY(-1px) scale(1.02);
+  box-shadow: 0 2px 6px rgba(103, 80, 164, 0.5),
+              inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Contenido del botón */
 .btn-ticket .material-icons {
-  font-size: 14px;
+  font-size: 18px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+  line-height: 1;
+  position: relative;
+  z-index: 2;
 }
 
-/* Botón de reenvío de email */
+.btn-ticket .btn-ticket-text {
+  line-height: 1;
+  white-space: nowrap;
+  position: relative;
+  z-index: 2;
+}
+
+/* Tooltip del botón */
+.btn-ticket-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6px 12px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  border-radius: 6px;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 100;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: opacity 0.3s ease-out;
+}
+
+.btn-ticket:hover .btn-ticket-tooltip {
+  opacity: 1;
+}
+
+/* Efecto de borde punteado al hover */
+.btn-ticket::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 2px dashed rgba(255, 255, 255, 0);
+  border-radius: 10px;
+  transition: all 0.3s;
+  pointer-events: none;
+}
+
+.btn-ticket:hover::after {
+  border-color: rgba(255, 255, 255, 0.4);
+  inset: -6px;
+}
+
+/* Separación visual entre tarjeta y botón */
+.numero-card.pagado {
+  padding-bottom: 6px;
+}
+
+.numero-card.pagado .btn-ticket {
+  margin-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 6px;
+}
+
+/* Hover de la tarjeta (para editar) */
+.numero-card:not(.disabled):hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.numero-card.pagado:hover .btn-ticket {
+  transform: translateY(-2px) scale(1.03);
+}
+
+/* Indicador de zona editable */
+.numero-card.pagado::after {
+  content: '✏️';
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.numero-card.pagado:hover::after {
+  opacity: 0.5;
+}
+
+/* ======================================== */
+/* BOTONES DE ADMIN (Reenviar y Historial) */
+/* ======================================== */
+
 .btn-reenviar {
   background: linear-gradient(135deg, #2196F3, #1976D2);
   color: white;
@@ -405,7 +220,6 @@
   transform: translateY(0);
 }
 
-/* Botón de historial */
 .btn-historial {
   background: linear-gradient(135deg, #FF9800, #F57C00);
   color: white;
@@ -427,7 +241,10 @@
   box-shadow: 0 4px 12px rgba(255, 152, 0, 0.4);
 }
 
-/* Badge de email enviado */
+/* ======================================== */
+/* BADGES Y ESTADOS */
+/* ======================================== */
+
 .email-badge {
   display: inline-flex;
   align-items: center;
@@ -457,7 +274,10 @@
   border: 1px solid #E57373;
 }
 
-/* Spinner para loading */
+/* ======================================== */
+/* SPINNER */
+/* ======================================== */
+
 .spinner {
   border: 3px solid var(--md-sys-color-surface-variant);
   border-top: 3px solid var(--md-sys-color-primary);
@@ -473,7 +293,10 @@
   100% { transform: rotate(360deg); }
 }
 
-/* Responsive para botones en tabla */
+/* ======================================== */
+/* RESPONSIVE */
+/* ======================================== */
+
 @media (max-width: 768px) {
   .btn-reenviar,
   .btn-historial {
@@ -487,8 +310,13 @@
   }
   
   .btn-ticket {
-    font-size: 9px;
-    padding: 3px 6px;
+    font-size: 8px;
+    padding: 4px 3px;
+    gap: 1px;
+  }
+  
+  .btn-ticket .material-icons {
+    font-size: 16px;
   }
   
   .email-badge {
@@ -509,5 +337,18 @@
   .btn-historial {
     padding: 3px 6px;
     font-size: 10px;
+  }
+  
+  .btn-ticket {
+    font-size: 7px;
+    padding: 3px 2px;
+  }
+  
+  .btn-ticket .material-icons {
+    font-size: 14px;
+  }
+  
+  .btn-ticket-tooltip {
+    display: none; /* Ocultar tooltip en móvil */
   }
 }
