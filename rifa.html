@@ -2489,6 +2489,293 @@ async function reenviarEmail(numeroId) {
           <div class="label">Pagados</div>
         </div>
       </div>
+<!-- ========================================
+     AGREGAR DESPUÉS DE LAS STATS EN ADMIN VIEW
+     En rifa.html, línea después de </div> de stats
+     ========================================-->
+
+<!-- Buscador Rápido Admin -->
+<div id="busqueda-rapida-admin" class="search-panel" style="display: none;">
+  <div class="search-header">
+    <div class="search-icon-title">
+      <i class="material-icons">search</i>
+      <h3>Búsqueda Rápida de Participantes</h3>
+    </div>
+    <p class="search-subtitle">
+      💡 Busca por nombre, DNI, email o número de operación para confirmar pagos
+    </p>
+  </div>
+
+  <div class="search-input-container">
+    <div class="search-input-wrapper">
+      <i class="material-icons search-input-icon">person_search</i>
+      <input 
+        type="text" 
+        id="busqueda-grilla-input" 
+        class="search-input-field"
+        placeholder="Ej: Juan Pérez, 12345678, transferencia123..."
+        autocomplete="off"
+      >
+      <button 
+        id="btn-limpiar-busqueda" 
+        class="btn-clear-search" 
+        title="Limpiar búsqueda"
+        style="display: none;">
+        <i class="material-icons">close</i>
+      </button>
+    </div>
+    
+    <button id="btn-buscar-grilla" class="btn-search-action">
+      <i class="material-icons">search</i>
+      <span>Buscar</span>
+    </button>
+  </div>
+
+  <div id="busqueda-grilla-info" class="search-results-info" style="display: none;">
+    <i class="material-icons">filter_list</i>
+    <span>
+      <strong><span id="resultados-count">0</span> resultado(s)</strong> 
+      encontrados. Haz clic en el número para editar.
+    </span>
+  </div>
+</div>
+
+<!-- CSS para el Buscador -->
+<style>
+/* Panel de búsqueda */
+.search-panel {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  animation: slideDown 0.4s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.search-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.search-icon-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.search-icon-title .material-icons {
+  font-size: 32px;
+  color: white;
+}
+
+.search-icon-title h3 {
+  color: white;
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.search-subtitle {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 14px;
+  margin: 0;
+}
+
+.search-input-container {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.search-input-wrapper {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 16px;
+  padding: 0 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.search-input-icon {
+  color: #6750A4;
+  font-size: 24px;
+  margin-right: 12px;
+}
+
+.search-input-field {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 16px 8px;
+  font-size: 16px;
+  background: transparent;
+}
+
+.search-input-field::placeholder {
+  color: #999;
+}
+
+.btn-clear-search {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s;
+  color: #999;
+}
+
+.btn-clear-search:hover {
+  background: #f5f5f5;
+  color: #333;
+}
+
+.btn-search-action {
+  background: linear-gradient(135deg, #4CAF50, #45a049);
+  color: white;
+  border: none;
+  border-radius: 16px;
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(76, 175, 80, 0.4);
+}
+
+.btn-search-action:hover {
+  background: linear-gradient(135deg, #45a049, #3d8b40);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.5);
+}
+
+.btn-search-action .material-icons {
+  font-size: 20px;
+}
+
+.search-results-info {
+  background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+  border: 2px solid #4CAF50;
+  border-radius: 12px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.search-results-info .material-icons {
+  color: #4CAF50;
+  font-size: 24px;
+}
+
+.search-results-info span {
+  color: #2E7D32;
+  font-size: 14px;
+}
+
+/* Highlight para números encontrados */
+.numero-card.search-highlight {
+  animation: pulse 1.5s ease-in-out infinite;
+  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.5);
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(255, 193, 7, 0.3);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .search-panel {
+    padding: 16px;
+  }
+
+  .search-icon-title h3 {
+    font-size: 18px;
+  }
+
+  .search-icon-title .material-icons {
+    font-size: 24px;
+  }
+
+  .search-subtitle {
+    font-size: 12px;
+  }
+
+  .search-input-container {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .btn-search-action {
+    width: 100%;
+    justify-content: center;
+    padding: 14px 24px;
+  }
+
+  .search-input-field {
+    font-size: 14px;
+    padding: 14px 8px;
+  }
+
+  .search-results-info {
+    padding: 10px 12px;
+  }
+
+  .search-results-info span {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-icon-title {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .search-input-wrapper {
+    padding: 0 12px;
+  }
+
+  .search-input-field::placeholder {
+    font-size: 13px;
+  }
+}
+</style>
+
+<!-- Script para mostrar/ocultar el buscador -->
 
       <div id="admin-loading" class="loading">
         <div class="spinner"></div>
@@ -2667,8 +2954,7 @@ async function reenviarEmail(numeroId) {
  
 </section>
 
-<script src="./pdf.js"></script>
-<script src="./rifa.js"></script>
+
 
 
 <!-- ============================================
@@ -3147,5 +3433,7 @@ document.getElementById('btn-como-llegar').addEventListener('click', function() 
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+<script src="./pdf.js"></script>
+<script src="./rifa.js"></script>
 </body>
 </html>

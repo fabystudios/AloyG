@@ -45,7 +45,6 @@ try {
 // VARIABLES GLOBALES
 // ========================================
 const auth = firebase.auth();
-const allowedAdmins = ["willyescobar@gmail.com", "meichtryes@gmail.com"];
 
 let currentUser = null;
 let rifaData = [];
@@ -53,9 +52,39 @@ let currentEditingId = null;
 let isAdmin = false;
 let currentTab = 'reservados';
 let searchTerm = '';
+let busquedaActiva = false;
+let terminoBusqueda = '';
 
 const estadoLabels = { 1: 'Disponible', 2: 'Reservado', 3: 'Pagado' };
 const estadoClasses = { 1: 'disponible', 2: 'reservado', 3: 'pagado' };
+
+// ========================================
+// VERIFICAR SI USUARIO ES ADMIN
+// ========================================
+async function esAdmin(email) {
+  try {
+    const doc = await db.collection('admins').doc(email).get();
+    
+    if (!doc.exists) {
+      console.log('❌ Usuario no encontrado en admins:', email);
+      return false;
+    }
+    
+    const data = doc.data();
+    
+    if (!data.activo) {
+      console.log('⚠️ Admin desactivado:', email);
+      return false;
+    }
+    
+    console.log('✅ Admin verificado:', email);
+    return true;
+    
+  } catch (error) {
+    console.error('❌ Error al verificar admin:', error);
+    return false;
+  }
+}
 
 // ========================================
 // FUNCIONES DE NAVEGACIÓN
@@ -64,6 +93,10 @@ function showPublicView() {
   document.getElementById('admin-login').style.display = 'none';
   document.getElementById('admin-view').style.display = 'none';
   document.getElementById('public-view').style.display = 'block';
+  
+  const buscador = document.getElementById('busqueda-rapida-admin');
+  if (buscador) buscador.style.display = 'none';
+  
   isAdmin = false;
 }
 
@@ -78,6 +111,10 @@ function showAdminView() {
   document.getElementById('public-view').style.display = 'none';
   document.getElementById('admin-login').style.display = 'none';
   document.getElementById('admin-view').style.display = 'block';
+  
+  const buscador = document.getElementById('busqueda-rapida-admin');
+  if (buscador) buscador.style.display = 'block';
+  
   isAdmin = true;
 }
 
@@ -99,9 +136,12 @@ document.getElementById('login-google').onclick = function() {
     });
 };
 
-function handleAuthResult(result) {
+async function handleAuthResult(result) {
   const email = result.user.email;
-  if (allowedAdmins.includes(email)) {
+  
+  const isAdminUser = await esAdmin(email);
+  
+  if (isAdminUser) {
     currentUser = result.user;
     document.getElementById('user-name').textContent = currentUser.displayName || currentUser.email;
     document.getElementById('user-avatar').src = currentUser.photoURL || 
@@ -201,7 +241,7 @@ async function initializeRifaNumbers() {
 }
 
 // ========================================
-// RENDERIZAR GRILLA DE NÚMEROS
+// RENDERIZAR GRILLA DE NÚMEROS CON BÚSQUEDA
 // ========================================
 function renderRifaGrid(adminMode) {
   const gridEl = adminMode ? 'admin-rifa-grid' : 'public-rifa-grid';
@@ -211,14 +251,49 @@ function renderRifaGrid(adminMode) {
   grid.innerHTML = '';
   grid.style.display = 'none';
   
-  rifaData.forEach(item => {
+  let dataToRender = rifaData;
+  
+  if (adminMode && busquedaActiva && terminoBusqueda) {
+    const termino = terminoBusqueda.toLowerCase();
+    dataToRender = rifaData.filter(item => {
+      return (
+        (item.nombre && item.nombre.toLowerCase().includes(termino)) ||
+        (item.email && item.email.toLowerCase().includes(termino)) ||
+        (item.dni && item.dni.toString().includes(termino)) ||
+        (item.nro_op && item.nro_op.toString().includes(termino)) ||
+        item.numero.toString().includes(termino)
+      );
+    });
+    
+    if (dataToRender.length === 0) {
+      grid.innerHTML = `
+        <div style="grid-column: 1 / -1; text-align: center; padding: 40px;">
+          <div style="font-size: 48px; opacity: 0.3;">🔍</div>
+          <p style="font-size: 18px; color: #666; margin-top: 16px;">
+            <strong>No se encontraron resultados</strong>
+          </p>
+          <p style="font-size: 14px; color: #999;">
+            Intenta con otro nombre, DNI o número de operación
+          </p>
+        </div>
+      `;
+      grid.style.display = 'grid';
+      document.getElementById(loadingEl).style.display = 'none';
+      return;
+    }
+  }
+  
+  dataToRender.forEach(item => {
     const card = document.createElement('div');
     
-    // Solo deshabilitar en modo público si está pagado
     let isDisabled = !adminMode && item.state === 3;
     
-    // Clase disabled solo para público con estado pagado
-    card.className = `numero-card ${estadoClasses[item.state]} ${isDisabled ? 'disabled' : ''}`;
+    let highlightClass = '';
+    if (adminMode && busquedaActiva && terminoBusqueda) {
+      highlightClass = 'search-highlight';
+    }
+    
+    card.className = `numero-card ${estadoClasses[item.state]} ${isDisabled ? 'disabled' : ''} ${highlightClass}`;
     
     let nombreDisplay = '';
     if (item.nombre) {
@@ -244,7 +319,6 @@ function renderRifaGrid(adminMode) {
       ${ticketButton}
     `;
     
-    // Admin puede editar todo, público solo disponibles y reservados
     if (!isDisabled) {
       card.addEventListener('click', function() {
         if (adminMode) {
@@ -254,7 +328,6 @@ function renderRifaGrid(adminMode) {
         }
       });
     } else if (adminMode && item.state === 3) {
-      // Admin puede editar incluso pagados (sin el disabled)
       card.addEventListener('click', function() {
         openAdminModal(item);
       });
@@ -265,6 +338,10 @@ function renderRifaGrid(adminMode) {
   
   document.getElementById(loadingEl).style.display = 'none';
   document.getElementById(gridEl).style.display = 'grid';
+  
+  if (adminMode && busquedaActiva) {
+    updateSearchResults(dataToRender.length);
+  }
 }
 
 // ========================================
@@ -302,13 +379,12 @@ function updateStats(adminMode) {
 }
 
 // ========================================
-// MODAL PÚBLICO CON VALIDACIÓN DE IDENTIDAD POR NÚMERO
+// MODAL PÚBLICO CON VALIDACIÓN DE IDENTIDAD
 // ========================================
 function openPublicModal(item) {
   currentEditingId = item.id;
   
   if (item.state === 1) {
-    // RESERVAR - Modal normal
     document.getElementById('public-modal-numero').textContent = item.numero;
     document.querySelector('#public-modal .modal-header h3').innerHTML = 
       'Reservar Número <span id="public-modal-numero">' + item.numero + '</span>';
@@ -316,7 +392,6 @@ function openPublicModal(item) {
     document.getElementById('public-modal').classList.add('active');
     
   } else if (item.state === 2) {
-    // DESRESERVAR - SIEMPRE solicitar DNI (verificación por número específico)
     Swal.fire({
       title: '🔒 Verificación de Identidad',
       html: `
@@ -344,7 +419,6 @@ function openPublicModal(item) {
           return false;
         }
         
-        // Verificar que el DNI coincida CON ESTE NÚMERO ESPECÍFICO
         if (dniIngresado !== String(item.dni)) {
           Swal.showValidationMessage('❌ El DNI no coincide con el registrado para este número');
           return false;
@@ -354,7 +428,6 @@ function openPublicModal(item) {
       }
     }).then((result) => {
       if (result.isConfirmed) {
-        // DNI verificado PARA ESTE NÚMERO, proceder con desreserva
         Swal.fire({
           title: '¿Confirmar Desreserva?',
           html: `
@@ -432,12 +505,33 @@ function closePublicModal() {
   currentEditingId = null;
 }
 
+// ========================================
+// FUNCIÓN DESRESERVAR - CORREGIDA
+// Reemplazar en rifa.js (línea ~420 aprox)
+// ========================================
+
+// ========================================
+// FUNCIÓN DESRESERVAR - CORREGIDA
+// Reemplazar en rifa.js (línea ~420 aprox)
+// ========================================
+
 async function desreservarNumero(item, dniVerificado) {
   try {
+    console.log('🔍 DEBUG - Iniciando desreserva:');
+    console.log('  Item:', item);
+    console.log('  DNI verificado:', dniVerificado);
+    
+    // Primero obtenemos los datos actuales
+    const docSnapshot = await db.collection('rifa').doc(item.id).get();
+    const dataActual = docSnapshot.data();
+    
+    console.log('📋 Datos actuales en Firestore:', dataActual);
+    
+    // Crear entrada de historial
     const entradaHistorial = {
       admin: 'Usuario Público (DNI: ' + dniVerificado + ' ✓)',
       fecha: new Date().toISOString(),
-      accion: '🔓 Desreservó el número (DNI verificado: ' + dniVerificado + ')',
+      accion: '🔓 Desreservó el número (DNI verificado)',
       estado_anterior: 2,
       estado_nuevo: 1,
       nro_op_anterior: null,
@@ -445,37 +539,82 @@ async function desreservarNumero(item, dniVerificado) {
       dni_verificado: dniVerificado
     };
     
-    await db.collection('rifa').doc(item.id).update({
-      nombre: '',
-      buyer: '',
-      email: '',
-      state: 1,
-      time: null,
-      dni: null,
-      ultima_modificacion: firebase.firestore.FieldValue.serverTimestamp(),
-      historial: firebase.firestore.FieldValue.arrayUnion(entradaHistorial)
-    });
+    // Obtener historial existente
+    const historialActualizado = [...(dataActual.historial || []), entradaHistorial];
     
-    console.log('✅ Desreserva guardada con auditoría y DNI verificado:', dniVerificado);
+    // Preparar datos de actualización
+    const updateData = {
+      nombre: '',           
+      buyer: '',            
+      email: '',            
+      state: 1,             
+      time: null,           
+      dni: dniVerificado,   // ⚠️ MANTENER para validación
+      ultima_modificacion: firebase.firestore.FieldValue.serverTimestamp(),
+      historial: historialActualizado
+    };
+    
+    console.log('📤 Datos que se intentarán enviar:', updateData);
+    console.log('🔍 Verificando condiciones de la regla:');
+    console.log('  - resource.data.state == 2:', dataActual.state === 2);
+    console.log('  - request.resource.data.state == 1:', updateData.state === 1);
+    console.log('  - resource.data.dni != null:', dataActual.dni != null);
+    console.log('  - resource.data.dni:', dataActual.dni);
+    console.log('  - request.resource.data.dni:', updateData.dni);
+    console.log('  - DNIs coinciden:', String(dataActual.dni) === String(updateData.dni));
+    console.log('  - request.resource.data.nombre == "":', updateData.nombre === '');
+    console.log('  - request.resource.data.email == "":', updateData.email === '');
+    
+    // Intentar actualizar
+    await db.collection('rifa').doc(item.id).update(updateData);
+    
+    console.log('✅ Desreserva exitosa');
+    
     Swal.fire({
       icon: 'success',
-      title: 'Número Desreservado',
+      title: '✅ Número Desreservado',
       html: `
-        <p>El número <strong>${item.numero}</strong> ha sido liberado correctamente.</p>
+        <img src="./rifa/rifi-premio2.png" alt="Rifi" style="max-width:100px;display:block;margin:0 auto 12px;">
+        <p>El número <strong>${item.numero}</strong> ha sido liberado.</p>
         <p style="font-size: 13px; color: #666; margin-top: 10px;">
-          ✓ Identidad verificada con DNI: ${dniVerificado}
+          ✓ Identidad verificada (DNI: ${dniVerificado})
         </p>
       `,
-      confirmButtonText: 'OK',
-      timer: 3000
+      confirmButtonText: 'Perfecto',
+      timer: 4000,
+      timerProgressBar: true
     });
+    
   } catch (error) {
-    console.error('❌ Error:', error);
+    console.error('❌ ERROR COMPLETO:', error);
+    console.error('📋 Tipo:', error.name);
+    console.error('📋 Código:', error.code);
+    console.error('📋 Mensaje:', error.message);
+    console.error('📋 Stack:', error.stack);
+    
+    let mensajeDetallado = error.message;
+    
+    if (error.code === 'permission-denied') {
+      mensajeDetallado = `
+        <strong>Permisos denegados por Firebase</strong><br>
+        <small>Verifica que las reglas permitan la operación</small>
+      `;
+    }
+    
     Swal.fire({
       icon: 'error',
       title: 'Error al Desreservar',
-      text: 'Error al desreservar: ' + error.message,
-      confirmButtonText: 'Intentar de Nuevo'
+      html: `
+        <p>${mensajeDetallado}</p>
+        <details style="margin-top: 12px; text-align: left; font-size: 11px; color: #666;">
+          <summary style="cursor: pointer;">Ver detalles técnicos</summary>
+          <pre style="margin-top: 8px; padding: 8px; background: #f5f5f5; border-radius: 4px; overflow: auto;">${JSON.stringify({
+            code: error.code,
+            message: error.message
+          }, null, 2)}</pre>
+        </details>
+      `,
+      confirmButtonText: 'Entendido'
     });
   }
 }
@@ -509,22 +648,20 @@ async function enviarEmailCertificado(numeroData) {
     console.log('📧 Preparando email para:', numeroData.email);
     console.log('📋 Datos completos:', numeroData);
     
-    // Verificar que EmailJS esté cargado
     if (typeof emailjs === 'undefined') {
       console.error('❌ EmailJS no está cargado');
       return false;
     }
     
-    // Verificar que hay un email válido
     if (!numeroData.email || numeroData.email.trim() === '') {
       console.error('❌ Email vacío o inválido');
       return false;
     }
     
     const templateParams = {
-      to_email: numeroData.email,           // Variable para el template
-      reply_to: numeroData.email,           // Para reply-to
-      user_email: numeroData.email,         // Alternativa
+      to_email: numeroData.email,
+      reply_to: numeroData.email,
+      user_email: numeroData.email,
       to_name: numeroData.nombre,
       numero: numeroData.numero.toString().padStart(3, '0'),
       dni: numeroData.dni || 'N/A',
@@ -536,8 +673,8 @@ async function enviarEmailCertificado(numeroData) {
     console.log('📤 Enviando con parámetros:', templateParams);
 
     const response = await emailjs.send(
-      'service_7lbeylp',      // Service ID
-      'template_egop7d7',     // Template ID
+      'service_7lbeylp',
+      'template_egop7d7',
       templateParams
     );
 
@@ -552,7 +689,6 @@ async function enviarEmailCertificado(numeroData) {
     console.error('   - Status:', error.status);
     console.error('   - Objeto completo:', JSON.stringify(error, null, 2));
     
-    // Mostrar error específico en consola
     if (error.status === 422) {
       console.error('⚠️ Error 422: El template no tiene configurado el destinatario');
       console.error('💡 SOLUCIÓN: En EmailJS Dashboard → Template → Settings');
@@ -572,12 +708,11 @@ async function enviarEmailCertificado(numeroData) {
 }
 
 // ========================================
-// FUNCIONES DE AUDITORÍA MEJORADAS - REGISTRO MÚLTIPLE
+// FUNCIONES DE AUDITORÍA MEJORADAS
 // ========================================
 function getAccionRealizada(dataAnterior, dataNueva) {
   let acciones = [];
   
-  // Verificar cambios en número de operación
   if (dataNueva.nro_op && !dataAnterior.nro_op) {
     acciones.push('💰 Registró pago (Nro Op: ' + dataNueva.nro_op + ')');
   } else if (dataNueva.nro_op && dataAnterior.nro_op && dataNueva.nro_op !== dataAnterior.nro_op) {
@@ -586,13 +721,11 @@ function getAccionRealizada(dataAnterior, dataNueva) {
     acciones.push('🗑️ Eliminó pago (Nro Op: ' + dataAnterior.nro_op + ')');
   }
   
-  // Verificar cambios de estado
   if (dataAnterior.state !== dataNueva.state) {
     const estados = { 1: 'Disponible', 2: 'Reservado', 3: 'Pagado' };
     acciones.push('📝 Cambió estado: ' + estados[dataAnterior.state] + ' → ' + estados[dataNueva.state]);
   }
   
-  // Verificar cambios en datos personales
   let cambiosDatos = [];
   
   if (dataNueva.nombre !== dataAnterior.nombre) {
@@ -609,7 +742,6 @@ function getAccionRealizada(dataAnterior, dataNueva) {
     acciones.push('✏️ Modificó ' + cambiosDatos.join(', '));
   }
   
-  // Si hay múltiples acciones, unirlas
   if (acciones.length > 1) {
     return acciones.join(' + ');
   } else if (acciones.length === 1) {
@@ -631,7 +763,6 @@ function getDetallesCambios(dataAnterior, dataNueva) {
     nro_op_nuevo: dataNueva.nro_op || null
   };
   
-  // Solo agregar detalles si hubo cambios reales
   if (dataAnterior.nombre !== dataNueva.nombre) {
     detalles.nombre_anterior = dataAnterior.nombre || 'Sin nombre';
     detalles.nombre_nuevo = dataNueva.nombre || 'Sin nombre';
@@ -651,8 +782,13 @@ function getDetallesCambios(dataAnterior, dataNueva) {
 }
 
 // ========================================
-// SUBMIT FORMULARIO ADMIN CON AUDITORÍA Y EMAILS
+// SUBMIT FORMULARIO ADMIN CON AUDITORÍA
 // ========================================
+// ========================================
+// SUBMIT FORMULARIO ADMIN - OPTIMIZADO
+// Reemplazar en rifa.js línea ~800
+// ========================================
+
 document.getElementById('admin-form').onsubmit = async function(e) {
   e.preventDefault();
   
@@ -662,32 +798,40 @@ document.getElementById('admin-form').onsubmit = async function(e) {
   const nro_op = document.getElementById('admin-nro_op-input').value.trim();
   const dni = document.getElementById('admin-dni-input').value.trim();
 
+  // ✅ CERRAR MODAL INMEDIATAMENTE - Mejor UX
+  closeAdminModal();
+  
+  // ✅ MOSTRAR LOADING MIENTRAS PROCESA
+  Swal.fire({
+    title: 'Guardando cambios...',
+    html: '<div class="spinner"></div><p style="margin-top: 16px; font-size: 14px; color: #666;">Actualizando datos...</p>',
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+
   try {
     const docSnapshot = await db.collection('rifa').doc(currentEditingId).get();
     const dataActual = docSnapshot.data();
     
-    // ========================================
-    // LÓGICA AUTOMÁTICA DE ESTADO
-    // ========================================
-    // Si el número estaba disponible (state=1) y ahora tiene datos, asignar estado automáticamente
+    // Auto-asignación de estados
     if (dataActual.state === 1 && nombre) {
       if (nro_op) {
-        state = 3; // Si tiene nro_op, va directo a Pagado
+        state = 3;
         console.log('✅ Auto-asignación: Disponible → Pagado (tiene nro_op)');
       } else {
-        state = 2; // Si solo tiene nombre, va a Reservado
+        state = 2;
         console.log('✅ Auto-asignación: Disponible → Reservado');
       }
     }
-    // Si estaba reservado y ahora se agrega nro_op, cambiar a Pagado
     else if (dataActual.state === 2 && nro_op && !dataActual.nro_op) {
       state = 3;
       console.log('✅ Auto-asignación: Reservado → Pagado (se agregó nro_op)');
     }
     
-    // ========================================
-    // VERIFICAR SI HUBO CAMBIOS REALES
-    // ========================================
+    // Verificar si hubo cambios
     const huboContenidoCambiado = (
       nombre !== (dataActual.nombre || '') ||
       email !== (dataActual.email || '') ||
@@ -697,7 +841,6 @@ document.getElementById('admin-form').onsubmit = async function(e) {
     );
     
     if (!huboContenidoCambiado) {
-      closeAdminModal();
       Swal.fire({
         icon: 'info',
         title: 'Sin Cambios',
@@ -722,6 +865,7 @@ document.getElementById('admin-form').onsubmit = async function(e) {
     
     let esPrimerRegistroPago = false;
     
+    // Lógica de auditoría
     if (nro_op && !dataActual.nro_op) {
       updateData.admin_registro_pago = adminActual;
       updateData.fecha_pago = firebase.firestore.FieldValue.serverTimestamp();
@@ -755,8 +899,9 @@ document.getElementById('admin-form').onsubmit = async function(e) {
       console.log('🔄 Reseteo del número por:', adminActual);
     }
     
+    // Historial de cambios
     const detallesCambios = getDetallesCambios(dataActual, updateData);
-
+    
     const entradaHistorial = {
       admin: adminActual,
       fecha: new Date().toISOString(),
@@ -775,13 +920,17 @@ document.getElementById('admin-form').onsubmit = async function(e) {
     
     updateData.historial = firebase.firestore.FieldValue.arrayUnion(entradaHistorial);
     
+    // ✅ GUARDAR EN FIRESTORE
     await db.collection('rifa').doc(currentEditingId).update(updateData);
     
     console.log('✅ Cambios guardados con auditoría:', updateData);
     
+    // ✅ ENVÍO DE EMAIL (en segundo plano, no bloquea)
     let emailEnviado = false;
+    let emailPromise = null;
+    
     if (esPrimerRegistroPago && email) {
-      console.log('📧 Intentando enviar email de confirmación...');
+      console.log('📧 Enviando email en segundo plano...');
       
       const numeroData = {
         id: currentEditingId,
@@ -792,46 +941,55 @@ document.getElementById('admin-form').onsubmit = async function(e) {
         nro_op: nro_op
       };
       
-      emailEnviado = await enviarEmailCertificado(numeroData);
-      
-      if (emailEnviado) {
-        await db.collection('rifa').doc(currentEditingId).update({
-          email_enviado: true,
-          email_enviado_fecha: firebase.firestore.FieldValue.serverTimestamp()
-        });
-      }
+      // Enviar email SIN esperar (Promise no bloqueante)
+      emailPromise = enviarEmailCertificado(numeroData).then(async (enviado) => {
+        if (enviado) {
+          await db.collection('rifa').doc(currentEditingId).update({
+            email_enviado: true,
+            email_enviado_fecha: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+        return enviado;
+      });
     }
     
-    closeAdminModal();
+    // ✅ ACTUALIZAR TABLA INMEDIATAMENTE (no espera email)
     renderDataTable();
     
+    // ✅ MENSAJE DE ÉXITO RÁPIDO
     let mensajeExito = `
       <p style="margin: 12px 0;"><strong>Acción:</strong> ${entradaHistorial.accion}</p>
       <p style="font-size: 13px; color: #666;">Registrado por: ${adminActual}</p>
     `;
     
+    // Si hay email pendiente, mostrar estado
     if (esPrimerRegistroPago && email) {
-      if (emailEnviado) {
-        mensajeExito += `
-          <p style="margin-top: 12px; padding: 10px; background: #E8F5E9; border-radius: 8px; color: #2E7D32;">
-            📧 Email de confirmación enviado a:<br><strong>${email}</strong>
-          </p>
-        `;
-      } else {
-        mensajeExito += `
-          <p style="margin-top: 12px; padding: 10px; background: #FFF3E0; border-radius: 8px; color: #E65100;">
-            ⚠️ No se pudo enviar el email.<br>Puedes reenviarlo manualmente.
-          </p>
-        `;
+      mensajeExito += `
+        <p style="margin-top: 12px; padding: 10px; background: #E3F2FD; border-radius: 8px; color: #1976D2;">
+          📧 Enviando email de confirmación a:<br><strong>${email}</strong>
+          <br><small style="font-size: 11px; color: #666;">El envío se está procesando...</small>
+        </p>
+      `;
+      
+      // Esperar resultado del email (solo para actualizar el mensaje)
+      if (emailPromise) {
+        emailPromise.then((enviado) => {
+          if (enviado) {
+            console.log('✅ Email enviado correctamente');
+          } else {
+            console.warn('⚠️ No se pudo enviar el email');
+          }
+        });
       }
     }
     
     Swal.fire({
       icon: 'success',
-      title: 'Cambios Guardados',
+      title: '✅ Cambios Guardados',
       html: mensajeExito,
       confirmButtonText: 'Perfecto',
-      timer: emailEnviado ? 5000 : 3000
+      timer: 3500,
+      timerProgressBar: true
     });
     
   } catch (error) {
@@ -903,7 +1061,6 @@ async function verHistorialNumero(numeroId) {
           </div>
       `;
       
-      // Separador visual si hay detalles
       const hayDetalles = (entrada.nro_op_anterior && entrada.nro_op_nuevo && entrada.nro_op_anterior !== entrada.nro_op_nuevo) ||
                           entrada.nombre_anterior || entrada.email_anterior || entrada.dni_anterior;
       
@@ -914,7 +1071,6 @@ async function verHistorialNumero(numeroId) {
       
       historialHTML += `<div style="display: flex; flex-direction: column; gap: 6px;">`;
       
-      // Mostrar cambio de nro_op si aplica
       if (entrada.nro_op_anterior && entrada.nro_op_nuevo && entrada.nro_op_anterior !== entrada.nro_op_nuevo) {
         historialHTML += `
           <span style="background: #FFF3E0; padding: 6px 10px; border-radius: 6px; font-size: 12px; border-left: 3px solid #FF9800;">
@@ -929,7 +1085,6 @@ async function verHistorialNumero(numeroId) {
         `;
       }
       
-      // Mostrar cambio de nombre si aplica
       if (entrada.nombre_anterior && entrada.nombre_nuevo) {
         historialHTML += `
           <span style="background: #E3F2FD; padding: 6px 10px; border-radius: 6px; font-size: 12px; border-left: 3px solid #2196F3;">
@@ -938,7 +1093,6 @@ async function verHistorialNumero(numeroId) {
         `;
       }
       
-      // Mostrar cambio de email si aplica
       if (entrada.email_anterior && entrada.email_nuevo) {
         historialHTML += `
           <span style="background: #E3F2FD; padding: 6px 10px; border-radius: 6px; font-size: 12px; border-left: 3px solid #2196F3;">
@@ -947,7 +1101,6 @@ async function verHistorialNumero(numeroId) {
         `;
       }
       
-      // Mostrar cambio de DNI si aplica
       if (entrada.dni_anterior && entrada.dni_nuevo) {
         historialHTML += `
           <span style="background: #E3F2FD; padding: 6px 10px; border-radius: 6px; font-size: 12px; border-left: 3px solid #2196F3;">
@@ -1268,6 +1421,52 @@ function exportToExcel() {
 }
 
 // ========================================
+// FUNCIONES DE BÚSQUEDA RÁPIDA
+// ========================================
+function buscarEnGrilla() {
+  const input = document.getElementById('busqueda-grilla-input');
+  terminoBusqueda = input.value.trim();
+  
+  if (terminoBusqueda.length > 0) {
+    busquedaActiva = true;
+    document.getElementById('busqueda-grilla-info').style.display = 'flex';
+  } else {
+    limpiarBusqueda();
+    return;
+  }
+  
+  renderRifaGrid(true);
+  
+  document.getElementById('admin-rifa-grid').scrollIntoView({ 
+    behavior: 'smooth', 
+    block: 'start' 
+  });
+}
+
+function limpiarBusqueda() {
+  busquedaActiva = false;
+  terminoBusqueda = '';
+  document.getElementById('busqueda-grilla-input').value = '';
+  document.getElementById('busqueda-grilla-info').style.display = 'none';
+  document.getElementById('btn-limpiar-busqueda').style.display = 'none';
+  renderRifaGrid(true);
+}
+
+function updateSearchResults(count) {
+  const info = document.getElementById('busqueda-grilla-info');
+  const span = document.getElementById('resultados-count');
+  span.textContent = count;
+  
+  if (count === 0) {
+    info.style.background = 'linear-gradient(135deg, #FFEBEE, #FFCDD2)';
+    info.style.borderColor = '#F44336';
+  } else {
+    info.style.background = 'linear-gradient(135deg, #E8F5E9, #C8E6C9)';
+    info.style.borderColor = '#4CAF50';
+  }
+}
+
+// ========================================
 // CERRAR MODALES AL HACER CLIC FUERA
 // ========================================
 document.getElementById('public-modal').addEventListener('click', function(e) {
@@ -1283,16 +1482,70 @@ document.getElementById('admin-modal').addEventListener('click', function(e) {
 });
 
 // ========================================
+// EVENT LISTENERS PARA BÚSQUEDA
+// ========================================
+window.addEventListener('DOMContentLoaded', function() {
+  const inputBusqueda = document.getElementById('busqueda-grilla-input');
+  const btnBuscar = document.getElementById('btn-buscar-grilla');
+  const btnLimpiar = document.getElementById('btn-limpiar-busqueda');
+  
+  if (inputBusqueda) {
+    inputBusqueda.addEventListener('input', function() {
+      if (this.value.trim().length > 0) {
+        btnLimpiar.style.display = 'block';
+      } else {
+        btnLimpiar.style.display = 'none';
+        if (busquedaActiva) {
+          limpiarBusqueda();
+        }
+      }
+    });
+    
+    inputBusqueda.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        buscarEnGrilla();
+      }
+    });
+    
+    let timeoutId;
+    inputBusqueda.addEventListener('input', function() {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        if (inputBusqueda.value.trim().length >= 3) {
+          buscarEnGrilla();
+        }
+      }, 500);
+    });
+  }
+  
+  if (btnBuscar) {
+    btnBuscar.addEventListener('click', buscarEnGrilla);
+  }
+  
+  if (btnLimpiar) {
+    btnLimpiar.addEventListener('click', limpiarBusqueda);
+  }
+});
+
+// ========================================
 // INICIALIZACIÓN
 // ========================================
-auth.onAuthStateChanged(user => {
-  if (user && allowedAdmins.includes(user.email)) {
-    currentUser = user;
-    document.getElementById('user-name').textContent = currentUser.displayName || currentUser.email;
-    document.getElementById('user-avatar').src = currentUser.photoURL || 
-      'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.displayName || 'Admin');
-    showAdminView();
-    loadRifaData(true);
+auth.onAuthStateChanged(async user => {
+  if (user) {
+    const isAdminUser = await esAdmin(user.email);
+    
+    if (isAdminUser) {
+      currentUser = user;
+      document.getElementById('user-name').textContent = currentUser.displayName || currentUser.email;
+      document.getElementById('user-avatar').src = currentUser.photoURL || 
+        'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.displayName || 'Admin');
+      showAdminView();
+      loadRifaData(true);
+    } else {
+      showPublicView();
+      loadRifaData(false);
+    }
   } else {
     showPublicView();
     loadRifaData(false);
@@ -1303,3 +1556,5 @@ console.log('🚀 Sistema de Rifa iniciado');
 console.log('✅ Auditoría automática activada');
 console.log('✅ Sistema de emails configurado');
 console.log('✅ Historial de cambios habilitado');
+console.log('✅ Búsqueda inteligente activada');
+console.log('✅ Verificación de admins por Firestore');

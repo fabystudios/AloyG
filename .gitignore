@@ -1,0 +1,172 @@
+# ============================================
+# CREDENCIALES Y CONFIGURACIÓN SENSIBLE
+# ============================================
+# Firebase Service Account Keys
+serviceAccountKey.json
+*-firebase-adminsdk-*.json
+
+# Variables de entorno
+.env
+.env.local
+.env.development
+.env.production
+.env.*.local
+
+# Configuraciones sensibles
+config/secrets.js
+config/credentials.json
+
+
+# ============================================
+# BACKUPS Y DATOS
+# ============================================
+backups/
+*.backup
+*.bak
+firestore-backup-*.json
+database-backup-*.json
+
+
+# ============================================
+# NODE MODULES Y DEPENDENCIAS
+# ============================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+.pnpm-debug.log*
+
+
+# ============================================
+# ARCHIVOS DEL SISTEMA OPERATIVO
+# ============================================
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Linux
+*~
+.directory
+
+
+# ============================================
+# EDITORES E IDEs
+# ============================================
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
+# JetBrains (WebStorm, IntelliJ, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+
+# Emacs
+*~
+\#*\#
+.\#*
+
+
+# ============================================
+# LOGS Y TEMPORALES
+# ============================================
+logs/
+*.log
+log.txt
+error.log
+access.log
+
+# Archivos temporales
+tmp/
+temp/
+*.tmp
+*.temp
+
+
+# ============================================
+# BUILD Y DISTRIBUCIÓN
+# ============================================
+dist/
+build/
+out/
+.cache/
+
+# Minificados
+*.min.js
+*.min.css
+# (descomenta si generas estos archivos automáticamente)
+
+
+# ============================================
+# TESTING Y COVERAGE
+# ============================================
+coverage/
+*.lcov
+.nyc_output/
+test-results/
+
+
+# ============================================
+# ESPECÍFICO DEL PROYECTO RIFA
+# ============================================
+# Datos de prueba local
+test-data/
+dummy-tickets.json
+
+# Reportes y exports temporales
+exports/
+reportes/
+tickets-export-*.csv
+ganadores-*.pdf
+
+# Imágenes de test o temporales
+uploads/test/
+img/temp/
+
+# Respaldos locales de desarrollo
+*.local.json
+dev-backup/
+
+
+# ============================================
+# CACHÉ Y OPTIMIZACIÓN
+# ============================================
+.cache/
+*.cache
+.parcel-cache/
+.eslintcache
+
+
+# ============================================
+# DOCUMENTACIÓN TEMPORAL
+# ============================================
+# Borradores y notas de desarrollo
+NOTES.md
+TODO.local.md
+SCRATCH.md
+
+# Pero MANTENER estos archivos importantes:
+!README.md
+!CHANGELOG.md
+!LICENSE

@@ -352,3 +352,13 @@
     display: none; /* Ocultar tooltip en móvil */
   }
 }
+.loading {
+  text-align: center;
+  padding: 40px;
+  color: var(--md-sys-color-outline);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
