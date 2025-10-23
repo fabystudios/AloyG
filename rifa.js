@@ -1,4 +1,21 @@
 // ========================================
+// 🔍 DIAGNÓSTICO TEMPORAL - REMOVER DESPUÉS
+// ========================================
+let _currentEditingId = null;
+Object.defineProperty(window, 'currentEditingId', {
+  get: function() {
+    return _currentEditingId;
+  },
+  set: function(value) {
+    console.log('🔍 currentEditingId cambiado:', {
+      anterior: _currentEditingId,
+      nuevo: value,
+      stack: new Error().stack
+    });
+    _currentEditingId = value;
+  }
+});
+// ========================================
 // CONFIGURACIÓN FIREBASE
 // ========================================
 const firebaseConfig = {
@@ -622,8 +639,41 @@ async function desreservarNumero(item, dniVerificado) {
 // ========================================
 // MODAL ADMIN
 // ========================================
+// ========================================
+// FUNCIÓN OPENADMINMODAL - CORREGIDA
+// Reemplazar en rifa.js (línea ~650 aprox)
+// ========================================
+
 function openAdminModal(item) {
+  console.log('📝 Abriendo modal admin para:', item);
+  
+  // ✅ VALIDACIÓN CRÍTICA: Verificar que item tenga ID
+  if (!item || !item.id) {
+    console.error('❌ ERROR CRÍTICO: Item sin ID válido', item);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error Crítico',
+      html: `
+        <p>No se pudo identificar el número a editar.</p>
+        <p style="font-size: 12px; color: #666; margin-top: 10px;">
+          Detalles: ${item ? 'Item existe pero no tiene ID' : 'Item es null/undefined'}
+        </p>
+      `,
+      confirmButtonText: 'OK'
+    });
+    return;
+  }
+  
+  // ✅ ASIGNAR ID INMEDIATAMENTE - ESTO ES CRÍTICO
   currentEditingId = item.id;
+  
+  // ✅ Guardar en atributo del modal como respaldo
+  document.getElementById('admin-modal').setAttribute('data-editing-id', item.id);
+  
+  console.log('✅ ID asignado correctamente:', currentEditingId);
+  console.log('✅ ID respaldado en modal:', document.getElementById('admin-modal').getAttribute('data-editing-id'));
+  
+  // Rellenar campos del formulario
   document.getElementById('admin-modal-numero').textContent = item.numero;
   document.getElementById('admin-nombre-input').value = item.nombre || '';
   document.getElementById('admin-email-input').value = item.email || '';
@@ -631,14 +681,290 @@ function openAdminModal(item) {
   document.getElementById('admin-dni-input').value = item.dni || '';
   document.getElementById('admin-estado-select').value = item.state;
   
+  // Mostrar modal
   document.getElementById('admin-modal').classList.add('active');
+  
+  console.log('✅ Modal abierto. Verificación final - currentEditingId:', currentEditingId);
 }
+
+// ========================================
+// FUNCIÓN CLOSEADMINMODAL - MEJORADA
+// ========================================
 
 function closeAdminModal() {
   document.getElementById('admin-modal').classList.remove('active');
   document.getElementById('admin-form').reset();
-  currentEditingId = null;
+  
+  // ⚠️ NO limpiar currentEditingId aquí si el submit ya cerró el modal
+  // Pero SÍ limpiar si se cancela
+  console.log('🚪 Modal cerrado. ID actual:', currentEditingId);
+  
+  // Solo limpiar si no se está procesando
+  // El submit lo limpiará al final
 }
+
+// ========================================
+// SUBMIT ADMIN FORM - CON VALIDACIÓN EXTRA
+// Reemplazar todo el onsubmit
+// ========================================
+
+document.getElementById('admin-form').onsubmit = async function(e) {
+  e.preventDefault();
+  
+  // ✅ VALIDACIÓN CRÍTICA: Verificar ID antes de continuar
+  if (!currentEditingId) {
+    console.error('❌ ERROR CRÍTICO: currentEditingId está vacío!');
+    Swal.fire({
+      icon: 'error',
+      title: 'Error Crítico',
+      html: `
+        <p>No se pudo identificar el número a editar.</p>
+        <p style="font-size: 12px; color: #666; margin-top: 10px;">
+          Por favor, cierra el modal y vuelve a intentarlo.
+        </p>
+      `,
+      confirmButtonText: 'Entendido'
+    });
+    return;
+  }
+  
+  console.log('✓ Procesando submit para ID:', currentEditingId);
+  
+  const nombre = document.getElementById('admin-nombre-input').value.trim();
+  const email = document.getElementById('admin-email-input').value.trim();
+  let state = parseInt(document.getElementById('admin-estado-select').value);
+  const nro_op = document.getElementById('admin-nro_op-input').value.trim();
+  const dni = document.getElementById('admin-dni-input').value.trim();
+
+  // Guardar el ID temporalmente (por si closeAdminModal lo limpia)
+  const editingId = currentEditingId;
+
+  // ✅ CERRAR MODAL INMEDIATAMENTE
+  closeAdminModal();
+  
+  // ✅ MOSTRAR LOADING
+  Swal.fire({
+    title: 'Guardando cambios...',
+    html: '<div class="spinner"></div><p style="margin-top: 16px; font-size: 14px; color: #666;">Actualizando datos...</p>',
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+
+  try {
+    console.log('📡 Obteniendo documento:', editingId);
+    
+    const docSnapshot = await db.collection('rifa').doc(editingId).get();
+    
+    if (!docSnapshot.exists) {
+      throw new Error('El documento no existe en Firestore');
+    }
+    
+    const dataActual = docSnapshot.data();
+    console.log('✓ Datos actuales obtenidos:', dataActual);
+    
+    // Auto-asignación de estados
+    if (dataActual.state === 1 && nombre) {
+      if (nro_op) {
+        state = 3;
+        console.log('✅ Auto-asignación: Disponible → Pagado (tiene nro_op)');
+      } else {
+        state = 2;
+        console.log('✅ Auto-asignación: Disponible → Reservado');
+      }
+    }
+    else if (dataActual.state === 2 && nro_op && !dataActual.nro_op) {
+      state = 3;
+      console.log('✅ Auto-asignación: Reservado → Pagado (se agregó nro_op)');
+    }
+    
+    // Verificar si hubo cambios
+    const huboContenidoCambiado = (
+      nombre !== (dataActual.nombre || '') ||
+      email !== (dataActual.email || '') ||
+      dni !== (dataActual.dni || '') ||
+      nro_op !== (dataActual.nro_op || '') ||
+      state !== dataActual.state
+    );
+    
+    if (!huboContenidoCambiado) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Sin Cambios',
+        text: 'No se detectaron cambios en los datos.',
+        confirmButtonText: 'OK',
+        timer: 2000
+      });
+      // Limpiar ID al finalizar
+      currentEditingId = null;
+      return;
+    }
+    
+    const adminActual = currentUser ? (currentUser.displayName || currentUser.email) : 'Desconocido';
+    
+    const updateData = {
+      nombre: nombre,
+      email: email,
+      state: state,
+      dni: dni,
+      nro_op: nro_op || null,
+      ultima_modificacion: firebase.firestore.FieldValue.serverTimestamp(),
+      ultimo_admin: adminActual
+    };
+    
+    let esPrimerRegistroPago = false;
+    
+    // Lógica de auditoría
+    if (nro_op && !dataActual.nro_op) {
+      updateData.admin_registro_pago = adminActual;
+      updateData.fecha_pago = firebase.firestore.FieldValue.serverTimestamp();
+      updateData.state = 3;
+      esPrimerRegistroPago = true;
+      console.log('✅ Primer registro de pago por:', adminActual);
+    }
+    else if (nro_op && dataActual.nro_op && nro_op !== dataActual.nro_op) {
+      updateData.admin_correccion = adminActual;
+      updateData.fecha_correccion = firebase.firestore.FieldValue.serverTimestamp();
+      updateData.nro_op_anterior = dataActual.nro_op;
+      updateData.state = 3;
+      console.log('🔧 Corrección de nro operación por:', adminActual);
+    }
+    else if (!nro_op && dataActual.nro_op) {
+      updateData.admin_elimino_pago = adminActual;
+      updateData.fecha_eliminacion = firebase.firestore.FieldValue.serverTimestamp();
+      updateData.nro_op_eliminado = dataActual.nro_op;
+      updateData.nro_op = null;
+      console.log('🗑️ Eliminación de pago por:', adminActual);
+    }
+    
+    if (state === 1) {
+      updateData.nombre = '';
+      updateData.email = '';
+      updateData.dni = null;
+      updateData.nro_op = null;
+      updateData.time = null;
+      updateData.admin_reseteo = adminActual;
+      updateData.fecha_reseteo = firebase.firestore.FieldValue.serverTimestamp();
+      console.log('🔄 Reseteo del número por:', adminActual);
+    }
+    
+    // Historial de cambios
+    const detallesCambios = getDetallesCambios(dataActual, updateData);
+    
+    const entradaHistorial = {
+      admin: adminActual,
+      fecha: new Date().toISOString(),
+      accion: getAccionRealizada(dataActual, updateData),
+      estado_anterior: dataActual.state,
+      estado_nuevo: state,
+      nro_op_anterior: detallesCambios.nro_op_anterior,
+      nro_op_nuevo: detallesCambios.nro_op_nuevo,
+      nombre_anterior: detallesCambios.nombre_anterior,
+      nombre_nuevo: detallesCambios.nombre_nuevo,
+      email_anterior: detallesCambios.email_anterior,
+      email_nuevo: detallesCambios.email_nuevo,
+      dni_anterior: detallesCambios.dni_anterior,
+      dni_nuevo: detallesCambios.dni_nuevo
+    };
+    
+    updateData.historial = firebase.firestore.FieldValue.arrayUnion(entradaHistorial);
+    
+    // ✅ GUARDAR EN FIRESTORE
+    console.log('💾 Guardando en Firestore con ID:', editingId);
+    await db.collection('rifa').doc(editingId).update(updateData);
+    
+    console.log('✅ Cambios guardados con auditoría');
+    
+    // ✅ ENVÍO DE EMAIL (en segundo plano)
+    let emailPromise = null;
+    
+    if (esPrimerRegistroPago && email) {
+      console.log('📧 Enviando email en segundo plano...');
+      
+      const numeroData = {
+        id: editingId,
+        numero: dataActual.numero,
+        nombre: nombre,
+        email: email,
+        dni: dni,
+        nro_op: nro_op
+      };
+      
+      emailPromise = enviarEmailCertificado(numeroData).then(async (enviado) => {
+        if (enviado) {
+          await db.collection('rifa').doc(editingId).update({
+            email_enviado: true,
+            email_enviado_fecha: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        }
+        return enviado;
+      });
+    }
+    
+    // ✅ ACTUALIZAR TABLA
+    renderDataTable();
+    
+    // ✅ MENSAJE DE ÉXITO
+    let mensajeExito = `
+      <p style="margin: 12px 0;"><strong>Acción:</strong> ${entradaHistorial.accion}</p>
+      <p style="font-size: 13px; color: #666;">Registrado por: ${adminActual}</p>
+    `;
+    
+    if (esPrimerRegistroPago && email) {
+      mensajeExito += `
+        <p style="margin-top: 12px; padding: 10px; background: #E3F2FD; border-radius: 8px; color: #1976D2;">
+          📧 Enviando email de confirmación a:<br><strong>${email}</strong>
+          <br><small style="font-size: 11px; color: #666;">El envío se está procesando...</small>
+        </p>
+      `;
+      
+      if (emailPromise) {
+        emailPromise.then((enviado) => {
+          if (enviado) {
+            console.log('✅ Email enviado correctamente');
+          } else {
+            console.warn('⚠️ No se pudo enviar el email');
+          }
+        });
+      }
+    }
+    
+    Swal.fire({
+      icon: 'success',
+      title: '✅ Cambios Guardados',
+      html: mensajeExito,
+      confirmButtonText: 'Perfecto',
+      timer: 3500,
+      timerProgressBar: true
+    });
+    
+    // ✅ Limpiar ID al finalizar exitosamente
+    currentEditingId = null;
+    console.log('✓ Proceso completado. ID limpiado.');
+    
+  } catch (error) {
+    console.error('❌ Error completo:', error);
+    console.error('Stack:', error.stack);
+    
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al Guardar',
+      html: `
+        <p><strong>Error:</strong> ${error.message}</p>
+        <details style="margin-top: 12px; text-align: left; font-size: 11px;">
+          <summary>Detalles técnicos</summary>
+          <pre style="margin-top: 8px; padding: 8px; background: #f5f5f5; border-radius: 4px; overflow: auto;">${error.stack || error.message}</pre>
+        </details>
+      `,
+      confirmButtonText: 'Reintentar'
+    });
+    
+    // Limpiar ID incluso en caso de error
+    currentEditingId = null;
+  }
+};
 
 // ========================================
 // ENVÍO DE EMAILS CON DIAGNÓSTICO MEJORADO
@@ -789,219 +1115,6 @@ function getDetallesCambios(dataAnterior, dataNueva) {
 // Reemplazar en rifa.js línea ~800
 // ========================================
 
-document.getElementById('admin-form').onsubmit = async function(e) {
-  e.preventDefault();
-  
-  const nombre = document.getElementById('admin-nombre-input').value.trim();
-  const email = document.getElementById('admin-email-input').value.trim();
-  let state = parseInt(document.getElementById('admin-estado-select').value);
-  const nro_op = document.getElementById('admin-nro_op-input').value.trim();
-  const dni = document.getElementById('admin-dni-input').value.trim();
-
-  // ✅ CERRAR MODAL INMEDIATAMENTE - Mejor UX
-  closeAdminModal();
-  
-  // ✅ MOSTRAR LOADING MIENTRAS PROCESA
-  Swal.fire({
-    title: 'Guardando cambios...',
-    html: '<div class="spinner"></div><p style="margin-top: 16px; font-size: 14px; color: #666;">Actualizando datos...</p>',
-    allowOutsideClick: false,
-    showConfirmButton: false,
-    didOpen: () => {
-      Swal.showLoading();
-    }
-  });
-
-  try {
-    const docSnapshot = await db.collection('rifa').doc(currentEditingId).get();
-    const dataActual = docSnapshot.data();
-    
-    // Auto-asignación de estados
-    if (dataActual.state === 1 && nombre) {
-      if (nro_op) {
-        state = 3;
-        console.log('✅ Auto-asignación: Disponible → Pagado (tiene nro_op)');
-      } else {
-        state = 2;
-        console.log('✅ Auto-asignación: Disponible → Reservado');
-      }
-    }
-    else if (dataActual.state === 2 && nro_op && !dataActual.nro_op) {
-      state = 3;
-      console.log('✅ Auto-asignación: Reservado → Pagado (se agregó nro_op)');
-    }
-    
-    // Verificar si hubo cambios
-    const huboContenidoCambiado = (
-      nombre !== (dataActual.nombre || '') ||
-      email !== (dataActual.email || '') ||
-      dni !== (dataActual.dni || '') ||
-      nro_op !== (dataActual.nro_op || '') ||
-      state !== dataActual.state
-    );
-    
-    if (!huboContenidoCambiado) {
-      Swal.fire({
-        icon: 'info',
-        title: 'Sin Cambios',
-        text: 'No se detectaron cambios en los datos.',
-        confirmButtonText: 'OK',
-        timer: 2000
-      });
-      return;
-    }
-    
-    const adminActual = currentUser ? (currentUser.displayName || currentUser.email) : 'Desconocido';
-    
-    const updateData = {
-      nombre: nombre,
-      email: email,
-      state: state,
-      dni: dni,
-      nro_op: nro_op || null,
-      ultima_modificacion: firebase.firestore.FieldValue.serverTimestamp(),
-      ultimo_admin: adminActual
-    };
-    
-    let esPrimerRegistroPago = false;
-    
-    // Lógica de auditoría
-    if (nro_op && !dataActual.nro_op) {
-      updateData.admin_registro_pago = adminActual;
-      updateData.fecha_pago = firebase.firestore.FieldValue.serverTimestamp();
-      updateData.state = 3;
-      esPrimerRegistroPago = true;
-      console.log('✅ Primer registro de pago por:', adminActual);
-    }
-    else if (nro_op && dataActual.nro_op && nro_op !== dataActual.nro_op) {
-      updateData.admin_correccion = adminActual;
-      updateData.fecha_correccion = firebase.firestore.FieldValue.serverTimestamp();
-      updateData.nro_op_anterior = dataActual.nro_op;
-      updateData.state = 3;
-      console.log('🔧 Corrección de nro operación por:', adminActual);
-    }
-    else if (!nro_op && dataActual.nro_op) {
-      updateData.admin_elimino_pago = adminActual;
-      updateData.fecha_eliminacion = firebase.firestore.FieldValue.serverTimestamp();
-      updateData.nro_op_eliminado = dataActual.nro_op;
-      updateData.nro_op = null;
-      console.log('🗑️ Eliminación de pago por:', adminActual);
-    }
-    
-    if (state === 1) {
-      updateData.nombre = '';
-      updateData.email = '';
-      updateData.dni = null;
-      updateData.nro_op = null;
-      updateData.time = null;
-      updateData.admin_reseteo = adminActual;
-      updateData.fecha_reseteo = firebase.firestore.FieldValue.serverTimestamp();
-      console.log('🔄 Reseteo del número por:', adminActual);
-    }
-    
-    // Historial de cambios
-    const detallesCambios = getDetallesCambios(dataActual, updateData);
-    
-    const entradaHistorial = {
-      admin: adminActual,
-      fecha: new Date().toISOString(),
-      accion: getAccionRealizada(dataActual, updateData),
-      estado_anterior: dataActual.state,
-      estado_nuevo: state,
-      nro_op_anterior: detallesCambios.nro_op_anterior,
-      nro_op_nuevo: detallesCambios.nro_op_nuevo,
-      nombre_anterior: detallesCambios.nombre_anterior,
-      nombre_nuevo: detallesCambios.nombre_nuevo,
-      email_anterior: detallesCambios.email_anterior,
-      email_nuevo: detallesCambios.email_nuevo,
-      dni_anterior: detallesCambios.dni_anterior,
-      dni_nuevo: detallesCambios.dni_nuevo
-    };
-    
-    updateData.historial = firebase.firestore.FieldValue.arrayUnion(entradaHistorial);
-    
-    // ✅ GUARDAR EN FIRESTORE
-    await db.collection('rifa').doc(currentEditingId).update(updateData);
-    
-    console.log('✅ Cambios guardados con auditoría:', updateData);
-    
-    // ✅ ENVÍO DE EMAIL (en segundo plano, no bloquea)
-    let emailEnviado = false;
-    let emailPromise = null;
-    
-    if (esPrimerRegistroPago && email) {
-      console.log('📧 Enviando email en segundo plano...');
-      
-      const numeroData = {
-        id: currentEditingId,
-        numero: dataActual.numero,
-        nombre: nombre,
-        email: email,
-        dni: dni,
-        nro_op: nro_op
-      };
-      
-      // Enviar email SIN esperar (Promise no bloqueante)
-      emailPromise = enviarEmailCertificado(numeroData).then(async (enviado) => {
-        if (enviado) {
-          await db.collection('rifa').doc(currentEditingId).update({
-            email_enviado: true,
-            email_enviado_fecha: firebase.firestore.FieldValue.serverTimestamp()
-          });
-        }
-        return enviado;
-      });
-    }
-    
-    // ✅ ACTUALIZAR TABLA INMEDIATAMENTE (no espera email)
-    renderDataTable();
-    
-    // ✅ MENSAJE DE ÉXITO RÁPIDO
-    let mensajeExito = `
-      <p style="margin: 12px 0;"><strong>Acción:</strong> ${entradaHistorial.accion}</p>
-      <p style="font-size: 13px; color: #666;">Registrado por: ${adminActual}</p>
-    `;
-    
-    // Si hay email pendiente, mostrar estado
-    if (esPrimerRegistroPago && email) {
-      mensajeExito += `
-        <p style="margin-top: 12px; padding: 10px; background: #E3F2FD; border-radius: 8px; color: #1976D2;">
-          📧 Enviando email de confirmación a:<br><strong>${email}</strong>
-          <br><small style="font-size: 11px; color: #666;">El envío se está procesando...</small>
-        </p>
-      `;
-      
-      // Esperar resultado del email (solo para actualizar el mensaje)
-      if (emailPromise) {
-        emailPromise.then((enviado) => {
-          if (enviado) {
-            console.log('✅ Email enviado correctamente');
-          } else {
-            console.warn('⚠️ No se pudo enviar el email');
-          }
-        });
-      }
-    }
-    
-    Swal.fire({
-      icon: 'success',
-      title: '✅ Cambios Guardados',
-      html: mensajeExito,
-      confirmButtonText: 'Perfecto',
-      timer: 3500,
-      timerProgressBar: true
-    });
-    
-  } catch (error) {
-    console.error('❌ Error:', error);
-    Swal.fire({
-      icon: 'error',
-      title: 'Error al Guardar',
-      text: 'Error al guardar: ' + error.message,
-      confirmButtonText: 'Reintentar'
-    });
-  }
-};
 
 // ========================================
 // VER HISTORIAL CON DETALLES MEJORADOS

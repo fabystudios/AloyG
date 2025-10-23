@@ -20,6 +20,7 @@ config/credentials.json
 # ============================================
 # BACKUPS Y DATOS
 # ============================================
+
 backups/
 *.backup
 *.bak
