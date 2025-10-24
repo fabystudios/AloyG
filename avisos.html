@@ -146,37 +146,40 @@
 </style>
 
 
-<section id="Avisos" class="section-header d-flex align-items-center justify-content-center flex-nowrap" style="gap: .6rem; padding: .8rem 1rem; overflow: hidden; white-space: nowrap;">
-
-  <h2 class="md3-headline mb-0" style="color: white; margin: 0; display: inline-block; vertical-align: middle; white-space: nowrap;">
-    <i class="fas fa-thumbtack align-middle"></i> Cartelera de Avisos
+<section id="Avisos" class="section-header d-flex align-items-center justify-content-center" style="gap: .6rem; padding: .8rem 1rem;">
+  <!-- Texto: versión desktop (una línea) y versión mobile (dos líneas con <br>) -->
+  <h2 class="md3-headline mb-0 m-0" style="color: white; display: inline-block; vertical-align: middle;">
+    <span class="d-none d-sm-inline"><i class="fas fa-thumbtack align-middle"></i> Cartelera de Avisos</span>
+    <span class="d-inline d-sm-none"><i class="fas fa-thumbtack align-middle"></i> Cartelera<br>de avisos</span>
   </h2>
 
+  <!-- Imagen al lado del texto -->
   <div class="d-inline-block align-middle" style="display:inline-block; vertical-align:middle;">
     <img src="./cartelera/gio-dedo.png" alt="Gio señalando" class="img-fluid" style="max-height:80px; max-width:180px; display:block;">
   </div>
 
   <style>
-    /* Forcing no-wrap and keeping items centered even on small screens */
+    /* Ajustes generales */
     #Avisos { gap: .6rem; }
-    #Avisos .md3-headline { font-size: 1.25rem; }
+
+    /* Tamaños por defecto */
+    #Avisos .md3-headline { font-size: 2.5rem; }
     #Avisos img { height: auto; width: auto; }
 
-    /* Responsive adjustments so they stay on one line on narrow viewports */
+    /* Mobile: hacer que el texto muestre el <br> y la imagen quede al costado */
     @media (max-width: 480px) {
-      #Avisos { gap: .4rem; padding: .5rem .6rem; }
-      #Avisos .md3-headline { font-size: 1rem; }
-      #Avisos img { max-height:48px; max-width:120px; }
+      #Avisos { gap: .4rem; padding: .5rem .6rem; justify-content: start; }
+      #Avisos .md3-headline { font-size: 1.2rem; white-space: normal; line-height: 1.05; }
+      #Avisos img { max-height:48px; max-width:120px; margin-left: .4rem; }
     }
 
     @media (min-width: 481px) and (max-width: 767px) {
-      #Avisos .md3-headline { font-size: 1.1rem; }
+      #Avisos .md3-headline { font-size: 1rem; }
       #Avisos img { max-height:64px; max-width:160px; }
     }
 
-    /* If content would still overflow, shrink text slightly before wrapping */
     @media (max-width: 360px) {
-      #Avisos .md3-headline { font-size: .95rem; }
+      #Avisos .md3-headline { font-size: 1.4rem; }
       #Avisos img { max-height:44px; max-width:110px; }
     }
   </style>
