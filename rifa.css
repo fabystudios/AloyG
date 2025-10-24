@@ -362,3 +362,19 @@
   justify-content: center;
   min-height: 300px;
 }
+/* AGREGAR AL FINAL DE rifa.css */
+
+/* Ocultar elementos admin en vista pública */
+#public-view:not([style*="display: none"]) ~ * #busqueda-rapida-admin,
+#public-view:not([style*="display: none"]) ~ * #admin-data-display {
+  display: none !important;
+}
+
+/* Asegurar que solo se muestre una grilla a la vez */
+#admin-view[style*="display: none"] ~ * #admin-rifa-grid {
+  display: none !important;
+}
+
+#public-view[style*="display: none"] ~ * #public-rifa-grid {
+  display: none !important;
+}

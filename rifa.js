@@ -111,8 +111,23 @@ function showPublicView() {
   document.getElementById('admin-view').style.display = 'none';
   document.getElementById('public-view').style.display = 'block';
   
+  // ✅ AGREGO ESTAS LÍNEAScaso de nuevo search
   const buscador = document.getElementById('busqueda-rapida-admin');
-  if (buscador) buscador.style.display = 'none';
+  if (buscador) {
+    buscador.style.display = 'none';
+  }
+  
+  // ✅ AGREGO: Ocultar tabla de datos admin
+  const tablaAdmin = document.getElementById('admin-data-display');
+  if (tablaAdmin) {
+    tablaAdmin.style.display = 'none';
+  }
+  
+  // ✅ AGREGO: Ocultar grilla admin y mostrar pública
+  const adminGrid = document.getElementById('admin-rifa-grid');
+  const publicGrid = document.getElementById('public-rifa-grid');
+  if (adminGrid) adminGrid.style.display = 'none';
+  if (publicGrid) publicGrid.style.display = 'grid';
   
   isAdmin = false;
 }
@@ -186,8 +201,10 @@ document.getElementById('logout-btn').onclick = function() {
 // ========================================
 // CARGAR DATOS DE FIRESTORE
 // ========================================
+// REEMPLAZAR ESTA FUNCIÓN COMPLETA
 function loadRifaData(adminMode = false) {
-  console.log('📡 Intentando cargar datos de Firestore...');
+  console.log('📡 Intentando cargar datos de Firestore... Admin mode:', adminMode);
+  
   db.collection('rifa').orderBy('numero').onSnapshot((snapshot) => {
     rifaData = [];
     snapshot.forEach((doc) => {
@@ -198,24 +215,45 @@ function loadRifaData(adminMode = false) {
     });
     
     console.log('✅ Datos cargados:', rifaData.length, 'registros');
+    console.log('🔍 Admin mode:', adminMode);
     
     if (rifaData.length === 0) {
       console.log('🔨 Base vacía, inicializando números...');
       initializeRifaNumbers();
     } else {
-      renderRifaGrid(adminMode);
-      updateStats(adminMode);
-      
+      // ✅ FORZAR RENDERIZADO SEGÚN EL MODO
       if (adminMode) {
+        console.log('👨‍💼 Renderizando vista ADMIN');
+        renderRifaGrid(true);
+        updateStats(true);
+        
         setTimeout(() => {
           document.getElementById('admin-data-display').style.display = 'block';
           renderDataTable();
         }, 500);
+      } else {
+        console.log('👤 Renderizando vista PÚBLICA');
+        // ✅ CRÍTICO: Asegurar que se renderiza la grilla pública
+        renderRifaGrid(false);
+        updateStats(false);
+        
+        // ✅ FORZAR VISIBILIDAD DE LA GRILLA PÚBLICA
+        setTimeout(() => {
+          const publicGrid = document.getElementById('public-rifa-grid');
+          const publicLoading = document.getElementById('public-loading');
+          
+          if (publicGrid && publicLoading) {
+            publicLoading.style.display = 'none';
+            publicGrid.style.display = 'grid';
+            console.log('✅ Grilla pública forzada a visible');
+          }
+        }, 100);
       }
     }
   }, (error) => {
     console.error('❌ Error al cargar datos:', error);
-    document.getElementById(adminMode ? 'admin-loading' : 'public-loading').innerHTML = 
+    const loadingEl = adminMode ? 'admin-loading' : 'public-loading';
+    document.getElementById(loadingEl).innerHTML = 
       '<p style="color: red;">❌ Error de conexión con Firebase<br><small>Verifica la consola del navegador (F12)</small></p>';
     Swal.fire({
       icon: 'error',
@@ -225,7 +263,6 @@ function loadRifaData(adminMode = false) {
     });
   });
 }
-
 async function initializeRifaNumbers() {
   try {
     console.log('🔧 Creando 100 números en Firebase...');
@@ -353,8 +390,17 @@ function renderRifaGrid(adminMode) {
     grid.appendChild(card);
   });
   
+  // document.getElementById(loadingEl).style.display = 'none';
+  // document.getElementById(gridEl).style.display = 'grid';
+  
+  // if (adminMode && busquedaActiva) {
+  //   updateSearchResults(dataToRender.length);
+  // }
+    // ✅ AL FINAL DE LA FUNCIÓN, DEBE ESTAR ESTO:
   document.getElementById(loadingEl).style.display = 'none';
   document.getElementById(gridEl).style.display = 'grid';
+  
+  console.log(`✅ Grilla ${adminMode ? 'ADMIN' : 'PÚBLICA'} renderizada:`, grid.children.length, 'tarjetas');
   
   if (adminMode && busquedaActiva) {
     updateSearchResults(dataToRender.length);
@@ -644,6 +690,48 @@ async function desreservarNumero(item, dniVerificado) {
 // Reemplazar en rifa.js (línea ~650 aprox)
 // ========================================
 
+// function openAdminModal(item) {
+//   console.log('📝 Abriendo modal admin para:', item);
+  
+//   // ✅ VALIDACIÓN CRÍTICA: Verificar que item tenga ID
+//   if (!item || !item.id) {
+//     console.error('❌ ERROR CRÍTICO: Item sin ID válido', item);
+//     Swal.fire({
+//       icon: 'error',
+//       title: 'Error Crítico',
+//       html: `
+//         <p>No se pudo identificar el número a editar.</p>
+//         <p style="font-size: 12px; color: #666; margin-top: 10px;">
+//           Detalles: ${item ? 'Item existe pero no tiene ID' : 'Item es null/undefined'}
+//         </p>
+//       `,
+//       confirmButtonText: 'OK'
+//     });
+//     return;
+//   }
+  
+//   // ✅ ASIGNAR ID INMEDIATAMENTE - ESTO ES CRÍTICO
+//   currentEditingId = item.id;
+  
+//   // ✅ Guardar en atributo del modal como respaldo
+//   document.getElementById('admin-modal').setAttribute('data-editing-id', item.id);
+  
+//   console.log('✅ ID asignado correctamente:', currentEditingId);
+//   console.log('✅ ID respaldado en modal:', document.getElementById('admin-modal').getAttribute('data-editing-id'));
+  
+//   // Rellenar campos del formulario
+//   document.getElementById('admin-modal-numero').textContent = item.numero;
+//   document.getElementById('admin-nombre-input').value = item.nombre || '';
+//   document.getElementById('admin-email-input').value = item.email || '';
+//   document.getElementById('admin-nro_op-input').value = item.nro_op || '';
+//   document.getElementById('admin-dni-input').value = item.dni || '';
+//   document.getElementById('admin-estado-select').value = item.state;
+  
+//   // Mostrar modal
+//   document.getElementById('admin-modal').classList.add('active');
+  
+//   console.log('✅ Modal abierto. Verificación final - currentEditingId:', currentEditingId);
+// }
 function openAdminModal(item) {
   console.log('📝 Abriendo modal admin para:', item);
   
@@ -686,7 +774,6 @@ function openAdminModal(item) {
   
   console.log('✅ Modal abierto. Verificación final - currentEditingId:', currentEditingId);
 }
-
 // ========================================
 // FUNCIÓN CLOSEADMINMODAL - MEJORADA
 // ========================================

@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rifa - Sistema Completo</title>
+  
+  <!-- Material Design 3 -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --md-sys-color-primary: #6750A4;
+      --md-sys-color-on-primary: #FFFFFF;
+      --md-sys-color-primary-container: #EADDFF;
+      --md-sys-color-surface: #FFFBFE;
+      --md-sys-color-surface-variant: #E7E0EC;
+      --md-sys-color-outline: #79747E;
+      --md-sys-color-error: #B3261E;
+      --md-sys-color-success: #4CAF50;
+      --md-sys-color-warning: #FF9800;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: var(--md-sys-color-surface);
+      border-radius: 28px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+      padding: 32px;
+      animation: slideUp 0.4s ease-out;
+      margin-bottom: 20px;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    h1 {
+      color: var(--md-sys-color-primary);
+      font-size: 32px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      color: var(--md-sys-color-primary);
+      font-size: 24px;
+      font-weight: 500;
+      margin-bottom: 24px;
+    }
+
+    .subtitle {
+      color: var(--md-sys-color-outline);
+      margin-bottom: 16px;
+    }
+
+    .mode-toggle {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .md-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 20px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Roboto', sans-serif;
+    }
+
+    .md-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+    }
+
+    .btn-primary {
+      background: var(--md-sys-color-primary);
+      color: var(--md-sys-color-on-primary);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--md-sys-color-primary);
+      border: 2px solid var(--md-sys-color-primary);
+    }
+
+    .btn-google {
+      background: white;
+      color: #333;
+      border: 1px solid #ddd;
+    }
+
+    .btn-facebook {
+      background: #1877F2;
+      color: white;
+    }
+
+    .btn-logout {
+      background: var(--md-sys-color-error);
+      color: white;
+    }
+
+    .admin-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--md-sys-color-surface-variant);
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid var(--md-sys-color-primary);
+    }
+
+    .admin-badge {
+      display: inline-block;
+      background: var(--md-sys-color-primary-container);
+      color: var(--md-sys-color-primary);
+      padding: 4px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-top: 4px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--md-sys-color-surface-variant);
+      padding: 16px;
+      border-radius: 16px;
+      text-align: center;
+    }
+
+    .stat-card .number {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--md-sys-color-primary);
+    }
+
+    .stat-card .label {
+      font-size: 14px;
+      color: var(--md-sys-color-outline);
+      margin-top: 4px;
+    }
+
+    .rifa-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+      gap: 12px;
+    }
+
+    .numero-card {
+      aspect-ratio: 1;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+      font-weight: 500;
+    }
+
+    .numero-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    .numero-card.disponible {
+      background: var(--md-sys-color-success);
+      color: white;
+    }
+
+    .numero-card.reservado {
+      background: var(--md-sys-color-warning);
+      color: white;
+    }
+
+    .numero-card.pagado {
+      background: var(--md-sys-color-primary);
+      color: white;
+    }
+
+    .numero-card .numero {
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .numero-card .estado {
+      font-size: 10px;
+      margin-top: 4px;
+      text-transform: uppercase;
+    }
+
+    .numero-card .nombre-mini {
+      font-size: 9px;
+      margin-top: 2px;
+      opacity: 0.8;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding: 0 4px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--md-sys-color-surface);
+      border-radius: 28px;
+      padding: 32px;
+      max-width: 400px;
+      width: 90%;
+      animation: slideUp 0.3s;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .modal-header h3 {
+      font-size: 24px;
+      color: var(--md-sys-color-primary);
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--md-sys-color-outline);
+      font-size: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--md-sys-color-outline);
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--md-sys-color-outline);
+      border-radius: 12px;
+      font-size: 16px;
+      font-family: 'Roboto', sans-serif;
+      transition: border 0.2s;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--md-sys-color-primary);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+      margin-top: 24px;
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--md-sys-color-outline);
+    }
+
+    .spinner {
+      border: 3px solid var(--md-sys-color-surface-variant);
+      border-top: 3px solid var(--md-sys-color-primary);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .login-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      max-width: 400px;
+      margin: 0 auto;
+    }
+
+    .info-box {
+      background: var(--md-sys-color-primary-container);
+      border-left: 4px solid var(--md-sys-color-primary);
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 24px;
+    }
+
+    .info-box p {
+      color: var(--md-sys-color-primary);
+      margin: 0;
+    }
+
+    @media (max-width: 600px) {
+      .card {
+        padding: 20px;
+      }
+      
+      .rifa-grid {
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        gap: 8px;
+      }
+      
+      .numero-card .numero {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Vista Pública -->
+    <div id="public-view" class="card">
+      <div class="header">
+        <h1>🎟️ Rifa</h1>
+        <p class="subtitle">Selecciona tu número de la suerte</p>
+      </div>
+
+      <div class="mode-toggle">
+        <button class="md-button btn-secondary" onclick="showAdminLogin()">
+          <span class="material-icons">admin_panel_settings</span>
+          Acceso Admin
+        </button>
+      </div>
+
+      <div class="info-box">
+        <p><strong>📌 Cómo funciona:</strong> Haz clic en un número disponible (verde) para reservarlo. Los números naranjas están reservados y los morados ya están pagados.</p>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="number" id="public-stat-disponibles">0</div>
+          <div class="label">Disponibles</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" id="public-stat-reservados">0</div>
+          <div class="label">Reservados</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" id="public-stat-pagados">0</div>
+          <div class="label">Pagados</div>
+        </div>
+      </div>
+
+      <div id="public-loading" class="loading">
+        <div class="spinner"></div>
+        <p>Cargando números disponibles...</p>
+      </div>
+
+      <div id="public-rifa-grid" class="rifa-grid" style="display:none;"></div>
+    </div>
+
+    <!-- Login Admin -->
+    <div id="admin-login" class="card" style="display:none;">
+      <div class="header">
+        <h1>🔐 Admin Rifa</h1>
+        <p class="subtitle">Acceso exclusivo para administradores</p>
+      </div>
+
+      <button class="md-button btn-secondary" onclick="showPublicView()" style="margin-bottom: 24px;">
+        <span class="material-icons">arrow_back</span>
+        Volver a vista pública
+      </button>
+
+      <div class="login-buttons">
+        <button id="login-google" class="md-button btn-google">
+          <svg width="20" height="20" viewBox="0 0 20 20">
+            <path fill="#4285F4" d="M19.6 10.23c0-.82-.1-1.42-.25-2.05H10v3.72h5.5c-.15.96-.74 2.31-2.04 3.22v2.45h3.16c1.89-1.73 2.98-4.3 2.98-7.34z"/>
+            <path fill="#34A853" d="M13.46 15.13c-.83.59-1.96 1-3.46 1-2.64 0-4.88-1.74-5.68-4.15H1.07v2.52C2.72 17.75 6.09 20 10 20c2.7 0 4.96-.89 6.62-2.42l-3.16-2.45z"/>
+            <path fill="#FBBC05" d="M3.99 10c0-.69.12-1.35.32-1.97V5.51H1.07A9.973 9.973 0 000 10c0 1.61.39 3.14 1.07 4.49l3.24-2.52c-.2-.62-.32-1.28-.32-1.97z"/>
+            <path fill="#EA4335" d="M10 3.88c1.88 0 3.13.81 3.85 1.48l2.84-2.76C14.96.99 12.7 0 10 0 6.09 0 2.72 2.25 1.07 5.51l3.24 2.52C5.12 5.62 7.36 3.88 10 3.88z"/>
+          </svg>
+          Ingresar con Google
+        </button>
+        <button id="login-facebook" class="md-button btn-facebook">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+          </svg>
+          Ingresar con Facebook
+        </button>
+      </div>
+    </div>
+
+    <!-- Vista Admin -->
+    <div id="admin-view" class="card" style="display:none;">
+      <div class="admin-header">
+        <div class="user-info">
+          <img id="user-avatar" class="user-avatar" src="" alt="Avatar">
+          <div>
+            <h3 id="user-name" style="margin:0;"></h3>
+            <span class="admin-badge">Administrador</span>
+          </div>
+        </div>
+        <button id="logout-btn" class="md-button btn-logout">
+          <span class="material-icons">logout</span>
+          Salir
+        </button>
+      </div>
+
+      <div class="header">
+        <h2>Panel de Administración</h2>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="number" id="admin-stat-disponibles">0</div>
+          <div class="label">Disponibles</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" id="admin-stat-reservados">0</div>
+          <div class="label">Reservados</div>
+        </div>
+        <div class="stat-card">
+          <div class="number" id="admin-stat-pagados">0</div>
+          <div class="label">Pagados</div>
+        </div>
+      </div>
+
+      <div id="admin-loading" class="loading">
+        <div class="spinner"></div>
+        <p>Cargando datos...</p>
+      </div>
+
+      <div id="admin-rifa-grid" class="rifa-grid" style="display:none;"></div>
+    </div>
+  </div>
+
+  <!-- Modal Reserva Pública -->
+  <div id="public-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Reservar Número <span id="public-modal-numero"></span></h3>
+        <button class="close-btn" onclick="closePublicModal()">×</button>
+      </div>
+      <form id="public-form">
+        <div class="form-group">
+          <label for="public-nombre-input">Tu Nombre Completo</label>
+          <input type="text" id="public-nombre-input" placeholder="Ej: Juan Pérez" required>
+        </div>
+        <div class="info-box">
+          <p>Al reservar, el número quedará apartado para ti. Un administrador confirmará tu pago.</p>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="md-button btn-secondary" onclick="closePublicModal()">Cancelar</button>
+          <button type="submit" class="md-button btn-primary">Reservar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal Edición Admin -->
+  <div id="admin-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Editar Número <span id="admin-modal-numero"></span></h3>
+        <button class="close-btn" onclick="closeAdminModal()">×</button>
+      </div>
+      <form id="admin-form">
+        <div class="form-group">
+          <label for="admin-nombre-input">Nombre del Participante</label>
+          <input type="text" id="admin-nombre-input" placeholder="Ingrese el nombre">
+        </div>
+        <div class="form-group">
+          <label for="admin-estado-select">Estado</label>
+          <select id="admin-estado-select">
+            <option value="1">Disponible</option>
+            <option value="2">Reservado</option>
+            <option value="3">Pagado ✓</option>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="md-button btn-secondary" onclick="closeAdminModal()">Cancelar</button>
+          <button type="submit" class="md-button btn-primary">Guardar Cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Configuración Firebase - REEMPLAZA CON TUS CREDENCIALES
+const firebaseConfig = {
+  apiKey: "AIzaSyD-3xKx4M5GxSQ-oJdnqz33hEZqFNBHoxM",
+  authDomain: "aloy-726.firebaseapp.com",
+  projectId: "aloy-726",
+  storageBucket: "aloy-726.firebasestorage.app",
+  messagingSenderId: "441895072453",
+  appId: "1:441895072453:web:aeaabb2d4f5fbc1a85b6ac",
+  measurementId: "G-GX6KWD2LR7"
+};
+
+    
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Emails de administradores
+    const allowedAdmins = ["willyescobar@gmail.com", "meichtryes@gmail.com"];
+    
+    let currentUser = null;
+    let rifaData = [];
+    let currentEditingId = null;
+    let isAdmin = false;
+
+    const estadoLabels = {
+      1: 'Disponible',
+      2: 'Reservado',
+      3: 'Pagado'
+    };
+
+    const estadoClasses = {
+      1: 'disponible',
+      2: 'reservado',
+      3: 'pagado'
+    };
+
+    // Navegación entre vistas
+    function showPublicView() {
+      document.getElementById('admin-login').style.display = 'none';
+      document.getElementById('admin-view').style.display = 'none';
+      document.getElementById('public-view').style.display = 'block';
+      isAdmin = false;
+    }
+
+    function showAdminLogin() {
+      document.getElementById('public-view').style.display = 'none';
+      document.getElementById('admin-view').style.display = 'none';
+      document.getElementById('admin-login').style.display = 'block';
+    }
+
+    function showAdminView() {
+      document.getElementById('public-view').style.display = 'none';
+      document.getElementById('admin-login').style.display = 'none';
+      document.getElementById('admin-view').style.display = 'block';
+      isAdmin = true;
+    }
+
+    // Login Google
+    document.getElementById('login-google').onclick = function() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(result => handleAuthResult(result))
+        .catch(error => {
+          console.error('Error en login:', error);
+          alert('Error al iniciar sesión: ' + error.message);
+        });
+    };
+
+    // Login Facebook
+    document.getElementById('login-facebook').onclick = function() {
+      const provider = new firebase.auth.FacebookAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(result => handleAuthResult(result))
+        .catch(error => {
+          console.error('Error en login:', error);
+          alert('Error al iniciar sesión: ' + error.message);
+        });
+    };
+
+    function handleAuthResult(result) {
+      const email = result.user.email;
+      
+      if (allowedAdmins.includes(email)) {
+        currentUser = result.user;
+        document.getElementById('user-name').textContent = currentUser.displayName || currentUser.email;
+        document.getElementById('user-avatar').src = currentUser.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.displayName || 'Admin');
+        showAdminView();
+        loadRifaData(true);
+      } else {
+        alert('⚠️ No tienes permisos de administrador.');
+        auth.signOut();
+      }
+    }
+
+    // Logout
+    document.getElementById('logout-btn').onclick = function() {
+      auth.signOut().then(() => {
+        currentUser = null;
+        showPublicView();
+      });
+    };
+
+    // Cargar datos
+    function loadRifaData(adminMode = false) {
+      const loadingEl = adminMode ? 'admin-loading' : 'public-loading';
+      const gridEl = adminMode ? 'admin-rifa-grid' : 'public-rifa-grid';
+      
+      document.getElementById(loadingEl).style.display = 'block';
+      document.getElementById(gridEl).style.display = 'none';
+      
+      db.collection('rifa').orderBy('numero').onSnapshot((snapshot) => {
+        rifaData = [];
+        snapshot.forEach((doc) => {
+          rifaData.push({
+            id: doc.id,
+            ...doc.data()
+          });
+        });
+        
+        console.log('Datos cargados:', rifaData.length, 'registros');
+        
+        if (rifaData.length === 0) {
+          console.log('Base vacía, inicializando números...');
+          initializeRifaNumbers().then(() => {
+            console.log('Números inicializados correctamente');
+          });
+        } else {
+          renderRifaGrid(adminMode);
+          updateStats(adminMode);
+        }
+      }, (error) => {
+        console.error('Error al cargar datos:', error);
+        alert('Error de conexión con Firebase: ' + error.message + '\n\nVerifica tu configuración de Firebase.');
+      });
+    }
+
+    async function initializeRifaNumbers() {
+      try {
+        console.log('Creando 100 números en Firebase...');
+        const batch = db.batch();
+        
+        for (let i = 1; i <= 100; i++) {
+          const docRef = db.collection('rifa').doc(i.toString().padStart(3, '0'));
+          batch.set(docRef, {
+            numero: i,
+            nombre: '',
+            state: 1
+          });
+        }
+        
+        await batch.commit();
+        console.log('✅ 100 números creados exitosamente');
+        return true;
+      } catch (error) {
+        console.error('Error al inicializar números:', error);
+        alert('Error al crear números: ' + error.message);
+        return false;
+      }
+    }
+
+    function renderRifaGrid(adminMode) {
+      const gridEl = adminMode ? 'admin-rifa-grid' : 'public-rifa-grid';
+      const loadingEl = adminMode ? 'admin-loading' : 'public-loading';
+      const grid = document.getElementById(gridEl);
+      grid.innerHTML = '';
+      
+      rifaData.forEach(item => {
+        const card = document.createElement('div');
+        card.className = `numero-card ${estadoClasses[item.state]}`;
+        card.innerHTML = `
+          <div class="numero">${item.numero}</div>
+          <div class="estado">${estadoLabels[item.state]}</div>
+          ${item.nombre ? `<div class="nombre-mini">${item.nombre}</div>` : ''}
+        `;
+        
+        if (adminMode) {
+          card.onclick = () => openAdminModal(item);
+        } else {
+          if (item.state === 1) {
+            card.onclick = () => openPublicModal(item);
+          } else {
+            card.style.cursor = 'not-allowed';
+          }
+        }
+        
+        grid.appendChild(card);
+      });
+      
+      document.getElementById(loadingEl).style.display = 'none';
+      document.getElementById(gridEl).style.display = 'grid';
+    }
+
+    function updateStats(adminMode) {
+      const prefix = adminMode ? 'admin' : 'public';
+      const disponibles = rifaData.filter(item => item.state === 1).length;
+      const reservados = rifaData.filter(item => item.state === 2).length;
+      const pagados = rifaData.filter(item => item.state === 3).length;
+      
+      document.getElementById(`${prefix}-stat-disponibles`).textContent = disponibles;
+      document.getElementById(`${prefix}-stat-reservados`).textContent = reservados;
+      document.getElementById(`${prefix}-stat-pagados`).textContent = pagados;
+    }
+
+    // Modal Público
+    function openPublicModal(item) {
+      currentEditingId = item.id;
+      document.getElementById('public-modal-numero').textContent = item.numero;
+      document.getElementById('public-nombre-input').value = '';
+      document.getElementById('public-modal').classList.add('active');
+    }
+
+    function closePublicModal() {
+      document.getElementById('public-modal').classList.remove('active');
+      currentEditingId = null;
+    }
+
+    document.getElementById('public-form').onsubmit = async function(e) {
+      e.preventDefault();
+      
+      const nombre = document.getElementById('public-nombre-input').value.trim();
+      
+      if (!nombre) {
+        alert('Por favor ingresa tu nombre');
+        return;
+      }
+      
+      try {
+        await db.collection('rifa').doc(currentEditingId).update({
+          nombre: nombre,
+          state: 2
+        });
+        
+        closePublicModal();
+        alert('✅ ¡Número reservado exitosamente!\n\nUn administrador confirmará tu pago pronto.');
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error al reservar: ' + error.message);
+      }
+    };
+
+    // Modal Admin
+    function openAdminModal(item) {
+      currentEditingId = item.id;
+      document.getElementById('admin-modal-numero').textContent = item.numero;
+      document.getElementById('admin-nombre-input').value = item.nombre || '';
+      document.getElementById('admin-estado-select').value = item.state;
+      document.getElementById('admin-modal').classList.add('active');
+    }
+
+    function closeAdminModal() {
+      document.getElementById('admin-modal').classList.remove('active');
+      currentEditingId = null;
+    }
+
+    document.getElementById('admin-form').onsubmit = async function(e) {
+      e.preventDefault();
+      
+      const nombre = document.getElementById('admin-nombre-input').value.trim();
+      const state = parseInt(document.getElementById('admin-estado-select').value);
+      
+      try {
+        await db.collection('rifa').doc(currentEditingId).update({
+          nombre: nombre,
+          state: state
+        });
+        
+        closeAdminModal();
+        alert('✅ Cambios guardados correctamente');
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error al guardar: ' + error.message);
+      }
+    };
+
+    // Cerrar modales al hacer clic fuera
+    document.getElementById('public-modal').onclick = function(e) {
+      if (e.target === this) closePublicModal();
+    };
+
+    document.getElementById('admin-modal').onclick = function(e) {
+      if (e.target === this) closeAdminModal();
+    };
+
+    // Verificar autenticación al cargar
+    auth.onAuthStateChanged(user => {
+      if (user && allowedAdmins.includes(user.email)) {
+        currentUser = user;
+        document.getElementById('user-name').textContent = currentUser.displayName || currentUser.email;
+        document.getElementById('user-avatar').src = currentUser.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.displayName || 'Admin');
+        showAdminView();
+        loadRifaData(true);
+      } else {
+        // Vista pública por defecto
+        loadRifaData(false);
+      }
+    });
+  </script>
+</body>
+</html>
