@@ -107,49 +107,113 @@ async function esAdmin(email) {
 // FUNCIONES DE NAVEGACIÓN
 // ========================================
 function showPublicView() {
+  console.log('🔄 Cambiando a vista PÚBLICA');
+  
+  // Ocultar vistas admin
   document.getElementById('admin-login').style.display = 'none';
   document.getElementById('admin-view').style.display = 'none';
+  
+  // Mostrar vista pública
   document.getElementById('public-view').style.display = 'block';
   
-  // ✅ AGREGO ESTAS LÍNEAScaso de nuevo search
+  // ✅ CRÍTICO: Ocultar TODOS los elementos admin
   const buscador = document.getElementById('busqueda-rapida-admin');
   if (buscador) {
     buscador.style.display = 'none';
+    console.log('✅ Buscador admin oculto');
   }
   
-  // ✅ AGREGO: Ocultar tabla de datos admin
   const tablaAdmin = document.getElementById('admin-data-display');
   if (tablaAdmin) {
     tablaAdmin.style.display = 'none';
+    console.log('✅ Tabla admin oculta');
   }
   
-  // ✅ AGREGO: Ocultar grilla admin y mostrar pública
   const adminGrid = document.getElementById('admin-rifa-grid');
+  if (adminGrid) {
+    adminGrid.style.display = 'none';
+    console.log('✅ Grilla admin oculta');
+  }
+  
+  // ✅ Asegurar que la grilla pública esté visible
   const publicGrid = document.getElementById('public-rifa-grid');
-  if (adminGrid) adminGrid.style.display = 'none';
-  if (publicGrid) publicGrid.style.display = 'grid';
+  const publicLoading = document.getElementById('public-loading');
+  
+  if (publicGrid) {
+    // Si ya hay datos, mostrar grilla
+    if (rifaData && rifaData.length > 0) {
+      publicLoading.style.display = 'none';
+      publicGrid.style.display = 'grid';
+      console.log('✅ Grilla pública visible con datos');
+    } else {
+      publicLoading.style.display = 'flex';
+      publicGrid.style.display = 'none';
+      console.log('⏳ Esperando datos...');
+    }
+  }
+  
+  // Agregar clase al body para CSS
+  document.body.classList.add('public-mode');
+  document.body.classList.remove('admin-mode');
   
   isAdmin = false;
+  console.log('✅ Vista pública activada');
 }
 
 function showAdminLogin() {
+  console.log('🔄 Mostrando login admin');
+  
   document.getElementById('public-view').style.display = 'none';
   document.getElementById('admin-view').style.display = 'none';
   document.getElementById('admin-login').style.display = 'block';
+  
+  // Ocultar elementos admin mientras se loguea
+  const buscador = document.getElementById('busqueda-rapida-admin');
+  if (buscador) buscador.style.display = 'none';
+  
+  const tablaAdmin = document.getElementById('admin-data-display');
+  if (tablaAdmin) tablaAdmin.style.display = 'none';
+  
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function showAdminView() {
+  console.log('🔄 Cambiando a vista ADMIN');
+  
+  // Ocultar otras vistas
   document.getElementById('public-view').style.display = 'none';
   document.getElementById('admin-login').style.display = 'none';
+  
+  // Mostrar vista admin
   document.getElementById('admin-view').style.display = 'block';
   
+  // ✅ Mostrar elementos admin
   const buscador = document.getElementById('busqueda-rapida-admin');
-  if (buscador) buscador.style.display = 'block';
+  if (buscador) {
+    buscador.style.display = 'block';
+    console.log('✅ Buscador admin visible');
+  }
+  
+  const adminGrid = document.getElementById('admin-rifa-grid');
+  if (adminGrid) {
+    adminGrid.style.display = 'none'; // Se mostrará cuando carguen los datos
+    console.log('✅ Grilla admin lista');
+  }
+  
+  // Ocultar grilla pública
+  const publicGrid = document.getElementById('public-rifa-grid');
+  if (publicGrid) {
+    publicGrid.style.display = 'none';
+    console.log('✅ Grilla pública oculta');
+  }
+  
+  // Agregar clase al body
+  document.body.classList.add('admin-mode');
+  document.body.classList.remove('public-mode');
   
   isAdmin = true;
+  console.log('✅ Vista admin activada');
 }
-
 // ========================================
 // AUTENTICACIÓN
 // ========================================
@@ -203,7 +267,16 @@ document.getElementById('logout-btn').onclick = function() {
 // ========================================
 // REEMPLAZAR ESTA FUNCIÓN COMPLETA
 function loadRifaData(adminMode = false) {
-  console.log('📡 Intentando cargar datos de Firestore... Admin mode:', adminMode);
+  console.log('📡 Cargando datos. Modo Admin:', adminMode);
+  
+  // Mostrar loading correcto
+  if (adminMode) {
+    document.getElementById('admin-loading').classList.add('active');
+    document.getElementById('admin-loading').style.display = 'flex';
+  } else {
+    document.getElementById('public-loading').classList.add('active');
+    document.getElementById('public-loading').style.display = 'flex';
+  }
   
   db.collection('rifa').orderBy('numero').onSnapshot((snapshot) => {
     rifaData = [];
@@ -215,54 +288,99 @@ function loadRifaData(adminMode = false) {
     });
     
     console.log('✅ Datos cargados:', rifaData.length, 'registros');
-    console.log('🔍 Admin mode:', adminMode);
+    console.log('📋 Modo:', adminMode ? 'ADMIN' : 'PÚBLICO');
     
     if (rifaData.length === 0) {
-      console.log('🔨 Base vacía, inicializando números...');
+      console.log('🔨 Base vacía, inicializando...');
       initializeRifaNumbers();
-    } else {
-      // ✅ FORZAR RENDERIZADO SEGÚN EL MODO
-      if (adminMode) {
-        console.log('👨‍💼 Renderizando vista ADMIN');
-        renderRifaGrid(true);
-        updateStats(true);
-        
-        setTimeout(() => {
-          document.getElementById('admin-data-display').style.display = 'block';
+      return;
+    }
+    
+    // ✅ RENDERIZADO SEGÚN MODO
+    if (adminMode) {
+      console.log('👨‍💼 Renderizando ADMIN');
+      
+      // Ocultar loading admin
+      document.getElementById('admin-loading').style.display = 'none';
+      document.getElementById('admin-loading').classList.remove('active');
+      
+      // Mostrar grilla admin
+      renderRifaGrid(true);
+      updateStats(true);
+      
+      // Mostrar tabla después de un delay
+      setTimeout(() => {
+        const tablaAdmin = document.getElementById('admin-data-display');
+        if (tablaAdmin) {
+          tablaAdmin.style.display = 'block';
           renderDataTable();
-        }, 500);
-      } else {
-        console.log('👤 Renderizando vista PÚBLICA');
-        // ✅ CRÍTICO: Asegurar que se renderiza la grilla pública
-        renderRifaGrid(false);
-        updateStats(false);
+          console.log('✅ Tabla admin renderizada');
+        }
+      }, 300);
+      
+    } else {
+      console.log('👤 Renderizando PÚBLICO');
+      
+      // ✅ ASEGURAR QUE NO SE MUESTREN ELEMENTOS ADMIN
+      const buscador = document.getElementById('busqueda-rapida-admin');
+      const tablaAdmin = document.getElementById('admin-data-display');
+      const adminGrid = document.getElementById('admin-rifa-grid');
+      
+      if (buscador) buscador.style.display = 'none';
+      if (tablaAdmin) tablaAdmin.style.display = 'none';
+      if (adminGrid) adminGrid.style.display = 'none';
+      
+      // Renderizar grilla pública
+      renderRifaGrid(false);
+      updateStats(false);
+      
+      // Ocultar loading y mostrar grilla pública
+      setTimeout(() => {
+        const publicLoading = document.getElementById('public-loading');
+        const publicGrid = document.getElementById('public-rifa-grid');
         
-        // ✅ FORZAR VISIBILIDAD DE LA GRILLA PÚBLICA
-        setTimeout(() => {
-          const publicGrid = document.getElementById('public-rifa-grid');
-          const publicLoading = document.getElementById('public-loading');
-          
-          if (publicGrid && publicLoading) {
-            publicLoading.style.display = 'none';
-            publicGrid.style.display = 'grid';
-            console.log('✅ Grilla pública forzada a visible');
-          }
-        }, 100);
-      }
+        if (publicLoading) {
+          publicLoading.style.display = 'none';
+          publicLoading.classList.remove('active');
+        }
+        
+        if (publicGrid) {
+          publicGrid.style.display = 'grid';
+          console.log('✅ Grilla pública visible:', publicGrid.children.length, 'números');
+        }
+      }, 300);
     }
   }, (error) => {
     console.error('❌ Error al cargar datos:', error);
+    
     const loadingEl = adminMode ? 'admin-loading' : 'public-loading';
-    document.getElementById(loadingEl).innerHTML = 
-      '<p style="color: red;">❌ Error de conexión con Firebase<br><small>Verifica la consola del navegador (F12)</small></p>';
+    const loading = document.getElementById(loadingEl);
+    
+    if (loading) {
+      loading.innerHTML = `
+        <div style="text-align: center; color: #B3261E;">
+          <span class="material-icons" style="font-size: 48px; opacity: 0.5;">error_outline</span>
+          <p style="margin-top: 16px; font-size: 16px; font-weight: 600;">Error de Conexión</p>
+          <p style="font-size: 13px; color: #666;">No se pudieron cargar los datos</p>
+          <button onclick="location.reload()" class="md-button btn-primary" style="margin-top: 16px;">
+            <span class="material-icons">refresh</span>
+            Reintentar
+          </button>
+        </div>
+      `;
+    }
+    
     Swal.fire({
       icon: 'error',
       title: 'Error al Cargar Datos',
-      text: 'No se pudieron cargar los números. Verifica tu conexión.',
-      confirmButtonText: 'Reintentar'
-    });
+      text: 'Verifica tu conexión e intenta nuevamente.',
+      confirmButtonText: 'Reintentar',
+      confirmButtonColor: '#6750A4'
+    }).then(() => location.reload());
   });
 }
+
+
 async function initializeRifaNumbers() {
   try {
     console.log('🔧 Creando 100 números en Firebase...');
@@ -1732,25 +1850,90 @@ window.addEventListener('DOMContentLoaded', function() {
 // INICIALIZACIÓN
 // ========================================
 auth.onAuthStateChanged(async user => {
+  console.log('🔐 Estado de autenticación:', user ? 'Logueado' : 'No logueado');
+  
   if (user) {
+    console.log('👤 Usuario:', user.email);
     const isAdminUser = await esAdmin(user.email);
     
     if (isAdminUser) {
+      console.log('✅ Usuario es admin');
       currentUser = user;
-      document.getElementById('user-name').textContent = currentUser.displayName || currentUser.email;
-      document.getElementById('user-avatar').src = currentUser.photoURL || 
-        'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.displayName || 'Admin');
+      
+      document.getElementById('user-name').textContent = 
+        currentUser.displayName || currentUser.email;
+      
+      document.getElementById('user-avatar').src = 
+        currentUser.photoURL || 
+        'https://ui-avatars.com/api/?name=' + 
+        encodeURIComponent(currentUser.displayName || 'Admin');
+      
       showAdminView();
       loadRifaData(true);
     } else {
+      console.log('⚠️ Usuario NO es admin, mostrando vista pública');
+      await auth.signOut(); // Cerrar sesión
       showPublicView();
       loadRifaData(false);
     }
   } else {
+    console.log('👤 Usuario no autenticado, mostrando vista pública');
     showPublicView();
     loadRifaData(false);
   }
 });
+
+// ✅ VERIFICACIÓN ADICIONAL AL CARGAR LA PÁGINA
+window.addEventListener('DOMContentLoaded', function() {
+  console.log('🚀 DOM cargado, verificando estado inicial...');
+  
+  // Asegurar que empiece en vista pública si no hay usuario
+  if (!currentUser) {
+    showPublicView();
+  }
+  
+  // Configurar listeners de búsqueda solo si existen
+  const inputBusqueda = document.getElementById('busqueda-grilla-input');
+  const btnBuscar = document.getElementById('btn-buscar-grilla');
+  const btnLimpiar = document.getElementById('btn-limpiar-busqueda');
+  
+  if (inputBusqueda && btnBuscar && btnLimpiar) {
+    inputBusqueda.addEventListener('input', function() {
+      if (this.value.trim().length > 0) {
+        btnLimpiar.style.display = 'block';
+      } else {
+        btnLimpiar.style.display = 'none';
+        if (busquedaActiva) {
+          limpiarBusqueda();
+        }
+      }
+    });
+    
+    inputBusqueda.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        buscarEnGrilla();
+      }
+    });
+    
+    let timeoutId;
+    inputBusqueda.addEventListener('input', function() {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => {
+        if (inputBusqueda.value.trim().length >= 3) {
+          buscarEnGrilla();
+        }
+      }, 500);
+    });
+    
+    btnBuscar.addEventListener('click', buscarEnGrilla);
+    btnLimpiar.addEventListener('click', limpiarBusqueda);
+    
+    console.log('✅ Listeners de búsqueda configurados');
+  }
+});
+
+console.log('🎯 Sistema inicializado correctamente');
 
 console.log('🚀 Sistema de Rifa iniciado');
 console.log('✅ Auditoría automática activada');

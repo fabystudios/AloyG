@@ -378,3 +378,134 @@
 #public-view[style*="display: none"] ~ * #public-rifa-grid {
   display: none !important;
 }
+/* ========================================
+   CORRECCIÓN DE CONFLICTOS CSS
+   Agregar AL FINAL de rifa.css
+   ======================================== */
+
+/* ============================================
+   REGLA CRÍTICA: Ocultar elementos admin en vista pública
+   ============================================ */
+
+/* Cuando public-view está visible, ocultar TODO lo de admin */
+#public-view:not([style*="display: none"]) ~ * #busqueda-rapida-admin,
+#public-view:not([style*="display: none"]) ~ * #admin-data-display,
+#public-view:not([style*="display: none"]) ~ * .search-panel {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Cuando admin-view está oculto, ocultar grilla admin */
+#admin-view[style*="display: none"] #admin-rifa-grid,
+#admin-view[style*="display: none"] .search-panel,
+#admin-view[style*="display: none"] #busqueda-rapida-admin {
+  display: none !important;
+}
+
+/* Cuando public-view está oculto, ocultar grilla pública */
+#public-view[style*="display: none"] #public-rifa-grid {
+  display: none !important;
+}
+
+/* ============================================
+   ASEGURAR VISIBILIDAD CORRECTA
+   ============================================ */
+
+/* Vista pública: solo mostrar elementos públicos */
+#public-view {
+  display: block;
+}
+
+#public-view #public-rifa-grid {
+  display: grid !important;
+}
+
+#public-view #public-loading {
+  display: flex;
+}
+
+/* Vista admin: solo mostrar elementos admin */
+#admin-view #admin-rifa-grid {
+  display: grid !important;
+}
+
+#admin-view #busqueda-rapida-admin {
+  display: block !important;
+}
+
+#admin-view #admin-data-display {
+  display: block !important;
+}
+
+/* ============================================
+   OCULTAR ELEMENTOS ESPECÍFICOS POR CONTEXTO
+   ============================================ */
+
+/* Si public-view tiene display:block, NO mostrar search-panel */
+body:has(#public-view:not([style*="display: none"])) .search-panel {
+  display: none !important;
+}
+
+body:has(#public-view:not([style*="display: none"])) #busqueda-rapida-admin {
+  display: none !important;
+}
+
+body:has(#public-view:not([style*="display: none"])) #admin-data-display {
+  display: none !important;
+}
+
+/* Si admin-login está visible, ocultar todo lo demás */
+body:has(#admin-login:not([style*="display: none"])) #busqueda-rapida-admin,
+body:has(#admin-login:not([style*="display: none"])) #admin-data-display {
+  display: none !important;
+}
+
+/* ============================================
+   CLASES AUXILIARES PARA CONTROL DESDE JS
+   ============================================ */
+
+.public-mode #busqueda-rapida-admin,
+.public-mode #admin-data-display,
+.public-mode .search-panel {
+  display: none !important;
+}
+
+.admin-mode #public-rifa-grid {
+  display: none !important;
+}
+
+/* ============================================
+   FIX PARA LOADING
+   ============================================ */
+
+/* Loading público solo visible cuando corresponde */
+#public-loading {
+  display: none;
+}
+
+#public-view:not([style*="display: none"]) #public-loading.active {
+  display: flex !important;
+}
+
+/* Loading admin solo visible cuando corresponde */
+#admin-loading {
+  display: none;
+}
+
+#admin-view:not([style*="display: none"]) #admin-loading.active {
+  display: flex !important;
+}
+
+/* ============================================
+   RESPONSIVE - MANTENER REGLAS
+   ============================================ */
+
+@media (max-width: 768px) {
+  /* Asegurar que las reglas se mantengan en móvil */
+  #public-view:not([style*="display: none"]) ~ * #busqueda-rapida-admin,
+  #public-view:not([style*="display: none"]) ~ * #admin-data-display {
+    display: none !important;
+  }
+}
