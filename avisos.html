@@ -146,22 +146,40 @@
 </style>
 
 
-<section id="Avisos"  class="section-header">
+<section id="Avisos" class="section-header d-flex align-items-center justify-content-center flex-nowrap" style="gap: .6rem; padding: .8rem 1rem; overflow: hidden; white-space: nowrap;">
 
-    <h2 class="md3-headline" style="color: white;">
-        <i class="fas fa-thumbtack align-middle"></i> Cartelera de Avisos
-    </h2>
-    <style>
-      /* Mantener título e imagen en la misma línea */
-      .section-header .md3-headline {
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: .5rem;
-      }
-    </style>
-    <div class="d-inline-block align-middle" style="display:inline-block; vertical-align:middle;">
-      <img src="./cartelera/gio-dedo.png" alt="Gio señalando" class="img-fluid" style="max-height:80px; max-width:180px;">
-    </div>
+  <h2 class="md3-headline mb-0" style="color: white; margin: 0; display: inline-block; vertical-align: middle; white-space: nowrap;">
+    <i class="fas fa-thumbtack align-middle"></i> Cartelera de Avisos
+  </h2>
+
+  <div class="d-inline-block align-middle" style="display:inline-block; vertical-align:middle;">
+    <img src="./cartelera/gio-dedo.png" alt="Gio señalando" class="img-fluid" style="max-height:80px; max-width:180px; display:block;">
+  </div>
+
+  <style>
+    /* Forcing no-wrap and keeping items centered even on small screens */
+    #Avisos { gap: .6rem; }
+    #Avisos .md3-headline { font-size: 1.25rem; }
+    #Avisos img { height: auto; width: auto; }
+
+    /* Responsive adjustments so they stay on one line on narrow viewports */
+    @media (max-width: 480px) {
+      #Avisos { gap: .4rem; padding: .5rem .6rem; }
+      #Avisos .md3-headline { font-size: 1rem; }
+      #Avisos img { max-height:48px; max-width:120px; }
+    }
+
+    @media (min-width: 481px) and (max-width: 767px) {
+      #Avisos .md3-headline { font-size: 1.1rem; }
+      #Avisos img { max-height:64px; max-width:160px; }
+    }
+
+    /* If content would still overflow, shrink text slightly before wrapping */
+    @media (max-width: 360px) {
+      #Avisos .md3-headline { font-size: .95rem; }
+      #Avisos img { max-height:44px; max-width:110px; }
+    }
+  </style>
 </section>
 
 <section class="bg-gray-50 py-5 px-4">
