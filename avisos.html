@@ -154,9 +154,34 @@
   </h2>
 
   <!-- Imagen al lado del texto -->
-  <div class="d-inline-block align-middle" style="display:inline-block; vertical-align:middle;">
-    <img src="./cartelera/gio-dedo.png" alt="Gio señalando" class="img-fluid" style="max-height:80px; max-width:180px; display:block;">
+  <div class="d-inline-block align-middle zig-wrap" onclick="toggleZig(event)" ontouchstart="toggleZig(event)" style="display:inline-block; vertical-align:middle; cursor:pointer;">
+    <img src="./cartelera/gio-dedo.png" alt="Gio señalando" class="img-fluid zig-target" style="max-height:80px; max-width:180px; display:block;">
   </div>
+
+  <style>
+    .zig-target { will-change: transform; }
+    .zig-target.zigzag { animation: zigzag .6s ease-in-out; }
+    @keyframes zigzag {
+      0%   { transform: translateX(0) rotate(0); }
+      20%  { transform: translateX(-14px) rotate(-8deg); }
+      40%  { transform: translateX(14px)  rotate(8deg); }
+      60%  { transform: translateX(-9px)  rotate(-5deg); }
+      80%  { transform: translateX(9px)   rotate(5deg); }
+      100% { transform: translateX(0)    rotate(0); }
+    }
+  </style>
+
+  <script>
+    function toggleZig(ev) {
+      const wrapper = ev.currentTarget;
+      const img = wrapper.querySelector('.zig-target') || wrapper.querySelector('img');
+      if (!img) return;
+      img.classList.remove('zigzag');       // restart animation if already playing
+      void img.offsetWidth;                 // force reflow
+      img.classList.add('zigzag');
+      img.addEventListener('animationend', () => img.classList.remove('zigzag'), { once: true });
+    }
+  </script>
 
   <style>
     /* Ajustes generales */
