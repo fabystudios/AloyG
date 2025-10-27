@@ -1,20 +1,20 @@
 // ========================================
-// 🔍 DIAGNÓSTICO TEMPORAL - REMOVER DESPUÉS
+// 🔍 GFE DIAGNÓSTICO TEMPORAL - REMOVER DESPUÉS 
 // ========================================
-let _currentEditingId = null;
-Object.defineProperty(window, 'currentEditingId', {
-  get: function() {
-    return _currentEditingId;
-  },
-  set: function(value) {
-    console.log('🔍 currentEditingId cambiado:', {
-      anterior: _currentEditingId,
-      nuevo: value,
-      stack: new Error().stack
-    });
-    _currentEditingId = value;
-  }
-});
+// let _currentEditingId = null;
+// Object.defineProperty(window, 'currentEditingId', {
+//   get: function() {
+//     return _currentEditingId;
+//   },
+//   set: function(value) {
+//     console.log('🔍 currentEditingId cambiado:', {
+//       anterior: _currentEditingId,
+//       nuevo: value,
+//       stack: new Error().stack
+//     });
+//     _currentEditingId = value;
+//   }
+// });
 // ========================================
 // CONFIGURACIÓN FIREBASE
 // ========================================
