@@ -3366,63 +3366,59 @@ document.getElementById('btn-como-llegar').addEventListener('click', function() 
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-<script src="./pdf.js"></script>
-<script src="./rifa.js"></script>
 
+<script src="./pdf.js"></script>
 <!-- Inicialización del Sistema de Cifrado -->
 
-<!-- Inicialización del Sistema de Cifrado - VERSIÓN SIMPLIFICADA -->
 
 <script>
-(function() {
+window.addEventListener('load', function() {
   console.log('🔐 Inicializando sistema de cifrado...');
   
-  // Función auxiliar para inicializar
-  async function inicializarCifrado() {
-    // Esperar a que el DOM esté listo
-    if (document.readyState === 'loading') {
-      await new Promise(resolve => {
-        document.addEventListener('DOMContentLoaded', resolve);
+  // Verificar disponibilidad
+  if (typeof window.SistemaCifrado === 'undefined') {
+    console.error('❌ Sistema de cifrado no disponible');
+    return;
+  }
+  
+  // Renderizar header con datos cifrados
+  window.SistemaCifrado.renderizarHeaderRifa()
+    .then(() => {
+      console.log('✅ Header cargado con datos cifrados');
+    })
+    .catch((error) => {
+      console.error('❌ Error al cargar header:', error);
+    });
+  
+  // Configurar botón admin
+  const btnActualizar = document.getElementById('btn-actualizar-datos-pago');
+  
+  if (btnActualizar) {
+    btnActualizar.onclick = function() {
+      window.SistemaCifrado.mostrarPanelActualizarDatosPago();
+    };
+    
+    // Mostrar solo a admins
+     if (typeof auth !== 'undefined') {
+      auth.onAuthStateChanged(function(user) {
+        if (user && typeof esAdmin === 'function') {
+          esAdmin(user.email).then(function(isAdminUser) {
+            if (isAdminUser) {
+              btnActualizar.style.display = 'inline-flex';
+              console.log('✅ Botón de actualización visible');
+            }
+          }).catch(function(error) {
+            console.error('Error verificando admin:', error);
+          });
+        }
       });
     }
-    
-    // Renderizar header con datos cifrados
-    if (typeof window.SistemaCifrado !== 'undefined') {
-      try {
-        await window.SistemaCifrado.renderizarHeaderRifa();
-        console.log('✅ Header cargado con datos cifrados');
-      } catch (error) {
-        console.error('❌ Error al cargar header:', error);
-      }
-    } else {
-      console.error('❌ Sistema de cifrado no disponible');
-    }
   }
-  
-  // Configurar botón de actualización
-  const btnActualizar = document.getElementById('btn-actualizar-datos-pago');
-  if (btnActualizar) {
-    btnActualizar.addEventListener('click', function() {
-      window.SistemaCifrado.mostrarPanelActualizarDatosPago();
-    });
-  }
-  
-  // Mostrar botón solo a admins
-  auth.onAuthStateChanged(async (user) => {
-    if (user && typeof esAdmin === 'function') {
-      const isAdminUser = await esAdmin(user.email);
-      if (isAdminUser && btnActualizar) {
-        btnActualizar.style.display = 'inline-flex';
-        console.log('✅ Panel admin: botón de actualización visible');
-      }
-    }
-  });
-  
-  // Ejecutar inicialización
-  inicializarCifrado();
-})();
+});
 </script>
 
+
+<script src="./rifa.js"></script>
 
 </body>
 </html>
