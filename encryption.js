@@ -463,7 +463,7 @@ async function verificarIntegridadDatosPago() {
 }
 
 // Verificar cada 30 segundos
-setInterval(verificarIntegridadDatosPago, 30000);
+// setInterval(verificarIntegridadDatosPago, 30000);
 
 // ========================================
 // EXPORTAR FUNCIONES

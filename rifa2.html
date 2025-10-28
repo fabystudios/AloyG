@@ -3381,17 +3381,17 @@ window.addEventListener('load', function() {
     return;
   }
   
-  // Renderizar header con datos cifrados
+  // Renderizar header con datos cifrados (SIN await, usando .then())
   window.SistemaCifrado.renderizarHeaderRifa()
-    .then(() => {
+    .then(function() {
       console.log('✅ Header cargado con datos cifrados');
     })
-    .catch((error) => {
+    .catch(function(error) {
       console.error('❌ Error al cargar header:', error);
     });
   
   // Configurar botón admin
-  const btnActualizar = document.getElementById('btn-actualizar-datos-pago');
+  var btnActualizar = document.getElementById('btn-actualizar-datos-pago');
   
   if (btnActualizar) {
     btnActualizar.onclick = function() {
@@ -3399,17 +3399,19 @@ window.addEventListener('load', function() {
     };
     
     // Mostrar solo a admins
-     if (typeof auth !== 'undefined') {
+    if (typeof auth !== 'undefined') {
       auth.onAuthStateChanged(function(user) {
         if (user && typeof esAdmin === 'function') {
-          esAdmin(user.email).then(function(isAdminUser) {
-            if (isAdminUser) {
-              btnActualizar.style.display = 'inline-flex';
-              console.log('✅ Botón de actualización visible');
-            }
-          }).catch(function(error) {
-            console.error('Error verificando admin:', error);
-          });
+          esAdmin(user.email)
+            .then(function(isAdminUser) {
+              if (isAdminUser && btnActualizar) {
+                btnActualizar.style.display = 'inline-flex';
+                console.log('✅ Botón de actualización visible');
+              }
+            })
+            .catch(function(error) {
+              console.error('Error verificando admin:', error);
+            });
         }
       });
     }
