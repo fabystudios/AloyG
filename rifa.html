@@ -3368,39 +3368,56 @@ document.getElementById('btn-como-llegar').addEventListener('click', function() 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 <script src="./pdf.js"></script>
 <script src="./rifa.js"></script>
+
+<!-- Inicialización del Sistema de Cifrado -->
+
+<!-- Inicialización del Sistema de Cifrado - VERSIÓN SIMPLIFICADA -->
 <script>
-// Inicializar sistema de cifrado
-document.addEventListener('DOMContentLoaded', async function() {
+// Esperar a que todo esté cargado
+window.addEventListener('load', async function() {
   console.log('🔐 Inicializando sistema de cifrado...');
   
-  // Renderizar header con datos cifrados
-  if (typeof window.SistemaCifrado !== 'undefined') {
-    await window.SistemaCifrado.renderizarHeaderRifa();
-  } else {
-    console.error('❌ Sistema de cifrado no cargado');
+  // Verificar disponibilidad
+  if (typeof window.SistemaCifrado === 'undefined') {
+    console.error('❌ Sistema de cifrado no disponible');
+    return;
   }
   
-  // Agregar funcionalidad al botón de actualizar (solo admins)
+  // Renderizar header
+  try {
+    await window.SistemaCifrado.renderizarHeaderRifa();
+    console.log('✅ Header cargado con datos cifrados');
+  } catch (error) {
+    console.error('❌ Error al cargar header:', error);
+  }
+  
+  // Configurar botón admin
   const btnActualizar = document.getElementById('btn-actualizar-datos-pago');
+  
   if (btnActualizar) {
     btnActualizar.onclick = function() {
       window.SistemaCifrado.mostrarPanelActualizarDatosPago();
     };
-  }
-});
-
-// Mostrar botón de actualización cuando el admin se loguee
-auth.onAuthStateChanged(async (user) => {
-  if (user) {
-    const isAdminUser = await esAdmin(user.email);
-    if (isAdminUser) {
-      const btnActualizar = document.getElementById('btn-actualizar-datos-pago');
-      if (btnActualizar) {
-        btnActualizar.style.display = 'inline-flex';
+    
+    // Mostrar solo a admins
+    auth.onAuthStateChanged(async (user) => {
+      if (user && typeof esAdmin === 'function') {
+        try {
+          const isAdminUser = await esAdmin(user.email);
+          if (isAdminUser) {
+            btnActualizar.style.display = 'inline-flex';
+            console.log('✅ Botón de actualización visible');
+          }
+        } catch (error) {
+          console.error('Error verificando admin:', error);
+        }
       }
-    }
+    });
   }
 });
 </script>
+
+
+
 </body>
 </html>
