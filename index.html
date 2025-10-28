@@ -1591,8 +1591,8 @@ function updateConfetti() {
   // Mostrar solo entre el 1 y el 9 de agosto de 2025 inclusive
   (function() {
     var hoy = new Date();
-    var hasta = new Date(2025, 9, 11, 23, 59, 59, 999); // hasta fin del 11 de octubre (mes 9 = octubre)
-    var desde = new Date(2025, 8, 19); // 31 de agosto (mes 7 = agosto 0-indexed)
+    var hasta = new Date(2025, 10, 8, 23, 59, 59, 999); // hasta fin del 8 de noviembre (mes 10 = noviembre)
+    var desde = new Date(2025, 10, 1, 0, 0, 0, 0); // desde el 1 de noviembre de 2025 (inclusive)
 
     if (hoy >= desde && hoy <= hasta) {
       document.write(`
@@ -1617,7 +1617,7 @@ function updateConfetti() {
        <p class="feria-time texto3d" style="font-size: 1.3em; color: #c5ec2d; line-height: 1;">
         Ropa - Calzado - Accesorios <br> y más usados</p>
       <p class="feria-time texto3d blinking-llamador" style="font-size: 2em; color: #c5ec2d; line-height: 1;">
-        <strong>SÁBADO <br> 11 DE OCTUBRE</strong>
+        <strong>SÁBADO <br> 8 DE NOVIEMBRE</strong>
       </p>
       <style>
       .blinking-llamador {
