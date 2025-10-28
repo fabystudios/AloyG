@@ -1349,6 +1349,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<!-- Sistema de Cifrado -->
+<script src="./encryption.js"></script>
 <script>
   // ⚠️tu Public Key sistema de mails
   emailjs.init('l3sgGBbIqyzK8_Sfd');
@@ -2307,71 +2309,11 @@ async function reenviarEmail(numeroId) {
      PARTE 2: HTML MEJORADO PARA HEADER
      =========================================== -->
 <!-- Reemplazar el div con class="rifa-header" por esto: -->
-<div class="rifa-header-redesign">
-  <!-- Premios -->
-  <div class="prizes-grid">
-    <div class="prize-card">
-      <span class="prize-icon">🎁</span>
-      <h3>Premios del Sorteo</h3>
-      <ul class="prize-list">
-        <li><strong>1° Premio:</strong> Bicicleta</li>
-        <li><strong>2° Premio:</strong> Tablet</li>
-      </ul>
-      <div class="prize-value">$20.000</div>
-    </div>
-
-    <div class="prize-card">
-      <span class="prize-icon">💳</span>
-      <h3>Datos de Pago</h3>
-      <div style="text-align: left;">
-        <div class="payment-row-modern">
-          <i class="fas fa-at"></i>
-          <span class="label">Alias:</span>
-          <span class="value">luis.villaelisa.mp</span>
-        </div>
-        <div class="payment-row-modern">
-          <i class="fas fa-credit-card"></i>
-          <span class="label">CVU:</span>
-          <style>
-            .cvu-number { font-size: 12px; display: inline-block; white-space: nowrap; }
-            @media (max-width: 600px) {
-              .cvu-number { white-space: normal; display: flex; flex-direction: column;  gap: 4px; }
-              .cvu-number .part { display: block; }
-            }
-          </style>
-          <span class="value cvu-number" style="font-size: 12px;">
-            <span class="part">00000031000</span>
-            <span class="part">45333653297</span>
-          </span>
- 
-        </div>
-        <div class="payment-row-modern">
-          <i class="fas fa-user"></i>
-          <span class="label">Titular:</span>
-          <span class="value">Marcelo A. Cerniato</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- <div class="prize-card">
-      <div class="qr-container-modern">
-        <img src="./rifa/qr.jpg" alt="QR Mercado Pago">
-       escaneá y Pagá
-      </div>
-    </div> -->
-  </div>
-
-  <!-- Imágenes -->
-  <div class="visual-section">
-    <div class="mascot-card">
-      <img src="./rifa/rifi-premio2.png" alt="Mascota Rifi">
-      <p class="mascot-caption">🎟️ ¡Elegí tu número!</p>
-    </div>
-
-    <div class="prizes-images">
-      <img src="./rifa/p1.png" alt="Bicicleta" style="box-shadow: none !important;">
-      <img src="./rifa/p2.png" alt="Tablet" style="box-shadow: none !important;">
-    </div>
+<!-- Header con datos cifrados (se carga dinámicamente) -->
+<div class="rifa-header-redesign" id="header-rifa-container">
+  <div style="text-align: center; padding: 40px;">
+    <div class="spinner" style="margin: 0 auto 16px;"></div>
+    <p style="color: white;">Cargando información segura...</p>
   </div>
 </div>
 
@@ -2451,7 +2393,10 @@ async function reenviarEmail(numeroId) {
           Salir
         </button>
       </div>
-
+      <button id="btn-actualizar-datos-pago" class="md-button btn-secondary" style="display: none;">
+        <span class="material-icons">vpn_key</span>
+        <span class="d-none d-md-inline">Actualizar Datos Pago</span>
+      </button>
       <div style="text-align: center; margin-bottom: 24px;">
         <h2 style="color: var(--md-sys-color-primary); font-size: 24px;">Panel de Administración</h2>
       </div>
@@ -3421,7 +3366,61 @@ document.getElementById('btn-como-llegar').addEventListener('click', function() 
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+
 <script src="./pdf.js"></script>
+<!-- Inicialización del Sistema de Cifrado -->
+
+
+<script>
+window.addEventListener('load', function() {
+  console.log('🔐 Inicializando sistema de cifrado...');
+  
+  // Verificar disponibilidad
+  if (typeof window.SistemaCifrado === 'undefined') {
+    console.error('❌ Sistema de cifrado no disponible');
+    return;
+  }
+  
+  // Renderizar header con datos cifrados (SIN await, usando .then())
+  window.SistemaCifrado.renderizarHeaderRifa()
+    .then(function() {
+      console.log('✅ Header cargado con datos cifrados');
+    })
+    .catch(function(error) {
+      console.error('❌ Error al cargar header:', error);
+    });
+  
+  // Configurar botón admin
+  var btnActualizar = document.getElementById('btn-actualizar-datos-pago');
+  
+  if (btnActualizar) {
+    btnActualizar.onclick = function() {
+      window.SistemaCifrado.mostrarPanelActualizarDatosPago();
+    };
+    
+    // Mostrar solo a admins
+    if (typeof auth !== 'undefined') {
+      auth.onAuthStateChanged(function(user) {
+        if (user && typeof esAdmin === 'function') {
+          esAdmin(user.email)
+            .then(function(isAdminUser) {
+              if (isAdminUser && btnActualizar) {
+                btnActualizar.style.display = 'inline-flex';
+                console.log('✅ Botón de actualización visible');
+              }
+            })
+            .catch(function(error) {
+              console.error('Error verificando admin:', error);
+            });
+        }
+      });
+    }
+  }
+});
+</script>
+
+
 <script src="./rifa.js"></script>
+
 </body>
 </html>
