@@ -273,7 +273,7 @@ async function renderizarHeaderRifa() {
     
     console.log('✅ Header renderizado con datos descifrados');
     
-    setTimeout(verificarIntegridadDatosPago, 2000);
+    // setTimeout(verificarIntegridadDatosPago, 2000);
     
   } catch (error) {
     console.error('❌ Error al renderizar header:', error);
@@ -464,7 +464,7 @@ async function verificarIntegridadDatosPago() {
 
 // Verificar cada 30 segundos
 // setInterval(verificarIntegridadDatosPago, 30000);
-setInterval(verificarIntegridadDatosPago, 90000000000000000000000);
+// setInterval(verificarIntegridadDatosPago, 90000000000000000000000);
 // ========================================
 // EXPORTAR FUNCIONES
 // ========================================
