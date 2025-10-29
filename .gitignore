@@ -7,6 +7,7 @@ serviceAccountKey.json
 
 # Variables de entorno
 .env
+.env.js
 .env.local
 .env.development
 .env.production

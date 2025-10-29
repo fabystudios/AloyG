@@ -2384,7 +2384,7 @@ section {
 
 #feria-americana {
     position: relative;
-    background: url('./img/feriaInvierno.jpg') no-repeat center center/cover;
+    background: url('./img/feria-sping.png') no-repeat center center/cover;
     /* background: url('./img/feria.jpg') no-repeat center center/cover; */
     display: flex;
     justify-content: center;
@@ -2403,7 +2403,7 @@ section {
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     animation: fadeIn 1s ease-in-out;
-    max-width: 800px;
+    max-width: 550px;
     width: 100%;
     backdrop-filter: blur(10px);
 }
