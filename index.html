@@ -399,7 +399,7 @@
           <img src="./img/fotos/santos_mobile.jpg" class="d-block d-md-none w-100" alt="Imagen móvil">
 
         </div>
-        <!-- ***************************************************************
+       <!-- ***************************************************************
         *             F E R I A   A M E R I C A N A                                                   *
         *************************************************************** -->
         <div class="carousel-item ">
@@ -621,10 +621,541 @@
     </h2>
   </section>
 
+
+  <section id="celebracion-union" class="celebracion-section section-header" style="background-image: url('./video/casorio/fondo.jpg'); background-size: cover; background-position: center; padding: 2rem 0; position: relative; overflow: visible;">
+  <!-- Overlay oscuro para mejor contraste -->
+  <div class="background-overlay"></div>
+  
+  <!-- Contenedor de efectos mejorados -->
+  <div class="union-effects" aria-hidden="true"></div>
+  
+  <!-- Confeti explosivo -->
+  <div class="confetti-container" aria-hidden="true"></div>
+
+  <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="celebracion-card">
+      <!-- Anillos decorativos animados -->
+      <div class="ring-decoration ring-1"></div>
+      <div class="ring-decoration ring-2"></div>
+      
+      <!-- Imagen central con efecto -->
+      <div class="imagen-central">
+        <div class="image-glow"></div>
+        <img src="./video/casorio/casorio.jpg" alt="Celebración de Unión" class="img-fluid">
+      </div>
+      
+      <!-- Texto con glassmorphism mejorado -->
+      <div class="texto-glass">
+        <div class="sparkle-effect">✨</div>
+        <h2 class="titulo-celebracion">
+          <span class="date-highlight">1 Nov 2025</span>
+          <span class="celebration-text">¡Felicidades a los novios!</span>
+          <span class="blessing-text">Que su amor sea eterno y bendecido</span>
+        </h2>
+        <a href="/homilias.html" class="btn-enhanced">
+          <span class="btn-icon">📖</span>
+          <span class="btn-text">Ver Homilías</span>
+          <span class="btn-shine"></span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* ========== BASE Y OVERLAY ========== */
+    .celebracion-section {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .background-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 100%);
+      z-index: 1;
+    }
+
+    /* ========== TARJETA PRINCIPAL MEJORADA ========== */
+    .celebracion-card {
+      position: relative;
+      width: 100%;
+      max-width: 550px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
+      backdrop-filter: blur(20px) saturate(180%);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-radius: 30px;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 0 60px rgba(255, 215, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      padding: 2.5rem;
+      z-index: 2;
+      animation: cardEntrance 1s ease-out, cardFloat 6s ease-in-out infinite;
+      transform-style: preserve-3d;
+    }
+
+    @keyframes cardEntrance {
+      0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(50px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes cardFloat {
+      0%, 100% { transform: translateY(0px) rotateX(0deg); }
+      50% { transform: translateY(-10px) rotateX(2deg); }
+    }
+
+    .celebracion-card:hover {
+      transform: scale(1.02) translateY(-5px);
+      box-shadow: 
+        0 12px 48px rgba(0, 0, 0, 0.4),
+        0 0 80px rgba(255, 215, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+    }
+
+    /* ========== ANILLOS DECORATIVOS ========== */
+    .ring-decoration {
+      position: absolute;
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .ring-1 {
+      width: 120%;
+      height: 120%;
+      top: -10%;
+      left: -10%;
+      animation: ringPulse 4s ease-in-out infinite;
+    }
+
+    .ring-2 {
+      width: 140%;
+      height: 140%;
+      top: -20%;
+      left: -20%;
+      animation: ringPulse 4s ease-in-out infinite 2s;
+    }
+
+    @keyframes ringPulse {
+      0%, 100% {
+        transform: scale(1);
+        opacity: 0.3;
+      }
+      50% {
+        transform: scale(1.05);
+        opacity: 0.6;
+      }
+    }
+
+    /* ========== IMAGEN CENTRAL CON GLOW ========== */
+    .imagen-central {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .image-glow {
+      position: absolute;
+      inset: -20px;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
+      filter: blur(20px);
+      animation: glowPulse 3s ease-in-out infinite;
+      z-index: 0;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.5; transform: scale(0.95); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    .imagen-central img {
+      position: relative;
+      z-index: 1;
+      max-width: 100%;
+      max-height: 400px;
+      object-fit: contain;
+      border-radius: 20px;
+      box-shadow: 
+        0 10px 40px rgba(0, 0, 0, 0.3),
+        0 0 30px rgba(255, 215, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .imagen-central img:hover {
+      transform: scale(1.03);
+      box-shadow: 
+        0 15px 50px rgba(0, 0, 0, 0.4),
+        0 0 40px rgba(255, 215, 0, 0.4);
+    }
+
+    /* ========== TEXTO CON GLASSMORPHISM MEJORADO ========== */
+    .texto-glass {
+      position: relative;
+      text-align: center;
+      color: #fff;
+      background: linear-gradient(135deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.4));
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 215, 0, 0.4);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(255, 215, 0, 0.2);
+    }
+
+    .sparkle-effect {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 2rem;
+      animation: sparkleRotate 3s linear infinite;
+    }
+
+    @keyframes sparkleRotate {
+      0%, 100% { transform: translateX(-50%) rotate(0deg) scale(1); }
+      50% { transform: translateX(-50%) rotate(180deg) scale(1.2); }
+    }
+
+    .titulo-celebracion {
+      font-weight: bold;
+      margin-bottom: 0;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .date-highlight {
+      font-size: 1rem;
+      color: #ffd700;
+      font-weight: 900;
+      letter-spacing: 2px;
+      animation: dateGlow 2s ease-in-out infinite;
+    }
+
+    @keyframes dateGlow {
+      0%, 100% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+      50% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.4); }
+    }
+
+    .celebration-text {
+      font-size: 1.4rem;
+      background: linear-gradient(45deg, #fff, #ffd700, #fff);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: textShine 3s linear infinite;
+    }
+
+    @keyframes textShine {
+      to { background-position: 200% center; }
+    }
+
+    .blessing-text {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.95);
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    /* ========== BOTÓN MEJORADO ========== */
+    .btn-enhanced {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+      padding: 0.8rem 2rem;
+      background: linear-gradient(135deg, #ff6b9d, #c73866);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      box-shadow: 
+        0 4px 15px rgba(255, 107, 157, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      transition: all 0.3s ease;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .btn-enhanced:hover {
+      transform: translateY(-2px);
+      box-shadow: 
+        0 6px 20px rgba(255, 107, 157, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      color: white;
+    }
+
+    .btn-shine {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      animation: btnShine 3s infinite;
+    }
+
+    @keyframes btnShine {
+      0% { left: -100%; }
+      50%, 100% { left: 200%; }
+    }
+
+    .btn-icon {
+      font-size: 1.3rem;
+      animation: iconBounce 2s ease-in-out infinite;
+    }
+
+    @keyframes iconBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-3px); }
+    }
+
+    /* ========== PARTÍCULAS MEJORADAS ========== */
+    .union-effects {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 3;
+    }
+
+    .union-particle {
+      position: absolute;
+      top: -6%;
+      will-change: transform, opacity;
+      user-select: none;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+      animation: particleFall var(--duration) linear var(--delay) forwards;
+    }
+
+    .union-particle.star { 
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+    }
+    
+    .union-particle.heart { 
+      filter: drop-shadow(0 0 8px rgba(255, 77, 109, 0.8));
+    }
+
+    @keyframes particleFall {
+      0% {
+        transform: translateY(-10vh) rotate(0deg) translateX(0) scale(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+        transform: translateY(0vh) rotate(45deg) translateX(0) scale(1);
+      }
+      100% {
+        transform: translateY(120vh) rotate(var(--rotation)) translateX(var(--drift)) scale(0.8);
+        opacity: 0;
+      }
+    }
+
+    /* ========== CONFETI ========== */
+    .confetti-container {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 4;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: -5%;
+      animation: confettiFall linear forwards;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(-10vh) rotateZ(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(120vh) rotateZ(var(--rotation));
+        opacity: 0;
+      }
+    }
+
+    /* ========== RESPONSIVO ========== */
+    @media (max-width: 768px) {
+      .celebracion-card {
+        max-width: 90vw;
+        padding: 1.5rem;
+      }
+
+      .imagen-central img {
+        max-height: 50vh;
+      }
+
+      .date-highlight { font-size: 1.1rem; }
+      .celebration-text { font-size: 1.5rem; }
+      .blessing-text { font-size: 1rem; }
+      
+      .btn-enhanced {
+        padding: 0.7rem 1.5rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .celebracion-card { padding: 1rem; }
+      .date-highlight { font-size: 1rem; }
+      .celebration-text { font-size: 1.3rem; }
+      .blessing-text { font-size: 0.9rem; }
+    }
+
+    /* ========== REDUCED MOTION ========== */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+      .union-particle, .confetti { display: none !important; }
+    }
+  </style>
+
+  <script>
+    (function () {
+      const effectsContainer = document.querySelector('#celebracion-union .union-effects');
+      const confettiContainer = document.querySelector('#celebracion-union .confetti-container');
+      
+      if (!effectsContainer || !confettiContainer) return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      const EMOJI = { heart: '❤️', star: '⭐', ring: '💍', sparkle: '✨' };
+      const COLORS = ['#ff6b9d', '#ffd700', '#ff1493', '#ffa500', '#ff69b4', '#ffff00'];
+      const MAX_PARTICLES = 25;
+      const MAX_CONFETTI = 40;
+      let particleCount = 0;
+      let confettiCount = 0;
+
+      function rand(min, max) { 
+        return Math.random() * (max - min) + min; 
+      }
+
+      // Crear partículas mejoradas
+      function createParticle(kind) {
+        if (particleCount >= MAX_PARTICLES) return;
+        particleCount++;
+
+        const el = document.createElement('span');
+        el.className = 'union-particle ' + kind;
+        el.innerText = EMOJI[kind];
+        el.style.left = `${rand(5, 95)}%`;
+        el.style.fontSize = `${rand(1.2, 2.5)}rem`;
+        
+        const duration = rand(5000, 10000);
+        const delay = rand(0, 500);
+        const drift = rand(-150, 150);
+        const rotation = rand(360, 720);
+        
+        el.style.setProperty('--duration', `${duration}ms`);
+        el.style.setProperty('--delay', `${delay}ms`);
+        el.style.setProperty('--drift', `${drift}px`);
+        el.style.setProperty('--rotation', `${rotation}deg`);
+        
+        effectsContainer.appendChild(el);
+
+        setTimeout(() => {
+          el.remove();
+          particleCount = Math.max(0, particleCount - 1);
+        }, duration + delay);
+      }
+
+      // Crear confeti
+      function createConfetti() {
+        if (confettiCount >= MAX_CONFETTI) return;
+        confettiCount++;
+
+        const el = document.createElement('div');
+        el.className = 'confetti';
+        el.style.left = `${rand(0, 100)}%`;
+        el.style.backgroundColor = COLORS[Math.floor(rand(0, COLORS.length))];
+        el.style.width = `${rand(6, 12)}px`;
+        el.style.height = `${rand(6, 12)}px`;
+        
+        const duration = rand(3000, 6000);
+        const rotation = rand(360, 1080);
+        
+        el.style.animation = `confettiFall ${duration}ms linear forwards`;
+        el.style.setProperty('--rotation', `${rotation}deg`);
+        
+        confettiContainer.appendChild(el);
+
+        setTimeout(() => {
+          el.remove();
+          confettiCount = Math.max(0, confettiCount - 1);
+        }, duration);
+      }
+
+      // Sistema de spawn inteligente
+      const particleTypes = ['star', 'heart', 'ring', 'sparkle', 'star', 'heart'];
+      let idx = 0;
+
+      const particleSpawner = setInterval(() => {
+        createParticle(particleTypes[idx % particleTypes.length]);
+        idx++;
+      }, 400);
+
+      const confettiSpawner = setInterval(() => {
+        createConfetti();
+      }, 200);
+
+      // Burst inicial de confeti
+      setTimeout(() => {
+        for (let i = 0; i < 15; i++) {
+          setTimeout(() => createConfetti(), i * 50);
+        }
+      }, 500);
+
+      // Cleanup
+      const section = document.getElementById('celebracion-union');
+      if (section && 'IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(e => {
+            if (!e.isIntersecting) {
+              clearInterval(particleSpawner);
+              clearInterval(confettiSpawner);
+            }
+          });
+        }, { threshold: 0.01 });
+        observer.observe(section);
+      }
+
+      window.__celebracionSpawners = {
+        stop: () => {
+          clearInterval(particleSpawner);
+          clearInterval(confettiSpawner);
+        }
+      };
+    })();
+  </script>
+</section>
+
+
   <!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block">
 <br class="d-none d-lg-block"><br class="d-none d-lg-block">
 <br class="d-none d-lg-block"><br class="d-none d-lg-block">   -->
   <br><br><br>
+
 
 
   <!-- ...3 días... -->
