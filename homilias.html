@@ -133,6 +133,15 @@
 <!-- PUNTO ROJO   ALERTA VERSION  -->
 
 <style>
+      .spinner {
+      border: 3px solid var(--md-sys-color-surface-variant);
+      border-top: 3px solid var(--md-sys-color-primary);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
 .cabecera {
   width: 100vw !important;
   max-width: 100vw !important;
@@ -155,307 +164,145 @@
     </h2>
 </section>
 <!-- Contenedor de homilías (renombrado para evitar conflicto con .container de Bootstrap) -->
-
-<div class="homilias-wrapper d-flex flex-wrap justify-content-center" style="max-width: 90vw; margin: 0 auto; gap: 1rem;">
-<!-- https://youtu.be/6gfb6q8J0Xws -->
- <div class="card shadow-md3" style="width: 100%; max-width: 300px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);"> 
-    <div class="card-header bg-primary text-white text-center" style="font-family:'Roboto',serif; font-size:1.25rem; font-weight:700; letter-spacing:.5px;">
-      31 de Octubre
-    </div>
-    <div class="card-body p-0">
-      <div class="ratio ratio-16x9">
-        <iframe
-          id="homilia-video-1"
-          src="https://www.youtube.com/embed/6gfb6q8J0Xw?rel=0&enablejsapi=1"
-          title="Homilía 28 de Septiembre"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-          loading="lazy"
-          style="border:0;"
-        ></iframe>
-      </div>
-    </div>
-    <div class="card-footer text-center bg-light">
-      <button type="button" class="btn btn-md3 btn-fullscreen-play">
-        <i class="material-icons align-middle">play_arrow</i> Pantalla completa
-      </button>
-    </div>
-    <script>
-      (function () {
-        const footer = document.currentScript.previousElementSibling;
-        const btn = footer.querySelector('.btn-fullscreen-play');
-        if(!btn) return;
-        btn.addEventListener('click', function () {
-          const card = this.closest('.card');
-            const iframe = card ? card.querySelector('iframe') : null;
-            if (!iframe) return;
-            const goFullAndPlay = () => {
-              const fs = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.msRequestFullscreen;
-              if (fs) fs.call(iframe);
-              try {
-                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-              } catch(e) { /* ignore */ }
-            };
-            // Si aún no cargó, esperar un pequeño tiempo y luego ejecutar
-            if (iframe.readyState === 'loading') {
-              iframe.addEventListener('load', goFullAndPlay, { once: true });
-            } else {
-              goFullAndPlay();
-            }
-        });
-      })();
-    </script>
-  </div>
-  <!-- ----------------------------- -->
-  <!-- https://youtu.be/kdnuPE_09Ns -->
- <div class="card shadow-md3" style="width: 100%; max-width: 300px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);"> 
-    <div class="card-header bg-primary text-white text-center" style="font-family:'Roboto',serif; font-size:1.25rem; font-weight:700; letter-spacing:.5px;">
-      4 de Octubre
-    </div>
-    <div class="card-body p-0">
-      <div class="ratio ratio-16x9">
-        <iframe
-          id="homilia-video-1"
-          src="https://www.youtube.com/embed/kdnuPE_09Ns?rel=0&enablejsapi=1"
-          title="Homilía 28 de Septiembre"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-          loading="lazy"
-          style="border:0;"
-        ></iframe>
-      </div>
-    </div>
-    <div class="card-footer text-center bg-light">
-      <button type="button" class="btn btn-md3 btn-fullscreen-play">
-        <i class="material-icons align-middle">play_arrow</i> Pantalla completa
-      </button>
-    </div>
-    <script>
-      (function () {
-        const footer = document.currentScript.previousElementSibling;
-        const btn = footer.querySelector('.btn-fullscreen-play');
-        if(!btn) return;
-        btn.addEventListener('click', function () {
-          const card = this.closest('.card');
-            const iframe = card ? card.querySelector('iframe') : null;
-            if (!iframe) return;
-            const goFullAndPlay = () => {
-              const fs = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.msRequestFullscreen;
-              if (fs) fs.call(iframe);
-              try {
-                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-              } catch(e) { /* ignore */ }
-            };
-            // Si aún no cargó, esperar un pequeño tiempo y luego ejecutar
-            if (iframe.readyState === 'loading') {
-              iframe.addEventListener('load', goFullAndPlay, { once: true });
-            } else {
-              goFullAndPlay();
-            }
-        });
-      })();
-    </script>
-  </div>
-  <!-- ----------------------------- -->
-   <!-- https://youtu.be/heEy1S9BcYE -->
-    <div class="card shadow-md3" style="width: 100%; max-width: 300px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);"> 
-    <div class="card-header bg-primary text-white text-center" style="font-family:'Roboto',serif; font-size:1.25rem; font-weight:700; letter-spacing:.5px;">
-      3 de Octubre
-    </div>
-    <div class="card-body p-0">
-      <div class="ratio ratio-16x9">
-        <iframe
-          id="homilia-video-1"
-          src="https://www.youtube.com/embed/heEy1S9BcYE?rel=0&enablejsapi=1"
-          title="Homilía 28 de Septiembre"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-          loading="lazy"
-          style="border:0;"
-        ></iframe>
-      </div>
-    </div>
-    <div class="card-footer text-center bg-light">
-      <button type="button" class="btn btn-md3 btn-fullscreen-play">
-        <i class="material-icons align-middle">play_arrow</i> Pantalla completa
-      </button>
-    </div>
-    <script>
-      (function () {
-        const footer = document.currentScript.previousElementSibling;
-        const btn = footer.querySelector('.btn-fullscreen-play');
-        if(!btn) return;
-        btn.addEventListener('click', function () {
-          const card = this.closest('.card');
-            const iframe = card ? card.querySelector('iframe') : null;
-            if (!iframe) return;
-            const goFullAndPlay = () => {
-              const fs = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.msRequestFullscreen;
-              if (fs) fs.call(iframe);
-              try {
-                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-              } catch(e) { /* ignore */ }
-            };
-            // Si aún no cargó, esperar un pequeño tiempo y luego ejecutar
-            if (iframe.readyState === 'loading') {
-              iframe.addEventListener('load', goFullAndPlay, { once: true });
-            } else {
-              goFullAndPlay();
-            }
-        });
-      })();
-    </script>
-  </div>
-  <!-- ---  -->
-  <div class="card shadow-md3" style="width: 100%; max-width: 300px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);"> 
-    <div class="card-header bg-primary text-white text-center" style="font-family:'Roboto',serif; font-size:1.25rem; font-weight:700; letter-spacing:.5px;">
-      28 de Septiembre
-    </div>
- <!-- https://youtu.be/aMBy9Tj3M8Q -->
-    <div class="card-body p-0">
-      <div class="ratio ratio-16x9">
-        <iframe
-          id="homilia-video-1"
-          src="https://www.youtube.com/embed/aMBy9Tj3M8Q?rel=0&enablejsapi=1"
-          title="Homilía 28 de Septiembre"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-          loading="lazy"
-          style="border:0;"
-        ></iframe>
-      </div>
-    </div>
-    <div class="card-footer text-center bg-light">
-      <button type="button" class="btn btn-md3 btn-fullscreen-play">
-        <i class="material-icons align-middle">play_arrow</i> Pantalla completa
-      </button>
-    </div>
-    <script>
-      (function () {
-        const footer = document.currentScript.previousElementSibling;
-        const btn = footer.querySelector('.btn-fullscreen-play');
-        if(!btn) return;
-        btn.addEventListener('click', function () {
-          const card = this.closest('.card');
-            const iframe = card ? card.querySelector('iframe') : null;
-            if (!iframe) return;
-            const goFullAndPlay = () => {
-              const fs = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.msRequestFullscreen;
-              if (fs) fs.call(iframe);
-              try {
-                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-              } catch(e) { /* ignore */ }
-            };
-            // Si aún no cargó, esperar un pequeño tiempo y luego ejecutar
-            if (iframe.readyState === 'loading') {
-              iframe.addEventListener('load', goFullAndPlay, { once: true });
-            } else {
-              goFullAndPlay();
-            }
-        });
-      })();
-    </script>
-  </div>
-  <div class="card shadow-md3" style="width: 100%; max-width: 300px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);"> 
-    <div class="card-header bg-primary text-white text-center" style="font-family:'Roboto',serif; font-size:1.25rem; font-weight:700; letter-spacing:.5px;">
-      20 de Septiembre
-    </div>
-<!-- https://youtu.be/hgF4wpnUhXs -->
-    <div class="card-body p-0">
-      <div class="ratio ratio-16x9">
-        <iframe
-          id="homilia-video-1"
-          src="https://www.youtube.com/embed/hgF4wpnUhXs?rel=0&enablejsapi=1"
-          title="Homilía 20 de Septiembre"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-          loading="lazy"
-          style="border:0;"
-        ></iframe>
-      </div>
-    </div>
-    <div class="card-footer text-center bg-light">
-      <button type="button" class="btn btn-md3 btn-fullscreen-play">
-        <i class="material-icons align-middle">play_arrow</i> Pantalla completa
-      </button>
-    </div>
-    <script>
-      (function () {
-        const footer = document.currentScript.previousElementSibling;
-        const btn = footer.querySelector('.btn-fullscreen-play');
-        if(!btn) return;
-        btn.addEventListener('click', function () {
-          const card = this.closest('.card');
-            const iframe = card ? card.querySelector('iframe') : null;
-            if (!iframe) return;
-            const goFullAndPlay = () => {
-              const fs = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.msRequestFullscreen;
-              if (fs) fs.call(iframe);
-              try {
-                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-              } catch(e) { /* ignore */ }
-            };
-            // Si aún no cargó, esperar un pequeño tiempo y luego ejecutar
-            if (iframe.readyState === 'loading') {
-              iframe.addEventListener('load', goFullAndPlay, { once: true });
-            } else {
-              goFullAndPlay();
-            }
-        });
-      })();
-    </script>
-  </div>
-  <div class="card shadow-md3" style="width: 100%; max-width: 300px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);"> 
-    <div class="card-header bg-primary text-white text-center" style="font-family:'Roboto',serif; font-size:1.25rem; font-weight:700; letter-spacing:.5px;">
-      19 de Septiembre
-    </div>
-    <!-- https://youtu.be/TfKyJnXLkeU -->
-     <!-- https://youtu.be/Hpu_r93yDpc -->
-    <div class="card-body p-0">
-      <div class="ratio ratio-16x9">
-        <iframe
-          id="homilia-video-1"
-          src="https://www.youtube.com/embed/Hpu_r93yDpc?rel=0&enablejsapi=1"
-          title="Homilía 19 de Septiembre"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-          loading="lazy"
-          style="border:0;"
-        ></iframe>
-      </div>
-    </div>
-    <div class="card-footer text-center bg-light">
-      <button type="button" class="btn btn-md3 btn-fullscreen-play">
-        <i class="material-icons align-middle">play_arrow</i> Pantalla completa
-      </button>
-    </div>
-    <script>
-      (function () {
-        const footer = document.currentScript.previousElementSibling;
-        const btn = footer.querySelector('.btn-fullscreen-play');
-        if(!btn) return;
-        btn.addEventListener('click', function () {
-          const card = this.closest('.card');
-            const iframe = card ? card.querySelector('iframe') : null;
-            if (!iframe) return;
-            const goFullAndPlay = () => {
-              const fs = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.msRequestFullscreen;
-              if (fs) fs.call(iframe);
-              try {
-                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-              } catch(e) { /* ignore */ }
-            };
-            // Si aún no cargó, esperar un pequeño tiempo y luego ejecutar
-            if (iframe.readyState === 'loading') {
-              iframe.addEventListener('load', goFullAndPlay, { once: true });
-            } else {
-              goFullAndPlay();
-            }
-        });
-      })();
-    </script>
-  </div>
+<br>
+<div id="homilias-loading" class="text-center" style="max-width: 90vw; margin: 0 auto 1rem;">
+  <div class="spinner" role="status" aria-hidden="true" style="width:48px;height:48px;border-width:4px;"></div>
+  <div style="margin-top:.5rem; font-weight:600;">Cargando homilías...</div>
 </div>
+
+<div class="homilias-wrapper d-flex flex-wrap justify-content-center" style="max-width: 90vw; margin: 0 auto; gap: 1rem; display: none;">
+  <!-- Las tarjetas se generarán dinámicamente aquí -->
+</div>
+
+<script>
+(function(){
+  const wrapper = document.querySelector('.homilias-wrapper');
+  const loading = document.getElementById('homilias-loading');
+  if (!wrapper || !loading) return;
+
+  const stopLoading = () => {
+    loading.style.display = 'none';
+    wrapper.style.display = '';
+  };
+
+  const observer = new MutationObserver(() => {
+    if (wrapper.children.length > 0) {
+      stopLoading();
+      observer.disconnect();
+    }
+  });
+
+  observer.observe(wrapper, { childList: true, subtree: false });
+
+  // Si ya está poblado (caso raro)
+  if (wrapper.children.length > 0) {
+    stopLoading();
+    observer.disconnect();
+  }
+
+  // Fallback: ocultar spinner después de 10s aunque no haya contenido
+  setTimeout(() => {
+    if (loading.style.display !== 'none') {
+      stopLoading();
+      observer.disconnect();
+    }
+  }, 10000);
+})();
+</script>
+
+  <script>
+
+    // Función para crear una tarjeta de homilía
+    function crearTarjetaHomilia(homilia, index) {
+      const card = document.createElement('div');
+      card.className = 'card shadow-md3';
+      card.style.cssText = 'width: 100%; max-width: 300px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);';
+      
+      card.innerHTML = `
+        <div class="card-header bg-primary text-white text-center" style="font-family:'Roboto',serif; font-size:1.25rem; font-weight:700; letter-spacing:.5px;">
+          ${homilia.titulo}
+        </div>
+        <div class="card-body p-0">
+          <div class="ratio ratio-16x9">
+            <iframe
+              id="homilia-video-${index}"
+              src="https://www.youtube.com/embed/${homilia.id}?rel=0&enablejsapi=1"
+              title="Homilía ${homilia.titulo}"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+              loading="lazy"
+              style="border:0;"
+            ></iframe>
+          </div>
+        </div>
+        <div class="card-footer text-center bg-light">
+          <button type="button" class="btn btn-md3 btn-fullscreen-play">
+            <i class="material-icons align-middle">play_arrow</i> Pantalla completa
+          </button>
+        </div>
+      `;
+      
+      return card;
+    }
+
+    // Función para manejar el evento de pantalla completa
+    function configurarBotonPantallaCompleta(card) {
+      const btn = card.querySelector('.btn-fullscreen-play');
+      if (!btn) return;
+      
+      btn.addEventListener('click', function () {
+        const iframe = card.querySelector('iframe');
+        if (!iframe) return;
+        
+        const goFullAndPlay = () => {
+          const fs = iframe.requestFullscreen || iframe.webkitRequestFullscreen || iframe.msRequestFullscreen;
+          if (fs) fs.call(iframe);
+          try {
+            iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+          } catch(e) { /* ignore */ }
+        };
+        
+        if (iframe.readyState === 'loading') {
+          iframe.addEventListener('load', goFullAndPlay, { once: true });
+        } else {
+          goFullAndPlay();
+        }
+      });
+    }
+
+    // Renderizar todas las homilías
+    function renderizarHomilias() {
+      const wrapper = document.querySelector('.homilias-wrapper');
+      
+      homilias.forEach((homilia, index) => {
+        const card = crearTarjetaHomilia(homilia, index);
+        wrapper.appendChild(card);
+        configurarBotonPantallaCompleta(card);
+      });
+    }
+
+    // Inicializar cuando el DOM esté listo
+    document.addEventListener('DOMContentLoaded', renderizarHomilias);
+
+    // Alternativa: Cargar desde archivo JSON externo
+    async function cargarHomilias() {
+      try {
+        const response = await fetch('homilias.json');
+        const homilias = await response.json();
+        const wrapper = document.querySelector('.homilias-wrapper');
+        
+        homilias.forEach((homilia, index) => {
+          const card = crearTarjetaHomilia(homilia, index);
+          wrapper.appendChild(card);
+          configurarBotonPantallaCompleta(card);
+        });
+      } catch (error) {
+        console.error('Error al cargar homilías:', error);
+      }
+    }
+    
+    document.addEventListener('DOMContentLoaded', cargarHomilias);
+    </script>
 
 <section class="section-header">
     <h2 class="md3-headline" style="color: white;">
