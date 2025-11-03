@@ -1162,115 +1162,122 @@
     (function () {
       const effectsContainer = document.querySelector('#celebracion-union .union-effects');
       const confettiContainer = document.querySelector('#celebracion-union .confetti-container');
-      
+
       if (!effectsContainer || !confettiContainer) return;
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
       const EMOJI = { heart: '❤️', star: '⭐', ring: '💍', sparkle: '✨' };
       const COLORS = ['#ff6b9d', '#ffd700', '#ff1493', '#ffa500', '#ff69b4', '#ffff00'];
-      const MAX_PARTICLES = 25;
-      const MAX_CONFETTI = 40;
+      const MAX_PARTICLES = 40;
+      const MAX_CONFETTI = 120;
       let particleCount = 0;
       let confettiCount = 0;
 
-      function rand(min, max) { 
-        return Math.random() * (max - min) + min; 
+      function rand(min, max) {
+        return Math.random() * (max - min) + min;
       }
 
-      // Crear partículas mejoradas
       function createParticle(kind) {
+        // allow creation attempts but bail out if at cap
         if (particleCount >= MAX_PARTICLES) return;
         particleCount++;
 
         const el = document.createElement('span');
         el.className = 'union-particle ' + kind;
-        el.innerText = EMOJI[kind];
+        el.innerText = EMOJI[kind] || EMOJI.star;
         el.style.left = `${rand(5, 95)}%`;
-        el.style.fontSize = `${rand(1.2, 2.5)}rem`;
-        
-        const duration = rand(5000, 10000);
-        const delay = rand(0, 500);
-        const drift = rand(-150, 150);
-        const rotation = rand(360, 720);
-        
+        el.style.fontSize = `${rand(1, 2.6)}rem`;
+
+        const duration = Math.floor(rand(3800, 11000));
+        const delay = Math.floor(rand(0, 600));
+        const drift = Math.floor(rand(-220, 220));
+        const rotation = Math.floor(rand(-720, 720));
+
         el.style.setProperty('--duration', `${duration}ms`);
         el.style.setProperty('--delay', `${delay}ms`);
         el.style.setProperty('--drift', `${drift}px`);
         el.style.setProperty('--rotation', `${rotation}deg`);
-        
+
         effectsContainer.appendChild(el);
 
+        // ensure removal after animation finishes
         setTimeout(() => {
-          el.remove();
+          if (el && el.parentNode) el.parentNode.removeChild(el);
           particleCount = Math.max(0, particleCount - 1);
-        }, duration + delay);
+        }, duration + delay + 200);
       }
 
-      // Crear confeti
       function createConfetti() {
         if (confettiCount >= MAX_CONFETTI) return;
         confettiCount++;
 
         const el = document.createElement('div');
         el.className = 'confetti';
-        el.style.left = `${rand(0, 100)}%`;
+        el.style.left = `${rand(-5, 105)}%`;
         el.style.backgroundColor = COLORS[Math.floor(rand(0, COLORS.length))];
-        el.style.width = `${rand(6, 12)}px`;
-        el.style.height = `${rand(6, 12)}px`;
-        
-        const duration = rand(3000, 6000);
-        const rotation = rand(360, 1080);
-        
+        const w = Math.floor(rand(6, 14));
+        const h = Math.floor(rand(6, 14));
+        el.style.width = `${w}px`;
+        el.style.height = `${h}px`;
+
+        const duration = Math.floor(rand(3800, 8000));
+        const rotation = Math.floor(rand(-1080, 1080));
         el.style.animation = `confettiFall ${duration}ms linear forwards`;
         el.style.setProperty('--rotation', `${rotation}deg`);
-        
+
         confettiContainer.appendChild(el);
 
         setTimeout(() => {
-          el.remove();
+          if (el && el.parentNode) el.parentNode.removeChild(el);
           confettiCount = Math.max(0, confettiCount - 1);
-        }, duration);
+        }, duration + 200);
       }
 
-      // Sistema de spawn inteligente
-      const particleTypes = ['star', 'heart', 'ring', 'sparkle', 'star', 'heart'];
-      let idx = 0;
+      // continuous spawners (never cleared) to keep effect infinite/cyclic
+      const particleTypes = ['star', 'sparkle', 'heart', 'ring', 'sparkle', 'star', 'heart'];
+      let pidx = 0;
 
-      const particleSpawner = setInterval(() => {
-        createParticle(particleTypes[idx % particleTypes.length]);
-        idx++;
-      }, 400);
+      // steady gentle spawn
+      setInterval(() => {
+        createParticle(particleTypes[pidx % particleTypes.length]);
+        pidx++;
+      }, 340);
 
-      const confettiSpawner = setInterval(() => {
+      // additional small bursts to keep richness
+      setInterval(() => {
+        // small micro-burst
+        for (let i = 0; i < 2; i++) {
+          setTimeout(() => createParticle(particleTypes[(pidx + i) % particleTypes.length]), i * 120);
+        }
+      }, 1100);
+
+      // confetti steady rain
+      setInterval(() => {
         createConfetti();
-      }, 200);
+      }, 160);
 
-      // Burst inicial de confeti
-      setTimeout(() => {
-        for (let i = 0; i < 15; i++) {
-          setTimeout(() => createConfetti(), i * 50);
+      // periodic larger bursts for cyclical feel
+      setInterval(() => {
+        const burstCount = Math.floor(rand(8, 18));
+        for (let i = 0; i < burstCount; i++) {
+          setTimeout(() => createConfetti(), i * 60);
+          setTimeout(() => createParticle(particleTypes[(pidx + i) % particleTypes.length]), i * 80);
         }
-      }, 500);
+      }, 5500);
 
-      // Cleanup
-      const section = document.getElementById('celebracion-union');
-      if (section && 'IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(e => {
-            if (!e.isIntersecting) {
-              clearInterval(particleSpawner);
-              clearInterval(confettiSpawner);
-            }
-          });
-        }, { threshold: 0.01 });
-        observer.observe(section);
-      }
+      // initial burst
+      (function initialBurst() {
+        for (let i = 0; i < 20; i++) {
+          setTimeout(() => createConfetti(), i * 40);
+          setTimeout(() => createParticle(particleTypes[i % particleTypes.length]), i * 70);
+        }
+      })();
 
+      // provide a no-op control API but do NOT stop by default
       window.__celebracionSpawners = {
-        stop: () => {
-          clearInterval(particleSpawner);
-          clearInterval(confettiSpawner);
-        }
+        info: () => ({ particleCount, confettiCount }),
+        // keep a controlled restart if needed externally
+        restart: () => { /* spawners are continuous; nothing to restart */ }
       };
     })();
   </script>
