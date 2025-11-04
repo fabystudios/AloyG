@@ -270,19 +270,8 @@
       });
     }
 
-    // Renderizar todas las homilías
-    function renderizarHomilias() {
-      const wrapper = document.querySelector('.homilias-wrapper');
-      
-      homilias.forEach((homilia, index) => {
-        const card = crearTarjetaHomilia(homilia, index);
-        wrapper.appendChild(card);
-        configurarBotonPantallaCompleta(card);
-      });
-    }
-
     // Inicializar cuando el DOM esté listo
-    document.addEventListener('DOMContentLoaded', renderizarHomilias);
+    // document.addEventListener('DOMContentLoaded', renderizarHomilias); // Removido porque homilias no está definida
 
     // Alternativa: Cargar desde archivo JSON externo
     async function cargarHomilias() {
