@@ -371,7 +371,7 @@
         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="6"></button>
         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="7"></button>
         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="8"></button>
-        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="9"></button>
+        <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="9"></button> -->
         <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="10"></button> -->
         <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="11"></button> -->
         <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="12"></button> -->
@@ -412,12 +412,12 @@
        <!-- ***************************************************************
         *             F E R I A   A M E R I C A N A                                                   *
         *************************************************************** -->
-        <div class="carousel-item active">
+        <!-- <div class="carousel-item">
           <a href="#feria">
             <img src="./slides/feria-americana-desktop.jpg" class="d-none d-md-block w-100" alt="Imagen escritorio">
             <img src="./slides/feria-americana-mobile.jpg" class="d-block d-md-none w-100" alt="Imagen móvil">
           </a>
-        </div>
+        </div> -->
         <!-- Slide 1: ACTIVA (sin lazy loading para carga inmediata) -->
         <!-- <div class="carousel-item active">
                 <a href="./avisos.html">
@@ -429,7 +429,7 @@
    <!-- ***************************************************************
         *            A V I S O S                                                    *
         *************************************************************** -->
-        <div class="carousel-item">
+        <div class="carousel-item active">
           <a href="./avisos.html">
             <img src="./slides/consejos_desktop.jpg" class="d-none d-md-block w-100" alt="Imagen escritorio">
             <img src="./slides/consejos_mobile.jpg" class="d-block d-md-none w-100" alt="Imagen móvil">
@@ -633,8 +633,32 @@
     style="min-height: 65vh;">
     <div class="d-flex flex-wrap justify-content-center gap-4" style="width: 95vw; max-width: 1400px;">
       <!--  -->
+              <!-- Card 3 solo desktop  d-none d-md-block--  Card 3 solo desktop  d-none d-md-block-  Card 3 solo desktop  d-none d-md-block-->
+        <div class="card90 shadow-lg rounded-4 overflow-hidden " style="width: 90vw; max-width: 400px;">
+        <div class="position-relative text-center p-4"
+          style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
+          <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
+            8 de Noviembre </h2>
+          <img src="./img/paloma.png" alt="Cruz-Medalla de San Benito"
+            style="width: 30px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
+        </div>
+        <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
+          <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
+          center center / cover no-repeat; border-radius:12px; 
+          box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
+            <video id="corpusVideo10" controls style="width:100%; height:400px; 
+            border:none; border-radius:12px; background: transparent;" 
+              poster="./video/santos.jpg">
+              <source src="./video/santos.mp4" type="video/mp4">
+              Tu navegador no soporta la reproducción de video.
+            </video>
+          </div>
+        </div>
+      </div>
+      <!--  -->
                   <!-- Card 3 solo desktop  d-none d-md-block--  Card 3 solo desktop  d-none d-md-block-  Card 3 solo desktop  d-none d-md-block-->
-      <div class="card90 shadow-lg rounded-4 overflow-hidden "
+      <div class="d-none d-md-block  card90 shadow-lg rounded-4 overflow-hidden "
         style="width: 90vw; max-width: 400px;">
         <div class="position-relative text-center p-4"
           style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
@@ -682,30 +706,7 @@
         </div>
       </div>
       <!--  -->
-        <!-- Card 3 solo desktop  d-none d-md-block--  Card 3 solo desktop  d-none d-md-block-  Card 3 solo desktop  d-none d-md-block-->
-        <div class="d-none d-md-block  card90 shadow-lg rounded-4 overflow-hidden " style="width: 90vw; max-width: 400px;">
-        <div class="position-relative text-center p-4"
-          style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
-          <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
-          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
-            4 de Noviembre </h2>
-          <img src="./img/paloma.png" alt="Cruz-Medalla de San Benito"
-            style="width: 30px; position: absolute; top: 10px; right: 10px; opacity: 1; z-index: 10;  border-radius: 50%;">
-        </div>
-        <div class="p-3 d-flex justify-content-center" style="min-height: 450px;">
-          <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
-          center center / cover no-repeat; border-radius:12px; 
-          box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
-            <video id="corpusVideo10" controls style="width:100%; height:400px; 
-            border:none; border-radius:12px; background: transparent;" 
-              poster="./video/carlos.jpg">
-              <source src="./video/carlos.mp4" type="video/mp4">
-              Tu navegador no soporta la reproducción de video.
-            </video>
-          </div>
-        </div>
-      </div>
-      <!--  -->
+
 
  
 
@@ -743,546 +744,6 @@
     display: none !important;
   }  */
   </style>
-<br><br><br><br>
-  <section id="celebracion-union" class="celebracion-section section-header" style="background-image: url('./video/casorio/fondo.jpg'); background-size: cover; background-position: center; padding: 2rem 0; position: relative; overflow: visible;">
-  <!-- Overlay oscuro para mejor contraste -->
-  <!-- <div class="background-overlay"></div>
-   -->
-  <!-- Contenedor de efectos mejorados -->
-  <div class="union-effects" aria-hidden="true"></div>
-  
-  <!-- Confeti explosivo -->
-  <div class="confetti-container" aria-hidden="true"></div>
-
-  <div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-    <div class="celebracion-card">
-      <!-- Anillos decorativos animados -->
-      <div class="ring-decoration ring-1"></div>
-      <div class="ring-decoration ring-2"></div>
-      
-      <!-- Imagen central con efecto -->
-      <div class="imagen-central">
-        <div class="image-glow"></div>
-        <img src="./video/casorio/casorio.jpg" alt="Celebración de Unión" class="img-fluid">
-      </div>
-      
-      <!-- Texto con glassmorphism mejorado -->
-      <div class="texto-glass">
-        <div class="sparkle-effect">✨</div>
-        <h2 class="titulo-celebracion">
-          <span class="date-highlight">1 Nov 2025</span>
-          <span class="celebration-text">¡Felicidades a los novios!</span>
-          <span class="blessing-text">Que su amor sea eterno y bendecido</span>
-        </h2>
-        <a href="/homilias.html" class="btn-enhanced">
-          <span class="btn-icon">📖</span>
-          <span class="btn-text">Ver Homilías</span>
-          <span class="btn-shine"></span>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <style>
-    /* ========== BASE Y OVERLAY ========== */
-    .celebracion-section {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .background-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.2) 100%);
-      z-index: 1;
-    }
-
-    /* ========== TARJETA PRINCIPAL MEJORADA ========== */
-    .celebracion-card {
-      position: relative;
-      width: 100%;
-      max-width: 550px;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.05));
-      backdrop-filter: blur(20px) saturate(180%);
-      border: 2px solid rgba(255, 255, 255, 0.3);
-      border-radius: 30px;
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.3),
-        0 0 60px rgba(255, 215, 0, 0.2),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-      padding: 2.5rem;
-      z-index: 2;
-      animation: cardEntrance 1s ease-out, cardFloat 6s ease-in-out infinite;
-      transform-style: preserve-3d;
-    }
-
-    @keyframes cardEntrance {
-      0% {
-        opacity: 0;
-        transform: scale(0.8) translateY(50px);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
-    }
-
-    @keyframes cardFloat {
-      0%, 100% { transform: translateY(0px) rotateX(0deg); }
-      50% { transform: translateY(-10px) rotateX(2deg); }
-    }
-
-    .celebracion-card:hover {
-      transform: scale(1.02) translateY(-5px);
-      box-shadow: 
-        0 12px 48px rgba(0, 0, 0, 0.4),
-        0 0 80px rgba(255, 215, 0, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.4);
-    }
-
-    /* ========== ANILLOS DECORATIVOS ========== */
-    .ring-decoration {
-      position: absolute;
-      border: 2px solid rgba(255, 215, 0, 0.3);
-      border-radius: 50%;
-      pointer-events: none;
-    }
-
-    .ring-1 {
-      width: 120%;
-      height: 120%;
-      top: -10%;
-      left: -10%;
-      animation: ringPulse 4s ease-in-out infinite;
-    }
-
-    .ring-2 {
-      width: 140%;
-      height: 140%;
-      top: -20%;
-      left: -20%;
-      animation: ringPulse 4s ease-in-out infinite 2s;
-    }
-
-    @keyframes ringPulse {
-      0%, 100% {
-        transform: scale(1);
-        opacity: 0.3;
-      }
-      50% {
-        transform: scale(1.05);
-        opacity: 0.6;
-      }
-    }
-
-    /* ========== IMAGEN CENTRAL CON GLOW ========== */
-    .imagen-central {
-      position: relative;
-      flex: 1;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-bottom: 1.5rem;
-    }
-
-    .image-glow {
-      position: absolute;
-      inset: -20px;
-      background: radial-gradient(circle, rgba(255, 215, 0, 0.3) 0%, transparent 70%);
-      filter: blur(20px);
-      animation: glowPulse 3s ease-in-out infinite;
-      z-index: 0;
-    }
-
-    @keyframes glowPulse {
-      0%, 100% { opacity: 0.5; transform: scale(0.95); }
-      50% { opacity: 1; transform: scale(1.05); }
-    }
-
-    .imagen-central img {
-      position: relative;
-      z-index: 1;
-      max-width: 100%;
-      max-height: 400px;
-      object-fit: contain;
-      border-radius: 20px;
-      box-shadow: 
-        0 10px 40px rgba(0, 0, 0, 0.3),
-        0 0 30px rgba(255, 215, 0, 0.2);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .imagen-central img:hover {
-      transform: scale(1.03);
-      box-shadow: 
-        0 15px 50px rgba(0, 0, 0, 0.4),
-        0 0 40px rgba(255, 215, 0, 0.4);
-    }
-
-    /* ========== TEXTO CON GLASSMORPHISM MEJORADO ========== */
-    .texto-glass {
-      position: relative;
-      text-align: center;
-      color: #fff;
-      background: linear-gradient(135deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.15));
-      backdrop-filter: blur(15px);
-      border-radius: 20px;
-      padding: 1.5rem;
-      border: 1px solid rgba(255, 215, 0, 0.4);
-      box-shadow: 
-        0 8px 32px rgba(0, 0, 0, 0.4),
-        0 0 20px rgba(255, 215, 0, 0.2);
-    }
-
-    .sparkle-effect {
-      position: absolute;
-      top: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      font-size: 2rem;
-      animation: sparkleRotate 3s linear infinite;
-    }
-
-    @keyframes sparkleRotate {
-      0%, 100% { transform: translateX(-50%) rotate(0deg) scale(1); }
-      50% { transform: translateX(-50%) rotate(180deg) scale(1.2); }
-    }
-
-    .titulo-celebracion {
-      font-weight: bold;
-      margin-bottom: 0;
-      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .date-highlight {
-      font-size: 1rem;
-      color: #ffd700;
-      font-weight: 900;
-      letter-spacing: 2px;
-      animation: dateGlow 2s ease-in-out infinite;
-    }
-
-    @keyframes dateGlow {
-      0%, 100% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
-      50% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.4); }
-    }
-
-    .celebration-text {
-      font-size: 1.4rem;
-      background: linear-gradient(45deg, #fff, #ffd700, #fff);
-      background-size: 200% auto;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: textShine 3s linear infinite;
-    }
-
-    @keyframes textShine {
-      to { background-position: 200% center; }
-    }
-
-    .blessing-text {
-      font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.95);
-      font-style: italic;
-      font-weight: 400;
-    }
-
-    /* ========== BOTÓN MEJORADO ========== */
-    .btn-enhanced {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 1.5rem;
-      padding: 0.8rem 2rem;
-      background: linear-gradient(135deg, #ff6b9d, #c73866);
-      color: white;
-      text-decoration: none;
-      border-radius: 50px;
-      font-weight: 600;
-      font-size: 1rem;
-      box-shadow: 
-        0 4px 15px rgba(255, 107, 157, 0.4),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      transition: all 0.3s ease;
-      overflow: hidden;
-      z-index: 1;
-    }
-
-    .btn-enhanced:hover {
-      transform: translateY(-2px);
-      box-shadow: 
-        0 6px 20px rgba(255, 107, 157, 0.6),
-        inset 0 1px 0 rgba(255, 255, 255, 0.3);
-      color: white;
-    }
-
-    .btn-shine {
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-      animation: btnShine 3s infinite;
-    }
-
-    @keyframes btnShine {
-      0% { left: -100%; }
-      50%, 100% { left: 200%; }
-    }
-
-    .btn-icon {
-      font-size: 1.3rem;
-      animation: iconBounce 2s ease-in-out infinite;
-    }
-
-    @keyframes iconBounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-3px); }
-    }
-
-    /* ========== PARTÍCULAS MEJORADAS ========== */
-    .union-effects {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 3;
-    }
-
-    .union-particle {
-      position: absolute;
-      top: -6%;
-      will-change: transform, opacity;
-      user-select: none;
-      filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
-      animation: particleFall var(--duration) linear var(--delay) forwards;
-    }
-
-    .union-particle.star { 
-      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
-    }
-    
-    .union-particle.heart { 
-      filter: drop-shadow(0 0 8px rgba(255, 77, 109, 0.8));
-    }
-
-    @keyframes particleFall {
-      0% {
-        transform: translateY(-10vh) rotate(0deg) translateX(0) scale(0);
-        opacity: 0;
-      }
-      10% {
-        opacity: 1;
-        transform: translateY(0vh) rotate(45deg) translateX(0) scale(1);
-      }
-      100% {
-        transform: translateY(120vh) rotate(var(--rotation)) translateX(var(--drift)) scale(0.8);
-        opacity: 0;
-      }
-    }
-
-    /* ========== CONFETI ========== */
-    .confetti-container {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      overflow: hidden;
-      z-index: 4;
-    }
-
-    .confetti {
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      top: -5%;
-      animation: confettiFall linear forwards;
-    }
-
-    @keyframes confettiFall {
-      0% {
-        transform: translateY(-10vh) rotateZ(0deg);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(120vh) rotateZ(var(--rotation));
-        opacity: 0;
-      }
-    }
-
-    /* ========== RESPONSIVO ========== */
-    @media (max-width: 768px) {
-      .celebracion-card {
-        max-width: 90vw;
-        padding: 1.5rem;
-      }
-
-      .imagen-central img {
-        max-height: 50vh;
-      }
-
-      .date-highlight { font-size: 1.1rem; }
-      .celebration-text { font-size: 1.5rem; }
-      .blessing-text { font-size: 1rem; }
-      
-      .btn-enhanced {
-        padding: 0.7rem 1.5rem;
-        font-size: 0.9rem;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .celebracion-card { padding: 1rem; }
-      .date-highlight { font-size: 1rem; }
-      .celebration-text { font-size: 1.3rem; }
-      .blessing-text { font-size: 0.9rem; }
-    }
-
-    /* ========== REDUCED MOTION ========== */
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-      .union-particle, .confetti { display: none !important; }
-    }
-  </style>
-
-  <script>
-    (function () {
-      const effectsContainer = document.querySelector('#celebracion-union .union-effects');
-      const confettiContainer = document.querySelector('#celebracion-union .confetti-container');
-
-      if (!effectsContainer || !confettiContainer) return;
-      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      const EMOJI = { heart: '❤️', star: '⭐', ring: '💍', sparkle: '✨' };
-      const COLORS = ['#ff6b9d', '#ffd700', '#ff1493', '#ffa500', '#ff69b4', '#ffff00'];
-      const MAX_PARTICLES = 40;
-      const MAX_CONFETTI = 120;
-      let particleCount = 0;
-      let confettiCount = 0;
-
-      function rand(min, max) {
-        return Math.random() * (max - min) + min;
-      }
-
-      function createParticle(kind) {
-        // allow creation attempts but bail out if at cap
-        if (particleCount >= MAX_PARTICLES) return;
-        particleCount++;
-
-        const el = document.createElement('span');
-        el.className = 'union-particle ' + kind;
-        el.innerText = EMOJI[kind] || EMOJI.star;
-        el.style.left = `${rand(5, 95)}%`;
-        el.style.fontSize = `${rand(1, 2.6)}rem`;
-
-        const duration = Math.floor(rand(3800, 11000));
-        const delay = Math.floor(rand(0, 600));
-        const drift = Math.floor(rand(-220, 220));
-        const rotation = Math.floor(rand(-720, 720));
-
-        el.style.setProperty('--duration', `${duration}ms`);
-        el.style.setProperty('--delay', `${delay}ms`);
-        el.style.setProperty('--drift', `${drift}px`);
-        el.style.setProperty('--rotation', `${rotation}deg`);
-
-        effectsContainer.appendChild(el);
-
-        // ensure removal after animation finishes
-        setTimeout(() => {
-          if (el && el.parentNode) el.parentNode.removeChild(el);
-          particleCount = Math.max(0, particleCount - 1);
-        }, duration + delay + 200);
-      }
-
-      function createConfetti() {
-        if (confettiCount >= MAX_CONFETTI) return;
-        confettiCount++;
-
-        const el = document.createElement('div');
-        el.className = 'confetti';
-        el.style.left = `${rand(-5, 105)}%`;
-        el.style.backgroundColor = COLORS[Math.floor(rand(0, COLORS.length))];
-        const w = Math.floor(rand(6, 14));
-        const h = Math.floor(rand(6, 14));
-        el.style.width = `${w}px`;
-        el.style.height = `${h}px`;
-
-        const duration = Math.floor(rand(3800, 8000));
-        const rotation = Math.floor(rand(-1080, 1080));
-        el.style.animation = `confettiFall ${duration}ms linear forwards`;
-        el.style.setProperty('--rotation', `${rotation}deg`);
-
-        confettiContainer.appendChild(el);
-
-        setTimeout(() => {
-          if (el && el.parentNode) el.parentNode.removeChild(el);
-          confettiCount = Math.max(0, confettiCount - 1);
-        }, duration + 200);
-      }
-
-      // continuous spawners (never cleared) to keep effect infinite/cyclic
-      const particleTypes = ['star', 'sparkle', 'heart', 'ring', 'sparkle', 'star', 'heart'];
-      let pidx = 0;
-
-      // steady gentle spawn
-      setInterval(() => {
-        createParticle(particleTypes[pidx % particleTypes.length]);
-        pidx++;
-      }, 340);
-
-      // additional small bursts to keep richness
-      setInterval(() => {
-        // small micro-burst
-        for (let i = 0; i < 2; i++) {
-          setTimeout(() => createParticle(particleTypes[(pidx + i) % particleTypes.length]), i * 120);
-        }
-      }, 1100);
-
-      // confetti steady rain
-      setInterval(() => {
-        createConfetti();
-      }, 160);
-
-      // periodic larger bursts for cyclical feel
-      setInterval(() => {
-        const burstCount = Math.floor(rand(8, 18));
-        for (let i = 0; i < burstCount; i++) {
-          setTimeout(() => createConfetti(), i * 60);
-          setTimeout(() => createParticle(particleTypes[(pidx + i) % particleTypes.length]), i * 80);
-        }
-      }, 5500);
-
-      // initial burst
-      (function initialBurst() {
-        for (let i = 0; i < 20; i++) {
-          setTimeout(() => createConfetti(), i * 40);
-          setTimeout(() => createParticle(particleTypes[i % particleTypes.length]), i * 70);
-        }
-      })();
-
-      // provide a no-op control API but do NOT stop by default
-      window.__celebracionSpawners = {
-        info: () => ({ particleCount, confettiCount }),
-        // keep a controlled restart if needed externally
-        restart: () => { /* spawners are continuous; nothing to restart */ }
-      };
-    })();
-  </script>
-</section>
-
-
-
-
-
 
 
   <section id="adoracion" class="diptych-adoracion my-5">
@@ -1624,7 +1085,7 @@
     }
   </style>
   <!-- Triple VideoMOSAICOS DOCAT Card (MD3 style) -->
-  <section id="docat" class="triple-video-card">
+  <!-- <section id="docat" class="triple-video-card">
     <div class="tv-card-surface">
       <div class="triple-video-row">
         <div class="video-col">
@@ -1648,7 +1109,7 @@
         0 8px 20px -4px rgba(0, 0, 0, .22);
       width: 100%;
       margin: 0 auto;
-      /* sin margen top / bottom */
+ 
       position: relative;
       z-index: 1;
       max-width: 1400px;
@@ -1722,7 +1183,7 @@
     @media (max-width:768px) {
       .triple-video-card {
         margin: 0 auto;
-        /* mantiene sin margen vertical */
+ 
         border-radius: 0;
         max-width: 100%;
       }
@@ -1766,12 +1227,12 @@
         margin: 0 auto;
       }
     }
-  </style>
+  </style> -->
 
-  <br class="d-none d-lg-block"><br class="d-none d-lg-block">
+  <!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block">
   <br class="d-none d-lg-block">
   <br class="d-none d-lg-block">
-  <br class="d-none d-lg-block">
+  <br class="d-none d-lg-block"> -->
 
 
 
@@ -2294,15 +1755,11 @@
 
 
 
-  <div id="feria">
-    <!-- Feria Americana: visible solo del 1 al 9 de agosto de 2025 inclusive -->
-
-
+  <!-- <div id="feria">
 
     <div style=" padding-top: 30px;">
       <div id="feria-americana" class="feria-section text-center" style="width: 90vw; max-width: 90%; margin: 0 auto;">
         <div class="feria-card card-body" style="z-index: 10; position: relative;">
-          <!-- Pizarra con la imagen solicitada -->
           <div class="pizarra-board" style="
         width: 100%;
         max-width: 680px;
@@ -2322,13 +1779,13 @@
             <style>
               .pizarra-cta {
                 color: #fff;
-                /* mobile / default */
+      
                 margin: 0;
                 font-weight: 600;
                 text-align: center;
               }
 
-              /* Desktop */
+    
               @media (min-width: 992px) {
                 .pizarra-cta {
                   color: #ff0000;
@@ -2352,17 +1809,16 @@
               const modalImg = modalBody?.querySelector('img');
               const closeBtn = feriaModal.querySelector('.btn-close');
 
-              // Evitar que hacer clic sobre la imagen cierre el modal
+   
               if (modalImg) {
                 modalImg.addEventListener('click', (e) => e.stopPropagation());
               }
 
-              // Cerrar el modal al hacer clic en cualquier parte del body del modal
-              // que no sea la imagen (comporta también como "clic fuera del flyer")
+ 
               if (modalBody) {
                 modalBody.addEventListener('click', (e) => {
                   if (e.target === modalImg) return;
-                  // disparar el botón de cierre para garantizar compatibilidad sin usar la API de Bootstrap
+ 
                   closeBtn?.click();
                 });
               }
@@ -2374,7 +1830,7 @@
 
       </div>
     </div>
-    <!-- Modal para la imagen de la feria -->
+ 
     <div class="modal fade" id="feriaModal" tabindex="-1" aria-labelledby="feriaModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content" style="background: transparent; border: none;">
@@ -2431,10 +1887,6 @@
     </style>
 
 
-
-
-
-    <!-- estilo de la feria americana -->
     <style>
       .mujer-1 {
         top: 10%;
@@ -2525,12 +1977,12 @@
 
         .mujer-1 {
           z-index: 2;
-          /* Detrás de la tarjeta */
+  
           opacity: 0.5;
-          /* Integra con el fondo */
+ 
           top: 1%;
           transform: scale(0.7) !important;
-          /* 30% más chica */
+ 
           transform-origin: top left;
         }
 
@@ -2539,27 +1991,9 @@
           margin-bottom: 0.4em;
         }
       }
-    </style>
+    </style> -->
 
-    <style>
-      @media (max-width: 700px) {
 
-        /* Fuerza los botones a apilarse si no entran */
-        [id^="btnStory"],
-        [id^="btnPromises"],
-        [id^="btnRelacion"] {
-          width: 100%;
-          min-width: 180px;
-          margin-bottom: 1rem !important;
-        }
-
-        /* El contenedor permite salto de línea */
-        .botones-responsive {
-          flex-direction: column !important;
-          gap: 1rem !important;
-        }
-      }
-    </style>
 
 
     <section id="RETIROS" class="section-header">
