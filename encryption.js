@@ -222,52 +222,53 @@ async function renderizarHeaderRifa() {
     
     container.innerHTML = `
       <div class="prizes-grid">
-        <div class="prize-card">
-          <span class="prize-icon">🎁</span>
-          <h3>Sorteo</h3>
-          <ul class="prize-list">
-            <li><strong>Premio:</strong> Bicicleta</li>
-            <li><strong>Fecha:</strong> 22 Diciembre - Lotería Nacional</li>
-          </ul>
-          <div class="prize-value">$2.500</div>
-        </div>
+      <div class="prize-card">
+      <span class="prize-icon">🎁</span>
+      <h3>Sorteo</h3>
+      <ul class="prize-list">
+      <li><strong>Premio:</strong> Bicicleta</li>
+      <li><strong>Fecha:</strong> 22 Diciembre - Lotería Nacional</li>
+      </ul>
+      <div class="prize-value">$2.500</div>
+      </div>
 
-        <div class="prize-card">
-          <span class="prize-icon">💳</span>
-          <h3>Datos de Pago</h3>
-          <div style="text-align: left;">
-            <div class="payment-row-modern">
-              <i class="fas fa-at"></i>
-              <span class="label">Alias:</span>
-              <span class="value">${datosPago.alias}</span>
-            </div>
-            <div class="payment-row-modern">
-              <i class="fas fa-credit-card"></i>
-              <span class="label">CVU:</span>
-              <span class="value cvu-number" style="font-size: 12px;">
-                <span class="part">${datosPago.cvu.slice(0, 11)}</span>
-                <span class="part">${datosPago.cvu.slice(11)}</span>
-              </span>
-            </div>
-            <div class="payment-row-modern">
-              <i class="fas fa-user"></i>
-              <span class="label">Titular:</span>
-              <span class="value">${datosPago.titular}</span>
-            </div>
-          </div>
-        </div>
+      <div class="prize-card">
+      <span class="prize-icon">💳</span>
+      <h3>Datos de Pago</h3>
+      <div style="text-align: left;">
+      <div class="payment-row-modern">
+        <i class="fas fa-at"></i>
+        <span class="label">Alias:</span>
+        <span class="value">${datosPago.alias}</span>
+      </div>
+      <div class="payment-row-modern">
+        <i class="fas fa-credit-card"></i>
+        <span class="label">CVU:</span>
+        <span class="value cvu-number" style="font-size: 12px;">
+        <span class="part">${datosPago.cvu.slice(0, 11)}</span>
+        <span class="part">${datosPago.cvu.slice(11)}</span>
+        </span>
+      </div>
+      <div class="payment-row-modern">
+        <i class="fas fa-user"></i>
+        <span class="label">Titular:</span>
+        <span class="value">${datosPago.titular}</span>
+      </div>
+      </div>
+      </div>
       </div>
 
       <div class="visual-section">
-        <div class="mascot-card">
-          <img src="./rifa/rifi-premio2.png" alt="Mascota Rifi">
-          <p class="mascot-caption">🎟️ ¡Elegí tu número!</p>
-        </div>
+      <div class="mascot-card">
+      <img src="./rifa/rifi-premio2.png" alt="Mascota Rifi">
+      <p class="mascot-caption">🎟️ ¡Elegí tu número!</p>
+      </div>
 
-        <div class="prizes-images">
-          <img src="./rifa/p1.png" alt="Bicicleta" style="box-shadow: none !important;">
-          <img src="./rifa/p2.png" alt="Tablet" style="box-shadow: none !important;">
-        </div>
+      <div class="prizes-images">
+      <!-- Imagen agrandada solo aquí -->
+      <img src="./rifa/premio.png" alt="Bicicleta" style="box-shadow: none !important; display: block; margin: 0 auto; width: min(80vw, 640px); max-width: 100%; height: auto; max-height: 80vh; object-fit: contain;">
+       <p>La imagen es ilustrativa. La bicicleta del premio es de rodado 29, modelo y color sujeta a disponibilidad</p>
+      </div>
       </div>
     `;
     

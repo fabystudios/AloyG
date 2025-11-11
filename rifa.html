@@ -1234,12 +1234,21 @@
   transition: transform 0.3s;
 }
 
+  .mascot-card {
+    padding: 80px;
+  }
+@media (max-width: 480px) {
+  .mascot-card {
+    padding: 50px;
+  }
+}
+
 .mascot-card:hover, .prizes-images:hover {
   transform: scale(1.02);
 }
 
 .mascot-card img {
-  max-width: 180px;
+  max-width: 270px;
   width: 100%;
   border-radius: 16px;
   margin-bottom: 12px;
@@ -1248,7 +1257,7 @@
 
 .mascot-caption {
   color: #6750A4;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
 }
 
