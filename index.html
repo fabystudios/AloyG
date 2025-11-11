@@ -958,19 +958,76 @@
             </div>
             
             <div class="rifa-content">
-                <div class="rifa-badge">✨ SORTEO ESPECIAL NAVIDEÑO ✨</div>
-                <h1 class="rifa-title d-none d-md-block">🎄 Rifa Parroquial Navideña 🎄</h1>
-                <h1 class="rifa-title d-block d-md-none">Rifa Parroquial Navideña 🎄</h1>
-                <p class="rifa-subtitle">100% ONLINE</p>
-                <p class="rifa-description">
-                    ✨ Participá de nuestra rifa solidaria y ayudá a nuestra comunidad parroquial. 
-                    <br><strong>¡Elegí tu número de la suerte y formá parte de esta hermosa celebración navideña!</strong> 🎁
-                </p>
-                <a href="https://sanluisgonzaga.ar/rifa.html" class="rifa-cta-button">
-                  <span class="d-none d-md-inline">🎯 Reservá tu Número Aquí</span>
-                  <span class="d-inline d-md-none">🎯 Reservá tu Número</span>
-                </a>
-                
+              <div class="rifa-badge">✨ SORTEO ESPECIAL NAVIDEÑO ✨</div>
+              <h1 class="rifa-title d-none d-md-block">🎄 Rifa Parroquial Navideña 🎄</h1>
+              <h1 class="rifa-title d-block d-md-none">Rifa Parroquial Navideña 🎄</h1>
+              <style>
+              .rifa-subtitle.titilar { 
+                line-height:1; 
+                margin:0; 
+                position:relative; 
+                color:#ff6b9d; 
+                font-weight:700; 
+                display:inline-flex; 
+                align-items:center; 
+                gap:8px; 
+              }
+              .rifa-subtitle.titilar .sparkle { 
+                width:10px; 
+                height:10px; 
+                border-radius:50%; 
+                display:inline-block; 
+                box-shadow:0 0 12px rgba(255,255,255,0.9); 
+                transform-origin:center; 
+                animation:twinkle 2s infinite ease-in-out; 
+              }
+              .rifa-subtitle.titilar .sparkle.s1 { 
+                background:#f21717; 
+                animation-delay:0s; 
+              }
+              .rifa-subtitle.titilar .sparkle.s2 { 
+                background:#8be58b; 
+                animation-delay:0.35s; 
+              }
+
+              /* right side mirror sparkles */
+              .rifa-subtitle.titilar .sparkle.s2r {
+                background:#8be58b;
+                animation-delay:0.35s;
+              }
+              .rifa-subtitle.titilar .sparkle.s1r {
+                background:#f21717;
+                animation-delay:0s;
+              }
+
+              @keyframes twinkle {
+                0%,100% { opacity:0.18; transform:scale(0.75) rotate(0deg); filter:blur(0px); }
+                50% { opacity:1; transform:scale(1.18) rotate(12deg); filter:blur(.3px); }
+              }
+              /* pequeño ajuste responsivo */
+              @media (max-width:480px){
+                .rifa-subtitle.titilar { font-size:0.95rem; gap:6px; } 
+                .rifa-subtitle.titilar .sparkle{width:8px;height:8px;} 
+              }
+              </style>
+
+              <p class="rifa-subtitle titilar" role="status" aria-live="polite">
+                <span class="sparkle s1" aria-hidden="true"></span>
+                <span class="sparkle s2" aria-hidden="true"></span>
+                <span class="text">100% ONLINE</span>
+                <span class="sparkle s2r" aria-hidden="true"></span>
+                <span class="sparkle s1r" aria-hidden="true"></span>
+              </p>
+              <p class="rifa-subtitle">Recibe tu ticket por email ó descargalo tu mismo</p>
+              <p class="rifa-description">
+                ✨ Participá de nuestra rifa solidaria y ayudá a nuestra comunidad parroquial. 
+                <br><strong>¡Elegí tu número de la suerte y formá parte de esta hermosa celebración navideña!</strong> 🎁
+              </p>
+              <a href="https://sanluisgonzaga.ar/rifa.html" class="rifa-cta-button">
+                <span class="d-none d-md-inline">🎯 Reservá tu Número Aquí</span>
+                <span class="d-inline d-md-none">🎯 Reservá tu Número</span>
+              </a>
+              
             </div>
         </div>
     </article>
