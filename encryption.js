@@ -224,12 +224,12 @@ async function renderizarHeaderRifa() {
       <div class="prizes-grid">
         <div class="prize-card">
           <span class="prize-icon">🎁</span>
-          <h3>Premios del Sorteo</h3>
+          <h3>Sorteo</h3>
           <ul class="prize-list">
-            <li><strong>1° Premio:</strong> Bicicleta</li>
-            <li><strong>2° Premio:</strong> Tablet</li>
+            <li><strong>Premio:</strong> Bicicleta</li>
+            <li><strong>Fecha:</strong> 22 Diciembre - Lotería Nacional</li>
           </ul>
-          <div class="prize-value">$20.000</div>
+          <div class="prize-value">$2.500</div>
         </div>
 
         <div class="prize-card">

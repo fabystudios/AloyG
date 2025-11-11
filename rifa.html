@@ -36,7 +36,7 @@
 <!-- Open Graph para WhatsApp, Facebook y LinkedIn -->
 <meta property="og:type" content="website">
 <meta property="og:title" content="Rifa San Luis Gonzaga - Villa Elisa">
-<meta property="og:description" content="Participa del sorteo! 🎁 1er premio: Bicicleta | 2do premio: Tablet | 🗓️ Sorteo: 25 de Diciembre">
+<meta property="og:description" content="Participa del sorteo! 🎁 premio: Bicicleta | 🗓️ Sorteo: 22 de Diciembre">
 <meta property="og:image" content="https://sanluisgonzaga.ar/preview-rifa.jpg">
 <meta property="og:image:type" content="image/jpeg">
 <meta property="og:image:width" content="1200">
@@ -49,7 +49,7 @@
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Rifa San Luis Gonzaga - Villa Elisa">
-<meta name="twitter:description" content="Participa del sorteo! 🎁 Bicicleta y Tablet | Sorteo: 25 de Diciembre">
+<meta name="twitter:description" content="Participa del sorteo! 🎁 Bicicleta | Sorteo: 22 de Diciembre">
 <meta name="twitter:image" content="https://sanluisgonzaga.ar/preview-rifa.jpg">
 <meta name="twitter:image:alt" content="Rifa Parroquia San Luis Gonzaga">
 <meta name="twitter:site" content="@sanluisgonzaga">
@@ -169,7 +169,7 @@
 
     <h2 class="md3-headline" style="color: white;">
         <i class="fas fa-ticket-alt align-middle" style="font-size: 1.3em; vertical-align: middle; margin-right: 0.4em;"></i>
-        <span style="vertical-align: middle;">Rifa Sorteo<span class="d-md-none"><br></span> 25 Diciembre</span>  
+        <span style="vertical-align: middle;">Rifa Sorteo<span class="d-md-none"><br></span> 22 Diciembre</span>  
         <!-- <i class="fas fa-tree align-middle" style="font-size: 1.3em; vertical-align: middle; margin-right: 0.4em;" aria-hidden="true" title="Árbol de Navidad"></i> -->
     </h2>
 </section>
@@ -1868,7 +1868,7 @@ document.addEventListener('DOMContentLoaded', function() {
       dni: numeroData.dni,
       nro_op: numeroData.nro_op,
       link_ticket: `https://sanluisgonzaga.ar/ticket.html?id=${numeroData.id}`,
-      fecha_sorteo: '25 de Diciembre 2025'
+      fecha_sorteo: '22 de Diciembre 2025'
     };
 
     const response = await emailjs.send(
@@ -2282,29 +2282,7 @@ async function reenviarEmail(numeroId) {
   <div class="container">
     <!-- Vista Pública -->
     <div id="public-view" class="card">
-      <!-- <div class="rifa-header" style="align-items: center;">
-        <div class="rifa-info-card" style="justify-content: center; align-items: center; text-align: center;">
-          <div class="rifa-prizes" style="display: flex; flex-direction: column; align-items: center;">
-            <h2 class="rifa-title">🎁 Premios</h2>
-            <ul style="text-align: left; margin: 0 auto;">
-              <li><strong>1° Premio:</strong> Bicicleta</li>
-              <li><strong>2° Premio:</strong> Tablet</li>
-              <li><strong>Valor:</strong> $20.000 ARS</li>
-            </ul>
-          </div>
-          <div class="rifa-payment" style="display: flex; flex-direction: column; align-items: center;">
-            <h2 class="rifa-title">💳 Datos de Pago</h2>
-            <div class="payment-data" style="text-align: center;">
-              <p><strong>Alias:</strong> <span>luis.villaelisa.mp</span></p>
-              <p><strong>CVU:</strong> <span>0000003100045333653297</span></p>
-              <p><strong>Titular:</strong> <span>Marcelo Alejandro Cerniato</span></p>
-            </div>
-          </div>
-            <div class="rifa-qr" style="display: flex; flex-direction: column; align-items: center;">
-              <img src="./rifa/qr.jpg" alt="QR Mercado Pago" style="margin: 0 auto; border: none; box-shadow: none; max-width: 250px; width: 100%;">
-            </div>
-        </div>
-      </div> -->
+      
       <!-- ===========================================
      PARTE 2: HTML MEJORADO PARA HEADER
      =========================================== -->
