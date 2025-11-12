@@ -146,8 +146,8 @@ textarea{
 }
 
 /* generales */
-a.active, a:active, a:focus, a:hover {
-  color: #00aae5;
+ a.active, a:active, a:focus, a:hover {
+  color: navajowhite;
 }
 
 .text-primary, a {
