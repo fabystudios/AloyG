@@ -1120,9 +1120,9 @@
           }
 
           // Inicializar efectos en la imagen (MÁS CANTIDAD)
-          for (let i = 0; i < 60; i++) {
+            for (let i = 0; i < (window.innerWidth <= 768 ? 30 : 60); i++) {
             createImageStar();
-          }
+            }
           for (let i = 0; i < 120; i++) {
             createImageSparkle();
           }
