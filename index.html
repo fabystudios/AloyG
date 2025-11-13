@@ -1120,7 +1120,7 @@
           }
 
           // Inicializar efectos en la imagen (MÁS CANTIDAD)
-            for (let i = 0; i < (window.innerWidth <= 768 ? 30 : 60); i++) {
+            for (let i = 0; i < (window.innerWidth <= 768 ? 25 : 60); i++) {
             createImageStar();
             }
           for (let i = 0; i < 120; i++) {
@@ -1128,10 +1128,18 @@
           }
 
           // Función para iniciar los intervalos
-          function startEffects() {
-            if (!particleInterval) particleInterval = setInterval(createParticle, 120);
-            if (!confettiInterval) confettiInterval = setInterval(createConfetti, 80);
-          }
+            function startEffects() {
+            // Detectar si es dispositivo móvil
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+              if (!particleInterval) particleInterval = setInterval(createParticle, 300);
+              if (!confettiInterval) confettiInterval = setInterval(createConfetti, 250);
+            } else {
+              if (!particleInterval) particleInterval = setInterval(createParticle, 120);
+              if (!confettiInterval) confettiInterval = setInterval(createConfetti, 80);
+            }
+            }
 
           // Función para detener los intervalos
           function stopEffects() {
@@ -1501,6 +1509,7 @@
       letter-spacing: .5px;
       background: linear-gradient(90deg, #304ffe, #512da8 55%, #7c4dff);
       -webkit-background-clip: text;
+      background-clip: text;
       color: transparent;
       text-shadow: 0 2px 6px rgba(48, 79, 254, 0.18);
     }
