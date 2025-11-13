@@ -1057,78 +1057,104 @@
               
             </div>
         </div>
+          <!-- Contenedor de efectos -->
+    <div class="rifa-effects-container" id="rifaEffectsContainer"></div>
     </article>
 
-    <!-- Contenedor de efectos -->
-    <div class="rifa-effects-container" id="rifaEffectsContainer"></div>
+  
 
     <script>
         (function() {
-            const effectsContainer = document.getElementById('rifaEffectsContainer');
-            const imageEffects = document.getElementById('rifaImageEffects');
-            
-            // Crear estrellas en la imagen
-            function createImageStar() {
-                const star = document.createElement('div');
-                star.className = 'rifa-star';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDelay = Math.random() * 3 + 's';
-                imageEffects.appendChild(star);
-            }
+          const effectsContainer = document.getElementById('rifaEffectsContainer');
+          const imageEffects = document.getElementById('rifaImageEffects');
+          const rifaArticle = document.getElementById('rifa');
+          let particleInterval = null;
+          let confettiInterval = null;
 
-            // Crear brillos en la imagen
-            function createImageSparkle() {
-                const sparkle = document.createElement('div');
-                sparkle.className = 'rifa-sparkle';
-                sparkle.style.left = Math.random() * 100 + '%';
-                sparkle.style.top = Math.random() * 100 + '%';
-                sparkle.style.animationDelay = Math.random() * 2 + 's';
-                imageEffects.appendChild(sparkle);
-            }
+          // Crear estrellas en la imagen
+          function createImageStar() {
+            const star = document.createElement('div');
+            star.className = 'rifa-star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            imageEffects.appendChild(star);
+          }
 
-            // Crear partículas flotantes en el artículo
-            function createParticle() {
-                const particle = document.createElement('div');
-                particle.className = 'rifa-particle';
-                particle.style.width = Math.random() * 8 + 3 + 'px';
-                particle.style.height = particle.style.width;
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.bottom = '0';
-                particle.style.animationDuration = Math.random() * 3 + 3 + 's';
-                particle.style.animationDelay = Math.random() * 2 + 's';
-                effectsContainer.appendChild(particle);
-                
-                setTimeout(() => particle.remove(), 6000);
-            }
+          // Crear brillos en la imagen
+          function createImageSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'rifa-sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            imageEffects.appendChild(sparkle);
+          }
 
-            // Crear confeti en el artículo
-            function createConfetti() {
-                const confetti = document.createElement('div');
-                confetti.className = 'rifa-confetti';
-                confetti.style.left = Math.random() * 100 + '%';
-                confetti.style.top = '-10px';
-                confetti.style.animationDuration = Math.random() * 2 + 3 + 's';
-                confetti.style.animationDelay = Math.random() * 2 + 's';
-                const colors = ['#f093fb', '#f5576c', '#ffd700', '#764ba2', '#667eea', '#4ade80', '#fb923c'];
-                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
-                effectsContainer.appendChild(confetti);
-                
-                setTimeout(() => confetti.remove(), 6000);
-            }
+          // Crear partículas flotantes en el artículo
+          function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'rifa-particle';
+            particle.style.width = Math.random() * 8 + 3 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.bottom = '0';
+            particle.style.animationDuration = Math.random() * 3 + 3 + 's';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            effectsContainer.appendChild(particle);
+            setTimeout(() => particle.remove(), 6000);
+          }
 
-            // Inicializar efectos en la imagen (MÁS CANTIDAD)
-            for (let i = 0; i < 25; i++) {
-                createImageStar();
-            }
+          // Crear confeti en el artículo
+          function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'rifa-confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-10px';
+            confetti.style.animationDuration = Math.random() * 2 + 3 + 's';
+            confetti.style.animationDelay = Math.random() * 2 + 's';
+            const colors = ['#f093fb', '#f5576c', '#ffd700', '#764ba2', '#667eea', '#4ade80', '#fb923c'];
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            effectsContainer.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 6000);
+          }
 
-            for (let i = 0; i < 50; i++) {
-                createImageSparkle();
-            }
+          // Inicializar efectos en la imagen (MÁS CANTIDAD)
+          for (let i = 0; i < 60; i++) {
+            createImageStar();
+          }
+          for (let i = 0; i < 120; i++) {
+            createImageSparkle();
+          }
 
-            // Generar partículas y confeti continuamente solo en el artículo
-            setInterval(createParticle, 300);
-            setInterval(createConfetti, 250);
+          // Función para iniciar los intervalos
+          function startEffects() {
+            if (!particleInterval) particleInterval = setInterval(createParticle, 120);
+            if (!confettiInterval) confettiInterval = setInterval(createConfetti, 80);
+          }
+
+          // Función para detener los intervalos
+          function stopEffects() {
+            if (particleInterval) { clearInterval(particleInterval); particleInterval = null; }
+            if (confettiInterval) { clearInterval(confettiInterval); confettiInterval = null; }
+          }
+
+          // Usar Intersection Observer para solo activar efectos cuando el artículo es visible
+          if ('IntersectionObserver' in window && rifaArticle) {
+            const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  startEffects();
+                } else {
+                  stopEffects();
+                }
+              });
+            }, { threshold: 0.1 });
+            observer.observe(rifaArticle);
+          } else {
+            // Fallback: siempre activos
+            startEffects();
+          }
         })();
     </script>
   <br><br><br><br><br>
