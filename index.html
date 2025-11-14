@@ -1,3 +1,10 @@
+    <style>
+      @media (max-width: 600px) {
+        .rifa-bg-opacity {
+          background-image: url('./rifa/backRifa_mob.jpg') !important;
+        }
+      }
+    </style>
 <!DOCTYPE html>
 <html lang="es">
 
@@ -981,9 +988,27 @@
                 </picture>
             </div>
             
-            <div class="rifa-content">
+            <div class="rifa-content rifa-bg-opacity" style="background-image: url('./rifa/backRifa_desk.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative;">
+                  <style>
+                    .rifa-bg-opacity {
+                      position: relative;
+                      overflow: hidden;
+                    }
+                    .rifa-bg-opacity::before {
+                      content: "";
+                      position: absolute;
+                      inset: 0;
+                      background: rgba(255,255,255,0.55); /* Cambia el color y opacidad aquí */
+                      z-index: 1;
+                      pointer-events: none;
+                    }
+                    .rifa-bg-opacity > * {
+                      position: relative;
+                      z-index: 2;
+                    }
+                  </style>
               <div class="rifa-badge">✨ SORTEO ESPECIAL NAVIDEÑO ✨</div>
-              <h1 class="rifa-title d-none d-md-block">🎄 Rifa Parroquial Navideña 🎄</h1>
+              <h1 class="rifa-title d-none d-md-block"> Rifa Parroquial Navideña 🎄</h1>
               <h1 class="rifa-title d-block d-md-none">Rifa Parroquial Navideña 🎄</h1>
               <style>
               .rifa-subtitle.titilar { 
