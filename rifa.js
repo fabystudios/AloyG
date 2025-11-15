@@ -1281,13 +1281,13 @@ async function enviarEmailCertificado(numeroData) {
     if (error.status === 422) {
       console.error('⚠️ Error 422: El template no tiene configurado el destinatario');
       console.error('💡 SOLUCIÓN: En EmailJS Dashboard → Template → Settings');
-      console.error('   Configura "Send To" con la variable: {{to_email}}');
+      console.error('   Configurar "Send To" con la variable: {{to_email}}');
     } else if (error.status === 400) {
-      console.error('⚠️ Error 400: Verifica que el Service ID y Template ID sean correctos');
+      console.error('⚠️ Error 400: Verificar que el Service ID y Template ID sean correctos');
     } else if (error.status === 401) {
-      console.error('⚠️ Error 401: Verifica la Public Key');
+      console.error('⚠️ Error 401: Verificar la Public Key');
     } else if (error.status === 403) {
-      console.error('⚠️ Error 403: Verifica los permisos del servicio');
+      console.error('⚠️ Error 403: Verificar los permisos del servicio');
     } else if (error.status === 404) {
       console.error('⚠️ Error 404: El template o servicio no existe');
     }
