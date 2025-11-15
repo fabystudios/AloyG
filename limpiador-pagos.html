@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin: Limpiador de Historial | San Luis Gonzaga</title>
+  
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', 'Segoe UI', Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+      margin-bottom: 20px;
+      animation: slideUp 0.4s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .header {
+      background: linear-gradient(135deg, #6750A4, #4527A0);
+      color: white;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 20px rgba(103, 80, 164, 0.3);
+    }
+
+    .header h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header p {
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 12px;
+      margin-top: 16px;
+    }
+
+    .user-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+
+    .search-section {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .input-wrapper {
+      flex: 1;
+      position: relative;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 16px 14px 48px;
+      border: 2px solid #E7E0EC;
+      border-radius: 12px;
+      font-size: 16px;
+      transition: all 0.3s;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: #6750A4;
+      box-shadow: 0 0 0 3px rgba(103, 80, 164, 0.1);
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6750A4;
+      pointer-events: none;
+    }
+
+    .btn {
+      padding: 14px 24px;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #6750A4, #4527A0);
+      color: white;
+      box-shadow: 0 4px 16px rgba(103, 80, 164, 0.3);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(103, 80, 164, 0.4);
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #D32F2F, #B71C1C);
+      color: white;
+      box-shadow: 0 4px 16px rgba(211, 47, 47, 0.3);
+    }
+
+    .btn-danger:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(211, 47, 47, 0.4);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #6750A4;
+      border: 2px solid #6750A4;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(103, 80, 164, 0.05);
+    }
+
+    .alert {
+      padding: 14px 16px;
+      border-radius: 12px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 14px;
+    }
+
+    .alert-info {
+      background: #E3F2FD;
+      border-left: 4px solid #2196F3;
+      color: #1565C0;
+    }
+
+    .alert-warning {
+      background: #FFF3E0;
+      border-left: 4px solid #FF9800;
+      color: #E65100;
+    }
+
+    .alert-success {
+      background: #E8F5E9;
+      border-left: 4px solid #4CAF50;
+      color: #2E7D32;
+    }
+
+    .alert-error {
+      background: #FFEBEE;
+      border-left: 4px solid #F44336;
+      color: #C62828;
+    }
+
+    .record-card {
+      padding: 20px;
+      border-radius: 12px;
+      border: 2px solid #E7E0EC;
+      margin-bottom: 16px;
+      transition: all 0.3s;
+    }
+
+    .record-card:hover {
+      border-color: #6750A4;
+      box-shadow: 0 4px 16px rgba(103, 80, 164, 0.1);
+    }
+
+    .record-card.con-historial {
+      background: #FFF3E0;
+      border-color: #FF9800;
+    }
+
+    .record-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      margin-bottom: 16px;
+    }
+
+    .record-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .numero-badge {
+      background: linear-gradient(135deg, #6750A4, #4527A0);
+      color: white;
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-weight: 700;
+      font-size: 20px;
+    }
+
+    .badge {
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-historial {
+      background: #FF9800;
+      color: white;
+    }
+
+    .badge-disponible {
+      background: #4CAF50;
+      color: white;
+    }
+
+    .badge-reservado {
+      background: #2196F3;
+      color: white;
+    }
+
+    .badge-pagado {
+      background: #6750A4;
+      color: white;
+    }
+
+    .record-info {
+      background: #f5f5f5;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: #666;
+    }
+
+    .record-info strong {
+      color: #333;
+    }
+
+    .historial-section {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 2px dashed #E7E0EC;
+    }
+
+    .historial-title {
+      font-size: 15px;
+      font-weight: 600;
+      color: #6750A4;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .historial-item {
+      background: white;
+      padding: 10px 12px;
+      border-radius: 8px;
+      margin-bottom: 8px;
+      font-size: 13px;
+      border-left: 3px solid #FF9800;
+    }
+
+    .historial-item .fecha {
+      color: #999;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .btn-delete {
+      padding: 10px 16px;
+      background: #D32F2F;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .btn-delete:hover {
+      background: #B71C1C;
+      transform: scale(1.05);
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .spinner {
+      border: 3px solid rgba(103, 80, 164, 0.2);
+      border-top: 3px solid #6750A4;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .instructions {
+      background: linear-gradient(135deg, #E8DEF8, #f0ebf8);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .instructions h3 {
+      color: #6750A4;
+      font-size: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .instructions ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .instructions li {
+      padding: 8px 0;
+      color: #666;
+      font-size: 14px;
+      display: flex;
+      align-items: start;
+      gap: 8px;
+    }
+
+    .instructions li:before {
+      content: "•";
+      color: #6750A4;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    @media (max-width: 768px) {
+      body { padding: 12px; }
+      .card { padding: 16px; }
+      .header { padding: 16px; }
+      .header h1 { font-size: 20px; }
+      .search-section { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>
+      <span class="material-icons">history</span>
+      Limpiador de Historial de Auditoría
+    </h1>
+    <p>Elimina el historial de pruebas para que el sistema funcione correctamente con pagos reales</p>
+    
+    <div class="user-info" id="user-info" style="display:none;">
+      <img id="user-avatar" class="user-avatar" src="" alt="Avatar">
+      <div>
+        <div id="user-name" style="font-weight: 600;"></div>
+        <div style="font-size: 12px; opacity: 0.8;">Administrador</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" id="login-card">
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Conectando con Firebase...</p>
+    </div>
+  </div>
+
+  <div class="card" id="search-card" style="display:none;">
+    <div class="search-section">
+      <div class="input-wrapper">
+        <span class="material-icons input-icon">confirmation_number</span>
+        <input 
+          type="text" 
+          id="numero-rifa-input" 
+          placeholder="Número de rifa (ej: 042 o 42)"
+          autocomplete="off"
+        >
+      </div>
+      <button class="btn btn-primary" onclick="buscarRegistros()">
+        <span class="material-icons">search</span>
+        Buscar
+      </button>
+    </div>
+
+    <div id="result-message"></div>
+  </div>
+
+  <div id="records-container" style="display:none;"></div>
+
+  <div class="card" id="instructions-card" style="display:none;">
+    <div class="instructions">
+      <h3>
+        <span class="material-icons">info</span>
+        Instrucciones
+      </h3>
+      <ul>
+        <li>Ingresa el número de rifa que usaste en las pruebas</li>
+        <li>Verás el historial completo de cambios (auditoría)</li>
+        <li>Limpia el historial para que el sistema pueda disparar emails nuevamente</li>
+        <li>Los números disponibles se resetearán completamente</li>
+        <li>Los números reservados/pagados mantendrán sus datos actuales</li>
+      </ul>
+    </div>
+  </div>
+
+  <div style="text-align: center; margin-top: 24px;">
+    <a href="rifa.html" class="btn btn-secondary">
+      <span class="material-icons">arrow_back</span>
+      Volver a la Rifa
+    </a>
+  </div>
+</div>
+
+<script>
+var firebaseConfig = {
+  apiKey: "AIzaSyD-3xKx4M5GxSQ-oJdnqz33hEZqFNBHoxM",
+  authDomain: "aloy-726.firebaseapp.com",
+  projectId: "aloy-726",
+  storageBucket: "aloy-726.appspot.com",
+  messagingSenderId: "441895072453",
+  appId: "1:441895072453:web:aeaabb2d4f5fbc1a85b6ac",
+  measurementId: "G-GX6KWD2LR7"
+};
+
+firebase.initializeApp(firebaseConfig);
+var db = firebase.firestore();
+var auth = firebase.auth();
+
+var currentUser = null;
+var registrosEncontrados = [];
+
+function esAdmin(email) {
+  return db.collection('admins').doc(email).get()
+    .then(function(doc) {
+      return doc.exists && doc.data().activo;
+    })
+    .catch(function(error) {
+      console.error('Error verificando admin:', error);
+      return false;
+    });
+}
+
+auth.onAuthStateChanged(function(user) {
+  if (user) {
+    esAdmin(user.email).then(function(isAdminUser) {
+      if (isAdminUser) {
+        currentUser = user;
+        mostrarInterfazAdmin();
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Acceso Denegado',
+          text: 'No tienes permisos de administrador',
+          confirmButtonText: 'Volver',
+          allowOutsideClick: false
+        }).then(function() {
+          window.location.href = 'rifa.html';
+        });
+      }
+    });
+  } else {
+    document.getElementById('login-card').innerHTML = '<div style="text-align: center; padding: 40px;"><p style="margin-bottom: 20px; color: #666;">Debes iniciar sesión como administrador</p><button class="btn btn-primary" onclick="loginWithGoogle()"><span class="material-icons">login</span>Ingresar con Google</button></div>';
+  }
+});
+
+function loginWithGoogle() {
+  var provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider).catch(function(error) {
+    Swal.fire({
+      icon: 'error',
+      title: 'Error al Iniciar Sesión',
+      text: error.message
+    });
+  });
+}
+
+function mostrarInterfazAdmin() {
+  document.getElementById('login-card').style.display = 'none';
+  document.getElementById('search-card').style.display = 'block';
+  document.getElementById('instructions-card').style.display = 'block';
+  
+  var userInfo = document.getElementById('user-info');
+  userInfo.style.display = 'flex';
+  document.getElementById('user-name').textContent = currentUser.displayName || currentUser.email;
+  document.getElementById('user-avatar').src = currentUser.photoURL || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(currentUser.displayName || 'Admin');
+}
+
+function buscarRegistros() {
+  var input = document.getElementById('numero-rifa-input').value.trim();
+  
+  if (!input) {
+    mostrarMensaje('error', 'Ingresa un número de rifa');
+    return;
+  }
+  
+  var numeroNormalizado = input.padStart(3, '0');
+  
+  mostrarMensaje('info', 'Buscando registros...', true);
+  
+  db.collection('rifa').where('numero', '==', parseInt(numeroNormalizado)).get()
+    .then(function(snapshot) {
+      if (snapshot.empty) {
+        mostrarMensaje('warning', 'No se encontraron registros para este número de rifa');
+        document.getElementById('records-container').style.display = 'none';
+        return;
+      }
+      
+      registrosEncontrados = [];
+      snapshot.forEach(function(doc) {
+        var data = doc.data();
+        registrosEncontrados.push({
+          id: doc.id,
+          numero: data.numero,
+          nombre: data.nombre || '',
+          email: data.email || '',
+          dni: data.dni || '',
+          nro_op: data.nro_op || '',
+          state: data.state,
+          historial: data.historial || [],
+          admin_registro_pago: data.admin_registro_pago || null,
+          fecha_pago: data.fecha_pago || null,
+          email_enviado: data.email_enviado || false
+        });
+      });
+      
+      if (registrosEncontrados.length === 0) {
+        mostrarMensaje('warning', 'Este número no tiene registros');
+        document.getElementById('records-container').style.display = 'none';
+      } else {
+        mostrarMensaje('success', 'Se encontró el número #' + numeroNormalizado);
+        renderizarRegistros();
+      }
+    })
+    .catch(function(error) {
+      console.error('Error al buscar:', error);
+      mostrarMensaje('error', 'Error al buscar: ' + error.message);
+    });
+}
+
+function renderizarRegistros() {
+  var container = document.getElementById('records-container');
+  container.innerHTML = '';
+  container.style.display = 'block';
+  
+  registrosEncontrados.forEach(function(record) {
+    var card = document.createElement('div');
+    card.className = 'card';
+    
+    var tieneHistorial = record.historial && record.historial.length > 0;
+    var estados = {1: 'Disponible', 2: 'Reservado', 3: 'Pagado'};
+    var estadoClases = {1: 'disponible', 2: 'reservado', 3: 'pagado'};
+    
+    var cardClass = tieneHistorial ? ' con-historial' : '';
+    var badgeHistorial = tieneHistorial ? '<span class="badge badge-historial">' + record.historial.length + ' registros en historial</span>' : '';
+    
+    var infoHtml = '';
+    if (record.state === 1) {
+      infoHtml = '<div class="record-info"><strong>Estado:</strong> Disponible (sin datos)</div>';
+    } else {
+      infoHtml = '<div class="record-info">' +
+        '<strong>Nombre:</strong> ' + (record.nombre || 'Sin nombre') + '<br>' +
+        '<strong>Email:</strong> ' + (record.email || 'Sin email') + '<br>' +
+        '<strong>DNI:</strong> ' + (record.dni || 'Sin DNI') + '<br>' +
+        '<strong>Nro Op:</strong> ' + (record.nro_op || 'Sin número') +
+        '</div>';
+    }
+    
+    var historialHtml = '';
+    if (tieneHistorial) {
+      historialHtml = '<div class="historial-section"><div class="historial-title"><span class="material-icons">history</span>Historial de Cambios (' + record.historial.length + ')</div>';
+      
+      record.historial.forEach(function(entry) {
+        var fecha = entry.fecha ? new Date(entry.fecha).toLocaleString('es-AR') : 'Sin fecha';
+        historialHtml += '<div class="historial-item">' +
+          '<div><strong>' + (entry.accion || 'Acción registrada') + '</strong></div>' +
+          '<div class="fecha">Por: ' + (entry.admin || 'Desconocido') + ' - ' + fecha + '</div>' +
+          '</div>';
+      });
+      
+      historialHtml += '</div>';
+    }
+    
+    var accionHtml = '';
+    if (tieneHistorial || record.state === 1) {
+      accionHtml = '<button class="btn-delete" onclick="limpiarRegistro(\'' + record.id + '\', ' + record.state + ')">' +
+        '<span class="material-icons">delete_sweep</span>' +
+        (record.state === 1 ? 'Resetear Completamente' : 'Limpiar Historial') +
+        '</button>';
+    }
+    
+    card.innerHTML = '<div class="record-card' + cardClass + '">' +
+      '<div class="record-header">' +
+      '<div class="record-title">' +
+      '<span class="numero-badge">#' + record.numero + '</span>' +
+      '<span class="badge badge-' + estadoClases[record.state] + '">' + estados[record.state] + '</span>' +
+      badgeHistorial +
+      '</div>' +
+      accionHtml +
+      '</div>' +
+      infoHtml +
+      historialHtml +
+      '</div>';
+    
+    container.appendChild(card);
+  });
+}
+
+function limpiarRegistro(docId, state) {
+  var record = registrosEncontrados.find(function(r) { return r.id === docId; });
+  
+  var mensaje = '';
+  var accion = '';
+  
+  if (state === 1) {
+    mensaje = '<p>Se <strong>reseteará completamente</strong> el número <strong>#' + record.numero + '</strong></p>' +
+      '<p style="font-size: 13px; color: #666; margin-top: 10px;">Se eliminará todo el historial y campos de auditoría</p>';
+    accion = 'resetear';
+  } else {
+    mensaje = '<p>Se <strong>limpiará el historial</strong> del número <strong>#' + record.numero + '</strong></p>' +
+      '<p style="font-size: 13px; color: #666; margin-top: 10px;">Se mantendrán los datos actuales (nombre, email, DNI, nro op, estado) pero se eliminará el historial de cambios</p>' +
+      '<p style="font-size: 13px; color: #E65100; margin-top: 10px;">✓ Esto permitirá que el email se dispare nuevamente cuando cambies el estado a pagado</p>';
+    accion = 'limpiar';
+  }
+  
+  Swal.fire({
+    title: '¿Confirmar acción?',
+    html: mensaje,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, ' + (accion === 'resetear' ? 'Resetear' : 'Limpiar'),
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#D32F2F',
+    cancelButtonColor: '#6750A4'
+  }).then(function(result) {
+    if (!result.isConfirmed) return;
+    
+    var updateData = {
+      historial: [],
+      admin_registro_pago: firebase.firestore.FieldValue.delete(),
+      fecha_pago: firebase.firestore.FieldValue.delete(),
+      email_enviado: firebase.firestore.FieldValue.delete(),
+      email_enviado_fecha: firebase.firestore.FieldValue.delete(),
+      admin_correccion: firebase.firestore.FieldValue.delete(),
+      fecha_correccion: firebase.firestore.FieldValue.delete(),
+      admin_elimino_pago: firebase.firestore.FieldValue.delete(),
+      fecha_eliminacion: firebase.firestore.FieldValue.delete(),
+      admin_reseteo: firebase.firestore.FieldValue.delete(),
+      fecha_reseteo: firebase.firestore.FieldValue.delete(),
+      ultimo_admin: firebase.firestore.FieldValue.delete(),
+      ultima_modificacion: firebase.firestore.FieldValue.delete()
+    };
+    
+    if (state === 1) {
+      updateData.nombre = '';
+      updateData.email = '';
+      updateData.dni = null;
+      updateData.nro_op = null;
+      updateData.time = null;
+    }
+    
+    db.collection('rifa').doc(docId).update(updateData)
+      .then(function() {
+        Swal.fire({
+          icon: 'success',
+          title: 'Limpieza Exitosa',
+          html: '<p>Se ' + (accion === 'resetear' ? 'reseteó' : 'limpió el historial de') + ' <strong>#' + record.numero + '</strong> correctamente</p>' +
+            '<p style="font-size: 13px; color: #2E7D32; margin-top: 10px;">✓ El sistema ahora puede enviar emails nuevamente</p>',
+          timer: 3000,
+          showConfirmButton: true
+        });
+        
+        buscarRegistros();
+      })
+      .catch(function(error) {
+        console.error('Error al limpiar:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'No se pudo realizar la operación: ' + error.message
+        });
+      });
+  });
+}
+
+function mostrarMensaje(tipo, mensaje, loading) {
+  var container = document.getElementById('result-message');
+  
+  if (loading) {
+    container.innerHTML = '<div class="alert alert-info"><div class="spinner" style="width: 20px; height: 20px; margin: 0;"></div><span>' + mensaje + '</span></div>';
+    return;
+  }
+  
+  var iconos = {
+    info: 'info',
+    warning: 'warning',
+    success: 'check_circle',
+    error: 'error'
+  };
+  
+  container.innerHTML = '<div class="alert alert-' + tipo + '"><span class="material-icons">' + iconos[tipo] + '</span><span>' + mensaje + '</span></div>';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var input = document.getElementById('numero-rifa-input');
+  if (input) {
+    input.addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        buscarRegistros();
+      }
+    });
+  }
+});
+</script>
+
+</body>
+</html>
