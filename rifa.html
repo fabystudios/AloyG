@@ -1118,7 +1118,7 @@
 
 .prize-value {
   background: linear-gradient(135deg, #FFD700, #FFA500);
-  color: #fff;
+  color: #333131;
   padding: 12px 24px;
   border-radius: 50px;
   font-weight: 700;
@@ -2297,6 +2297,290 @@ async function reenviarEmail(numeroId) {
      =========================================== -->
 <!-- Reemplazar el div con class="rifa-header" por esto: -->
 <!-- Header con datos cifrados (se carga dinámicamente) -->
+ <style>
+  /* Info-Box Rediseñado - Estilo Moderno con Glassmorphism */
+  .info-box-modern {
+    background: linear-gradient(135deg, rgba(103, 80, 164, 0.95), rgba(69, 39, 160, 0.9));
+    backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 32px;
+    margin-bottom: 24px;
+    box-shadow: 0 8px 32px rgba(103, 80, 164, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .info-box-modern::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: pulse 8s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.1) rotate(180deg); }
+  }
+
+  .instruction-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+  }
+
+  .instruction-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  }
+
+  .instruction-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .icon-wrapper {
+    width: 56px;
+    height: 56px;
+    background: linear-gradient(135deg, #6750A4, #4527A0);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 16px rgba(103, 80, 164, 0.3);
+    flex-shrink: 0;
+  }
+
+  .icon-wrapper .material-icons {
+    color: white;
+    font-size: 32px;
+  }
+
+  .instruction-title {
+    color: #6750A4;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .instruction-content {
+    color: #333;
+    line-height: 1.8;
+    font-size: 15px;
+  }
+
+  .status-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 16px;
+  }
+
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.3s;
+  }
+
+  .status-badge:hover {
+    transform: scale(1.05);
+  }
+
+  .badge-disponible {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+  }
+
+  .badge-reservado {
+    background: linear-gradient(135deg, #FF9800, #F57C00);
+    color: white;
+    box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);
+  }
+
+  .badge-pagado {
+    background: linear-gradient(135deg, #6750A4, #4527A0);
+    color: white;
+    box-shadow: 0 4px 12px rgba(103, 80, 164, 0.3);
+  }
+
+  .status-badge .material-icons {
+    font-size: 18px;
+  }
+
+  .divider {
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    margin: 24px 0;
+  }
+
+  .email-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+  }
+
+  .email-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  .email-title {
+    color: #6750A4;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .email-content {
+    color: #333;
+    line-height: 1.8;
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+
+  .email-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 28px;
+    background: linear-gradient(135deg, #6750A4, #4527A0);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s;
+    box-shadow: 0 4px 16px rgba(103, 80, 164, 0.3);
+  }
+
+  .email-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(103, 80, 164, 0.4);
+    background: linear-gradient(135deg, #4527A0, #311B92);
+    color: white;
+  }
+
+  .confirmation-alert {
+    background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+    border-left: 4px solid #4CAF50;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-top: 20px;
+    display: flex;
+    align-items: start;
+    gap: 12px;
+  }
+
+  .confirmation-alert .material-icons {
+    color: #2E7D32;
+    font-size: 24px;
+  }
+
+  .confirmation-alert p {
+    margin: 0;
+    color: #2E7D32;
+    font-weight: 600;
+    line-height: 1.6;
+  }
+
+  .form-link {
+    color: #6750A4;
+    font-weight: 700;
+    text-decoration: none;
+    border-bottom: 2px solid #6750A4;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .form-link:hover {
+    color: #4527A0;
+    border-bottom-color: #4527A0;
+    transform: translateY(-1px);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .info-box-modern {
+      padding: 24px 20px;
+      border-radius: 20px;
+    }
+
+    .instruction-card,
+    .email-card {
+      padding: 20px;
+    }
+
+    .instruction-header,
+    .email-header {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .icon-wrapper {
+      width: 48px;
+      height: 48px;
+    }
+
+    .icon-wrapper .material-icons {
+      font-size: 28px;
+    }
+
+    .instruction-title,
+    .email-title {
+      font-size: 18px;
+    }
+
+    .status-badges {
+      justify-content: center;
+    }
+
+    .email-button {
+      width: 100%;
+      justify-content: center;
+      padding: 12px 24px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .info-box-modern {
+      padding: 20px 16px;
+    }
+
+    .instruction-card,
+    .email-card {
+      padding: 16px;
+    }
+
+    .status-badge {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+  }
+</style>
 <div class="rifa-header-redesign" id="header-rifa-container">
   <div style="text-align:center;padding:40px;display:flex;flex-direction:column;align-items:center;gap:12px;">
     <div id="rifa-spinner" class="spinner" aria-hidden="true"></div>
@@ -2341,7 +2625,9 @@ async function reenviarEmail(numeroId) {
       #rifa-seguridad-img{ width:110px; max-width:48%; }
       #rifa-spinner{ width:38px; height:38px; border-width:3px; }
     }
+    
   </style>
+  
 </div>
 
       <div class="mode-toggle">
@@ -2351,9 +2637,84 @@ async function reenviarEmail(numeroId) {
         </button>
       </div>
 
-      <div class="info-box">
-        <p><strong>📌 Cómo funciona:</strong> Haz clic en un número disponible (verde) para reservarlo. Los números naranjas están reservados y los morados ya están pagados.</p>
+  <div class="info-box-modern">
+    
+    <!-- Card de Cómo Funciona -->
+    <div class="instruction-card">
+      <div class="instruction-header">
+        <div class="icon-wrapper">
+          <span class="material-icons">info</span>
+        </div>
+        <div>
+          <h4 class="instruction-title">📌 Cómo funciona</h4>
+        </div>
       </div>
+      
+      <div class="instruction-content">
+        <p>
+          Haz clic en un número para reservarlo. Los números tienen diferentes estados:
+        </p>
+      </div>
+
+      <div class="status-badges">
+        <span class="status-badge badge-disponible">
+          <span class="material-icons">check_circle</span>
+          <span>Disponible</span>
+        </span>
+        <span class="status-badge badge-reservado">
+          <span class="material-icons">schedule</span>
+          <span>Reservado</span>
+        </span>
+        <span class="status-badge badge-pagado">
+          <span class="material-icons">verified</span>
+          <span>Pagado</span>
+        </span>
+      </div>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider"></div>
+
+    <!-- Card de Email -->
+    <div class="email-card">
+      <div class="email-header">
+        <div class="icon-wrapper">
+          <span class="material-icons">email</span>
+        </div>
+        <div>
+          <h4 class="email-title">📧 Importante</h4>
+        </div>
+      </div>
+      
+      <div class="email-content">
+        <p>
+          Después de realizar el pago, te agradecemos que nos avises enviando un mensaje desde el 
+          <a href="#CONTACTO" class="form-link">
+            <span>formulario de contacto</span>
+            <span class="material-icons">arrow_forward</span>
+          </a> 
+          más abajo, incluyendo tu número reservado.
+        </p>
+        
+        <p style="margin-top: 12px;">
+          O envíanos un correo directamente 👇
+        </p>
+      </div>
+
+      <a href="mailto:sanluisvillaelisa@gmail.com" class="email-button">
+        <span class="material-icons">email</span>
+        <span>sanluisvillaelisa@gmail.com</span>
+      </a>
+
+      <div class="confirmation-alert">
+        <span class="material-icons">schedule</span>
+        <p>
+          Los administradores confirmarán tu pago en breve
+        </p>
+      </div>
+    </div>
+
+  </div>
 
       <div class="stats">
         <div class="stat-card">
@@ -2823,9 +3184,7 @@ async function reenviarEmail(numeroId) {
           <label for="public-dni-input">Tu DNI *</label>
           <input type="number" id="public-dni-input" placeholder="Tu DNI" required>
         </div>
-        <div class="info-box">
-          <p>⏰ Los administradores confirmarán tu pago en breve</p>
-        </div>
+        <!-- Info-box eliminado para evitar duplicidad visual -->
         
         <div class="modal-actions">
           <div class="btn-group-mobile">
