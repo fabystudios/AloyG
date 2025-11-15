@@ -631,14 +631,49 @@ function openPublicModal(item) {
   }
 }
 
+// ========================================
+// SUBMIT FORMULARIO PÚBLICO - CORREGIDO
+// Reemplazar en rifa.js (línea ~395 aprox)
+// ========================================
+
 document.getElementById('public-form').onsubmit = async function(e) {
   e.preventDefault();
   
+  // ✅ VALIDACIÓN: Verificar que currentEditingId existe
+  if (!currentEditingId) {
+    console.error('❌ ERROR: currentEditingId es null');
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'No se pudo identificar el número a reservar. Por favor, intenta nuevamente.',
+      confirmButtonText: 'OK'
+    });
+    return;
+  }
+  
+  // ✅ GUARDAR DATOS ANTES DE CERRAR EL MODAL
   const item = rifaData.find(item => item.id === currentEditingId);
+  
+  if (!item) {
+    console.error('❌ ERROR: No se encontró el item con id:', currentEditingId);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'No se pudo encontrar el número. Por favor, intenta nuevamente.',
+      confirmButtonText: 'OK'
+    });
+    return;
+  }
+  
   const nombre = document.getElementById('public-nombre-input').value.trim();
   const email = document.getElementById('public-email-input').value.trim();
   const dni = document.getElementById('public-dni-input').value.trim();
   
+  // ✅ GUARDAR EL NÚMERO ANTES DE CERRAR EL MODAL
+  const numeroReservado = item.numero;
+  const idReservado = currentEditingId;
+  
+  // Validación de nombre
   if (!nombre) {
     Swal.fire({
       icon: 'warning',
@@ -649,32 +684,55 @@ document.getElementById('public-form').onsubmit = async function(e) {
     return;
   }
   
+  // ✅ CERRAR MODAL PRIMERO
+  closePublicModal();
+  
+  // ✅ MOSTRAR LOADING
+  Swal.fire({
+    title: 'Reservando...',
+    html: '<div class="spinner"></div><p style="margin-top: 16px; font-size: 14px; color: #666;">Guardando tu reserva...</p>',
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    didOpen: () => {
+      Swal.showLoading();
+    }
+  });
+  
   try {
-    await db.collection('rifa').doc(currentEditingId).update({
+    // ✅ GUARDAR EN FIRESTORE
+    await db.collection('rifa').doc(idReservado).update({
       nombre: nombre,
       email: email || '',
       state: 2,
       time: firebase.firestore.FieldValue.serverTimestamp(),
-      dni: dni 
+      dni: dni || null
     });
     
-    console.log('✅ Reserva guardada');
-    closePublicModal();
+    console.log('✅ Reserva guardada exitosamente');
+    
+    // ✅ MOSTRAR MENSAJE DE ÉXITO
     Swal.fire({
       icon: 'success',
-      title: '¡Reserva Exitosa!',
-      html: `
-        <img src="./rifa/rifi-guiño.png" alt="Rifi guiño" style="max-width:100px;display:block;margin:0 auto 12px;">
-        Número ${item.numero} reservado exitosamente. Ya puedes realizar el pago.
-      `,
-      confirmButtonText: '¡Genial!'
+      title: '¡Número Reservado!',
+      text: `Has reservado exitosamente el número ${numeroReservado}`,
+      timer: 2000,
+      showConfirmButton: false
+    }).then(() => {
+      // ✅ MOSTRAR EL MODAL RECORDATORIO
+      mostrarModalRecordatorio(numeroReservado, nombre);
     });
+    
   } catch (error) {
-    console.error('❌ Error:', error);
+    console.error('❌ Error al reservar:', error);
     Swal.fire({
       icon: 'error',
       title: 'Error al Reservar',
-      text: 'Error al reservar: ' + error.message,
+      html: `
+        <p>No se pudo completar la reserva.</p>
+        <p style="font-size: 12px; color: #666; margin-top: 8px;">
+          ${error.message}
+        </p>
+      `,
       confirmButtonText: 'Intentar de Nuevo'
     });
   }
@@ -1933,6 +1991,129 @@ window.addEventListener('DOMContentLoaded', function() {
   }
 });
 
+
+// ========================================
+// MODAL RECORDATORIO POST-RESERVA
+// ========================================
+function mostrarModalRecordatorio(numeroReservado, nombreUsuario) {
+  Swal.fire({
+    customClass: {
+      popup: 'modal-recordatorio'
+    },
+    imageUrl: './rifa/luis.jpg',
+    imageAlt: 'San Luis Gonzaga',
+    imageWidth: 600,
+    imageHeight: 300,
+    title: '🎉 ¡Reserva Exitosa!',
+    html: `
+      <div style="text-align: center; margin-bottom: 24px;">
+        <p style="font-size: 18px; color: #333; margin-bottom: 16px;">
+          <strong style="color: #6750A4;">${nombreUsuario}</strong>, has reservado el número:
+        </p>
+        <div style="
+          display: inline-block;
+          background: linear-gradient(135deg, #6750A4, #7E57C2);
+          color: white;
+          font-size: 48px;
+          font-weight: bold;
+          padding: 20px 40px;
+          border-radius: 16px;
+          box-shadow: 0 8px 16px rgba(103, 80, 164, 0.3);
+          letter-spacing: 8px;
+        ">
+          ${String(numeroReservado).padStart(3, '0')}
+        </div>
+      </div>
+
+      <div style="
+        background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
+        border-left: 4px solid #FF9800;
+        padding: 16px;
+        border-radius: 12px;
+        margin: 24px 0;
+        text-align: left;
+      ">
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+          <span class="material-icons" style="color: #FF9800; font-size: 32px;">info</span>
+          <strong style="color: #E65100; font-size: 16px;">Pasos para Completar tu Reserva</strong>
+        </div>
+        
+        <div style="margin-left: 44px;">
+          <div style="margin-bottom: 16px;">
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+              <span style="
+                background: #FF9800;
+                color: white;
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: 14px;
+              ">1</span>
+              <strong style="color: #E65100;">Realiza el Pago</strong>
+            </div>
+            <p style="color: #666; font-size: 14px; margin: 0; padding-left: 36px;">
+              Utiliza los datos bancarios proporcionados arriba para transferir el monto de la rifa.
+            </p>
+          </div>
+
+          <div>
+            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+              <span style="
+                background: #FF9800;
+                color: white;
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: 14px;
+              ">2</span>
+              <strong style="color: #E65100;">Notifícanos por cualquiera de estas opciones:</strong>
+            </div>
+            <div style="padding-left: 36px; color: #666; font-size: 14px;">
+              <p style="margin: 6px 0; display: flex; align-items: center; gap: 8px;">
+                <span class="material-icons" style="font-size: 18px; color: #1976D2;">email</span>
+                <span><strong>Email:</strong> sanluisvillaelisa@gmail.com</span>
+              </p>
+              <p style="margin: 6px 0; display: flex; align-items: center; gap: 8px;">
+                <span class="material-icons" style="font-size: 18px; color: #1976D2;">contact_mail</span>
+                <span><strong>Formulario de contacto</strong> (más abajo)</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="
+        background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
+        border-radius: 12px;
+        padding: 16px;
+        margin-top: 20px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        border-left: 4px solid #2196F3;
+      ">
+        <span class="material-icons" style="color: #1976D2; font-size: 32px;">schedule</span>
+        <p style="margin: 0; color: #1565C0; font-size: 14px; text-align: left;">
+          <strong>Los administradores confirmarán tu pago en breve</strong><br>
+          <span style="font-size: 12px; color: #666;">Recibirás una notificación cuando se confirme</span>
+        </p>
+      </div>
+    `,
+    confirmButtonText: 'Entendido',
+    confirmButtonColor: '#6750A4',
+    allowOutsideClick: false,
+    allowEscapeKey: true,
+    width: '600px'
+  });
+};
 console.log('🎯 Sistema inicializado correctamente');
 
 console.log('🚀 Sistema de Rifa iniciado');
