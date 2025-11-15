@@ -624,20 +624,18 @@ const db = firebase.firestore();
             🎁 Premios del Sorteo
           </div>
           <div class="prize-item">
-            <strong>1° Premio:</strong> Bicicleta
+            <strong>Premio:</strong> Bicicleta rodado 29
           </div>
-          <div class="prize-item">
-            <strong>2° Premio:</strong> Tablet
-          </div>
+ 
           <div class="prize-item" style="margin-top: 10px; padding-top: 10px; border-top: 1px dashed #FF9800;">
-            <strong>Valor del Número:</strong> $20.000
+            <strong>Valor del Número:</strong> $2.500
           </div>
         </div>
       </div>
 
       <div class="ticket-footer">
         <div class="sorteo-date">
-          📅 Sorteo: 25 de Diciembre 2025
+          📅 Sorteo: 22 de Diciembre 2025
         </div>
 
         <div class="qr-container">
@@ -687,20 +685,17 @@ const db = firebase.firestore();
 
         <div class="prizes-section">
           <div class="prizes-title">
-            🎁 Premios Increíbles
+            🎁 Premio
           </div>
           <div class="prize-item">
-            🚴 <strong>Bicicleta</strong>
-          </div>
-          <div class="prize-item">
-            📱 <strong>Tablet</strong>
+            🚴 <strong>Bicicleta rodado 29</strong>
           </div>
         </div>
       </div>
 
       <div class="ticket-footer">
         <div class="sorteo-date">
-          🎄 Sorteo: 25 de Diciembre
+          🎄 Sorteo: 22 de Diciembre
         </div>
 
         <div style="background: white; padding: 15px; border-radius: 12px; margin: 15px 0;">
@@ -827,15 +822,14 @@ const db = firebase.firestore();
       if (versionActual === 'certificado') {
         mensaje = `🎟️ ¡Participando de la Rifa San Luis Gonzaga!\n\n` +
                  `Mi número: ${ticketData.numero}\n` +
-                 `🎁 Premios: Bicicleta y Tablet\n` +
-                 `📅 Sorteo: 25 de Diciembre\n\n` +
+                 `🎁 Premio: Bicicleta rodado 29\n` +
+                 `📅 Sorteo: 22 de Diciembre\n\n` +
                  `¡Participá vos también! 👉 https://sanluisgonzaga.ar/rifa.html`;
       } else {
         mensaje = `🎉 ¡Estoy en la Rifa de San Luis Gonzaga!\n\n` +
                  `🎟️ Mi número de la suerte: ${ticketData.numero}\n` +
-                 `🚴 Podés ganar una Bicicleta\n` +
-                 `📱 O una Tablet\n\n` +
-                 `📅 Sorteo: 25 de Diciembre\n\n` +
+                 `🚴 Podés ganar una Bicicleta rodado 29\n` +
+                 `📅 Sorteo: 22 de Diciembre\n\n` +
                  `Unite vos también 👉 sanluisgonzaga.ar/rifa.html\n\n` +
                  `#RifaSanLuisGonzaga`;
       }
