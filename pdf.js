@@ -148,11 +148,6 @@
           email = email.substring(0, 25) + '...';
         }
 
-        let nroOpCell = item.nro_op || '-';
-        if (item.nro_op && item.admin_user) {
-          const adminName = item.admin_user.split(' ')[0] || item.admin_user;
-          nroOpCell = `${item.nro_op}\n(${adminName})`;
-        }
 
         return [
           item.numero.toString().padStart(3, '0'),
@@ -160,7 +155,6 @@
           item.dni || '-',
           email,
           item.state === 3 ? 'Pagado' : 'Reserv.',
-          nroOpCell,
           item.time ? new Date(item.time.seconds * 1000).toLocaleDateString('es-AR', {
             day: '2-digit',
             month: '2-digit',
@@ -396,11 +390,6 @@
         year: '2-digit'
       }) : '-';
 
-      let nroOpDisplay = item.nro_op || '-';
-      if (item.nro_op && item.admin_user) {
-        const adminName = item.admin_user.split(' ')[0] || item.admin_user;
-        nroOpDisplay = `${item.nro_op}<br><small style="color: #666; font-size: 10px;">(${adminName})</small>`;
-      }
 
       html += `
         <tr style="background: ${bgColor}; transition: all 0.2s;" 
@@ -411,7 +400,6 @@
           <td style="padding: 6px; text-align: center;">${item.dni || '-'}</td>
           <td style="padding: 6px; font-size: 11px;">${item.email || '-'}</td>
           <td style="padding: 6px; text-align: center; font-weight: bold; color: ${estadoColor};">${estadoText}</td>
-          <td style="padding: 6px; text-align: center;">${nroOpDisplay}</td>
           <td style="padding: 6px; text-align: center; font-size: 11px;">${fecha}</td>
         </tr>
       `;

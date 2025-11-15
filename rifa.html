@@ -3450,7 +3450,7 @@ async function reenviarEmail(numeroId) {
           <label for="admin-dni-input">DNI del Pagador</label>
           <input type="number" id="admin-dni-input" placeholder="Ingrese el DNI">
         </div>
-        <div class="form-group">
+        <div class="form-group" style="display: none;">
           <label for="admin-nro_op-input">Número de Operación</label>
           <input type="number" id="admin-nro_op-input" placeholder="Ingrese el Número de transacción"
             oninput="(function(el){
@@ -3458,11 +3458,10 @@ async function reenviarEmail(numeroId) {
               const estadoSel = document.getElementById('admin-estado-select');
               const registrado = document.getElementById('admin-registrado');
               if (v !== '') {
-                estadoSel.value = '3';
-                registrado.value = (window.currentUser && (currentUser.displayName || currentUser.email)) || 'Manual';
+          estadoSel.value = '3';
+          registrado.value = (window.currentUser && (currentUser.displayName || currentUser.email)) || 'Manual';
               } else {
-                // Si se borra el número de operación, no forzar estado pagado y limpiar registro
-                registrado.value = '';
+          registrado.value = '';
               }
             })(this);">
         </div>

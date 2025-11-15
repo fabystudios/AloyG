@@ -610,13 +610,6 @@ const db = firebase.firestore();
             </div>
           </div>
 
-          <div class="info-row">
-            <div class="info-icon">💳</div>
-            <div class="info-content">
-              <div class="info-label">Nº Operación</div>
-              <div class="info-value" id="nro-op-cert">123456789</div>
-            </div>
-          </div>
         </div>
 
         <div class="prizes-section">
@@ -738,7 +731,6 @@ const db = firebase.firestore();
       nombrePila: 'Juan',
       dni: '12345678',
       email: 'juan@example.com',
-      nro_op: '123456789'
     };
 
     let versionActual = 'certificado';
@@ -887,7 +879,7 @@ function cargarDatosTicket(data) {
     nombrePila: obtenerSoloNombre(data.nombre),
     dni: data.dni,
     email: data.email || 'No proporcionado',
-    nro_op: data.nro_op || 'Pendiente'
+
   };
   
   // Actualizar ticket certificado (CON DATOS OCULTOS)
@@ -895,7 +887,7 @@ function cargarDatosTicket(data) {
   document.getElementById('nombre-cert').textContent = ticketData.nombrePila; // ✅ Solo nombre
   document.getElementById('dni-cert').textContent = ocultarDNI(ticketData.dni); // ✅ DNI oculto
   document.getElementById('email-cert').textContent = ocultarEmail(ticketData.email); // ✅ Email oculto
-  document.getElementById('nro-op-cert').textContent = ticketData.nro_op;
+
   
   // Actualizar ticket redes (solo nombre de pila)
   document.getElementById('numero-redes').textContent = ticketData.numero;
