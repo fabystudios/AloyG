@@ -185,12 +185,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   
-  <!-- Firebase SDK -->
-   
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-  
   
   <style>
     * {
@@ -2096,31 +2090,38 @@ document.addEventListener('DOMContentLoaded', function() {
 // Agregar ANTES del submit del admin-form
 // ========================================
 
-  try {
-    console.log('📧 Preparando email para:', numeroData.email);
-    
-    const templateParams = {
-      to_email: numeroData.email,
-      to_name: numeroData.nombre,
-      numero: numeroData.numero.toString().padStart(3, '0'),
-      dni: numeroData.dni,
-      nro_op: numeroData.nro_op,
-      link_ticket: `https://sanluisgonzaga.ar/ticket.html?id=${numeroData.id}`,
-      fecha_sorteo: '22 de Diciembre 2025'
-    };
+  // ========================================
+  // PASO 2: FUNCIÓN PARA ENVIAR EMAILS
+  // Agregar ANTES del submit del admin-form
+  // ========================================
 
-    const response = await emailjs.send(
-      'service_7lbeylp',      // ⚠️ Reemplazar con tu Service ID
-      'template_egop7d7',     // ⚠️ Reemplazar con tu Template ID
-      templateParams
-    );
+  async function enviarEmailCertificado(numeroData) {
+    try {
+      console.log('📧 Preparando email para:', numeroData.email);
+      
+      const templateParams = {
+        to_email: numeroData.email,
+        to_name: numeroData.nombre,
+        numero: numeroData.numero.toString().padStart(3, '0'),
+        dni: numeroData.dni,
+        nro_op: numeroData.nro_op,
+        link_ticket: `https://sanluisgonzaga.ar/ticket.html?id=${numeroData.id}`,
+        fecha_sorteo: '22 de Diciembre 2025'
+      };
 
-    console.log('✅ Email enviado exitosamente:', response);
-    return true;
-    
-  } catch (error) {
-    console.error('❌ Error enviando email:', error);
-    return false;
+      const response = await emailjs.send(
+        'service_7lbeylp',      // ⚠️ Tu Service ID
+        'template_egop7d7',     // ⚠️ Tu Template ID
+        templateParams
+      );
+
+      console.log('✅ Email enviado exitosamente:', response);
+      return true;
+      
+    } catch (error) {
+      console.error('❌ Error enviando email:', error);
+      return false;
+    }
   }
 
 
@@ -4032,7 +4033,16 @@ window.addEventListener('load', function() {
   }
 });
 </script>
-
+<script>
+// Verificar carga del sistema al final
+document.addEventListener('DOMContentLoaded', function() {
+  if (typeof window.SistemaCifrado === 'undefined') {
+    console.error('❌ Sistema de cifrado NO cargado');
+  } else {
+    console.log('✅ Sistema de cifrado disponible');
+  }
+});
+</script>
 
 <script src="./rifa.js"></script>
 
