@@ -227,7 +227,7 @@ async function renderizarHeaderRifa() {
       <h3>Sorteo</h3>
       <ul class="prize-list">
       <li><strong>Premio:</strong> Bicicleta</li>
-      <li><strong>Fecha:</strong> 22 Diciembre - Lotería Nacional</li>
+      <li><strong>Fecha:</strong> 22 Diciembre - Lotería Nacional Vespertina</li>
       </ul>
       <div class="prize-value">$2.500</div>
       </div>

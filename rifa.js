@@ -1256,7 +1256,7 @@ async function enviarEmailCertificado(numeroData) {
       dni: numeroData.dni || 'N/A',
       nro_op: numeroData.nro_op || 'N/A',
       link_ticket: `https://sanluisgonzaga.ar/ticket.html?id=${numeroData.id}`,
-      fecha_sorteo: '22 de Diciembre 2025'
+      fecha_sorteo: '22 de Diciembre 2025 - Loteria Nacional Vespertina'
     };
 
     console.log('📤 Enviando con parámetros:', templateParams);
