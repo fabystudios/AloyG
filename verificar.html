@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verificación de Ticket - Rifa San Luis Gonzaga</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #6750A4 0%, #4527A0 50%, #311B92 100%);
+    }
+
+    .verificacion-card {
+      background: white;
+      border-radius: 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+      width: 100%;
+      max-width: 800px;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* HEADER */
+    .card-header {
+      background: linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%);
+      color: white;
+      padding: 30px;
+      text-align: center;
+      position: relative;
+    }
+
+    .card-header.reservado {
+      background: linear-gradient(135deg, #FF9800 0%, #E65100 100%);
+    }
+
+    .card-header.no-encontrado {
+      background: linear-gradient(135deg, #9E9E9E 0%, #616161 100%);
+    }
+
+    .status-icon {
+      font-size: 64px;
+      margin-bottom: 12px;
+    }
+
+    .status-title {
+      font-size: 28px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .status-subtitle {
+      font-size: 14px;
+      opacity: 0.9;
+      margin-top: 8px;
+    }
+
+    /* CUERPO - LAYOUT HORIZONTAL */
+    .card-body {
+      display: flex;
+      flex-direction: row;
+      padding: 0;
+    }
+
+    /* SECCIÓN NÚMERO */
+    .numero-section {
+      flex: 0 0 280px;
+      background: linear-gradient(135deg, #6750A4 0%, #4527A0 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 30px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .numero-section::before {
+      content: '🎟️';
+      position: absolute;
+      font-size: 150px;
+      opacity: 0.1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .numero-label {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 12px;
+      opacity: 0.8;
+    }
+
+    .numero-valor {
+      font-size: 96px;
+      font-weight: 900;
+      line-height: 1;
+      text-shadow: 4px 4px 8px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    .numero-rifa {
+      font-size: 13px;
+      margin-top: 16px;
+      opacity: 0.8;
+    }
+
+    /* SECCIÓN INFO */
+    .info-section {
+      flex: 1;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-icon {
+      width: 48px;
+      height: 48px;
+      background: #f5f0ff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 16px;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .info-content {
+      flex: 1;
+    }
+
+    .info-label {
+      font-size: 12px;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+    }
+
+    .info-value {
+      font-size: 18px;
+      font-weight: 700;
+      color: #333;
+    }
+
+    /* FOOTER */
+    .card-footer {
+      background: #f9f9f9;
+      padding: 24px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 2px dashed #ddd;
+      gap: 20px;
+    }
+
+    .logo-footer {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-footer img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+    }
+
+    .logo-footer span {
+      font-size: 14px;
+      color: #666;
+      font-weight: 500;
+    }
+
+    .btn-volver {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #6750A4, #4527A0);
+      color: white;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 700;
+      transition: all 0.3s;
+    }
+
+    .btn-volver:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(103, 80, 164, 0.4);
+    }
+
+    /* LOADING */
+    .loading {
+      text-align: center;
+      padding: 80px 40px;
+    }
+
+    .spinner {
+      width: 60px;
+      height: 60px;
+      border: 4px solid #eee;
+      border-top-color: #6750A4;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 24px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* RESPONSIVE - MÓVIL */
+    @media (max-width: 700px) {
+      body {
+        padding: 12px;
+        align-items: flex-start;
+        padding-top: 30px;
+      }
+
+      .card-body {
+        flex-direction: column;
+      }
+
+      .numero-section {
+        flex: none;
+        padding: 30px 20px;
+      }
+
+      .numero-valor {
+        font-size: 72px;
+      }
+
+      .info-section {
+        padding: 24px;
+      }
+
+      .info-row {
+        padding: 12px 0;
+      }
+
+      .info-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+      }
+
+      .info-value {
+        font-size: 16px;
+      }
+
+      .card-footer {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .status-icon {
+        font-size: 48px;
+      }
+
+      .status-title {
+        font-size: 22px;
+      }
+    }
+  </style>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+
+  <div class="verificacion-card" id="card">
+    <!-- Loading inicial -->
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <p style="font-size: 18px; color: #666;">Verificando ticket...</p>
+    </div>
+
+    <!-- Contenido real (oculto hasta cargar) -->
+    <div id="contenido" style="display: none;">
+      <div class="card-header" id="header">
+        <div class="status-icon" id="status-icon">✅</div>
+        <div class="status-title" id="status-title">PAGO CONFIRMADO</div>
+        <div class="status-subtitle" id="status-subtitle">Rifa Solidaria San Luis Gonzaga 2025</div>
+      </div>
+
+      <div class="card-body">
+        <div class="numero-section">
+          <div class="numero-label">Número</div>
+          <div class="numero-valor" id="numero">042</div>
+          <div class="numero-rifa">Rifa Solidaria 2025</div>
+        </div>
+
+        <div class="info-section">
+          <div class="info-row">
+            <div class="info-icon">👤</div>
+            <div class="info-content">
+              <div class="info-label">Participante</div>
+              <div class="info-value" id="nombre">Juan</div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon">📅</div>
+            <div class="info-content">
+              <div class="info-label">Fecha de Compra</div>
+              <div class="info-value" id="fecha">15/11/2025</div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon">🎁</div>
+            <div class="info-content">
+              <div class="info-label">Premio</div>
+              <div class="info-value">Bicicleta Rodado 29</div>
+            </div>
+          </div>
+
+          <div class="info-row">
+            <div class="info-icon">🗓️</div>
+            <div class="info-content">
+              <div class="info-label">Sorteo</div>
+              <div class="info-value">22 de Diciembre 2025</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-footer">
+        <div class="logo-footer">
+          <img src="./img/IsoTipo-2-SanLuisGonzaga-Amarillo.png" alt="Logo">
+          <span>Parroquia San Luis Gonzaga<br>Villa Elisa</span>
+        </div>
+        <a href="./rifa.html" class="btn-volver">
+          <span class="material-icons">arrow_back</span>
+          Ver Rifa Completa
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyD-3xKx4M5GxSQ-oJdnqz33hEZqFNBHoxM",
+      authDomain: "aloy-726.firebaseapp.com",
+      projectId: "aloy-726",
+      storageBucket: "aloy-726.appspot.com",
+      messagingSenderId: "441895072453",
+      appId: "1:441895072453:web:aeaabb2d4f5fbc1a85b6ac"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Obtener parámetro de URL
+    const params = new URLSearchParams(window.location.search);
+    const numeroVerificar = params.get('n') || params.get('numero');
+
+    async function verificarTicket() {
+      const loading = document.getElementById('loading');
+      const contenido = document.getElementById('contenido');
+      const header = document.getElementById('header');
+
+      if (!numeroVerificar) {
+        mostrarError('No se especificó un número de ticket');
+        return;
+      }
+
+      try {
+        // Buscar en Firebase
+        const doc = await db.collection('rifa').doc(numeroVerificar).get();
+        
+        if (!doc.exists) {
+          mostrarDisponible(numeroVerificar);
+          return;
+        }
+
+        const data = doc.data();
+        
+        // Ocultar loading, mostrar contenido
+        loading.style.display = 'none';
+        contenido.style.display = 'block';
+
+        // Número
+        document.getElementById('numero').textContent = 
+          numeroVerificar.toString().padStart(3, '0');
+
+        // Nombre (solo primer nombre)
+        const nombreCompleto = data.nombre || 'Participante';
+        const primerNombre = nombreCompleto.split(' ')[0];
+        document.getElementById('nombre').textContent = primerNombre;
+
+        // Fecha
+        if (data.time && data.time.seconds) {
+          const fecha = new Date(data.time.seconds * 1000);
+          document.getElementById('fecha').textContent = fecha.toLocaleDateString('es-AR', {
+            day: '2-digit',
+            month: 'long',
+            year: 'numeric'
+          });
+        } else {
+          document.getElementById('fecha').textContent = 'No registrada';
+        }
+
+        // Estado
+        if (data.state === 3) {
+          // PAGADO
+          header.className = 'card-header';
+          document.getElementById('status-icon').textContent = '✅';
+          document.getElementById('status-title').textContent = 'PAGO CONFIRMADO';
+        } else if (data.state === 2) {
+          // RESERVADO
+          header.className = 'card-header reservado';
+          document.getElementById('status-icon').textContent = '⏳';
+          document.getElementById('status-title').textContent = 'RESERVADO';
+          document.getElementById('status-subtitle').textContent = 'Pendiente de confirmación de pago';
+        } else {
+          // Otro estado
+          mostrarDisponible(numeroVerificar);
+        }
+
+      } catch (error) {
+        console.error('Error:', error);
+        mostrarError('Error al verificar el ticket');
+      }
+    }
+
+    function mostrarDisponible(numero) {
+      const loading = document.getElementById('loading');
+      const contenido = document.getElementById('contenido');
+      const header = document.getElementById('header');
+
+      loading.style.display = 'none';
+      contenido.style.display = 'block';
+
+      header.className = 'card-header no-encontrado';
+      document.getElementById('status-icon').textContent = '🎟️';
+      document.getElementById('status-title').textContent = 'DISPONIBLE';
+      document.getElementById('status-subtitle').textContent = '¡Este número está libre!';
+      
+      document.getElementById('numero').textContent = numero.toString().padStart(3, '0');
+      document.getElementById('nombre').textContent = '—';
+      document.getElementById('fecha').textContent = '—';
+    }
+
+    function mostrarError(mensaje) {
+      document.getElementById('loading').innerHTML = `
+        <div style="font-size: 64px; margin-bottom: 20px;">❌</div>
+        <p style="font-size: 18px; color: #666;">${mensaje}</p>
+        <a href="./rifa.html" class="btn-volver" style="margin-top: 24px; display: inline-flex;">
+          <span class="material-icons">arrow_back</span>
+          Volver a la Rifa
+        </a>
+      `;
+    }
+
+    // Iniciar verificación
+    verificarTicket();
+  </script>
+
+</body>
+</html>
