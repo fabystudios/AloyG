@@ -367,7 +367,7 @@
       <div class="card-footer">
         <div class="logo-footer">
           <img src="./img/IsoTipo-2-SanLuisGonzaga-Amarillo.png" alt="Logo">
-          <span>Parroquia San Luis Gonzaga<br>Villa Elisa</span>
+          <!-- <span>Parroquia San Luis Gonzaga<br>Villa Elisa</span> -->
         </div>
         <a href="./rifa.html" class="btn-volver">
           <span class="material-icons">arrow_back</span>
@@ -395,75 +395,165 @@
     const params = new URLSearchParams(window.location.search);
     const numeroVerificar = params.get('n') || params.get('numero');
 
-    async function verificarTicket() {
-      const loading = document.getElementById('loading');
-      const contenido = document.getElementById('contenido');
-      const header = document.getElementById('header');
+    // async function verificarTicket() {
+    //   const loading = document.getElementById('loading');
+    //   const contenido = document.getElementById('contenido');
+    //   const header = document.getElementById('header');
 
-      if (!numeroVerificar) {
-        mostrarError('No se especificó un número de ticket');
+    //   if (!numeroVerificar) {
+    //     mostrarError('No se especificó un número de ticket');
+    //     return;
+    //   }
+
+    //   try {
+    //     // Buscar en Firebase
+    //     const doc = await db.collection('rifa').doc(numeroVerificar).get();
+        
+    //     if (!doc.exists) {
+    //       mostrarDisponible(numeroVerificar);
+    //       return;
+    //     }
+
+    //     const data = doc.data();
+        
+    //     // Ocultar loading, mostrar contenido
+    //     loading.style.display = 'none';
+    //     contenido.style.display = 'block';
+
+    //     // Número
+    //     document.getElementById('numero').textContent = 
+    //       numeroVerificar.toString().padStart(3, '0');
+
+    //     // Nombre (solo primer nombre)
+    //     const nombreCompleto = data.nombre || 'Participante';
+    //     const primerNombre = nombreCompleto.split(' ')[0];
+    //     document.getElementById('nombre').textContent = primerNombre;
+
+    //     // Fecha
+    //     if (data.time && data.time.seconds) {
+    //       const fecha = new Date(data.time.seconds * 1000);
+    //       document.getElementById('fecha').textContent = fecha.toLocaleDateString('es-AR', {
+    //         day: '2-digit',
+    //         month: 'long',
+    //         year: 'numeric'
+    //       });
+    //     } else {
+    //       document.getElementById('fecha').textContent = 'No registrada';
+    //     }
+
+    //     // Estado
+    //     if (data.state === 3) {
+    //       // PAGADO
+    //       header.className = 'card-header';
+    //       document.getElementById('status-icon').textContent = '✅';
+    //       document.getElementById('status-title').textContent = 'PAGO CONFIRMADO';
+    //     } else if (data.state === 2) {
+    //       // RESERVADO
+    //       header.className = 'card-header reservado';
+    //       document.getElementById('status-icon').textContent = '⏳';
+    //       document.getElementById('status-title').textContent = 'RESERVADO';
+    //       document.getElementById('status-subtitle').textContent = 'Pendiente de confirmación de pago';
+    //     } else {
+    //       // Otro estado
+    //       mostrarDisponible(numeroVerificar);
+    //     }
+
+    //   } catch (error) {
+    //     console.error('Error:', error);
+    //     mostrarError('Error al verificar el ticket');
+    //   }
+    // }
+async function verificarTicket() {
+  const loading = document.getElementById('loading');
+  const contenido = document.getElementById('contenido');
+  const header = document.getElementById('header');
+
+  if (!numeroVerificar) {
+    mostrarError('No se especificó un número de ticket');
+    return;
+  }
+
+  try {
+    // Convertir a número para comparar
+    const numBuscar = parseInt(numeroVerificar);
+    
+    // Buscar por campo 'numero' en lugar de por ID
+    const snapshot = await db.collection('rifa')
+      .where('numero', '==', numBuscar)
+      .limit(1)
+      .get();
+    
+    if (snapshot.empty) {
+      // Intentar también con string por si acaso
+      const snapshot2 = await db.collection('rifa')
+        .where('numero', '==', numeroVerificar)
+        .limit(1)
+        .get();
+      
+      if (snapshot2.empty) {
+        mostrarDisponible(numeroVerificar);
         return;
       }
-
-      try {
-        // Buscar en Firebase
-        const doc = await db.collection('rifa').doc(numeroVerificar).get();
-        
-        if (!doc.exists) {
-          mostrarDisponible(numeroVerificar);
-          return;
-        }
-
-        const data = doc.data();
-        
-        // Ocultar loading, mostrar contenido
-        loading.style.display = 'none';
-        contenido.style.display = 'block';
-
-        // Número
-        document.getElementById('numero').textContent = 
-          numeroVerificar.toString().padStart(3, '0');
-
-        // Nombre (solo primer nombre)
-        const nombreCompleto = data.nombre || 'Participante';
-        const primerNombre = nombreCompleto.split(' ')[0];
-        document.getElementById('nombre').textContent = primerNombre;
-
-        // Fecha
-        if (data.time && data.time.seconds) {
-          const fecha = new Date(data.time.seconds * 1000);
-          document.getElementById('fecha').textContent = fecha.toLocaleDateString('es-AR', {
-            day: '2-digit',
-            month: 'long',
-            year: 'numeric'
-          });
-        } else {
-          document.getElementById('fecha').textContent = 'No registrada';
-        }
-
-        // Estado
-        if (data.state === 3) {
-          // PAGADO
-          header.className = 'card-header';
-          document.getElementById('status-icon').textContent = '✅';
-          document.getElementById('status-title').textContent = 'PAGO CONFIRMADO';
-        } else if (data.state === 2) {
-          // RESERVADO
-          header.className = 'card-header reservado';
-          document.getElementById('status-icon').textContent = '⏳';
-          document.getElementById('status-title').textContent = 'RESERVADO';
-          document.getElementById('status-subtitle').textContent = 'Pendiente de confirmación de pago';
-        } else {
-          // Otro estado
-          mostrarDisponible(numeroVerificar);
-        }
-
-      } catch (error) {
-        console.error('Error:', error);
-        mostrarError('Error al verificar el ticket');
-      }
+      
+      const data = snapshot2.docs[0].data();
+      mostrarResultado(data, numeroVerificar);
+      return;
     }
 
+    const data = snapshot.docs[0].data();
+    mostrarResultado(data, numeroVerificar);
+
+  } catch (error) {
+    console.error('Error:', error);
+    mostrarError('Error al verificar el ticket');
+  }
+}
+
+function mostrarResultado(data, numeroVerificar) {
+  const loading = document.getElementById('loading');
+  const contenido = document.getElementById('contenido');
+  const header = document.getElementById('header');
+
+  // Ocultar loading, mostrar contenido
+  loading.style.display = 'none';
+  contenido.style.display = 'block';
+
+  // Número
+  document.getElementById('numero').textContent = 
+    numeroVerificar.toString().padStart(3, '0');
+
+  // Nombre (solo primer nombre)
+  const nombreCompleto = data.nombre || 'Participante';
+  const primerNombre = nombreCompleto.split(' ')[0];
+  document.getElementById('nombre').textContent = primerNombre;
+
+  // Fecha
+  if (data.time && data.time.seconds) {
+    const fecha = new Date(data.time.seconds * 1000);
+    document.getElementById('fecha').textContent = fecha.toLocaleDateString('es-AR', {
+      day: '2-digit',
+      month: 'long',
+      year: 'numeric'
+    });
+  } else {
+    document.getElementById('fecha').textContent = 'No registrada';
+  }
+
+  // Estado
+  if (data.state === 3) {
+    header.className = 'card-header';
+    document.getElementById('status-icon').textContent = '✅';
+    document.getElementById('status-title').textContent = 'PAGO CONFIRMADO';
+    document.getElementById('status-subtitle').textContent = 'Rifa Solidaria San Luis Gonzaga 2025';
+  } else if (data.state === 2) {
+    header.className = 'card-header reservado';
+    document.getElementById('status-icon').textContent = '⏳';
+    document.getElementById('status-title').textContent = 'RESERVADO';
+    document.getElementById('status-subtitle').textContent = 'Pendiente de confirmación de pago';
+  } else {
+    mostrarDisponible(numeroVerificar);
+  }
+}
     function mostrarDisponible(numero) {
       const loading = document.getElementById('loading');
       const contenido = document.getElementById('contenido');
