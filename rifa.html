@@ -4045,6 +4045,240 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <script src="./rifa.js"></script>
+<script>
+  // ========================================
+// SISTEMA DE VERIFICACIÓN QR
+// Agregar al final de rifa.html (antes del </body>)
+// ========================================
 
+(function() {
+  'use strict';
+
+  // ========================================
+  // VERIFICAR SI VIENE DESDE UN QR
+  // ========================================
+  function verificarDesdeQR() {
+    const params = new URLSearchParams(window.location.search);
+    const numeroVerificar = params.get('verificar');
+    
+    if (!numeroVerificar) return; // No viene desde QR
+    
+    console.log('🔍 Verificando número desde QR:', numeroVerificar);
+    
+    // Esperar a que la grilla esté cargada
+    const intentarVerificar = setInterval(() => {
+      if (window.rifaData && window.rifaData.length > 0) {
+        clearInterval(intentarVerificar);
+        procesarVerificacion(numeroVerificar);
+      }
+    }, 100);
+    
+    // Timeout de seguridad (5 segundos)
+    setTimeout(() => {
+      clearInterval(intentarVerificar);
+    }, 5000);
+  }
+
+  // ========================================
+  // PROCESAR VERIFICACIÓN
+  // ========================================
+  function procesarVerificacion(numeroStr) {
+    const numero = parseInt(numeroStr);
+    
+    // Buscar el número en los datos
+    const ticket = window.rifaData.find(item => 
+      parseInt(item.numero) === numero
+    );
+    
+    if (!ticket) {
+      mostrarResultadoVerificacion(null, numeroStr);
+      return;
+    }
+    
+    // Scroll hacia el número
+    scrollHaciaNumero(numero);
+    
+    // Mostrar resultado después de un momento
+    setTimeout(() => {
+      mostrarResultadoVerificacion(ticket, numeroStr);
+    }, 800);
+  }
+
+  // ========================================
+  // SCROLL HACIA EL NÚMERO
+  // ========================================
+  function scrollHaciaNumero(numero) {
+    // Buscar la tarjeta del número
+    const cards = document.querySelectorAll('.numero-card');
+    
+    for (let card of cards) {
+      const cardNumero = card.querySelector('.numero-texto');
+      if (cardNumero && parseInt(cardNumero.textContent) === numero) {
+        // Scroll suave
+        card.scrollIntoView({ 
+          behavior: 'smooth', 
+          block: 'center' 
+        });
+        
+        // Efecto visual de highlight
+        card.style.animation = 'highlight-pulse 2s ease-in-out';
+        
+        // Crear animación si no existe
+        if (!document.getElementById('highlight-pulse-style')) {
+          const style = document.createElement('style');
+          style.id = 'highlight-pulse-style';
+          style.textContent = `
+            @keyframes highlight-pulse {
+              0%, 100% { 
+                transform: scale(1); 
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+              }
+              50% { 
+                transform: scale(1.05); 
+                box-shadow: 0 8px 24px rgba(103, 80, 164, 0.4); 
+              }
+            }
+          `;
+          document.head.appendChild(style);
+        }
+        
+        break;
+      }
+    }
+  }
+
+  // ========================================
+  // MOSTRAR RESULTADO DE VERIFICACIÓN
+  // ========================================
+  function mostrarResultadoVerificacion(ticket, numeroStr) {
+    if (!ticket) {
+      // Número no encontrado o disponible
+      Swal.fire({
+        icon: 'info',
+        title: '🔍 Número Verificado',
+        html: `
+          <div style="padding: 20px;">
+            <p style="font-size: 18px; margin-bottom: 16px;">
+              <strong>Número:</strong> <span style="color: #6750A4; font-size: 24px;">${numeroStr.padStart(3, '0')}</span>
+            </p>
+            <p style="font-size: 16px; color: #666;">
+              ✅ Este número está <strong>DISPONIBLE</strong><br>
+              ¡Podés reservarlo ahora!
+            </p>
+          </div>
+        `,
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#6750A4'
+      });
+      return;
+    }
+
+    // Determinar estado
+    let estadoHtml = '';
+    let iconEstado = '';
+    let colorEstado = '';
+    
+    switch(ticket.state) {
+      case 3: // Pagado
+        iconEstado = '✅';
+        colorEstado = '#4CAF50';
+        estadoHtml = '<strong style="color: #4CAF50;">PAGADO Y CONFIRMADO</strong>';
+        break;
+      case 2: // Reservado
+        iconEstado = '⏰';
+        colorEstado = '#FF9800';
+        estadoHtml = '<strong style="color: #FF9800;">RESERVADO</strong>';
+        break;
+      case 1: // Vendido
+        iconEstado = '🎟️';
+        colorEstado = '#2196F3';
+        estadoHtml = '<strong style="color: #2196F3;">VENDIDO</strong>';
+        break;
+      default:
+        iconEstado = '❓';
+        colorEstado = '#999';
+        estadoHtml = '<strong>ESTADO DESCONOCIDO</strong>';
+    }
+
+    // Formatear fecha
+    let fechaTexto = 'No disponible';
+    if (ticket.time && ticket.time.seconds) {
+      const fecha = new Date(ticket.time.seconds * 1000);
+      fechaTexto = fecha.toLocaleDateString('es-AR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+    // Mostrar información del ticket
+    Swal.fire({
+      icon: 'success',
+      title: `${iconEstado} Ticket Verificado`,
+      html: `
+        <div style="padding: 20px; text-align: left;">
+          <div style="text-align: center; margin-bottom: 24px;">
+            <div style="display: inline-block; background: ${colorEstado}; color: white; padding: 12px 32px; border-radius: 24px; font-size: 20px; font-weight: bold;">
+              Nº ${numeroStr.padStart(3, '0')}
+            </div>
+          </div>
+          
+          <div style="background: #f5f5f5; padding: 16px; border-radius: 12px; margin-bottom: 16px;">
+            <p style="margin: 8px 0; font-size: 15px;">
+              <strong>👤 Participante:</strong> ${ticket.nombre || 'No disponible'}
+            </p>
+            <p style="margin: 8px 0; font-size: 15px;">
+              <strong>📅 Fecha:</strong> ${fechaTexto}
+            </p>
+            <p style="margin: 8px 0; font-size: 15px;">
+              <strong>🎯 Estado:</strong> ${estadoHtml}
+            </p>
+          </div>
+
+          ${ticket.state === 3 ? `
+            <div style="background: #e8f5e9; border-left: 4px solid #4CAF50; padding: 12px; border-radius: 6px; margin-top: 16px;">
+              <p style="margin: 0; color: #2e7d32; font-size: 14px;">
+                ✓ Este ticket está confirmado y participará del sorteo
+              </p>
+            </div>
+          ` : ''}
+          
+          ${ticket.state === 2 ? `
+            <div style="background: #fff3e0; border-left: 4px solid #FF9800; padding: 12px; border-radius: 6px; margin-top: 16px;">
+              <p style="margin: 0; color: #e65100; font-size: 14px;">
+                ⚠️ Reserva pendiente de confirmación de pago
+              </p>
+            </div>
+          ` : ''}
+        </div>
+      `,
+      confirmButtonText: 'Cerrar',
+      confirmButtonColor: '#6750A4',
+      width: '500px'
+    });
+
+    // Limpiar la URL sin recargar la página
+    setTimeout(() => {
+      const url = new URL(window.location);
+      url.searchParams.delete('verificar');
+      window.history.replaceState({}, '', url);
+    }, 2000);
+  }
+
+  // ========================================
+  // INICIALIZAR AL CARGAR LA PÁGINA
+  // ========================================
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', verificarDesdeQR);
+  } else {
+    verificarDesdeQR();
+  }
+
+  console.log('✅ Sistema de verificación QR inicializado');
+
+})();
+</script>
 </body>
 </html>

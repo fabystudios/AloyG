@@ -761,8 +761,8 @@ const db = firebase.firestore();
     // ========================================
     // GENERAR QR CODE
     // ========================================
-    const urlVerificacion = `https://sanluisgonzaga.ar/verificar?numero=${ticketData.numero}&dni=${ticketData.dni}`;
-
+    // const urlVerificacion = `https://sanluisgonzaga.ar/verificar?numero=${ticketData.numero}&dni=${ticketData.dni}`;
+    const urlVerificacion = `https://sanluisgonzaga.ar/rifa.html?verificar=${ticketData.numero}`;
     new QRCode(document.getElementById("qrcode-cert"), {
       text: urlVerificacion,
       width: 120,
