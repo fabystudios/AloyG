@@ -671,7 +671,57 @@
     </h2>
   </section>
 
+ <!-- // section con un div con clase "rifa-navidad-article"para poner el video: '/video/rifa.mp4 ciclico infinito, y abajo un boton animado que diga: Adquierela aqui, que lleve a <div class="
+  // ">rifa/rifa.html' -->
 
+  <article class="rifa-navidad-article" id="rifa">
+      <div class="rifa-image-effects" id="rifaImageEffects"></div>
+    <div class="rifa-navidad-card">
+      <div class="rifa-split-container">
+        <div class="rifa-image-container">
+          <video class="rifa-main-image" src="./video/rifa.mp4" autoplay loop muted playsinline></video>
+        </div>
+        <div class="rifa-content">
+          <div class="rifa-badge">¡Rifa de Navidad 2025 - 100% ONLINE!</div>
+          <br><br>
+          <h1 class="rifa-title">¡Ganá una bicicleta rodado 29 para esta Navidad!</h1>
+          <h2 class="rifa-subtitle"> Participá y Apoyá nuestra parroquia</h2>
+          <p class="rifa-description">
+            Cada boleto que adquieras nos ayuda a continuar con nuestra misión y proyectos comunitarios.
+            ¡No te pierdas la oportunidad de ganar y hacer el bien al mismo tiempo!
+          </p>
+          <br><br>
+          <a href="./rifa.html" class="rifa-cta-button">Adquirila aquí</a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <style>
+    .rifa-split-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .rifa-image-container {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, #ff6b9d 0%, #ffa06b 100%);
+    }
+
+    .rifa-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+      .rifa-split-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
   
   <!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block">
 <br class="d-none d-lg-block"><br class="d-none d-lg-block">
@@ -975,117 +1025,6 @@
         }
     </style>
 
-    <article class="rifa-navidad-article" id="rifa">
-        <div class="rifa-navidad-card">
-            <div class="rifa-image-container">
-                <!-- Efectos sobre la imagen -->
-                <div class="rifa-image-effects" id="rifaImageEffects"></div>
-                
-                <picture>
-                    <!-- Imagen para móvil (vertical) - Reemplazar con tu imagen vertical -->
-                    <source media="(max-width: 768px)" srcset="./rifa/rifis-navidad-mobile.jpg">
-                    <!-- Imagen para desktop (horizontal) - Reemplazar con tu imagen actual -->
-                    <img src="./rifa/rifis-navidad.jpg" alt="Rifa Parroquial Navideña" class="rifa-main-image">
-                </picture>
-            </div>
-            
-            <div class="rifa-content rifa-bg-opacity" style="background-image: url('./rifa/backRifa_desk.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative;">
-                  <style>
-                    .rifa-bg-opacity {
-                      position: relative;
-                      overflow: hidden;
-                    }
-                    .rifa-bg-opacity::before {
-                      content: "";
-                      position: absolute;
-                      inset: 0;
-                      background: rgba(255,255,255,0.55); /* Cambia el color y opacidad aquí */
-                      z-index: 1;
-                      pointer-events: none;
-                    }
-                    .rifa-bg-opacity > * {
-                      position: relative;
-                      z-index: 2;
-                    }
-                  </style>
-              <div class="rifa-badge">✨ SORTEO ESPECIAL NAVIDEÑO ✨</div>
-              <h1 class="rifa-title d-none d-md-block"> Rifa Parroquial Navideña 🎄</h1>
-              <h1 class="rifa-title d-block d-md-none">Rifa Parroquial Navideña 🎄</h1>
-              <style>
-              .rifa-subtitle.titilar { 
-                line-height:1; 
-                margin:0; 
-                position:relative; 
-                color:#ff6b9d; 
-                font-weight:700; 
-                display:inline-flex; 
-                align-items:center; 
-                gap:8px; 
-              }
-              .rifa-subtitle.titilar .sparkle { 
-                width:10px; 
-                height:10px; 
-                border-radius:50%; 
-                display:inline-block; 
-                box-shadow:0 0 12px rgba(255,255,255,0.9); 
-                transform-origin:center; 
-                animation:twinkle 2s infinite ease-in-out; 
-              }
-              .rifa-subtitle.titilar .sparkle.s1 { 
-                background:#f21717; 
-                animation-delay:0s; 
-              }
-              .rifa-subtitle.titilar .sparkle.s2 { 
-                background:#8be58b; 
-                animation-delay:0.35s; 
-              }
-
-              /* right side mirror sparkles */
-              .rifa-subtitle.titilar .sparkle.s2r {
-                background:#8be58b;
-                animation-delay:0.35s;
-              }
-              .rifa-subtitle.titilar .sparkle.s1r {
-                background:#f21717;
-                animation-delay:0s;
-              }
-
-              @keyframes twinkle {
-                0%,100% { opacity:0.18; transform:scale(0.75) rotate(0deg); filter:blur(0px); }
-                50% { opacity:1; transform:scale(1.18) rotate(12deg); filter:blur(.3px); }
-              }
-              /* pequeño ajuste responsivo */
-              @media (max-width:480px){
-                .rifa-subtitle.titilar { font-size:0.95rem; gap:6px; } 
-                .rifa-subtitle.titilar .sparkle{width:8px;height:8px;} 
-              }
-              </style>
-
-              <p class="rifa-subtitle titilar" role="status" aria-live="polite">
-                <span class="sparkle s1" aria-hidden="true"></span>
-                <span class="sparkle s2" aria-hidden="true"></span>
-                <span class="text" style="font-weight:bold; color:#ff007a; border-radius: 12px; padding: 3px 16px; box-shadow:0 4px 16px 0 #fff, 0 2px 12px 0 #ff4fa3, 0 6px 24px 0 #ff007a33; text-shadow:0 2px 8px #fff, 0 2px 2px #ff4fa3, 0 6px 12px #ff007a99;">100% ONLINE</span>
-                <span class="sparkle s2r" aria-hidden="true"></span>
-                <span class="sparkle s1r" aria-hidden="true"></span>
-                </p>
-                <p class="rifa-subtitle" style="line-height:1; margin-top:0.2rem;">
-                  <span style="font-weight:bold; color:#ff007a; border-radius: 12px; padding: 3px 16px; box-shadow:0 4px 16px 0 #fff, 0 2px 12px 0 #ff4fa3, 0 6px 24px 0 #ff007a33; text-shadow:0 2px 8px #fff, 0 2px 2px #ff4fa3, 0 6px 12px #ff007a99;">Recibí tu ticket por email ó descargalo vos mismo</span>
-                </p>
-            
-              <p class="rifa-description">
-                ✨ Participá de nuestra rifa solidaria y ayudá a nuestra comunidad parroquial. 
-                <br><strong>¡Elegí tu número de la suerte y formá parte de esta hermosa celebración navideña!</strong> 🎁
-              </p>
-              <a href="https://sanluisgonzaga.ar/rifa.html" class="rifa-cta-button" style="color: white !important;"> 
-                <span class="d-none d-md-inline">🎯 Reservá tu Número Aquí</span>
-                <span class="d-inline d-md-none">🎯 Reservá tu Número</span>
-              </a>
-              
-            </div>
-        </div>
-          <!-- Contenedor de efectos -->
-    <div class="rifa-effects-container" id="rifaEffectsContainer"></div>
-    </article>
 
   
 
@@ -1191,7 +1130,7 @@
           }
         })();
     </script>
-  <br><br><br><br><br>
+  <br><br><br><br>
   <!-- ...3 días... -->
   <div id="3VideosCatolicos" class="section-padding d-flex justify-content-center align-items-center deshabilitado"
     style="min-height: 65vh;">
