@@ -758,20 +758,7 @@ const db = firebase.firestore();
       }
     }
 
-    // ========================================
-    // GENERAR QR CODE
-    // ========================================
-    // const urlVerificacion = `https://sanluisgonzaga.ar/verificar?numero=${ticketData.numero}&dni=${ticketData.dni}`;
-    // const urlVerificacion = `https://sanluisgonzaga.ar/rifa.html?verificar=${ticketData.numero}`;
-    const urlVerificacion = `https://sanluisgonzaga.ar/verificar.html?n=${ticketData.numero}`;
-    new QRCode(document.getElementById("qrcode-cert"), {
-      text: urlVerificacion,
-      width: 120,
-      height: 120,
-      colorDark: "#6750A4",
-      colorLight: "#ffffff",
-      correctLevel: QRCode.CorrectLevel.H
-    });
+
 
     // ========================================
     // DESCARGAR TICKET
@@ -883,44 +870,61 @@ function cargarDatosTicket(data) {
     nombrePila: obtenerSoloNombre(data.nombre),
     dni: data.dni,
     email: data.email || 'No proporcionado',
-
   };
   
   // Actualizar ticket certificado (CON DATOS OCULTOS)
   document.getElementById('numero-cert').textContent = ticketData.numero;
-  document.getElementById('nombre-cert').textContent = ticketData.nombrePila; // ✅ Solo nombre
-  document.getElementById('dni-cert').textContent = ocultarDNI(ticketData.dni); // ✅ DNI oculto
-  document.getElementById('email-cert').textContent = ocultarEmail(ticketData.email); // ✅ Email oculto
-
+  document.getElementById('nombre-cert').textContent = ticketData.nombrePila;
+  document.getElementById('dni-cert').textContent = ocultarDNI(ticketData.dni);
+  document.getElementById('email-cert').textContent = ocultarEmail(ticketData.email);
   
   // Actualizar ticket redes (solo nombre de pila)
   document.getElementById('numero-redes').textContent = ticketData.numero;
   document.getElementById('nombre-redes').textContent = ticketData.nombrePila;
-}
-    // ========================================
-    // CARGAR DATOS AL INICIAR
-    // ========================================
-    window.onload = async function() {
-      const params = new URLSearchParams(window.location.search);
-      const numeroId = params.get('id');
-      
-      if (numeroId && typeof db !== 'undefined') {
-        try {
-          const doc = await db.collection('rifa').doc(numeroId).get();
-          const data = doc.data();
-          
-          if (data && data.state === 3) {
-            cargarDatosTicket(data);
-          } else {
-            alert('⚠️ Este número aún no está confirmado como pagado');
-            window.location.href = './rifa.html';
-          }
-        } catch (error) {
-          console.error('Error al cargar datos:', error);
-        }
-      }
-    };
 
+  // ✅ GENERAR QR CON EL NÚMERO CORRECTO (dentro de la función!)
+  const urlVerificacion = `https://sanluisgonzaga.ar/verificar.html?n=${ticketData.numero}`;
+  
+  // Limpiar QR anterior si existe
+  document.getElementById("qrcode-cert").innerHTML = '';
+  
+  // Crear nuevo QR
+  new QRCode(document.getElementById("qrcode-cert"), {
+    text: urlVerificacion,
+    width: 120,
+    height: 120,
+    colorDark: "#6750A4",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+} // ← Acá cierra cargarDatosTicket()
+
+// ========================================
+// CARGAR DATOS AL INICIAR
+// ========================================
+window.onload = async function() {
+  const params = new URLSearchParams(window.location.search);
+  const numeroId = params.get('id');
+  
+  if (numeroId && typeof db !== 'undefined') {
+    try {
+      const doc = await db.collection('rifa').doc(numeroId).get();
+      const data = doc.data();
+      
+      if (data && data.state === 3) {
+        cargarDatosTicket(data);
+      } else {
+        alert('⚠️ Este número aún no está confirmado como pagado');
+        window.location.href = './rifa.html';
+      }
+    } catch (error) {
+      console.error('Error al cargar datos:', error);
+    }
+  }
+};
+
+console.log('✅ Sistema de tickets dual cargado');
     console.log('✅ Sistema de tickets dual cargado');
     console.log('🎫 Certificado: Completo con datos sensibles');
     console.log('📱 Redes: Optimizado para compartir sin datos sensibles');
