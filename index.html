@@ -675,25 +675,47 @@
   // ">rifa/rifa.html' -->
 
   <article class="rifa-navidad-article" id="rifa">
-      <div class="rifa-image-effects" id="rifaImageEffects"></div>
+
     <div class="rifa-navidad-card">
       <div class="rifa-split-container">
         <div class="rifa-image-container">
           <video class="rifa-main-image" src="./video/rifa.mp4" autoplay loop muted playsinline></video>
         </div>
         <div class="rifa-content">
-          <div class="rifa-badge">¡Rifa de Navidad 2025 - 100% ONLINE!</div>
-          <br><br>
+          
+            <a href="./rifa.html" class="rifa-cta-button">Adquirila aquí</a>
+      <br>
           <h1 class="rifa-title">¡Ganá una bicicleta rodado 29 para esta Navidad!</h1>
           <h2 class="rifa-subtitle"> Participá y Apoyá nuestra parroquia</h2>
-          <p class="rifa-description">
+          <!-- <p class="rifa-description">
             Cada boleto que adquieras nos ayuda a continuar con nuestra misión y proyectos comunitarios.
             ¡No te pierdas la oportunidad de ganar y hacer el bien al mismo tiempo!
-          </p>
-          <br><br>
-          <a href="./rifa.html" class="rifa-cta-button">Adquirila aquí</a>
-        </div>
-      </div>
+          </p> -->
+                <div class="rifa-image-effects" id="rifaImageEffects"></div>
+                <img src="/rifa/volador.png" alt="Volador" class="rifa-volador" style="color: white !important; max-width: 80%; height: auto;" />
+                <div class="rifa-badge">¡Rifa de Navidad 2025 - 100% ONLINE!</div>
+
+                <style>
+                  .rifa-volador {
+                    animation: rifa-float-fly 4s ease-in-out infinite;
+                  }
+
+                  @keyframes rifa-float-fly {
+                    0%, 100% {
+                      transform: translateY(0) translateX(0) rotate(0deg);
+                    }
+                    25% {
+                      transform: translateY(-15px) translateX(10px) rotate(2deg);
+                    }
+                    50% {
+                      transform: translateY(-25px) translateX(-5px) rotate(-1deg);
+                    }
+                    75% {
+                      transform: translateY(-15px) translateX(8px) rotate(1deg);
+                    }
+                  }
+                </style>    </div>
+                </div>
     </div>
   </article>
 
