@@ -234,7 +234,7 @@ async function renderizarHeaderRifa() {
 
       <div class="prize-card">
       <span class="prize-icon">💳</span>
-      <h3>Datos de Pago</h3>
+      <h3>Datos de Pago onLine</h3>
       <div style="text-align: left;">
       <div class="payment-row-modern">
         <i class="fas fa-at"></i>
