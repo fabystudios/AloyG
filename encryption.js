@@ -237,7 +237,8 @@ async function renderizarHeaderRifa() {
     container.innerHTML = `
       <div class="prizes-grid">
       <div class="prize-card">
-      <span class="prize-icon">🎁</span>
+      <img src="./rifa/botonRifis.png" alt="Sorteo" class="prize-icon" style="height: 60px; display: block; margin: 0 auto;">
+      <br>
       <h3>Sorteo</h3>
       <ul class="prize-list">
       <li><strong>Premio:</strong> Bicicleta</li>
@@ -251,22 +252,22 @@ async function renderizarHeaderRifa() {
       <h3>Datos de Pago onLine</h3>
       <div style="text-align: left;">
       <div class="payment-row-modern">
-        <i class="fas fa-at"></i>
-        <span class="label">Alias:</span>
-        <span class="value">${datosPago.alias}</span>
+      <i class="fas fa-at"></i>
+      <span class="label">Alias:</span>
+      <span class="value">${datosPago.alias}</span>
       </div>
       <div class="payment-row-modern">
-        <i class="fas fa-credit-card"></i>
-        <span class="label">CVU:</span>
-        <span class="value cvu-number" style="font-size: 12px;">
-        <span class="part">${datosPago.cvu.slice(0, 11)}</span>
-        <span class="part">${datosPago.cvu.slice(11)}</span>
-        </span>
+      <i class="fas fa-credit-card"></i>
+      <span class="label">CVU:</span>
+      <span class="value cvu-number" style="font-size: 12px;">
+      <span class="part">${datosPago.cvu.slice(0, 11)}</span>
+      <span class="part">${datosPago.cvu.slice(11)}</span>
+      </span>
       </div>
       <div class="payment-row-modern">
-        <i class="fas fa-user"></i>
-        <span class="label">Titular:</span>
-        <span class="value">${datosPago.titular}</span>
+      <i class="fas fa-user"></i>
+      <span class="label">Titular:</span>
+      <span class="value">${datosPago.titular}</span>
       </div>
       </div>
       </div>
@@ -278,9 +279,9 @@ async function renderizarHeaderRifa() {
       <p class="mascot-caption">🎟️ ¡Elegí tu número!</p>
       </div>
 
-      <div class="prizes-images">
+      <div class="prizes-images" style="text-align: center;">
       <!-- Imagen agrandada solo aquí -->
-      <img src="./rifa/premio.png" alt="Bicicleta" style="box-shadow: none !important; display: block; margin: 0 auto; width: min(80vw, 640px); max-width: 100%; height: auto; max-height: 80vh; object-fit: contain;">
+      <img src="./rifa/premio.png" alt="Bicicleta" style="box-shadow: none !important; display: block; margin: 0 auto; max-width: 100%; height: auto; max-height: 80vh; object-fit: contain;">
        <p>La imagen es ilustrativa. La bicicleta del premio es de rodado 29, modelo y color sujeta a disponibilidad</p>
       </div>
       </div>
