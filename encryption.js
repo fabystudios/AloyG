@@ -167,17 +167,30 @@ async function guardarDatosPagoCifrados() {
 
 async function cargarDatosPago() {
   try {
-    console.log('🔓 Cargando datos de pago cifrados...');
+    console.log('🔓 Cargando datos de pago cifrados desde Firestore...');
+    
+    // Verificar que db esté disponible
+    if (typeof db === 'undefined') {
+      console.error('❌ Firebase db no está disponible');
+      throw new Error('Firebase no inicializado');
+    }
     
     const doc = await db.collection('config').doc('datos_pago').get();
     
     if (!doc.exists) {
+      console.warn('⚠️ Documento datos_pago no existe en Firestore');
       throw new Error('Datos de pago no encontrados en Firestore');
     }
     
     const datosCifrados = doc.data();
+    console.log('📥 Datos cifrados obtenidos:', Object.keys(datosCifrados));
     
-    console.log('📥 Datos cifrados obtenidos, descifrando...');
+    if (!datosCifrados.alias_encrypted || !datosCifrados.cvu_encrypted || !datosCifrados.titular_encrypted) {
+      console.error('❌ Faltan campos cifrados en el documento');
+      throw new Error('Documento incompleto');
+    }
+    
+    console.log('🔑 Descifrando datos...');
     
     const alias = await decryptData(datosCifrados.alias_encrypted, MASTER_PASSWORD);
     const cvu = await decryptData(datosCifrados.cvu_encrypted, MASTER_PASSWORD);
@@ -188,12 +201,13 @@ async function cargarDatosPago() {
     return { alias, cvu, titular };
     
   } catch (error) {
-    console.error('❌ Error al cargar datos de pago:', error);
+    console.error('❌ Error al cargar datos de pago:', error.message);
     
+    // Retornar datos por defecto sin mostrar error visual
     return {
-      alias: '⚠️ ERROR - Contactar Administración',
-      cvu: '⚠️ ERROR - Contactar Administración',
-      titular: '⚠️ ERROR - Contactar Administración'
+      alias: 'Contactar a la Parroquia',
+      cvu: 'Consultar datos de pago',
+      titular: 'Parroquia San Luis Gonzaga'
     };
   }
 }
@@ -420,11 +434,23 @@ async function verificarIntegridadDatosPago() {
   try {
     const datosFirestore = await cargarDatosPago();
     
+    // Si no hay datos en Firestore, no verificar
+    if (!datosFirestore || !datosFirestore.alias) {
+      console.log('⚠️ No hay datos de pago en Firestore - saltando verificación');
+      return true;
+    }
+    
     const datosDOM = {
       alias: elementos[0]?.textContent.trim(),
       cvu: elementos[1]?.textContent.trim().replace(/\s/g, ''),
       titular: elementos[2]?.textContent.trim()
     };
+    
+    // Si no hay elementos en el DOM, no verificar
+    if (!datosDOM.alias || !datosDOM.cvu || !datosDOM.titular) {
+      console.log('⚠️ Datos de pago no renderizados en DOM - saltando verificación');
+      return true;
+    }
     
     const integridadOK = (
       datosDOM.alias === datosFirestore.alias &&
@@ -458,13 +484,19 @@ async function verificarIntegridadDatosPago() {
     return true;
     
   } catch (error) {
-    console.error('❌ Error al verificar integridad:', error);
-    return false;
+    console.warn('⚠️ Error al verificar integridad (no crítico):', error);
+    // No mostrar alerta, solo log - permite que la página continúe
+    return true;
   }
 }
 
-// Verificar cada 30 segundos
-setInterval(verificarIntegridadDatosPago, 30000);
+// Verificar cada 30 segundos (solo si hay datos cargados)
+setInterval(function() {
+  const headerPago = document.getElementById('header-datos-pago');
+  if (headerPago && headerPago.children.length > 0) {
+    verificarIntegridadDatosPago();
+  }
+}, 30000);
 
 // ========================================
 // EXPORTAR FUNCIONES

@@ -1,21 +1,4 @@
 // ========================================
-// 🔍 GFE DIAGNÓSTICO TEMPORAL - REMOVER DESPUÉS 
-// ========================================
-// let _currentEditingId = null;
-// Object.defineProperty(window, 'currentEditingId', {
-//   get: function() {
-//     return _currentEditingId;
-//   },
-//   set: function(value) {
-//     console.log('🔍 currentEditingId cambiado:', {
-//       anterior: _currentEditingId,
-//       nuevo: value,
-//       stack: new Error().stack
-//     });
-//     _currentEditingId = value;
-//   }
-// });
-// ========================================
 // CONFIGURACIÓN FIREBASE
 // ========================================
 const firebaseConfig = {
@@ -71,9 +54,39 @@ let currentTab = 'reservados';
 let searchTerm = '';
 let busquedaActiva = false;
 let terminoBusqueda = '';
+let numerosSeleccionadosMasivo = new Set();
 
 const estadoLabels = { 1: 'Disponible', 2: 'Reservado', 3: 'Pagado' };
 const estadoClasses = { 1: 'disponible', 2: 'reservado', 3: 'pagado' };
+
+// ========================================
+// ✅ SISTEMA DE PERSISTENCIA DE DATOS
+// ========================================
+
+// Función para guardar datos en sessionStorage
+function guardarDatosUsuario(nombre, email, dni) {
+  sessionStorage.setItem('rifa_nombre', nombre);
+  sessionStorage.setItem('rifa_email', email);
+  sessionStorage.setItem('rifa_dni', dni);
+  console.log('✅ Datos guardados para próximas reservas');
+}
+
+// Función para recuperar datos guardados
+function recuperarDatosUsuario() {
+  return {
+    nombre: sessionStorage.getItem('rifa_nombre') || '',
+    email: sessionStorage.getItem('rifa_email') || '',
+    dni: sessionStorage.getItem('rifa_dni') || ''
+  };
+}
+
+// Función para limpiar datos guardados
+function limpiarDatosGuardados() {
+  sessionStorage.removeItem('rifa_nombre');
+  sessionStorage.removeItem('rifa_email');
+  sessionStorage.removeItem('rifa_dni');
+  console.log('🗑️ Datos de usuario limpiados');
+}
 
 // ========================================
 // VERIFICAR SI USUARIO ES ADMIN
@@ -109,14 +122,10 @@ async function esAdmin(email) {
 function showPublicView() {
   console.log('🔄 Cambiando a vista PÚBLICA');
   
-  // Ocultar vistas admin
   document.getElementById('admin-login').style.display = 'none';
   document.getElementById('admin-view').style.display = 'none';
-  
-  // Mostrar vista pública
   document.getElementById('public-view').style.display = 'block';
   
-  // ✅ CRÍTICO: Ocultar TODOS los elementos admin
   const buscador = document.getElementById('busqueda-rapida-admin');
   if (buscador) {
     buscador.style.display = 'none';
@@ -135,12 +144,10 @@ function showPublicView() {
     console.log('✅ Grilla admin oculta');
   }
   
-  // ✅ Asegurar que la grilla pública esté visible
   const publicGrid = document.getElementById('public-rifa-grid');
   const publicLoading = document.getElementById('public-loading');
   
   if (publicGrid) {
-    // Si ya hay datos, mostrar grilla
     if (rifaData && rifaData.length > 0) {
       publicLoading.style.display = 'none';
       publicGrid.style.display = 'grid';
@@ -152,7 +159,6 @@ function showPublicView() {
     }
   }
   
-  // Agregar clase al body para CSS
   document.body.classList.add('public-mode');
   document.body.classList.remove('admin-mode');
   
@@ -167,7 +173,6 @@ function showAdminLogin() {
   document.getElementById('admin-view').style.display = 'none';
   document.getElementById('admin-login').style.display = 'block';
   
-  // Ocultar elementos admin mientras se loguea
   const buscador = document.getElementById('busqueda-rapida-admin');
   if (buscador) buscador.style.display = 'none';
   
@@ -180,14 +185,10 @@ function showAdminLogin() {
 function showAdminView() {
   console.log('🔄 Cambiando a vista ADMIN');
   
-  // Ocultar otras vistas
   document.getElementById('public-view').style.display = 'none';
   document.getElementById('admin-login').style.display = 'none';
-  
-  // Mostrar vista admin
   document.getElementById('admin-view').style.display = 'block';
   
-  // ✅ Mostrar elementos admin
   const buscador = document.getElementById('busqueda-rapida-admin');
   if (buscador) {
     buscador.style.display = 'block';
@@ -196,24 +197,23 @@ function showAdminView() {
   
   const adminGrid = document.getElementById('admin-rifa-grid');
   if (adminGrid) {
-    adminGrid.style.display = 'none'; // Se mostrará cuando carguen los datos
+    adminGrid.style.display = 'none';
     console.log('✅ Grilla admin lista');
   }
   
-  // Ocultar grilla pública
   const publicGrid = document.getElementById('public-rifa-grid');
   if (publicGrid) {
     publicGrid.style.display = 'none';
     console.log('✅ Grilla pública oculta');
   }
   
-  // Agregar clase al body
   document.body.classList.add('admin-mode');
   document.body.classList.remove('public-mode');
   
   isAdmin = true;
   console.log('✅ Vista admin activada');
 }
+
 // ========================================
 // AUTENTICACIÓN
 // ========================================
@@ -265,11 +265,9 @@ document.getElementById('logout-btn').onclick = function() {
 // ========================================
 // CARGAR DATOS DE FIRESTORE
 // ========================================
-// REEMPLAZAR ESTA FUNCIÓN COMPLETA
 function loadRifaData(adminMode = false) {
   console.log('📡 Cargando datos. Modo Admin:', adminMode);
   
-  // Mostrar loading correcto
   if (adminMode) {
     document.getElementById('admin-loading').classList.add('active');
     document.getElementById('admin-loading').style.display = 'flex';
@@ -289,26 +287,27 @@ function loadRifaData(adminMode = false) {
     
     console.log('✅ Datos cargados:', rifaData.length, 'registros');
     console.log('📋 Modo:', adminMode ? 'ADMIN' : 'PÚBLICO');
-    
+
+    // 🔥 HABILITAR BOTÓN DE RESERVA MASIVA
+if (!adminMode && rifaData.length > 0) {
+  habilitarBotonReservaMasiva();
+}
+
     if (rifaData.length === 0) {
       console.log('🔨 Base vacía, inicializando...');
       initializeRifaNumbers();
       return;
     }
     
-    // ✅ RENDERIZADO SEGÚN MODO
     if (adminMode) {
       console.log('👨‍💼 Renderizando ADMIN');
       
-      // Ocultar loading admin
       document.getElementById('admin-loading').style.display = 'none';
       document.getElementById('admin-loading').classList.remove('active');
       
-      // Mostrar grilla admin
       renderRifaGrid(true);
       updateStats(true);
       
-      // Mostrar tabla después de un delay
       setTimeout(() => {
         const tablaAdmin = document.getElementById('admin-data-display');
         if (tablaAdmin) {
@@ -321,7 +320,6 @@ function loadRifaData(adminMode = false) {
     } else {
       console.log('👤 Renderizando PÚBLICO');
       
-      // ✅ ASEGURAR QUE NO SE MUESTREN ELEMENTOS ADMIN
       const buscador = document.getElementById('busqueda-rapida-admin');
       const tablaAdmin = document.getElementById('admin-data-display');
       const adminGrid = document.getElementById('admin-rifa-grid');
@@ -330,11 +328,9 @@ function loadRifaData(adminMode = false) {
       if (tablaAdmin) tablaAdmin.style.display = 'none';
       if (adminGrid) adminGrid.style.display = 'none';
       
-      // Renderizar grilla pública
       renderRifaGrid(false);
       updateStats(false);
       
-      // Ocultar loading y mostrar grilla pública
       setTimeout(() => {
         const publicLoading = document.getElementById('public-loading');
         const publicGrid = document.getElementById('public-rifa-grid');
@@ -379,7 +375,6 @@ function loadRifaData(adminMode = false) {
     }).then(() => location.reload());
   });
 }
-
 
 async function initializeRifaNumbers() {
   try {
@@ -508,13 +503,6 @@ function renderRifaGrid(adminMode) {
     grid.appendChild(card);
   });
   
-  // document.getElementById(loadingEl).style.display = 'none';
-  // document.getElementById(gridEl).style.display = 'grid';
-  
-  // if (adminMode && busquedaActiva) {
-  //   updateSearchResults(dataToRender.length);
-  // }
-    // ✅ AL FINAL DE LA FUNCIÓN, DEBE ESTAR ESTO:
   document.getElementById(loadingEl).style.display = 'none';
   document.getElementById(gridEl).style.display = 'grid';
   
@@ -560,7 +548,7 @@ function updateStats(adminMode) {
 }
 
 // ========================================
-// MODAL PÚBLICO CON VALIDACIÓN DE IDENTIDAD
+// ✅ MODAL PÚBLICO CON AUTO-RELLENADO
 // ========================================
 function openPublicModal(item) {
   currentEditingId = item.id;
@@ -569,6 +557,17 @@ function openPublicModal(item) {
     document.getElementById('public-modal-numero').textContent = item.numero;
     document.querySelector('#public-modal .modal-header h3').innerHTML = 
       'Reservar Número <span id="public-modal-numero">' + item.numero + '</span>';
+    
+    // ✅ AUTO-RELLENAR con datos guardados
+    const datosGuardados = recuperarDatosUsuario();
+    document.getElementById('public-nombre-input').value = datosGuardados.nombre;
+    document.getElementById('public-email-input').value = datosGuardados.email;
+    document.getElementById('public-dni-input').value = datosGuardados.dni;
+    
+    // ✅ Mostrar indicador si hay datos guardados
+    if (datosGuardados.nombre || datosGuardados.email || datosGuardados.dni) {
+      mostrarIndicadorDatosGuardados();
+    }
     
     document.getElementById('public-modal').classList.add('active');
     
@@ -632,14 +631,95 @@ function openPublicModal(item) {
 }
 
 // ========================================
-// SUBMIT FORMULARIO PÚBLICO - CORREGIDO
-// Reemplazar en rifa.js (línea ~395 aprox)
+// ✅ FUNCIÓN PARA MOSTRAR INDICADOR DE DATOS GUARDADOS
 // ========================================
+function mostrarIndicadorDatosGuardados() {
+  let indicador = document.getElementById('indicador-datos-guardados');
+  
+  if (!indicador) {
+    indicador = document.createElement('div');
+    indicador.id = 'indicador-datos-guardados';
+    indicador.style.cssText = `
+      background: linear-gradient(135deg, #E8F5E9, #C8E6C9);
+      border-left: 4px solid #4CAF50;
+      padding: 12px 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      animation: slideDown 0.3s ease-out;
+    `;
+    
+    indicador.innerHTML = `
+      <span class="material-icons" style="color: #2E7D32; font-size: 24px;">check_circle</span>
+      <div style="flex: 1;">
+        <p style="margin: 0; color: #2E7D32; font-weight: 600; font-size: 14px;">
+          ✅ Datos recuperados de tu sesión
+        </p>
+        <p style="margin: 4px 0 0; color: #558B2F; font-size: 12px;">
+          Puedes editarlos si han cambiado
+        </p>
+      </div>
+      <button onclick="limpiarYRecargar()" style="
+        background: transparent;
+        border: 1px solid #4CAF50;
+        color: #2E7D32;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        transition: all 0.2s;
+      " onmouseover="this.style.background='#E8F5E9'" onmouseout="this.style.background='transparent'">
+        Limpiar Datos
+      </button>
+    `;
+    
+    const form = document.getElementById('public-form');
+    form.insertBefore(indicador, form.firstChild);
+  }
+}
 
+// ========================================
+// ✅ FUNCIÓN PARA LIMPIAR DATOS Y RECARGAR
+// ========================================
+function limpiarYRecargar() {
+  Swal.fire({
+    title: '🗑️ Limpiar Datos Guardados',
+    text: '¿Deseas borrar tus datos guardados? Tendrás que ingresarlos nuevamente.',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, Limpiar',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#F44336'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      limpiarDatosGuardados();
+      document.getElementById('public-nombre-input').value = '';
+      document.getElementById('public-email-input').value = '';
+      document.getElementById('public-dni-input').value = '';
+      
+      const indicador = document.getElementById('indicador-datos-guardados');
+      if (indicador) indicador.remove();
+      
+      Swal.fire({
+        icon: 'success',
+        title: '✅ Datos Limpiados',
+        text: 'Puedes ingresar nuevos datos',
+        timer: 1500,
+        showConfirmButton: false
+      });
+    }
+  });
+}
+
+// ========================================
+// ✅ SUBMIT FORMULARIO PÚBLICO CON GUARDADO
+// ========================================
 document.getElementById('public-form').onsubmit = async function(e) {
   e.preventDefault();
   
-  // ✅ VALIDACIÓN: Verificar que currentEditingId existe
   if (!currentEditingId) {
     console.error('❌ ERROR: currentEditingId es null');
     Swal.fire({
@@ -651,7 +731,6 @@ document.getElementById('public-form').onsubmit = async function(e) {
     return;
   }
   
-  // ✅ GUARDAR DATOS ANTES DE CERRAR EL MODAL
   const item = rifaData.find(item => item.id === currentEditingId);
   
   if (!item) {
@@ -669,11 +748,6 @@ document.getElementById('public-form').onsubmit = async function(e) {
   const email = document.getElementById('public-email-input').value.trim();
   const dni = document.getElementById('public-dni-input').value.trim();
   
-  // ✅ GUARDAR EL NÚMERO ANTES DE CERRAR EL MODAL
-  const numeroReservado = item.numero;
-  const idReservado = currentEditingId;
-  
-  // Validación de nombre
   if (!nombre) {
     Swal.fire({
       icon: 'warning',
@@ -684,10 +758,14 @@ document.getElementById('public-form').onsubmit = async function(e) {
     return;
   }
   
-  // ✅ CERRAR MODAL PRIMERO
+  const numeroReservado = item.numero;
+  const idReservado = currentEditingId;
+  
+  // ✅ GUARDAR DATOS PARA PRÓXIMAS RESERVAS
+  guardarDatosUsuario(nombre, email, dni);
+  
   closePublicModal();
   
-  // ✅ MOSTRAR LOADING
   Swal.fire({
     title: 'Reservando...',
     html: '<div class="spinner"></div><p style="margin-top: 16px; font-size: 14px; color: #666;">Guardando tu reserva...</p>',
@@ -699,7 +777,6 @@ document.getElementById('public-form').onsubmit = async function(e) {
   });
   
   try {
-    // ✅ GUARDAR EN FIRESTORE
     await db.collection('rifa').doc(idReservado).update({
       nombre: nombre,
       email: email || '',
@@ -710,15 +787,18 @@ document.getElementById('public-form').onsubmit = async function(e) {
     
     console.log('✅ Reserva guardada exitosamente');
     
-    // ✅ MOSTRAR MENSAJE DE ÉXITO
     Swal.fire({
       icon: 'success',
       title: '¡Número Reservado!',
-      text: `Has reservado exitosamente el número ${numeroReservado}`,
+      html: `
+        <p>Has reservado exitosamente el número <strong>${numeroReservado}</strong></p>
+        <p style="font-size: 13px; color: #666; margin-top: 12px;">
+          ✅ Tus datos se guardarán para tu próxima reserva
+        </p>
+      `,
       timer: 2000,
       showConfirmButton: false
     }).then(() => {
-      // ✅ MOSTRAR EL MODAL RECORDATORIO
       mostrarModalRecordatorio(numeroReservado, nombre);
     });
     
@@ -738,35 +818,35 @@ document.getElementById('public-form').onsubmit = async function(e) {
   }
 };
 
+// ========================================
+// ✅ MODIFICAR closePublicModal
+// ========================================
 function closePublicModal() {
   document.getElementById('public-modal').classList.remove('active');
-  document.getElementById('public-form').reset();
+  
+  // ❌ NO resetear el formulario para mantener los datos
+  // document.getElementById('public-form').reset();
+  
+  const indicador = document.getElementById('indicador-datos-guardados');
+  if (indicador) indicador.remove();
+  
   currentEditingId = null;
 }
 
 // ========================================
-// FUNCIÓN DESRESERVAR - CORREGIDA
-// Reemplazar en rifa.js (línea ~420 aprox)
+// FUNCIÓN DESRESERVAR
 // ========================================
-
-// ========================================
-// FUNCIÓN DESRESERVAR - CORREGIDA
-// Reemplazar en rifa.js (línea ~420 aprox)
-// ========================================
-
 async function desreservarNumero(item, dniVerificado) {
   try {
     console.log('🔍 DEBUG - Iniciando desreserva:');
     console.log('  Item:', item);
     console.log('  DNI verificado:', dniVerificado);
     
-    // Primero obtenemos los datos actuales
     const docSnapshot = await db.collection('rifa').doc(item.id).get();
     const dataActual = docSnapshot.data();
     
     console.log('📋 Datos actuales en Firestore:', dataActual);
     
-    // Crear entrada de historial
     const entradaHistorial = {
       admin: 'Usuario Público (DNI: ' + dniVerificado + ' ✓)',
       fecha: new Date().toISOString(),
@@ -778,33 +858,21 @@ async function desreservarNumero(item, dniVerificado) {
       dni_verificado: dniVerificado
     };
     
-    // Obtener historial existente
     const historialActualizado = [...(dataActual.historial || []), entradaHistorial];
     
-    // Preparar datos de actualización
     const updateData = {
       nombre: '',           
       buyer: '',            
       email: '',            
       state: 1,             
       time: null,           
-      dni: dniVerificado,   // ⚠️ MANTENER para validación
+      dni: dniVerificado,   
       ultima_modificacion: firebase.firestore.FieldValue.serverTimestamp(),
       historial: historialActualizado
     };
     
     console.log('📤 Datos que se intentarán enviar:', updateData);
-    console.log('🔍 Verificando condiciones de la regla:');
-    console.log('  - resource.data.state == 2:', dataActual.state === 2);
-    console.log('  - request.resource.data.state == 1:', updateData.state === 1);
-    console.log('  - resource.data.dni != null:', dataActual.dni != null);
-    console.log('  - resource.data.dni:', dataActual.dni);
-    console.log('  - request.resource.data.dni:', updateData.dni);
-    console.log('  - DNIs coinciden:', String(dataActual.dni) === String(updateData.dni));
-    console.log('  - request.resource.data.nombre == "":', updateData.nombre === '');
-    console.log('  - request.resource.data.email == "":', updateData.email === '');
     
-    // Intentar actualizar
     await db.collection('rifa').doc(item.id).update(updateData);
     
     console.log('✅ Desreserva exitosa');
@@ -826,10 +894,6 @@ async function desreservarNumero(item, dniVerificado) {
     
   } catch (error) {
     console.error('❌ ERROR COMPLETO:', error);
-    console.error('📋 Tipo:', error.name);
-    console.error('📋 Código:', error.code);
-    console.error('📋 Mensaje:', error.message);
-    console.error('📋 Stack:', error.stack);
     
     let mensajeDetallado = error.message;
     
@@ -861,57 +925,9 @@ async function desreservarNumero(item, dniVerificado) {
 // ========================================
 // MODAL ADMIN
 // ========================================
-// ========================================
-// FUNCIÓN OPENADMINMODAL - CORREGIDA
-// Reemplazar en rifa.js (línea ~650 aprox)
-// ========================================
-
-// function openAdminModal(item) {
-//   console.log('📝 Abriendo modal admin para:', item);
-  
-//   // ✅ VALIDACIÓN CRÍTICA: Verificar que item tenga ID
-//   if (!item || !item.id) {
-//     console.error('❌ ERROR CRÍTICO: Item sin ID válido', item);
-//     Swal.fire({
-//       icon: 'error',
-//       title: 'Error Crítico',
-//       html: `
-//         <p>No se pudo identificar el número a editar.</p>
-//         <p style="font-size: 12px; color: #666; margin-top: 10px;">
-//           Detalles: ${item ? 'Item existe pero no tiene ID' : 'Item es null/undefined'}
-//         </p>
-//       `,
-//       confirmButtonText: 'OK'
-//     });
-//     return;
-//   }
-  
-//   // ✅ ASIGNAR ID INMEDIATAMENTE - ESTO ES CRÍTICO
-//   currentEditingId = item.id;
-  
-//   // ✅ Guardar en atributo del modal como respaldo
-//   document.getElementById('admin-modal').setAttribute('data-editing-id', item.id);
-  
-//   console.log('✅ ID asignado correctamente:', currentEditingId);
-//   console.log('✅ ID respaldado en modal:', document.getElementById('admin-modal').getAttribute('data-editing-id'));
-  
-//   // Rellenar campos del formulario
-//   document.getElementById('admin-modal-numero').textContent = item.numero;
-//   document.getElementById('admin-nombre-input').value = item.nombre || '';
-//   document.getElementById('admin-email-input').value = item.email || '';
-//   document.getElementById('admin-nro_op-input').value = item.nro_op || '';
-//   document.getElementById('admin-dni-input').value = item.dni || '';
-//   document.getElementById('admin-estado-select').value = item.state;
-  
-//   // Mostrar modal
-//   document.getElementById('admin-modal').classList.add('active');
-  
-//   console.log('✅ Modal abierto. Verificación final - currentEditingId:', currentEditingId);
-// }
 function openAdminModal(item) {
   console.log('📝 Abriendo modal admin para:', item);
   
-  // ✅ VALIDACIÓN CRÍTICA: Verificar que item tenga ID
   if (!item || !item.id) {
     console.error('❌ ERROR CRÍTICO: Item sin ID válido', item);
     Swal.fire({
@@ -928,16 +944,11 @@ function openAdminModal(item) {
     return;
   }
   
-  // ✅ ASIGNAR ID INMEDIATAMENTE - ESTO ES CRÍTICO
   currentEditingId = item.id;
-  
-  // ✅ Guardar en atributo del modal como respaldo
   document.getElementById('admin-modal').setAttribute('data-editing-id', item.id);
   
   console.log('✅ ID asignado correctamente:', currentEditingId);
-  console.log('✅ ID respaldado en modal:', document.getElementById('admin-modal').getAttribute('data-editing-id'));
   
-  // Rellenar campos del formulario
   document.getElementById('admin-modal-numero').textContent = item.numero;
   document.getElementById('admin-nombre-input').value = item.nombre || '';
   document.getElementById('admin-email-input').value = item.email || '';
@@ -945,36 +956,23 @@ function openAdminModal(item) {
   document.getElementById('admin-dni-input').value = item.dni || '';
   document.getElementById('admin-estado-select').value = item.state;
   
-  // Mostrar modal
   document.getElementById('admin-modal').classList.add('active');
   
   console.log('✅ Modal abierto. Verificación final - currentEditingId:', currentEditingId);
 }
-// ========================================
-// FUNCIÓN CLOSEADMINMODAL - MEJORADA
-// ========================================
 
 function closeAdminModal() {
   document.getElementById('admin-modal').classList.remove('active');
   document.getElementById('admin-form').reset();
-  
-  // ⚠️ NO limpiar currentEditingId aquí si el submit ya cerró el modal
-  // Pero SÍ limpiar si se cancela
   console.log('🚪 Modal cerrado. ID actual:', currentEditingId);
-  
-  // Solo limpiar si no se está procesando
-  // El submit lo limpiará al final
 }
 
 // ========================================
-// SUBMIT ADMIN FORM - CON VALIDACIÓN EXTRA
-// Reemplazar todo el onsubmit
+// SUBMIT ADMIN FORM
 // ========================================
-
 document.getElementById('admin-form').onsubmit = async function(e) {
   e.preventDefault();
   
-  // ✅ VALIDACIÓN CRÍTICA: Verificar ID antes de continuar
   if (!currentEditingId) {
     console.error('❌ ERROR CRÍTICO: currentEditingId está vacío!');
     Swal.fire({
@@ -999,13 +997,10 @@ document.getElementById('admin-form').onsubmit = async function(e) {
   const nro_op = document.getElementById('admin-nro_op-input').value.trim();
   const dni = document.getElementById('admin-dni-input').value.trim();
 
-  // Guardar el ID temporalmente (por si closeAdminModal lo limpia)
   const editingId = currentEditingId;
 
-  // ✅ CERRAR MODAL INMEDIATAMENTE
   closeAdminModal();
   
-  // ✅ MOSTRAR LOADING
   Swal.fire({
     title: 'Guardando cambios...',
     html: '<div class="spinner"></div><p style="margin-top: 16px; font-size: 14px; color: #666;">Actualizando datos...</p>',
@@ -1028,7 +1023,6 @@ document.getElementById('admin-form').onsubmit = async function(e) {
     const dataActual = docSnapshot.data();
     console.log('✓ Datos actuales obtenidos:', dataActual);
     
-    // Auto-asignación de estados
     if (dataActual.state === 1 && nombre) {
       if (nro_op) {
         state = 3;
@@ -1043,7 +1037,6 @@ document.getElementById('admin-form').onsubmit = async function(e) {
       console.log('✅ Auto-asignación: Reservado → Pagado (se agregó nro_op)');
     }
     
-    // Verificar si hubo cambios
     const huboContenidoCambiado = (
       nombre !== (dataActual.nombre || '') ||
       email !== (dataActual.email || '') ||
@@ -1060,7 +1053,6 @@ document.getElementById('admin-form').onsubmit = async function(e) {
         confirmButtonText: 'OK',
         timer: 2000
       });
-      // Limpiar ID al finalizar
       currentEditingId = null;
       return;
     }
@@ -1079,7 +1071,6 @@ document.getElementById('admin-form').onsubmit = async function(e) {
     
     let esPrimerRegistroPago = false;
     
-    // Lógica de auditoría
     if (nro_op && !dataActual.nro_op) {
       updateData.admin_registro_pago = adminActual;
       updateData.fecha_pago = firebase.firestore.FieldValue.serverTimestamp();
@@ -1113,7 +1104,6 @@ document.getElementById('admin-form').onsubmit = async function(e) {
       console.log('🔄 Reseteo del número por:', adminActual);
     }
     
-    // Historial de cambios
     const detallesCambios = getDetallesCambios(dataActual, updateData);
     
     const entradaHistorial = {
@@ -1134,13 +1124,11 @@ document.getElementById('admin-form').onsubmit = async function(e) {
     
     updateData.historial = firebase.firestore.FieldValue.arrayUnion(entradaHistorial);
     
-    // ✅ GUARDAR EN FIRESTORE
     console.log('💾 Guardando en Firestore con ID:', editingId);
     await db.collection('rifa').doc(editingId).update(updateData);
     
     console.log('✅ Cambios guardados con auditoría');
     
-    // ✅ ENVÍO DE EMAIL (en segundo plano)
     let emailPromise = null;
     
     if (esPrimerRegistroPago && email) {
@@ -1166,10 +1154,8 @@ document.getElementById('admin-form').onsubmit = async function(e) {
       });
     }
     
-    // ✅ ACTUALIZAR TABLA
     renderDataTable();
     
-    // ✅ MENSAJE DE ÉXITO
     let mensajeExito = `
       <p style="margin: 12px 0;"><strong>Acción:</strong> ${entradaHistorial.accion}</p>
       <p style="font-size: 13px; color: #666;">Registrado por: ${adminActual}</p>
@@ -1203,7 +1189,6 @@ document.getElementById('admin-form').onsubmit = async function(e) {
       timerProgressBar: true
     });
     
-    // ✅ Limpiar ID al finalizar exitosamente
     currentEditingId = null;
     console.log('✓ Proceso completado. ID limpiado.');
     
@@ -1224,13 +1209,12 @@ document.getElementById('admin-form').onsubmit = async function(e) {
       confirmButtonText: 'Reintentar'
     });
     
-    // Limpiar ID incluso en caso de error
     currentEditingId = null;
   }
 };
 
 // ========================================
-// ENVÍO DE EMAILS CON DIAGNÓSTICO MEJORADO
+// ENVÍO DE EMAILS
 // ========================================
 async function enviarEmailCertificado(numeroData) {
   try {
@@ -1276,28 +1260,13 @@ async function enviarEmailCertificado(numeroData) {
     console.error('📋 Detalles del error:');
     console.error('   - Mensaje:', error.text || error.message);
     console.error('   - Status:', error.status);
-    console.error('   - Objeto completo:', JSON.stringify(error, null, 2));
-    
-    if (error.status === 422) {
-      console.error('⚠️ Error 422: El template no tiene configurado el destinatario');
-      console.error('💡 SOLUCIÓN: En EmailJS Dashboard → Template → Settings');
-      console.error('   Configura "Send To" con la variable: {{to_email}}');
-    } else if (error.status === 400) {
-      console.error('⚠️ Error 400: Verificar que el Service ID y Template ID sean correctos');
-    } else if (error.status === 401) {
-      console.error('⚠️ Error 401: Verifica la Public Key');
-    } else if (error.status === 403) {
-      console.error('⚠️ Error 403: Verifica los permisos del servicio');
-    } else if (error.status === 404) {
-      console.error('⚠️ Error 404: El template o servicio no existe');
-    }
     
     return false;
   }
 }
 
 // ========================================
-// FUNCIONES DE AUDITORÍA MEJORADAS
+// FUNCIONES DE AUDITORÍA
 // ========================================
 function getAccionRealizada(dataAnterior, dataNueva) {
   let acciones = [];
@@ -1371,16 +1340,7 @@ function getDetallesCambios(dataAnterior, dataNueva) {
 }
 
 // ========================================
-// SUBMIT FORMULARIO ADMIN CON AUDITORÍA
-// ========================================
-// ========================================
-// SUBMIT FORMULARIO ADMIN - OPTIMIZADO
-// Reemplazar en rifa.js línea ~800
-// ========================================
-
-
-// ========================================
-// VER HISTORIAL CON DETALLES MEJORADOS
+// VER HISTORIAL
 // ========================================
 async function verHistorialNumero(numeroId) {
   try {
@@ -1843,282 +1803,511 @@ function updateSearchResults(count) {
 }
 
 // ========================================
-// CERRAR MODALES AL HACER CLIC FUERA
+// 🎯 SISTEMA DE RESERVA MASIVA
 // ========================================
-document.getElementById('public-modal').addEventListener('click', function(e) {
-  if (e.target === this) {
-    closePublicModal();
-  }
-});
 
-document.getElementById('admin-modal').addEventListener('click', function(e) {
-  if (e.target === this) {
-    closeAdminModal();
-  }
-});
+// Exponer funciones globalmente
+window.abrirModalReservaMasiva = abrirModalReservaMasiva;
+window.cerrarModalMasivo = cerrarModalMasivo;
+window.toggleNumeroMasivo = toggleNumeroMasivo;
 
-// ========================================
-// EVENT LISTENERS PARA BÚSQUEDA
-// ========================================
-window.addEventListener('DOMContentLoaded', function() {
-  const inputBusqueda = document.getElementById('busqueda-grilla-input');
-  const btnBuscar = document.getElementById('btn-buscar-grilla');
-  const btnLimpiar = document.getElementById('btn-limpiar-busqueda');
+// Función para abrir modal
+function abrirModalReservaMasiva() {
+  console.log('📋 Abriendo modal...');
   
-  if (inputBusqueda) {
-    inputBusqueda.addEventListener('input', function() {
-      if (this.value.trim().length > 0) {
-        btnLimpiar.style.display = 'block';
-      } else {
-        btnLimpiar.style.display = 'none';
-        if (busquedaActiva) {
-          limpiarBusqueda();
-        }
-      }
-    });
+  try {
+    const modal = document.getElementById('modal-reserva-masiva');
+    if (!modal) throw new Error('Modal no encontrado');
     
-    inputBusqueda.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        buscarEnGrilla();
-      }
-    });
-    
-    let timeoutId;
-    inputBusqueda.addEventListener('input', function() {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        if (inputBusqueda.value.trim().length >= 3) {
-          buscarEnGrilla();
-        }
-      }, 500);
-    });
-  }
-  
-  if (btnBuscar) {
-    btnBuscar.addEventListener('click', buscarEnGrilla);
-  }
-  
-  if (btnLimpiar) {
-    btnLimpiar.addEventListener('click', limpiarBusqueda);
-  }
-});
-
-// ========================================
-// INICIALIZACIÓN
-// ========================================
-auth.onAuthStateChanged(async user => {
-  console.log('🔐 Estado de autenticación:', user ? 'Logueado' : 'No logueado');
-  
-  if (user) {
-    console.log('👤 Usuario:', user.email);
-    const isAdminUser = await esAdmin(user.email);
-    
-    if (isAdminUser) {
-      console.log('✅ Usuario es admin');
-      currentUser = user;
-      
-      document.getElementById('user-name').textContent = 
-        currentUser.displayName || currentUser.email;
-      
-      document.getElementById('user-avatar').src = 
-        currentUser.photoURL || 
-        'https://ui-avatars.com/api/?name=' + 
-        encodeURIComponent(currentUser.displayName || 'Admin');
-      
-      showAdminView();
-      loadRifaData(true);
-    } else {
-      console.log('⚠️ Usuario NO es admin, mostrando vista pública');
-      await auth.signOut(); // Cerrar sesión
-      showPublicView();
-      loadRifaData(false);
+    // Verificar datos
+    if (!rifaData || rifaData.length === 0) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Cargando...',
+        html: '<div class="spinner"></div><p>Espera un momento...</p>',
+        showConfirmButton: false,
+        timer: 2000
+      });
+      setTimeout(abrirModalReservaMasiva, 2000);
+      return;
     }
-  } else {
-    console.log('👤 Usuario no autenticado, mostrando vista pública');
-    showPublicView();
-    loadRifaData(false);
-  }
-});
-
-// ✅ VERIFICACIÓN ADICIONAL AL CARGAR LA PÁGINA
-window.addEventListener('DOMContentLoaded', function() {
-  console.log('🚀 DOM cargado, verificando estado inicial...');
-  
-  // Asegurar que empiece en vista pública si no hay usuario
-  if (!currentUser) {
-    showPublicView();
-  }
-  
-  // Configurar listeners de búsqueda solo si existen
-  const inputBusqueda = document.getElementById('busqueda-grilla-input');
-  const btnBuscar = document.getElementById('btn-buscar-grilla');
-  const btnLimpiar = document.getElementById('btn-limpiar-busqueda');
-  
-  if (inputBusqueda && btnBuscar && btnLimpiar) {
-    inputBusqueda.addEventListener('input', function() {
-      if (this.value.trim().length > 0) {
-        btnLimpiar.style.display = 'block';
-      } else {
-        btnLimpiar.style.display = 'none';
-        if (busquedaActiva) {
-          limpiarBusqueda();
-        }
-      }
+    
+    // Auto-rellenar
+    const datos = recuperarDatosUsuario();
+    const nombre = document.getElementById('masivo-nombre-input');
+    const email = document.getElementById('masivo-email-input');
+    const dni = document.getElementById('masivo-dni-input');
+    
+    if (nombre) nombre.value = datos.nombre;
+    if (email) email.value = datos.email;
+    if (dni) dni.value = datos.dni;
+    
+    renderizarNumerosDisponiblesMasivo();
+    modal.classList.add('active');
+    setTimeout(() => modal.scrollIntoView({ behavior: 'smooth', block: 'center' }), 100);
+    
+    console.log('✅ Modal abierto');
+  } catch (error) {
+    console.error('❌ Error:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: error.message,
+      confirmButtonText: 'OK'
     });
-    
-    inputBusqueda.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        buscarEnGrilla();
-      }
-    });
-    
-    let timeoutId;
-    inputBusqueda.addEventListener('input', function() {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => {
-        if (inputBusqueda.value.trim().length >= 3) {
-          buscarEnGrilla();
-        }
-      }, 500);
-    });
-    
-    btnBuscar.addEventListener('click', buscarEnGrilla);
-    btnLimpiar.addEventListener('click', limpiarBusqueda);
-    
-    console.log('✅ Listeners de búsqueda configurados');
   }
-});
+}
 
+// Función para cerrar modal
+function cerrarModalMasivo() {
+  const modal = document.getElementById('modal-reserva-masiva');
+  if (modal) modal.classList.remove('active');
+  
+  const form = document.getElementById('form-reserva-masiva');
+  if (form) form.reset();
+  
+  numerosSeleccionadosMasivo.clear();
+  actualizarContadorSeleccionados();
+  console.log('✅ Modal cerrado');
+}
 
-// ========================================
-// MODAL RECORDATORIO POST-RESERVA
-// ========================================
-function mostrarModalRecordatorio(numeroReservado, nombreUsuario) {
-  Swal.fire({
-    customClass: {
-      popup: 'modal-recordatorio'
-    },
-    imageUrl: './rifa/luis.jpg',
-    imageAlt: 'San Luis Gonzaga',
-    imageWidth: 600,
-    imageHeight: 300,
-    title: '🎉 ¡Reserva Exitosa!',
-    html: `
-      <div style="text-align: center; margin-bottom: 24px;">
-        <p style="font-size: 18px; color: #333; margin-bottom: 16px;">
-          <strong style="color: #6750A4;">${nombreUsuario}</strong>, has reservado el número:
-        </p>
-        <div style="
-          display: inline-block;
-          background: linear-gradient(135deg, #6750A4, #7E57C2);
-          color: white;
-          font-size: 48px;
-          font-weight: bold;
-          padding: 20px 40px;
-          border-radius: 16px;
-          box-shadow: 0 8px 16px rgba(103, 80, 164, 0.3);
-          letter-spacing: 8px;
-        ">
-          ${String(numeroReservado).padStart(3, '0')}
-        </div>
+// Función para renderizar números
+function renderizarNumerosDisponiblesMasivo() {
+  const container = document.getElementById('numeros-disponibles-masivo');
+  if (!container) return;
+  
+  console.log('📊 rifaData:', rifaData ? rifaData.length + ' items' : 'null/undefined');
+  if (rifaData && rifaData.length > 0) {
+    console.log('🔍 Primeros 3 items de rifaData:', rifaData.slice(0, 3).map(i => ({ numero: i.numero, state: i.state, id: i.id })));
+  }
+  
+  if (!rifaData || rifaData.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 40px;">
+        <div class="spinner"></div>
+        <p>Cargando...</p>
+        <button onclick="renderizarNumerosDisponiblesMasivo()" class="md-button btn-primary" style="margin-top: 16px;">
+          <span class="material-icons">refresh</span> Reintentar
+        </button>
       </div>
+    `;
+    return;
+  }
+  
+  const disponibles = rifaData.filter(item => item.state === 1);
+  
+  if (disponibles.length === 0) {
+    container.innerHTML = `
+      <div style="text-align: center; padding: 40px;">
+        <span class="material-icons" style="font-size: 48px; opacity: 0.3;">inbox</span>
+        <p>No hay números disponibles</p>
+      </div>
+    `;
+    return;
+  }
+  
+  container.innerHTML = disponibles.map(item => `
+    <label class="numero-checkbox-item" id="checkbox-item-${item.numero}">
+      <input type="checkbox" value="${item.numero}" data-id="${item.id}" onchange="toggleNumeroMasivo('${item.numero}')">
+      <span class="numero-checkbox-label">
+        <span class="numero-badge-small">${String(item.numero).padStart(3, '0')}</span>
+      </span>
+    </label>
+  `).join('');
+  
+  numerosSeleccionadosMasivo.clear();
+  actualizarContadorSeleccionados();
+  console.log(`✅ ${disponibles.length} números renderizados`);
+}
 
-      <div style="
-        background: linear-gradient(135deg, #FFF3E0, #FFE0B2);
-        border-left: 4px solid #FF9800;
-        padding: 16px;
-        border-radius: 12px;
-        margin: 24px 0;
-        text-align: left;
-      ">
-        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
-          <span class="material-icons" style="color: #FF9800; font-size: 32px;">info</span>
-          <strong style="color: #E65100; font-size: 16px;">Pasos para Completar tu Reserva</strong>
+// Función toggle
+function toggleNumeroMasivo(numero) {
+  const checkbox = document.querySelector(`input[value="${numero}"]`);
+  const item = document.getElementById(`checkbox-item-${numero}`);
+  
+  if (!checkbox || !item) return;
+  
+  if (checkbox.checked) {
+    numerosSeleccionadosMasivo.add(numero);
+    item.classList.add('checked');
+    console.log('✅ Agregado:', numero, 'Total:', numerosSeleccionadosMasivo.size);
+  } else {
+    numerosSeleccionadosMasivo.delete(numero);
+    item.classList.remove('checked');
+    console.log('❌ Removido:', numero, 'Total:', numerosSeleccionadosMasivo.size);
+  }
+  
+  actualizarContadorSeleccionados();
+}
+
+// Actualizar contador
+function actualizarContadorSeleccionados() {
+  const count = numerosSeleccionadosMasivo.size;
+  const info = document.getElementById('numeros-seleccionados-info');
+  const span = document.getElementById('count-seleccionados');
+  
+  if (span) span.textContent = count;
+  if (info) info.style.display = count > 0 ? 'block' : 'none';
+}
+
+// Submit formulario masivo
+document.getElementById('form-reserva-masiva').onsubmit = async function(e) {
+  e.preventDefault();
+  
+  if (numerosSeleccionadosMasivo.size === 0) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Sin Números',
+      text: 'Selecciona al menos un número',
+      confirmButtonText: 'OK'
+    });
+    return;
+  }
+  
+  const nombre = document.getElementById('masivo-nombre-input').value.trim();
+  const email = document.getElementById('masivo-email-input').value.trim();
+  const dni = document.getElementById('masivo-dni-input').value.trim();
+  
+  if (!nombre) {
+    Swal.fire({
+      icon: 'warning',
+      title: 'Nombre requerido',
+      text: 'Ingresa tu nombre',
+      confirmButtonText: 'OK'
+    });
+    return;
+  }
+  
+  const cantidadNumeros = numerosSeleccionadosMasivo.size;
+  const textoPlural = cantidadNumeros === 1 ? 'número' : 'números';
+  
+  // Copiar números antes de cerrar modal
+  const numerosACopiar = Array.from(numerosSeleccionadosMasivo);
+  
+  guardarDatosUsuario(nombre, email, dni);
+  
+  // Cerrar modal
+  const modal = document.getElementById('modal-reserva-masiva');
+  if (modal) modal.classList.remove('active');
+  
+  Swal.fire({
+    title: '🔄 Procesando Reserva Masiva',
+    html: `
+      <div class="spinner"></div>
+      <p style="margin-top: 16px; font-size: 15px; color: #666;">
+        Reservando <strong style="color: #6750A4;">${cantidadNumeros}</strong> ${textoPlural}...
+      </p>
+      <p style="font-size: 13px; color: #999; margin-top: 8px;">
+        Por favor espera
+      </p>
+    `,
+    allowOutsideClick: false,
+    showConfirmButton: false,
+    didOpen: () => Swal.showLoading()
+  });
+  
+  try {
+    console.log('🔍 Iniciando reserva masiva...');
+    console.log('📊 Números seleccionados (tipo ' + typeof Array.from(numerosSeleccionadosMasivo)[0] + '):', Array.from(numerosSeleccionadosMasivo));
+    console.log('👤 Datos:', { nombre, email: email || 'sin email', dni: dni || 'sin DNI' });
+    console.log('📋 rifaData tiene', rifaData ? rifaData.length : 0, 'items');
+    console.log('🔢 Tipos en rifaData - primeros 3 números:', rifaData.slice(0, 3).map(i => typeof i.numero + ': ' + i.numero));
+    
+    // Validar que db exista
+    if (typeof db === 'undefined') {
+      throw new Error('Firebase no está inicializado. Por favor recarga la página.');
+    }
+    
+    // Validar que rifaData tenga datos
+    if (!rifaData || rifaData.length === 0) {
+      throw new Error('Los datos de la rifa no están cargados. Por favor recarga la página.');
+    }
+    
+    console.log('📋 rifaData tiene', rifaData.length, 'números cargados');
+    
+    const batch = db.batch();
+    const numerosReservados = [];
+    let numerosNoDisponibles = [];
+    
+    for (const numero of numerosACopiar) {
+      const numeroInt = parseInt(numero);
+      console.log('🔎 Procesando:', numero, '(string) → ', numeroInt, '(int)');
+      
+      const item = rifaData.find(i => {
+        const match = i.numero == numeroInt || i.numero == numero;
+        if (match) console.log('  ✓ Match encontrado:', i.numero, 'state:', i.state);
+        return match;
+      });
+      
+      if (!item) {
+        console.warn('⚠️ Número NO encontrado:', numero);
+        console.log('🔍 Todos los números en rifaData:', rifaData.map(i => i.numero).slice(0, 10));
+        numerosNoDisponibles.push(numero);
+        continue;
+      }
+      
+      console.log('✓ Item encontrado:', { numero: item.numero, state: item.state, id: item.id });
+      
+      if (item.state === 1) {
+        const docRef = db.collection('rifa').doc(item.id);
+        batch.update(docRef, {
+          nombre: nombre,
+          email: email || '',
+          state: 2,
+          time: firebase.firestore.FieldValue.serverTimestamp(),
+          dni: dni || null
+        });
+        numerosReservados.push(item.numero);
+        console.log('✅ Agregado al batch:', item.numero);
+      } else {
+        console.warn('⚠️ Número ya no disponible:', item.numero, 'Estado:', item.state);
+        numerosNoDisponibles.push(item.numero);
+      }
+    }
+    
+    if (numerosReservados.length === 0) {
+      throw new Error('Ninguno de los números seleccionados está disponible. Por favor, actualiza la página.');
+    }
+    
+    console.log('📤 Enviando batch con', numerosReservados.length, 'números');
+    await batch.commit();
+    console.log('✅ Reserva masiva completada:', numerosReservados);
+    
+    if (numerosNoDisponibles.length > 0) {
+      console.warn('⚠️ Números que no se pudieron reservar:', numerosNoDisponibles);
+    }
+    
+    // Limpiar selección
+    numerosSeleccionadosMasivo.clear();
+    
+    const textoNumeros = numerosReservados.length === 1 ? 'número' : 'números';
+    
+    // Mostrar confirmación de reserva masiva
+    let htmlExtra = '';
+    if (numerosNoDisponibles.length > 0) {
+      htmlExtra = `
+        <div style="background: #FFF3E0; border-left: 4px solid #FF9800; padding: 12px; border-radius: 8px; margin-top: 16px; text-align: left;">
+          <p style="margin: 0; color: #E65100; font-size: 13px;">
+            ⚠️ <strong>${numerosNoDisponibles.length}</strong> número(s) ya no estaba(n) disponible(s) y no se reservó/reservaron
+          </p>
         </div>
-        
-        <div style="margin-left: 44px;">
-          <div style="margin-bottom: 16px;">
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-              <span style="
-                background: #FF9800;
-                color: white;
-                width: 28px;
-                height: 28px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: bold;
-                font-size: 14px;
-              ">1</span>
-              <strong style="color: #E65100;">Realiza el Pago</strong>
+      `;
+    }
+    
+    await Swal.fire({
+      icon: 'success',
+      title: '🎉 ¡Reserva Masiva Exitosa!',
+      html: `
+        <div style="text-align: center; padding: 16px;">
+          <p style="font-size: 16px; margin-bottom: 20px;">
+            Has reservado exitosamente <strong style="color: #6750A4; font-size: 20px;">${numerosReservados.length}</strong> ${textoNumeros}
+          </p>
+          
+          <div style="background: linear-gradient(135deg, #E8DEF8, #F3E5F5); padding: 20px; border-radius: 16px; margin: 16px 0; border: 2px solid #6750A4;">
+            <p style="margin: 0 0 12px; color: #6750A4; font-weight: 600; font-size: 15px;">
+              📋 Tus Números Reservados:
+            </p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center;">
+              ${numerosReservados.sort((a, b) => a - b).map(num => `
+                <span style="background: linear-gradient(135deg, #6750A4, #7E57C2); color: white; padding: 10px 16px; border-radius: 10px; font-weight: bold; font-size: 15px; box-shadow: 0 2px 8px rgba(103, 80, 164, 0.3);">
+                  ${String(num).padStart(3, '0')}
+                </span>
+              `).join('')}
             </div>
-            <p style="color: #666; font-size: 14px; margin: 0; padding-left: 36px;">
-              Utiliza los datos bancarios proporcionados arriba para transferir el monto de la rifa.
+          </div>
+          
+          <div style="background: #FFF3E0; border-left: 4px solid #FF9800; padding: 14px; border-radius: 8px; margin-top: 16px; text-align: left;">
+            <p style="margin: 0; color: #E65100; font-size: 14px; font-weight: 600;">
+              ⚠️ Importante: Completa el pago
+            </p>
+            <p style="margin: 8px 0 0; color: #EF6C00; font-size: 13px;">
+              A continuación te mostraremos las instrucciones para realizar el pago
             </p>
           </div>
+          ${htmlExtra}
+        </div>
+      `,
+      confirmButtonText: '💳 Ver Instrucciones de Pago',
+      confirmButtonColor: '#6750A4',
+      width: '650px',
+      showCloseButton: true
+    });
+    
+    console.log('📧 Mostrando instrucciones de pago');
+    
+    // Limpiar formulario y estado
+    const form = document.getElementById('form-reserva-masiva');
+    if (form) form.reset();
+    numerosSeleccionadosMasivo.clear();
+    actualizarContadorSeleccionados();
+    
+    // Mostrar instrucciones de pago
+    mostrarInstruccionesPagoMasivo(numerosReservados, nombre);
+    
+  } catch (error) {
+    console.error('❌ Error en reserva masiva:', error);
+    console.error('Stack:', error.stack);
+    
+    Swal.fire({
+      icon: 'error',
+      title: 'Error en Reserva Masiva',
+      html: `
+        <p><strong>No se pudieron reservar los números</strong></p>
+        <div style="background: #ffebee; padding: 12px; border-radius: 8px; margin-top: 12px; text-align: left;">
+          <p style="font-size: 13px; color: #c62828; margin: 0;">
+            <strong>Error:</strong> ${error.message}
+          </p>
+          ${error.code ? `<p style="font-size: 12px; color: #e53935; margin: 8px 0 0;">Código: ${error.code}</p>` : ''}
+        </div>
+        <p style="font-size: 12px; color: #666; margin-top: 12px;">
+          Por favor, intenta nuevamente o contacta al administrador
+        </p>
+      `,
+      confirmButtonText: 'Intentar de Nuevo',
+      confirmButtonColor: '#F44336'
+    });
+  }
+};
 
-          <div>
-            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
-              <span style="
-                background: #FF9800;
-                color: white;
-                width: 28px;
-                height: 28px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: bold;
-                font-size: 14px;
-              ">2</span>
-              <strong style="color: #E65100;">Notifícanos por cualquiera de estas opciones:</strong>
-            </div>
-            <div style="padding-left: 36px; color: #666; font-size: 14px;">
-              <p style="margin: 6px 0; display: flex; align-items: center; gap: 8px;">
-                <span class="material-icons" style="font-size: 18px; color: #1976D2;">email</span>
-                <span><strong>Email:</strong> sanluisvillaelisa@gmail.com</span>
-              </p>
-              <p style="margin: 6px 0; display: flex; align-items: center; gap: 8px;">
-                <span class="material-icons" style="font-size: 18px; color: #1976D2;">contact_mail</span>
-                <span><strong>Formulario de contacto</strong> (más abajo)</span>
-              </p>
-            </div>
-          </div>
+
+// ========================================
+// MOSTRAR INSTRUCCIONES DE PAGO MASIVO
+// ========================================
+function mostrarInstruccionesPagoMasivo(numerosReservados, nombreParticipante) {
+  const listaNumeros = numerosReservados.sort((a, b) => a - b).map(num => String(num).padStart(3, '0')).join(', ');
+  const cantidadNumeros = numerosReservados.length;
+  const textoNumeros = cantidadNumeros === 1 ? 'número' : 'números';
+  const textoTu = cantidadNumeros === 1 ? 'tu' : 'tus';
+  
+  Swal.fire({
+    icon: 'info',
+    title: '💳 Instrucciones de Pago - Reserva Masiva',
+    html: `
+      <div style="text-align: left; padding: 16px;">
+        <div style="background: linear-gradient(135deg, #E8F5E9, #C8E6C9); border-left: 4px solid #4CAF50; padding: 16px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+          <p style="margin: 0; color: #1B5E20; font-weight: 700; font-size: 16px;">
+            ✅ Reserva Masiva Confirmada
+          </p>
+          <p style="margin: 8px 0 4px; color: #2E7D32; font-size: 14px;">
+            <strong>${cantidadNumeros}</strong> ${textoNumeros} reservados a nombre de <strong>${nombreParticipante}</strong>
+          </p>
+          <p style="margin: 8px 0 0; color: #558B2F; font-size: 13px; font-family: monospace; background: rgba(255,255,255,0.7); padding: 8px; border-radius: 6px;">
+            ${listaNumeros}
+          </p>
+        </div>
+
+        <div style="background: linear-gradient(135deg, #FFF3E0, #FFE0B2); border-left: 4px solid #FF9800; padding: 16px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+          <p style="margin: 0; color: #E65100; font-weight: 700; font-size: 15px;">
+            ⏰ Completa ${textoTu} pago pronto
+          </p>
+          <p style="margin: 8px 0 0; color: #EF6C00; font-size: 13px; line-height: 1.6;">
+            ${textoTu.charAt(0).toUpperCase() + textoTu.slice(1)} ${textoNumeros} quedarán confirmados una vez que realices el pago y envíes el comprobante
+          </p>
+        </div>
+
+        <h4 style="color: #6750A4; margin: 20px 0 12px; font-size: 16px; display: flex; align-items: center; gap: 8px;">
+          <span style="background: #6750A4; color: white; width: 28px; height: 28px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 14px;">1</span>
+          Pasos a seguir:
+        </h4>
+        <ol style="color: #333; font-size: 14px; line-height: 2; padding-left: 30px; margin: 0;">
+          <li><strong>Realiza</strong> la transferencia o depósito bancario</li>
+          <li><strong>Envía</strong> el comprobante por email o WhatsApp</li>
+          <li><strong>Espera</strong> la confirmación del administrador</li>
+        </ol>
+
+        <div style="background: linear-gradient(135deg, #E8DEF8, #F3E5F5); padding: 18px; border-radius: 14px; margin-top: 24px; border: 2px solid #6750A4; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+          <p style="margin: 0 0 12px; color: #6750A4; font-weight: 700; font-size: 15px;">
+            📧 Contacto para enviar comprobante:
+          </p>
+          <p style="margin: 6px 0; font-size: 14px; color: #333;">
+            <strong>Email:</strong> <a href="mailto:sanluisvillaelisa@gmail.com" style="color: #6750A4; text-decoration: none; font-weight: 600; border-bottom: 2px solid #6750A4;">sanluisvillaelisa@gmail.com</a>
+          </p>
         </div>
       </div>
-
-      <div style="
-        background: linear-gradient(135deg, #E3F2FD, #BBDEFB);
-        border-radius: 12px;
-        padding: 16px;
-        margin-top: 20px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        border-left: 4px solid #2196F3;
-      ">
-        <span class="material-icons" style="color: #1976D2; font-size: 32px;">schedule</span>
-        <p style="margin: 0; color: #1565C0; font-size: 14px; text-align: left;">
-          <strong>Los administradores confirmarán tu pago en breve</strong><br>
-          <span style="font-size: 12px; color: #666;">Recibirás una notificación cuando se confirme</span>
-        </p>
-      </div>
     `,
-    confirmButtonText: 'Entendido',
-    confirmButtonColor: '#6750A4',
-    allowOutsideClick: false,
-    allowEscapeKey: true,
-    width: '600px'
+    confirmButtonText: '✅ Entendido',
+    confirmButtonColor: '#4CAF50',
+    width: '650px',
+    showCloseButton: true
   });
-};
-console.log('🎯 Sistema inicializado correctamente');
+}
 
+
+// ========================================
+// INICIALIZAR BOTÓN DE RESERVA MASIVA
+// ========================================
+
+// 🔥 DEFINIR LA FUNCIÓN PRIMERO (antes del DOMContentLoaded)
+function habilitarBotonReservaMasiva() {
+  console.log('🔍 Intentando habilitar botón...');
+  
+  const btn = document.querySelector('button[onclick*="abrirModalReservaMasiva"]');
+  
+  if (!btn) {
+    console.warn('⚠️ Botón no encontrado en el DOM');
+    return;
+  }
+  
+  if (!rifaData || rifaData.length === 0) {
+    console.warn('⚠️ rifaData vacío, esperando...');
+    return;
+  }
+  
+  btn.disabled = false;
+  btn.innerHTML = '<span class="material-icons">playlist_add_check</span><span>Reservar Varios Números</span>';
+  console.log('✅ Botón de reserva masiva HABILITADO');
+}
+
+// Inicialización al cargar la página
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('📄 DOM cargado, configurando botón masivo...');
+  
+  const btn = document.querySelector('button[onclick*="abrirModalReservaMasiva"]');
+  
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = '<span class="material-icons">hourglass_empty</span><span>Cargando...</span>';
+    
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (!this.disabled) {
+        abrirModalReservaMasiva();
+      } else {
+        console.log('⏳ Botón aún deshabilitado, esperando datos...');
+      }
+    });
+    
+    console.log('✅ Listener del botón configurado');
+  } else {
+    console.error('❌ Botón de reserva masiva NO encontrado en el HTML');
+  }
+  
+  const modal = document.getElementById('modal-reserva-masiva');
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === this) cerrarModalMasivo();
+    });
+    console.log('✅ Modal de reserva masiva configurado');
+  }
+});
+
+// ========================================
+// 🔥 INICIAR CARGA AUTOMÁTICA DE DATOS
+// ========================================
+window.addEventListener('load', function() {
+  console.log('🌐 Página completamente cargada');
+  console.log('🔄 Iniciando carga de datos en modo público...');
+  loadRifaData(false); // false = modo público
+});
+// ========================================
+// LOGS FINALES
+// ========================================
+console.log('🎯 Sistema inicializado correctamente');
 console.log('🚀 Sistema de Rifa iniciado');
 console.log('✅ Auditoría automática activada');
 console.log('✅ Sistema de emails configurado');
 console.log('✅ Historial de cambios habilitado');
 console.log('✅ Búsqueda inteligente activada');
 console.log('✅ Verificación de admins por Firestore');
+console.log('✅ Persistencia de datos activada');
+console.log('✅ Reserva masiva disponible');

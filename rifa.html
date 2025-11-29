@@ -786,6 +786,77 @@
         padding: 10px 16px;
       }
     }
+
+    /* ========================================
+       ESTILOS PARA RESERVA MASIVA
+       ======================================== */
+    .numero-checkbox-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin: 4px;
+      border: 2px solid transparent;
+      background: #f9f9f9;
+    }
+
+    .numero-checkbox-item:hover {
+      background: #f0ebf8;
+    }
+
+    .numero-checkbox-item.checked {
+      background: #E8DEF8;
+      border-color: #6750A4;
+    }
+
+    .numero-checkbox-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #6750A4;
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    .numero-checkbox-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .numero-badge-small {
+      background: linear-gradient(135deg, #6750A4, #4527A0);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      font-size: 13px;
+      min-width: 35px;
+      text-align: center;
+    }
+
+    #numeros-disponibles-masivo::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    #numeros-disponibles-masivo::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    #numeros-disponibles-masivo::-webkit-scrollbar-thumb {
+      background: #6750A4;
+      border-radius: 10px;
+    }
+
+    #numeros-disponibles-masivo::-webkit-scrollbar-thumb:hover {
+      background: #4527A0;
+    }
   </style>
   <!-- Estilos del Listados  -->
   <style>
@@ -1581,8 +1652,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
 <!-- Sistema de Cifrado -->
 <script src="./encryption.js"></script>
+
 <script>
   // ⚠️tu Public Key sistema de mails
   emailjs.init('l3sgGBbIqyzK8_Sfd');
@@ -2123,8 +2196,9 @@ document.addEventListener('DOMContentLoaded', function() {
       return false;
     }
   }
+</script>
 
-
+<script>
 // ========================================
 // PASO 3: SUBMIT MEJORADO DEL FORMULARIO ADMIN
 // REEMPLAZAR el existente en rifa.html
@@ -2961,6 +3035,18 @@ async function reenviarEmail(numeroId) {
         </div>
       </div>
 
+      <!-- Botón de Reserva Masiva -->
+      <div style="margin: 20px 0; text-align: center;">
+        <img src="./rifa/bolsa.png" alt="Reserva Masiva" style=" height: 80px; vertical-align: middle; margin-right: 8px;">
+        <button class="md-button btn-primary" onclick="abrirModalReservaMasiva()" style="width: 100%; max-width: 400px; font-size: 16px; padding: 14px 24px;">
+          <span class="material-icons">playlist_add_check</span>
+          🎯 Reserva Masiva de Números
+        </button>
+        <p style="margin-top: 8px; font-size: 13px; color: #666;">
+            Reserva varios números a la vez con un solo formulario ó elige de a uno sobre la grilla 👇
+        </p>
+      </div>
+
       <div id="public-loading" class="loading">
         <div class="spinner-gif" style="width:80px; height:80px; margin: 0 auto 16px;">
           <img src="./rifa/spinner.gif" alt="Cargando números..." style="max-width:100%; width:100%; height:auto; display:block;">
@@ -3499,6 +3585,90 @@ async function reenviarEmail(numeroId) {
       </form>
     </div>
   </div>
+
+  <!-- ========================================
+       MODAL DE RESERVA MASIVA
+       ======================================== -->
+  <div id="modal-reserva-masiva" class="modal">
+    <div class="modal-content" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3>🎯 Reserva Masiva de Números</h3>
+        <button class="close-btn" onclick="cerrarModalMasivo()">×</button>
+      </div>
+      
+      <div style="background: #E8F5E9; border-left: 4px solid #4CAF50; padding: 12px; border-radius: 8px; margin-bottom: 20px;">
+        <p style="margin: 0; color: #2E7D32; font-size: 14px;">
+          ✨ <strong>Reserva varios números a la vez</strong><br>
+          <span style="font-size: 12px; color: #558B2F;">Ingresa tus datos una sola vez y selecciona todos los números que desees</span>
+        </p>
+      </div>
+      
+      <form id="form-reserva-masiva">
+        <div class="form-group">
+          <label for="masivo-nombre-input">Tu Nombre Completo *</label>
+          <input type="text" id="masivo-nombre-input" placeholder="Ej: Juan Pérez" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="masivo-email-input">Tu Email (opcional)</label>
+          <input type="email" id="masivo-email-input" placeholder="tu@email.com">
+        </div>
+        
+        <div class="form-group">
+          <label for="masivo-dni-input">Tu DNI *</label>
+          <input type="number" id="masivo-dni-input" placeholder="Tu DNI" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Números Disponibles para Reservar</label>
+          <div id="numeros-disponibles-masivo" style="
+            max-height: 350px;
+            overflow-y: auto;
+            border: 2px solid #E7E0EC;
+            border-radius: 12px;
+            padding: 12px;
+            background: #f9f9f9;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+          ">
+            <!-- Se llenarán dinámicamente -->
+          </div>
+          
+          <div id="numeros-seleccionados-info" style="
+            margin-top: 12px;
+            padding: 12px;
+            background: #E8DEF8;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+          ">
+            <strong style="color: #6750A4;">Números seleccionados: <span id="count-seleccionados">0</span></strong>
+          </div>
+        </div>
+        
+        <div class="modal-actions" style="
+          position: sticky;
+          bottom: 0;
+          background: white;
+          padding: 16px 0;
+          margin: 0 -24px -24px -24px;
+          padding-left: 24px;
+          padding-right: 24px;
+          border-top: 1px solid #E7E0EC;
+          box-shadow: 0 -2px 8px rgba(0,0,0,0.05);
+        ">
+          <button type="submit" class="md-button btn-primary">
+            <span class="material-icons">check_circle</span>
+            Reservar Números Seleccionados
+          </button>
+          <button type="button" class="md-button btn-secondary" onclick="cerrarModalMasivo()">
+            Cancelar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
  
 </section>
 
@@ -3984,67 +4154,85 @@ document.getElementById('btn-como-llegar').addEventListener('click', function() 
 
 <script src="./pdf.js"></script>
 <!-- Inicialización del Sistema de Cifrado -->
-
-
 <script>
+// Esperar a que Firebase esté listo antes de cargar datos cifrados
 window.addEventListener('load', function() {
-  console.log('🔐 Inicializando sistema de cifrado...');
+  console.log('🔐 Preparando sistema de cifrado...');
   
-  // Verificar disponibilidad
-  if (typeof window.SistemaCifrado === 'undefined') {
-    console.error('❌ Sistema de cifrado no disponible');
-    return;
-  }
-  
-  // Renderizar header con datos cifrados (SIN await, usando .then())
-  window.SistemaCifrado.renderizarHeaderRifa()
-    .then(function() {
-      console.log('✅ Header cargado con datos cifrados');
-    })
-    .catch(function(error) {
-      console.error('❌ Error al cargar header:', error);
-    });
-  
-  // Configurar botón admin
-  var btnActualizar = document.getElementById('btn-actualizar-datos-pago');
-  
-  if (btnActualizar) {
-    btnActualizar.onclick = function() {
-      window.SistemaCifrado.mostrarPanelActualizarDatosPago();
-    };
+  // Esperar a que db esté disponible
+  function intentarInicializarCifrado(intentos) {
+    if (intentos <= 0) {
+      console.warn('⚠️ Sistema de cifrado: Firebase no disponible después de varios intentos');
+      console.log('ℹ️ La página continuará funcionando sin datos de pago cifrados');
+      return;
+    }
     
-    // Mostrar solo a admins
-    if (typeof auth !== 'undefined') {
-      auth.onAuthStateChanged(function(user) {
-        if (user && typeof esAdmin === 'function') {
-          esAdmin(user.email)
-            .then(function(isAdminUser) {
-              if (isAdminUser && btnActualizar) {
-                btnActualizar.style.display = 'inline-flex';
-                console.log('✅ Botón de actualización visible');
-              }
-            })
-            .catch(function(error) {
-              console.error('Error verificando admin:', error);
-            });
+    if (typeof db === 'undefined' || typeof window.SistemaCifrado === 'undefined') {
+      console.log('⏳ Esperando Firebase y Sistema de Cifrado... (intentos restantes: ' + intentos + ')');
+      setTimeout(() => intentarInicializarCifrado(intentos - 1), 1000);
+      return;
+    }
+    
+    console.log('✅ Firebase y Sistema de Cifrado disponibles, inicializando...');
+    
+    // Renderizar header con datos cifrados
+    window.SistemaCifrado.renderizarHeaderRifa()
+      .then(function() {
+        console.log('✅ Header cargado con datos de pago');
+      })
+      .catch(function(error) {
+        console.error('❌ Error al cargar header cifrado:', error);
+        // Mostrar mensaje en el contenedor
+        const container = document.querySelector('.rifa-header-redesign');
+        if (container) {
+          console.log('ℹ️ Mostrando mensaje de error en el header');
         }
       });
+    
+    // Configurar botón admin
+    var btnActualizar = document.getElementById('btn-actualizar-datos-pago');
+    
+    if (btnActualizar) {
+      btnActualizar.onclick = function() {
+        if (typeof window.SistemaCifrado !== 'undefined') {
+          window.SistemaCifrado.mostrarPanelActualizarDatosPago();
+        } else {
+          Swal.fire({
+            icon: 'warning',
+            title: 'No Disponible',
+            text: 'El sistema de cifrado no está disponible'
+          });
+        }
+      };
+      
+      // Mostrar solo a admins
+      if (typeof auth !== 'undefined') {
+        auth.onAuthStateChanged(function(user) {
+          if (user && typeof esAdmin === 'function') {
+            esAdmin(user.email)
+              .then(function(isAdminUser) {
+                if (isAdminUser && btnActualizar) {
+                  btnActualizar.style.display = 'inline-flex';
+                  console.log('✅ Botón de actualización de datos de pago visible para admin');
+                }
+              })
+              .catch(function(error) {
+                console.error('Error verificando admin:', error);
+              });
+          }
+        });
+      }
     }
   }
-});
-</script>
-<script>
-// Verificar carga del sistema al final
-document.addEventListener('DOMContentLoaded', function() {
-  if (typeof window.SistemaCifrado === 'undefined') {
-    console.error('❌ Sistema de cifrado NO cargado');
-  } else {
-    console.log('✅ Sistema de cifrado disponible');
-  }
+  
+  // Iniciar intentos (20 intentos = 20 segundos)
+  intentarInicializarCifrado(20);
 });
 </script>
 
+<!-- Cargar rifa.js al final del body, ANTES del sistema de verificación QR -->
 <script src="./rifa.js"></script>
+
 <script>
   // ========================================
 // SISTEMA DE VERIFICACIÓN QR
