@@ -275,7 +275,12 @@ async function renderizarHeaderRifa() {
 
       <div class="visual-section">
       <div class="mascot-card">
-      <img src="./rifa/rifi-premio2.png" alt="Mascota Rifi">
+        <!-- Video cíclico reemplazando la imagen -->
+      <video autoplay loop muted playsinline style="box-shadow: none !important; display: block; margin: 0 auto; max-width: 100%; height: auto; max-height: 80vh; object-fit: contain;">
+      <source src="./rifa/rifis-presentation.mp4" type="video/mp4">
+      Tu navegador no soporta el elemento de video.
+      </video>
+
       <p class="mascot-caption">🎟️ ¡Elegí tu número!</p>
       </div>
 
