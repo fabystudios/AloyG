@@ -1,0 +1,317 @@
+<!-- 
+═══════════════════════════════════════════════════════════════
+  TEMPLATES DE EMAIL PARA EMAILJS - RIFA SAN LUIS GONZAGA
+═══════════════════════════════════════════════════════════════
+
+  INSTRUCCIONES:
+  1. Ve a https://dashboard.emailjs.com/
+  2. Selecciona tu servicio: service_7lbeylp
+  3. Crea/edita los templates según el código de abajo
+  
+═══════════════════════════════════════════════════════════════
+-->
+
+<!-- 
+═══════════════════════════════════════════════════════════════
+  TEMPLATE 1: PAGO INDIVIDUAL
+  ID: template_egop7d7
+  Subject: 🎉 ¡Confirmación de Pago - Rifa San Luis Gonzaga!
+═══════════════════════════════════════════════════════════════
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      background: #f5f5f5; 
+      margin: 0; 
+      padding: 20px; 
+    }
+    .container { 
+      max-width: 600px; 
+      margin: 0 auto; 
+      background: white; 
+      border-radius: 12px; 
+      overflow: hidden; 
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
+    }
+    .header { 
+      background: linear-gradient(135deg, #6750A4 0%, #4527A0 100%); 
+      color: white; 
+      padding: 30px 20px; 
+      text-align: center; 
+    }
+    .content { 
+      padding: 30px 20px; 
+    }
+    .numero-box { 
+      background: linear-gradient(135deg, #E8DEF8, #F3E5F5); 
+      border: 3px solid #6750A4; 
+      border-radius: 12px; 
+      padding: 20px; 
+      text-align: center; 
+      margin: 20px 0; 
+    }
+    .numero { 
+      font-size: 48px; 
+      font-weight: 900; 
+      color: #6750A4; 
+    }
+    .btn { 
+      display: inline-block; 
+      background: #6750A4; 
+      color: white; 
+      padding: 14px 32px; 
+      border-radius: 8px; 
+      text-decoration: none; 
+      font-weight: bold; 
+      margin-top: 20px; 
+    }
+    .footer { 
+      background: #f9f9f9; 
+      padding: 20px; 
+      text-align: center; 
+      color: #666; 
+      font-size: 13px; 
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0; font-size: 28px;">🎉 ¡Pago Confirmado!</h1>
+      <p style="margin: 8px 0 0; font-size: 16px; opacity: 0.9;">Rifa San Luis Gonzaga</p>
+    </div>
+    
+    <div class="content">
+      <p style="font-size: 18px; margin: 0 0 20px;">Hola <strong>{{to_name}}</strong>,</p>
+      
+      <p style="color: #333; line-height: 1.6;">
+        ✅ <strong>Tu pago ha sido confirmado exitosamente.</strong><br>
+        Ya estás participando por el sorteo de la Rifa San Luis Gonzaga.
+      </p>
+      
+      <div class="numero-box">
+        <p style="margin: 0 0 8px; color: #6750A4; font-weight: 600;">Tu Número de la Suerte:</p>
+        <div class="numero">{{numero}}</div>
+      </div>
+      
+      <div style="background: #FFF3E0; border-left: 4px solid #FF9800; padding: 16px; border-radius: 8px; margin: 20px 0;">
+        <p style="margin: 0; color: #E65100; font-size: 14px;">
+          📅 <strong>Fecha del Sorteo:</strong><br>
+          {{fecha_sorteo}}
+        </p>
+      </div>
+      
+      <div style="background: #E8F5E9; border-left: 4px solid #4CAF50; padding: 16px; border-radius: 8px;">
+        <p style="margin: 0 0 8px; color: #1B5E20; font-weight: 600;">📋 Datos de tu participación:</p>
+        <p style="margin: 4px 0; color: #2E7D32; font-size: 14px;">
+          • <strong>Nombre:</strong> {{to_name}}<br>
+          • <strong>DNI:</strong> {{dni}}<br>
+          • <strong>Número:</strong> {{numero}}
+        </p>
+      </div>
+      
+      <div style="text-align: center;">
+        <a href="{{link_ticket}}" class="btn">🎫 Ver Mi Ticket</a>
+      </div>
+      
+      <p style="margin-top: 24px; color: #666; font-size: 14px; line-height: 1.6;">
+        <strong>¡Mucha suerte! 🍀</strong><br>
+        Guardá este email para verificar tu participación.
+      </p>
+    </div>
+    
+    <div class="footer">
+      <p style="margin: 0 0 8px;">Parroquia San Luis Gonzaga</p>
+      <p style="margin: 0; font-size: 12px;">📧 Cualquier consulta, respondé este email</p>
+    </div>
+  </div>
+</body>
+</html>
+
+<!-- 
+═══════════════════════════════════════════════════════════════
+  VARIABLES DEL TEMPLATE INDIVIDUAL:
+  - {{to_name}}        : Nombre del participante
+  - {{to_email}}       : Email destino
+  - {{numero}}         : Número individual (ej: "042")
+  - {{dni}}            : DNI del participante
+  - {{link_ticket}}    : Link al ticket
+  - {{fecha_sorteo}}   : Fecha del sorteo
+═══════════════════════════════════════════════════════════════
+-->
+
+<!-- 
+═══════════════════════════════════════════════════════════════
+  TEMPLATE 2: PAGO MASIVO
+  ID: template_masivo_pago (CREAR NUEVO)
+  Subject: 🎉 ¡Confirmación de Pago - {{cantidad_numeros}} Números!
+═══════════════════════════════════════════════════════════════
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      background: #f5f5f5; 
+      margin: 0; 
+      padding: 20px; 
+    }
+    .container { 
+      max-width: 600px; 
+      margin: 0 auto; 
+      background: white; 
+      border-radius: 12px; 
+      overflow: hidden; 
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
+    }
+    .header { 
+      background: linear-gradient(135deg, #6750A4 0%, #4527A0 100%); 
+      color: white; 
+      padding: 30px 20px; 
+      text-align: center; 
+    }
+    .content { 
+      padding: 30px 20px; 
+    }
+    .numeros-box { 
+      background: linear-gradient(135deg, #E8DEF8, #F3E5F5); 
+      border: 3px solid #6750A4; 
+      border-radius: 12px; 
+      padding: 20px; 
+      text-align: center; 
+      margin: 20px 0; 
+    }
+    .cantidad { 
+      font-size: 42px; 
+      font-weight: 900; 
+      color: #6750A4; 
+      margin-bottom: 12px; 
+    }
+    .lista-numeros { 
+      background: white; 
+      padding: 16px; 
+      border-radius: 8px; 
+      font-size: 18px; 
+      font-weight: 700; 
+      color: #6750A4; 
+      word-wrap: break-word; 
+    }
+    .btn { 
+      display: inline-block; 
+      background: #6750A4; 
+      color: white; 
+      padding: 14px 32px; 
+      border-radius: 8px; 
+      text-decoration: none; 
+      font-weight: bold; 
+      margin-top: 20px; 
+    }
+    .footer { 
+      background: #f9f9f9; 
+      padding: 20px; 
+      text-align: center; 
+      color: #666; 
+      font-size: 13px; 
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1 style="margin: 0; font-size: 28px;">🎉 ¡Pago Masivo Confirmado!</h1>
+      <p style="margin: 8px 0 0; font-size: 16px; opacity: 0.9;">Rifa San Luis Gonzaga</p>
+    </div>
+    
+    <div class="content">
+      <p style="font-size: 18px; margin: 0 0 20px;">Hola <strong>{{to_name}}</strong>,</p>
+      
+      <p style="color: #333; line-height: 1.6;">
+        ✅ <strong>Tu pago ha sido confirmado exitosamente.</strong><br>
+        Ya estás participando con <strong>múltiples números</strong> en el sorteo.
+      </p>
+      
+      <div class="numeros-box">
+        <div class="cantidad">{{cantidad_numeros}} Números</div>
+        <p style="margin: 0 0 12px; color: #6750A4; font-weight: 600;">Tus Números de la Suerte:</p>
+        <div class="lista-numeros">{{numeros}}</div>
+      </div>
+      
+      <div style="background: #FFF3E0; border-left: 4px solid #FF9800; padding: 16px; border-radius: 8px; margin: 20px 0;">
+        <p style="margin: 0; color: #E65100; font-size: 14px;">
+          📅 <strong>Fecha del Sorteo:</strong><br>
+          {{fecha_sorteo}}
+        </p>
+      </div>
+      
+      <div style="background: #E8F5E9; border-left: 4px solid #4CAF50; padding: 16px; border-radius: 8px;">
+        <p style="margin: 0 0 8px; color: #1B5E20; font-weight: 600;">📋 Datos de tu participación:</p>
+        <p style="margin: 4px 0; color: #2E7D32; font-size: 14px;">
+          • <strong>Nombre:</strong> {{to_name}}<br>
+          • <strong>DNI:</strong> {{dni}}<br>
+          • <strong>Cantidad de números:</strong> {{cantidad_numeros}}
+        </p>
+      </div>
+      
+      <div style="text-align: center;">
+        <a href="{{link_ticket}}" class="btn">🎫 Ver Todos Mis Números</a>
+      </div>
+      
+      <p style="margin-top: 24px; color: #666; font-size: 14px; line-height: 1.6;">
+        <strong>¡Mucha suerte con todos tus números! 🍀</strong><br>
+        Guardá este email para verificar tu participación.
+      </p>
+    </div>
+    
+    <div class="footer">
+      <p style="margin: 0 0 8px;">Parroquia San Luis Gonzaga</p>
+      <p style="margin: 0; font-size: 12px;">📧 Cualquier consulta, respondé este email</p>
+    </div>
+  </div>
+</body>
+</html>
+
+<!-- 
+═══════════════════════════════════════════════════════════════
+  VARIABLES DEL TEMPLATE MASIVO:
+  - {{to_name}}          : Nombre del participante
+  - {{to_email}}         : Email destino
+  - {{numeros}}          : Lista de números (ej: "042, 087, 153")
+  - {{cantidad_numeros}} : Cantidad total (ej: "3")
+  - {{dni}}              : DNI del participante
+  - {{link_ticket}}      : Link al ticket consolidado
+  - {{fecha_sorteo}}     : Fecha del sorteo
+═══════════════════════════════════════════════════════════════
+-->
+
+<!-- 
+═══════════════════════════════════════════════════════════════
+  PASOS PARA CONFIGURAR EN EMAILJS:
+  
+  1. TEMPLATE INDIVIDUAL (ya existe - template_egop7d7):
+     - Copiar el HTML del primer template
+     - Asegurarse que las variables estén correctas
+     
+  2. TEMPLATE MASIVO (crear nuevo):
+     - Ir a EmailJS Dashboard
+     - Email Templates → Create New Template
+     - Name: "Confirmación Pago Masivo"
+     - Template ID: template_masivo_pago
+     - Subject: 🎉 ¡Confirmación de Pago - {{cantidad_numeros}} Números!
+     - Copiar el HTML del segundo template
+     - Save
+     
+  3. VERIFICAR VARIABLES:
+     - Hacer click en "Test it" en EmailJS
+     - Llenar las variables de ejemplo
+     - Enviar email de prueba
+     
+═══════════════════════════════════════════════════════════════
+-->

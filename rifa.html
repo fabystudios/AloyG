@@ -3442,9 +3442,13 @@ async function reenviarEmail(numeroId) {
       <span class="material-icons" style="font-size: 18px;">table_chart</span>
       Exportar Excel
     </button>
-    <button id="btn-export-pdf" class="btn-export btn-export-pdf"  style="border-radius: 999px; padding: 10px 28px;">
+    <button id="btn-export-pdf" class="btn-export btn-export-pdf" style="border-radius: 999px; padding: 10px 28px;">
       <span class="material-icons">picture_as_pdf</span>
       Exportar PDF
+    </button>
+    <button class="btn-export" onclick="enviarEmailsMasivos()" style="border-radius: 999px; padding: 10px 28px; background: linear-gradient(135deg, #6750A4, #7E57C2); color: white; border: none;">
+      <span class="material-icons" style="font-size: 18px;">forward_to_inbox</span>
+      Enviar Emails Pendientes
     </button>
   </div>
 
@@ -3537,21 +3541,8 @@ async function reenviarEmail(numeroId) {
           <label for="admin-dni-input">DNI del Pagador</label>
           <input type="number" id="admin-dni-input" placeholder="Ingrese el DNI">
         </div>
-        <div class="form-group" style="display: none;">
-          <label for="admin-nro_op-input">Número de Operación</label>
-          <input type="number" id="admin-nro_op-input" placeholder="Ingrese el Número de transacción"
-            oninput="(function(el){
-              const v = el.value ? el.value.trim() : '';
-              const estadoSel = document.getElementById('admin-estado-select');
-              const registrado = document.getElementById('admin-registrado');
-              if (v !== '') {
-          estadoSel.value = '3';
-          registrado.value = (window.currentUser && (currentUser.displayName || currentUser.email)) || 'Manual';
-              } else {
-          registrado.value = '';
-              }
-            })(this);">
-        </div>
+        <!-- Campo nro_op oculto - se mantiene en BD pero no se usa en el form -->
+        <input type="hidden" id="admin-nro_op-input">
 
         <!-- Campo oculto para registrar quién ingresó la operación -->
         <input type="hidden" id="admin-registrado" name="admin_registrado" value="">

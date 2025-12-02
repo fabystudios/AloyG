@@ -1070,8 +1070,118 @@ document.getElementById('admin-form').onsubmit = async function(e) {
     };
     
     let esPrimerRegistroPago = false;
+    let confirmarMasivo = false;
     
-    if (nro_op && !dataActual.nro_op) {
+    // Detectar si está cambiando de Reservado (2) a Pagado (3)
+    const esCambioPago = dataActual.state === 2 && state === 3;
+    
+    if (esCambioPago) {
+      // Es un primer registro de pago - verificar si hay otros números del mismo DNI
+      if (dni) {
+        const otrosNumerosMismoDNI = rifaData.filter(item => 
+          item.dni === dni && 
+          item.state === 2 && // Solo reservados
+          item.id !== editingId && // Excluir el actual
+          item.email === email // Mismo email
+        );
+        
+        if (otrosNumerosMismoDNI.length > 0) {
+          console.log(`🔍 Encontrados ${otrosNumerosMismoDNI.length} números más con DNI ${dni}`);
+          
+          // Crear lista de checkboxes para selección
+          const todosLosNumeros = [
+            { ...dataActual, id: editingId, esActual: true },
+            ...otrosNumerosMismoDNI.map(n => ({ ...n, esActual: false }))
+          ].sort((a, b) => a.numero - b.numero);
+          
+          const checkboxesHTML = todosLosNumeros.map(item => `
+            <label style="display: flex; align-items: center; padding: 10px; background: ${item.esActual ? '#E8F5E9' : '#f9f9f9'}; border-radius: 8px; margin-bottom: 8px; cursor: pointer; border: 2px solid ${item.esActual ? '#4CAF50' : '#E0E0E0'};">
+              <input type="checkbox" 
+                     class="numero-checkbox-pago" 
+                     value="${item.id}" 
+                     data-numero="${item.numero}"
+                     ${item.esActual ? 'checked disabled' : 'checked'}
+                     style="margin-right: 12px; width: 18px; height: 18px; cursor: pointer;">
+              <div style="flex: 1;">
+                <span style="font-weight: 700; color: #6750A4; font-size: 16px;">
+                  ${String(item.numero).padStart(3, '0')}
+                </span>
+                ${item.esActual ? '<span style="margin-left: 8px; padding: 2px 8px; background: #4CAF50; color: white; font-size: 11px; border-radius: 4px; font-weight: 600;">ACTUAL</span>' : ''}
+              </div>
+            </label>
+          `).join('');
+          
+          const result = await Swal.fire({
+            icon: 'question',
+            title: '🎯 Seleccionar Números a Confirmar',
+            html: `
+              <div style="text-align: left; padding: 16px;">
+                <p style="margin-bottom: 16px; color: #666;">
+                  Se detectaron <strong>${otrosNumerosMismoDNI.length + 1}</strong> números reservados con el DNI <strong>${dni}</strong>.
+                  <br><span style="font-size: 13px; color: #999;">Seleccioná cuáles confirmar como pagados:</span>
+                </p>
+                <div id="numeros-container" style="max-height: 300px; overflow-y: auto; margin-bottom: 16px;">
+                  ${checkboxesHTML}
+                </div>
+                <div style="background: #E3F2FD; padding: 12px; border-radius: 8px; border-left: 4px solid #2196F3;">
+                  <p style="margin: 0; color: #1976D2; font-size: 13px;">
+                    💡 <strong>Tip:</strong> Se enviará un email ${otrosNumerosMismoDNI.length > 0 ? 'masivo si confirmás varios, o individual si confirmás solo uno' : 'con el número seleccionado'}.
+                  </p>
+                </div>
+              </div>
+            `,
+            showDenyButton: true,
+            showCancelButton: true,
+            confirmButtonText: '✅ Confirmar Seleccionados',
+            denyButtonText: '📝 Solo el Actual',
+            cancelButtonText: 'Cancelar',
+            confirmButtonColor: '#6750A4',
+            denyButtonColor: '#999',
+            width: '600px',
+            customClass: {
+              htmlContainer: 'swal-checkbox-container'
+            }
+          });
+          
+          if (result.isDismissed) {
+            currentEditingId = null;
+            return;
+          }
+          
+          if (result.isConfirmed) {
+            // Obtener IDs seleccionados
+            const checkboxes = document.querySelectorAll('.numero-checkbox-pago:checked');
+            const idsSeleccionados = Array.from(checkboxes)
+              .map(cb => cb.value)
+              .filter(id => id !== editingId); // Excluir el actual, se confirma siempre
+            
+            if (idsSeleccionados.length > 0) {
+              confirmarMasivo = true;
+              
+              // Actualizar los números seleccionados
+              const batch = db.batch();
+              
+              for (const id of idsSeleccionados) {
+                const docRef = db.collection('rifa').doc(id);
+                batch.update(docRef, {
+                  state: 3,
+                  nro_op: nro_op || null,
+                  admin_registro_pago: adminActual,
+                  fecha_pago: firebase.firestore.FieldValue.serverTimestamp(),
+                  ultima_modificacion: firebase.firestore.FieldValue.serverTimestamp(),
+                  ultimo_admin: adminActual,
+                  confirmado_masivo: true
+                });
+              }
+              
+              await batch.commit();
+              console.log(`✅ ${idsSeleccionados.length} números adicionales confirmados`);
+            }
+          }
+          // Si eligió "Solo el Actual", no hace nada más, confirma solo el número actual
+        }
+      }
+      
       updateData.admin_registro_pago = adminActual;
       updateData.fecha_pago = firebase.firestore.FieldValue.serverTimestamp();
       updateData.state = 3;
@@ -1132,26 +1242,76 @@ document.getElementById('admin-form').onsubmit = async function(e) {
     let emailPromise = null;
     
     if (esPrimerRegistroPago && email) {
-      console.log('📧 Enviando email en segundo plano...');
+      console.log('📧 Preparando envío de email...');
       
-      const numeroData = {
-        id: editingId,
-        numero: dataActual.numero,
-        nombre: nombre,
-        email: email,
-        dni: dni,
-        nro_op: nro_op
-      };
-      
-      emailPromise = enviarEmailCertificado(numeroData).then(async (enviado) => {
-        if (enviado) {
-          await db.collection('rifa').doc(editingId).update({
-            email_enviado: true,
-            email_enviado_fecha: firebase.firestore.FieldValue.serverTimestamp()
-          });
-        }
-        return enviado;
-      });
+      if (confirmarMasivo) {
+        // Fue confirmación masiva - obtener todos los números del DNI que ahora están pagados
+        console.log('🎯 Confirmación masiva - buscando todos los números pagados del DNI');
+        
+        const todosMismoDNI = rifaData.filter(item => 
+          item.dni === dni && 
+          item.state === 3 &&
+          item.email === email
+        );
+        
+        // Recargar datos actualizados de Firestore
+        const promises = todosMismoDNI.map(item => 
+          db.collection('rifa').doc(item.id).get()
+        );
+        const docs = await Promise.all(promises);
+        const datosActualizados = docs.map(doc => ({ id: doc.id, ...doc.data() }))
+          .filter(d => d.state === 3);
+        
+        console.log(`📊 Enviando email masivo con ${datosActualizados.length} números`);
+        
+        const numerosData = datosActualizados.map(item => ({
+          id: item.id,
+          numero: item.numero,
+          nombre: nombre,
+          email: email,
+          dni: dni,
+          nro_op: nro_op
+        }));
+        
+        emailPromise = enviarEmailCertificadoMasivo(numerosData).then(async (enviado) => {
+          if (enviado) {
+            // Marcar TODOS los números como email enviado
+            const batch = db.batch();
+            for (const item of datosActualizados) {
+              batch.update(db.collection('rifa').doc(item.id), {
+                email_enviado: true,
+                email_enviado_fecha: firebase.firestore.FieldValue.serverTimestamp(),
+                email_masivo: true
+              });
+            }
+            await batch.commit();
+            console.log(`✅ Marcados ${datosActualizados.length} números como email enviado`);
+          }
+          return enviado;
+        });
+      } else {
+        // Pago individual - email normal
+        console.log('📧 Pago individual - enviando email normal');
+        
+        const numeroData = {
+          id: editingId,
+          numero: dataActual.numero,
+          nombre: nombre,
+          email: email,
+          dni: dni,
+          nro_op: nro_op
+        };
+        
+        emailPromise = enviarEmailCertificado(numeroData).then(async (enviado) => {
+          if (enviado) {
+            await db.collection('rifa').doc(editingId).update({
+              email_enviado: true,
+              email_enviado_fecha: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          }
+          return enviado;
+        });
+      }
     }
     
     renderDataTable();
@@ -1161,10 +1321,20 @@ document.getElementById('admin-form').onsubmit = async function(e) {
       <p style="font-size: 13px; color: #666;">Registrado por: ${adminActual}</p>
     `;
     
+    if (confirmarMasivo) {
+      mensajeExito += `
+        <p style="margin-top: 12px; padding: 10px; background: #E8F5E9; border-radius: 8px; color: #2E7D32;">
+          🎯 <strong>Confirmación Masiva Exitosa</strong><br>
+          Se confirmaron todos los números del DNI ${dni}
+        </p>
+      `;
+    }
+    
     if (esPrimerRegistroPago && email) {
+      const tipoEmail = confirmarMasivo ? 'masivo con todos los números' : 'de confirmación';
       mensajeExito += `
         <p style="margin-top: 12px; padding: 10px; background: #E3F2FD; border-radius: 8px; color: #1976D2;">
-          📧 Enviando email de confirmación a:<br><strong>${email}</strong>
+          📧 Enviando email ${tipoEmail} a:<br><strong>${email}</strong>
           <br><small style="font-size: 11px; color: #666;">El envío se está procesando...</small>
         </p>
       `;
@@ -1216,6 +1386,64 @@ document.getElementById('admin-form').onsubmit = async function(e) {
 // ========================================
 // ENVÍO DE EMAILS
 // ========================================
+async function enviarEmailCertificadoMasivo(numerosData) {
+  try {
+    if (!numerosData || numerosData.length === 0) return false;
+    
+    const primerNumero = numerosData[0];
+    
+    console.log('📧 Preparando email MASIVO para:', primerNumero.email);
+    console.log('📋 Números incluidos:', numerosData.length);
+    
+    if (typeof emailjs === 'undefined') {
+      console.error('❌ EmailJS no está cargado');
+      return false;
+    }
+    
+    if (!primerNumero.email || primerNumero.email.trim() === '') {
+      console.error('❌ Email vacío o inválido');
+      return false;
+    }
+    
+    // Crear lista de números para el email
+    const listaNumeros = numerosData
+      .map(n => n.numero.toString().padStart(3, '0'))
+      .sort((a, b) => a - b)
+      .join(', ');
+    
+    // Crear IDs para el ticket consolidado
+    const idsTicket = numerosData.map(n => n.id).join(',');
+    
+    const templateParams = {
+      to_email: primerNumero.email,
+      reply_to: primerNumero.email,
+      user_email: primerNumero.email,
+      to_name: primerNumero.nombre,
+      numeros: listaNumeros,
+      cantidad_numeros: numerosData.length,
+      dni: primerNumero.dni || 'N/A',
+      link_ticket: `https://sanluisgonzaga.ar/ticket.html?ids=${idsTicket}`,
+      fecha_sorteo: '22 de Diciembre 2025 - Loteria Nacional Vespertina'
+    };
+
+    console.log('📤 Enviando email masivo con:', templateParams);
+
+    // Usar template específico para pagos masivos
+    const response = await emailjs.send(
+      'service_7lbeylp',
+      'template_masivo_pago', // ⚠️ NUEVO TEMPLATE - crear en EmailJS
+      templateParams
+    );
+
+    console.log('✅ Email masivo enviado exitosamente');
+    return true;
+    
+  } catch (error) {
+    console.error('❌ Error al enviar email masivo:', error);
+    return false;
+  }
+}
+
 async function enviarEmailCertificado(numeroData) {
   try {
     console.log('📧 Preparando email para:', numeroData.email);
@@ -1238,7 +1466,6 @@ async function enviarEmailCertificado(numeroData) {
       to_name: numeroData.nombre,
       numero: numeroData.numero.toString().padStart(3, '0'),
       dni: numeroData.dni || 'N/A',
-      nro_op: numeroData.nro_op || 'N/A',
       link_ticket: `https://sanluisgonzaga.ar/ticket.html?id=${numeroData.id}`,
       fecha_sorteo: '22 de Diciembre 2025 - Loteria Nacional Vespertina'
     };
@@ -1247,7 +1474,7 @@ async function enviarEmailCertificado(numeroData) {
 
     const response = await emailjs.send(
       'service_7lbeylp',
-      'template_egop7d7',
+      'template_egop7d7', // Template para pago individual
       templateParams
     );
 
@@ -1714,6 +1941,123 @@ document.getElementById('search-input').addEventListener('input', function(e) {
 // ========================================
 // EXPORTAR A EXCEL
 // ========================================
+
+async function enviarEmailsMasivos() {
+  try {
+    const pagadosSinEmail = rifaData.filter(item => 
+      item.state === 3 && 
+      item.email && 
+      !item.email_enviado
+    );
+    
+    if (pagadosSinEmail.length === 0) {
+      Swal.fire({
+        icon: 'info',
+        title: 'Sin Pendientes',
+        html: `
+          <p>No hay emails pendientes de envío.</p>
+          <p style="font-size: 13px; color: #666;">Todos los pagos con email ya fueron notificados.</p>
+        `,
+        confirmButtonText: 'OK'
+      });
+      return;
+    }
+    
+    const sinEmail = rifaData.filter(item => item.state === 3 && !item.email).length;
+    
+    const result = await Swal.fire({
+      icon: 'question',
+      title: '📧 Envío Masivo de Emails',
+      html: `
+        <div style="text-align: left; padding: 16px;">
+          <p><strong>Resumen:</strong></p>
+          <ul style="margin: 12px 0;">
+            <li>✅ ${pagadosSinEmail.length} email(s) pendiente(s) de envío</li>
+            ${sinEmail > 0 ? `<li>⚠️ ${sinEmail} número(s) sin email registrado</li>` : ''}
+          </ul>
+          <p style="margin-top: 16px;">¿Enviar emails a todos los pendientes?</p>
+        </div>
+      `,
+      showCancelButton: true,
+      confirmButtonText: `Sí, Enviar ${pagadosSinEmail.length} Email${pagadosSinEmail.length !== 1 ? 's' : ''}`,
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#6750A4'
+    });
+    
+    if (!result.isConfirmed) return;
+    
+    Swal.fire({
+      title: 'Enviando Emails...',
+      html: `
+        <div class="spinner"></div>
+        <p style="margin-top: 16px;">Procesando <span id="email-progress">0</span>/${pagadosSinEmail.length}</p>
+      `,
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      didOpen: () => Swal.showLoading()
+    });
+    
+    let enviados = 0;
+    let fallidos = 0;
+    
+    for (let i = 0; i < pagadosSinEmail.length; i++) {
+      const item = pagadosSinEmail[i];
+      document.getElementById('email-progress').textContent = i + 1;
+      
+      const numeroData = {
+        id: item.id,
+        numero: item.numero,
+        nombre: item.nombre,
+        email: item.email,
+        dni: item.dni,
+        nro_op: item.nro_op
+      };
+      
+      const enviado = await enviarEmailCertificado(numeroData);
+      
+      if (enviado) {
+        await db.collection('rifa').doc(item.id).update({
+          email_enviado: true,
+          email_enviado_fecha: firebase.firestore.FieldValue.serverTimestamp(),
+          email_enviado_masivo: true
+        });
+        enviados++;
+      } else {
+        fallidos++;
+      }
+      
+      // Pausa de 500ms entre emails para no saturar
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+    
+    await Swal.fire({
+      icon: enviados > 0 ? 'success' : 'error',
+      title: 'Proceso Completado',
+      html: `
+        <div style="text-align: left; padding: 16px;">
+          <p><strong>Resultados:</strong></p>
+          <ul style="margin: 12px 0;">
+            <li style="color: #2E7D32;">✅ ${enviados} email(s) enviado(s)</li>
+            ${fallidos > 0 ? `<li style="color: #C62828;">❌ ${fallidos} email(s) fallido(s)</li>` : ''}
+          </ul>
+        </div>
+      `,
+      confirmButtonText: 'Entendido'
+    });
+    
+    renderDataTable();
+    
+  } catch (error) {
+    console.error('Error en envío masivo:', error);
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: error.message,
+      confirmButtonText: 'OK'
+    });
+  }
+}
+
 function exportToExcel() {
   const data = rifaData.filter(item => 
     currentTab === 'reservados' ? item.state === 2 : item.state === 3

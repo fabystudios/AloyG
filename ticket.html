@@ -864,26 +864,58 @@ function formatearDNI(dni) {
 // CARGAR DATOS DESDE FIREBASE
 // ========================================
 function cargarDatosTicket(data) {
-  ticketData = {
-    numero: data.numero.toString().padStart(3, '0'),
-    nombreCompleto: data.nombre,
-    nombrePila: obtenerSoloNombre(data.nombre),
-    dni: data.dni,
-    email: data.email || 'No proporcionado',
-  };
+  // Si es pago masivo
+  if (data.es_masivo && data.numeros_masivos) {
+    const numerosFormateados = data.numeros_masivos.map(n => String(n).padStart(3, '0')).join(', ');
+    
+    ticketData = {
+      numero: numerosFormateados,
+      numeroUnico: data.numero.toString().padStart(3, '0'), // Para QR
+      nombreCompleto: data.nombre,
+      nombrePila: obtenerSoloNombre(data.nombre),
+      dni: data.dni,
+      email: data.email || 'No proporcionado',
+      esMasivo: true,
+      cantidadNumeros: data.cantidad_numeros
+    };
+    
+    // Actualizar ticket certificado - MÚLTIPLES NÚMEROS
+    document.getElementById('numero-cert').innerHTML = `
+      <div style="background: rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 8px; margin-top: 8px;">
+        ${data.cantidad_numeros} números: <strong>${numerosFormateados}</strong>
+      </div>
+    `;
+    document.getElementById('numero-redes').innerHTML = `
+      <div style="background: rgba(255,255,255,0.2); padding: 8px 12px; border-radius: 8px; margin-top: 8px;">
+        ${data.cantidad_numeros} números: <strong>${numerosFormateados}</strong>
+      </div>
+    `;
+  } else {
+    // Pago individual
+    ticketData = {
+      numero: data.numero.toString().padStart(3, '0'),
+      nombreCompleto: data.nombre,
+      nombrePila: obtenerSoloNombre(data.nombre),
+      dni: data.dni,
+      email: data.email || 'No proporcionado',
+      esMasivo: false
+    };
+    
+    // Actualizar ticket certificado
+    document.getElementById('numero-cert').textContent = ticketData.numero;
+    document.getElementById('numero-redes').textContent = ticketData.numero;
+  }
   
-  // Actualizar ticket certificado (CON DATOS OCULTOS)
-  document.getElementById('numero-cert').textContent = ticketData.numero;
+  // Datos comunes (nombre, DNI, email)
   document.getElementById('nombre-cert').textContent = ticketData.nombrePila;
   document.getElementById('dni-cert').textContent = ocultarDNI(ticketData.dni);
   document.getElementById('email-cert').textContent = ocultarEmail(ticketData.email);
-  
-  // Actualizar ticket redes (solo nombre de pila)
-  document.getElementById('numero-redes').textContent = ticketData.numero;
   document.getElementById('nombre-redes').textContent = ticketData.nombrePila;
 
-  // ✅ GENERAR QR CON EL NÚMERO CORRECTO (dentro de la función!)
-  const urlVerificacion = `https://sanluisgonzaga.ar/verificar.html?n=${ticketData.numero}`;
+  // ✅ GENERAR QR CON LA URL CORRECTA
+  const urlVerificacion = data.es_masivo 
+    ? `https://sanluisgonzaga.ar/verificar.html?dni=${ticketData.dni}`
+    : `https://sanluisgonzaga.ar/verificar.html?n=${ticketData.numeroUnico || ticketData.numero}`;
   
   // Limpiar QR anterior si existe
   document.getElementById("qrcode-cert").innerHTML = '';
@@ -906,9 +938,45 @@ function cargarDatosTicket(data) {
 window.onload = async function() {
   const params = new URLSearchParams(window.location.search);
   const numeroId = params.get('id');
+  const idsMultiples = params.get('ids');
   
-  if (numeroId && typeof db !== 'undefined') {
-    try {
+  if (typeof db === 'undefined') {
+    alert('⚠️ Error: No se pudo conectar con la base de datos');
+    return;
+  }
+  
+  try {
+    // Caso 1: Múltiples IDs (pago masivo)
+    if (idsMultiples) {
+      const ids = idsMultiples.split(',');
+      console.log('🎯 Cargando ticket masivo con', ids.length, 'números');
+      
+      const promises = ids.map(id => db.collection('rifa').doc(id.trim()).get());
+      const docs = await Promise.all(promises);
+      
+      const datos = docs.map(doc => ({ id: doc.id, ...doc.data() }))
+        .filter(data => data.state === 3);
+      
+      if (datos.length === 0) {
+        alert('⚠️ Ninguno de los números está confirmado como pagado');
+        window.location.href = './rifa.html';
+        return;
+      }
+      
+      if (datos.length !== ids.length) {
+        console.warn('⚠️ Algunos números no están pagados aún');
+      }
+      
+      // Cargar datos del primer número (todos comparten nombre, email, etc.)
+      const primerNumero = datos[0];
+      primerNumero.numeros_masivos = datos.map(d => d.numero).sort((a, b) => a - b);
+      primerNumero.cantidad_numeros = datos.length;
+      primerNumero.es_masivo = true;
+      
+      cargarDatosTicket(primerNumero);
+    }
+    // Caso 2: Un solo ID (pago individual)
+    else if (numeroId) {
       const doc = await db.collection('rifa').doc(numeroId).get();
       const data = doc.data();
       
@@ -918,9 +986,13 @@ window.onload = async function() {
         alert('⚠️ Este número aún no está confirmado como pagado');
         window.location.href = './rifa.html';
       }
-    } catch (error) {
-      console.error('Error al cargar datos:', error);
+    } else {
+      alert('⚠️ No se especificó ningún número');
+      window.location.href = './rifa.html';
     }
+  } catch (error) {
+    console.error('Error al cargar datos:', error);
+    alert('❌ Error al cargar el ticket: ' + error.message);
   }
 };
 
