@@ -285,6 +285,9 @@ function loadRifaData(adminMode = false) {
       });
     });
     
+    // Exponer globalmente para PDF
+    window.rifaData = rifaData;
+    
     console.log('✅ Datos cargados:', rifaData.length, 'registros');
     console.log('📋 Modo:', adminMode ? 'ADMIN' : 'PÚBLICO');
 

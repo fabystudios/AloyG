@@ -148,7 +148,6 @@
           email = email.substring(0, 25) + '...';
         }
 
-
         return [
           item.numero.toString().padStart(3, '0'),
           nombre,
@@ -165,7 +164,7 @@
 
       doc.autoTable({
         startY: 34,
-        head: [['#', 'Nombre', 'DNI', 'Email', 'Estado', 'Nº Op', 'Fecha']],
+        head: [['#', 'Nombre', 'DNI', 'Email', 'Estado', 'Fecha']],
         body: tableData,
         theme: 'grid',
         styles: {
@@ -189,12 +188,11 @@
         },
         columnStyles: {
           0: { halign: 'center', cellWidth: 12, fontStyle: 'bold' },
-          1: { cellWidth: 42 },
-          2: { halign: 'center', cellWidth: 20 },
-          3: { cellWidth: 45, fontSize: 7 },
-          4: { halign: 'center', cellWidth: 18, fontStyle: 'bold' },
-          5: { halign: 'center', cellWidth: 18, fontSize: 7 },
-          6: { halign: 'center', cellWidth: 18, fontSize: 7 }
+          1: { cellWidth: 50 },
+          2: { halign: 'center', cellWidth: 22 },
+          3: { cellWidth: 55, fontSize: 7 },
+          4: { halign: 'center', cellWidth: 20, fontStyle: 'bold' },
+          5: { halign: 'center', cellWidth: 22, fontSize: 7 }
         },
         alternateRowStyles: {
           fillColor: [248, 248, 248]
