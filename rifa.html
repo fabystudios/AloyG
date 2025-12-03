@@ -3935,7 +3935,22 @@ async function reenviarEmail(numeroId) {
 <!-- SECCIÓN DE CONTACTO MEJORADA -->
 <section id="CONTACTO" class="section-header">
   <h2 class="md3-headline" style="color: white;">
-    <i class="material-icons align-middle" style="font-size:1.4em;">phone</i> Contacto<img src="./rifa/contacto2.png" alt="Contacto" style="height: 1.8em; vertical-align: middle; margin-left: 0.3em;">
+    <i class="material-icons align-middle" style="font-size:1.4em;">phone</i> Contacto<img src="./rifa/contacto2.png" alt="Contacto" style="height: 2em; vertical-align: middle; margin-left: 0.3em; filter: brightness(1.2) contrast(1.1); animation: erratic-walk 3s ease-in-out infinite;">
+
+    <style>
+    @keyframes erratic-walk {
+      0%, 100% { transform: translateX(0) translateY(0) rotate(0deg); }
+      10% { transform: translateX(-3px) translateY(-2px) rotate(-5deg); }
+      20% { transform: translateX(4px) translateY(3px) rotate(3deg); }
+      30% { transform: translateX(-2px) translateY(-4px) rotate(-8deg); }
+      40% { transform: translateX(5px) translateY(2px) rotate(6deg); }
+      50% { transform: translateX(-4px) translateY(4px) rotate(-4deg); }
+      60% { transform: translateX(3px) translateY(-3px) rotate(7deg); }
+      70% { transform: translateX(-5px) translateY(2px) rotate(-6deg); }
+      80% { transform: translateX(4px) translateY(-2px) rotate(5deg); }
+      90% { transform: translateX(-3px) translateY(3px) rotate(-3deg); }
+    }
+    </style>
   </h2>
 </section>
 
@@ -4029,7 +4044,16 @@ async function reenviarEmail(numeroId) {
 <section id="UBICACION" class="section-header">
   <h2 class="md3-headline" style="color: white;">
     <i class="material-icons align-middle" style="font-size:1.4em;">place</i>
-    Ubicación<img src="./rifa/ubicacion.png" alt="Contacto" style="height: 1.8em; vertical-align: middle; margin-left: 0.3em;">
+    Ubicación<img src="./rifa/ubicacion.png" alt="Ubicación" style="height: 2em; vertical-align: middle; margin-left: 0.3em; filter: brightness(1.2) contrast(1.1); animation: bounce-spin 2s ease-in-out infinite;">
+
+    <style>
+    @keyframes bounce-spin {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      25% { transform: translateY(-10px) rotate(15deg); }
+      50% { transform: translateY(0) rotate(0deg); }
+      75% { transform: translateY(-10px) rotate(-15deg); }
+    }
+    </style>
   </h2>
 </section>
 
