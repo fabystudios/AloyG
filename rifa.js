@@ -2062,9 +2062,8 @@ async function enviarEmailsMasivos() {
 }
 
 function exportToExcel() {
-  const data = rifaData.filter(item => 
-    currentTab === 'reservados' ? item.state === 2 : item.state === 3
-  );
+  // Exportar todos los registros (reservados + pagados)
+  const data = rifaData.filter(item => item.state === 2 || item.state === 3);
   
   if (data.length === 0) {
     Swal.fire({
@@ -2076,19 +2075,19 @@ function exportToExcel() {
     return;
   }
   
-  let csv = 'Número,Nombre,Email,DNI,Estado,Nro Operación,Fecha\n';
+  let csv = 'Número,Nombre,Email,DNI,Estado,Fecha\n';
   
   data.forEach(item => {
     const fecha = item.time ? formatDate(item.time.toDate()) : '';
     const estado = item.state === 2 ? 'Reservado' : 'Pagado';
-    csv += `${item.numero},"${item.nombre || ''}","${item.email || ''}","${item.dni || ''}","${estado}","${item.nro_op || ''}","${fecha}"\n`;
+    csv += `${item.numero},"${item.nombre || ''}","${item.email || ''}","${item.dni || ''}","${estado}","${fecha}"\n`;
   });
   
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
   const link = document.createElement('a');
   const url = URL.createObjectURL(blob);
   link.setAttribute('href', url);
-  link.setAttribute('download', `rifa_${currentTab}_${new Date().toISOString().split('T')[0]}.csv`);
+  link.setAttribute('download', `rifa_completa_${new Date().toISOString().split('T')[0]}.csv`);
   link.style.visibility = 'hidden';
   document.body.appendChild(link);
   link.click();
