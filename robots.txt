@@ -1,0 +1,24 @@
+# Robots.txt - Parroquia San Luis Gonzaga
+# https://sanluisgonzaga.ar
+
+User-agent: *
+Allow: /
+Allow: /rifa.html
+Allow: /noticias.html
+Allow: /avisos.html
+Allow: /homilias.html
+Allow: /img/
+Allow: /css/
+Allow: /video/
+
+Disallow: /admin/
+Disallow: /panelAdminRifa.html
+Disallow: /admin-rifa-system.html
+Disallow: /setadmin.js
+Disallow: /backup.js
+Disallow: /restore.js
+Disallow: /backups/
+Disallow: /serviceAccountKey.json
+
+# Sitemap location
+Sitemap: https://sanluisgonzaga.ar/sitemap.xml
