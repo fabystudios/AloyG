@@ -1,6 +1,18 @@
 [
-  {
+    {
     "id": 1,
+    "fecha": "8 de Diciembre",
+    "santo": "Inmaculada Concepción de la Virgen María",
+    "santoFontSize": "0.95em",
+    "poster": "./asantos/maria2.jpg",
+    "video": "./asantos/maria.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "30px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+  {
+    "id": 2,
     "fecha": "8 de Diciembre",
     "santo": "Inmaculada Concepción de la Virgen María",
     "santoFontSize": "0.95em",
@@ -12,7 +24,7 @@
     "showOnDesktop": true
   },
   {
-    "id": 2,
+    "id": 3,
     "fecha": "7 de Diciembre",
     "santo": "San Ambrosio",
     "santoFontSize": "1.1em",
@@ -24,7 +36,7 @@
     "showOnDesktop": true
   },
   {
-    "id": 3,
+    "id": 4,
     "fecha": "6 de Diciembre",
     "santo": "San Nicolás de Bari",
     "santoFontSize": "1.1em",
