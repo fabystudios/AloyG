@@ -232,7 +232,7 @@
             <ul class="navbar-nav ms-lg-auto" style="--icon-gap:4px;">
               <li class="nav-item">
                 <a class="nav-link position-relative" href="./homilias.html" id="homilias-link" data-badge="homilias"
-                  data-version="v14">
+                  data-version="v15">
                   <span class="material-symbols-rounded">menu_book</span>
                   <span class="text-label">Homilias</span>
                   <span id="badge-homilias" class="badge-dot hidden" aria-hidden="true"></span>
@@ -740,13 +740,13 @@
             card.style.cssText = 'width: 90vw; max-width: 400px;';
             
             card.innerHTML = `
-              <div class="position-relative text-center p-4"
+              <div class="position-relative text-center p-3"
                 style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
                 <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
                   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
                   ${video.fecha}
                 </h2>
-                <p class="mb-0 mt-2" style="color: #e0e7ff; font-size: ${video.santoFontSize}; font-weight: 500; line-height: 1.3;">
+                <p class="mb-0 mt-1" style="color: #e0e7ff; font-size: ${video.santoFontSize}; font-weight: 500; line-height: 1.3;">
                   ${video.santo}
                 </p>
                 <img src="${video.icono}" alt="Icono ${video.santo}"
