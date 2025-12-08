@@ -684,10 +684,6 @@
   </div>
 
   <style>
-    .santos-subtitle {
-      padding: 0 10px;
-    }
-    
     @media (max-width: 768px) {
       .santos-video-player {
         height: auto !important;
@@ -696,12 +692,6 @@
       
       .santos-video-container {
         min-height: 350px !important;
-      }
-      
-      .santos-subtitle {
-        font-size: 0.9em !important;
-        padding: 0 5px;
-        line-height: 1.2 !important;
       }
     }
 
@@ -756,7 +746,7 @@
                   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
                   ${video.fecha}
                 </h2>
-                <p class="mb-0 mt-2 santos-subtitle" style="color: #e0e7ff; font-size: 1.1em; font-weight: 500; line-height: 1.3;">
+                <p class="mb-0 mt-2" style="color: #e0e7ff; font-size: ${video.santoFontSize}; font-weight: 500; line-height: 1.3;">
                   ${video.santo}
                 </p>
                 <img src="${video.icono}" alt="Icono ${video.santo}"

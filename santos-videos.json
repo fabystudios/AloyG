@@ -3,6 +3,7 @@
     "id": 1,
     "fecha": "8 de Diciembre",
     "santo": "Inmaculada Concepción de la Virgen María",
+    "santoFontSize": "0.90em",
     "poster": "./asantos/caacupe.jpg",
     "video": "./asantos/caacupe.mp4",
     "icono": "./img/paloma.png",
@@ -14,6 +15,7 @@
     "id": 2,
     "fecha": "7 de Diciembre",
     "santo": "San Ambrosio",
+    "santoFontSize": "1.1em",
     "poster": "./asantos/ambrosio.jpg",
     "video": "./asantos/ambrosio.mp4",
     "icono": "./img/paloma.png",
@@ -25,10 +27,11 @@
     "id": 3,
     "fecha": "6 de Diciembre",
     "santo": "San Nicolás de Bari",
+    "santoFontSize": "1.1em",
     "poster": "./asantos/noel.jpg",
     "video": "./asantos/noel.mp4",
     "icono": "./img/paloma.png",
-    "iconoWidth": "30px",
+    "iconoWidth": "60px",
     "showOnMobile": false,
     "showOnDesktop": true
   }
