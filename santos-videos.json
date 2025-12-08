@@ -3,7 +3,7 @@
     "id": 1,
     "fecha": "8 de Diciembre",
     "santo": "Inmaculada Concepción de la Virgen María",
-    "santoFontSize": "0.90em",
+    "santoFontSize": "1em",
     "poster": "./asantos/caacupe.jpg",
     "video": "./asantos/caacupe.mp4",
     "icono": "./img/paloma.png",
