@@ -1059,20 +1059,110 @@
         padding: 2rem 1.5rem;
       }
 
+      .concepcion-titulo {
+        font-size: clamp(1.5rem, 6vw, 2.2rem);
+        text-shadow: 
+          0 1px 0 #ccc,
+          0 2px 0 #bbb,
+          0 3px 0 #aaa,
+          0 4px 5px rgba(0,0,0,.2),
+          0 6px 10px rgba(0,0,0,.15),
+          0 10px 15px rgba(0,0,0,.1);
+      }
+
+      .concepcion-subtitulo {
+        font-size: clamp(0.9rem, 3vw, 1.1rem);
+      }
+
       .concepcion-diptico {
         grid-template-columns: 1fr;
+        min-height: auto;
+        max-height: none;
       }
 
       .diptico-panel {
+        min-height: 300px;
+      }
+
+      .diptico-video {
         min-height: 350px;
+      }
+
+      .concepcion-video {
+        object-fit: contain;
+      }
+
+      .diptico-imagen {
+        min-height: 400px;
+      }
+
+      .diptico-overlay {
+        padding: 1.5rem;
+      }
+
+      .diptico-content {
+        max-width: 100%;
+      }
+
+      .concepcion-texto {
+        font-size: clamp(1rem, 4vw, 1.3rem);
+        margin: 0 0 1.5rem;
+      }
+
+      .texto-destacado {
+        font-size: 1.15em;
       }
 
       .concepcion-decoracion {
         gap: 1.5rem;
+        margin-top: 1rem;
       }
 
       .deco-item {
         font-size: 2rem;
+      }
+
+      .light-dot {
+        width: 8px;
+        height: 8px;
+      }
+
+      .light-dot:nth-child(2) { width: 6px; height: 6px; }
+      .light-dot:nth-child(3) { width: 10px; height: 10px; }
+      .light-dot:nth-child(4) { width: 9px; height: 9px; }
+      .light-dot:nth-child(5) { width: 7px; height: 7px; }
+      .light-dot:nth-child(6) { width: 8px; height: 8px; }
+      .light-dot:nth-child(7) { width: 6px; height: 6px; }
+      .light-dot:nth-child(8) { width: 7px; height: 7px; }
+    }
+
+    @media (max-width: 480px) {
+      .concepcion-header {
+        padding: 1.5rem 1rem;
+      }
+
+      .concepcion-titulo {
+        font-size: 1.4rem;
+      }
+
+      .concepcion-subtitulo {
+        font-size: 0.85rem;
+      }
+
+      .diptico-video {
+        min-height: 280px;
+      }
+
+      .diptico-imagen {
+        min-height: 350px;
+      }
+
+      .concepcion-texto {
+        font-size: 0.95rem;
+      }
+
+      .deco-item {
+        font-size: 1.5rem;
       }
     }
   </style>
