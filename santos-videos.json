@@ -1,4 +1,17 @@
-[    {
+[ 
+   {
+    "id": 1,
+    "fecha": "9 de Diciembre",
+    "santo": "San Juan Diego",
+    "santoFontSize": "1.1em",
+    "poster": "./asantos/juandiego.jpg",
+    "video": "./asantos/juandiego.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "30px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+     {
     "id": 1,
     "fecha": "9 de Diciembre",
     "santo": "Santa Narcisa de Jesús",
