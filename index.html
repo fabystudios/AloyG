@@ -723,6 +723,83 @@
     </div>
   </section>
 
+  <!-- Publicación: Cierre Arquidiocesano Jubileo de la Esperanza -->
+  <section class="jubileo-esperanza-2025" style="width: 90%; max-width: 1200px; margin: 0 auto 4rem;">
+    <div class="jubileo-card">
+      <!-- Imagen de fondo con overlay glassmorphism -->
+      <div class="jubileo-background" style="background-image: url('./img/cierre.jpg');">
+        <!-- Partículas de luz flotantes -->
+        <div class="jubileo-particles">
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+        </div>
+        
+        <!-- Contenedor glassmorphism -->
+        <div class="glass-container">
+          <div class="glass-content">
+            <!-- Badge superior -->
+            <div class="jubileo-badge">
+              <span class="badge-icon">✨</span>
+              <span>Jubileo de la Esperanza</span>
+              <span class="badge-icon">✨</span>
+            </div>
+            
+            <!-- Título principal -->
+            <h2 class="jubileo-titulo">Cierre Arquidiocesano del Jubileo de la Esperanza</h2>
+            
+            <!-- Subtítulo especial -->
+            <div class="jubileo-invitacion">
+              <div class="invitacion-icon">👶</div>
+              <p class="invitacion-texto">
+                Traé el Niño Jesús del pesebre de tu hogar<br>
+                <span class="texto-bendicion">para bendecirlo</span>
+              </p>
+            </div>
+            
+            <!-- Información de fecha y hora -->
+            <div class="jubileo-info">
+              <div class="info-item">
+                <div class="info-icon">📅</div>
+                <div class="info-content">
+                  <div class="info-label">Fecha</div>
+                  <div class="info-value">Sábado 13 de Diciembre</div>
+                </div>
+              </div>
+              <div class="info-item">
+                <div class="info-icon">🕐</div>
+                <div class="info-content">
+                  <div class="info-label">Hora</div>
+                  <div class="info-value">18:00 hs</div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Preside -->
+            <div class="jubileo-preside">
+              <div class="preside-label">Preside</div>
+              <div class="preside-nombre">Mons. Gustavo Carrara</div>
+            </div>
+            
+            <!-- Decoración inferior -->
+            <div class="jubileo-footer-decoration">
+              <span class="footer-symbol">✞</span>
+              <span class="footer-line"></span>
+              <span class="footer-symbol">🕊️</span>
+              <span class="footer-line"></span>
+              <span class="footer-symbol">✞</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <style>
     .inmaculada-concepcion-2025 {
       animation: fadeInUp 0.8s ease-out;
@@ -994,6 +1071,531 @@
       50% { 
         transform: translateY(-15px) rotateY(180deg) scale(1.1);
         filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 25px rgba(255, 255, 255, 0.5));
+      }
+    }
+
+    /* ========== ESTILOS JUBILEO DE LA ESPERANZA ========== */
+    .jubileo-esperanza-2025 {
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .jubileo-card {
+      border-radius: 32px;
+      overflow: hidden;
+      box-shadow: 
+        0 20px 60px rgba(0, 0, 0, 0.3),
+        0 0 40px rgba(255, 215, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    .jubileo-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 
+        0 25px 80px rgba(0, 0, 0, 0.4),
+        0 0 60px rgba(255, 215, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+    }
+
+    .jubileo-background {
+      position: relative;
+      width: 100%;
+      min-height: 700px;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-left: 3%;
+    }
+
+    /* Partículas flotantes */
+    .jubileo-particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: radial-gradient(circle, rgba(255, 215, 0, 0.9), rgba(255, 255, 255, 0.3));
+      border-radius: 50%;
+      box-shadow: 
+        0 0 10px rgba(255, 215, 0, 0.6),
+        0 0 20px rgba(255, 215, 0, 0.4),
+        0 0 30px rgba(255, 255, 255, 0.3);
+      animation: floatParticle 8s infinite ease-in-out;
+      opacity: 0;
+    }
+
+    .particle:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; animation-duration: 7s; }
+    .particle:nth-child(2) { left: 25%; top: 60%; animation-delay: 1.5s; animation-duration: 9s; }
+    .particle:nth-child(3) { left: 45%; top: 30%; animation-delay: 3s; animation-duration: 6s; }
+    .particle:nth-child(4) { left: 60%; top: 70%; animation-delay: 2s; animation-duration: 8s; }
+    .particle:nth-child(5) { left: 75%; top: 40%; animation-delay: 4s; animation-duration: 7.5s; }
+    .particle:nth-child(6) { left: 85%; top: 15%; animation-delay: 1s; animation-duration: 8.5s; }
+    .particle:nth-child(7) { left: 35%; top: 80%; animation-delay: 2.5s; animation-duration: 7s; }
+    .particle:nth-child(8) { left: 90%; top: 55%; animation-delay: 3.5s; animation-duration: 9s; }
+
+    @keyframes floatParticle {
+      0% {
+        transform: translateY(0) translateX(0) scale(0);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      50% {
+        transform: translateY(-80px) translateX(30px) scale(1.2);
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-150px) translateX(-30px) scale(0);
+        opacity: 0;
+      }
+    }
+
+    /* Contenedor glassmorphism */
+    .glass-container {
+      position: relative;
+      z-index: 2;
+      width: 85%;
+      max-width: 650px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-radius: 28px;
+      padding: 3rem 2.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        0 0 40px rgba(255, 215, 0, 0.15);
+      animation: glassAppear 1s ease-out;
+    }
+
+    @keyframes glassAppear {
+      from {
+        opacity: 0;
+        transform: scale(0.95) translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .glass-content {
+      position: relative;
+      z-index: 3;
+    }
+
+    /* Badge superior */
+    .jubileo-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffd700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 
+        0 0 10px rgba(255, 215, 0, 0.8),
+        0 0 20px rgba(255, 215, 0, 0.5),
+        0 2px 4px rgba(0, 0, 0, 0.5);
+      animation: badgeGlow 2s ease-in-out infinite;
+    }
+
+    .badge-icon {
+      font-size: 1.3rem;
+      animation: iconRotate 3s linear infinite;
+    }
+
+    @keyframes badgeGlow {
+      0%, 100% {
+        text-shadow: 
+          0 0 10px rgba(255, 215, 0, 0.8),
+          0 0 20px rgba(255, 215, 0, 0.5),
+          0 2px 4px rgba(0, 0, 0, 0.5);
+      }
+      50% {
+        text-shadow: 
+          0 0 20px rgba(255, 215, 0, 1),
+          0 0 40px rgba(255, 215, 0, 0.7),
+          0 2px 4px rgba(0, 0, 0, 0.5);
+      }
+    }
+
+    @keyframes iconRotate {
+      0%, 100% { transform: rotate(0deg) scale(1); }
+      25% { transform: rotate(-10deg) scale(1.1); }
+      50% { transform: rotate(0deg) scale(1); }
+      75% { transform: rotate(10deg) scale(1.1); }
+    }
+
+    /* Título principal */
+    .jubileo-titulo {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      color: #1a3a5a;
+      text-align: center;
+      margin-bottom: 2rem;
+      line-height: 1.2;
+      text-shadow: 
+        0 1px 0 #0d2438,
+        0 2px 0 #0a1e2e,
+        0 3px 0 #071824,
+        0 4px 0 #05121a,
+        0 5px 0 #030c10,
+        0 6px 1px rgba(0,0,0,.3),
+        0 0 5px rgba(255,255,255,.5),
+        0 1px 3px rgba(0,0,0,.4),
+        0 3px 5px rgba(0,0,0,.3),
+        0 5px 10px rgba(0,0,0,.3),
+        0 10px 20px rgba(0,0,0,.25),
+        0 20px 40px rgba(0,0,0,.2);
+      animation: titulo3DFloat 4s ease-in-out infinite;
+    }
+
+    /* Invitación especial */
+    .jubileo-invitacion {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      animation: invitacionPulse 3s ease-in-out infinite;
+    }
+
+    @keyframes invitacionPulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 
+          0 4px 16px rgba(0, 0, 0, 0.2),
+          inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      }
+      50% {
+        transform: scale(1.02);
+        box-shadow: 
+          0 6px 20px rgba(0, 0, 0, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.5),
+          0 0 30px rgba(255, 215, 0, 0.3);
+      }
+    }
+
+    .invitacion-icon {
+      font-size: 3rem;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+      animation: babyFloat 2s ease-in-out infinite;
+    }
+
+    @keyframes babyFloat {
+      0%, 100% { transform: translateY(0) rotate(-5deg); }
+      50% { transform: translateY(-8px) rotate(5deg); }
+    }
+
+    .invitacion-texto {
+      margin: 0;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #ffffff;
+      text-align: left;
+      line-height: 1.5;
+      text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.4),
+        0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    .texto-bendicion {
+      font-weight: 900;
+      color: #ffd700;
+      font-size: 1.4rem;
+      text-shadow: 
+        0 0 10px rgba(255, 215, 0, 0.8),
+        0 2px 4px rgba(0, 0, 0, 0.5),
+        0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Información de fecha y hora */
+    .jubileo-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .info-item {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(8px);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .info-item:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+    }
+
+    .info-icon {
+      font-size: 2.5rem;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+    }
+
+    .info-content {
+      flex: 1;
+    }
+
+    .info-label {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.8);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.3rem;
+    }
+
+    .info-value {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Preside */
+    .jubileo-preside {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 18px;
+      padding: 1.3rem 2rem;
+      margin-bottom: 2rem;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      text-align: center;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    }
+
+    .preside-label {
+      font-size: 1rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.85);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+    }
+
+    .preside-nombre {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #ffd700;
+      text-shadow: 
+        0 0 10px rgba(255, 215, 0, 0.7),
+        0 2px 4px rgba(0, 0, 0, 0.5),
+        0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Decoración inferior */
+    .jubileo-footer-decoration {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .footer-symbol {
+      font-size: 1.5rem;
+      color: #ffd700;
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.6));
+      animation: symbolFloat 3s ease-in-out infinite;
+    }
+
+    .footer-symbol:nth-child(1) { animation-delay: 0s; }
+    .footer-symbol:nth-child(3) { animation-delay: 1s; }
+    .footer-symbol:nth-child(5) { animation-delay: 2s; }
+
+    @keyframes symbolFloat {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-6px) scale(1.1); }
+    }
+
+    .footer-line {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(to right, 
+        transparent, 
+        rgba(255, 215, 0, 0.5) 30%, 
+        rgba(255, 215, 0, 0.8) 50%, 
+        rgba(255, 215, 0, 0.5) 70%, 
+        transparent);
+    }
+
+    /* Responsive para Jubileo */
+    @media (max-width: 768px) {
+      .jubileo-background {
+        min-height: 600px;
+      }
+
+      .glass-container {
+        width: 95%;
+        padding: 2rem 1.5rem;
+      }
+
+      .jubileo-badge {
+        font-size: 0.9rem;
+        gap: 0.5rem;
+      }
+
+      .jubileo-titulo {
+        font-size: clamp(1.5rem, 5vw, 2.5rem);
+        margin-bottom: 1.5rem;
+      }
+
+      .jubileo-invitacion {
+        flex-direction: column;
+        text-align: center;
+        padding: 1.2rem 1.5rem;
+        gap: 0.8rem;
+      }
+
+      .invitacion-icon {
+        font-size: 2.5rem;
+      }
+
+      .invitacion-texto {
+        font-size: 1.1rem;
+        text-align: center;
+      }
+
+      .texto-bendicion {
+        font-size: 1.2rem;
+      }
+
+      .jubileo-info {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .info-item {
+        padding: 1.2rem;
+      }
+
+      .info-icon {
+        font-size: 2rem;
+      }
+
+      .info-value {
+        font-size: 1.1rem;
+      }
+
+      .preside-nombre {
+        font-size: 1.3rem;
+      }
+
+      .particle {
+        width: 6px;
+        height: 6px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .jubileo-background {
+        min-height: 550px;
+      }
+
+      .glass-container {
+        padding: 1.5rem 1rem;
+      }
+
+      .jubileo-badge {
+        font-size: 0.8rem;
+        letter-spacing: 1px;
+      }
+
+      .badge-icon {
+        font-size: 1.1rem;
+      }
+
+      .jubileo-titulo {
+        font-size: clamp(1.3rem, 5vw, 2rem);
+        margin-bottom: 1.2rem;
+      }
+
+      .invitacion-icon {
+        font-size: 2rem;
+      }
+
+      .invitacion-texto {
+        font-size: 1rem;
+      }
+
+      .texto-bendicion {
+        font-size: 1.1rem;
+      }
+
+      .info-item {
+        padding: 1rem;
+        gap: 0.8rem;
+      }
+
+      .info-icon {
+        font-size: 1.8rem;
+      }
+
+      .info-label {
+        font-size: 0.8rem;
+      }
+
+      .info-value {
+        font-size: 1rem;
+      }
+
+      .jubileo-preside {
+        padding: 1rem 1.5rem;
+      }
+
+      .preside-label {
+        font-size: 0.85rem;
+      }
+
+      .preside-nombre {
+        font-size: 1.2rem;
+      }
+
+      .footer-symbol {
+        font-size: 1.2rem;
+      }
+
+      .particle {
+        width: 5px;
+        height: 5px;
       }
     }
 
