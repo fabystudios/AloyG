@@ -771,7 +771,7 @@
             <!-- Subtítulo especial -->
             <div class="jubileo-invitacion">
               <div class="invitacion-icon">
-                <img src="./img/bebe.png" alt="Niño Jesús" style="width: 100%; height: 100%; object-fit: contain;" />
+                <img src="./img/bebe.png" alt="Niño Jesús" style="width: auto; height: 100%; object-fit: contain;" />
               </div>
               <p class="invitacion-texto">
                 Traé el Niño Jesús del pesebre de tu hogar
@@ -801,6 +801,7 @@
             <div class="jubileo-preside">
               <div class="preside-label">Preside</div>
               <div class="preside-nombre">Mons. Gustavo Carrara</div>
+              <div class="preside-cargo">Arzobispo de La Plata</div>
             </div>
             
             <!-- Decoración inferior -->
@@ -1525,6 +1526,15 @@
         0 0 10px rgba(255, 215, 0, 0.7),
         0 2px 4px rgba(0, 0, 0, 0.5),
         0 4px 8px rgba(0, 0, 0, 0.3);
+      margin-bottom: 0.3rem;
+    }
+
+    .preside-cargo {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.95);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+      font-style: italic;
     }
 
     /* Decoración inferior */
@@ -1631,6 +1641,10 @@
         font-size: 1.3rem;
       }
 
+      .preside-cargo {
+        font-size: 0.95rem;
+      }
+
       .invitacion-icon {
         width: 4rem;
         height: 4rem;
@@ -1714,6 +1728,10 @@
 
       .preside-nombre {
         font-size: 1.2rem;
+      }
+
+      .preside-cargo {
+        font-size: 0.85rem;
       }
 
       .footer-symbol {
