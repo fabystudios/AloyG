@@ -5,7 +5,7 @@
     "santo": "San Juan Diego",
     "santoFontSize": "1.1em",
     "poster": "./asantos/juandiego.jpg",
-    "video": "./asantos/juandiego.mp4",
+    "video": "./asantos/juandiego.webm",
     "icono": "./img/paloma.png",
     "iconoWidth": "30px",
     "showOnMobile": true,
