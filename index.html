@@ -1886,7 +1886,7 @@
       <div class="concepcion-diptico">
         <!-- Panel Izquierdo: Video -->
         <div class="diptico-panel diptico-video">
-          <video class="concepcion-video" autoplay loop muted playsinline poster="./video/comu-cover2Bis.jpeg">
+          <video id="comunionVideo" class="concepcion-video" autoplay loop playsinline poster="./video/comu-cover2Bis.jpeg">
             <source src="./video/comu.mp4" type="video/mp4">
             Tu navegador no soporta la reproducción de video.
           </video>    </div>
@@ -1923,7 +1923,41 @@
     </div>
   </section>
 
-
+  <script>
+    // Intentar reproducir el video de comunión con audio automáticamente
+    document.addEventListener('DOMContentLoaded', function() {
+      const comunionVideo = document.getElementById('comunionVideo');
+      
+      if (comunionVideo) {
+        // Intentar reproducir con audio
+        const playPromise = comunionVideo.play();
+        
+        if (playPromise !== undefined) {
+          playPromise.then(() => {
+            // Reproducción exitosa con audio
+            comunionVideo.muted = false;
+          }).catch(error => {
+            // Si falla (política del navegador), intentar sin audio primero
+            console.log('Autoplay con audio bloqueado, intentando muted');
+            comunionVideo.muted = true;
+            comunionVideo.play();
+            
+            // Cuando el usuario interactúe, activar el audio
+            const unmute = () => {
+              comunionVideo.muted = false;
+              document.removeEventListener('click', unmute);
+              document.removeEventListener('touchstart', unmute);
+              document.removeEventListener('scroll', unmute);
+            };
+            
+            document.addEventListener('click', unmute, { once: true });
+            document.addEventListener('touchstart', unmute, { once: true });
+            document.addEventListener('scroll', unmute, { once: true });
+          });
+        }
+      }
+    });
+  </script>
 
  <!-- // section con un div con clase "rifa-navidad-article"para poner el video: '/video/rifa.mp4 ciclico infinito, y abajo un boton animado que diga: Adquierela aqui, que lleve a <div class="
   // ">rifa/rifa.html' -->
