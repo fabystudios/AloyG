@@ -726,10 +726,25 @@
   <!-- Publicación: Cierre Arquidiocesano Jubileo de la Esperanza -->
   <section class="jubileo-esperanza-2025" style="width: 90%; max-width: 1200px; margin: 0 auto 4rem;">
     <div class="jubileo-card">
+      <!-- Imagen flotante jubi.png rebotando -->
+      <img src="./img/jubi.png" alt="Jubileo" class="jubi-bouncing" />
+      
       <!-- Imagen de fondo con overlay glassmorphism -->
       <div class="jubileo-background" style="background-image: url('./img/cierre.jpg');">
         <!-- Partículas de luz flotantes -->
         <div class="jubileo-particles">
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
+          <span class="particle"></span>
           <span class="particle"></span>
           <span class="particle"></span>
           <span class="particle"></span>
@@ -755,9 +770,11 @@
             
             <!-- Subtítulo especial -->
             <div class="jubileo-invitacion">
-              <div class="invitacion-icon">👶</div>
+              <div class="invitacion-icon">
+                <img src="./img/bebe.png" alt="Niño Jesús" style="width: 100%; height: 100%; object-fit: contain;" />
+              </div>
               <p class="invitacion-texto">
-                Traé el Niño Jesús del pesebre de tu hogar<br>
+                Traé el Niño Jesús del pesebre de tu hogar
                 <span class="texto-bendicion">para bendecirlo</span>
               </p>
             </div>
@@ -1077,11 +1094,85 @@
     /* ========== ESTILOS JUBILEO DE LA ESPERANZA ========== */
     .jubileo-esperanza-2025 {
       animation: fadeInUp 0.8s ease-out;
+      position: relative;
+    }
+
+    /* Imagen jubi.png flotando y rebotando */
+    .jubi-bouncing {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      z-index: 10;
+      pointer-events: none;
+      filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
+      animation: bounceAround 12s infinite linear;
+      top: 10%;
+      left: 5%;
+    }
+
+    @keyframes bounceAround {
+      0% {
+        top: 10%;
+        left: 5%;
+        transform: translate(0, 0) rotate(0deg);
+      }
+      10% {
+        top: 5%;
+        left: 25%;
+        transform: translate(0, 0) rotate(36deg) scale(1.1);
+      }
+      20% {
+        top: 30%;
+        left: 45%;
+        transform: translate(0, 0) rotate(72deg) scale(1);
+      }
+      30% {
+        top: 60%;
+        left: 65%;
+        transform: translate(0, 0) rotate(108deg) scale(1.05);
+      }
+      40% {
+        top: 75%;
+        left: 80%;
+        transform: translate(0, 0) rotate(144deg) scale(1);
+      }
+      50% {
+        top: 65%;
+        left: 85%;
+        transform: translate(0, 0) rotate(180deg) scale(1.08);
+      }
+      60% {
+        top: 40%;
+        left: 70%;
+        transform: translate(0, 0) rotate(216deg) scale(1);
+      }
+      70% {
+        top: 15%;
+        left: 50%;
+        transform: translate(0, 0) rotate(252deg) scale(1.06);
+      }
+      80% {
+        top: 45%;
+        left: 30%;
+        transform: translate(0, 0) rotate(288deg) scale(1);
+      }
+      90% {
+        top: 70%;
+        left: 15%;
+        transform: translate(0, 0) rotate(324deg) scale(1.05);
+      }
+      100% {
+        top: 10%;
+        left: 5%;
+        transform: translate(0, 0) rotate(360deg) scale(1);
+      }
     }
 
     .jubileo-card {
       border-radius: 32px;
       overflow: hidden;
+      position: relative;
       box-shadow: 
         0 20px 60px rgba(0, 0, 0, 0.3),
         0 0 40px rgba(255, 215, 0, 0.2),
@@ -1119,19 +1210,19 @@
       height: 100%;
       overflow: hidden;
       pointer-events: none;
-      z-index: 1;
+      z-index: 10;
     }
 
     .particle {
       position: absolute;
-      width: 8px;
-      height: 8px;
-      background: radial-gradient(circle, rgba(255, 215, 0, 0.9), rgba(255, 255, 255, 0.3));
+      width: 12px;
+      height: 12px;
+      background: radial-gradient(circle, rgba(255, 215, 0, 1), rgba(255, 255, 255, 0.5));
       border-radius: 50%;
       box-shadow: 
-        0 0 10px rgba(255, 215, 0, 0.6),
-        0 0 20px rgba(255, 215, 0, 0.4),
-        0 0 30px rgba(255, 255, 255, 0.3);
+        0 0 15px rgba(255, 215, 0, 0.9),
+        0 0 30px rgba(255, 215, 0, 0.6),
+        0 0 45px rgba(255, 255, 255, 0.5);
       animation: floatParticle 8s infinite ease-in-out;
       opacity: 0;
     }
@@ -1144,6 +1235,18 @@
     .particle:nth-child(6) { left: 85%; top: 15%; animation-delay: 1s; animation-duration: 8.5s; }
     .particle:nth-child(7) { left: 35%; top: 80%; animation-delay: 2.5s; animation-duration: 7s; }
     .particle:nth-child(8) { left: 90%; top: 55%; animation-delay: 3.5s; animation-duration: 9s; }
+    .particle:nth-child(9) { left: 15%; top: 45%; animation-delay: 1.2s; animation-duration: 8s; }
+    .particle:nth-child(10) { left: 50%; top: 10%; animation-delay: 2.8s; animation-duration: 7.5s; }
+    .particle:nth-child(11) { left: 70%; top: 25%; animation-delay: 0.5s; animation-duration: 8.2s; }
+    .particle:nth-child(12) { left: 30%; top: 50%; animation-delay: 3.2s; animation-duration: 6.8s; }
+    .particle:nth-child(13) { left: 80%; top: 65%; animation-delay: 1.8s; animation-duration: 7.8s; }
+    .particle:nth-child(14) { left: 5%; top: 35%; animation-delay: 4.2s; animation-duration: 8.8s; }
+    .particle:nth-child(15) { left: 55%; top: 75%; animation-delay: 2.2s; animation-duration: 6.5s; }
+    .particle:nth-child(16) { left: 95%; top: 40%; animation-delay: 0.8s; animation-duration: 7.2s; }
+    .particle:nth-child(17) { left: 20%; top: 12%; animation-delay: 3.8s; animation-duration: 8.3s; }
+    .particle:nth-child(18) { left: 65%; top: 50%; animation-delay: 1.3s; animation-duration: 7.7s; }
+    .particle:nth-child(19) { left: 40%; top: 85%; animation-delay: 2.7s; animation-duration: 6.9s; }
+    .particle:nth-child(20) { left: 88%; top: 28%; animation-delay: 4.5s; animation-duration: 8.5s; }
 
     @keyframes floatParticle {
       0% {
@@ -1305,7 +1408,11 @@
     }
 
     .invitacion-icon {
-      font-size: 3rem;
+      width: 5rem;
+      height: 5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
       animation: babyFloat 2s ease-in-out infinite;
     }
@@ -1459,6 +1566,11 @@
 
     /* Responsive para Jubileo */
     @media (max-width: 768px) {
+      .jubi-bouncing {
+        width: 60px;
+        height: 60px;
+      }
+
       .jubileo-background {
         min-height: 600px;
       }
@@ -1519,13 +1631,28 @@
         font-size: 1.3rem;
       }
 
+      .invitacion-icon {
+        width: 4rem;
+        height: 4rem;
+      }
+
       .particle {
-        width: 6px;
-        height: 6px;
+        width: 9px;
+        height: 9px;
       }
     }
 
     @media (max-width: 480px) {
+      .jubi-bouncing {
+        width: 50px;
+        height: 50px;
+      }
+
+      .invitacion-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+      }
+
       .jubileo-background {
         min-height: 550px;
       }
@@ -1594,8 +1721,8 @@
       }
 
       .particle {
-        width: 5px;
-        height: 5px;
+        width: 8px;
+        height: 8px;
       }
     }
 
