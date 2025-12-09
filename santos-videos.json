@@ -45,6 +45,6 @@
     "icono": "./img/paloma.png",
     "iconoWidth": "30px",
     "showOnMobile": false,
-    "showOnDesktop": true
+    "showOnDesktop": false
   }
 ]
