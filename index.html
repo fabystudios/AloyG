@@ -671,7 +671,412 @@
       <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Anuncios
     </h2>
   </section>
-<br><br><br><br>
+<br><br> 
+
+  <!-- Publicación Especial: Inmaculada Concepción 2025 -->
+  <section class="inmaculada-concepcion-2025" style="width: 90%; max-width: 1400px; margin: 0 auto 4rem;">
+    <div class="concepcion-card">
+      <div class="concepcion-header">
+        <!-- <div class="header-icon">✨</div> -->
+        <h2 class="concepcion-titulo">Inmaculada Concepción de la Virgen María</h2>
+        <p class="concepcion-subtitulo">Solemnidad • 8 de Diciembre 2025</p>
+      </div>
+      
+      <div class="concepcion-diptico">
+        <!-- Panel Izquierdo: Video -->
+        <div class="diptico-panel diptico-video">
+          <video class="concepcion-video" controls poster="./video/comu-cover2.jpg">
+            <source src="./video/comu.mp4" type="video/mp4">
+            Tu navegador no soporta la reproducción de video.
+          </video>
+        </div>
+        
+        <!-- Panel Derecho: Imagen con texto -->
+        <div class="diptico-panel diptico-imagen" style="background-image: url('./video/maria3.jpg');">
+          <!-- Efectos luminosos -->
+          <div class="light-dots">
+            <span class="light-dot" style="top: 15%; left: 20%;"></span>
+            <span class="light-dot" style="top: 25%; left: 75%;"></span>
+            <span class="light-dot" style="top: 40%; left: 15%;"></span>
+            <span class="light-dot" style="top: 55%; left: 80%;"></span>
+            <span class="light-dot" style="top: 70%; left: 25%;"></span>
+            <span class="light-dot" style="top: 80%; left: 70%;"></span>
+            <span class="light-dot" style="top: 35%; left: 50%;"></span>
+            <span class="light-dot" style="top: 60%; left: 45%;"></span>
+          </div>
+          
+          <div class="diptico-overlay">
+            <div class="diptico-content">
+              <p class="concepcion-texto">
+                <span class="texto-destacado">Confirmaciones y Primeras Comuniones</span><br>
+                de los niños y niñas de nuestra comunidad
+              </p>
+              <div class="concepcion-decoracion">
+                <span class="deco-item">🕊️</span>
+                <span class="deco-item">✝️</span>
+                <span class="deco-item">🕊️</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .inmaculada-concepcion-2025 {
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .concepcion-card {
+      background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.12),
+        0 2px 8px rgba(0, 0, 0, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.1);
+    }
+
+    .concepcion-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .concepcion-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: rotateGlow 15s linear infinite;
+    }
+
+    @keyframes rotateGlow {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .header-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.1); opacity: 0.8; }
+    }
+
+    .concepcion-titulo {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900;
+      color: white;
+      margin: 0 0 0.5rem;
+      letter-spacing: 0.5px;
+      position: relative;
+      z-index: 1;
+      text-shadow: 
+        0 1px 0 #ccc,
+        0 2px 0 #c9c9c9,
+        0 3px 0 #bbb,
+        0 4px 0 #b9b9b9,
+        0 5px 0 #aaa,
+        0 6px 1px rgba(0,0,0,.1),
+        0 0 5px rgba(0,0,0,.1),
+        0 1px 3px rgba(0,0,0,.3),
+        0 3px 5px rgba(0,0,0,.2),
+        0 5px 10px rgba(0,0,0,.25),
+        0 10px 20px rgba(0,0,0,.2),
+        0 20px 40px rgba(0,0,0,.15);
+      animation: title3DFloat 3s ease-in-out infinite;
+    }
+
+    @keyframes title3DFloat {
+      0%, 100% {
+        transform: translateY(0) rotateX(0deg);
+      }
+      50% {
+        transform: translateY(-5px) rotateX(2deg);
+      }
+    }
+
+    .concepcion-subtitulo {
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      color: rgba(255, 255, 255, 0.95);
+      margin: 0;
+      font-weight: 500;
+      letter-spacing: 1px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .concepcion-diptico {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      min-height: 400px;
+      max-height: 720px;
+      @media (max-width: 768px) {
+        max-height: 760px;
+      }
+    }
+
+    .diptico-panel {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .diptico-video {
+      background: #1a2a4a;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .concepcion-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .diptico-imagen {
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      position: relative;
+      background-color: #1a2a4a;
+    }
+
+    .diptico-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.3) 0%, rgba(118, 75, 162, 0.4) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .diptico-content {
+      text-align: center;
+      max-width: 400px;
+      animation: contentFadeIn 1.2s ease-out;
+    }
+
+    @keyframes contentFadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .concepcion-texto {
+      font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+      color: white;
+      line-height: 1.8;
+      margin: 0 0 2rem;
+      font-weight: 400;
+      text-shadow: 
+        0 1px 0 rgba(0, 0, 0, 0.3),
+        0 2px 0 rgba(0, 0, 0, 0.25),
+        0 3px 0 rgba(0, 0, 0, 0.2),
+        0 4px 5px rgba(0, 0, 0, 0.3),
+        0 6px 10px rgba(0, 0, 0, 0.2),
+        0 0 20px rgba(255, 255, 255, 0.3);
+      animation: textGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes textGlow {
+      0%, 100% {
+        text-shadow: 
+          0 1px 0 rgba(0, 0, 0, 0.3),
+          0 2px 0 rgba(0, 0, 0, 0.25),
+          0 3px 0 rgba(0, 0, 0, 0.2),
+          0 4px 5px rgba(0, 0, 0, 0.3),
+          0 6px 10px rgba(0, 0, 0, 0.2),
+          0 0 20px rgba(255, 255, 255, 0.3);
+      }
+      50% {
+        text-shadow: 
+          0 1px 0 rgba(0, 0, 0, 0.3),
+          0 2px 0 rgba(0, 0, 0, 0.25),
+          0 3px 0 rgba(0, 0, 0, 0.2),
+          0 4px 5px rgba(0, 0, 0, 0.3),
+          0 6px 10px rgba(0, 0, 0, 0.2),
+          0 0 30px rgba(255, 255, 255, 0.5),
+          0 0 40px rgba(255, 223, 0, 0.3);
+      }
+    }
+
+    .texto-destacado {
+      font-weight: 900;
+      font-size: 1.3em;
+      display: block;
+      margin-bottom: 0.5rem;
+      text-shadow: 
+        0 1px 0 #ccc,
+        0 2px 0 #c9c9c9,
+        0 3px 0 #bbb,
+        0 4px 0 #b9b9b9,
+        0 5px 0 #aaa,
+        0 6px 1px rgba(0,0,0,.1),
+        0 0 5px rgba(0,0,0,.1),
+        0 1px 3px rgba(0,0,0,.3),
+        0 3px 5px rgba(0,0,0,.2),
+        0 5px 10px rgba(0,0,0,.25),
+        0 10px 20px rgba(255, 255, 255, 0.2);
+      animation: destacadoPulse 2.5s ease-in-out infinite;
+    }
+
+    @keyframes destacadoPulse {
+      0%, 100% {
+        transform: scale(1);
+        filter: brightness(1);
+      }
+      50% {
+        transform: scale(1.03);
+        filter: brightness(1.15);
+      }
+    }
+
+    .concepcion-decoracion {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .deco-item {
+      font-size: 2.5rem;
+      opacity: 0.9;
+      animation: floatDecoration3D 3s ease-in-out infinite;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
+    }
+
+    .deco-item:nth-child(2) {
+      animation-delay: 1s;
+    }
+
+    .deco-item:nth-child(3) {
+      animation-delay: 2s;
+    }
+
+    @keyframes floatDecoration3D {
+      0%, 100% { 
+        transform: translateY(0) rotateY(0deg) scale(1);
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4)) drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
+      }
+      50% { 
+        transform: translateY(-15px) rotateY(180deg) scale(1.1);
+        filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.5)) drop-shadow(0 0 25px rgba(255, 255, 255, 0.5));
+      }
+    }
+
+    /* Efectos luminosos */
+    .light-dots {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .light-dot {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.9) 30%, rgba(255, 223, 0, 0.5) 70%, transparent 100%);
+      box-shadow: 
+        0 0 20px rgba(255, 255, 255, 1),
+        0 0 40px rgba(255, 255, 255, 0.8),
+        0 0 60px rgba(255, 223, 0, 0.6),
+        0 0 80px rgba(255, 215, 0, 0.4);
+      animation: divineLightFloat 4s ease-in-out infinite;
+    }
+
+    .light-dot:nth-child(1) { animation-delay: 0s; }
+    .light-dot:nth-child(2) { animation-delay: 0.6s; width: 10px; height: 10px; }
+    .light-dot:nth-child(3) { animation-delay: 1.2s; width: 15px; height: 15px; }
+    .light-dot:nth-child(4) { animation-delay: 1.8s; width: 14px; height: 14px; }
+    .light-dot:nth-child(5) { animation-delay: 2.4s; width: 11px; height: 11px; }
+    .light-dot:nth-child(6) { animation-delay: 3s; width: 13px; height: 13px; }
+    .light-dot:nth-child(7) { animation-delay: 0.9s; width: 9px; height: 9px; }
+    .light-dot:nth-child(8) { animation-delay: 2.1s; width: 12px; height: 12px; }
+
+    @keyframes divineLightFloat {
+      0% { 
+        opacity: 0.4;
+        transform: scale(1) translateY(0) translateX(0);
+      }
+      25% {
+        opacity: 0.8;
+        transform: scale(1.8) translateY(-8px) translateX(5px);
+      }
+      50% { 
+        opacity: 1;
+        transform: scale(2.2) translateY(-12px) translateX(-3px);
+      }
+      75% {
+        opacity: 0.8;
+        transform: scale(1.8) translateY(-8px) translateX(4px);
+      }
+      100% {
+        opacity: 0.4;
+        transform: scale(1) translateY(0) translateX(0);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .concepcion-header {
+        padding: 2rem 1.5rem;
+      }
+
+      .concepcion-diptico {
+        grid-template-columns: 1fr;
+      }
+
+      .diptico-panel {
+        min-height: 350px;
+      }
+
+      .concepcion-decoracion {
+        gap: 1.5rem;
+      }
+
+      .deco-item {
+        font-size: 2rem;
+      }
+    }
+  </style>
+
  <!-- // section con un div con clase "rifa-navidad-article"para poner el video: '/video/rifa.mp4 ciclico infinito, y abajo un boton animado que diga: Adquierela aqui, que lleve a <div class="
   // ">rifa/rifa.html' -->
  
