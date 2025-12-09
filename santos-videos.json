@@ -1,6 +1,17 @@
-[
-    {
+[    {
     "id": 1,
+    "fecha": "9 de Diciembre",
+    "santo": "Santa Narcisa de Jesús",
+    "santoFontSize": "1.1em",
+    "poster": "./asantos/narcisa.jpg",
+    "video": "./asantos/narcisa.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "30px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+    {
+    "id": 2,
     "fecha": "8 de Diciembre",
     "santo": "Inmaculada Concepción de la Virgen María",
     "santoFontSize": "0.95em",
@@ -8,11 +19,11 @@
     "video": "./asantos/maria.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "30px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },
   {
-    "id": 2,
+    "id": 3,
     "fecha": "8 de Diciembre",
     "santo": "Inmaculada Concepción de la Virgen María",
     "santoFontSize": "0.95em",
@@ -20,30 +31,6 @@
     "video": "./asantos/caacupe.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "30px",
-    "showOnMobile": true,
-    "showOnDesktop": true
-  },
-  {
-    "id": 3,
-    "fecha": "7 de Diciembre",
-    "santo": "San Ambrosio",
-    "santoFontSize": "1.1em",
-    "poster": "./asantos/ambrosio.jpg",
-    "video": "./asantos/ambrosio.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "30px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },
-  {
-    "id": 4,
-    "fecha": "6 de Diciembre",
-    "santo": "San Nicolás de Bari",
-    "santoFontSize": "1.1em",
-    "poster": "./asantos/noel.jpg",
-    "video": "./asantos/noel.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "60px",
     "showOnMobile": false,
     "showOnDesktop": true
   }
