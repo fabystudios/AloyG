@@ -1,6 +1,18 @@
 [ 
-   {
+  {
     "id": 1,
+    "fecha": "10 de Diciembre",
+    "santo": "Virgen de Loreto",
+    "santoFontSize": "1.1em",
+    "poster": "./asantos/loreto.png",
+    "video": "./asantos/loreto-web.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "30px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+   {
+    "id": 2,
     "fecha": "9 de Diciembre",
     "santo": "San Juan Diego",
     "santoFontSize": "1.1em",
@@ -8,11 +20,11 @@
     "video": "./asantos/juandiego.webm",
     "icono": "./img/paloma.png",
     "iconoWidth": "30px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },
      {
-    "id": 2,
+    "id": 3,
     "fecha": "9 de Diciembre",
     "santo": "Santa Narcisa de Jesús",
     "santoFontSize": "1.1em",
@@ -20,19 +32,8 @@
     "video": "./asantos/narcisa.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "30px",
-    "showOnMobile": true,
-    "showOnDesktop": true
-  },
-    {
-    "id": 3,
-    "fecha": "8 de Diciembre",
-    "santo": "Inmaculada Concepción de la Virgen María",
-    "santoFontSize": "0.95em",
-    "poster": "./asantos/maria3.jpg",
-    "video": "./asantos/maria.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "30px",
     "showOnMobile": false,
     "showOnDesktop": true
   }
+
 ]
