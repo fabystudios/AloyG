@@ -12,7 +12,7 @@
     "showOnDesktop": true
   },
      {
-    "id": 1,
+    "id": 2,
     "fecha": "9 de Diciembre",
     "santo": "Santa Narcisa de Jesús",
     "santoFontSize": "1.1em",
@@ -24,7 +24,7 @@
     "showOnDesktop": true
   },
     {
-    "id": 2,
+    "id": 3,
     "fecha": "8 de Diciembre",
     "santo": "Inmaculada Concepción de la Virgen María",
     "santoFontSize": "0.95em",
