@@ -714,15 +714,26 @@
             <!-- Título principal -->
             <h2 class="jubileo-titulo">Cierre Arquidiocesano del Jubileo de la Esperanza</h2>
             
-            <!-- Subtítulo especial -->
-            <div class="jubileo-invitacion">
-              <div class="invitacion-icon">
-                <img src="./img/bebe.png" alt="Niño Jesús" style="width: auto; height: 100%; object-fit: contain;" />
+            <!-- Contenedor para invitación y video en paralelo -->
+            <div class="jubileo-cards-paralelas">
+              <!-- Subtítulo especial -->
+              <div class="jubileo-invitacion">
+                <div class="invitacion-icon">
+                  <img src="./img/bebe.png" alt="Niño Jesús" style="width: auto; height: 100%; object-fit: contain;" />
+                </div>
+                <p class="invitacion-texto">
+                  Traé el Niño Jesús del pesebre de tu hogar
+                  <span class="texto-bendicion">para bendecirlo</span>
+                </p>
               </div>
-              <p class="invitacion-texto">
-                Traé el Niño Jesús del pesebre de tu hogar
-                <span class="texto-bendicion">para bendecirlo</span>
-              </p>
+
+              <!-- Card con video -->
+              <div class="jubileo-video-card">
+                <video class="jubileo-video-player" controls autoplay muted loop playsinline poster="./video/carrara-cover.jpg">
+                  <source src="./video/carrara.mp4" type="video/mp4">
+                  Tu navegador no soporta la reproducción de video.
+                </video>
+              </div>
             </div>
             
             <!-- Información de fecha y hora -->
@@ -1226,7 +1237,7 @@
       backdrop-filter: blur(20px) saturate(180%);
       -webkit-backdrop-filter: blur(20px) saturate(180%);
       border-radius: 28px;
-      padding: 3rem 2.5rem;
+      padding: 2.5rem 2rem;
       border: 1px solid rgba(255, 255, 255, 0.25);
       box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.3),
@@ -1249,6 +1260,7 @@
     .glass-content {
       position: relative;
       z-index: 3;
+      padding: 1.5rem 0;
     }
 
     /* Badge superior */
@@ -1303,6 +1315,7 @@
       font-weight: 900;
       color: #177ee6;
       text-align: center;
+      margin-top: 0;
       margin-bottom: 2rem;
       line-height: 1.2;
       text-shadow: 
@@ -1321,21 +1334,54 @@
       animation: titulo3DFloat 4s ease-in-out infinite;
     }
 
+    /* Contenedor para cards en paralelo */
+    .jubileo-cards-paralelas {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
     /* Invitación especial */
     .jubileo-invitacion {
       background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(10px);
       border-radius: 20px;
       padding: 1.5rem 2rem;
-      margin-bottom: 2rem;
       border: 1px solid rgba(255, 255, 255, 0.3);
       display: flex;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
       gap: 1.2rem;
+      text-align: center;
       box-shadow: 
         0 4px 16px rgba(0, 0, 0, 0.2),
         inset 0 1px 0 rgba(255, 255, 255, 0.4);
       animation: invitacionPulse 3s ease-in-out infinite;
+    }
+
+    /* Card de video */
+    .jubileo-video-card {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .jubileo-video-player {
+      width: 100%;
+      height: 100%;
+      min-height: 200px;
+      border-radius: 12px;
+      object-fit: cover;
     }
 
     @keyframes invitacionPulse {
@@ -1355,8 +1401,8 @@
     }
 
     .invitacion-icon {
-      width: 5rem;
-      height: 5rem;
+      width: 8rem;
+      height: 8rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -1371,10 +1417,10 @@
 
     .invitacion-texto {
       margin: 0;
-      font-size: 1.3rem;
+      font-size: 1.6rem;
       font-weight: 600;
       color: #ffffff;
-      text-align: left;
+      text-align: center;
       line-height: 1.5;
       text-shadow: 
         0 2px 4px rgba(0, 0, 0, 0.4),
@@ -1384,7 +1430,7 @@
     .texto-bendicion {
       font-weight: 900;
       color: #ffd700;
-      font-size: 1.4rem;
+      font-size: 1.7rem;
       text-shadow: 
         0 0 10px rgba(255, 215, 0, 0.8),
         0 2px 4px rgba(0, 0, 0, 0.5),
@@ -1550,11 +1596,20 @@
         margin-bottom: 1.5rem;
       }
 
+      .jubileo-cards-paralelas {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
       .jubileo-invitacion {
         flex-direction: column;
         text-align: center;
         padding: 1.2rem 1.5rem;
         gap: 0.8rem;
+      }
+
+      .jubileo-video-player {
+        min-height: 250px;
       }
 
       .invitacion-icon {
@@ -1619,6 +1674,10 @@
       .invitacion-icon {
         width: 3.5rem;
         height: 3.5rem;
+      }
+
+      .jubileo-video-player {
+        min-height: 200px;
       }
 
       .jubileo-background {
