@@ -1,6 +1,18 @@
 [ 
-  {
+    {
     "id": 1,
+    "fecha": "11 de Diciembre",
+    "santo": "Virgen de Loreto",
+    "santoFontSize": "1.1em",
+    "poster": "./asantos/loreto.png",
+    "video": "./asantos/damaso.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "30px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+  {
+    "id": 2,
     "fecha": "10 de Diciembre",
     "santo": "Virgen de Loreto",
     "santoFontSize": "1.1em",
@@ -12,24 +24,12 @@
     "showOnDesktop": true
   },
    {
-    "id": 2,
+    "id": 3,
     "fecha": "9 de Diciembre",
     "santo": "San Juan Diego",
     "santoFontSize": "1.1em",
     "poster": "./asantos/juandiego.jpg",
     "video": "./asantos/juandiego-web.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "30px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },
-     {
-    "id": 3,
-    "fecha": "9 de Diciembre",
-    "santo": "Santa Narcisa de Jesús",
-    "santoFontSize": "1.1em",
-    "poster": "./asantos/narcisa.jpg",
-    "video": "./asantos/narcisa.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "30px",
     "showOnMobile": false,
