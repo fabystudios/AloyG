@@ -1030,21 +1030,21 @@ h2 {
 }
 
 :root {
-    --section-spacing: 1rem; 
-    /* Nuevo espaciado global */
+    --section-spacing: 3rem; 
+    /* Espaciado global normalizado entre secciones */
 }
 
 .section-padding {
-    padding: var(--section-spacing) 0.5rem; /* Espaciado vertical reducido */
-    margin-bottom: var(--section-spacing); 
-    /* Espaciado entre secciones */
+    padding-top: var(--section-spacing);
+    padding-bottom: var(--section-spacing);
+    margin-bottom: 0;
 }
 
 /* Espaciado más reducido en dispositivos pequeños */
 @media (max-width: 768px) {
     .section-padding {
-        padding: 1.5rem 1rem;
-        margin-bottom: 1.5rem;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
     }
     /* .menuHamburguesa {
         justify-content:end;
