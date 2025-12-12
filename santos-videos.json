@@ -2,7 +2,7 @@
     {
     "id": 1,
     "fecha": "11 de Diciembre",
-    "santo": "Virgen de Loreto",
+    "santo": "San Dámaso I",
     "santoFontSize": "1.1em",
     "poster": "./asantos/loreto.png",
     "video": "./asantos/damaso.mp4",
@@ -20,7 +20,7 @@
     "video": "./asantos/loreto-web.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "30px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },
    {
