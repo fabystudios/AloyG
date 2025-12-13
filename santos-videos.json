@@ -1,18 +1,30 @@
 [ 
-     {
+    {
     "id": 1,
-    "fecha": "12 de Diciembre",
-    "santo": "Nuestra Señora de Guadalupe",
-    "santoFontSize": "0.95em",
-    "poster": "./asantos/guadalupe.jpg",
-    "video": "./asantos/guadalupe-web.mp4",
+    "fecha": "13 de Diciembre",
+    "santo": "Santa Lucía",
+    "santoFontSize": "1.1em",
+    "poster": "./asantos/loreto.jpg",
+    "video": "./asantos/lucia-web.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "30px",
     "showOnMobile": true,
     "showOnDesktop": true
   },
-    {
+     {
     "id": 2,
+    "fecha": "12 de Diciembre",
+    "santo": "Nuestra Señora de Guadalupe",
+    "santoFontSize": "1.1em",
+    "poster": "./asantos/guadalupe.jpg",
+    "video": "./asantos/guadalupe-web.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "30px",
+    "showOnMobile": false,
+    "showOnDesktop": true
+  },
+    {
+    "id": 3,
     "fecha": "11 de Diciembre",
     "santo": "San Dámaso I",
     "santoFontSize": "1.1em",
@@ -22,18 +34,7 @@
     "iconoWidth": "30px",
     "showOnMobile": false,
     "showOnDesktop": true
-  },
-  {
-    "id": 3,
-    "fecha": "10 de Diciembre",
-    "santo": "Virgen de Loreto",
-    "santoFontSize": "1.1em",
-    "poster": "./asantos/loreto.png",
-    "video": "./asantos/loreto-web.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "30px",
-    "showOnMobile": false,
-    "showOnDesktop": true
   }
+
 
 ]
