@@ -1,4 +1,17 @@
 [ 
+
+     {
+    "id": 3,
+    "fecha": "15 de Diciembre",
+    "santo": "Santa María Crucificada de la Rosa",
+    "santoFontSize": "0.9em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/rosa.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "30px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
       {
     "id": 1,
     "fecha": "14 de Diciembre",
@@ -8,7 +21,7 @@
     "video": "./asantos/cruz.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "30px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },
     {
@@ -18,18 +31,6 @@
     "santoFontSize": "1.1em",
     "poster": "./asantos/loreto.jpg",
     "video": "./asantos/lucia-web.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "30px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },
-     {
-    "id": 3,
-    "fecha": "12 de Diciembre",
-    "santo": "Nuestra Señora de Guadalupe",
-    "santoFontSize": "1.1em",
-    "poster": "./asantos/guadalupe.jpg",
-    "video": "./asantos/guadalupe-web.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "30px",
     "showOnMobile": false,
