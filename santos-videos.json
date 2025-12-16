@@ -1,7 +1,19 @@
 [ 
+      {
+    "id": 1,
+    "fecha": "16 de Diciembre",
+    "santo": "Santa Adelaida",
+    "santoFontSize": "1.1em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/ade.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "30px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
 
      {
-    "id": 3,
+    "id": 2,
     "fecha": "15 de Diciembre",
     "santo": "Santa María Crucificada de la Rosa",
     "santoFontSize": "0.9em",
@@ -9,11 +21,11 @@
     "video": "./asantos/rosa.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "30px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },
       {
-    "id": 1,
+    "id": 3,
     "fecha": "14 de Diciembre",
     "santo": "San Juan de la Cruz",
     "santoFontSize": "1.1em",
@@ -23,19 +35,8 @@
     "iconoWidth": "30px",
     "showOnMobile": false,
     "showOnDesktop": true
-  },
-    {
-    "id": 2,
-    "fecha": "13 de Diciembre",
-    "santo": "Santa Lucía",
-    "santoFontSize": "1.1em",
-    "poster": "./asantos/loreto.jpg",
-    "video": "./asantos/lucia-web.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "30px",
-    "showOnMobile": false,
-    "showOnDesktop": true
   }
+
 
 
 ]
