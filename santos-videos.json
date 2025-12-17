@@ -8,7 +8,7 @@
     "video": "./asantos/ade.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "30px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },
 
