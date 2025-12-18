@@ -6,8 +6,8 @@
     "santoFontSize": "0.9em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/espe.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "30px",
+    "icono": "./img/nav.png",
+    "iconoWidth": "35px",
     "showOnMobile": true,
     "showOnDesktop": true
   },
