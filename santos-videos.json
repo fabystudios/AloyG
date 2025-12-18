@@ -1,6 +1,18 @@
 [ 
-        {
+       {
     "id": 1,
+    "fecha": "18 de Diciembre",
+    "santo": "Nuestra Señora de la Esperanza",
+    "santoFontSize": "0.9em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/espe.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "30px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+        {
+    "id": 2,
     "fecha": "17 de Diciembre",
     "santo": "San Lázaro de Betania",
     "santoFontSize": "1.1em",
@@ -8,11 +20,11 @@
     "video": "./asantos/lazaro.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "30px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },
       {
-    "id": 2,
+    "id": 3,
     "fecha": "16 de Diciembre",
     "santo": "Santa Adelaida",
     "santoFontSize": "1.1em",
@@ -22,20 +34,9 @@
     "iconoWidth": "30px",
     "showOnMobile": false,
     "showOnDesktop": true
-  },
-
-     {
-    "id": 3,
-    "fecha": "15 de Diciembre",
-    "santo": "Santa María Crucificada de la Rosa",
-    "santoFontSize": "0.9em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/rosa.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "30px",
-    "showOnMobile": false,
-    "showOnDesktop": true
   }
+
+
 
 
 
