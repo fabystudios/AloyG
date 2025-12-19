@@ -1,6 +1,18 @@
 [ 
-       {
+        {
     "id": 1,
+    "fecha": "19 de Diciembre",
+    "santo": "Beato Papa Urbano V",
+    "santoFontSize": "1.1em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/urbano.mp4",
+    "icono": "./img/nav.png",
+    "iconoWidth": "35px",
+    "showOnMobile": false,
+    "showOnDesktop": true
+  },
+       {
+    "id": 2,
     "fecha": "18 de Diciembre",
     "santo": "Nuestra Señora de la Esperanza",
     "santoFontSize": "0.9em",
@@ -8,11 +20,11 @@
     "video": "./asantos/espe.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },
         {
-    "id": 2,
+    "id": 3,
     "fecha": "17 de Diciembre",
     "santo": "San Lázaro de Betania",
     "santoFontSize": "1.1em",
@@ -20,24 +32,9 @@
     "video": "./asantos/lazaro.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "30px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },
-      {
-    "id": 3,
-    "fecha": "16 de Diciembre",
-    "santo": "Santa Adelaida",
-    "santoFontSize": "1.1em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/ade.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "30px",
-    "showOnMobile": false,
+    "showOnMobile": true,
     "showOnDesktop": true
   }
-
-
-
 
 
 ]
