@@ -1,6 +1,18 @@
 [ 
-        {
+          {
     "id": 1,
+    "fecha": "20 de Diciembre",
+    "santo": "Santo Domingo de Silos",
+    "santoFontSize": "1.1em",
+    "poster": "./asantos/santos.png",
+    "video": "./asantos/domingo.mp4",
+    "icono": "./img/nav.png",
+    "iconoWidth": "30px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+        {
+    "id": 2,
     "fecha": "19 de Diciembre",
     "santo": "Beato Papa Urbano V",
     "santoFontSize": "1.1em",
@@ -8,11 +20,11 @@
     "video": "./asantos/urbano.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },
        {
-    "id": 2,
+    "id": 3,
     "fecha": "18 de Diciembre",
     "santo": "Nuestra Señora de la Esperanza",
     "santoFontSize": "0.9em",
@@ -22,19 +34,8 @@
     "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
-  },
-        {
-    "id": 3,
-    "fecha": "17 de Diciembre",
-    "santo": "San Lázaro de Betania",
-    "santoFontSize": "1.1em",
-    "poster": "./asantos/cruz.png",
-    "video": "./asantos/lazaro.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "30px",
-    "showOnMobile": false,
-    "showOnDesktop": true
   }
+
 
 
 ]
