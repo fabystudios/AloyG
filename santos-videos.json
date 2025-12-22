@@ -1,7 +1,18 @@
 [ 
-  
-       {
+          {
     "id": 1,
+    "fecha": "22 de Diciembre",
+    "santo": "Santa Francisca Javiera Cabrini",
+    "santoFontSize": "0.95em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/cabrini.mp4",
+    "icono": "./img/nav.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+       {
+    "id": 2,
     "fecha": "21 de Diciembre",
     "santo": "San Pedro Canisio",
     "santoFontSize": "1.1em",
@@ -9,11 +20,11 @@
     "video": "./asantos/pedro.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },
           {
-    "id": 2,
+    "id": 3,
     "fecha": "20 de Diciembre",
     "santo": "Santo Domingo de Silos",
     "santoFontSize": "1.1em",
@@ -23,19 +34,8 @@
     "iconoWidth": "30px",
     "showOnMobile": false,
     "showOnDesktop": true
-  },
-        {
-    "id": 3,
-    "fecha": "19 de Diciembre",
-    "santo": "Beato Papa Urbano V",
-    "santoFontSize": "1.1em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/urbano.mp4",
-    "icono": "./img/nav.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
   }
+
 
 
 
