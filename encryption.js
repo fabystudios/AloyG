@@ -286,7 +286,7 @@ async function renderizarHeaderRifa() {
 
       <div class="prizes-images" style="text-align: center;">
       <!-- Imagen agrandada solo aquí -->
-      <img src="./rifa/premio.png" alt="Bicicleta" style="box-shadow: none !important; display: block; margin: 0 auto; max-width: 100%; height: auto; max-height: 80vh; object-fit: contain;">
+      <img src="./rifa/bici.gif" alt="Bicicleta" style="box-shadow: none !important; display: block; margin: 0 auto; max-width: 100%; height: auto; max-height: 80vh; object-fit: contain;">
        <p>La imagen es ilustrativa. La bicicleta del premio es de rodado 29, modelo y color sujeta a disponibilidad</p>
       </div>
       </div>
