@@ -1,6 +1,18 @@
 [ 
-            {
+         {
     "id": 1,
+    "fecha": "Noche Buena",
+    "santo": "24 de Diciembre",
+    "santoFontSize": "1.5em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/nochebuena.mp4",
+    "icono": "./img/nav.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+            {
+    "id": 2,
     "fecha": "23 de Diciembre",
     "santo": "San Juan Cancio",
     "santoFontSize": "1.1em",
@@ -8,28 +20,16 @@
     "video": "./asantos/cansio.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "30px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },
           {
-    "id": 2,
+    "id": 3,
     "fecha": "22 de Diciembre",
     "santo": "Santa Francisca Javiera Cabrini",
     "santoFontSize": "0.95em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/cabrini.mp4",
-    "icono": "./img/nav.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },
-       {
-    "id": 3,
-    "fecha": "21 de Diciembre",
-    "santo": "San Pedro Canisio",
-    "santoFontSize": "1.1em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/pedro.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
