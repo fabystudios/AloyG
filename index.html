@@ -388,7 +388,7 @@
 
   <section class="carousel-section bg-light">
     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel">
-      <!-- Indicadores actualizados para 8 slides -->
+      <!-- Indicadores actualizados para 9 slides -->
       <div class="carousel-indicators d-none">
         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
@@ -399,7 +399,7 @@
         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="6"></button>
         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="7"></button>
         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="8"></button>
-        <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="9"></button> -->
+        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="9"></button>
         <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="10"></button> -->
         <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="11"></button> -->
         <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="12"></button> -->
@@ -407,6 +407,35 @@
       </div>
 
       <div class="carousel-inner">
+        <!-- ***************************************************************
+        *            VIDEO SANTA (Primer elemento)                       *
+        *************************************************************** -->
+        <div class="carousel-item active">
+                    <a href="#santa">
+          <div class="video-carousel-container" style="position: relative; width: 100%; background: #000;">
+
+            <!-- Video Mobile -->
+            <video class="d-block d-md-none w-100 carousel-video-mobile" 
+                   src="./video/santa.mp4" 
+                   autoplay 
+                   loop 
+                   muted 
+                   playsinline
+                   style="width: 100%; height: auto; object-fit: cover;">
+            </video>
+            <!-- Video Desktop - Preparado para cuando esté disponible -->
+            <video class="d-none d-md-block w-100 carousel-video-desktop" 
+                   src="./video/santa_desktop.mp4" 
+                   autoplay 
+                   loop 
+                   muted 
+                   playsinline
+                   style="width: 100%; height: auto; object-fit: cover;">
+            </video>
+            <!-- Imagen placeholder para desktop mientras no haya video -->
+          </div>
+          </a>
+        </div>
                 <!--  ***************************************************************
         *   Peña Emprendedores (14 diciembre)                                                        *
         *************************************************************** -->
@@ -448,7 +477,7 @@
         <!-- ***************************************************************
         *            R I F A                                                    *
         *************************************************************** -->
-        <div class="carousel-item active">
+        <div class="carousel-item">
           <a href="#rifa">
             <img src="./slides/rifa_desktop.png" class="d-none d-md-block w-100" alt="Imagen escritorio">
             <img src="./slides/rifa_mobile.png" class="d-block d-md-none w-100" alt="Imagen móvil">
@@ -659,6 +688,43 @@
       /* escala + recorta centrado */
       object-position: center;
     }
+
+    /* -----------------------------
+     3. Videos del carrusel
+     ----------------------------- */
+    .video-carousel-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #mainCarousel .carousel-item video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    /* Estilos específicos para video mobile */
+    .carousel-video-mobile {
+      max-height: 100vh;
+    }
+
+    /* Estilos preparados para video desktop */
+    .carousel-video-desktop {
+      max-height: 100vh;
+    }
+
+    /* Asegurar que el contenedor del video ocupe todo el espacio */
+    #mainCarousel .carousel-item .video-carousel-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      margin-left: 0;
+      overflow: hidden;
+    }
   </style>
 
 
@@ -685,7 +751,7 @@
   </section>
 
   <!-- Video de YouTube automático y cíclico -->
-  <section class="youtube-video-section" style="padding: 2rem 0; display: flex; align-items: center; justify-content: center;">
+  <section id="santa" class="youtube-video-section" style="padding: 2rem 0; display: flex; align-items: center; justify-content: center;">
     <div class="youtube-video-container" style="width: 90%; max-width: 1200px; margin: 0 auto;">
       <div class="video-card" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%); background-size: cover; background-position: center; padding: 20px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 0 12px rgba(30, 60, 114, 0.3); position: relative; overflow: hidden;">
         <!-- Decoración de bordes -->
