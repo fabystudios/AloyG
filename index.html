@@ -684,7 +684,152 @@
     </h2>
   </section>
 
+  <!-- Video de YouTube automático y cíclico -->
+  <section class="youtube-video-section" style="padding: 2rem 0; display: flex; align-items: center; justify-content: center;">
+    <div class="youtube-video-container" style="width: 90%; max-width: 1200px; margin: 0 auto;">
+      <div class="video-card" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%); background-size: cover; background-position: center; padding: 20px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 0 12px rgba(30, 60, 114, 0.3); position: relative; overflow: hidden;">
+        <!-- Decoración de bordes -->
+        <div style="position: absolute; top: 10px; left: 10px; width: 60px; height: 60px; border-top: 4px solid #FFD700; border-left: 4px solid #FFD700; border-radius: 12px 0 0 0; opacity: 0.8;"></div>
+        <div style="position: absolute; top: 10px; right: 10px; width: 60px; height: 60px; border-top: 4px solid #FFD700; border-right: 4px solid #FFD700; border-radius: 0 12px 0 0; opacity: 0.8;"></div>
+        <div style="position: absolute; bottom: 10px; left: 10px; width: 60px; height: 60px; border-bottom: 4px solid #FFD700; border-left: 4px solid #FFD700; border-radius: 0 0 0 12px; opacity: 0.8;"></div>
+        <div style="position: absolute; bottom: 10px; right: 10px; width: 60px; height: 60px; border-bottom: 4px solid #FFD700; border-right: 4px solid #FFD700; border-radius: 0 0 12px 0; opacity: 0.8;"></div>
+        
+        <!-- Efecto de brillo -->
+        <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%); pointer-events: none;"></div>
+        
+        <div class="video-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); background: #000; border: 3px solid rgba(255, 215, 0, 0.3);">
+          <iframe 
+            src="https://www.youtube.com/embed/Qe71WXBB4MU?autoplay=1&loop=1&playlist=Qe71WXBB4MU&mute=1&controls=1&modestbranding=1&rel=0&enablejsapi=1" 
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
+            allow="autoplay; fullscreen; picture-in-picture; web-share"
+            allowfullscreen
+            loading="lazy">
+          </iframe>
+        </div>
+      </div>
+    </div>
+  </section>
 
+  <style>
+    .youtube-video-section {
+      width: 100%;
+      background: transparent;
+    }
+    
+    .youtube-video-container {
+      position: relative;
+    }
+    
+    .video-card {
+      animation: subtle-glow 3s ease-in-out infinite alternate;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .video-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 
+                  0 0 0 8px rgba(255, 255, 255, 0.15), 
+                  0 0 0 12px rgba(30, 60, 114, 0.4),
+                  0 0 30px rgba(255, 215, 0, 0.3);
+    }
+    
+    @keyframes subtle-glow {
+      from {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 
+                    0 0 0 8px rgba(255, 255, 255, 0.1), 
+                    0 0 0 12px rgba(30, 60, 114, 0.3);
+      }
+      to {
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 
+                    0 0 0 8px rgba(255, 255, 255, 0.15), 
+                    0 0 0 12px rgba(30, 60, 114, 0.4),
+                    0 0 20px rgba(255, 215, 0, 0.2);
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .youtube-video-container {
+        width: 95% !important;
+      }
+      
+      .youtube-video-section {
+        padding: 1.5rem 0;
+      }
+      
+      .video-card {
+        padding: 15px;
+        border-radius: 18px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 
+                    0 0 0 6px rgba(255, 255, 255, 0.1), 
+                    0 0 0 10px rgba(30, 60, 114, 0.3);
+      }
+      
+      .video-card > div[style*="border-top"],
+      .video-card > div[style*="border-bottom"] {
+        width: 40px !important;
+        height: 40px !important;
+      }
+      
+      .video-wrapper {
+        border-radius: 12px !important;
+        border-width: 2px !important;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .video-card {
+        padding: 12px;
+        border-radius: 16px;
+      }
+      
+      .video-card > div[style*="border-top"],
+      .video-card > div[style*="border-bottom"] {
+        width: 30px !important;
+        height: 30px !important;
+        border-width: 3px !important;
+      }
+    }
+    
+    /* Modo salvapantallas - ocultar controles después de inactividad */
+    .youtube-video-section.screensaver-mode {
+      cursor: none;
+    }
+    
+    .youtube-video-section.screensaver-mode .video-card {
+      animation: none;
+    }
+  </style>
+
+  <script>
+    // Funcionalidad de salvapantallas
+    (function() {
+      const videoSection = document.querySelector('.youtube-video-section');
+      let inactivityTimer;
+      const INACTIVITY_DELAY = 30000; // 30 segundos
+      
+      function enterScreensaverMode() {
+        videoSection.classList.add('screensaver-mode');
+      }
+      
+      function exitScreensaverMode() {
+        videoSection.classList.remove('screensaver-mode');
+      }
+      
+      function resetInactivityTimer() {
+        clearTimeout(inactivityTimer);
+        exitScreensaverMode();
+        inactivityTimer = setTimeout(enterScreensaverMode, INACTIVITY_DELAY);
+      }
+      
+      // Detectar actividad del usuario
+      ['mousemove', 'mousedown', 'keypress', 'scroll', 'touchstart'].forEach(event => {
+        document.addEventListener(event, resetInactivityTimer, { passive: true });
+      });
+      
+      // Iniciar el temporizador
+      resetInactivityTimer();
+    })();
+  </script>
 
 
 
