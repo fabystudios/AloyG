@@ -750,8 +750,18 @@
     </h2>
   </section>
 
+  <!-- Título del wallpaper navideño -->
+  <div style="text-align: center; padding: 2rem 1rem 1rem 1rem; background: transparent;">
+    <h3 style="color: #c41e3a; font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.2);">
+      🎄 Ambientá tu Pantalla en las Fiestas 🎵
+    </h3>
+    <p style="color: #333; font-size: 1.1rem; max-width: 800px; margin: 0 auto; line-height: 1.5;">
+      Dejá esta animación con música navideña sonando mientras celebrás en familia
+    </p>
+  </div>
+
   <!-- Video de YouTube automático y cíclico -->
-  <section id="santa" class="youtube-video-section" style="padding: 2rem 0; display: flex; align-items: center; justify-content: center;">
+  <section id="santa" class="youtube-video-section" style="padding: 1rem 0 2rem 0; display: flex; align-items: center; justify-content: center;">
     <div class="youtube-video-container" style="width: 90%; max-width: 1200px; margin: 0 auto;">
       <div class="video-card" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #1e3c72 100%); background-size: cover; background-position: center; padding: 20px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4), 0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 0 12px rgba(30, 60, 114, 0.3); position: relative; overflow: hidden;">
         <!-- Decoración de bordes -->
@@ -896,6 +906,44 @@
       resetInactivityTimer();
     })();
   </script>
+
+  <!-- Botón navideño para abrir el video en YouTube -->
+  <div style="text-align: center; margin: -1rem 0 2rem 0; padding: 0 1rem;">
+    <a href="https://www.youtube.com/watch?v=Qe71WXBB4MU" 
+       target="_blank" 
+       rel="noopener noreferrer"
+       class="christmas-youtube-button"
+       style="display: inline-block; padding: 15px 40px; background: linear-gradient(135deg, #c41e3a 0%, #165b33 50%, #c41e3a 100%); color: white; text-decoration: none; border-radius: 50px; font-size: 1.1rem; font-weight: 600; box-shadow: 0 8px 20px rgba(196, 30, 58, 0.4); transition: all 0.3s ease; position: relative; overflow: hidden;">
+      <i class="fab fa-youtube" style="margin-right: 10px; font-size: 1.3rem;"></i>
+      Ver en YouTube
+      <span style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); animation: shine 3s infinite;"></span>
+    </a>
+  </div>
+
+  <style>
+    .christmas-youtube-button:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(196, 30, 58, 0.6),
+                  0 0 20px rgba(255, 215, 0, 0.4);
+      color: white !important;
+    }
+
+    .christmas-youtube-button:active {
+      transform: translateY(-1px) scale(1.02);
+    }
+
+    @keyframes shine {
+      0% { left: -100%; }
+      50%, 100% { left: 200%; }
+    }
+
+    @media (max-width: 768px) {
+      .christmas-youtube-button {
+        font-size: 1rem !important;
+        padding: 12px 30px !important;
+      }
+    }
+  </style>
 
 
 
@@ -4718,7 +4766,20 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
   <script>
+    // Prevenir scroll automático del carrusel al cargar la página
+    if (history.scrollRestoration) {
+      history.scrollRestoration = 'manual';
+    }
+    window.addEventListener('load', function() {
+      setTimeout(function() {
+        window.scrollTo(0, 0);
+      }, 0);
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
+      // Mantener la página en el tope al cargar
+      window.scrollTo(0, 0);
+
       const menu = document.getElementById('navbarNav');
       const toggler = document.querySelector('.navbar-toggler');
       if (!menu || !toggler || typeof bootstrap === 'undefined') return;
