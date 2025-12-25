@@ -414,7 +414,7 @@
           <div class="video-carousel-container" style="position: relative; width: 100%; background: red;">
 
             <!-- Video Mobile -->
-            <video class="d-block d-md-none w-100 carousel-video-mobile" 
+            <video id="santaVideoMobile" class="d-block d-md-none w-100 carousel-video-mobile" 
                    src="./video/santa_mobile.mp4" 
                    autoplay 
                    loop 
@@ -425,7 +425,7 @@
                    onclick="window.location.href='#santa'">
             </video>
             <!-- Video Desktop - Preparado para cuando esté disponible -->
-            <video class="d-none d-md-block w-100 carousel-video-desktop" 
+            <video id="santaVideoDesktop" class="d-none d-md-block w-100 carousel-video-desktop" 
                    src="./video/santa_desktop.mp4" 
                    autoplay 
                    loop 
@@ -4920,6 +4920,42 @@
         bsMenu.hide();
       });
     });
+
+    // ========================================
+    // ALTERNAR VIDEO SANTA - localStorage
+    // ========================================
+    (function() {
+      const videoMobile = document.getElementById('santaVideoMobile');
+      const videoDesktop = document.getElementById('santaVideoDesktop');
+      
+      // Clave para el localStorage
+      const STORAGE_KEY = 'santaVideoFlag';
+      
+      // Obtener la bandera actual (por defecto es '1' para el primer video)
+      let currentVideo = localStorage.getItem(STORAGE_KEY) || '1';
+      
+      // Determinar qué video mostrar
+      const videoToShow = currentVideo === '1' ? 'santa_mobile.mp4' : 'santa_mobile2.mp4';
+      const videoToShowDesktop = currentVideo === '1' ? 'santa_desktop.mp4' : 'santa_desktop2.mp4';
+      
+      // Actualizar el src de los videos
+      if (videoMobile) {
+        videoMobile.src = `./video/${videoToShow}`;
+        videoMobile.load(); // Recargar el video con el nuevo src
+      }
+      
+      if (videoDesktop) {
+        videoDesktop.src = `./video/${videoToShowDesktop}`;
+        videoDesktop.load(); // Recargar el video con el nuevo src
+      }
+      
+      // Alternar la bandera para la próxima visita
+      const nextVideo = currentVideo === '1' ? '2' : '1';
+      localStorage.setItem(STORAGE_KEY, nextVideo);
+      
+      // Debug (opcional - puedes comentar o eliminar esta línea)
+      console.log(`Video actual: ${videoToShow}, Próximo video será: ${nextVideo === '1' ? 'santa_mobile.mp4' : 'santa_mobile2.mp4'}`);
+    })();
   </script>
 
 
