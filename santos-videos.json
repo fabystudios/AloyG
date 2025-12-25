@@ -1,6 +1,18 @@
-[ 
+[  
             {
-    "id": 1,
+    "id": 2,
+    "fecha": "Nacimiento",
+    "santo": "Llegada del mesías",
+    "santoFontSize": "1.5em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/25.mp4",
+    "icono": "./img/nav.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },  
+{
+    "id": 2,
     "fecha": "Feliz Navidad!!!",
     "santo": "25 de Diciembre",
     "santoFontSize": "1.5em",
@@ -11,8 +23,9 @@
     "showOnMobile": true,
     "showOnDesktop": true
   },
+
          {
-    "id": 2,
+    "id": 3,
     "fecha": "Noche Buena",
     "santo": "24 de Diciembre",
     "santoFontSize": "1.5em",
