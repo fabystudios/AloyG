@@ -775,6 +775,7 @@
         
         <div class="video-wrapper" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 16px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); background: #000; border: 3px solid rgba(255, 215, 0, 0.3);">
           <iframe 
+            id="youtubePlayer"
             src="https://www.youtube.com/embed/Qe71WXBB4MU?autoplay=1&loop=1&playlist=Qe71WXBB4MU&mute=1&controls=1&modestbranding=1&rel=0&enablejsapi=1" 
             style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none;"
             allow="autoplay; fullscreen; picture-in-picture; web-share"
@@ -926,6 +927,14 @@
       Pantalla Completa
       <span style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); animation: shine 3s infinite;"></span>
     </button>
+    
+    <button id="audioToggleBtn" onclick="toggleAudio()" 
+       class="christmas-audio-button"
+       style="display: inline-block; padding: 15px 40px; background: linear-gradient(135deg, #c41e3a 0%, #165b33 50%, #c41e3a 100%); color: white; text-decoration: none; border-radius: 50px; font-size: 1.1rem; font-weight: 600; box-shadow: 0 8px 20px rgba(196, 30, 58, 0.4); transition: all 0.3s ease; position: relative; overflow: hidden; border: none; cursor: pointer;">
+      <i id="audioIcon" class="fas fa-volume-up" style="margin-right: 10px; font-size: 1.3rem;"></i>
+      <span id="audioText">Activar Audio</span>
+      <span style="position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent); animation: shine 3s infinite;"></span>
+    </button>
   </div>
 
   <style>
@@ -950,6 +959,17 @@
     .christmas-fullscreen-button:active {
       transform: translateY(-1px) scale(1.02);
     }
+    
+    .christmas-audio-button:hover {
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 0 12px 30px rgba(196, 30, 58, 0.6),
+                  0 0 20px rgba(255, 215, 0, 0.4);
+      color: white !important;
+    }
+
+    .christmas-audio-button:active {
+      transform: translateY(-1px) scale(1.02);
+    }
 
     @keyframes shine {
       0% { left: -100%; }
@@ -958,7 +978,8 @@
 
     @media (max-width: 768px) {
       .christmas-youtube-button,
-      .christmas-fullscreen-button {
+      .christmas-fullscreen-button,
+      .christmas-audio-button {
         font-size: 1rem !important;
         padding: 12px 30px !important;
       }
@@ -966,6 +987,48 @@
   </style>
   
   <script>
+    let player;
+    let isMuted = true;
+    
+    // Cargar la API de YouTube IFrame
+    var tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    
+    // Esta función se llama automáticamente cuando la API está lista
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('youtubePlayer', {
+        events: {
+          'onReady': onPlayerReady
+        }
+      });
+    }
+    
+    function onPlayerReady(event) {
+      // El player está listo
+    }
+    
+    function toggleAudio() {
+      const audioBtn = document.getElementById('audioToggleBtn');
+      const audioIcon = document.getElementById('audioIcon');
+      const audioText = document.getElementById('audioText');
+      
+      if (player && player.isMuted) {
+        if (isMuted) {
+          player.unMute();
+          audioIcon.className = 'fas fa-volume-mute';
+          audioText.textContent = 'Silenciar';
+          isMuted = false;
+        } else {
+          player.mute();
+          audioIcon.className = 'fas fa-volume-up';
+          audioText.textContent = 'Activar Audio';
+          isMuted = true;
+        }
+      }
+    }
+    
     function toggleFullscreen() {
       const videoSection = document.querySelector('.youtube-video-section');
       
