@@ -1,6 +1,18 @@
 [ 
-         {
+            {
     "id": 1,
+    "fecha": "Feliz Navidad!!!",
+    "santo": "25 de Diciembre",
+    "santoFontSize": "1.5em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/jesus.mp4",
+    "icono": "./img/nav.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+         {
+    "id": 2,
     "fecha": "Noche Buena",
     "santo": "24 de Diciembre",
     "santoFontSize": "1.5em",
@@ -9,30 +21,6 @@
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
-    "showOnDesktop": true
-  },
-            {
-    "id": 2,
-    "fecha": "23 de Diciembre",
-    "santo": "San Juan Cancio",
-    "santoFontSize": "1.1em",
-    "poster": "./asantos/santos.png",
-    "video": "./asantos/cansio.mp4",
-    "icono": "./img/nav.png",
-    "iconoWidth": "30px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },
-          {
-    "id": 3,
-    "fecha": "22 de Diciembre",
-    "santo": "Santa Francisca Javiera Cabrini",
-    "santoFontSize": "0.95em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/cabrini.mp4",
-    "icono": "./img/nav.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
     "showOnDesktop": true
   }
 
