@@ -1018,6 +1018,8 @@
       if (player && player.isMuted) {
         if (isMuted) {
           player.unMute();
+          // Asegurar que el video siga reproduciéndose después de activar el audio
+          player.playVideo();
           audioIcon.className = 'fas fa-volume-mute';
           audioText.textContent = 'Silenciar';
           isMuted = false;
