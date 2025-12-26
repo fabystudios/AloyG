@@ -1,4 +1,16 @@
 [  
+              {
+    "id": 1,
+    "fecha": "26 de Diciembre",
+    "santo": "San Esteban - 1er mártir de la iglesia",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/esteban.mp4",
+    "icono": "./img/nav.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },  
             {
     "id": 2,
     "fecha": "Nacimiento",
@@ -8,11 +20,11 @@
     "video": "./asantos/25.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },  
 {
-    "id": 2,
+    "id": 3,
     "fecha": "Feliz Navidad!!!",
     "santo": "25 de Diciembre",
     "santoFontSize": "1.5em",
@@ -20,12 +32,12 @@
     "video": "./asantos/jesus.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },
 
          {
-    "id": 3,
+    "id": 4,
     "fecha": "Noche Buena",
     "santo": "24 de Diciembre",
     "santoFontSize": "1.5em",
@@ -33,7 +45,7 @@
     "video": "./asantos/nochebuena.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   }
 
