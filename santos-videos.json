@@ -1,6 +1,18 @@
 [  
-                {
+                  {
     "id": 1,
+    "fecha": "28 de Diciembre",
+    "santo": "Santos Inocentes",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/ino.mp4",
+    "icono": "./img/nav.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },  
+                {
+    "id": 2,
     "fecha": "27 de Diciembre",
     "santo": "San Juan Evangelista",
     "santoFontSize": "1.2em",
@@ -8,11 +20,11 @@
     "video": "./asantos/juan.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },  
               {
-    "id": 2,
+    "id": 3,
     "fecha": "26 de Diciembre",
     "santo": "San Esteban - 1er mártir de la iglesia",
     "santoFontSize": "1.2em",
@@ -24,7 +36,7 @@
     "showOnDesktop": true
   },  
             {
-    "id": 3,
+    "id": 4,
     "fecha": "Nacimiento",
     "santo": "Llegada del mesías",
     "santoFontSize": "1.5em",
@@ -36,7 +48,7 @@
     "showOnDesktop": true
   },  
 {
-    "id": 4,
+    "id": 5,
     "fecha": "Feliz Navidad!!!",
     "santo": "25 de Diciembre",
     "santoFontSize": "1.5em",
@@ -49,7 +61,7 @@
   },
 
          {
-    "id": 5,
+    "id": 6,
     "fecha": "Noche Buena",
     "santo": "24 de Diciembre",
     "santoFontSize": "1.5em",
