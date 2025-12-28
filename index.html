@@ -722,7 +722,411 @@
     </h2>
   </section>
 
+  <!-- Publicaciones Especiales - Primera publicación -->
+  <div id="especialesContainer" class="d-flex justify-content-center align-items-center" style="padding: 20px 0;">
+    <!-- Las cards especiales se cargarán dinámicamente desde especiales.json -->
+  </div>
 
+  <style>
+    #especialesContainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Card Glassmorphism */
+    .especial-card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 
+        0 8px 32px 0 rgba(31, 38, 135, 0.37),
+        0 16px 48px 0 rgba(31, 38, 135, 0.25),
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.5);
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      animation: floatIn 0.8s ease-out forwards;
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    @keyframes floatIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .especial-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 
+        0 12px 48px 0 rgba(31, 38, 135, 0.5),
+        0 24px 64px 0 rgba(31, 38, 135, 0.35),
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.6);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* Encabezado hermoso */
+    .especial-header {
+      position: relative;
+      padding: 40px 30px;
+      background: linear-gradient(135deg, 
+        rgba(103, 58, 183, 0.9) 0%, 
+        rgba(81, 45, 168, 0.85) 50%, 
+        rgba(123, 31, 162, 0.9) 100%);
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .especial-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+      animation: headerGlow 8s ease-in-out infinite;
+    }
+
+    @keyframes headerGlow {
+      0%, 100% {
+        transform: translate(0, 0);
+        opacity: 0.5;
+      }
+      50% {
+        transform: translate(10%, 10%);
+        opacity: 0.8;
+      }
+    }
+
+    .especial-header .icono {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      box-shadow: 
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        0 0 20px rgba(255, 255, 255, 0.4);
+      animation: iconoPulse 3s ease-in-out infinite;
+      z-index: 2;
+    }
+
+    @keyframes iconoPulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 
+          0 4px 12px rgba(0, 0, 0, 0.3),
+          0 0 20px rgba(255, 255, 255, 0.4);
+      }
+      50% {
+        transform: scale(1.08);
+        box-shadow: 
+          0 6px 16px rgba(0, 0, 0, 0.4),
+          0 0 30px rgba(255, 255, 255, 0.6);
+      }
+    }
+
+    .especial-titulo {
+      font-size: 2.8em;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 
+        2px 2px 8px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(255, 255, 255, 0.3);
+      margin: 0;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      position: relative;
+      z-index: 2;
+      animation: titleShine 3s ease-in-out infinite;
+    }
+
+    @keyframes titleShine {
+      0%, 100% {
+        text-shadow: 
+          2px 2px 8px rgba(0, 0, 0, 0.5),
+          0 0 20px rgba(255, 255, 255, 0.3);
+      }
+      50% {
+        text-shadow: 
+          2px 2px 8px rgba(0, 0, 0, 0.5),
+          0 0 30px rgba(255, 255, 255, 0.5),
+          0 0 40px rgba(255, 255, 255, 0.3);
+      }
+    }
+
+    .especial-fecha {
+      font-size: 1.3em;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.95);
+      margin-top: 12px;
+      text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.4);
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Contenedor de video */
+    .especial-video-container {
+      padding: 30px;
+      position: relative;
+    }
+
+    .especial-video-wrapper {
+      position: relative;
+      width: 100%;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 
+        0 8px 24px rgba(0, 0, 0, 0.3),
+        0 16px 48px rgba(0, 0, 0, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .especial-video-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      border-radius: 20px;
+      box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.2);
+      pointer-events: none;
+    }
+
+    .especial-video-player,
+    .especial-video-iframe {
+      width: 100%;
+      border: none;
+      display: block;
+      border-radius: 20px;
+    }
+
+    .especial-video-player {
+      height: auto;
+      min-height: 300px;
+    }
+
+    .especial-video-iframe {
+      aspect-ratio: 16 / 9;
+      height: auto;
+    }
+
+    /* Responsive Desktop */
+    @media (min-width: 769px) {
+      .especial-card {
+        width: 90vw;
+        max-width: 1000px;
+      }
+
+      .especial-titulo {
+        font-size: 3.2em;
+      }
+
+      .especial-fecha {
+        font-size: 1.5em;
+      }
+
+      .especial-video-player {
+        min-height: 400px;
+      }
+
+      .especial-header .icono {
+        width: 60px;
+        height: 60px;
+      }
+    }
+
+    /* Responsive Mobile */
+    @media (max-width: 768px) {
+      .especial-card {
+        width: 95vw;
+      }
+
+      .especial-header {
+        padding: 30px 20px;
+      }
+
+      .especial-titulo {
+        font-size: 2.2em;
+        line-height: 1.3;
+      }
+
+      .especial-fecha {
+        font-size: 1.1em;
+        margin-top: 10px;
+      }
+
+      .especial-video-container {
+        padding: 20px;
+      }
+
+      .especial-header .icono {
+        width: 45px;
+        height: 45px;
+        top: 15px;
+        right: 15px;
+      }
+    }
+
+    /* Efecto de partículas decorativas */
+    .especial-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.08) 0%, transparent 20%),
+        radial-gradient(circle at 90% 80%, rgba(255, 255, 255, 0.06) 0%, transparent 20%),
+        radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.04) 0%, transparent 30%);
+      pointer-events: none;
+      animation: particles 10s ease-in-out infinite;
+    }
+
+    @keyframes particles {
+      0%, 100% {
+        opacity: 0.6;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+    }
+  </style>
+
+  <script>
+    (function() {
+      // Detectar si es mobile o desktop
+      function isMobileDevice() {
+        return window.innerWidth <= 768;
+      }
+
+      // Convertir URL de YouTube a formato embed
+      function getYouTubeEmbedUrl(url) {
+        if (!url) return null;
+        
+        // Extraer video ID de diferentes formatos de URL de YouTube
+        const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        const match = url.match(regExp);
+        const videoId = (match && match[7].length === 11) ? match[7] : null;
+        
+        if (videoId) {
+          return `https://www.youtube.com/embed/${videoId}`;
+        }
+        
+        // Si ya es formato embed, retornar tal cual
+        if (url.includes('embed')) {
+          return url;
+        }
+        
+        return url;
+      }
+
+      async function cargarEspeciales() {
+        try {
+          const response = await fetch('./especiales.json');
+          const especiales = await response.json();
+          const container = document.getElementById('especialesContainer');
+          
+          if (!container) return;
+
+          especiales.forEach((especial, index) => {
+            const card = document.createElement('div');
+            card.className = 'especial-card';
+            card.style.animationDelay = `${index * 0.2}s`;
+
+            const mobile = isMobileDevice();
+            let videoHTML = '';
+
+            // Decidir qué video mostrar
+            if (mobile && especial.videoMobile) {
+              // En mobile, usar el video local MP4
+              videoHTML = `
+                <video class="especial-video-player" controls preload="metadata" playsinline autoplay muted
+                  poster="${especial.poster || ''}"
+                  controlsList="nodownload">
+                  <source src="${especial.videoMobile}" type="video/mp4">
+                  Tu navegador no soporta la reproducción de video.
+                </video>
+              `;
+            } else {
+              // En desktop o si no hay video mobile, usar YouTube
+              const embedUrl = getYouTubeEmbedUrl(especial.videoDesktop);
+              if (embedUrl) {
+                const autoplayUrl = embedUrl.includes('?') ? `${embedUrl}&autoplay=1&mute=1` : `${embedUrl}?autoplay=1&mute=1`;
+                videoHTML = `
+                  <iframe class="especial-video-iframe" 
+                    src="${autoplayUrl}" 
+                    title="${especial.titulo}"
+                    frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen>
+                  </iframe>
+                `;
+              }
+            }
+
+            // Separar título en dos líneas para mobile
+            const tituloHTML = mobile ? 
+              especial.titulo.replace(/\s*-\s*/g, '<br>') : 
+              especial.titulo;
+
+            card.innerHTML = `
+              <div class="especial-header">
+                ${especial.icono ? `<img src="${especial.icono}" alt="Icono" class="icono">` : ''}
+                <h1 class="especial-titulo">${tituloHTML}</h1>
+                <p class="especial-fecha">${especial.fecha}</p>
+              </div>
+              <div class="especial-video-container">
+                <div class="especial-video-wrapper">
+                  ${videoHTML}
+                </div>
+              </div>
+            `;
+
+            container.appendChild(card);
+          });
+
+          console.log('✨ Especiales cargados exitosamente');
+        } catch (error) {
+          console.error('Error al cargar especiales:', error);
+        }
+      }
+
+      // Recargar si cambia el tamaño de ventana (mobile ↔ desktop)
+      let currentMobileState = isMobileDevice();
+      window.addEventListener('resize', () => {
+        const newMobileState = isMobileDevice();
+        if (currentMobileState !== newMobileState) {
+          currentMobileState = newMobileState;
+          const container = document.getElementById('especialesContainer');
+          if (container) {
+            container.innerHTML = '';
+            cargarEspeciales();
+          }
+        }
+      });
+
+      // Cargar cuando el DOM esté listo
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', cargarEspeciales);
+      } else {
+        cargarEspeciales();
+      }
+    })();
+  </script>
 
 
  <!-- // section con un div con clase "rifa-navidad-article"para poner el video: '/video/rifa.mp4 ciclico infinito, y abajo un boton animado que diga: Adquierela aqui, que lleve a <div class="

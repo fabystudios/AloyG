@@ -1,0 +1,11 @@
+[
+  {
+    "id": 1,
+    "fecha": "Domingo 28 de Diciembre",
+    "titulo": "La Sagrada Familia",
+    "videoMobile": "./asantos/especial/sagrada.mp4",
+    "videoDesktop": "https://www.youtube.com/embed/vfeGGDW-6R0",
+    "poster": "./asantos/santos.jpg",
+    "icono": "./img/nav.png"
+  }
+]
