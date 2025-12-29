@@ -1,6 +1,18 @@
 [  
-                  {
+                    {
     "id": 1,
+    "fecha": "29 de Diciembre",
+    "santo": "Santo Tomás Becket",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/tomas.mp4",
+    "icono": "./img/nav.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },  
+                  {
+    "id": 2,
     "fecha": "28 de Diciembre",
     "santo": "Santos Inocentes",
     "santoFontSize": "1.2em",
@@ -8,12 +20,12 @@
     "video": "./asantos/ino.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },  
         
 {
-    "id": 5,
+    "id": 3,
     "fecha": "Feliz Navidad!!!",
     "santo": "25 de Diciembre",
     "santoFontSize": "1.5em",
@@ -23,20 +35,8 @@
     "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
-  },
-
-         {
-    "id": 6,
-    "fecha": "Noche Buena",
-    "santo": "24 de Diciembre",
-    "santoFontSize": "1.5em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/nochebuena.mp4",
-    "icono": "./img/nav.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
   }
+
 
 
 ]
