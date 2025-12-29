@@ -11,42 +11,7 @@
     "showOnMobile": true,
     "showOnDesktop": true
   },  
-                {
-    "id": 2,
-    "fecha": "27 de Diciembre",
-    "santo": "San Juan Evangelista",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/juan.mp4",
-    "icono": "./img/nav.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },  
-              {
-    "id": 3,
-    "fecha": "26 de Diciembre",
-    "santo": "San Esteban - 1er mártir de la iglesia",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/esteban.mp4",
-    "icono": "./img/nav.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },  
-            {
-    "id": 4,
-    "fecha": "Nacimiento",
-    "santo": "Llegada del mesías",
-    "santoFontSize": "1.5em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/25.mp4",
-    "icono": "./img/nav.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },  
+        
 {
     "id": 5,
     "fecha": "Feliz Navidad!!!",
