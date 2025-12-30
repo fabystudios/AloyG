@@ -736,7 +736,9 @@
       
       <!-- Imagen con overlay interactivo -->
       <div class="aviso-image-wrapper">
-        <img src="./img/horarios.jpg" alt="Horarios Especiales" class="aviso-imagen">
+        <img src="./img/horarios.jpg" alt="Horarios Especiales" class="aviso-imagen aviso-imagen-desktop">
+        <img src="./img/horarios1.png" alt="Horarios Especiales - Página 1" class="aviso-imagen aviso-imagen-mobile">
+        <img src="./img/horarios2.png" alt="Horarios Especiales - Página 2" class="aviso-imagen aviso-imagen-mobile">
         <div class="aviso-glow-effect"></div>
       </div>
       
@@ -806,6 +808,15 @@
       display: block;
       transition: transform 0.6s ease, filter 0.4s ease;
       filter: brightness(1) contrast(1.05);
+    }
+
+    /* Mostrar solo desktop por defecto */
+    .aviso-imagen-mobile {
+      display: none;
+    }
+
+    .aviso-imagen-desktop {
+      display: block;
     }
 
     .aviso-glass-card:hover .aviso-imagen {
@@ -955,6 +966,20 @@
 
       .aviso-image-wrapper {
         border-radius: 18px;
+      }
+
+      /* Cambiar a imágenes apiladas en mobile */
+      .aviso-imagen-desktop {
+        display: none;
+      }
+
+      .aviso-imagen-mobile {
+        display: block;
+        margin-bottom: 10px;
+      }
+
+      .aviso-imagen-mobile:last-of-type {
+        margin-bottom: 0;
       }
 
       .aviso-badge {
