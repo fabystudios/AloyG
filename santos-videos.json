@@ -1,16 +1,17 @@
 [  
-                    {
+                      {
     "id": 1,
-    "fecha": "29 de Diciembre",
-    "santo": "Santo Tomás Becket",
+    "fecha": "31 de Diciembre",
+    "santo": "San Silvestre",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/tomas.mp4",
+    "video": "./asantos/silvestre.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
     "showOnDesktop": true
   },  
+             
                   {
     "id": 2,
     "fecha": "28 de Diciembre",
