@@ -1,10 +1,10 @@
 [
-  {
+    {
     "id": 1,
-    "fecha": "Domingo 28 de Diciembre",
-    "titulo": "La Sagrada Familia",
-    "videoMobile": "./asantos/especial/sagrada.mp4",
-    "videoDesktop": "https://www.youtube.com/embed/vfeGGDW-6R0",
+    "fecha": "Primero de Enero",
+    "titulo": "Solemnidad de Santa María, Madre de Dios",
+    "videoMobile": "./asantos/especial/maria.mp4",
+    "videoDesktop": "https://youtu.be/Kdu3Futta5k",
     "poster": "./asantos/santos.jpg",
     "icono": "./img/nav.png"
   }
