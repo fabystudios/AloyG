@@ -400,7 +400,7 @@
         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="7"></button>
         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="8"></button>
         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="9"></button>
-        <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="10"></button> -->
+        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="10"></button>
         <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="11"></button> -->
         <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="12"></button> -->
 
@@ -420,19 +420,19 @@
                  <!--  ***************************************************************
         *  Cierre jubile de la esperanza   (13 diciembre)                                                  *
         *************************************************************** -->
-        <!-- <div class="carousel-item ">
-          <a href="#cierre">
-            <img src="./slides/inv_desktop.jpg" class="d-none d-md-block w-100" alt="Imagen escritorio">
-            <img src="./slides/inv_mobile.jpg" class="d-block d-md-none w-100" alt="Imagen móvil">
-        </a>
-        </div> -->
+        <div class="carousel-item active">
+          <!-- <a href="#cierre"> -->
+            <img src="./slides/year_desktop.png" class="d-none d-md-block w-100" alt="Imagen escritorio">
+            <img src="./slides/year_mobile.png" class="d-block d-md-none w-100" alt="Imagen móvil">
+        <!-- </a> -->
+        </div>
                 <!--  ***************************************************************
         *  Cierre jubile de la esperanza   (13 diciembre)                                                  *
         *************************************************************** -->
-        <div class="carousel-item  active">
+        <div class="carousel-item" data-has-video="true">
           <!-- <a href="#cierre"> -->
-            <video src="./video/2026_mov_desktop.mp4" class="d-none d-md-block w-100" autoplay muted loop playsinline></video>
-            <video src="./video/2026_mov_mobile.mp4" class="d-block d-md-none w-100" autoplay muted loop playsinline></video>
+            <video src="./video/2026_mov_desktop.mp4" class="d-none d-md-block w-100" muted loop playsinline preload="none" poster="./slides/inv_desktop.png"></video>
+            <video src="./video/2026_mov_mobile.mp4" class="d-block d-md-none w-100" muted loop playsinline preload="none" poster="./slides/inv_mobile.png"></video>
         <!-- </a> -->
         </div>
 
@@ -578,12 +578,37 @@
     </div>
   </section>
 
-  <!-- JavaScript para precargar la siguiente imagen (más seguro) -->
+  <!-- JavaScript para precargar la siguiente imagen y lazy loading de videos -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const carousel = document.getElementById('mainCarousel');
       if (!carousel) return;
       const slides = Array.from(carousel.querySelectorAll('.carousel-item'));
+
+      // Función para cargar y reproducir videos de un slide
+      function loadAndPlayVideos(slide) {
+        if (!slide.hasAttribute('data-has-video')) return;
+        
+        const videos = slide.querySelectorAll('video');
+        videos.forEach(video => {
+          if (video.readyState === 0) {
+            video.load();
+          }
+          video.play().catch(() => {});
+        });
+      }
+
+      // Función para pausar videos de un slide
+      function pauseVideos(slide) {
+        const videos = slide.querySelectorAll('video');
+        videos.forEach(video => {
+          video.pause();
+        });
+      }
+
+      // Cargar videos del primer slide si tiene
+      const activeSlide = carousel.querySelector('.carousel-item.active');
+      if (activeSlide) loadAndPlayVideos(activeSlide);
 
       // Preload del segundo slide al inicio para evitar que el primer cambio se quede "esperando"
       if (slides.length > 1) {
@@ -600,13 +625,27 @@
         });
       }
 
-      // Precargar la siguiente imagen DESPUÉS de que el slide haya terminado (usar 'slid' evita interferir con la transición)
+      // Manejar cambios de slide para videos e imágenes
+      carousel.addEventListener('slide.bs.carousel', function (event) {
+        // Pausar videos del slide que se está dejando
+        const currentSlide = slides[event.from];
+        if (currentSlide) pauseVideos(currentSlide);
+      });
+
+      // Precargar la siguiente imagen y cargar videos DESPUÉS de que el slide haya terminado
       carousel.addEventListener('slid.bs.carousel', function (event) {
         try {
           if (!event || typeof event.to !== 'number') return;
 
-          // Normalizar índice por si acaso (seguro ante wrap o valores inesperados)
-          const nextIndex = ((event.to % slides.length) + slides.length) % slides.length;
+          // Normalizar índice
+          const currentIndex = ((event.to % slides.length) + slides.length) % slides.length;
+          const currentSlide = slides[currentIndex];
+          
+          // Cargar y reproducir videos del slide activo
+          if (currentSlide) loadAndPlayVideos(currentSlide);
+
+          // Precargar siguiente slide
+          const nextIndex = ((event.to + 1) % slides.length + slides.length) % slides.length;
           const nextSlide = slides[nextIndex];
           if (!nextSlide) return;
 
