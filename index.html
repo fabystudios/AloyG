@@ -431,8 +431,8 @@
         *************************************************************** -->
         <div class="carousel-item" data-has-video="true">
           <!-- <a href="#cierre"> -->
-            <video src="./video/2026_mov_desktop.mp4" class="d-none d-md-block w-100" muted loop playsinline preload="none" poster="./slides/inv_desktop.png"></video>
-            <video src="./video/2026_mov_mobile.mp4" class="d-block d-md-none w-100" muted loop playsinline preload="none" poster="./slides/inv_mobile.png"></video>
+            <video src="./video/2026_mov_desktop.mp4" class="d-none d-md-block w-100" muted loop playsinline preload="none" poster="./slides/2026_desktop.png"></video>
+            <video src="./video/2026_mov_mobile.mp4" class="d-block d-md-none w-100" muted loop playsinline preload="none" poster="./slides/2026_mobile.png"></video>
         <!-- </a> -->
         </div>
 
@@ -675,8 +675,7 @@
      1. Hacer el carrusel full‑width/full‑height
      ----------------------------- */
     #mainCarousel,
-    #mainCarousel .carousel-inner,
-    #mainCarousel .carousel-item {
+    #mainCarousel .carousel-inner {
       width: 100vw;
       /* todo el ancho del viewport */
       height: 100vh;
@@ -685,6 +684,14 @@
       /* centra si está dentro de un grid */
       overflow: hidden;
       /* recorta lo que sobresalga */
+    }
+
+    #mainCarousel .carousel-item {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      margin-left: calc(-50vw + 50%);
+      overflow: hidden;
     }
 
     /* -----------------------------
