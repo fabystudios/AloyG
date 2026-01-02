@@ -1,7 +1,18 @@
 [  
-  
-                      {
+                        {
     "id": 1,
+    "fecha": "2 de Enero",
+    "santo": "San Basilio Magno y San Gregorio Nacianceno",
+    "santoFontSize": "1em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/grego.mp4",
+    "icono": "./img/nav.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },  
+                      {
+    "id": 2,
     "fecha": "31 de Diciembre",
     "santo": "San Silvestre",
     "santoFontSize": "1.2em",
@@ -9,12 +20,12 @@
     "video": "./asantos/silvestre.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },  
              
                   {
-    "id": 2,
+    "id": 3,
     "fecha": "28 de Diciembre",
     "santo": "Santos Inocentes",
     "santoFontSize": "1.2em",
@@ -24,21 +35,6 @@
     "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
-  },  
-        
-{
-    "id": 3,
-    "fecha": "Feliz Navidad!!!",
-    "santo": "25 de Diciembre",
-    "santoFontSize": "1.5em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/jesus.mp4",
-    "icono": "./img/nav.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
   }
-
-
-
+ 
 ]
