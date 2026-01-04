@@ -237,38 +237,84 @@ async function renderizarHeaderRifa() {
     container.innerHTML = `
       <div class="prizes-grid">
       <div class="prize-card">
-      <img src="./rifa/botonRifis.png" alt="Sorteo" class="prize-icon" style="height: 60px; display: block; margin: 0 auto;">
-      <br>
-      <h3>Sorteo</h3>
-      <ul class="prize-list">
-      <li><strong>Premio:</strong> Bicicleta</li>
-      <li><strong>Fecha:</strong> 6 de Enero - Lotería Nacional Vespertina</li>
-      </ul>
-      <div class="prize-value">$2.500</div>
+      <img src="./rifa/botonRifis.png" alt="Sorteo" class="prize-icon" style="height: 80px; display: block; margin: 0 auto 16px;">
+      
+      <h3 style="font-size: 24px; margin-bottom: 20px; color: #6750A4;">🎟️ Sorteo Oficial</h3>
+      
+      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 12px; margin: 16px 0; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);">
+        <div style="font-size: 18px; font-weight: 700; color: white; margin-bottom: 8px;">
+          🚴 BICICLETA
+        </div>
+        <div style="font-size: 14px; color: #E0E7FF; line-height: 1.6;">
+          Rodado 29
+        </div>
+      </div>
+      
+      <div style="background: #FFF3E0; padding: 20px; border-radius: 10px; border-left: 4px solid #FF9800; margin: 16px 0;">
+        <div style="font-size: 14px; color: #E65100; font-weight: 600; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.5px;">
+          📅 FECHA DEL SORTEO
+        </div>
+        <div style="font-size: 22px; color: #F57C00; font-weight: 700; margin-bottom: 8px;">
+          6 de Enero de 2025
+        </div>
+        <div style="font-size: 14px; color: #FB8C00; font-weight: 500;">
+          Lotería Nacional Vespertina
+        </div>
+      </div>
+      
+      <div class="prize-value" style="background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%); color: white; padding: 16px 24px; border-radius: 50px; font-size: 32px; font-weight: 800; margin-top: 10px; box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4); letter-spacing: 1px;">
+        $ 2.500
+      </div>
       </div>
 
       <div class="prize-card">
-      <span class="prize-icon">💳</span>
-      <h3>Datos de Pago onLine</h3>
-      <div style="text-align: left;">
-      <div class="payment-row-modern">
-      <i class="fas fa-at"></i>
-      <span class="label">Alias:</span>
-      <span class="value">${datosPago.alias}</span>
-      </div>
-      <div class="payment-row-modern">
-      <i class="fas fa-credit-card"></i>
-      <span class="label">CVU:</span>
-      <span class="value cvu-number" style="font-size: 12px;">
-      <span class="part">${datosPago.cvu.slice(0, 11)}</span>
-      <span class="part">${datosPago.cvu.slice(11)}</span>
-      </span>
-      </div>
-      <div class="payment-row-modern">
-      <i class="fas fa-user"></i>
-      <span class="label">Titular:</span>
-      <span class="value">${datosPago.titular}</span>
-      </div>
+      <img src="./rifa/transf.gif" alt="Transacción" class="prize-icon" style="height: 150px; display: block; margin: 0 auto 20px;">
+      
+      <h3 style="font-size: 24px; margin-bottom: 24px; color: #1976D2;">💳 Datos de Pago Online</h3>
+      
+      <div style="text-align: left; margin-top: 20px;">
+        
+        <!-- Alias -->
+        <div style="background: linear-gradient(135deg, #00BCD4 0%, #0097A7 100%); padding: 16px 20px; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(0, 188, 212, 0.3);">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="background: rgba(255,255,255,0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i class="fas fa-at" style="color: white; font-size: 18px;"></i>
+            </div>
+            <div style="flex-grow: 1;">
+              <div style="font-size: 15px; color: rgba(255,255,255,0.8); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Alias</div>
+              <div style="font-size: 20px; color: white; font-weight: 700; word-break: break-all;">${datosPago.alias}</div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- CVU -->
+        <div style="background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%); padding: 16px 20px; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="background: rgba(255,255,255,0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i class="fas fa-credit-card" style="color: white; font-size: 18px;"></i>
+            </div>
+            <div style="flex-grow: 1;">
+              <div style="font-size: 15px; color: rgba(255,255,255,0.8); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">CVU</div>
+              <div style="font-size: 20px; color: black; font-weight: 700; font-family: 'Courier New', monospace; letter-spacing: 1px; word-break: break-all;">
+                ${datosPago.cvu.slice(0, 11)} ${datosPago.cvu.slice(11)}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Titular -->
+        <div style="background: linear-gradient(135deg, #9C27B0 0%, #7B1FA2 100%); padding: 16px 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(156, 39, 176, 0.3);">
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <div style="background: rgba(255,255,255,0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <i class="fas fa-user" style="color: white; font-size: 18px;"></i>
+            </div>
+            <div style="flex-grow: 1;">
+              <div style="font-size: 11px; color: rgba(255,255,255,0.8); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">Titular</div>
+              <div style="font-size: 16px; color: white; font-weight: 700;">${datosPago.titular}</div>
+            </div>
+          </div>
+        </div>
+        
       </div>
       </div>
       </div>
