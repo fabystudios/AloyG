@@ -1,6 +1,18 @@
 [  
-                          {
+  {
     "id": 1,
+    "fecha": "4 de Enero",
+    "santo": "La Epifanía del Señor",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/epi.mp4",
+    "icono": "./img/nav.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },  
+                          {
+    "id": 2,
     "fecha": "3 de Enero",
     "santo": "El Santo Nombre de Jesús",
     "santoFontSize": "1.2em",
@@ -8,11 +20,11 @@
     "video": "./asantos/nombre.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },  
                         {
-    "id": 2,
+    "id": 3,
     "fecha": "2 de Enero",
     "santo": "San Basilio Magno y San Gregorio Nacianceno",
     "santoFontSize": "1em",
@@ -22,19 +34,6 @@
     "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
-  },  
-                      {
-    "id": 3,
-    "fecha": "31 de Diciembre",
-    "santo": "San Silvestre",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/silvestre.mp4",
-    "icono": "./img/nav.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }  
-             
+  }
  
 ]
