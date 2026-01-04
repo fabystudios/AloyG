@@ -296,7 +296,8 @@ async function renderizarHeaderRifa() {
             <div style="flex-grow: 1;">
               <div style="font-size: 15px; color: rgba(255,255,255,0.8); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">CVU</div>
               <div style="font-size: 20px; color: black; font-weight: 700; font-family: 'Courier New', monospace; letter-spacing: 1px; word-break: break-all;">
-                ${datosPago.cvu.slice(0, 11)} ${datosPago.cvu.slice(11)}
+                <span class="cvu-desktop" style="display: inline;">${datosPago.cvu.slice(0, 11)} ${datosPago.cvu.slice(11)}</span>
+                <span class="cvu-mobile" style="display: none;">${datosPago.cvu.slice(0, 11)}<br>${datosPago.cvu.slice(11)}</span>
               </div>
             </div>
           </div>
