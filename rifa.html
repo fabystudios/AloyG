@@ -776,7 +776,9 @@
 
     @media (max-width: 480px) {
       .container {
-        padding: 0 10px;
+        padding: 0;
+        width: 95vw;
+        max-width: 95%;
       }
 
       .card {
@@ -2882,8 +2884,11 @@ async function reenviarEmail(numeroId) {
   /* Responsive */
   @media (max-width: 768px) {
     .info-box-modern {
-      padding: 24px 20px;
+      padding: 24px 16px;
       border-radius: 20px;
+      width: 100%;
+      margin-left: 0;
+      margin-right: 0;
     }
 
     .instruction-card,
