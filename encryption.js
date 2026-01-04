@@ -291,7 +291,7 @@ async function renderizarHeaderRifa() {
         <div style="background: linear-gradient(135deg, #FF9800 0%, #F57C00 100%); padding: 16px 20px; border-radius: 12px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(255, 152, 0, 0.3);">
           <div style="display: flex; align-items: center; gap: 12px;">
             <div style="background: rgba(255,255,255,0.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <i class="fas fa-credit-card" style="color: white; font-size: 18px;"></i>
+              <i class="fas fa-credit-card" style="color: white; font-size: 15px;"></i>
             </div>
             <div style="flex-grow: 1;">
               <div style="font-size: 15px; color: rgba(255,255,255,0.8); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">CVU</div>
