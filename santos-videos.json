@@ -2,7 +2,7 @@
    {
     "id": 1,
     "fecha": "5 de Enero",
-    "santo": "La Epifanía del Señor",
+    "santo": "San Simeón el Estilita",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/sime.mp4",
@@ -14,7 +14,7 @@
   {
     "id": 2,
     "fecha": "4 de Enero",
-    "santo": "San Simeón el Estilita",
+    "santo": "La Epifanía del Señor",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/epi.mp4",
