@@ -1,18 +1,30 @@
 [  
-  {
+   {
     "id": 1,
-    "fecha": "4 de Enero",
+    "fecha": "5 de Enero",
     "santo": "La Epifanía del Señor",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/epi.mp4",
+    "video": "./asantos/sime.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
     "showOnDesktop": true
   },  
-                          {
+  {
     "id": 2,
+    "fecha": "4 de Enero",
+    "santo": "San Simeón el Estilita",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/epi.mp4",
+    "icono": "./img/nav.png",
+    "iconoWidth": "35px",
+    "showOnMobile": false,
+    "showOnDesktop": true
+  },  
+                          {
+    "id": 3,
     "fecha": "3 de Enero",
     "santo": "El Santo Nombre de Jesús",
     "santoFontSize": "1.2em",
@@ -22,18 +34,6 @@
     "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
-  },  
-                        {
-    "id": 3,
-    "fecha": "2 de Enero",
-    "santo": "San Basilio Magno y San Gregorio Nacianceno",
-    "santoFontSize": "1em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/grego.mp4",
-    "icono": "./img/nav.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
+  } 
  
 ]
