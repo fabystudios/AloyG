@@ -1,10 +1,10 @@
 [
     {
     "id": 1,
-    "fecha": "1 de Enero",
-    "titulo": "Solemnidad de Santa María, Madre de Dios",
-    "videoMobile": "./asantos/especial/maria.mp4",
-    "videoDesktop": "https://youtu.be/Kdu3Futta5k",
+    "fecha": "6 de Enero",
+    "titulo": "Feliz Día de los Reyes Magos",
+    "videoMobile": "./asantos/especial/reyes.mp4",
+    "videoDesktop": "https://youtu.be/DMewvtW3kDE",
     "poster": "./asantos/santos.jpg",
     "icono": "./img/nav.png"
   }
