@@ -255,7 +255,7 @@ async function renderizarHeaderRifa() {
           📅 FECHA DEL SORTEO
         </div>
         <div style="font-size: 22px; color: #F57C00; font-weight: 700; margin-bottom: 8px;">
-          6 de Enero de 2025
+          25 de Marzo de 2025
         </div>
         <div style="font-size: 14px; color: #FB8C00; font-weight: 500;">
           Lotería Nacional Vespertina

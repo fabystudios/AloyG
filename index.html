@@ -1,4 +1,10 @@
-
+    <style>
+      @media (max-width: 600px) {
+        .rifa-bg-opacity {
+          background-image: url('./rifa/backRifa_mob.jpg') !important;
+        }
+      }
+    </style>
 <!DOCTYPE html>
 <html lang="es-AR">
 
@@ -393,7 +399,7 @@
         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="6"></button>
         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="7"></button>
         <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="8"></button>
-        <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="9"></button> -->
+        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="9"></button>
         <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="10"></button> -->
         <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="11"></button> -->
         <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="12"></button> -->
@@ -402,19 +408,32 @@
 
       <div class="carousel-inner">
 
-    
+     <!-- ***************************************************************
+        *             Rifa 2                                                   *
+        *************************************************************** -->
+        <div class="carousel-item active" data-has-video="true">
+          <a href="#rifa">
+            <video src="./video/rifa2-mov-desktop.mp4" class="d-none d-md-block w-100" alt="Imagen escritorio" autoplay muted loop poster="./slides/rifa2-desktop.png"></video>
+            <video src="./video/rifa2-mov-mobile.mp4" class="d-block d-md-none w-100" alt="Imagen móvil" autoplay muted loop poster="./slides/rifa2-mobile.png"></video>
+          </a>
+        </div>  
 
         <!-- ***************************************************************
         *             F E R I A   A M E R I C A N A                                                   *
         *************************************************************** -->
-        <div class="carousel-item active" data-has-video="true">
-          <a href="#feria">
-            <video src="./video/feria-mov-desktop.mp4" class="d-none d-md-block w-100" alt="Imagen escritorio" autoplay muted loop poster="./slides/feria-americana-desktop.jpg"></video>
-            <video src="./video/feria-mov-mobile.mp4" class="d-block d-md-none w-100" alt="Imagen móvil" autoplay muted loop poster="./slides/feria-americana-mobile.jpg"></video>
-          </a>
-        </div>
+          <div class="carousel-item" data-has-video="true">
+            <a href="#feria">
+              <video src="./video/feria-mov-desktop.mp4" class="d-none d-md-block w-100" alt="Imagen escritorio" autoplay muted loop preload="false"
+              poster="./slides/feria-americana-desktop.jpg"></video>
+              <video src="./video/feria-mov-mobile.mp4" class="d-block d-md-none w-100" alt="Imagen móvil" autoplay muted loop preload="false"
+              poster="./slides/feria-americana-mobile.jpg"></video>
+            </a>
+          </div>
+
+
 
         <div class="carousel-item">
+
           <a href="#MISAS">
           <img src="./slides/misas_desktop.jpg" class="d-none d-md-block w-100" alt="Imagen escritorio">
           <img src="./slides/misas_mobile.jpg" class="d-block d-md-none w-100" alt="Imagen móvil">
@@ -699,7 +718,10 @@
   </style>
 
 
+
+
   <!-- Anuncios -->
+
 
   <!-- <section style="background-color: #121212e8; color: white; padding: 3rem 1rem; text-align: center; min-height: 40vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background-image: url('/img/papa-francisco-luto.jpg'); background-size: cover; background-position: center;">
     <div style="background-color: rgba(0, 0, 0, 0.762); padding: 2rem; border-radius: 8px; max-width: 800px;">
@@ -718,10 +740,494 @@
     </h2>
   </section>
 
- 
-  <br><br>
-  <!-- ------- -->
+   <!-- -------------- -->
+     <!-- // section con un div con clase "rifa-navidad-article"para poner el video: '/video/rifa.mp4 ciclico infinito, y abajo un boton animado que diga: Adquierela aqui, que lleve a <div class="
+  // ">rifa/rifa.html' -->
+    <br><br><br>
+  <article class="rifa-navidad-article" id="rifa">
 
+    <div class="rifa-navidad-card">
+      <div class="rifa-split-container">
+        <div class="rifa-image-container">
+          <video class="rifa-main-image" src="./video/rifa2b.mp4" autoplay loop muted playsinline></video>
+        </div>
+        <div class="rifa-content">
+           
+              <a href="./rifa.html" class="rifa-cta-button" style="color: white !important; padding: 0; position: relative; z-index: 10;">
+              <img src="./img/click.png" alt="Click" style="max-width: 100px; height: auto; " />
+              <!-- <span> Reservá tu número</span> -->
+            </a>    
+                <h1 class="rifa-title">Premio desierto<br>Nuevo Sorteo<br>25 de Marzo</h1>    
+                <h2 class="rifa-subtitle"> Bicicleta rodado 29  </h2>
+          <!-- <p class="rifa-description">
+            Cada boleto que adquieras nos ayuda a continuar con nuestra misión y proyectos comunitarios.
+            ¡No te pierdas la oportunidad de ganar y hacer el bien al mismo tiempo!
+          </p> -->
+                <div class="rifa-image-effects" id="rifaImageEffects"></div>
+                <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
+                  <img src="/rifa/rifa2.gif" alt="Volador" class="rifa-volador" style="color: white !important; max-width: 80%; height: auto;" />
+                </div>    <div class="rifa-badge">¡Rifa 100% ONLINE!</div>
+
+                <style>
+                  .rifa-volador {
+                    animation: rifa-float-fly 4s ease-in-out infinite;
+                  }
+
+                  @keyframes rifa-float-fly {
+                    0%, 100% {
+                      transform: translateY(0) translateX(0) rotate(0deg);
+                    }
+                    25% {
+                      transform: translateY(-15px) translateX(10px) rotate(2deg);
+                    }
+                    50% {
+                      transform: translateY(-25px) translateX(-5px) rotate(-1deg);
+                    }
+                    75% {
+                      transform: translateY(-15px) translateX(8px) rotate(1deg);
+                    }
+                  }
+                </style>    </div>
+                </div>
+    </div>
+  </article>
+
+  <style>
+    .rifa-split-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+    }
+
+    .rifa-image-container {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(180deg, #ff6b9d 0%, #ffa06b 100%);
+    }
+
+    .rifa-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    @media (max-width: 768px) {
+      .rifa-split-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  
+  <!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block">
+<br class="d-none d-lg-block"><br class="d-none d-lg-block">
+<br class="d-none d-lg-block"><br class="d-none d-lg-block">   -->
+  <!-- <br><br> -->
+
+<style>
+        .rifa-navidad-article {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto;
+            position: relative;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .rifa-navidad-card {
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 32px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: rifa-floatIn 1s ease-out;
+        }
+
+        @keyframes rifa-floatIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .rifa-image-container {
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, #ff6b9d 0%, #ffa06b 100%);
+        }
+
+        .rifa-main-image {
+            width: 100%;
+            height: auto;
+            display: block;
+            animation: rifa-pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes rifa-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .rifa-content {
+            padding: 50px 40px;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9ff 100%);
+        }
+
+        .rifa-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 10px 28px;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 700;
+            /* margin-bottom: 25px; */
+            animation: rifa-bounce 2s ease-in-out infinite;
+            box-shadow: 0 4px 15px rgba(245, 87, 108, 0.4);
+            letter-spacing: 1px;
+        }
+
+        @keyframes rifa-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .rifa-title {
+            font-size: 3rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            animation: rifa-shimmer 3s ease-in-out infinite;
+            line-height: 1.2;
+        }
+
+        @keyframes rifa-shimmer {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.85; }
+        }
+
+        .rifa-subtitle {
+            font-size: 1.5rem;
+            color: #ff6b9d;
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+        }
+
+        .rifa-description {
+            font-size: 1.15rem;
+            color: #555;
+            margin-bottom: 40px;
+            line-height: 1.8;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .rifa-cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            text-decoration: none;
+            padding: 20px 55px;
+            border-radius: 50px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .rifa-cta-button:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transition: left 0.5s ease;
+            z-index: -1;
+            
+        }
+
+        .rifa-cta-button:hover:before {
+
+            left: 0;
+        }
+
+        .rifa-cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(245, 87, 108, 0.5);
+        }
+
+        /* Efectos de estrellas y brillos */
+        .rifa-sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff;
+            animation: rifa-sparkleAnimation 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rifa-sparkleAnimation {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1) rotate(180deg);
+            }
+        }
+
+        .rifa-star {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            animation: rifa-starTwinkle 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.8));
+        }
+
+        @keyframes rifa-starTwinkle {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(0.8) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2) rotate(180deg);
+            }
+        }
+
+        /* Partículas flotantes */
+        .rifa-particle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%);
+            animation: rifa-float 4s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rifa-float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-600px) translateX(20px);
+                opacity: 0;
+            }
+        }
+
+        /* Efecto de confeti */
+        .rifa-confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            animation: rifa-confettiFall 4s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes rifa-confettiFall {
+            to {
+                transform: translateY(600px) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .rifa-effects-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        .rifa-navidad-card {
+            position: relative;
+        }
+
+        .rifa-image-effects {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .rifa-navidad-article {
+                width: 95%;
+                margin: 20px auto;
+            }
+
+            .rifa-title {
+                font-size: 2rem;
+            }
+
+            .rifa-subtitle {
+                font-size: 1.2rem;
+            }
+
+            .rifa-description {
+                font-size: 1rem;
+            }
+
+            .rifa-content {
+                padding: 35px 25px;
+            }
+
+            .rifa-cta-button {
+                padding: 16px 45px;
+                font-size: 1.15rem;
+                color: orangered !important
+
+            }
+
+            .rifa-badge {
+                font-size: 13px;
+                padding: 8px 22px;
+            }
+        }
+    </style>
+
+
+  
+
+    <script>
+        (function() {
+          const effectsContainer = document.getElementById('rifaEffectsContainer');
+          const imageEffects = document.getElementById('rifaImageEffects');
+          const rifaArticle = document.getElementById('rifa');
+          let particleInterval = null;
+          let confettiInterval = null;
+
+          // Crear estrellas en la imagen
+          function createImageStar() {
+            const star = document.createElement('div');
+            star.className = 'rifa-star';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            imageEffects.appendChild(star);
+          }
+
+          // Crear brillos en la imagen
+          function createImageSparkle() {
+            const sparkle = document.createElement('div');
+            sparkle.className = 'rifa-sparkle';
+            sparkle.style.left = Math.random() * 100 + '%';
+            sparkle.style.top = Math.random() * 100 + '%';
+            sparkle.style.animationDelay = Math.random() * 2 + 's';
+            imageEffects.appendChild(sparkle);
+          }
+
+          // Crear partículas flotantes en el artículo
+          function createParticle() {
+            const particle = document.createElement('div');
+            particle.className = 'rifa-particle';
+            particle.style.width = Math.random() * 8 + 3 + 'px';
+            particle.style.height = particle.style.width;
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.bottom = '0';
+            particle.style.animationDuration = Math.random() * 3 + 3 + 's';
+            particle.style.animationDelay = Math.random() * 2 + 's';
+            effectsContainer.appendChild(particle);
+            setTimeout(() => particle.remove(), 6000);
+          }
+
+          // Crear confeti en el artículo
+          function createConfetti() {
+            const confetti = document.createElement('div');
+            confetti.className = 'rifa-confetti';
+            confetti.style.left = Math.random() * 100 + '%';
+            confetti.style.top = '-10px';
+            confetti.style.animationDuration = Math.random() * 2 + 3 + 's';
+            confetti.style.animationDelay = Math.random() * 2 + 's';
+            const colors = ['#f093fb', '#f5576c', '#ffd700', '#764ba2', '#667eea', '#4ade80', '#fb923c'];
+            confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+            effectsContainer.appendChild(confetti);
+            setTimeout(() => confetti.remove(), 6000);
+          }
+
+          // Inicializar efectos en la imagen (MÁS CANTIDAD)
+            for (let i = 0; i < (window.innerWidth <= 768 ? 25 : 60); i++) {
+            createImageStar();
+            }
+          for (let i = 0; i < (window.innerWidth <= 768 ? 50 : 120); i++) {
+            createImageSparkle();
+          }
+
+          // Función para iniciar los intervalos
+            function startEffects() {
+            // Detectar si es dispositivo móvil
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+              if (!particleInterval) particleInterval = setInterval(createParticle, 300);
+              if (!confettiInterval) confettiInterval = setInterval(createConfetti, 250);
+            } else {
+              if (!particleInterval) particleInterval = setInterval(createParticle, 120);
+              if (!confettiInterval) confettiInterval = setInterval(createConfetti, 80);
+            }
+            }
+
+          // Función para detener los intervalos
+          function stopEffects() {
+            if (particleInterval) { clearInterval(particleInterval); particleInterval = null; }
+            if (confettiInterval) { clearInterval(confettiInterval); confettiInterval = null; }
+          }
+
+          // Usar Intersection Observer para solo activar efectos cuando el artículo es visible
+          if ('IntersectionObserver' in window && rifaArticle) {
+            const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  startEffects();
+                } else {
+                  stopEffects();
+                }
+              });
+            }, { threshold: 0.1 });
+            observer.observe(rifaArticle);
+          } else {
+            // Fallback: siempre activos
+            startEffects();
+          }
+        })();
+    </script>
+
+  
+  
 
   <!-- Videos de Santos - Carga dinámica desde JSON -->
   <div id="videosCatolicos" class="section-padding d-flex justify-content-center align-items-center deshabilitado"
@@ -846,6 +1352,7 @@
     })();
   </script>
 
+<!-- ------- -->
    
 <!-- Publicaciones Especiales - Primera publicación -->
   <div id="especialesContainer" class="d-flex justify-content-center align-items-center" style="padding: 20px 0;">
