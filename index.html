@@ -3767,19 +3767,25 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
   <script>
-    // Prevenir scroll automático del carrusel al cargar la página
+    // Prevenir scroll automático del carrusel al cargar la página SOLO si no hay hash en la URL
     if (history.scrollRestoration) {
       history.scrollRestoration = 'manual';
     }
-    window.addEventListener('load', function() {
-      setTimeout(function() {
-        window.scrollTo(0, 0);
-      }, 0);
-    });
+    
+    // Solo hacer scroll al top si NO hay un hash en la URL
+    if (!window.location.hash) {
+      window.addEventListener('load', function() {
+        setTimeout(function() {
+          window.scrollTo(0, 0);
+        }, 0);
+      });
+    }
 
     document.addEventListener('DOMContentLoaded', function () {
-      // Mantener la página en el tope al cargar
-      window.scrollTo(0, 0);
+      // Mantener la página en el tope al cargar SOLO si no hay hash
+      if (!window.location.hash) {
+        window.scrollTo(0, 0);
+      }
 
       const menu = document.getElementById('navbarNav');
       const toggler = document.querySelector('.navbar-toggler');
