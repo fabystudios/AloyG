@@ -1,6 +1,17 @@
-[  
-       {
+[         {
     "id": 1,
+    "fecha": "8 de Enero",
+    "santo": "San Severino",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/seve.mp4",
+    "icono": "./img/nav.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }, 
+       {
+    "id": 2,
     "fecha": "7 de Enero",
     "santo": "San Raimundo de Peñafort",
     "santoFontSize": "1.2em",
@@ -8,28 +19,16 @@
     "video": "./asantos/raimundo.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },   
      {
-    "id": 2,
+    "id": 3,
     "fecha": "6 de Enero",
     "santo": "San André Bessette",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/andre.mp4",
-    "icono": "./img/nav.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },     
-  {
-    "id": 3,
-    "fecha": "5 de Enero",
-    "santo": "San Simeón el Estilita",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/sime.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
