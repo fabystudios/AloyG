@@ -2222,6 +2222,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </head>
 <script>
   // ========================================
+  // CONFIGURACIÓN
+  // ========================================
+  const FECHA_SORTEO = '25 de Marzo 2026 - Loteria Nacional Vespertina';
+
+  // ========================================
 // PASO 2: FUNCIÓN PARA ENVIAR EMAILS
 // Agregar ANTES del submit del admin-form
 // ========================================
@@ -2242,7 +2247,7 @@ document.addEventListener('DOMContentLoaded', function() {
         dni: numeroData.dni,
         nro_op: numeroData.nro_op,
         link_ticket: `https://sanluisgonzaga.ar/ticket.html?id=${numeroData.id}`,
-        fecha_sorteo: '22 de Diciembre 2026'
+        fecha_sorteo: FECHA_SORTEO
       };
 
       const response = await emailjs.send(

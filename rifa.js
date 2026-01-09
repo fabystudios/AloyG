@@ -46,6 +46,9 @@ try {
 // ========================================
 const auth = firebase.auth();
 
+// Configuración de la fecha del sorteo
+const FECHA_SORTEO = '25 de Marzo 2026 - Loteria Nacional Vespertina';
+
 let currentUser = null;
 let rifaData = [];
 let currentEditingId = null;
@@ -1426,7 +1429,7 @@ async function enviarEmailCertificadoMasivo(numerosData) {
       cantidad_numeros: numerosData.length,
       dni: primerNumero.dni || 'N/A',
       link_ticket: `https://sanluisgonzaga.ar/ticket.html?ids=${idsTicket}`,
-      fecha_sorteo: '25 de Marzo 2026 - Loteria Nacional Vespertina'
+      fecha_sorteo: FECHA_SORTEO
     };
 
     console.log('📤 Enviando email masivo con:', templateParams);
@@ -1470,7 +1473,7 @@ async function enviarEmailCertificado(numeroData) {
       numero: numeroData.numero.toString().padStart(3, '0'),
       dni: numeroData.dni || 'N/A',
       link_ticket: `https://sanluisgonzaga.ar/ticket.html?id=${numeroData.id}`,
-      fecha_sorteo: '25 de Marzo 2026 - Loteria Nacional Vespertina'
+      fecha_sorteo: FECHA_SORTEO
     };
 
     console.log('📤 Enviando con parámetros:', templateParams);

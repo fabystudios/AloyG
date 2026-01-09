@@ -631,7 +631,7 @@ const db = firebase.firestore();
 
       <div class="ticket-footer">
         <div class="sorteo-date">
-          📅 Sorteo: 25 de marzo 2026 - Lotería Nacional Vespertina
+          📅 Sorteo: <span id="fecha-sorteo"></span>
         </div>
 
         <div class="qr-container">
@@ -725,6 +725,11 @@ const db = firebase.firestore();
   </div>
 
   <script>
+    // ========================================
+    // CONFIGURACIÓN
+    // ========================================
+    const FECHA_SORTEO = '25 de marzo 2026 - Lotería Nacional Vespertina';
+
     // ========================================
     // DATOS DEL TICKET (cargar desde Firebase)
     // ========================================
@@ -911,6 +916,9 @@ function cargarDatosTicket(data) {
   document.getElementById('dni-cert').textContent = ocultarDNI(ticketData.dni);
   document.getElementById('email-cert').textContent = ocultarEmail(ticketData.email);
   document.getElementById('nombre-redes').textContent = ticketData.nombrePila;
+  
+  // Actualizar fecha del sorteo
+  document.getElementById('fecha-sorteo').textContent = FECHA_SORTEO;
 
   // ✅ GENERAR QR CON LA URL CORRECTA
   const urlVerificacion = data.es_masivo 
