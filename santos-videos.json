@@ -12,7 +12,7 @@
     "showOnDesktop": true
   },   
 {
-    "id": 1,
+    "id": 2,
     "fecha": "8 de Enero",
     "santo": "San Severino",
     "santoFontSize": "1.2em",
@@ -24,24 +24,12 @@
     "showOnDesktop": true
   }, 
        {
-    "id": 2,
+    "id": 3,
     "fecha": "7 de Enero",
     "santo": "San Raimundo de Peñafort",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/raimundo.mp4",
-    "icono": "./img/nav.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },   
-     {
-    "id": 3,
-    "fecha": "6 de Enero",
-    "santo": "San André Bessette",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/andre.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
