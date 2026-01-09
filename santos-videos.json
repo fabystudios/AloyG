@@ -1,4 +1,17 @@
-[         {
+[      
+   {
+    "id": 1,
+    "fecha": "9 de Enero",
+    "santo": "San Julián y Santa Basilisa",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/basi.mp4",
+    "icono": "./img/nav.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },   
+{
     "id": 1,
     "fecha": "8 de Enero",
     "santo": "San Severino",
@@ -7,7 +20,7 @@
     "video": "./asantos/seve.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   }, 
        {
