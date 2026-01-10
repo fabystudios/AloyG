@@ -724,6 +724,24 @@
       justify-content: center;
     }
 
+    /* Contenedor del embed con overflow para recortar solo la imagen */
+    .fb-embed-container {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Wrapper con overflow para el zoom - solo afecta al iframe */
+    .fb-post-zoom {
+      position: relative;
+    }
+
+    .fb-post-zoom iframe {
+      transform-origin: center center;
+      transition: transform 0.3s ease;
+    }
+
     /* Forzar que las imágenes de FB se vean más grandes y centradas */
     .fb-post iframe {
       width: 100% !important;
@@ -826,14 +844,22 @@
         const isMobile = window.innerWidth < 768;
         const fbWidth = isMobile ? 'auto' : '700';
         
+        // Guardar zoom y offset en atributos data
+        const zoom = post.zoom || 1;
+        const offsetX = post.offsetX || 0;
+        const offsetY = post.offsetY || 0;
+        const dataAttrs = `data-zoom="${zoom}" data-offset-x="${offsetX}" data-offset-y="${offsetY}"`;
+        
         return `
           <div class="fb-post-wrapper" style="animation-delay: ${index * 0.1}s">
             ${title}
             ${description}
-            <div class="fb-post" 
-                 data-href="${post.url}" 
-                 data-width="${fbWidth}" 
-                 data-show-text="true">
+            <div class="fb-embed-container">
+              <div class="fb-post fb-post-zoom" ${dataAttrs}
+                   data-href="${post.url}" 
+                   data-width="${fbWidth}" 
+                   data-show-text="true">
+              </div>
             </div>
           </div>
         `;
@@ -885,6 +911,27 @@
           if (window.FB) {
             window.FB.XFBML.parse(container);
           }
+          
+          // Aplicar zoom a los iframes después de que se carguen
+          setTimeout(() => {
+            document.querySelectorAll('.fb-post-zoom').forEach(postDiv => {
+              const zoom = parseFloat(postDiv.dataset.zoom) || 1;
+              const offsetX = parseFloat(postDiv.dataset.offsetX) || 0;
+              const offsetY = parseFloat(postDiv.dataset.offsetY) || 0;
+              
+              if (zoom !== 1 || offsetX !== 0 || offsetY !== 0) {
+                const iframe = postDiv.querySelector('iframe');
+                if (iframe) {
+                  iframe.style.transform = `scale(${zoom}) translate(${offsetX}px, ${offsetY}px)`;
+                  // Agregar overflow hidden solo al contenedor del embed, no al wrapper completo
+                  const embedContainer = postDiv.closest('.fb-embed-container');
+                  if (embedContainer) {
+                    embedContainer.style.overflow = 'hidden';
+                  }
+                }
+              }
+            });
+          }, 2000); // Esperar a que los iframes se carguen
           
         } catch (error) {
           console.error('❌ Error al cargar publicaciones de Facebook:', error);
