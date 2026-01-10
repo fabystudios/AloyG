@@ -61,6 +61,9 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
   
+  <!-- Prefetch del JSON del carrusel para carga más rápida -->
+  <link rel="prefetch" href="./carousel-slides.json" as="fetch" crossorigin="anonymous">
+  
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
@@ -406,160 +409,130 @@
 
       </div>
 
+      <!-- Los slides se cargan dinámicamente desde carousel-slides.json -->
       <div class="carousel-inner">
-
-        <!-- ***************************************************************
-        *             F E R I A   A M E R I C A N A                                                   *
-        *************************************************************** -->
-          <!-- <div class="carousel-item active" data-has-video="true">
-            <a href="#feria">
-              <video src="./video/feria-mov-desktop.mp4" class="d-none d-md-block w-100" alt="Imagen escritorio" autoplay muted loop 
-              poster="./slides/feria-americana-desktop.jpg"></video>
-              <video src="./video/feria-mov-mobile.mp4" class="d-block d-md-none w-100" alt="Imagen móvil" autoplay muted loop 
-              poster="./slides/feria-americana-mobile.jpg"></video>
-            </a>
-          </div> -->
-     <!-- ***************************************************************
-        *             Rifa 2                                                   *
-        *************************************************************** -->
-        <div class="carousel-item active" data-has-video="true">
-          <a href="#rifa">
-            <video src="./video/rifa2-mov-desktop.mp4" class="d-none d-md-block w-100" alt="Imagen escritorio" autoplay muted loop preload="auto" poster="./slides/rifa2-desktop.png"></video>
-            <video src="./video/rifa2-mov-mobile.mp4" class="d-block d-md-none w-100" alt="Imagen móvil" autoplay muted loop preload="auto" poster="./slides/rifa2-mobile.png"></video>
-          </a>
-        </div>  
-
-
-
-
-        <div class="carousel-item" data-has-video="true">
-
-          <a href="#MISAS">
-
-              <video src="./video/misas-mov-desktop.mp4" class="d-none d-md-block w-100" alt="Imagen escritorio" autoplay muted loop preload="auto"
-              poster="./slides/misas_desktop.jpg"></video>
-              <video src="./video/misas-mov-mobile.mp4" class="d-block d-md-none w-100" alt="Imagen móvil" autoplay muted loop preload="auto"
-              poster="./slides/misas_mobile.jpg"></video>
-
-          <!-- <img src="./slides/misas_desktop.jpg" class="d-none d-md-block w-100" alt="Imagen escritorio">
-          <img src="./slides/misas_mobile.jpg" class="d-block d-md-none w-100" alt="Imagen móvil"> -->
-          </a>
-        </div>
-
-
-        <!-- ***************************************************************
-        *            A V I S O S                                                    *
-        *************************************************************** -->
-        <!-- <div class="carousel-item">
-          <a href="./avisos.html">
-            <img src="./slides/consejos_desktop.jpg" class="d-none d-md-block w-100" alt="Imagen escritorio">
-            <img src="./slides/consejos_mobile.jpg" class="d-block d-md-none w-100" alt="Imagen móvil">
-          </a>
-        </div> -->
-
-        <!-- <div class="carousel-item ">             
-                  <a href="#idear">
-                    <img src="./img/fotos/jubileo-esperanza_desktop.jpg" class="d-none d-md-block w-100" alt="Imagen escritorio">
-                    <img src="./img/fotos/jubileo-esperanza_mobile.jpg" class="d-block d-md-none w-100" alt="Imagen móvil">
-                </a>
-            </div>    -->
-
-        <div class="carousel-item" data-has-video="true">
-          <a href="#adoracion">              
-            
-             <video src="./video/ado-mov-desktop.mp4" class="d-none d-md-block w-100" alt="Imagen escritorio" autoplay muted loop preload="auto"
-              poster="./slides/adoracion_desktop.png"></video>
-              <video src="./video/ado-mov-mobile.mp4" class="d-block d-md-none w-100" alt="Imagen móvil" autoplay muted loop preload="auto"
-              poster="./slides/adoracion_mobile.png"></video>
-
-            <!-- <img src="./slides/adoracion_desktop.png" class="d-none d-md-block w-100" alt="Imagen escritorio">
-            <img src="./slides/adoracion_mobile.png" class="d-block d-md-none w-100" alt="Imagen móvil"> -->
-          </a>
-        </div>
-
-        <!-- Slide 2 (con lazy loading) -->
-        <!-- AVISO  -->
-        <div class="carousel-item"  data-has-video="true">
-          <a href="#actividades">
-
-             <video src="./video/car-mov-desktop.mp4" class="d-none d-md-block w-100" alt="Imagen escritorio" autoplay muted loop preload="auto"
-              poster="./slides/aviso2_DESKTOP.jpg"></video>
-              <video src="./video/car-mov-mobile.mp4" class="d-block d-md-none w-100" alt="Imagen móvil" autoplay muted loop preload="auto"
-              poster="./slides/aviso2_MOBILE.jpg"></video>
-
-            <!-- <img src="./slides/aviso2_DESKTOP.jpg" class="d-none d-md-block w-100" alt="Imagen escritorio">
-            <img src="./slides/aviso2_MOBILE.jpg" class="d-block d-md-none w-100" alt="Imagen móvil"> -->
-          </a>
-        </div>
-        <!-- <div class="carousel-item ">
-                <img src="./img/fotos/recemos_desktop.jpg" class="d-none d-md-block w-100" alt="Imagen escritorio" loading="eager">
-                <img src="./img/fotos/recemos_mobile.jpg" class="d-block d-md-none w-100" alt="Imagen móvil" loading="eager">
-            </div> -->
-
-        <!-- Slide 3 (con lazy loading) -->
-        <div class="carousel-item"  data-has-video="true">
-
-             <video src="./video/asis-mov-desktop.mp4" class="d-none d-md-block w-100" alt="Imagen escritorio" autoplay muted loop preload="auto"
-              poster="./slides/asistencia-DESKTOP.jpg"></video>
-              <video src="./video/asis-mov-mobile.mp4" class="d-block d-md-none w-100" alt="Imagen móvil" autoplay muted loop preload="auto"
-              poster="./slides/asistencia-MOB.jpg"></video>
-
-          <!-- <img src="./slides/asistencia-DESKTOP.jpg" class="d-none d-md-block w-100" alt="Imagen escritorio"
-            loading="lazy">
-          <img src="./slides/asistencia-MOB.jpg" class="d-block d-md-none w-100" alt="Imagen móvil" loading="lazy"> -->
-        </div>
-
-
-
-        <!-- Slide 5 (con lazy loading) -->
-        <div class="carousel-item"  data-has-video="true">
-
-             <video src="./video/1-mov-desktop.mp4" class="d-none d-md-block w-100" alt="Imagen escritorio" autoplay muted loop preload="auto"
-              poster="./slides/banner1-desktop.jpg"></video>
-              <video src="./video/1-mov-mobile.mp4" class="d-block d-md-none w-100" alt="Imagen móvil" autoplay muted loop preload="auto"
-              poster="./slides/banner1-mobile.jpg"></video>
-
-
-          <!-- <img src="./slides/banner1-desktop.jpg" class="d-none d-md-block w-100" alt="frente" loading="lazy">
-          <img src="./slides/banner1-mobile.jpg" class="d-block d-md-none w-100" alt="frente" loading="lazy"> -->
-        </div>
-
-        <!-- Slide 6 (con lazy loading) -->
-        <div class="carousel-item"  data-has-video="true">
-
-             <video src="./video/2-mov-desktop.mp4" class="d-none d-md-block w-100" alt="Imagen escritorio" autoplay muted loop preload="auto"
-              poster="./slides/banner2-desktop.jpg"></video>
-              <video src="./video/2-mov-mobile.mp4" class="d-block d-md-none w-100" alt="Imagen móvil" autoplay muted loop preload="auto"
-              poster="./slides/banner2-mobile.jpg"></video>
-
-          <!-- <img src="./slides/banner2-desktop.jpg" class="d-none d-md-block w-100" alt="Padre" loading="lazy">
-          <img src="./slides/banner2-mobile.jpg" class="d-block d-md-none w-100" alt="Padre" loading="lazy"> -->
-        </div>
-
-        <!-- Slide 7 (con lazy loading) -->
-        <div class="carousel-item"  data-has-video="true">
-
-             <video src="./video/luz-mov-desktop.mp4" class="d-none d-md-block w-100" alt="Imagen escritorio" autoplay muted loop preload="auto"
-              poster="./slides/luz.jpg"></video>
-              <video src="./video/luz-mov-mobile.mp4" class="d-block d-md-none w-100" alt="Imagen móvil" autoplay muted loop preload="auto"
-              poster="./slides/luz-MOBILE.jpg"></video>
-
-          <!-- <img src="./slides/luz.jpg" class="d-none d-md-block w-100" alt="luz" loading="lazy">
-          <img src="./slides/luz-MOBILE.jpg" class="d-block d-md-none w-100" alt="luz" loading="lazy"> -->
-        </div>
-
-        <!-- Slide 8 (con lazy loading) -->
-        <div class="carousel-item"  data-has-video="true">
-
-             <video src="./video/3-mov-desktop.mp4" class="d-none d-md-block w-100" alt="Imagen escritorio" autoplay muted loop preload="false"
-              poster="./slides/banner3-desktop.jpg"></video>
-              <video src="./video/3-mov-mobile.mp4" class="d-block d-md-none w-100" alt="Imagen móvil" autoplay muted loop preload="false"
-              poster="./slides/banner3-mobile.jpg"></video>
-
-          <!-- <img src="./slides/banner3-desktop.jpg" class="d-none d-md-block w-100" alt="Padre" loading="lazy">
-          <img src="./slides/banner3-mobile.jpg" class="d-block d-md-none w-100" alt="Padre" loading="lazy"> -->
-        </div>
+        <!-- El contenido será generado automáticamente por el script inline -->
       </div>
+
+      <!-- Script inline para carga INMEDIATA sin esperar archivos externos -->
+      <script>
+        (function() {
+          'use strict';
+          
+          const CACHE_KEY = 'carousel_order_cache';
+          const CACHE_DURATION = 3600000; // 1 hora
+          
+          function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+          }
+          
+          function sortSlides(slides) {
+            const fixedSlides = slides.filter(s => s.position > 0).sort((a, b) => a.position - b.position);
+            const randomSlides = shuffleArray(slides.filter(s => s.position === 0));
+            const result = [];
+            const maxPosition = Math.max(slides.length, ...fixedSlides.map(s => s.position));
+            let randomIndex = 0;
+            
+            for (let i = 1; i <= maxPosition; i++) {
+              const fixedSlide = fixedSlides.find(s => s.position === i);
+              if (fixedSlide) {
+                result.push(fixedSlide);
+              } else if (randomIndex < randomSlides.length) {
+                result.push(randomSlides[randomIndex++]);
+              }
+            }
+            
+            while (randomIndex < randomSlides.length) {
+              result.push(randomSlides[randomIndex++]);
+            }
+            
+            return result;
+          }
+          
+          function generateSlideHTML(slide, isFirst, preloadIndex) {
+            const activeClass = isFirst ? ' active' : '';
+            const hasVideoAttr = slide.hasVideo ? ' data-has-video="true"' : '';
+            const preloadAttr = (preloadIndex < 2) ? 'auto' : 'none';
+            
+            if (slide.hasVideo && slide.desktop.type === 'video') {
+              return `<div class="carousel-item${activeClass}"${hasVideoAttr}>
+                <a href="${slide.link}">
+                  <video src="${slide.desktop.src}" class="d-none d-md-block w-100" alt="${slide.id} escritorio" 
+                         autoplay muted loop playsinline preload="${preloadAttr}" poster="${slide.desktop.poster}"></video>
+                  <video src="${slide.mobile.src}" class="d-block d-md-none w-100" alt="${slide.id} móvil" 
+                         autoplay muted loop playsinline preload="${preloadAttr}" poster="${slide.mobile.poster}"></video>
+                </a>
+              </div>`;
+            } else {
+              return `<div class="carousel-item${activeClass}"${hasVideoAttr}>
+                <a href="${slide.link}">
+                  <img src="${slide.desktop.src}" class="d-none d-md-block w-100" alt="${slide.id} escritorio" loading="${isFirst ? 'eager' : 'lazy'}">
+                  <img src="${slide.mobile.src}" class="d-block d-md-none w-100" alt="${slide.id} móvil" loading="${isFirst ? 'eager' : 'lazy'}">
+                </a>
+              </div>`;
+            }
+          }
+          
+          async function loadCarousel() {
+            try {
+              const carouselInner = document.querySelector('#mainCarousel .carousel-inner');
+              if (!carouselInner) return;
+              
+              // Intentar cargar orden cacheado
+              const cached = sessionStorage.getItem(CACHE_KEY);
+              let sortedSlides;
+              
+              if (cached) {
+                const cacheData = JSON.parse(cached);
+                if (Date.now() - cacheData.timestamp < CACHE_DURATION) {
+                  sortedSlides = cacheData.slides;
+                  console.log('⚡ Carrusel desde cache');
+                }
+              }
+              
+              if (!sortedSlides) {
+                const response = await fetch('./carousel-slides.json');
+                if (!response.ok) throw new Error('Error al cargar carousel-slides.json');
+                const slides = await response.json();
+                sortedSlides = sortSlides(slides);
+                
+                // Guardar en cache
+                sessionStorage.setItem(CACHE_KEY, JSON.stringify({
+                  slides: sortedSlides,
+                  timestamp: Date.now()
+                }));
+                console.log('✅ Carrusel cargado y cacheado');
+              }
+              
+              // Generar HTML usando insertAdjacentHTML (más rápido que innerHTML +=)
+              sortedSlides.forEach((slide, index) => {
+                carouselInner.insertAdjacentHTML('beforeend', generateSlideHTML(slide, index === 0, index));
+              });
+              
+              // Forzar carga inmediata de videos del primer slide
+              setTimeout(() => {
+                const firstSlide = carouselInner.querySelector('.carousel-item.active');
+                if (firstSlide) {
+                  firstSlide.querySelectorAll('video').forEach(v => {
+                    v.load();
+                    v.play().catch(() => {});
+                  });
+                }
+              }, 0);
+              
+            } catch (error) {
+              console.error('❌ Error:', error);
+            }
+          }
+          
+          loadCarousel();
+        })();
+      </script>
 
       <!-- Controles -->
       <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
@@ -570,98 +543,6 @@
       </button>
     </div>
   </section>
-
-  <!-- JavaScript para precargar la siguiente imagen y lazy loading de videos -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const carousel = document.getElementById('mainCarousel');
-      if (!carousel) return;
-      const slides = Array.from(carousel.querySelectorAll('.carousel-item'));
-
-      // Función para cargar y reproducir videos de un slide
-      function loadAndPlayVideos(slide) {
-        if (!slide.hasAttribute('data-has-video')) return;
-        
-        const videos = slide.querySelectorAll('video');
-        videos.forEach(video => {
-          if (video.readyState === 0) {
-            video.load();
-          }
-          video.play().catch(() => {});
-        });
-      }
-
-      // Función para pausar videos de un slide
-      function pauseVideos(slide) {
-        const videos = slide.querySelectorAll('video');
-        videos.forEach(video => {
-          video.pause();
-        });
-      }
-
-      // Cargar videos del primer slide si tiene
-      const activeSlide = carousel.querySelector('.carousel-item.active');
-      if (activeSlide) loadAndPlayVideos(activeSlide);
-
-      // Preload del segundo slide al inicio para evitar que el primer cambio se quede "esperando"
-      if (slides.length > 1) {
-        const initialImgs = Array.from(slides[1].querySelectorAll('img[loading="lazy"], img'));
-        initialImgs.forEach(img => {
-          try {
-            const src = img.getAttribute('src');
-            if (src) {
-              const pre = new Image();
-              pre.src = src;
-              if (pre.decode) pre.decode().catch(() => { });
-            }
-          } catch (e) { }
-        });
-      }
-
-      // Manejar cambios de slide para videos e imágenes
-      carousel.addEventListener('slide.bs.carousel', function (event) {
-        // Pausar videos del slide que se está dejando
-        const currentSlide = slides[event.from];
-        if (currentSlide) pauseVideos(currentSlide);
-      });
-
-      // Precargar la siguiente imagen y cargar videos DESPUÉS de que el slide haya terminado
-      carousel.addEventListener('slid.bs.carousel', function (event) {
-        try {
-          if (!event || typeof event.to !== 'number') return;
-
-          // Normalizar índice
-          const currentIndex = ((event.to % slides.length) + slides.length) % slides.length;
-          const currentSlide = slides[currentIndex];
-          
-          // Cargar y reproducir videos del slide activo
-          if (currentSlide) loadAndPlayVideos(currentSlide);
-
-          // Precargar siguiente slide
-          const nextIndex = ((event.to + 1) % slides.length + slides.length) % slides.length;
-          const nextSlide = slides[nextIndex];
-          if (!nextSlide) return;
-
-          // Preload seguro sin mutar atributos del DOM
-          const images = Array.from(nextSlide.querySelectorAll('img[loading="lazy"], img'));
-          images.forEach(img => {
-            try {
-              const src = img.getAttribute('src');
-              if (src) {
-                const pre = new Image();
-                pre.src = src;
-                if (pre.decode) pre.decode().catch(() => { });
-              }
-            } catch (e) {
-              // ignorar errores de imagen individuales
-            }
-          });
-        } catch (err) {
-          console.error('Error al precargar imagen del carrusel:', err);
-        }
-      });
-    });
-  </script>
 
   <style>
     /* -----------------------------
@@ -3782,6 +3663,55 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js"></script>
   <script> new WOW().init(); </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Manejo de videos del carrusel -->
+  <script>
+    // Esperar a que Bootstrap esté listo
+    setTimeout(function() {
+      const carousel = document.getElementById('mainCarousel');
+      if (!carousel) return;
+      
+      function loadAndPlayVideos(slide) {
+        if (!slide || !slide.hasAttribute('data-has-video')) return;
+        const videos = slide.querySelectorAll('video');
+        videos.forEach(video => {
+          if (video.readyState === 0) video.load();
+          video.play().catch(() => {});
+        });
+      }
+      
+      function pauseVideos(slide) {
+        if (!slide) return;
+        slide.querySelectorAll('video').forEach(v => v.pause());
+      }
+      
+      // Reproducir primer video
+      const activeSlide = carousel.querySelector('.carousel-item.active');
+      if (activeSlide) loadAndPlayVideos(activeSlide);
+      
+      // Manejar cambios de slide
+      carousel.addEventListener('slide.bs.carousel', function(e) {
+        const slides = Array.from(carousel.querySelectorAll('.carousel-item'));
+        pauseVideos(slides[e.from]);
+      });
+      
+      carousel.addEventListener('slid.bs.carousel', function(e) {
+        const slides = Array.from(carousel.querySelectorAll('.carousel-item'));
+        const currentSlide = slides[e.to];
+        if (currentSlide) loadAndPlayVideos(currentSlide);
+        
+        // Precargar siguiente
+        const nextIndex = (e.to + 1) % slides.length;
+        const nextSlide = slides[nextIndex];
+        if (nextSlide) {
+          nextSlide.querySelectorAll('video[preload="none"]').forEach(v => {
+            v.preload = 'auto';
+            v.load();
+          });
+        }
+      });
+    }, 100);
+  </script>
 
   <script>
     // Prevenir scroll automático del carrusel al cargar la página SOLO si no hay hash en la URL
