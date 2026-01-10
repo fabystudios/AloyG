@@ -391,22 +391,8 @@
 
   <section class="carousel-section bg-light">
     <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
-      <!-- Indicadores actualizados para 9 slides -->
+      <!-- Indicadores (ocultos, pero se generan automáticamente según el JSON) -->
       <div class="carousel-indicators d-none">
-        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="2"></button>
-        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="3"></button>
-        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="4"></button>
-        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="5"></button>
-        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="6"></button>
-        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="7"></button>
-        <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="8"></button>
-        <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="9"></button> -->
-        <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="10"></button> -->
-        <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="11"></button> -->
-        <!-- <button type="button" data-bs-target="#mainCarousel" data-bs-slide-to="12"></button> -->
-
       </div>
 
       <!-- Los slides se cargan dinámicamente desde carousel-slides.json -->
@@ -915,8 +901,8 @@
             window.FB.XFBML.parse(container);
           }
           
-          // Aplicar zoom a los iframes después de que se carguen
-          setTimeout(() => {
+          // Aplicar zoom a los iframes - con reintentos para mobile
+          function applyZoomToIframes() {
             document.querySelectorAll('.fb-post-zoom').forEach(postDiv => {
               const zoom = parseFloat(postDiv.dataset.zoom) || 1;
               const offsetX = parseFloat(postDiv.dataset.offsetX) || 0;
@@ -927,10 +913,51 @@
                 if (iframe) {
                   iframe.style.transform = `scale(${zoom}) translate(${offsetX}px, ${offsetY}px)`;
                   iframe.style.transformOrigin = 'center center';
+                  iframe.style.transition = 'none'; // Sin transición para evitar flashes
                 }
               }
             });
-          }, 2000); // Esperar a que los iframes se carguen
+          }
+          
+          // Aplicar zoom con múltiples intentos
+          setTimeout(applyZoomToIframes, 2000);
+          setTimeout(applyZoomToIframes, 4000);
+          setTimeout(applyZoomToIframes, 6000);
+          
+          // MutationObserver para detectar cuando Facebook regenera los iframes
+          const mutationObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+              if (mutation.addedNodes.length) {
+                mutation.addedNodes.forEach((node) => {
+                  // Si se agregó un iframe, reaplicar zoom
+                  if (node.tagName === 'IFRAME' || (node.querySelector && node.querySelector('iframe'))) {
+                    setTimeout(applyZoomToIframes, 100);
+                  }
+                });
+              }
+            });
+          });
+          
+          // Observer para detectar cuando se cargan iframes nuevos (mobile lazy loading)
+          if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  setTimeout(applyZoomToIframes, 500);
+                  setTimeout(applyZoomToIframes, 1500);
+                }
+              });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.fb-post-wrapper').forEach(wrapper => {
+              observer.observe(wrapper);
+              // También observar mutaciones dentro de cada wrapper
+              mutationObserver.observe(wrapper, {
+                childList: true,
+                subtree: true
+              });
+            });
+          }
           
         } catch (error) {
           console.error('❌ Error al cargar publicaciones de Facebook:', error);
