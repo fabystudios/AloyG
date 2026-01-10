@@ -432,10 +432,13 @@
           }
           
           function sortSlides(slides) {
-            const fixedSlides = slides.filter(s => s.position > 0).sort((a, b) => a.position - b.position);
-            const randomSlides = shuffleArray(slides.filter(s => s.position === 0));
+            // Filtrar slides ignorados (position === -1)
+            const activeSlides = slides.filter(s => s.position !== -1);
+            
+            const fixedSlides = activeSlides.filter(s => s.position > 0).sort((a, b) => a.position - b.position);
+            const randomSlides = shuffleArray(activeSlides.filter(s => s.position === 0));
             const result = [];
-            const maxPosition = Math.max(slides.length, ...fixedSlides.map(s => s.position));
+            const maxPosition = Math.max(activeSlides.length, ...fixedSlides.map(s => s.position));
             let randomIndex = 0;
             
             for (let i = 1; i <= maxPosition; i++) {
