@@ -710,10 +710,11 @@
     }
 
     .fb-post-description {
-      font-size: 1rem;
+      font-size: 1.25rem;
       color: #65676b;
       margin-bottom: 20px;
       text-align: center;
+      line-height: 1.6;
     }
 
     /* SDK de Facebook - ajustar ancho y centrar */
@@ -730,6 +731,8 @@
       width: 100%;
       display: flex;
       justify-content: center;
+      overflow: hidden;
+      max-height: 800px; /* Altura máxima para la imagen */
     }
 
     /* Wrapper con overflow para el zoom - solo afecta al iframe */
@@ -853,14 +856,14 @@
         return `
           <div class="fb-post-wrapper" style="animation-delay: ${index * 0.1}s">
             ${title}
-            ${description}
             <div class="fb-embed-container">
               <div class="fb-post fb-post-zoom" ${dataAttrs}
                    data-href="${post.url}" 
                    data-width="${fbWidth}" 
-                   data-show-text="true">
+                   data-show-text="false">
               </div>
             </div>
+            ${description}
           </div>
         `;
       }
@@ -923,11 +926,7 @@
                 const iframe = postDiv.querySelector('iframe');
                 if (iframe) {
                   iframe.style.transform = `scale(${zoom}) translate(${offsetX}px, ${offsetY}px)`;
-                  // Agregar overflow hidden solo al contenedor del embed, no al wrapper completo
-                  const embedContainer = postDiv.closest('.fb-embed-container');
-                  if (embedContainer) {
-                    embedContainer.style.overflow = 'hidden';
-                  }
+                  iframe.style.transformOrigin = 'center center';
                 }
               }
             });
