@@ -390,7 +390,7 @@
 
 
   <section class="carousel-section bg-light">
-    <div id="mainCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="10000">
+    <div id="mainCarousel" class="carousel slide">
       <!-- Indicadores (ocultos, pero se generan automáticamente según el JSON) -->
       <div class="carousel-indicators d-none">
       </div>
@@ -399,6 +399,14 @@
       <div class="carousel-inner">
         <!-- El contenido será generado automáticamente por el script inline -->
       </div>
+
+      <!-- Controles -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
 
       <!-- Script inline para carga INMEDIATA sin esperar archivos externos -->
       <script>
@@ -503,16 +511,80 @@
                 carouselInner.insertAdjacentHTML('beforeend', generateSlideHTML(slide, index === 0, index));
               });
               
-              // Forzar carga inmediata de videos del primer slide
-              setTimeout(() => {
-                const firstSlide = carouselInner.querySelector('.carousel-item.active');
-                if (firstSlide) {
-                  firstSlide.querySelectorAll('video').forEach(v => {
-                    v.load();
-                    v.play().catch(() => {});
-                  });
+              console.log('✅ Slides cargadas');
+              
+              // Carrusel custom sin Bootstrap
+              let currentSlide = 0;
+              const slides = carouselInner.querySelectorAll('.carousel-item');
+              const totalSlides = slides.length;
+              let autoplayInterval;
+              
+              function showSlide(index) {
+                slides.forEach(slide => slide.classList.remove('active'));
+                currentSlide = (index + totalSlides) % totalSlides;
+                slides[currentSlide].classList.add('active');
+                
+                // Reproducir videos si existen
+                const videos = slides[currentSlide].querySelectorAll('video');
+                videos.forEach(v => {
+                  v.load();
+                  v.play().catch(() => {});
+                });
+              }
+              
+              function nextSlide() {
+                showSlide(currentSlide + 1);
+              }
+              
+              function prevSlide() {
+                showSlide(currentSlide - 1);
+              }
+              
+              function startAutoplay() {
+                stopAutoplay();
+                autoplayInterval = setInterval(nextSlide, 10000);
+              }
+              
+              function stopAutoplay() {
+                if (autoplayInterval) {
+                  clearInterval(autoplayInterval);
                 }
-              }, 0);
+              }
+              
+              // Configurar controles
+              const prevBtn = document.querySelector('.carousel-control-prev');
+              const nextBtn = document.querySelector('.carousel-control-next');
+              
+              if (prevBtn) {
+                prevBtn.addEventListener('click', (e) => {
+                  e.preventDefault();
+                  prevSlide();
+                  startAutoplay();
+                });
+              }
+              
+              if (nextBtn) {
+                nextBtn.addEventListener('click', (e) => {
+                  e.preventDefault();
+                  nextSlide();
+                  startAutoplay();
+                });
+              }
+              
+              // Soporte para teclado
+              document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowLeft') prevSlide();
+                if (e.key === 'ArrowRight') nextSlide();
+                startAutoplay();
+              });
+              
+              // Pausar en hover
+              carouselInner.parentElement.addEventListener('mouseenter', stopAutoplay);
+              carouselInner.parentElement.addEventListener('mouseleave', startAutoplay);
+              
+              // Iniciar autoplay
+              startAutoplay();
+              console.log('🎠 Carrusel custom iniciado');
               
             } catch (error) {
               console.error('❌ Error:', error);
@@ -522,14 +594,6 @@
           loadCarousel();
         })();
       </script>
-
-      <!-- Controles -->
-      <button class="carousel-control-prev" type="button" data-bs-target="#mainCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-      </button>
-      <button class="carousel-control-next" type="button" data-bs-target="#mainCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-      </button>
     </div>
   </section>
 
