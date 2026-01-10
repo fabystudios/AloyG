@@ -6,7 +6,7 @@
     "santoFontSize": "1em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/ana.mp4",
-    "icono": "./img/nav.png",
+    "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
     "showOnDesktop": true
@@ -18,7 +18,7 @@
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/basi.mp4",
-    "icono": "./img/nav.png",
+    "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
@@ -30,7 +30,7 @@
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/seve.mp4",
-    "icono": "./img/nav.png",
+    "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
