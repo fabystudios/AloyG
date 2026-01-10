@@ -1,0 +1,23 @@
+[
+  {
+    "id": "post-1",
+    "position": 1,
+    "url": "https://www.facebook.com/photo/?fbid=10232533295375249&set=a.1655316943159",
+    "title": "GRACIAS SEÑOR!",
+    "description": ""
+  },
+  {
+    "id": "post-1",
+    "position": -1,
+    "url": "https://www.facebook.com/TU_PAGINA/posts/123456789",
+    "title": "Otra publicación",
+    "description": "Otra descripción"
+  },
+  {
+    "id": "post-3",
+    "position": -1,
+    "url": "https://www.facebook.com/photo/?fbid=ejemplo",
+    "title": "Esta publicación está oculta",
+    "description": "No aparecerá porque position es -1"
+  }
+]

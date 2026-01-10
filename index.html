@@ -649,6 +649,258 @@
      <!-- // section con un div con clase "rifa-navidad-article"para poner el video: '/video/rifa.mp4 ciclico infinito, y abajo un boton animado que diga: Adquierela aqui, que lleve a <div class="
   // ">rifa/rifa.html' -->
     <br><br><br>
+     <!-- Publicaciones de Facebook -->
+  <div id="facebookPostsContainer" class="container" style="padding: 60px 20px; max-width: 1200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.3);">
+    <!-- Wallpaper decorativo de fondo -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('./img/fb-wallpaper.png'); opacity: 0.4; pointer-events: none;"></div>
+    <!-- Las publicaciones se cargarán dinámicamente desde facebook-posts.json -->
+  </div>
+
+  <style>
+    #facebookPostsContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      margin: 40px auto;
+    }
+
+    .fb-post-wrapper {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 16px;
+      padding: 30px;
+      /* Sombras estilo Material Design 3 */
+      box-shadow: 
+        0 1px 2px 0 rgba(0, 0, 0, 0.3),
+        0 2px 6px 2px rgba(0, 0, 0, 0.15);
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      animation: fadeInUp 0.6s ease-out forwards;
+      opacity: 0;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fb-post-wrapper:hover {
+      /* Sombra elevada MD3 en hover */
+      box-shadow: 
+        0 4px 8px 3px rgba(0, 0, 0, 0.15),
+        0 1px 3px 0 rgba(0, 0, 0, 0.3);
+      transform: translateY(-6px) scale(1.01);
+    }
+
+    .fb-post-title {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #1877f2;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .fb-post-description {
+      font-size: 1rem;
+      color: #65676b;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    /* SDK de Facebook - ajustar ancho y centrar */
+    .fb-post {
+      margin: 0 auto;
+      max-width: 100% !important;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Forzar que las imágenes de FB se vean más grandes y centradas */
+    .fb-post iframe {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 auto !important;
+      display: block !important;
+    }
+
+    .fb-post > span {
+      display: flex !important;
+      justify-content: center !important;
+      width: 100% !important;
+    }
+
+    @media (max-width: 768px) {
+      #facebookPostsContainer {
+        padding: 40px 15px;
+        border-radius: 0;
+      }
+      
+      .fb-post-wrapper {
+        padding: 20px;
+      }
+
+      .fb-post-title {
+        font-size: 1.15rem;
+      }
+    }
+
+    @media (min-width: 769px) {
+      /* Desktop: hacer el embed más ancho y centrado */
+      .fb-post {
+        min-width: 700px !important;
+        display: flex !important;
+        justify-content: center !important;
+      }
+      
+      .fb-post-wrapper {
+        max-width: 750px;
+        width: 100%;
+        margin: 0 auto;
+      }
+    }
+  </style>
+
+  <!-- SDK de Facebook para embeds elegantes -->
+  <script async defer crossorigin="anonymous" 
+          src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v18.0"></script>
+
+  <script>
+    (function() {
+      'use strict';
+      
+      const CACHE_KEY = 'facebook_posts_cache';
+      const CACHE_DURATION = 3600000; // 1 hora
+      
+      function sortPosts(posts) {
+        // Filtrar posts ignorados (position === -1)
+        const activePosts = posts.filter(p => p.position !== -1);
+        
+        if (activePosts.length === 0) return [];
+        
+        const fixedPosts = activePosts.filter(p => p.position > 0).sort((a, b) => a.position - b.position);
+        const randomPosts = activePosts.filter(p => p.position === 0);
+        
+        // Mezclar aleatorios
+        for (let i = randomPosts.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [randomPosts[i], randomPosts[j]] = [randomPosts[j], randomPosts[i]];
+        }
+        
+        const result = [];
+        const maxPosition = Math.max(activePosts.length, ...fixedPosts.map(p => p.position));
+        let randomIndex = 0;
+        
+        for (let i = 1; i <= maxPosition; i++) {
+          const fixedPost = fixedPosts.find(p => p.position === i);
+          if (fixedPost) {
+            result.push(fixedPost);
+          } else if (randomIndex < randomPosts.length) {
+            result.push(randomPosts[randomIndex++]);
+          }
+        }
+        
+        while (randomIndex < randomPosts.length) {
+          result.push(randomPosts[randomIndex++]);
+        }
+        
+        return result;
+      }
+      
+      function generatePostHTML(post, index) {
+        const title = post.title ? `<div class="fb-post-title">${post.title}</div>` : '';
+        const description = post.description ? `<div class="fb-post-description">${post.description}</div>` : '';
+        
+        // Determinar ancho según dispositivo
+        const isMobile = window.innerWidth < 768;
+        const fbWidth = isMobile ? 'auto' : '700';
+        
+        return `
+          <div class="fb-post-wrapper" style="animation-delay: ${index * 0.1}s">
+            ${title}
+            ${description}
+            <div class="fb-post" 
+                 data-href="${post.url}" 
+                 data-width="${fbWidth}" 
+                 data-show-text="true">
+            </div>
+          </div>
+        `;
+      }
+      
+      async function loadFacebookPosts() {
+        try {
+          const container = document.getElementById('facebookPostsContainer');
+          if (!container) return;
+          
+          // Intentar cargar orden cacheado
+          const cached = sessionStorage.getItem(CACHE_KEY);
+          let sortedPosts;
+          
+          if (cached) {
+            const cacheData = JSON.parse(cached);
+            if (Date.now() - cacheData.timestamp < CACHE_DURATION) {
+              sortedPosts = cacheData.posts;
+              console.log('⚡ Facebook posts desde cache');
+            }
+          }
+          
+          if (!sortedPosts) {
+            const response = await fetch('./facebook-posts.json');
+            if (!response.ok) throw new Error('Error al cargar facebook-posts.json');
+            const posts = await response.json();
+            sortedPosts = sortPosts(posts);
+            
+            // Guardar en cache
+            sessionStorage.setItem(CACHE_KEY, JSON.stringify({
+              posts: sortedPosts,
+              timestamp: Date.now()
+            }));
+            console.log('✅ Facebook posts cargados: ' + sortedPosts.length);
+          }
+          
+          // Si no hay posts activos, ocultar el contenedor
+          if (sortedPosts.length === 0) {
+            container.style.display = 'none';
+            return;
+          }
+          
+          // Generar HTML
+          sortedPosts.forEach((post, index) => {
+            container.insertAdjacentHTML('beforeend', generatePostHTML(post, index));
+          });
+          
+          // Parsear los posts de Facebook con el SDK
+          if (window.FB) {
+            window.FB.XFBML.parse(container);
+          }
+          
+        } catch (error) {
+          console.error('❌ Error al cargar publicaciones de Facebook:', error);
+        }
+      }
+      
+      // Esperar a que el SDK de Facebook esté listo
+      window.fbAsyncInit = function() {
+        loadFacebookPosts();
+      };
+      
+      // Fallback si el SDK ya está cargado
+      if (window.FB) {
+        loadFacebookPosts();
+      }
+    })();
+  </script>
+  <br><br>
+    <!-- Rifa -->
   <article class="rifa-navidad-article" id="rifa">
 
     <div class="rifa-navidad-card">
@@ -1663,6 +1915,8 @@
       }
     })();
   </script>
+
+ 
 
 
   <section id="adoracion" class="diptych-adoracion" style="margin: 3rem auto;">
