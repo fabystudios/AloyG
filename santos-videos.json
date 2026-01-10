@@ -1,9 +1,9 @@
 [      
    {
     "id": 1,
-    "fecha": "9 de Enero",
-    "santo": "San Julián y Santa Basilisa",
-    "santoFontSize": "1.2em",
+    "fecha": "10 de Enero",
+    "santo": "Beata Sor Ana de los Ángeles Monteagudo",
+    "santoFontSize": "1em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/basi.mp4",
     "icono": "./img/nav.png",
@@ -11,25 +11,25 @@
     "showOnMobile": true,
     "showOnDesktop": true
   },   
-{
+   {
     "id": 2,
+    "fecha": "9 de Enero",
+    "santo": "San Julián y Santa Basilisa",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/basi.mp4",
+    "icono": "./img/nav.png",
+    "iconoWidth": "35px",
+    "showOnMobile": false,
+    "showOnDesktop": true
+  },   
+{
+    "id": 3,
     "fecha": "8 de Enero",
     "santo": "San Severino",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/seve.mp4",
-    "icono": "./img/nav.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }, 
-       {
-    "id": 3,
-    "fecha": "7 de Enero",
-    "santo": "San Raimundo de Peñafort",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/raimundo.mp4",
     "icono": "./img/nav.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
