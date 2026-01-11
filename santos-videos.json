@@ -8,7 +8,7 @@
     "video": "./asantos/ana.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": false,
+    "showOnMobile": true,
     "showOnDesktop": true
   },   
    {

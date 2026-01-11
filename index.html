@@ -118,6 +118,187 @@
   }
   </script>
 
+  <!-- Web Component para Efemérides -->
+  <script>
+    class EfemeridesCard extends HTMLElement {
+      connectedCallback() {
+        const jsonFile = this.getAttribute('json-file');
+        const cardType = this.getAttribute('card-type') || 'especiales';
+        this.loadEfemerides(jsonFile, cardType);
+      }
+
+      async loadEfemerides(jsonFile, cardType) {
+        try {
+          const response = await fetch(jsonFile);
+          const items = await response.json();
+          
+          if (cardType === 'especiales') {
+            this.renderEspeciales(items);
+          } else if (cardType === 'santos') {
+            this.renderSantos(items);
+          }
+        } catch (error) {
+          console.error(`Error al cargar ${cardType}:`, error);
+        }
+      }
+
+      renderEspeciales(especiales) {
+        const container = document.createElement('div');
+        container.id = 'especialesContainer';
+        container.className = 'd-flex justify-content-center align-items-center';
+        container.style.padding = '20px 0';
+        
+        const wrapper = document.createElement('div');
+        wrapper.style.cssText = 'display: flex; flex-direction: column; align-items: center; gap: 40px; position: relative; z-index: 1;';
+        
+        especiales.forEach((especial, index) => {
+          const card = this.createEspecialCard(especial, index);
+          wrapper.appendChild(card);
+        });
+        
+        container.appendChild(wrapper);
+        this.appendChild(container);
+        
+        console.log('✨ Especiales cargados exitosamente');
+      }
+
+      createEspecialCard(especial, index) {
+        const card = document.createElement('div');
+        card.className = 'especial-card';
+        card.style.animationDelay = `${index * 0.2}s`;
+
+        const mobile = window.innerWidth <= 768;
+        let videoHTML = '';
+
+        if (mobile && especial.videoMobile) {
+          videoHTML = `
+            <video class="especial-video-player" controls preload="metadata" playsinline autoplay muted
+              poster="${especial.poster || ''}"
+              controlsList="nodownload">
+              <source src="${especial.videoMobile}" type="video/mp4">
+              Tu navegador no soporta la reproducción de video.
+            </video>
+          `;
+        } else {
+          const embedUrl = this.getYouTubeEmbedUrl(especial.videoDesktop);
+          if (embedUrl) {
+            const autoplayUrl = embedUrl.includes('?') ? `${embedUrl}&autoplay=1&mute=1` : `${embedUrl}?autoplay=1&mute=1`;
+            videoHTML = `
+              <iframe class="especial-video-iframe" 
+                src="${autoplayUrl}" 
+                title="${especial.titulo}"
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen>
+              </iframe>
+            `;
+          }
+        }
+
+        const tituloHTML = mobile ? 
+          especial.titulo.replace(/\s*-\s*/g, '<br>') : 
+          especial.titulo;
+
+        card.innerHTML = `
+          <div class="especial-header">
+            ${especial.icono ? `<img src="${especial.icono}" alt="Icono" class="icono">` : ''}
+            <h1 class="especial-titulo">${tituloHTML}</h1>
+            <p class="especial-fecha">${especial.fecha}</p>
+          </div>
+          <div class="especial-video-container">
+            <div class="especial-video-wrapper">
+              ${videoHTML}
+            </div>
+          </div>
+        `;
+
+        return card;
+      }
+
+      renderSantos(videos) {
+        const container = document.createElement('div');
+        container.id = 'videosCatolicos';
+        container.className = 'section-padding d-flex justify-content-center align-items-center deshabilitado';
+        container.style.minHeight = '65vh';
+        
+        const wrapper = document.createElement('div');
+        wrapper.id = 'santosVideosContainer';
+        wrapper.className = 'd-flex flex-wrap justify-content-center gap-4';
+        wrapper.style.cssText = 'width: 95vw; max-width: 1400px;';
+        
+        videos.forEach((video, index) => {
+          const card = this.createSantoCard(video);
+          wrapper.appendChild(card);
+        });
+        
+        container.appendChild(wrapper);
+        this.appendChild(container);
+      }
+
+      createSantoCard(video) {
+        let visibilityClass = '';
+        if (!video.showOnMobile && video.showOnDesktop) {
+          visibilityClass = 'd-none d-md-block';
+        } else if (video.showOnMobile && !video.showOnDesktop) {
+          visibilityClass = 'd-md-none';
+        }
+        
+        const card = document.createElement('div');
+        card.className = `card90 shadow-lg rounded-4 overflow-hidden ${visibilityClass}`.trim();
+        card.style.cssText = 'width: 90vw; max-width: 400px;';
+        
+        card.innerHTML = `
+          <div class="position-relative text-center p-3"
+            style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
+            <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
+              text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
+              ${video.fecha}
+            </h2>
+            <p class="mb-0 mt-1" style="color: #e0e7ff; font-size: ${video.santoFontSize}; font-weight: 500; line-height: 1.3;">
+              ${video.santo}
+            </p>
+            <img src="${video.icono}" alt="Icono ${video.santo}"
+              style="width: ${video.iconoWidth}; position: absolute; top: 10px; right: 10px; 
+              opacity: 1; z-index: 10; border-radius: 50%;">
+          </div>
+          <div class="p-3 d-flex justify-content-center santos-video-container" style="min-height: 450px;">
+            <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
+              center center / cover no-repeat; border-radius:12px; 
+              box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
+              <video class="santos-video-player" controls preload="metadata" autoplay muted loop playsinline 
+                style="width:100%; height:400px; border:none; border-radius:12px; background: transparent;" 
+                poster="${video.poster}"
+                onerror="console.error('Error cargando video:', '${video.video}')"
+                onloadeddata="console.log('Video cargado correctamente:', '${video.santo}')">
+                <source src="${video.video}" type="${video.video.endsWith('.webm') ? 'video/webm' : 'video/mp4'}">
+                Tu navegador no soporta la reproducción de video.
+              </video>
+            </div>
+          </div>
+        `;
+        
+        return card;
+      }
+
+      getYouTubeEmbedUrl(url) {
+        if (!url) return null;
+        const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+        const match = url.match(regExp);
+        const videoId = (match && match[7].length === 11) ? match[7] : null;
+        
+        if (videoId) {
+          return `https://www.youtube.com/embed/${videoId}`;
+        }
+        if (url.includes('embed')) {
+          return url;
+        }
+        return url;
+      }
+    }
+
+    customElements.define('efemerides-card', EfemeridesCard);
+  </script>
+
 </head>
 
 <body id="inicio">
@@ -1175,10 +1356,8 @@
         })();
     </script>
 
-  <!-- Publicaciones Especiales - Primera publicación -->
-  <div id="especialesContainer" class="d-flex justify-content-center align-items-center" style="padding: 20px 0;">
-    <!-- Las cards especiales se cargarán dinámicamente desde especiales.json -->
-  </div>
+  <!-- Publicaciones Especiales -->
+  <efemerides-card json-file="./especiales.json" card-type="especiales"></efemerides-card>
 
   <style>
     #especialesContainer {
@@ -1262,8 +1441,10 @@
       position: absolute;
       top: 20px;
       right: 20px;
-      width: 50px;
-      height: 50px;
+      width: 80px;
+      height: auto;
+      max-height: 80px;
+      object-fit: contain;
       border-radius: 50%;
       box-shadow: 
         0 4px 12px rgba(0, 0, 0, 0.3),
@@ -1392,11 +1573,6 @@
       .especial-video-player {
         min-height: 400px;
       }
-
-      .especial-header .icono {
-        width: 60px;
-        height: 60px;
-      }
     }
 
     /* Responsive Mobile */
@@ -1424,8 +1600,9 @@
       }
 
       .especial-header .icono {
-        width: 45px;
-        height: 45px;
+        width: 120px;
+        height: auto;
+        max-height: 120px;
         top: 15px;
         right: 15px;
       }
@@ -1459,138 +1636,11 @@
     }
   </style>
 
-  <script>
-    (function() {
-      // Detectar si es mobile o desktop
-      function isMobileDevice() {
-        return window.innerWidth <= 768;
-      }
-
-      // Convertir URL de YouTube a formato embed
-      function getYouTubeEmbedUrl(url) {
-        if (!url) return null;
-        
-        // Extraer video ID de diferentes formatos de URL de YouTube
-        const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-        const match = url.match(regExp);
-        const videoId = (match && match[7].length === 11) ? match[7] : null;
-        
-        if (videoId) {
-          return `https://www.youtube.com/embed/${videoId}`;
-        }
-        
-        // Si ya es formato embed, retornar tal cual
-        if (url.includes('embed')) {
-          return url;
-        }
-        
-        return url;
-      }
-
-      async function cargarEspeciales() {
-        try {
-          const response = await fetch('./especiales.json');
-          const especiales = await response.json();
-          const container = document.getElementById('especialesContainer');
-          
-          if (!container) return;
-
-          especiales.forEach((especial, index) => {
-            const card = document.createElement('div');
-            card.className = 'especial-card';
-            card.style.animationDelay = `${index * 0.2}s`;
-
-            const mobile = isMobileDevice();
-            let videoHTML = '';
-
-            // Decidir qué video mostrar
-            if (mobile && especial.videoMobile) {
-              // En mobile, usar el video local MP4
-              videoHTML = `
-                <video class="especial-video-player" controls preload="metadata" playsinline autoplay muted
-                  poster="${especial.poster || ''}"
-                  controlsList="nodownload">
-                  <source src="${especial.videoMobile}" type="video/mp4">
-                  Tu navegador no soporta la reproducción de video.
-                </video>
-              `;
-            } else {
-              // En desktop o si no hay video mobile, usar YouTube
-              const embedUrl = getYouTubeEmbedUrl(especial.videoDesktop);
-              if (embedUrl) {
-                const autoplayUrl = embedUrl.includes('?') ? `${embedUrl}&autoplay=1&mute=1` : `${embedUrl}?autoplay=1&mute=1`;
-                videoHTML = `
-                  <iframe class="especial-video-iframe" 
-                    src="${autoplayUrl}" 
-                    title="${especial.titulo}"
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
-                  </iframe>
-                `;
-              }
-            }
-
-            // Separar título en dos líneas para mobile
-            const tituloHTML = mobile ? 
-              especial.titulo.replace(/\s*-\s*/g, '<br>') : 
-              especial.titulo;
-
-            card.innerHTML = `
-              <div class="especial-header">
-                ${especial.icono ? `<img src="${especial.icono}" alt="Icono" class="icono">` : ''}
-                <h1 class="especial-titulo">${tituloHTML}</h1>
-                <p class="especial-fecha">${especial.fecha}</p>
-              </div>
-              <div class="especial-video-container">
-                <div class="especial-video-wrapper">
-                  ${videoHTML}
-                </div>
-              </div>
-            `;
-
-            container.appendChild(card);
-          });
-
-          console.log('✨ Especiales cargados exitosamente');
-        } catch (error) {
-          console.error('Error al cargar especiales:', error);
-        }
-      }
-
-      // Recargar si cambia el tamaño de ventana (mobile ↔ desktop)
-      let currentMobileState = isMobileDevice();
-      window.addEventListener('resize', () => {
-        const newMobileState = isMobileDevice();
-        if (currentMobileState !== newMobileState) {
-          currentMobileState = newMobileState;
-          const container = document.getElementById('especialesContainer');
-          if (container) {
-            container.innerHTML = '';
-            cargarEspeciales();
-          }
-        }
-      });
-
-      // Cargar cuando el DOM esté listo
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', cargarEspeciales);
-      } else {
-        cargarEspeciales();
-      }
-    })();
-  </script>
-
   
 
-  <!-- Videos de Santos - Carga dinámica desde JSON -->
-  <div id="videosCatolicos" class="section-padding d-flex justify-content-center align-items-center deshabilitado"
-    style="min-height: 65vh; ">
-    <div id="santosVideosContainer" class="d-flex flex-wrap justify-content-center gap-4" style="width: 95vw; max-width: 1400px; ">
-      <!-- Los videos se cargarán dinámicamente desde santos-videos.json -->
-    </div>
-  </div>
-<!-- <br><br><br> -->
+  <!-- Videos de Santos -->
+  <efemerides-card json-file="./santos-videos.json" card-type="santos"></efemerides-card>
+
   <style>
     @media (max-width: 768px) {
       #santosVideosContainer {
@@ -1625,86 +1675,6 @@
       }
     }
   </style>
-
-  <script>
-    // Cargar y renderizar videos de santos desde JSON
-    (function() {
-      async function cargarVideosSantos() {
-        try {
-          const response = await fetch('./santos-videos.json');
-          const videos = await response.json();
-          const container = document.getElementById('santosVideosContainer');
-          
-          if (!container) return;
-          
-          videos.forEach((video, index) => {
-            // Determinar clases de visibilidad
-            let visibilityClass = '';
-            if (!video.showOnMobile && video.showOnDesktop) {
-              visibilityClass = 'd-none d-md-block';
-            } else if (video.showOnMobile && !video.showOnDesktop) {
-              visibilityClass = 'd-md-none';
-            }
-            // Si ambos son true, no agregamos clase (siempre visible)
-            
-            console.log(`Cargando video ${index + 1}:`, video.santo, 'Visibility:', visibilityClass);
-            
-            const card = document.createElement('div');
-            card.className = `card90 shadow-lg rounded-4 overflow-hidden ${visibilityClass}`.trim();
-            card.style.cssText = 'width: 90vw; max-width: 400px;';
-            
-            card.innerHTML = `
-              <div class="position-relative text-center p-3"
-                style="background: linear-gradient(45deg, #1c9bb7, #2900f5); color: white;">
-                <h2 class="fw-bold mb-0" style="color: white; font-size: 2.1em; 
-                  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);">
-                  ${video.fecha}
-                </h2>
-                <p class="mb-0 mt-1" style="color: #e0e7ff; font-size: ${video.santoFontSize}; font-weight: 500; line-height: 1.3;">
-                  ${video.santo}
-                </p>
-                <img src="${video.icono}" alt="Icono ${video.santo}"
-                  style="width: ${video.iconoWidth}; position: absolute; top: 10px; right: 10px; 
-                  opacity: 1; z-index: 10; border-radius: 50%;">
-              </div>
-              <div class="p-3 d-flex justify-content-center santos-video-container" style="min-height: 450px;">
-                <div style="width:100%; max-width:400px; background: url('./img/corpusCh.jpeg') 
-                  center center / cover no-repeat; border-radius:12px; 
-                  box-shadow:0 2px 12px rgba(0,0,0,0.15); padding: 12px;">
-                  <video class="santos-video-player" controls preload="metadata" autoplay muted loop playsinline style="width:100%; height:400px; 
-                    border:none; border-radius:12px; background: transparent;" 
-                    poster="${video.poster}"
-                    onerror="console.error('Error cargando video:', '${video.video}')"
-                    onloadeddata="console.log('Video cargado correctamente:', '${video.santo}')">
-                    <source src="${video.video}" type="${video.video.endsWith('.webm') ? 'video/webm' : 'video/mp4'}">
-                    Tu navegador no soporta la reproducción de video.
-                  </video>
-                </div>
-              </div>
-            `;
-            
-            container.appendChild(card);
-            
-            // Verificar si el video se carga correctamente
-            const videoElement = card.querySelector('video');
-            videoElement.addEventListener('error', (e) => {
-              console.error(`Error en video ${video.santo}:`, e);
-              console.error('Ruta del video:', video.video);
-            });
-          });
-        } catch (error) {
-          console.error('Error al cargar videos de santos:', error);
-        }
-      }
-      
-      // Cargar videos cuando el DOM esté listo
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', cargarVideosSantos);
-      } else {
-        cargarVideosSantos();
-      }
-    })();
-  </script>
 
 <!-- ------- -->
    
