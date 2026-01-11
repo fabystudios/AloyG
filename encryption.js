@@ -3,6 +3,13 @@
 // Colocar en: /rifa/encryption.js
 // ========================================
 
+console.log('🔐 Cargando encryption.js...');
+
+(function() {
+  'use strict';
+  
+  try {
+
 const ENCRYPTION_CONFIG = {
   algorithm: 'AES-GCM',
   keyLength: 256,
@@ -563,5 +570,12 @@ window.SistemaCifrado = {
   verificarIntegridadDatosPago
 };
 
-console.log('✅ Sistema de cifrado cargado');
+console.log('✅ Sistema de cifrado cargado correctamente');
 console.log('📋 Uso: window.SistemaCifrado.guardarDatosPagoCifrados() para primera vez');
+
+  } catch (error) {
+    console.error('❌ Error fatal al cargar encryption.js:', error);
+    console.error('Stack:', error.stack);
+    // No exponer SistemaCifrado si hay error
+  }
+})();

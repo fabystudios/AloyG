@@ -2224,7 +2224,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // ========================================
   // CONFIGURACIÓN
   // ========================================
-  const FECHA_SORTEO = '25 de Marzo 2026 - Loteria Nacional Vespertina';
+  // FECHA_SORTEO se declara en rifa.js
 
   // ========================================
 // PASO 2: FUNCIÓN PARA ENVIAR EMAILS
@@ -2271,13 +2271,16 @@ document.addEventListener('DOMContentLoaded', function() {
 // PASO 3: SUBMIT MEJORADO DEL FORMULARIO ADMIN
 // REEMPLAZAR el existente en rifa.html
 // ========================================
-document.getElementById('admin-form').onsubmit = async function(e) {
-  e.preventDefault();
-  
-  const nombre = document.getElementById('admin-nombre-input').value.trim();
-  const email = document.getElementById('admin-email-input').value.trim();
-  const state = parseInt(document.getElementById('admin-estado-select').value);
-  const nro_op = document.getElementById('admin-nro_op-input').value.trim();
+document.addEventListener('DOMContentLoaded', function() {
+  const adminForm = document.getElementById('admin-form');
+  if (adminForm) {
+    adminForm.onsubmit = async function(e) {
+      e.preventDefault();
+      
+      const nombre = document.getElementById('admin-nombre-input').value.trim();
+      const email = document.getElementById('admin-email-input').value.trim();
+      const state = parseInt(document.getElementById('admin-estado-select').value);
+      const nro_op = document.getElementById('admin-nro_op-input').value.trim();
   const dni = document.getElementById('admin-dni-input').value.trim();
 
   try {
@@ -2431,6 +2434,10 @@ document.getElementById('admin-form').onsubmit = async function(e) {
     });
   }
 };
+  } else {
+    console.warn('⚠️ Formulario admin-form no encontrado en el DOM');
+  }
+});
 
 // ========================================
 // FUNCIÓN AUXILIAR: Determinar acción realizada
@@ -4239,41 +4246,36 @@ document.getElementById('btn-como-llegar').addEventListener('click', function() 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
 
 <script src="./pdf.js"></script>
-<!-- Inicialización del Sistema de Cifrado -->
+<!-- Inicialización del Sistema de Cifrado (No bloqueante) -->
 <script>
-// Esperar a que Firebase esté listo antes de cargar datos cifrados
+// Cargar datos de pago cifrados de forma asíncrona y no bloqueante
 window.addEventListener('load', function() {
-  console.log('🔐 Preparando sistema de cifrado...');
+  console.log('🔐 Intentando cargar sistema de cifrado (no bloqueante)...');
   
-  // Esperar a que db esté disponible
+  // Función recursiva con timeout más corto
   function intentarInicializarCifrado(intentos) {
     if (intentos <= 0) {
-      console.warn('⚠️ Sistema de cifrado: Firebase no disponible después de varios intentos');
-      console.log('ℹ️ La página continuará funcionando sin datos de pago cifrados');
+      console.warn('⚠️ Sistema de cifrado no disponible - continuando sin él');
       return;
     }
     
+    // Verificar disponibilidad
     if (typeof db === 'undefined' || typeof window.SistemaCifrado === 'undefined') {
-      console.log('⏳ Esperando Firebase y Sistema de Cifrado... (intentos restantes: ' + intentos + ')');
-      setTimeout(() => intentarInicializarCifrado(intentos - 1), 1000);
+      console.log('⏳ Esperando cifrado... (' + intentos + ')');
+      setTimeout(() => intentarInicializarCifrado(intentos - 1), 500);
       return;
     }
     
-    console.log('✅ Firebase y Sistema de Cifrado disponibles, inicializando...');
+    console.log('✅ Sistema de Cifrado disponible');
     
-    // Renderizar header con datos cifrados
-    window.SistemaCifrado.renderizarHeaderRifa()
-      .then(function() {
-        console.log('✅ Header cargado con datos de pago');
-      })
-      .catch(function(error) {
-        console.error('❌ Error al cargar header cifrado:', error);
-        // Mostrar mensaje en el contenedor
-        const container = document.querySelector('.rifa-header-redesign');
-        if (container) {
-          console.log('ℹ️ Mostrando mensaje de error en el header');
-        }
-      });
+    // Renderizar header de forma segura
+    try {
+      window.SistemaCifrado.renderizarHeaderRifa()
+        .then(() => console.log('✅ Header con datos de pago cargado'))
+        .catch(err => console.warn('⚠️ Error en header cifrado (no crítico):', err));
+    } catch (error) {
+      console.warn('⚠️ Error al inicializar cifrado (no crítico):', error);
+    }
     
     // Configurar botón admin
     var btnActualizar = document.getElementById('btn-actualizar-datos-pago');
@@ -4311,12 +4313,71 @@ window.addEventListener('load', function() {
     }
   }
   
-  // Iniciar intentos (20 intentos = 20 segundos)
-  intentarInicializarCifrado(20);
+  // Iniciar intentos (5 intentos con 500ms = 2.5 segundos máximo)
+  intentarInicializarCifrado(5);
 });
 </script>
 
 <!-- Cargar rifa.js al final del body -->
 <script src="./rifa.js"></script>
+
+<!-- Failsafe mejorado para debugging -->
+<script>
+console.log('🔍 Iniciando sistema de monitoreo...');
+
+// Verificar cada segundo durante 10 segundos
+let checkCount = 0;
+const maxChecks = 10;
+
+const monitorInterval = setInterval(function() {
+  checkCount++;
+  console.log(`🔍 Check ${checkCount}/${maxChecks}...`);
+  
+  const publicLoading = document.getElementById('public-loading');
+  const publicGrid = document.getElementById('public-rifa-grid');
+  
+  if (!publicLoading || !publicGrid) {
+    console.error('❌ Elementos no encontrados:', {
+      loading: !!publicLoading,
+      grid: !!publicGrid
+    });
+    return;
+  }
+  
+  console.log('📊 Estado actual:', {
+    loadingDisplay: publicLoading.style.display,
+    loadingClass: publicLoading.className,
+    gridDisplay: publicGrid.style.display,
+    gridChildren: publicGrid.children.length,
+    rifaDataLength: window.rifaData ? window.rifaData.length : 0
+  });
+  
+  // Si hay datos cargados o hemos esperado suficiente
+  if ((publicGrid.children.length > 0 || window.rifaData?.length > 0) && checkCount >= 3) {
+    console.log('✅ Forzando visualización de grilla');
+    publicLoading.style.display = 'none';
+    publicLoading.classList.remove('active');
+    publicGrid.style.display = 'grid';
+    clearInterval(monitorInterval);
+    
+    // Si no hay contenido visual pero hay datos, renderizar
+    if (publicGrid.children.length === 0 && window.rifaData?.length > 0) {
+      console.log('🔧 Intentando renderizar grilla manualmente...');
+      if (typeof renderRifaGrid === 'function') {
+        renderRifaGrid(false);
+      }
+    }
+  }
+  
+  // Si ya pasó el tiempo máximo, forzar de todos modos
+  if (checkCount >= maxChecks) {
+    console.log('⚠️ Timeout alcanzado, forzando visualización');
+    publicLoading.style.display = 'none';
+    publicGrid.style.display = 'grid';
+    clearInterval(monitorInterval);
+  }
+}, 1000);
+</script>
+
 </body>
 </html>

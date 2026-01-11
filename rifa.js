@@ -275,11 +275,18 @@ function loadRifaData(adminMode = false) {
     document.getElementById('admin-loading').classList.add('active');
     document.getElementById('admin-loading').style.display = 'flex';
   } else {
-    document.getElementById('public-loading').classList.add('active');
-    document.getElementById('public-loading').style.display = 'flex';
+    const publicLoading = document.getElementById('public-loading');
+    if (publicLoading) {
+      publicLoading.classList.add('active');
+      publicLoading.style.display = 'flex';
+      console.log('⏳ Loading público activado');
+    }
   }
   
+  console.log('🔥 Conectando con Firestore...');
+  
   db.collection('rifa').orderBy('numero').onSnapshot((snapshot) => {
+    console.log('📦 Snapshot recibido, procesando...');
     rifaData = [];
     snapshot.forEach((doc) => {
       rifaData.push({
