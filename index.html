@@ -2382,7 +2382,7 @@
   </script>
   <!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block">
   <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
-  <!-- <br><br><br>
+  <br><br><br>
 
 
 
@@ -2391,23 +2391,32 @@
     <div style=" padding-top: 30px;">
       <div id="feria-americana" class="feria-section text-center" style="width: 90%; max-width: 1200px; margin: 0 auto;">
         <div class="feria-card card-body" style="z-index: 10; position: relative;">
-          <div class="pizarra-board" style="
-        width: 100%;
-        max-width: 680px;
-        height: 420px;
-        margin: 0 auto 1rem;
-        border-radius: 12px;
-        background-image: url('./img/feria-americana-dic.jpg');
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        box-shadow: 0 8px 18px rgba(0,0,0,0.12);
-      " role="button" tabindex="0" aria-label="Abrir imagen de la feria" data-bs-toggle="modal"
-            data-bs-target="#feriaModal" title="Haz clic para ver la imagen completa">
+      <div class="pizarra-board" role="button" tabindex="0" aria-label="Abrir imagen de la feria" data-bs-toggle="modal"
+          data-bs-target="#feriaModal" title="Haz clic para ver la imagen completa">
             <p class="pizarra-cta d-block d-md-none">- tocar sobre el flyer para zoom <br> - tocar fuera del flyer para salir del zoom</p>
             <p class="pizarra-cta d-none d-md-block blinking-llamador">- tocar sobre el flyer para zoom</p>
 
             <style>
+              .pizarra-board {
+                width: 100%;
+                max-width: 680px;
+                height: 420px;
+                margin: 0 auto 1rem;
+                border-radius: 12px;
+                background-image: url('./feria/poster_desktop.png');
+                background-size: contain;
+                background-repeat: no-repeat;
+                background-position: center;
+                box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+              }
+              
+              @media (max-width: 768px) {
+                .pizarra-board {
+                  background-image: url('./feria/poster_mobile.png');
+                  height: 450px;
+                }
+              }
+              
               .pizarra-cta {
                 color: #fff;
       
@@ -2423,11 +2432,6 @@
                 }
               }
 
-              @media (max-width: 768px) {
-                .pizarra-board {
-                  height: 450px;
-                }
-              }
             </style>
           </div>
 
@@ -2456,8 +2460,9 @@
             });
           </script>
         </div>
-        <img src="./img/mujer2-plus.png" class="mujer-2" alt="Mujer 2">
-        <img src="./img/banderines.png" class="banderin esquina" alt="banderines" style="z-index: 11;">
+          <img src="./feria/piloto.png" class="mujer-2 d-none d-md-block" alt="Mujer 2">
+          <img src="./feria/piloto_mobile.png" class="mujer-2 d-block d-md-none" alt="Mujer 2">
+                <img src="./img/banderines.png" class="banderin esquina" alt="banderines" style="z-index: 11;">
 
       </div>
     </div>
@@ -2491,9 +2496,7 @@
           background-size: contain !important;
         }
       }
-    </style>
 
-    <style>
       .blinking-llamador {
         animation: blinking-llamador 1s steps(2, start) infinite;
       }
@@ -2619,7 +2622,7 @@
           margin-bottom: 0.4em;
         }
       }
-    </style> -->
+    </style>
 
 
 

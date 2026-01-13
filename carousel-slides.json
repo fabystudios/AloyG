@@ -1,5 +1,21 @@
 [
   {
+    "id": "feria",
+    "position": 0,
+    "hasVideo": true,
+    "link": "#feria",
+    "desktop": {
+      "type": "video",
+      "src": "./feria/feria_mov_desktop.mp4",
+      "poster": "./feria/poster_desktop.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./feria/feria_mov_mobile.mp4",
+      "poster": "./feria/poster_mobile.png"
+    }
+  },
+  {
     "id": "rifa2",
     "position": 0,
     "hasVideo": true,
