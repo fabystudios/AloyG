@@ -2384,30 +2384,34 @@
   <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
   <br><br><br>
 
-
-
+  <!-- Publicación de Feria -->
+  <!-- <feria-component></feria-component> -->
   <div id="feria">
 
     <div style=" padding-top: 30px;">
       <div id="feria-americana" class="feria-section text-center" style="width: 90%; max-width: 1200px; margin: 0 auto;">
         <div class="feria-card card-body" style="z-index: 10; position: relative;">
       <div class="pizarra-board" role="button" tabindex="0" aria-label="Abrir imagen de la feria" data-bs-toggle="modal"
-          data-bs-target="#feriaModal" title="Haz clic para ver la imagen completa">
+          data-bs-target="#feriaModal">
             <p class="pizarra-cta d-block d-md-none">- tocar sobre el flyer para zoom <br> - tocar fuera del flyer para salir del zoom</p>
-            <p class="pizarra-cta d-none d-md-block blinking-llamador">- tocar sobre el flyer para zoom</p>
+            <p class="pizarra-cta d-none d-md-block">- tocar sobre el flyer para zoom</p>
 
             <style>
               .pizarra-board {
                 width: 100%;
                 max-width: 680px;
                 height: 420px;
-                margin: 0 auto 1rem;
-                border-radius: 12px;
+                margin: 0 auto 0.25rem;
                 background-image: url('./feria/poster_desktop.png');
                 background-size: contain;
                 background-repeat: no-repeat;
                 background-position: center;
-                box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+                cursor: pointer;
+                transition: transform 0.3s ease;
+              }
+              
+              .pizarra-board:hover {
+                transform: scale(1.02);
               }
               
               @media (max-width: 768px) {
@@ -2419,13 +2423,11 @@
               
               .pizarra-cta {
                 color: #fff;
-      
                 margin: 0;
                 font-weight: 600;
                 text-align: center;
               }
-
-    
+              
               @media (min-width: 992px) {
                 .pizarra-cta {
                   color: #ff0000;
@@ -2525,7 +2527,7 @@
         animation-delay: 0.5s;
       }
 
-      .mujer4-animada {
+      .mujer-4-animada {
         max-width: 35vw;
         z-index: 10;
         animation: mujer4-move 2.5s ease-in-out infinite alternate;
@@ -2541,6 +2543,26 @@
         left: 12%;
         animation-delay: 1s;
         scale: 1.5;
+      }
+
+      @keyframes floatIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px) scale(0.8);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      @keyframes floating {
+        0%, 100% {
+          transform: translateY(0) rotate(-2deg);
+        }
+        50% {
+          transform: translateY(-15px) rotate(2deg);
+        }
       }
 
       @keyframes mujer4-move {
@@ -2623,7 +2645,7 @@
         }
       }
     </style>
-
+  </div>
 
 
 
@@ -3510,6 +3532,8 @@
     })();
   </script>
 
+  <!-- Componente de Feria -->
+  <script src="./components/feria-component.js"></script>
 
 </body>
 

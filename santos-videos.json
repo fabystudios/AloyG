@@ -1,6 +1,18 @@
 [   
-     {
+       {
     "id": 1,
+    "fecha": "14 de Enero",
+    "santo": "Divina Pastora",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/pastora.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },   
+     {
+    "id": 2,
     "fecha": "13 de Enero",
     "santo": "San Hilario de Poitiers",
     "santoFontSize": "1.2em",
@@ -8,28 +20,16 @@
     "video": "./asantos/hilario.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },     
    {
-    "id": 2,
+    "id": 3,
     "fecha": "12 de Enero",
     "santo": "Santa Margarita Bourgeoys",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/marga.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },  
-   {
-    "id": 3,
-    "fecha": "10 de Enero",
-    "santo": "Beata Sor Ana de los Ángeles Monteagudo",
-    "santoFontSize": "1em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/ana.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
