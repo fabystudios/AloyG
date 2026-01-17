@@ -1,18 +1,15 @@
 [
-  {
+    {
     "id": "post-1",
-    "position": -1,
-    "type": "facebook",
-    "url": "https://www.facebook.com/photo/?fbid=10232533295375249&set=a.1655316943159",
-    "title": "GRACIAS SEÑOR!",
-    "description": "por tu fidelidad🥹",
-    "zoom": 1.3,
-    "offsetX": 0,
-    "offsetY": -10
-  },
-  {
-    "id": "post-2",
     "position": 1,
+    "type": "video",
+    "url": "./video/consejo.mp4",
+    "title": "...en brazos de su madre",
+    "description": ""
+  },
+    {
+    "id": "post-2",
+    "position": 2,
     "type": "video",
     "url": "./video/catolico.mp4",
     "title": "¡Soy Católico!",
@@ -24,10 +21,15 @@
   },
   {
     "id": "post-3",
-    "position": 2,
-    "type": "video",
-    "url": "./video/consejo.mp4",
-    "title": "...en brazos de su madre",
-    "description": ""
+    "position": 3,
+    "type": "facebook",
+    "url": "https://www.facebook.com/photo/?fbid=10232533295375249&set=a.1655316943159",
+    "title": "GRACIAS SEÑOR!",
+    "description": "por tu fidelidad🥹",
+    "zoom": 1.3,
+    "offsetX": 0,
+    "offsetY": -10
   }
+
+
 ]
