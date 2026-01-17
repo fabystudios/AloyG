@@ -97,7 +97,7 @@
   },
   {
     "id": "banner1",
-    "position": 2,
+    "position": 0,
     "hasVideo": true,
     "link": "#banner1",
     "desktop": {
@@ -113,7 +113,7 @@
   },
   {
     "id": "banner2",
-    "position": 0,
+    "position": 2,
     "hasVideo": true,
     "link": "#banner2",
     "desktop": {
