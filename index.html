@@ -879,8 +879,471 @@
     </h2>
   </section>
 
-   <!-- -------------- -->
-    
+   <!-- ------INICIOGFE-------- -->
+      <br><br>
+     <!-- Publicaciones de Facebook -->
+  <div id="facebookPostsContainer" class="container" style="padding: 60px 20px; max-width: 1200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.3);">
+    <!-- Wallpaper decorativo de fondo -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('./img/fb-wallpaper.png'); opacity: 0.4; pointer-events: none;"></div>
+    <!-- Las publicaciones se cargarán dinámicamente desde facebook-posts.json -->
+  </div>
+
+  <style>
+    #facebookPostsContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      margin: 40px auto;
+      padding: 40px 20px !important;
+      align-items: center;
+    }
+
+    .fb-post-wrapper {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 16px;
+      padding: 0;
+      max-width: fit-content;
+      margin: 0 auto;
+      width: auto;
+      box-shadow: 
+        0 1px 2px 0 rgba(0, 0, 0, 0.3),
+        0 2px 6px 2px rgba(0, 0, 0, 0.15);
+      transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+      animation: fadeInUp 0.6s ease-out forwards;
+      opacity: 0;
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fb-post-wrapper:hover {
+      box-shadow: 
+        0 4px 8px 3px rgba(0, 0, 0, 0.15),
+        0 1px 3px 0 rgba(0, 0, 0, 0.3);
+      transform: translateY(-4px) scale(1.01);
+    }
+
+    .fb-post-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #1877f2;
+      margin-bottom: 15px;
+      padding: 25px 25px 0 25px;
+      min-width: 280px;
+      text-align: center;
+    }
+
+    .fb-post-description {
+      font-size: 1.1rem;
+      color: #65676b;
+      margin-top: 0;
+      padding: 0 25px 25px 25px;
+      min-width: 280px;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* Contenedor del video o embed */
+    .fb-embed-container {
+      position: relative;
+      width: auto;
+      display: flex;
+      justify-content: center;
+      overflow: hidden;
+      padding: 10px 12px;
+    }
+
+    /* Estilos para videos locales */
+    .fb-embed-container video {
+      max-width: 100%;
+      max-height: 500px;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+
+    /* SDK de Facebook - ajustar ancho y centrar */
+    .fb-post {
+      margin: 0 auto;
+      max-width: 100% !important;
+      display: flex;
+      justify-content: center;
+    }
+
+    /* Wrapper con overflow para el zoom - solo afecta al iframe */
+    .fb-post-zoom {
+      position: relative;
+    }
+
+    .fb-post-zoom iframe {
+      transform-origin: center center;
+      transition: transform 0.3s ease;
+    }
+
+    /* Forzar que las imágenes de FB se vean más grandes y centradas */
+    .fb-post iframe {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 auto !important;
+      display: block !important;
+    }
+
+    .fb-post > span {
+      display: flex !important;
+      justify-content: center !important;
+      width: 100% !important;
+    }
+
+    @media (max-width: 768px) {
+      #facebookPostsContainer {
+        padding: 30px 15px !important;
+        border-radius: 12px;
+        width: 95vw;
+        max-width: 95vw;
+        margin: 40px auto;
+        gap: 25px;
+      }
+      
+      .fb-post-wrapper {
+        padding: 0;
+        max-width: 95vw;
+      }
+
+      .fb-post-title {
+        font-size: 1.1rem;
+        padding: 20px 20px 0 20px;
+      }
+      
+      .fb-post-description {
+        padding: 0 20px 20px 20px;
+      }
+      
+      .fb-embed-container {
+        padding: 8px 10px;
+      }
+      
+      .fb-embed-container video {
+        max-height: 400px;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .fb-post {
+        min-width: 550px !important;
+        display: flex !important;
+        justify-content: center !important;
+      }
+    }
+  </style>
+
+  <!-- SDK de Facebook para embeds elegantes -->
+  <script async defer crossorigin="anonymous" 
+          src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v18.0"></script>
+  
+  <!-- SDK de Instagram para embeds -->
+  <script async src="https://www.instagram.com/embed.js"></script>
+
+  <script>
+    (function() {
+      'use strict';
+      
+      console.log('🚀 Script de Facebook Posts iniciado');
+      
+      const CACHE_KEY = 'facebook_posts_cache';
+      const CACHE_DURATION = 3600000; // 1 hora
+      let postsLoaded = false; // Bandera para evitar cargas duplicadas
+      
+      function sortPosts(posts) {
+        // Filtrar posts ignorados (position === -1)
+        const activePosts = posts.filter(p => p.position !== -1);
+        
+        if (activePosts.length === 0) return [];
+        
+        const fixedPosts = activePosts.filter(p => p.position > 0).sort((a, b) => a.position - b.position);
+        const randomPosts = activePosts.filter(p => p.position === 0);
+        
+        // Mezclar aleatorios
+        for (let i = randomPosts.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [randomPosts[i], randomPosts[j]] = [randomPosts[j], randomPosts[i]];
+        }
+        
+        const result = [];
+        const maxPosition = Math.max(activePosts.length, ...fixedPosts.map(p => p.position));
+        let randomIndex = 0;
+        
+        for (let i = 1; i <= maxPosition; i++) {
+          const fixedPost = fixedPosts.find(p => p.position === i);
+          if (fixedPost) {
+            result.push(fixedPost);
+          } else if (randomIndex < randomPosts.length) {
+            result.push(randomPosts[randomIndex++]);
+          }
+        }
+        
+        while (randomIndex < randomPosts.length) {
+          result.push(randomPosts[randomIndex++]);
+        }
+        
+        return result;
+      }
+      
+      function generatePostHTML(post, index) {
+        const title = post.title ? `<div class="fb-post-title">${post.title}</div>` : '';
+        const description = post.description ? `<div class="fb-post-description">${post.description}</div>` : '';
+        
+        // Determinar tipo de contenido
+        const type = post.type || (post.url.includes('instagram.com') ? 'instagram' : 'facebook');
+        
+        // VIDEO LOCAL
+        if (type === 'video') {
+          const autoplay = post.autoplay !== false;
+          const loop = post.loop !== false;
+          const muted = post.muted !== false;
+          const controls = post.controls !== false;
+          const poster = post.poster ? `poster="${post.poster}"` : '';
+          
+          return `
+            <div class="fb-post-wrapper" style="animation-delay: ${index * 0.1}s">
+              ${title}
+              <div class="fb-embed-container">
+                <video ${autoplay ? 'autoplay' : ''} 
+                       ${loop ? 'loop' : ''} 
+                       ${muted ? 'muted' : ''} 
+                       ${controls ? 'controls' : ''} 
+                       ${poster}
+                       playsinline
+                       style="border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                  <source src="${post.url}" type="video/mp4">
+                  Tu navegador no soporta el elemento video.
+                </video>
+              </div>
+              ${description}
+            </div>
+          `;
+        }
+        
+        // INSTAGRAM
+        if (type === 'instagram') {
+          return `
+            <div class="fb-post-wrapper" style="animation-delay: ${index * 0.1}s">
+              ${title}
+              <div class="fb-embed-container" style="display: flex; justify-content: center;">
+                <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="${post.url}" data-instgrm-version="14" 
+                            style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); 
+                            margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); 
+                            width:calc(100% - 2px);">
+                  <div style="padding:16px;">
+                    <a href="${post.url}" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; 
+                       text-decoration:none; width:100%;" target="_blank" rel="noopener noreferrer">Ver publicación en Instagram</a>
+                  </div>
+                </blockquote>
+              </div>
+              ${description}
+            </div>
+          `;
+        }
+        
+        // FACEBOOK (por defecto)
+        const isMobile = window.innerWidth < 768;
+        const fbWidth = isMobile ? 'auto' : '700';
+        const zoom = post.zoom || 1;
+        const offsetX = post.offsetX || 0;
+        const offsetY = post.offsetY || 0;
+        const dataAttrs = `data-zoom="${zoom}" data-offset-x="${offsetX}" data-offset-y="${offsetY}"`;
+        
+        return `
+          <div class="fb-post-wrapper" style="animation-delay: ${index * 0.1}s">
+            ${title}
+            <div class="fb-embed-container">
+              <div class="fb-post fb-post-zoom" ${dataAttrs}
+                   data-href="${post.url}" 
+                   data-width="${fbWidth}" 
+                   data-show-text="false">
+              </div>
+            </div>
+            ${description}
+          </div>
+        `;
+      }
+      
+      async function loadFacebookPosts() {
+        try {
+          // Evitar cargas duplicadas
+          if (postsLoaded) {
+            console.log('⚠️ Posts ya cargados, saltando...');
+            return;
+          }
+          postsLoaded = true;
+          
+          const container = document.getElementById('facebookPostsContainer');
+          if (!container) {
+            console.error('❌ No se encontró facebookPostsContainer');
+            return;
+          }
+          
+          // FORZAR LIMPIEZA DE CACHE PARA DEBUGGING
+          sessionStorage.removeItem(CACHE_KEY);
+          console.log('🧹 Cache limpiado');
+          
+          // Intentar cargar orden cacheado
+          const cached = sessionStorage.getItem(CACHE_KEY);
+          let sortedPosts;
+          
+          if (cached) {
+            const cacheData = JSON.parse(cached);
+            if (Date.now() - cacheData.timestamp < CACHE_DURATION) {
+              sortedPosts = cacheData.posts;
+              console.log('⚡ Facebook posts desde cache');
+            }
+          }
+          
+          if (!sortedPosts) {
+            console.log('📥 Cargando facebook-posts.json...');
+            const response = await fetch('./facebook-posts.json');
+            if (!response.ok) throw new Error('Error al cargar facebook-posts.json');
+            const posts = await response.json();
+            console.log('📦 Posts recibidos:', posts);
+            sortedPosts = sortPosts(posts);
+            console.log('📊 Posts después de sortear:', sortedPosts);
+            
+            // Guardar en cache
+            sessionStorage.setItem(CACHE_KEY, JSON.stringify({
+              posts: sortedPosts,
+              timestamp: Date.now()
+            }));
+            console.log('✅ Facebook posts cargados: ' + sortedPosts.length);
+          }
+          
+          // Si no hay posts activos, ocultar el contenedor
+          if (sortedPosts.length === 0) {
+            container.style.display = 'none';
+            return;
+          }
+          
+          // Generar HTML
+          sortedPosts.forEach((post, index) => {
+            container.insertAdjacentHTML('beforeend', generatePostHTML(post, index));
+          });
+          
+          // Parsear los posts de Facebook con el SDK
+          if (window.FB) {
+            window.FB.XFBML.parse(container);
+          }
+          
+          // Procesar embeds de Instagram
+          if (window.instgrm) {
+            console.log('📷 Procesando embeds de Instagram...');
+            window.instgrm.Embeds.process();
+          } else {
+            console.log('⏳ Esperando SDK de Instagram...');
+            setTimeout(() => {
+              if (window.instgrm) {
+                console.log('📷 Instagram SDK cargado, procesando...');
+                window.instgrm.Embeds.process();
+              }
+            }, 2000);
+          }
+          
+          // Aplicar zoom a los iframes - con reintentos para mobile
+          function applyZoomToIframes() {
+            document.querySelectorAll('.fb-post-zoom').forEach(postDiv => {
+              const zoom = parseFloat(postDiv.dataset.zoom) || 1;
+              const offsetX = parseFloat(postDiv.dataset.offsetX) || 0;
+              const offsetY = parseFloat(postDiv.dataset.offsetY) || 0;
+              
+              if (zoom !== 1 || offsetX !== 0 || offsetY !== 0) {
+                const iframe = postDiv.querySelector('iframe');
+                if (iframe) {
+                  iframe.style.transform = `scale(${zoom}) translate(${offsetX}px, ${offsetY}px)`;
+                  iframe.style.transformOrigin = 'center center';
+                  iframe.style.transition = 'none'; // Sin transición para evitar flashes
+                }
+              }
+            });
+          }
+          
+          // Aplicar zoom con múltiples intentos
+          setTimeout(applyZoomToIframes, 2000);
+          setTimeout(applyZoomToIframes, 4000);
+          setTimeout(applyZoomToIframes, 6000);
+          
+          // MutationObserver para detectar cuando Facebook regenera los iframes
+          const mutationObserver = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+              if (mutation.addedNodes.length) {
+                mutation.addedNodes.forEach((node) => {
+                  // Si se agregó un iframe, reaplicar zoom
+                  if (node.tagName === 'IFRAME' || (node.querySelector && node.querySelector('iframe'))) {
+                    setTimeout(applyZoomToIframes, 100);
+                  }
+                });
+              }
+            });
+          });
+          
+          // Observer para detectar cuando se cargan iframes nuevos (mobile lazy loading)
+          if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  setTimeout(applyZoomToIframes, 500);
+                  setTimeout(applyZoomToIframes, 1500);
+                }
+              });
+            }, { threshold: 0.1 });
+            
+            document.querySelectorAll('.fb-post-wrapper').forEach(wrapper => {
+              observer.observe(wrapper);
+              // También observar mutaciones dentro de cada wrapper
+              mutationObserver.observe(wrapper, {
+                childList: true,
+                subtree: true
+              });
+            });
+          }
+          
+        } catch (error) {
+          console.error('❌ Error al cargar publicaciones de Facebook:', error);
+        }
+      }
+      
+      // Esperar a que el SDK de Facebook esté listo
+      window.fbAsyncInit = function() {
+        console.log('📱 SDK de Facebook cargado');
+        loadFacebookPosts();
+      };
+      
+      // Fallback si el SDK ya está cargado
+      if (window.FB) {
+        console.log('📱 SDK de Facebook ya estaba cargado');
+        loadFacebookPosts();
+      } else {
+        console.log('⏳ Esperando SDK de Facebook...');
+      }
+      
+      // Timeout de seguridad por si el SDK no carga
+      setTimeout(() => {
+        console.log('⏰ Timeout: forzando carga de posts');
+        loadFacebookPosts();
+      }, 5000);
+    })();
+  </script>
+  <br>
      <!-- // section con un div con clase "rifa-navidad-article"para poner el video: '/video/rifa.mp4 ciclico infinito, y abajo un boton animado que diga: Adquierela aqui, que lleve a <div class="
   // ">rifa/rifa.html' -->
 

@@ -1,7 +1,8 @@
 [
   {
     "id": "post-1",
-    "position": 1,
+    "position": -1,
+    "type": "facebook",
     "url": "https://www.facebook.com/photo/?fbid=10232533295375249&set=a.1655316943159",
     "title": "GRACIAS SEÑOR!",
     "description": "por tu fidelidad🥹",
@@ -11,14 +12,20 @@
   },
   {
     "id": "post-2",
-    "position": -1,
-    "url": "https://www.facebook.com/story.php?story_fbid=10232531202442927&id=1244138433",
-    "title": "Para reflexionar en un enero más sereno...",
-    "description": ""
+    "position": 1,
+    "type": "video",
+    "url": "./video/catolico.mp4",
+    "title": "¡Soy Católico!",
+    "description": "",
+    "autoplay": true,
+    "loop": true,
+    "muted": true,
+    "controls": true
   },
   {
     "id": "post-3",
     "position": -1,
+    "type": "facebook",
     "url": "https://www.facebook.com/photo/?fbid=ejemplo",
     "title": "Esta publicación está oculta",
     "description": "No aparecerá porque position es -1"
