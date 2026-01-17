@@ -1,4 +1,16 @@
 [   
+           {
+    "id": 1,
+    "fecha": "17 de Enero",
+    "santo": "San Antonio Abad",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/anto.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },  
          {
     "id": 1,
     "fecha": "15 de Enero",
@@ -8,7 +20,7 @@
     "video": "./asantos/arnoldo.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },  
        {
@@ -18,18 +30,6 @@
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/pastora.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": true,
-    "showOnDesktop": true
-  },   
-     {
-    "id": 3,
-    "fecha": "13 de Enero",
-    "santo": "San Hilario de Poitiers",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/hilario.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
