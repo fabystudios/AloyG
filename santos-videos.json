@@ -1,6 +1,18 @@
 [   
-           {
+             {
     "id": 1,
+    "fecha": "18 de Enero",
+    "santo": "Santa Margarita de Hungría",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/margarita.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },  
+           {
+    "id": 2,
     "fecha": "17 de Enero",
     "santo": "San Antonio Abad",
     "santoFontSize": "1.2em",
@@ -8,11 +20,11 @@
     "video": "./asantos/anto.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },  
          {
-    "id": 1,
+    "id": 3,
     "fecha": "15 de Enero",
     "santo": "San Arnoldo Janssen",
     "santoFontSize": "1.2em",
@@ -22,18 +34,5 @@
     "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
-  },  
-       {
-    "id": 2,
-    "fecha": "14 de Enero",
-    "santo": "Divina Pastora",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/pastora.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
-                   
+  }                   
 ]
