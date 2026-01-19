@@ -401,15 +401,35 @@
 
             // Decidir qué video mostrar
             if (mobile && especial.videoMobile) {
-              // En mobile, usar el video local MP4
-              videoHTML = `
-                <video class="video-player" controls preload="metadata" playsinline 
-                  poster="${especial.poster || ''}"
-                  controlsList="nodownload">
-                  <source src="${especial.videoMobile}" type="video/mp4">
-                  Tu navegador no soporta la reproducción de video.
-                </video>
-              `;
+              // Verificar si videoMobile es YouTube o MP4 local
+              const isYouTube = especial.videoMobile.includes('youtube.com') || 
+                                especial.videoMobile.includes('youtu.be');
+              
+              if (isYouTube) {
+                // En mobile con YouTube, usar iframe
+                const embedUrl = getYouTubeEmbedUrl(especial.videoMobile);
+                if (embedUrl) {
+                  videoHTML = `
+                    <iframe class="video-iframe" 
+                      src="${embedUrl}" 
+                      title="${especial.titulo}"
+                      frameborder="0" 
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                      allowfullscreen>
+                    </iframe>
+                  `;
+                }
+              } else {
+                // En mobile con MP4 local, usar video tag
+                videoHTML = `
+                  <video class="video-player" controls preload="metadata" playsinline 
+                    poster="${especial.poster || ''}"
+                    controlsList="nodownload">
+                    <source src="${especial.videoMobile}" type="video/mp4">
+                    Tu navegador no soporta la reproducción de video.
+                  </video>
+                `;
+              }
             } else {
               // En desktop o si no hay video mobile, usar YouTube
               const embedUrl = getYouTubeEmbedUrl(especial.videoDesktop);
