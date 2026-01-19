@@ -2,7 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+  <meta name="mobile-web-app-capable" content="yes">
   <title>Publicaciones Especiales</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
@@ -227,16 +228,21 @@
       border: none;
       display: block;
       border-radius: 20px;
+      background: #000;
     }
 
     .video-player {
       height: auto;
       min-height: 300px;
+      max-width: 100%;
     }
 
     .video-iframe {
       aspect-ratio: 16 / 9;
       height: auto;
+      max-width: 100%;
+      position: relative;
+      z-index: 1;
     }
 
     /* Responsive Desktop */
@@ -286,6 +292,25 @@
 
       .video-container {
         padding: 20px;
+      }
+
+      .video-wrapper {
+        /* Asegurar que el wrapper funcione bien en mobile */
+        position: relative;
+        overflow: hidden;
+        touch-action: manipulation;
+      }
+
+      .video-iframe {
+        /* Mejorar compatibilidad con Android */
+        width: 100% !important;
+        height: auto !important;
+        min-height: 250px;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .video-player {
+        min-height: 250px;
       }
 
       .especial-header .icono {
@@ -363,7 +388,7 @@
       }
 
       // Convertir URL de YouTube a formato embed
-      function getYouTubeEmbedUrl(url) {
+      function getYouTubeEmbedUrl(url, isMobile = false) {
         if (!url) return null;
         
         // Extraer video ID de diferentes formatos de URL de YouTube
@@ -372,7 +397,9 @@
         const videoId = (match && match[7].length === 11) ? match[7] : null;
         
         if (videoId) {
-          return `https://www.youtube.com/embed/${videoId}`;
+          // Parámetros para mobile: playsinline, modestbranding, rel=0
+          const params = isMobile ? '?playsinline=1&modestbranding=1&rel=0' : '';
+          return `https://www.youtube.com/embed/${videoId}${params}`;
         }
         
         // Si ya es formato embed, retornar tal cual
@@ -400,47 +427,50 @@
             let videoHTML = '';
 
             // Decidir qué video mostrar
+            let videoUrl = null;
+            let useVideoTag = false;
+            
             if (mobile && especial.videoMobile) {
               // Verificar si videoMobile es YouTube o MP4 local
               const isYouTube = especial.videoMobile.includes('youtube.com') || 
                                 especial.videoMobile.includes('youtu.be');
               
               if (isYouTube) {
-                // En mobile con YouTube, usar iframe
-                const embedUrl = getYouTubeEmbedUrl(especial.videoMobile);
-                if (embedUrl) {
-                  videoHTML = `
-                    <iframe class="video-iframe" 
-                      src="${embedUrl}" 
-                      title="${especial.titulo}"
-                      frameborder="0" 
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                      allowfullscreen>
-                    </iframe>
-                  `;
-                }
+                videoUrl = especial.videoMobile;
               } else {
-                // En mobile con MP4 local, usar video tag
-                videoHTML = `
-                  <video class="video-player" controls preload="metadata" playsinline 
-                    poster="${especial.poster || ''}"
-                    controlsList="nodownload">
-                    <source src="${especial.videoMobile}" type="video/mp4">
-                    Tu navegador no soporta la reproducción de video.
-                  </video>
-                `;
+                // Es un MP4 local
+                videoUrl = especial.videoMobile;
+                useVideoTag = true;
               }
             } else {
-              // En desktop o si no hay video mobile, usar YouTube
-              const embedUrl = getYouTubeEmbedUrl(especial.videoDesktop);
+              // Desktop o no hay videoMobile definido
+              videoUrl = especial.videoDesktop || especial.videoMobile;
+            }
+
+            // Generar HTML según el tipo de video
+            if (useVideoTag) {
+              // Video MP4 local
+              videoHTML = `
+                <video class="video-player" controls preload="metadata" playsinline 
+                  poster="${especial.poster || ''}"
+                  controlsList="nodownload">
+                  <source src="${videoUrl}" type="video/mp4">
+                  Tu navegador no soporta la reproducción de video.
+                </video>
+              `;
+            } else if (videoUrl) {
+              // Video de YouTube
+              const embedUrl = getYouTubeEmbedUrl(videoUrl, mobile);
               if (embedUrl) {
                 videoHTML = `
                   <iframe class="video-iframe" 
                     src="${embedUrl}" 
                     title="${especial.titulo}"
-                    frameborder="0" 
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen>
+                    frameborder="0"
+                    loading="lazy"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    allowfullscreen
+                    referrerpolicy="strict-origin-when-cross-origin">
                   </iframe>
                 `;
               }
