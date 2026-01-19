@@ -21,6 +21,7 @@
     "position": 2,
     "type": "video",
     "url": "./video/consejo.mp4",
+    "poster": "./img/consejo-poster.jpg",
     "title": "...en brazos de su madre",
     "description": "",
     "autoplay": false,
