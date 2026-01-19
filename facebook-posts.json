@@ -1,15 +1,37 @@
 [
-    {
+  {
     "id": "post-1",
     "position": 1,
     "type": "video",
-    "url": "./video/consejo.mp4",
-    "title": "...en brazos de su madre",
-    "description": ""
+    "source": "tiktok",
+    "layout": "full-row",
+    "orientation": "landscape",
+    "url": "./video/jubi_final.mp4",
+    "poster": "./img/jubi-poster.jpg",
+    "title": "Año jubilar franciscano",
+    "description": "",
+    "autoplay": true,
+    "loop": false,
+    "muted": true,
+    "controls": true,
+    "playsinline": true
   },
-    {
+  {
     "id": "post-2",
     "position": 2,
+    "type": "video",
+    "url": "./video/consejo.mp4",
+    "title": "...en brazos de su madre",
+    "description": "",
+    "autoplay": false,
+    "loop": false,
+    "muted": false,
+    "controls": true,
+    "playsinline": true
+  },
+  {
+    "id": "post-3",
+    "position": 3,
     "type": "video",
     "url": "./video/catolico.mp4",
     "title": "¡Soy Católico!",
@@ -17,11 +39,12 @@
     "autoplay": true,
     "loop": true,
     "muted": true,
-    "controls": true
+    "controls": true,
+    "playsinline": true
   },
   {
-    "id": "post-3",
-    "position": 3,
+    "id": "post-4",
+    "position": 4,
     "type": "facebook",
     "url": "https://www.facebook.com/photo/?fbid=10232533295375249&set=a.1655316943159",
     "title": "GRACIAS SEÑOR!",
@@ -30,6 +53,5 @@
     "offsetX": 0,
     "offsetY": -10
   }
-
 
 ]

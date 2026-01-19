@@ -920,6 +920,43 @@
       align-items: center;
       overflow: hidden;
     }
+
+    /* Full row (ej. videos apaisados) */
+    .fb-post-wrapper.full-row {
+      flex: 0 1 100% !important;
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+
+    .fb-embed-container.video-full {
+      width: 100%;
+      padding: 0 6px 12px 6px;
+    }
+
+    .fb-embed-container.video-full video {
+      width: 100% !important;
+      height: auto !important;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      display: block;
+      border-radius: 12px;
+      max-height: 600px;
+    }
+
+    /* Mobile: usar contain para videos apaisados */
+    @media (max-width: 768px) {
+      .fb-embed-container.video-full video {
+        object-fit: contain;
+        max-height: 400px;
+        background: #000;
+      }
+      
+      .fb-post-wrapper.full-row .fb-post-title,
+      .fb-post-wrapper.full-row .fb-post-description {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
     
     /* Responsivo para tablets */
     @media (max-width: 992px) {
@@ -1129,29 +1166,26 @@
         const description = post.description ? `<div class="fb-post-description">${post.description}</div>` : '';
         
         // Determinar tipo de contenido
-        const type = post.type || (post.url.includes('instagram.com') ? 'instagram' : 'facebook');
-        
+        const type = post.type || (post.url && post.url.includes('instagram.com') ? 'instagram' : 'facebook');
+
         // VIDEO LOCAL
         if (type === 'video') {
           const autoplay = post.autoplay !== false;
           const loop = post.loop !== false;
           const muted = post.muted !== false;
           const controls = post.controls !== false;
-          const poster = post.poster ? `poster="${post.poster}"` : '';
-          
+          const posterAttr = post.poster ? `poster="${post.poster}"` : '';
+          const isFull = post.layout === 'full-row' || post.orientation === 'landscape';
+          const wrapperClass = isFull ? 'fb-post-wrapper full-row' : 'fb-post-wrapper';
+          const containerClass = isFull ? 'fb-embed-container video-full' : 'fb-embed-container';
+
+          // Usamos data-src para lazy-load y control desde IntersectionObserver
           return `
-            <div class="fb-post-wrapper" style="animation-delay: ${index * 0.1}s">
+            <div class="${wrapperClass}" style="animation-delay: ${index * 0.1}s" data-autoplay="${autoplay}">
               ${title}
-              <div class="fb-embed-container">
-                <video ${autoplay ? 'autoplay' : ''} 
-                       ${loop ? 'loop' : ''} 
-                       ${muted ? 'muted' : ''} 
-                       ${controls ? 'controls' : ''} 
-                       ${poster}
-                       playsinline
-                       style="border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
-                  <source src="${post.url}" type="video/mp4">
-                  Tu navegador no soporta el elemento video.
+              <div class="${containerClass}">
+                <video data-src="${post.url}" ${loop ? 'loop' : ''} ${muted ? 'muted' : ''} ${controls ? 'controls' : ''} ${posterAttr} playsinline preload="metadata" style="border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                  <!-- source será asignado al hacer lazy-load -->
                 </video>
               </div>
               ${description}
@@ -1318,17 +1352,55 @@
             });
           });
           
-          // Observer para detectar cuando se cargan iframes nuevos (mobile lazy loading)
+          // Observer para detectar cuando se cargan iframes y videos nuevos (lazy loading / autoplay)
           if ('IntersectionObserver' in window) {
             const observer = new IntersectionObserver((entries) => {
               entries.forEach(entry => {
+                const wrapper = entry.target;
+
+                // Reaplicar zoom cuando el wrapper aparece
                 if (entry.isIntersecting) {
                   setTimeout(applyZoomToIframes, 500);
                   setTimeout(applyZoomToIframes, 1500);
                 }
+
+                // Lazy-load y autoplay para videos locales (usando data-src)
+                try {
+                  const vid = wrapper.querySelector('video[data-src]');
+                  if (vid) {
+                    // Si entra en vista, asignar src y reproducir si corresponde
+                    if (entry.isIntersecting) {
+                      if (!vid.dataset.loaded) {
+                        // asignar fuente
+                        vid.src = vid.dataset.src;
+                        // Si no hay <source>, asignar directamente y llamar load
+                        vid.load();
+                        vid.dataset.loaded = '1';
+                      }
+
+                      // Reproducir si el post pide autoplay
+                      const shouldAutoplay = wrapper.dataset.autoplay === 'true' || wrapper.getAttribute('data-autoplay') === 'true';
+                      if (shouldAutoplay) {
+                        vid.play().catch(() => { /* autoplay puede ser bloqueado */ });
+                      }
+                    } else {
+                      // fuera de vista: pausar para ahorrar CPU/banda
+                      if (!vid.paused) {
+                        try { vid.pause(); } catch(e){}
+                      }
+                    }
+                  }
+                } catch (e) {
+                  console.warn('Error manejando video lazy-load:', e);
+                }
+
+                // También reaplicar zoom si aparecen iframes dentro
+                if (entry.isIntersecting) {
+                  setTimeout(applyZoomToIframes, 500);
+                }
               });
-            }, { threshold: 0.1 });
-            
+            }, { threshold: 0.25 });
+
             document.querySelectorAll('.fb-post-wrapper').forEach(wrapper => {
               observer.observe(wrapper);
               // También observar mutaciones dentro de cada wrapper
