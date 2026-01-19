@@ -373,15 +373,84 @@
         transform: scale(1.05);
       }
     }
+
+    /* Panel de Debug para Mobile */
+    #debugPanel {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.9);
+      color: #0f0;
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      padding: 10px;
+      border-radius: 8px;
+      max-width: 90vw;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 9999;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      display: none;
+    }
+
+    #debugPanel.active {
+      display: block;
+    }
+
+    #debugPanel .log {
+      margin: 2px 0;
+      word-wrap: break-word;
+    }
+
+    #debugToggle {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: rgba(255, 0, 0, 0.8);
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 50%;
+      font-size: 16px;
+      z-index: 10000;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
   </style>
 </head>
 <body>
+  <button id="debugToggle">🐞</button>
+  <div id="debugPanel"></div>
   <div id="especialesContainer">
     <!-- Las cards especiales se cargarán dinámicamente -->
   </div>
 
   <script>
     (function() {
+      // Sistema de Debug para Mobile
+      const debugPanel = document.getElementById('debugPanel');
+      const debugToggle = document.getElementById('debugToggle');
+      
+      function debugLog(message, isError = false) {
+        const log = document.createElement('div');
+        log.className = 'log';
+        log.style.color = isError ? '#f00' : '#0f0';
+        log.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+        debugPanel.appendChild(log);
+        debugPanel.scrollTop = debugPanel.scrollHeight;
+        
+        // También mantener console.log normal
+        if (isError) {
+          console.error(message);
+        } else {
+          console.log(message);
+        }
+      }
+      
+      debugToggle.addEventListener('click', () => {
+        debugPanel.classList.toggle('active');
+      });
+      
       // Detectar si es mobile o desktop
       function isMobile() {
         return window.innerWidth <= 768;
@@ -412,26 +481,26 @@
 
       async function cargarEspeciales() {
         try {
-          console.log('🔄 Cargando especiales...');
+          debugLog('🔄 Cargando especiales...');
           const response = await fetch('./especiales.json');
           const especiales = await response.json();
-          console.log('✅ Especiales cargados:', especiales);
+          debugLog('✅ Especiales: ' + JSON.stringify(especiales));
           
           const container = document.getElementById('especialesContainer');
           
           if (!container) {
-            console.error('❌ Container no encontrado');
+            debugLog('❌ Container no encontrado', true);
             return;
           }
 
           especiales.forEach((especial, index) => {
-            console.log(`📝 Procesando especial ${index + 1}:`, especial);
+            debugLog(`📝 Procesando especial ${index + 1}: ${especial.titulo}`);
             const card = document.createElement('div');
             card.className = 'especial-card';
             card.style.animationDelay = `${index * 0.2}s`;
 
             const mobile = isMobile();
-            console.log(`📱 ¿Es mobile?: ${mobile}`);
+            debugLog(`📱 ¿Es mobile?: ${mobile}`);
             let videoHTML = '';
 
             // Decidir qué video mostrar
@@ -439,11 +508,11 @@
             let useVideoTag = false;
             
             if (mobile && especial.videoMobile) {
-              console.log('🔍 Video mobile encontrado:', especial.videoMobile);
+              debugLog('🔍 Video mobile: ' + especial.videoMobile);
               // Verificar si videoMobile es YouTube o MP4 local
               const isYouTube = especial.videoMobile.includes('youtube.com') || 
                                 especial.videoMobile.includes('youtu.be');
-              console.log('🎬 ¿Es YouTube?:', isYouTube);
+              debugLog('🎬 ¿Es YouTube?: ' + isYouTube);
               
               if (isYouTube) {
                 videoUrl = especial.videoMobile;
@@ -453,14 +522,14 @@
                 useVideoTag = true;
               }
             } else {
-              console.log('💻 Usando video desktop:', especial.videoDesktop);
+              debugLog('💻 Usando video desktop: ' + especial.videoDesktop);
               // Desktop o no hay videoMobile definido
               videoUrl = especial.videoDesktop || especial.videoMobile;
             }
 
             // Generar HTML según el tipo de video
             if (useVideoTag) {
-              console.log('🎥 Generando tag <video> para MP4');
+              debugLog('🎥 Generando tag <video> para MP4');
               // Video MP4 local
               videoHTML = `
                 <video class="video-player" controls preload="metadata" playsinline 
@@ -473,9 +542,9 @@
             } else if (videoUrl) {
               // Video de YouTube
               const embedUrl = getYouTubeEmbedUrl(videoUrl, mobile);
-              console.log('🔗 URL embed generada:', embedUrl);
+              debugLog('🔗 URL embed: ' + embedUrl);
               if (embedUrl) {
-                console.log('✅ Generando iframe de YouTube');
+                debugLog('✅ Generando iframe de YouTube');
                 videoHTML = `
                   <iframe class="video-iframe" 
                     src="${embedUrl}" 
@@ -488,10 +557,10 @@
                   </iframe>
                 `;
               } else {
-                console.error('❌ No se pudo generar embed URL');
+                debugLog('❌ No se pudo generar embed URL', true);
               }
             } else {
-              console.error('❌ No hay videoUrl definida');
+              debugLog('❌ No hay videoUrl definida', true);
             }
 
             // Separar título en dos líneas para mobile
@@ -515,9 +584,9 @@
             container.appendChild(card);
           });
 
-          console.log('✨ Especiales cargados exitosamente');
+          debugLog('✨ Especiales cargados exitosamente');
         } catch (error) {
-          console.error('Error al cargar especiales:', error);
+          debugLog('ERROR: ' + error.message, true);
           const container = document.getElementById('especialesContainer');
           if (container) {
             container.innerHTML = `
