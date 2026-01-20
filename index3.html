@@ -205,20 +205,16 @@
             </video>
           `;
         } else if (videoUrl) {
-          // Video de YouTube
+          // Video de YouTube con autoplay
           const embedUrl = this.getYouTubeEmbedUrl(videoUrl);
           if (embedUrl) {
-            // Agregar autoplay y mute a la URL
-            const autoplayUrl = embedUrl.includes('?') ? `${embedUrl}&autoplay=1&mute=1` : `${embedUrl}?autoplay=1&mute=1`;
             videoHTML = `
               <iframe class="especial-video-iframe" 
-                src="${autoplayUrl}" 
+                src="${embedUrl}?autoplay=1&mute=1&rel=0" 
                 title="${especial.titulo}"
                 frameborder="0"
-                loading="eager"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                allowfullscreen
-                referrerpolicy="strict-origin-when-cross-origin">
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen>
               </iframe>
             `;
           }
