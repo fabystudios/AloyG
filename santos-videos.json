@@ -1,6 +1,20 @@
 [   
-             {
+               {
     "id": 1,
+    "fecha": "20 de Enero",
+    "santo": "San Sebastián",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/seba.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,  
+      
+             {
+    "id": 2,
     "fecha": "18 de Enero",
     "santo": "Santa Margarita de Hungría",
     "santoFontSize": "1.2em",
@@ -10,9 +24,10 @@
     "iconoWidth": "35px",
     "showOnMobile": true,
     "showOnDesktop": true
-  },  
+  }
+  ,  
            {
-    "id": 2,
+    "id": 3,
     "fecha": "17 de Enero",
     "santo": "San Antonio Abad",
     "santoFontSize": "1.2em",
@@ -22,17 +37,6 @@
     "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
-  },  
-         {
-    "id": 3,
-    "fecha": "15 de Enero",
-    "santo": "San Arnoldo Janssen",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/arnoldo.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }                   
+  }
+      
 ]
