@@ -173,26 +173,50 @@
         const mobile = window.innerWidth <= 768;
         let videoHTML = '';
 
+        // Decidir qué video mostrar
+        let videoUrl = null;
+        let useVideoTag = false;
+        
         if (mobile && especial.videoMobile) {
+          // Verificar si videoMobile es YouTube o MP4 local
+          const isYouTube = especial.videoMobile.includes('youtube.com') || 
+                            especial.videoMobile.includes('youtu.be');
+          
+          if (isYouTube) {
+            videoUrl = especial.videoMobile;
+          } else {
+            // Es un MP4 local
+            videoUrl = especial.videoMobile;
+            useVideoTag = true;
+          }
+        } else {
+          // Desktop o no hay videoMobile definido
+          videoUrl = especial.videoDesktop || especial.videoMobile;
+        }
+
+        // Generar HTML según el tipo de video
+        if (useVideoTag) {
           videoHTML = `
-            <video class="especial-video-player" controls preload="metadata" playsinline autoplay muted
+            <video class="especial-video-player" controls preload="metadata" playsinline
               poster="${especial.poster || ''}"
               controlsList="nodownload">
-              <source src="${especial.videoMobile}" type="video/mp4">
+              <source src="${videoUrl}" type="video/mp4">
               Tu navegador no soporta la reproducción de video.
             </video>
           `;
-        } else {
-          const embedUrl = this.getYouTubeEmbedUrl(especial.videoDesktop);
+        } else if (videoUrl) {
+          // Video de YouTube
+          const embedUrl = this.getYouTubeEmbedUrl(videoUrl, mobile);
           if (embedUrl) {
-            const autoplayUrl = embedUrl.includes('?') ? `${embedUrl}&autoplay=1&mute=1` : `${embedUrl}?autoplay=1&mute=1`;
             videoHTML = `
               <iframe class="especial-video-iframe" 
-                src="${autoplayUrl}" 
+                src="${embedUrl}" 
                 title="${especial.titulo}"
-                frameborder="0" 
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen>
+                frameborder="0"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowfullscreen
+                referrerpolicy="strict-origin-when-cross-origin">
               </iframe>
             `;
           }
@@ -283,14 +307,16 @@
         return card;
       }
 
-      getYouTubeEmbedUrl(url) {
+      getYouTubeEmbedUrl(url, isMobile = false) {
         if (!url) return null;
         const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
         const match = url.match(regExp);
         const videoId = (match && match[7].length === 11) ? match[7] : null;
         
         if (videoId) {
-          return `https://www.youtube.com/embed/${videoId}`;
+          // Parámetros para mobile: playsinline, modestbranding, rel=0
+          const params = isMobile ? '?playsinline=1&modestbranding=1&rel=0' : '';
+          return `https://www.youtube.com/embed/${videoId}${params}`;
         }
         if (url.includes('embed')) {
           return url;
@@ -880,7 +906,7 @@
   </section>
       <br><br>
   <!-- Publicaciones Especiales -->
-  <!-- <efemerides-card json-file="./especiales.json" card-type="especiales"></efemerides-card> -->
+  <efemerides-card json-file="./especiales.json" card-type="especiales"></efemerides-card>
 
  
    <!-- ------INICIOGFE-------- -->
