@@ -208,9 +208,12 @@
           // Video de YouTube
           const embedUrl = this.getYouTubeEmbedUrl(videoUrl, mobile);
           if (embedUrl) {
+            // Añadir autoplay y mute; si ya hay parámetros en embedUrl, usar '&' en lugar de '?'
+            const autoplayParams = 'autoplay=1&mute=1&rel=0';
+            const sep = embedUrl.includes('?') ? '&' : '?';
             videoHTML = `
               <iframe class="especial-video-iframe" 
-                src="${embedUrl}" 
+                src="${embedUrl}${sep}${autoplayParams}" 
                 title="${especial.titulo}"
                 frameborder="0"
                 loading="lazy"
@@ -905,12 +908,13 @@
     </h2>
   </section>
   <!-- **GFE** -->
-  <!-- Videos de Santos -->
-  <efemerides-card json-file="./santos-videos.json" card-type="santos"></efemerides-card>
-
-      <br><br>
+        <br><br>
   <!-- Publicaciones Especiales -->
   <efemerides-card json-file="./especiales.json" card-type="especiales"></efemerides-card>
+
+ 
+  <!-- Videos de Santos -->
+  <efemerides-card json-file="./santos-videos.json" card-type="santos"></efemerides-card>
 
  
    <!-- ------INICIOGFE-------- -->
