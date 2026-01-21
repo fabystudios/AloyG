@@ -1,6 +1,19 @@
-[   
-                 {
+[                   
+   {
     "id": 1,
+    "fecha": "21 de Enero",
+    "santo": "Nuestra Señora de la Altagracia",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/alta.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,  
+                 {
+    "id": 2,
     "fecha": "21 de Enero",
     "santo": "Santa Inés",
     "santoFontSize": "1.2em",
@@ -19,20 +32,6 @@
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/seba.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
-  ,  
-      
-             {
-    "id": 3,
-    "fecha": "18 de Enero",
-    "santo": "Santa Margarita de Hungría",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/margarita.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
