@@ -1,6 +1,19 @@
-[                   
-   {
+[ 
+     {
     "id": 1,
+    "fecha": "22 de Enero",
+    "santo": "Beata Laura Vicuña",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/lau.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,                   
+   {
+    "id": 2,
     "fecha": "21 de Enero",
     "santo": "Nuestra Señora de la Altagracia",
     "santoFontSize": "1.2em",
@@ -8,12 +21,12 @@
     "video": "./asantos/alta.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   }
   ,  
                  {
-    "id": 2,
+    "id": 3,
     "fecha": "21 de Enero",
     "santo": "Santa Inés",
     "santoFontSize": "1.2em",
@@ -21,22 +34,10 @@
     "video": "./asantos/ines.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
-    "showOnDesktop": true
-  }
-  ,  
-               {
-    "id": 2,
-    "fecha": "20 de Enero",
-    "santo": "San Sebastián",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/seba.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
   }
+ 
 
       
 ]
