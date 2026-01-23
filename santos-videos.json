@@ -1,24 +1,24 @@
 [ 
-     {
+       {
     "id": 1,
-    "fecha": "22 de Enero",
-    "santo": "Beata Laura Vicuña",
+    "fecha": "23 de Enero",
+    "santo": "San Idelfonso de Toledo",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/lau.mp4",
+    "video": "./asantos/idel.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
     "showOnDesktop": true
   }
-  ,                   
-   {
+  ,     
+     {
     "id": 2,
-    "fecha": "21 de Enero",
-    "santo": "Nuestra Señora de la Altagracia",
+    "fecha": "22 de Enero",
+    "santo": "Beata Laura Vicuña",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/alta.mp4",
+    "video": "./asantos/lau.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
