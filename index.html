@@ -172,47 +172,57 @@
 
         const mobile = window.innerWidth <= 768;
         let videoHTML = '';
+        let isLocalVideo = false;
+        let isYouTubeVideo = false;
 
         // Decidir qué video mostrar
         let videoUrl = null;
-        let useVideoTag = false;
         
         if (mobile && especial.videoMobile) {
-          // Verificar si videoMobile es YouTube o MP4 local
+          // En mobile: priorizar videoMobile
           const isYouTube = especial.videoMobile.includes('youtube.com') || 
                             especial.videoMobile.includes('youtu.be');
           
           if (isYouTube) {
             videoUrl = especial.videoMobile;
+            isYouTubeVideo = true;
           } else {
-            // Es un MP4 local
+            // Es un MP4 local → VERTICAL
             videoUrl = especial.videoMobile;
-            useVideoTag = true;
+            isLocalVideo = true;
           }
-        } else {
-          // Desktop o no hay videoMobile definido
-          videoUrl = especial.videoDesktop || especial.videoMobile;
+        } else if (especial.videoDesktop) {
+          // Desktop: usar videoDesktop (YouTube) → HORIZONTAL
+          videoUrl = especial.videoDesktop;
+          isYouTubeVideo = true;
+        } else if (especial.videoMobile) {
+          // Fallback: usar videoMobile si existe
+          const isYouTube = especial.videoMobile.includes('youtube.com') || 
+                            especial.videoMobile.includes('youtu.be');
+          videoUrl = especial.videoMobile;
+          isYouTubeVideo = isYouTube;
+          isLocalVideo = !isYouTube;
         }
 
         // Generar HTML según el tipo de video
-        if (useVideoTag) {
+        if (isLocalVideo) {
+          // VIDEO LOCAL → VERTICAL (portrait)
           videoHTML = `
-            <video class="especial-video-player" controls preload="metadata" playsinline
+            <video class="especial-video-player vertical-video" controls preload="metadata" playsinline
               poster="${especial.poster || ''}"
               controlsList="nodownload">
               <source src="${videoUrl}" type="video/mp4">
               Tu navegador no soporta la reproducción de video.
             </video>
           `;
-        } else if (videoUrl) {
-          // Video de YouTube
+        } else if (isYouTubeVideo) {
+          // VIDEO YOUTUBE → HORIZONTAL (landscape)
           const embedUrl = this.getYouTubeEmbedUrl(videoUrl, mobile);
           if (embedUrl) {
-            // Añadir autoplay y mute; si ya hay parámetros en embedUrl, usar '&' en lugar de '?'
             const autoplayParams = 'autoplay=1&mute=1&rel=0';
             const sep = embedUrl.includes('?') ? '&' : '?';
             videoHTML = `
-              <iframe class="especial-video-iframe" 
+              <iframe class="especial-video-iframe landscape-video" 
                 src="${embedUrl}${sep}${autoplayParams}" 
                 title="${especial.titulo}"
                 frameborder="0"
@@ -910,7 +920,7 @@
   <!-- **GFE** -->
         <br><br>
   <!-- Publicaciones Especiales -->
-  <!-- <efemerides-card json-file="./especiales.json" card-type="especiales"></efemerides-card> -->
+  <efemerides-card json-file="./especiales.json" card-type="especiales"></efemerides-card>
 
  
   <!-- Videos de Santos -->

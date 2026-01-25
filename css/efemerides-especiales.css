@@ -195,6 +195,26 @@
   height: auto;
 }
 
+/* Video VERTICAL (portrait) - para MP4 locales */
+.vertical-video {
+  width: 100% !important;
+  max-width: 400px !important;
+  height: auto !important;
+  aspect-ratio: 9/16 !important;
+  object-fit: cover !important;
+  margin: 0 auto !important;
+  display: block !important;
+}
+
+/* Video HORIZONTAL (landscape) - para YouTube */
+.landscape-video {
+  width: 100% !important;
+  max-width: 800px !important;
+  aspect-ratio: 16/9 !important;
+  margin: 0 auto !important;
+  display: block !important;
+}
+
 /* Responsive Desktop */
 @media (min-width: 769px) {
   .especial-card {
@@ -245,6 +265,15 @@
     max-height: 120px;
     top: 15px;
     right: 15px;
+  }
+  
+  /* Ajustes responsive para videos */
+  .vertical-video {
+    max-width: 90vw !important;
+  }
+  
+  .landscape-video {
+    max-width: 90vw !important;
   }
 }
 
