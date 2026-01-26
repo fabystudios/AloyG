@@ -208,15 +208,15 @@
           // Video de YouTube con autoplay
           const embedUrl = this.getYouTubeEmbedUrl(videoUrl);
           if (embedUrl) {
-            videoHTML = `
-              <iframe class="especial-video-iframe" 
-                src="${embedUrl}?autoplay=1&mute=1&rel=0" 
-                title="${especial.titulo}"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen>
-              </iframe>
-            `;
+              videoHTML = `
+                <iframe class="especial-video-iframe landscape-video" 
+                  src="${embedUrl}?autoplay=1&mute=1&rel=0" 
+                  title="${especial.titulo}"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen>
+                </iframe>
+              `;
           }
         }
 

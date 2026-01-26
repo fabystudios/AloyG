@@ -1,6 +1,15 @@
 [
-    {
+      {
     "id": 1,
+    "fecha": "26 de Enero, Los Hijos Espirituales de San Pablo",
+    "titulo": "San Timoteo y San Tito",
+    "videoMobile": "./asantos/especial/amigos.mp4",
+    "videoDesktop": "https://youtu.be/rUk9VMFCFLs?si=JXX98XAJp__g0xUd",
+    "poster": "./asantos/santos.jpg",
+    "icono": "./img/lirios.png"
+  },
+    {
+    "id": 2,
     "fecha": "25 de Enero, De perseguidor a apóstol",
     "titulo": "Conversión de San Pablo",
     "videoMobile": "./asantos/especial/portrait.mp4",

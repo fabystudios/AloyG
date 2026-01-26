@@ -1,6 +1,32 @@
 [ 
-         {
+             {
     "id": 1,
+    "fecha": "26 de Enero",
+    "santo": "San Timoteo y San Tito",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/especial/amigos.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,  
+           {
+    "id": 2,
+    "fecha": "25 de Enero",
+    "santo": "Conversión de San Pablo",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/especial/portrait.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": false,
+    "showOnDesktop": true
+  }
+  ,  
+         {
+    "id": 3,
     "fecha": "24 de Enero",
     "santo": "San Francisco de Sales",
     "santoFontSize": "1.2em",
@@ -8,34 +34,9 @@
     "video": "./asantos/sales.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
-    "showOnDesktop": true
-  }
-  ,   
-       {
-    "id": 2,
-    "fecha": "23 de Enero",
-    "santo": "San Ildefonso de Toledo",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/idel.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
   }
-  ,     
-     {
-    "id": 3,
-    "fecha": "22 de Enero",
-    "santo": "Beata Laura Vicuña",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/lau.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
+ 
  
 ]
