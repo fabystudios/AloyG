@@ -1,6 +1,19 @@
 [ 
-             {
+               {
     "id": 1,
+    "fecha": "27 de Enero",
+    "santo": "Santa Ángela de Merici",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/merici.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,  
+             {
+    "id": 2,
     "fecha": "26 de Enero",
     "santo": "San Timoteo y San Tito",
     "santoFontSize": "1.2em",
@@ -8,12 +21,12 @@
     "video": "./asantos/especial/amigos.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   }
   ,  
            {
-    "id": 2,
+    "id": 3,
     "fecha": "25 de Enero",
     "santo": "Conversión de San Pablo",
     "santoFontSize": "1.2em",
@@ -24,19 +37,5 @@
     "showOnMobile": false,
     "showOnDesktop": true
   }
-  ,  
-         {
-    "id": 3,
-    "fecha": "24 de Enero",
-    "santo": "San Francisco de Sales",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/sales.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
- 
- 
+  
 ]
