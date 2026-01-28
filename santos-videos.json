@@ -1,6 +1,20 @@
 [ 
-               {
+                 {
     "id": 1,
+    "fecha": "28 de Enero",
+    "santo": "Santo Tomás de Aquino",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/aquino.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,  
+    
+               {
+    "id": 2,
     "fecha": "27 de Enero",
     "santo": "Santa Ángela de Merici",
     "santoFontSize": "1.2em",
@@ -8,12 +22,12 @@
     "video": "./asantos/merici.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   }
   ,  
              {
-    "id": 2,
+    "id": 3,
     "fecha": "26 de Enero",
     "santo": "San Timoteo y San Tito",
     "santoFontSize": "1.2em",
@@ -24,18 +38,6 @@
     "showOnMobile": false,
     "showOnDesktop": true
   }
-  ,  
-           {
-    "id": 3,
-    "fecha": "25 de Enero",
-    "santo": "Conversión de San Pablo",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/especial/portrait.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
+ 
   
 ]
