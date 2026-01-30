@@ -2,10 +2,10 @@
                  {
     "id": 1,
     "fecha": "30 de Enero",
-    "santo": "Santo Tomás de Aquino",
+    "santo": "San David Galván Bermúdez",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/aquino.mp4",
+    "video": "./asantos/david.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
