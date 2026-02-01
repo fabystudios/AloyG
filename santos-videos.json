@@ -1,7 +1,7 @@
 [ 
                      {
     "id": 1,
-    "fecha": "1ro de Febrero",
+    "fecha": "1 de Febrero",
     "santo": "Santa Brígida de Irlanda",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
