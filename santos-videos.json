@@ -1,4 +1,17 @@
 [ 
+                     {
+    "id": 1,
+    "fecha": "1ro de Febrero",
+    "santo": "Santa Brígida de Irlanda",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/brigida.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,  
                    {
     "id": 1,
     "fecha": "31 de Enero",
@@ -8,7 +21,7 @@
     "video": "./asantos/bosco.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   }
   ,  
@@ -24,19 +37,7 @@
     "showOnMobile": false,
     "showOnDesktop": true
   }
-  ,  
-                 {
-    "id": 2,
-    "fecha": "28 de Enero",
-    "santo": "Santo Tomás de Aquino",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/aquino.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
+
  
   
 ]
