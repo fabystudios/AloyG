@@ -1,19 +1,10 @@
 [
-      {
+        {
     "id": 1,
-    "fecha": "26 de Enero, Los Hijos Espirituales de San Pablo",
-    "titulo": "San Timoteo y San Tito",
+    "fecha": "2 de Febrero, Cristo, Luz para las Naciones",
+    "titulo": "La Presentación del Señor",
     "videoMobile": "./asantos/especial/amigos.mp4",
-    "videoDesktop": "https://youtu.be/rUk9VMFCFLs?si=JXX98XAJp__g0xUd",
-    "poster": "./asantos/santos.jpg",
-    "icono": "./img/lirios.png"
-  },
-    {
-    "id": 2,
-    "fecha": "25 de Enero, De perseguidor a apóstol",
-    "titulo": "Conversión de San Pablo",
-    "videoMobile": "./asantos/especial/portrait.mp4",
-    "videoDesktop": "https://youtu.be/rUk9VMFCFLs?si=JXX98XAJp__g0xUd",
+    "videoDesktop": "https://youtu.be/WT9lBr4myVU?si=AI7XA_hI0-wRZTKN",
     "poster": "./asantos/santos.jpg",
     "icono": "./img/lirios.png"
   }

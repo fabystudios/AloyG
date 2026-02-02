@@ -1,7 +1,7 @@
 [
   {
     "id": "feria",
-    "position": 1,
+    "position": 3,
     "hasVideo": true,
     "link": "#feria",
     "desktop": {
@@ -33,18 +33,18 @@
   },
   {
     "id": "misas",
-    "position": 0,
+    "position": 1,
     "hasVideo": true,
     "link": "#MISAS",
     "desktop": {
       "type": "video",
       "src": "./video/misas-mov-desktop.mp4",
-      "poster": "./slides/misas_desktop.jpg"
+      "poster": "./slides/misas_desktop.png"
     },
     "mobile": {
       "type": "video",
       "src": "./video/misas-mov-mobile.mp4",
-      "poster": "./slides/misas_mobile.jpg"
+      "poster": "./slides/misas_mobile.png"
     }
   },
   {
