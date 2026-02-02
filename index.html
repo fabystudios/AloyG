@@ -208,7 +208,7 @@
         if (isLocalVideo) {
           // VIDEO LOCAL → VERTICAL (portrait)
           videoHTML = `
-            <video class="especial-video-player vertical-video" controls preload="metadata" playsinline
+            <video class="especial-video-player vertical-video" controls preload="metadata" autoplay muted loop playsinline
               poster="${especial.poster || ''}"
               controlsList="nodownload">
               <source src="${videoUrl}" type="video/mp4">
