@@ -156,13 +156,14 @@
 .especial-video-wrapper {
   position: relative;
   width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 
     0 8px 24px rgba(0, 0, 0, 0.3),
     0 16px 48px rgba(0, 0, 0, 0.2),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  background: rgba(0, 0, 0, 0.3);
+  background: #000;
 }
 
 .especial-video-wrapper::after {
@@ -179,40 +180,37 @@
 
 .especial-video-player,
 .especial-video-iframe {
-  width: 100%;
   border: none;
-  display: block;
   border-radius: 20px;
+  background: #000;
 }
 
 .especial-video-player {
-  height: auto;
-  min-height: 300px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
 }
 
 .especial-video-iframe {
-  aspect-ratio: 16 / 9;
-  height: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
 }
 
 /* Video VERTICAL (portrait) - para MP4 locales */
 .vertical-video {
-  width: 100% !important;
-  max-width: 400px !important;
-  height: auto !important;
-  aspect-ratio: 9/16 !important;
   object-fit: cover !important;
-  margin: 0 auto !important;
-  display: block !important;
 }
 
 /* Video HORIZONTAL (landscape) - para YouTube */
 .landscape-video {
-  width: 100% !important;
-  max-width: 800px !important;
-  aspect-ratio: 16/9 !important;
-  margin: 0 auto !important;
-  display: block !important;
+  /* Sin estilos adicionales, usa los de .especial-video-iframe */
 }
 
 /* Responsive Desktop */
