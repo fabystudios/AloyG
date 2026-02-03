@@ -38,13 +38,13 @@
     "link": "#MISAS",
     "desktop": {
       "type": "video",
-      "src": "./video/misas-mov-desktop2.mp4",
-      "poster": "./slides/misas_desktop.png"
+      "src": "./video/misas-mov-desktop.mp4",
+      "poster": "./slides/misas_desktop.jpg"
     },
     "mobile": {
       "type": "video",
-      "src": "./video/misas-mov-mobile2.mp4",
-      "poster": "./slides/misas_mobile.png"
+      "src": "./video/misas-mov-mobile.mp4",
+      "poster": "./slides/misas_mobile.jpg"
     }
   },
   {
