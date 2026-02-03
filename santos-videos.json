@@ -1,6 +1,33 @@
 [ 
-                     {
+                         {
     "id": 1,
+    "fecha": "3 de Febrero",
+    "santo": "San Blas",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/blas.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,  
+     
+                       {
+    "id": 2,
+    "fecha": "2 de Febrero",
+    "santo": "La Presentación del Señor",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/especial/pres.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,  
+                     {
+    "id": 3,
     "fecha": "1 de Febrero",
     "santo": "Santa Brígida de Irlanda",
     "santoFontSize": "1.2em",
@@ -8,35 +35,10 @@
     "video": "./asantos/brigida.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
-    "showOnDesktop": true
-  }
-  ,  
-                   {
-    "id": 1,
-    "fecha": "31 de Enero",
-    "santo": "San Juan Bosco",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/bosco.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
   }
-  ,  
-                 {
-    "id": 2,
-    "fecha": "30 de Enero",
-    "santo": "San David Galván Bermúdez",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/david.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
+   
 
  
   
