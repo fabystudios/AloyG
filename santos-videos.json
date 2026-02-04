@@ -1,4 +1,17 @@
 [ 
+                           {
+    "id": 1,
+    "fecha": "4 de Febrero",
+    "santo": "Santa Catalina de Ricci",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/ricci.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,  
                          {
     "id": 1,
     "fecha": "3 de Febrero",
@@ -8,7 +21,7 @@
     "video": "./asantos/blas.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   }
   ,  
@@ -22,24 +35,9 @@
     "video": "./asantos/especial/pres.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
-    "showOnDesktop": true
-  }
-  ,  
-                     {
-    "id": 3,
-    "fecha": "1 de Febrero",
-    "santo": "Santa Brígida de Irlanda",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/brigida.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
   }
-   
 
- 
   
 ]
