@@ -1,6 +1,19 @@
 [ 
-                           {
+                             {
     "id": 1,
+    "fecha": "5 de Febrero",
+    "santo": "Santa Ágata, virgen y mártir de Catania",
+    "santoFontSize": "1em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/agata.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,  
+                           {
+    "id": 2,
     "fecha": "4 de Febrero",
     "santo": "Santa Catalina de Ricci",
     "santoFontSize": "1.2em",
@@ -8,12 +21,12 @@
     "video": "./asantos/ricci.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   }
   ,  
                          {
-    "id": 1,
+    "id": 3,
     "fecha": "3 de Febrero",
     "santo": "San Blas",
     "santoFontSize": "1.2em",
@@ -24,20 +37,5 @@
     "showOnMobile": false,
     "showOnDesktop": true
   }
-  ,  
-     
-                       {
-    "id": 2,
-    "fecha": "2 de Febrero",
-    "santo": "La Presentación del Señor",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/especial/pres.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
-
-  
+ 
 ]
