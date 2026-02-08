@@ -1,4 +1,17 @@
 [ 
+                                 {
+    "id": 1,
+    "fecha": "8 de Febrero",
+    "santo": "Santa Josefina Bakhita",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/josefina.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,  
                                {
     "id": 1,
     "fecha": "6 de Febrero",
@@ -8,7 +21,7 @@
     "video": "./asantos/miki.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   }
   ,  
@@ -24,18 +37,6 @@
     "showOnMobile": false,
     "showOnDesktop": true
   }
-  ,  
-                           {
-    "id": 3,
-    "fecha": "4 de Febrero",
-    "santo": "Santa Catalina de Ricci",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/ricci.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
+
  
 ]
