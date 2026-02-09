@@ -1,6 +1,19 @@
 [ 
-                                 {
+                                   {
     "id": 1,
+    "fecha": "9 de Febrero",
+    "santo": "Santa Apolonia",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/apolonia.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,  
+                                 {
+    "id": 2,
     "fecha": "8 de Febrero",
     "santo": "Santa Josefina Bakhita",
     "santoFontSize": "1.2em",
@@ -8,12 +21,12 @@
     "video": "./asantos/j.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   }
   ,  
                                {
-    "id": 1,
+    "id": 3,
     "fecha": "6 de Febrero",
     "santo": "San Pablo Miki y los Mártires de Japón",
     "santoFontSize": "1em",
@@ -24,19 +37,6 @@
     "showOnMobile": false,
     "showOnDesktop": true
   }
-  ,  
-                             {
-    "id": 2,
-    "fecha": "5 de Febrero",
-    "santo": "Santa Ágata, virgen y mártir de Catania",
-    "santoFontSize": "1em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/agata.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
-
+ 
  
 ]
