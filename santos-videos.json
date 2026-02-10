@@ -1,5 +1,18 @@
 [ 
-                                   {
+   {
+    "id": 1,
+    "fecha": "10 de Febrero",
+    "santo": "San José Sánchez del Río",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/jose.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,  
+ {
     "id": 1,
     "fecha": "9 de Febrero",
     "santo": "Santa Apolonia",
@@ -8,7 +21,7 @@
     "video": "./asantos/apolonia.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   }
   ,  
@@ -24,19 +37,6 @@
     "showOnMobile": false,
     "showOnDesktop": true
   }
-  ,  
-                               {
-    "id": 3,
-    "fecha": "6 de Febrero",
-    "santo": "San Pablo Miki y los Mártires de Japón",
-    "santoFontSize": "1em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/miki.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
- 
+
  
 ]
