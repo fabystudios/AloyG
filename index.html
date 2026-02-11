@@ -170,38 +170,68 @@
         card.className = 'especial-card';
         card.style.animationDelay = `${index * 0.2}s`;
 
-        const mobile = window.innerWidth <= 768;
+        // Detección mejorada de mobile con matchMedia y userAgent
+        const isMobileWidth = window.innerWidth <= 768;
+        const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const mobile = isMobileWidth || isMobileDevice;
+        
         let videoHTML = '';
         let isLocalVideo = false;
         let isYouTubeVideo = false;
+        let wrapperClass = '';
 
         // Decidir qué video mostrar
         let videoUrl = null;
         
-        if (mobile && especial.videoMobile) {
-          // En mobile: priorizar videoMobile
-          const isYouTube = especial.videoMobile.includes('youtube.com') || 
-                            especial.videoMobile.includes('youtu.be');
-          
-          if (isYouTube) {
-            videoUrl = especial.videoMobile;
+        console.log('🔍 Detectando dispositivo:', mobile ? 'MOBILE' : 'DESKTOP', '(ancho:', window.innerWidth + 'px, userAgent:', isMobileDevice ? 'Mobile)' : 'Desktop)');
+        console.log('📹 Videos disponibles:', {
+          videoMobile: especial.videoMobile,
+          videoDesktop: especial.videoDesktop
+        });
+        
+        // LÓGICA SIMPLIFICADA Y EXPLÍCITA
+        if (mobile) {
+          // === MODO MOBILE ===
+          if (especial.videoMobile) {
+            const isYouTube = especial.videoMobile.includes('youtube.com') || 
+                              especial.videoMobile.includes('youtu.be');
+            
+            if (isYouTube) {
+              videoUrl = especial.videoMobile;
+              isYouTubeVideo = true;
+              wrapperClass = 'video-horizontal';
+              console.log('✅ Mobile: Usando YouTube (horizontal)');
+            } else {
+              // Es un MP4 local → VERTICAL
+              videoUrl = especial.videoMobile;
+              isLocalVideo = true;
+              wrapperClass = 'video-vertical';
+              console.log('✅ Mobile: Usando MP4 local (vertical)');
+            }
+          } else if (especial.videoDesktop) {
+            // Fallback si no hay videoMobile
+            videoUrl = especial.videoDesktop;
             isYouTubeVideo = true;
-          } else {
-            // Es un MP4 local → VERTICAL
-            videoUrl = especial.videoMobile;
-            isLocalVideo = true;
+            wrapperClass = 'video-horizontal';
+            console.log('✅ Mobile: Fallback a videoDesktop');
           }
-        } else if (especial.videoDesktop) {
-          // Desktop: usar videoDesktop (YouTube) → HORIZONTAL
-          videoUrl = especial.videoDesktop;
-          isYouTubeVideo = true;
-        } else if (especial.videoMobile) {
-          // Fallback: usar videoMobile si existe
-          const isYouTube = especial.videoMobile.includes('youtube.com') || 
-                            especial.videoMobile.includes('youtu.be');
-          videoUrl = especial.videoMobile;
-          isYouTubeVideo = isYouTube;
-          isLocalVideo = !isYouTube;
+        } else {
+          // === MODO DESKTOP ===
+          if (especial.videoDesktop) {
+            videoUrl = especial.videoDesktop;
+            isYouTubeVideo = true;
+            wrapperClass = 'video-horizontal';
+            console.log('✅ Desktop: Usando videoDesktop (YouTube horizontal)');
+          } else if (especial.videoMobile) {
+            // Fallback si no hay videoDesktop
+            const isYouTube = especial.videoMobile.includes('youtube.com') || 
+                              especial.videoMobile.includes('youtu.be');
+            videoUrl = especial.videoMobile;
+            isYouTubeVideo = isYouTube;
+            isLocalVideo = !isYouTube;
+            wrapperClass = isYouTube ? 'video-horizontal' : 'video-vertical';
+            console.log('✅ Desktop: Fallback a videoMobile');
+          }
         }
 
         // Generar HTML según el tipo de video
@@ -244,13 +274,20 @@
             ${especial.icono ? `<img src="${especial.icono}" alt="Icono" class="icono">` : ''}
             <h1 class="especial-titulo">${tituloHTML}</h1>
             <p class="especial-fecha">${especial.fecha}</p>
+            ${especial.subtitulo ? `<p class="especial-subtitulo">${especial.subtitulo}</p>` : ''}
           </div>
           <div class="especial-video-container">
-            <div class="especial-video-wrapper">
+            <div class="especial-video-wrapper ${wrapperClass}">
               ${videoHTML}
             </div>
           </div>
         `;
+        
+        console.log('🎬 Video final configurado:', {
+          url: videoUrl,
+          tipo: isLocalVideo ? 'MP4 Local' : 'YouTube',
+          orientacion: wrapperClass
+        });
 
         return card;
       }
@@ -917,9 +954,13 @@
       <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Avisos
     </h2>
   </section>
+
+  <!-- Publicaciones Especiales -->
+  <efemerides-card json-file="./publicaciones-especiales.json" card-type="especiales"></efemerides-card>
+
   <!-- **GFE** -->
         <br><br>
-  <!-- Publicaciones Especiales -->
+  <!-- Publicaciones Especiales (Comentado - antiguo) -->
   <!-- <efemerides-card json-file="./especiales.json" card-type="especiales"></efemerides-card> -->
 
  
