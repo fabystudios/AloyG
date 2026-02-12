@@ -1,6 +1,19 @@
 [ 
-   {
+     {
     "id": 1,
+    "fecha": "12 de Febrero",
+    "santo": "Santa Eulalia",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/eulalia.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,  
+   {
+    "id": 2,
     "fecha": "10 de Febrero",
     "santo": "San José Sánchez del Río",
     "santoFontSize": "1.2em",
@@ -8,30 +21,17 @@
     "video": "./asantos/jose.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   }
   ,  
  {
-    "id": 1,
+    "id": 3,
     "fecha": "9 de Febrero",
     "santo": "Santa Apolonia",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/apolonia.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
-  ,  
-                                 {
-    "id": 2,
-    "fecha": "8 de Febrero",
-    "santo": "Santa Josefina Bakhita",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/j.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
