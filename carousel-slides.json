@@ -1,7 +1,23 @@
 [
+    {
+    "id": "",
+    "position": 1,
+    "hasVideo": true,
+    "link": "",
+    "desktop": {
+      "type": "video",
+      "src": "./video/enc_desktop.mp4",
+      "poster": "./video/cover_encuentro_desktop.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/encuentro.mp4",
+      "poster": "./video/encuentro.jpg"
+    }
+  },
   {
     "id": "feria",
-    "position": 1,
+    "position": 2,
     "hasVideo": true,
     "link": "#feria",
     "desktop": {
@@ -33,7 +49,7 @@
   },
   {
     "id": "misas",
-    "position": 3,
+    "position": 4,
     "hasVideo": true,
     "link": "#MISAS",
     "desktop": {
@@ -113,7 +129,7 @@
   },
   {
     "id": "banner2",
-    "position": 2,
+    "position": 3,
     "hasVideo": true,
     "link": "#banner2",
     "desktop": {
