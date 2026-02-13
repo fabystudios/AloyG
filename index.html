@@ -956,6 +956,131 @@
   </section>
 
 
+  <!-- Publicación Especial: Reunidos en su nombre -->
+  <style>
+    @keyframes floatSparkle {
+      0% {
+        transform: translateY(0) scale(0);
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      80% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) scale(1);
+        opacity: 0;
+      }
+    }
+    
+    @keyframes twinkle {
+      0%, 100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+      }
+      50% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+    }
+    
+    .magic-container {
+      position: relative;
+      overflow: visible !important;
+    }
+    
+    .sparkle {
+      position: absolute;
+      pointer-events: none;
+      z-index: 100;
+      font-size: 12px;
+      animation: floatSparkle 3s ease-in-out infinite;
+    }
+    
+    .twinkle-star {
+      position: absolute;
+      pointer-events: none;
+      z-index: 100;
+      color: #ffd700;
+      font-size: 10px;
+      animation: twinkle 2s ease-in-out infinite;
+    }
+  </style>
+  <div id="encuentro" style="display: flex; justify-content: center; align-items: center; padding: 40px 20px; position: relative;">
+    <div class="magic-container" style="max-width: 800px; width: 100%; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden; animation: fadeInUp 0.8s ease-out;">
+      <div id="magicEffects" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; overflow: visible;"></div>
+      <div style="padding: 30px; text-align: center; background-image: url('./img/encuentro.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative; border-radius: 20px 20px 0 0;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.3); backdrop-filter: blur(1px); border-radius: 20px 20px 0 0;"></div>
+        <div style="position: relative; z-index: 1;">
+          <div style="margin-bottom: 20px;">
+            <!-- <span style="font-size: 3em;">✨</span> -->
+          </div>
+          <h2 style="font-family: 'Georgia', serif; font-size: 1.5em; color: #764ba2; margin: 0 0 15px 0; line-height: 1.4; font-weight: 600; text-shadow: 0 2px 8px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.8);">
+            "Donde hay dos o tres reunidos en mi nombre, yo estoy presente en medio de ellos"
+          </h2>
+          <p style="font-size: 1.1em; color: #555; margin: 0; font-style: italic; font-weight: 600; text-shadow: 0 1px 6px rgba(255,255,255,0.95), 0 0 8px rgba(255,255,255,0.8);">Mt. 18,20</p>
+        </div>
+      </div>
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 0 0 20px 20px;">
+        <iframe 
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 0 0 20px 20px;"
+          src="https://www.youtube.com/embed/LGlGKkrvCMg?autoplay=1&mute=1&loop=1&playlist=LGlGKkrvCMg&rel=0&modestbranding=1" 
+          title="Reunidos en su nombre"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    (function() {
+      const magicContainer = document.getElementById('magicEffects');
+      if (!magicContainer) return;
+      
+      const sparkleEmojis = ['✨', '⭐', '🌟', '💫', '✦', '✧', '⚡'];
+      
+      function createSparkle() {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+        sparkle.style.left = Math.random() * 100 + '%';
+        sparkle.style.top = Math.random() * 80 + 10 + '%';
+        sparkle.style.animationDelay = Math.random() * 2 + 's';
+        sparkle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        magicContainer.appendChild(sparkle);
+        
+        setTimeout(() => sparkle.remove(), 5000);
+      }
+      
+      function createTwinkleStar() {
+        const star = document.createElement('div');
+        star.className = 'twinkle-star';
+        star.textContent = '✨';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        star.style.animationDuration = (Math.random() * 1.5 + 1.5) + 's';
+        magicContainer.appendChild(star);
+        
+        setTimeout(() => star.remove(), 6000);
+      }
+      
+      // Crear estrellas titilantes estáticas
+      for (let i = 0; i < 8; i++) {
+        setTimeout(createTwinkleStar, i * 300);
+      }
+      
+      // Crear partículas flotantes continuamente
+      setInterval(createSparkle, 800);
+      setInterval(createTwinkleStar, 3000);
+    })();
+  </script>
+
   <!-- **GFE** -->
         <br><br>
   <!-- Publicaciones Especiales viejas (Comentado - antiguo) -->

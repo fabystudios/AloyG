@@ -1,9 +1,9 @@
 [
     {
     "id": "",
-    "position": 1,
+    "position": 0,
     "hasVideo": true,
-    "link": "",
+    "link": "#encuentro",
     "desktop": {
       "type": "video",
       "src": "./video/enc_desktop.mp4",
@@ -17,7 +17,7 @@
   },
   {
     "id": "feria",
-    "position": 2,
+    "position": 1,
     "hasVideo": true,
     "link": "#feria",
     "desktop": {
@@ -97,7 +97,7 @@
   },
   {
     "id": "asistencia",
-    "position": 0,
+    "position": 2,
     "hasVideo": true,
     "link": "#asistencia",
     "desktop": {
