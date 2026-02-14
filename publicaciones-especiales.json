@@ -1,12 +1,12 @@
 [
-  {
+    {
     "id": 1,
-    "fecha": "11 de Febrero",
-    "titulo": "Nuestra Señora de Lourdes",
-    "subtitulo": "Fuente de sanación y esperanza",
-    "videoMobile": "./asantos/especiales/lourdes.mp4",
-    "videoDesktop": "https://youtu.be/-YqbrAfK9z0?si=niJjiHQyZZIJV6O7",
-    "poster": "./asantos/santos.jpg",
-    "icono": "./img/lirios.png"
+    "fecha": "14 de Febrero",
+    "titulo": "San Valentín",
+    "subtitulo": "Patrono de los enamorados",
+    "videoMobile": "./asantos/especiales/valentin.mp4",
+    "videoDesktop": "https://www.youtube.com/watch?v=edpy4ZuUWNQ",
+    "poster": "./asantos/santos.png",
+    "icono": "./img/cuore.png"
   }
 ]
