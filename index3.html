@@ -908,7 +908,7 @@
    <!-- ------INICIOGFE-------- -->
       <br><br>
      <!-- Publicaciones de Facebook -->
-  <div id="facebookPostsContainer" class="container" style="padding: 30px 15px; max-width: 1200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.3);">
+  <div id="facebookPostsContainer" class="container" style="padding: 20px 8px; max-width: 1200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.3);">
     <!-- Wallpaper decorativo de fondo -->
     <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('./img/fb-wallpaper.png'); background-repeat: repeat; background-size: 200px; background-position: center; opacity: 0.3; pointer-events: none;"></div>
     <!-- Las publicaciones se cargarán dinámicamente desde facebook-posts.json -->
@@ -921,7 +921,7 @@
       flex-wrap: wrap;
       gap: 20px;
       margin: 40px auto;
-      padding: 30px 15px !important;
+      padding: 20px 8px !important;
       align-items: stretch;
       justify-content: center;
     }
@@ -945,6 +945,11 @@
       flex-direction: column;
       align-items: center;
       overflow: hidden;
+    }
+
+    /* Wrapper con ancho personalizado */
+    .fb-post-wrapper.custom-width {
+      max-width: 700px !important;
     }
 
     /* Full row (ej. videos apaisados) */
@@ -1052,6 +1057,11 @@
       padding: 0 8px 8px 8px;
     }
 
+    /* Contenedor ancho para posts de Facebook grandes */
+    .fb-embed-container.wide {
+      padding: 0 2px 6px 2px;
+    }
+
     /* Estilos para videos locales */
     .fb-embed-container video {
       max-width: 100%;
@@ -1095,10 +1105,10 @@
 
     @media (max-width: 768px) {
       #facebookPostsContainer {
-        padding: 30px 15px !important;
+        padding: 20px 8px !important;
         border-radius: 12px;
-        width: 95vw;
-        max-width: 95vw;
+        width: 98vw;
+        max-width: 98vw;
         margin: 40px auto;
         gap: 25px;
       }
@@ -1242,18 +1252,25 @@
         
         // FACEBOOK (por defecto)
         const isMobile = window.innerWidth < 768;
-        const fbWidth = isMobile ? 'auto' : '700';
+        // Permitir ancho personalizado por post
+        const fbWidth = post.width || (isMobile ? 'auto' : '700');
+        const hasCustomWidth = post.width && post.width > 500;
+        const customWidthClass = hasCustomWidth ? 'custom-width' : '';
+        const embedWideClass = hasCustomWidth ? 'wide' : '';
+        console.log(`📊 Post ${post.id}: width=${post.width}, fbWidth=${fbWidth}, customClass=${customWidthClass}`);
+        const enableZoom = post.enableZoom !== false; // Por defecto true
         const zoom = post.zoom || 1;
         const offsetX = post.offsetX || 0;
         const offsetY = post.offsetY || 0;
-        const dataAttrs = `data-zoom="${zoom}" data-offset-x="${offsetX}" data-offset-y="${offsetY}"`;
+        const zoomClass = enableZoom ? 'fb-post-zoom' : '';
+        const dataAttrs = enableZoom ? `data-zoom="${zoom}" data-offset-x="${offsetX}" data-offset-y="${offsetY}"` : '';
         
         return `
-          <div class="fb-post-wrapper" style="animation-delay: ${index * 0.1}s">
+          <div class="fb-post-wrapper ${customWidthClass}" style="animation-delay: ${index * 0.1}s">
             ${title}
-            <div class="fb-embed-container">
-              <div class="fb-post fb-post-zoom" ${dataAttrs}
-                   data-href="${post.url}" 
+            <div class="fb-embed-container ${embedWideClass}">
+              <div class="fb-post ${zoomClass}" ${dataAttrs}
+                   data-href="${post.url}?t=${Date.now()}" 
                    data-width="${fbWidth}" 
                    data-show-text="false">
               </div>
@@ -1280,7 +1297,8 @@
           
           // FORZAR LIMPIEZA DE CACHE PARA DEBUGGING
           sessionStorage.removeItem(CACHE_KEY);
-          console.log('🧹 Cache limpiado');
+          localStorage.removeItem(CACHE_KEY); // Limpiar también localStorage
+          console.log('🧹 Cache limpiado (session + local)');
           
           // Intentar cargar orden cacheado
           const cached = sessionStorage.getItem(CACHE_KEY);
