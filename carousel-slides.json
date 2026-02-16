@@ -1,7 +1,23 @@
 [
-    {
+      {
     "id": "",
     "position": 1,
+    "hasVideo": true,
+    "link": "",
+    "desktop": {
+      "type": "video",
+      "src": "./video/ceniza_desktop.mp4",
+      "poster": "./video/cover_ceniza_desktop.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/ceniza_mobile.mp4",
+      "poster": "./video/cover_ceniza_mobile.png"
+    }
+  },
+    {
+    "id": "",
+    "position": 2,
     "hasVideo": true,
     "link": "#encuentro",
     "desktop": {
@@ -49,7 +65,7 @@
   },
   {
     "id": "misas",
-    "position": 4,
+    "position": 5,
     "hasVideo": true,
     "link": "#MISAS",
     "desktop": {
@@ -65,7 +81,7 @@
   },
   {
     "id": "adoracion",
-    "position": 0,
+    "position": -1,
     "hasVideo": true,
     "link": "#adoracion",
     "desktop": {
@@ -81,7 +97,7 @@
   },
   {
     "id": "actividades",
-    "position": 0,
+    "position": -1,
     "hasVideo": true,
     "link": "#actividades",
     "desktop": {
@@ -97,7 +113,7 @@
   },
   {
     "id": "asistencia",
-    "position": 2,
+    "position": 3,
     "hasVideo": true,
     "link": "#asistencia",
     "desktop": {
@@ -113,7 +129,7 @@
   },
   {
     "id": "banner1",
-    "position": 0,
+    "position": -1,
     "hasVideo": true,
     "link": "#banner1",
     "desktop": {
@@ -129,7 +145,7 @@
   },
   {
     "id": "banner2",
-    "position": 3,
+    "position": 4,
     "hasVideo": true,
     "link": "#banner2",
     "desktop": {
@@ -145,7 +161,7 @@
   },
   {
     "id": "luz",
-    "position": 0,
+    "position": -1,
     "hasVideo": true,
     "link": "#luz",
     "desktop": {
@@ -161,7 +177,7 @@
   },
   {
     "id": "banner3",
-    "position": 0,
+    "position": -1,
     "hasVideo": true,
     "link": "#banner3",
     "desktop": {
