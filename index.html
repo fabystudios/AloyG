@@ -984,7 +984,7 @@
       <div style="position: relative; z-index: 2;">
         <!-- Título con efecto brillante -->
         <div style="text-align: center; margin-bottom: 30px;">
-          <h2 style="
+          <h2 class="titulo-sorteo-bici" style="
             font-size: 3em;
             font-weight: 900;
             background: linear-gradient(45deg, #8B4513, #D2691E, #FFD700, #D2691E, #8B4513);
@@ -1012,7 +1012,7 @@
           ">
             Bicicleta Rodado 29
           </h3>
-          <div style="
+          <div class="fecha-sorteo-bici" style="
             display: inline-block;
             background: rgba(139, 69, 19, 0.9);
             color: white;
@@ -1038,17 +1038,52 @@
             inset 0 1px 1px rgba(255, 255, 255, 0.6);
           border: 3px solid rgba(255, 255, 255, 0.4);
         ">
-          <div style="
+          <div id="videoContainer-sorteo-bici" style="
             position: relative;
             padding-bottom: 56.25%;
             height: 0;
             overflow: hidden;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-          ">
+            cursor: pointer;
+          " onclick="loadVideoSorteoBici()">
+            <!-- Poster inicial -->
+            <img id="posterSorteoBici" src="./img/poster_rifa.png" alt="Sorteo Bicicleta" style="
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              border-radius: 20px;
+            ">
+            <!-- Icono de play -->
+            <div id="playIconSorteoBici" style="
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+              width: 80px;
+              height: 80px;
+              background: rgba(255, 0, 0, 0.9);
+              border-radius: 50%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+              transition: all 0.3s ease;
+              z-index: 10;
+            " onmouseover="this.style.transform='translate(-50%, -50%) scale(1.2)'"
+               onmouseout="this.style.transform='translate(-50%, -50%) scale(1)'">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="white">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </div>
+            <!-- Iframe del video (se carga al hacer clic) -->
             <iframe 
-              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 20px;"
-              src="https://www.youtube.com/embed/4tmtbt-TznA?autoplay=1&mute=1&loop=1&playlist=4tmtbt-TznA&controls=1"
+              id="iframeSorteoBici"
+              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; border-radius: 20px; display: none;"
+              src=""
               title="Sorteo Bicicleta Rodado 29"
               frameborder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -1056,6 +1091,27 @@
             </iframe>
           </div>
         </div>
+        
+        <script>
+          function loadVideoSorteoBici() {
+            const iframe = document.getElementById('iframeSorteoBici');
+            const poster = document.getElementById('posterSorteoBici');
+            const playIcon = document.getElementById('playIconSorteoBici');
+            const container = document.getElementById('videoContainer-sorteo-bici');
+            
+            // Cargar el video con autoplay
+            iframe.src = 'https://www.youtube.com/embed/4tmtbt-TznA?autoplay=1&mute=1&loop=1&playlist=4tmtbt-TznA&controls=1';
+            
+            // Ocultar poster y play icon
+            poster.style.display = 'none';
+            playIcon.style.display = 'none';
+            iframe.style.display = 'block';
+            container.style.cursor = 'default';
+            
+            // Remover el onclick para evitar clic accidental
+            container.onclick = null;
+          }
+        </script>
 
         <!-- Botón de participación -->
         <div style="text-align: center; margin-top: 30px;">
@@ -1156,9 +1212,17 @@
       .sorteo-card h3 {
         font-size: 1.5em !important;
       }
+      .titulo-sorteo-bici {
+        font-size: 1.4em !important;
+        letter-spacing: 1px !important;
+      }
+      .fecha-sorteo-bici {
+        font-size: 0.9em !important;
+        padding: 8px 15px !important;
+      }
       .btn-sorteo-bici {
-        font-size: 1.1em !important;
-        padding: 15px 30px !important;
+        font-size: 0.95em !important;
+        padding: 12px 18px !important;
       }
     }
   </style>
