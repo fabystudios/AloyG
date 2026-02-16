@@ -49,7 +49,7 @@
   },
   {
     "id": "rifa2",
-    "position": 0,
+    "position": 3,
     "hasVideo": true,
     "link": "#rifa",
     "desktop": {
@@ -65,7 +65,7 @@
   },
   {
     "id": "misas",
-    "position": 5,
+    "position": -1,
     "hasVideo": true,
     "link": "#MISAS",
     "desktop": {
@@ -113,7 +113,7 @@
   },
   {
     "id": "asistencia",
-    "position": 3,
+    "position": -1,
     "hasVideo": true,
     "link": "#asistencia",
     "desktop": {
