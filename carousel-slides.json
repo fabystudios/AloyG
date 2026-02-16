@@ -54,7 +54,7 @@
     "link": "#rifa",
     "desktop": {
       "type": "video",
-      "src": "./video/rifa2-mov-desktop.mp4",
+      "src": "./video/rifa4-mov-desktop.mp4",
       "poster": "./slides/rifa2-desktop.png"
     },
     "mobile": {
@@ -182,7 +182,7 @@
     "link": "#banner3",
     "desktop": {
       "type": "video",
-      "src": "./video/3-mov-desktop.mp4",
+      "src": "./video/rifa4-mov-desktop.mp4",
       "poster": "./slides/banner3-desktop.jpg"
     },
     "mobile": {
