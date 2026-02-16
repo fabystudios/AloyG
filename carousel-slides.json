@@ -17,7 +17,7 @@
   },
     {
     "id": "",
-    "position": 2,
+    "position": 4,
     "hasVideo": true,
     "link": "#encuentro",
     "desktop": {
@@ -145,7 +145,7 @@
   },
   {
     "id": "banner2",
-    "position": 4,
+    "position": 2,
     "hasVideo": true,
     "link": "#banner2",
     "desktop": {
