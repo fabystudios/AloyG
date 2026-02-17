@@ -3,7 +3,7 @@
     "id": 1,
     "fecha": "17 de Febrero",
     "santo": "7 Santos Fundadores de la Orden de los Siervos de María",
-    "santoFontSize": ".9em",
+    "santoFontSize": ".8em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/7.mp4",
     "icono": "./img/paloma.png",
