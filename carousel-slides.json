@@ -19,7 +19,7 @@
     "id": "",
     "position": 1,
     "hasVideo": true,
-    "link": "",
+    "link": "#ceniza",
     "desktop": {
       "type": "video",
       "src": "./video/ceniza_desktop.mp4",
