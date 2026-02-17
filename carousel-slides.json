@@ -43,7 +43,7 @@
     },
     "mobile": {
       "type": "video",
-      "src": "./video/encuentro.mp4",
+      "src": "./video/gfe.mp4",
       "poster": "./video/encuentro.jpg"
     }
   },
