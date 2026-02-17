@@ -1,6 +1,19 @@
 [ 
-         {
+           {
     "id": 1,
+    "fecha": "17 de Febrero",
+    "santo": "7 Santos Fundadores de la Orden de los Siervos de María",
+    "santoFontSize": ".9em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/7.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,  
+         {
+    "id": 2,
     "fecha": "15 de Febrero",
     "santo": "San Claudio de la Colombière",
     "santoFontSize": "1.2em",
@@ -8,12 +21,12 @@
     "video": "./asantos/claudio.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   }
   ,  
        {
-    "id": 2,
+    "id": 3,
     "fecha": "14 de Febrero",
     "santo": "San Valentin",
     "santoFontSize": "1.2em",
@@ -24,19 +37,6 @@
     "showOnMobile": false,
     "showOnDesktop": true
   }
-  ,  
-     {
-    "id": 3,
-    "fecha": "12 de Febrero",
-    "santo": "Santa Eulalia",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/eulalia.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
- 
+  
  
 ]
