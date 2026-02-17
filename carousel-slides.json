@@ -1,4 +1,20 @@
 [
+       {
+    "id": "",
+    "position": 2,
+    "hasVideo": true,
+    "link": "",
+    "desktop": {
+      "type": "video",
+      "src": "./video/sec_desktop.mp4",
+      "poster": "./video/cover_sec_desktop.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/sec_mobile.mp4",
+      "poster": "./video/cover_sec_mobile.png"
+    }
+  },
       {
     "id": "",
     "position": 1,
@@ -49,7 +65,7 @@
   },
   {
     "id": "rifa2",
-    "position": 3,
+    "position": 5,
     "hasVideo": true,
     "link": "#rifa",
     "desktop": {
@@ -145,7 +161,7 @@
   },
   {
     "id": "banner2",
-    "position": 2,
+    "position": 3,
     "hasVideo": true,
     "link": "#banner2",
     "desktop": {
