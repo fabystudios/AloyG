@@ -1227,25 +1227,31 @@
       
       /* Reducir padding del anuncio de Ceniza en móvil */
       #ceniza {
-        padding: 10px 10px !important;
+        padding: 15px 10px !important;
       }
       
       #ceniza > div {
-        padding: 20px !important;
+        padding: 15px !important;
       }
       
-      #ceniza div[style*="padding: 35px"] {
-        padding: 20px !important;
+      #ceniza div[style*="padding: 35px"],
+      #ceniza div[style*="padding: 25px"] {
+        padding: 15px !important;
       }
       
       /* Ajustar elementos del anuncio en móvil */
       #ceniza [style*="display: flex"] {
         flex-direction: column !important;
+        align-items: center !important;
+        padding-left: 0 !important;
+        padding-right: 0 !important;
       }
       
       #ceniza [style*="max-width: 380px"] {
         max-width: 100% !important;
         width: 100% !important;
+        min-width: auto !important;
+        margin: 0 !important;
       }
       
       /* Ajustar tamaño de texto en móvil */
