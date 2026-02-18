@@ -2,11 +2,11 @@
     {
     "id": 1,
     "fecha": "14 de Febrero",
-    "titulo": "San Valentín",
-    "subtitulo": "Patrono de los enamorados",
-    "videoMobile": "./asantos/especiales/valentin.mp4",
-    "videoDesktop": "https://www.youtube.com/watch?v=edpy4ZuUWNQ",
-    "poster": "./asantos/santos.png",
-    "icono": "./img/cuore.png"
+    "titulo": "Miércoles de Ceniza",
+    "subtitulo": "Conversión, Ayuno y Oración",
+    "videoMobile": "./asantos/especiales/ceniza1.mp4",
+    "videoDesktop": "https://youtu.be/ilmmVSpXKdY",
+    "poster": "./asantos/especiales/cposter-ceni.jpg",
+    "icono": "./img/ceni3.png"
   }
 ]
