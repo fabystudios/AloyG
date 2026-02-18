@@ -959,7 +959,7 @@
 
 
   <!-- ANUNCIO ESPECIAL: MIÉRCOLES DE CENIZA -->
-  <div id="ceniza" style="padding: 30px 15px; max-width: 900px; margin: 30px auto;">
+  <div id="ceniza" style="padding: 30px 15px; max-width: 1400px; margin: 30px auto;">
     <div style="
       position: relative;
       background: linear-gradient(135deg, rgba(147, 51, 234, 0.95) 0%, rgba(124, 58, 237, 0.9) 25%, rgba(139, 92, 246, 0.85) 50%, rgba(167, 139, 250, 0.9) 75%, rgba(196, 181, 253, 0.95) 100%);
@@ -1022,17 +1022,19 @@
           <span>Anuncio Importante</span>
         </div>
 
-        <!-- Contenedor flex para imagen y texto -->
+        <!-- Contenedor flex para imagen, texto y video -->
         <div style="
           display: flex;
-          gap: 30px;
-          align-items: center;
+          gap: 20px;
+          align-items: stretch;
           flex-wrap: wrap;
+          justify-content: center;
         ">
           <!-- Imagen -->
           <div style="
             flex: 0 0 auto;
-            max-width: 300px;
+            max-width: 380px;
+            min-width: 320px;
             margin: 0 auto;
           ">
             <div style="
@@ -1044,11 +1046,13 @@
                 0 0 0 3px rgba(255, 255, 255, 0.2),
                 0 0 30px rgba(147, 51, 234, 0.6);
               transition: transform 0.3s ease;
+              aspect-ratio: 3/4;
             " onmouseover="this.style.transform='scale(1.05) rotate(2deg)'" onmouseout="this.style.transform='scale(1) rotate(0deg)'">
               <img src="./img/ceni.jpeg" alt="Miércoles de Ceniza" style="
                 width: 100%;
-                height: auto;
+                height: 100%;
                 display: block;
+                object-fit: contain;
                 filter: brightness(1.05) contrast(1.05);
               ">
               <!-- Overlay decorativo -->
@@ -1066,55 +1070,102 @@
 
           <!-- Texto -->
           <div style="
-            flex: 1 1 300px;
+            flex: 1 1 280px;
             background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
             border-radius: 20px;
-            padding: 30px;
+            padding: 25px;
             border: 1px solid rgba(255, 255, 255, 0.25);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            max-height: 507px;
+            overflow-y: auto;
           ">
             <!-- Título -->
-            <h3 style="
-              color: white;
-              font-size: 1.8rem;
-              font-weight: bold;
-              margin: 0 0 20px 0;
-              text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-              display: flex;
-              align-items: center;
-              gap: 10px;
-            ">
-              <i class="material-icons" style="font-size: 1.3em; color: #fbbf24;">event</i>
-              Miércoles de Ceniza
-            </h3>
-
-            <!-- Mensaje -->
+                  <h3 style="
+                    color: white;
+                    font-size: 2.6rem;
+                    font-weight: bold;
+                    margin: 0 0 25px 0;
+                    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    justify-content: center;
+                    text-align: center;
+                  ">
+                    <i class="material-icons" style="font-size: 1.8em; color: #fbbf24;">event</i>
+                    Miércoles de Ceniza
+                  </h3>    <!-- Mensaje -->
             <div style="
               color: white;
-              font-size: 1.05rem;
-              line-height: 1.8;
+              font-size: 1.3rem;
+              line-height: 1.2;
               text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
             ">
-              <p style="margin: 0 0 15px 0; font-weight: 500;">
-                <strong>¡Buenas tardes a todos!</strong><br>
+              <p style="margin: 0 0 18px 0; font-weight: 500; font-size: 1.4rem; line-height: 1.5;">
+                <strong>¡Buenos días a todos!</strong><br>
                 Espero que estén bien por gracia de Dios.
               </p>
               
               <p style="
-                margin: 15px 0;
-                padding: 15px;
+                margin: 18px 0;
+                padding: 18px;
                 background: rgba(255, 255, 255, 0.1);
                 border-left: 4px solid #fbbf24;
                 border-radius: 8px;
+                font-size: 1.6rem;
+                line-height: 1.5;
               ">
-                <strong style="color: #fbbf24;">📅 Mañana</strong> es <strong>Miércoles de Ceniza</strong>, 
+                <strong style="color: #fbbf24;">📅 Hoy</strong> es <strong>Miércoles de Ceniza</strong>, 
                 día en el cual comenzamos un tiempo muy importante como la <strong>Cuaresma</strong>.
               </p>
 
-              <p style="margin: 15px 0 0 0; font-style: italic; font-weight: 500; color: #fde68a;">
-                ¡Bendecida tarde! 🙏✨
+              <p style="margin: 18px 0 0 0; font-style: italic; font-weight: 500; color: #fde68a; font-size: 1.8rem; line-height: 1.2;">
+               ¡Bendecido día! 🙏✨
               </p>
+            </div>
+          </div>
+
+          <!-- Video -->
+          <div style="
+            flex: 0 0 auto;
+            max-width: 380px;
+            min-width: 320px;
+            margin: 0 auto;
+          ">
+            <div style="
+              position: relative;
+              border-radius: 20px;
+              overflow: hidden;
+              box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 3px rgba(255, 255, 255, 0.2),
+                0 0 30px rgba(147, 51, 234, 0.6);
+              transition: transform 0.3s ease;
+              background: rgba(0, 0, 0, 0.2);
+              aspect-ratio: 3/4;
+            " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+              <video controls style="
+                width: 100%;
+                height: 100%;
+                display: block;
+                object-fit: cover;
+                object-position: center;
+                border-radius: 20px;
+              " preload="metadata">
+                <source src="./video/indicaciones.mp4" type="video/mp4">
+                Tu navegador no soporta el elemento de video.
+              </video>
+              <!-- Overlay decorativo -->
+              <div style="
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: linear-gradient(180deg, rgba(147, 51, 234, 0) 0%, rgba(124, 58, 237, 0.2) 100%);
+                pointer-events: none;
+              "></div>
             </div>
           </div>
         </div>
@@ -1128,12 +1179,12 @@
         ">
           <p style="
             color: rgba(255, 255, 255, 0.9);
-            font-size: 0.95rem;
+            font-size: 1.2rem;
             margin: 0;
             font-weight: 500;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
           ">
-            <i class="material-icons align-middle" style="font-size: 1.1em; color: #fbbf24;">info</i>
+            <i class="material-icons align-middle" style="font-size: 1.8em; color: #fbbf24;">info</i>
             Consulte los horarios en la imagen adjunta
           </p>
         </div>
@@ -1183,8 +1234,59 @@
         padding: 20px !important;
       }
       
-      #ceniza div[style*="padding: 30px"] {
-        padding: 15px !important;
+      #ceniza div[style*="padding: 35px"] {
+        padding: 20px !important;
+      }
+      
+      /* Ajustar elementos del anuncio en móvil */
+      #ceniza [style*="display: flex"] {
+        flex-direction: column !important;
+      }
+      
+      #ceniza [style*="max-width: 380px"] {
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      
+      /* Ajustar tamaño de texto en móvil */
+      #ceniza h3 {
+        font-size: 1.8rem !important;
+      }
+      
+      #ceniza [style*="font-size: 1.5rem"] {
+        font-size: 1.2rem !important;
+      }
+      
+      #ceniza [style*="font-size: 1.8rem"] {
+        font-size: 1.3rem !important;
+      }
+    }
+    
+    @media (min-width: 769px) and (max-width: 1200px) {
+      /* En tablets, ajustar el layout para que sea 2 columnas */
+      #ceniza {
+        max-width: 95vw !important;
+      }
+      
+      #ceniza [style*="max-width: 380px"] {
+        flex: 1 1 45% !important;
+      }
+      
+      #ceniza [style*="flex: 1 1 280px"] {
+        flex: 1 1 100% !important;
+      }
+      
+      /* Ajustar texto en tablets */
+      #ceniza h3 {
+        font-size: 2.3rem !important;
+      }
+      
+      #ceniza [style*="font-size: 1.5rem"] {
+        font-size: 1.35rem !important;
+      }
+      
+      #ceniza [style*="font-size: 1.8rem"] {
+        font-size: 1.6rem !important;
       }
     }
   </style>
