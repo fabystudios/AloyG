@@ -957,361 +957,82 @@
 <!-- Inicio  GFE   -->
 
  <!-- Publicaciones Especiales -->
-  <efemerides-card json-file="./publicaciones-especiales.json" card-type="especiales"></efemerides-card>
-<br><br>
-
-  <!-- ANUNCIO ESPECIAL: MIÉRCOLES DE CENIZA -->
-  <div id="ceniza" style="padding: 30px 15px; max-width: 1400px; margin: 30px auto;">
-    <div style="
-      position: relative;
-      background: linear-gradient(135deg, rgba(147, 51, 234, 0.95) 0%, rgba(124, 58, 237, 0.9) 25%, rgba(139, 92, 246, 0.85) 50%, rgba(167, 139, 250, 0.9) 75%, rgba(196, 181, 253, 0.95) 100%);
-      border-radius: 30px;
-      padding: 40px;
-      box-shadow: 
-        0 20px 60px rgba(147, 51, 234, 0.4),
-        0 10px 30px rgba(124, 58, 237, 0.3),
-        inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(20px);
-      border: 2px solid rgba(255, 255, 255, 0.18);
-      overflow: hidden;
-      animation: pulseGlow 3s ease-in-out infinite;
-    ">
-      <!-- Efecto de brillo animado -->
-      <div style="
-        position: absolute;
-        top: -50%;
-        left: -50%;
-        right: -50%;
-        bottom: -50%;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-        animation: rotate 20s linear infinite;
-        pointer-events: none;
-      "></div>
+  <!-- <efemerides-card json-file="./publicaciones-especiales.json" card-type="especiales"></efemerides-card>
+-->
+  <br><br> 
+  <div id="encuentro" style="display: flex; justify-content: center; align-items: center; padding: 40px 20px; position: relative;">
+    <div class="magic-container" style="max-width: 800px; width: 100%; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden; animation: fadeInUp 0.8s ease-out;">
+      <div id="magicEffects" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; overflow: visible;"></div>
+      <div style="padding: 10px 30px 10px 30px; text-align: center; background-image: url('./img/encuentro.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative; border-radius: 20px 20px 0 0;">
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.15); backdrop-filter: blur(0.5px); border-radius: 20px 20px 0 0;"></div>
+        <div style="position: relative; z-index: 1;">
+          <div style="margin-bottom: 20px;">
+            <!-- <span style="font-size: 3em;">✨</span> -->
+          </div>
+          <h2 style="font-family: 'Georgia', serif; font-size: 1.5em; color: #764ba2; margin: 0 0 15px 0; line-height: 1.4; font-weight: 600; text-shadow: 0 2px 8px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.8);">
+            "Donde hay dos o tres reunidos en mi nombre, yo estoy presente en medio de ellos"
+          </h2>
+          <p style="font-size: 1.1em; color: #555; margin: 0; font-style: italic; font-weight: 600; text-shadow: 0 1px 6px rgba(255,255,255,0.95), 0 0 8px rgba(255,255,255,0.8);">Mt. 18,20</p>
+        </div>
+      </div>
       
-      <!-- Decoración de fondo -->
-      <div style="
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-image: 
-          radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
-          radial-gradient(circle at 80% 70%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
-        pointer-events: none;
-      "></div>
-
-      <!-- Contenido principal -->
-      <div style="position: relative; z-index: 1;">
-        <!-- Badge de anuncio importante -->
-        <div style="
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          background: rgba(239, 68, 68, 0.9);
-          color: white;
-          padding: 8px 20px;
-          border-radius: 25px;
-          font-weight: bold;
-          font-size: 0.9rem;
-          text-transform: uppercase;
-          letter-spacing: 1px;
-          margin-bottom: 25px;
-          box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
-          animation: bounce 2s ease-in-out infinite;
-        ">
-          <i class="material-icons" style="font-size: 1.2em;">notifications_active</i>
-          <span>Anuncio Importante</span>
-        </div>
-
-        <!-- Contenedor flex para imagen, texto y video -->
-        <div style="
-          display: flex;
-          gap: 20px;
-          align-items: stretch;
-          flex-wrap: wrap;
-          justify-content: center;
-        ">
-          <!-- Imagen -->
-          <div style="
-            flex: 0 0 auto;
-            max-width: 380px;
-            min-width: 320px;
-            margin: 0 auto;
-          ">
-            <div style="
-              position: relative;
-              border-radius: 20px;
-              overflow: hidden;
-              box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.3),
-                0 0 0 3px rgba(255, 255, 255, 0.2),
-                0 0 30px rgba(147, 51, 234, 0.6);
-              transition: transform 0.3s ease;
-              aspect-ratio: 3/4;
-            " onmouseover="this.style.transform='scale(1.05) rotate(2deg)'" onmouseout="this.style.transform='scale(1) rotate(0deg)'">
-              <img src="./img/ceni.jpeg" alt="Miércoles de Ceniza" style="
-                width: 100%;
-                height: 100%;
-                display: block;
-                object-fit: contain;
-                filter: brightness(1.05) contrast(1.05);
-              ">
-              <!-- Overlay decorativo -->
-              <div style="
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: linear-gradient(180deg, rgba(147, 51, 234, 0) 0%, rgba(124, 58, 237, 0.2) 100%);
-                pointer-events: none;
-              "></div>
-            </div>
-          </div>
-
-          <!-- Texto -->
-          <div style="
-            flex: 1 1 280px;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-          ">
-            <!-- Título -->
-                  <h3 style="
-                    color: white;
-                    font-size: 2.6rem;
-                    font-weight: bold;
-                    margin: 0 0 25px 0;
-                    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
-                    display: flex;
-                    align-items: center;
-                    gap: 12px;
-                    justify-content: center;
-                    text-align: center;
-                  ">
-                    <i class="material-icons" style="font-size: 1.8em; color: #fbbf24;">event</i>
-                    Miércoles de Ceniza
-                  </h3>    <!-- Mensaje -->
-            <div style="
-              color: white;
-              font-size: 1.3rem;
-              line-height: 1.2;
-              text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
-            ">
-              <p style="margin: 0 0 18px 0; font-weight: 500; font-size: 1.4rem; line-height: 1.5;">
-                <strong>¡Buenos días a todos!</strong><br>
-                Espero que estén bien por gracia de Dios.
-              </p>
-              
-              <p style="
-                margin: 18px 0;
-                padding: 18px;
-                background: rgba(255, 255, 255, 0.1);
-                border-left: 4px solid #fbbf24;
-                border-radius: 8px;
-                font-size: 1.6rem;
-                line-height: 1.5;
-              ">
-                <strong style="color: #fbbf24;">📅 Hoy</strong> es <strong>Miércoles de Ceniza</strong>, 
-                día en el cual comenzamos un tiempo muy importante como la <strong>Cuaresma</strong>.
-              </p>
-
-              <p style="margin: 18px 0 0 0; font-style: italic; font-weight: 500; color: #fde68a; font-size: 1.8rem; line-height: 1.2;">
-               ¡Bendecido día! 🙏✨
-              </p>
-            </div>
-          </div>
-
-          <!-- Video -->
-          <div style="
-            flex: 0 0 auto;
-            max-width: 380px;
-            min-width: 320px;
-            margin: 0 auto;
-          ">
-            <div style="
-              position: relative;
-              border-radius: 20px;
-              overflow: hidden;
-              box-shadow: 
-                0 15px 40px rgba(0, 0, 0, 0.3),
-                0 0 0 3px rgba(255, 255, 255, 0.2),
-                0 0 30px rgba(147, 51, 234, 0.6);
-              transition: transform 0.3s ease;
-              background: rgba(0, 0, 0, 0.2);
-              aspect-ratio: 3/4;
-            " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
-              <video controls autoplay muted loop playsinline style="
-                width: 100%;
-                height: 100%;
-                display: block;
-                object-fit: cover;
-                object-position: center;
-                border-radius: 20px;
-              " preload="metadata">
-                <source src="./video/indicaciones.mp4" type="video/mp4">
-                Tu navegador no soporta el elemento de video.
-              </video>
-              <!-- Overlay decorativo -->
-              <div style="
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                bottom: 0;
-                background: linear-gradient(180deg, rgba(147, 51, 234, 0) 0%, rgba(124, 58, 237, 0.2) 100%);
-                pointer-events: none;
-              "></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Decoración inferior -->
-        <div style="
-          margin-top: 25px;
-          padding-top: 20px;
-          border-top: 2px solid rgba(255, 255, 255, 0.2);
-          text-align: center;
-        ">
-          <p style="
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 1.2rem;
-            margin: 0;
-            font-weight: 500;
-            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-          ">
-            <i class="material-icons align-middle" style="font-size: 1.8em; color: #fbbf24;">info</i>
-            Consulte los horarios en la imagen adjunta
-          </p>
-        </div>
+      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 0 0 20px 20px;">
+        <iframe 
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 0 0 20px 20px;"
+          src="https://www.youtube.com/embed/GuifrmBGS_w?autoplay=1&mute=0&loop=1&playlist=GuifrmBGS_w&rel=0&modestbranding=1" 
+          title="Reunidos en su nombre"    frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin">
+        </iframe>
       </div>
     </div>
   </div>
-
-  <!-- Animaciones CSS -->
-  <style>
-    @keyframes pulseGlow {
-      0%, 100% {
-        box-shadow: 
-          0 20px 60px rgba(147, 51, 234, 0.4),
-          0 10px 30px rgba(124, 58, 237, 0.3),
-          inset 0 1px 0 rgba(255, 255, 255, 0.2);
-      }
-      50% {
-        box-shadow: 
-          0 25px 70px rgba(147, 51, 234, 0.6),
-          0 15px 40px rgba(124, 58, 237, 0.5),
-          inset 0 1px 0 rgba(255, 255, 255, 0.3);
-      }
-    }
-
-    @keyframes rotate {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
-    }
-
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-5px); }
-    }
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .container > div {
-        padding: 25px 20px !important;
+  
+  <script>
+    (function() {
+      const magicContainer = document.getElementById('magicEffects');
+      if (!magicContainer) return;
+      
+      const sparkleEmojis = ['✨', '⭐', '🌟', '💫', '✦', '✧', '⚡'];
+      
+      function createSparkle() {
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
+        sparkle.style.left = Math.random() * 100 + '%';
+        sparkle.style.top = Math.random() * 80 + 10 + '%';
+        sparkle.style.animationDelay = Math.random() * 2 + 's';
+        sparkle.style.animationDuration = (Math.random() * 2 + 2) + 's';
+        magicContainer.appendChild(sparkle);
+        
+        setTimeout(() => sparkle.remove(), 5000);
       }
       
-      /* Reducir padding del anuncio de Ceniza en móvil */
-      #ceniza {
-        padding: 15px 10px !important;
+      function createTwinkleStar() {
+        const star = document.createElement('div');
+        star.className = 'twinkle-star';
+        star.textContent = '✨';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.animationDelay = Math.random() * 2 + 's';
+        star.style.animationDuration = (Math.random() * 1.5 + 1.5) + 's';
+        magicContainer.appendChild(star);
+        
+        setTimeout(() => star.remove(), 6000);
       }
       
-      #ceniza > div {
-        padding: 15px !important;
+      // Crear estrellas titilantes estáticas (DOBLE cantidad)
+      for (let i = 0; i < 16; i++) {
+        setTimeout(createTwinkleStar, i * 150);
       }
       
-      #ceniza div[style*="padding: 35px"],
-      #ceniza div[style*="padding: 25px"] {
-        padding: 15px !important;
-      }
-      
-      /* Ajustar elementos del anuncio en móvil */
-      #ceniza [style*="display: flex"] {
-        flex-direction: column !important;
-        align-items: center !important;
-        padding-left: 0 !important;
-        padding-right: 0 !important;
-      }
-      
-      #ceniza [style*="max-width: 380px"] {
-        max-width: 100% !important;
-        width: 100% !important;
-        min-width: auto !important;
-        margin: 0 !important;
-      }
-      
-      /* Ajustar tamaño de texto en móvil */
-      #ceniza h3 {
-        font-size: 1.8rem !important;
-      }
-      
-      #ceniza [style*="font-size: 1.5rem"] {
-        font-size: 1.2rem !important;
-      }
-      
-      #ceniza [style*="font-size: 1.6rem"] {
-        font-size: 1.4rem !important;
-        /* text-align: justify !important; */
-      }
-      
-      #ceniza [style*="font-size: 1.8rem"] {
-        font-size: 1.3rem !important;
-      }
-      
-      /* Reducir interlineado de los párrafos del mensaje en móvil */
-      #ceniza p[style*="line-height: 1.5"] {
-        line-height: 1.4 !important;
-      }
-      
-      #ceniza p[style*="line-height: 1.2"] {
-        line-height: 0.9 !important;
-      }
-    }
-    
-    @media (min-width: 769px) and (max-width: 1200px) {
-      /* En tablets, ajustar el layout para que sea 2 columnas */
-      #ceniza {
-        max-width: 95vw !important;
-      }
-      
-      #ceniza [style*="max-width: 380px"] {
-        flex: 1 1 45% !important;
-      }
-      
-      #ceniza [style*="flex: 1 1 280px"] {
-        flex: 1 1 100% !important;
-      }
-      
-      /* Ajustar texto en tablets */
-      #ceniza h3 {
-        font-size: 2.3rem !important;
-      }
-      
-      #ceniza [style*="font-size: 1.5rem"] {
-        font-size: 1.35rem !important;
-      }
-      
-      #ceniza [style*="font-size: 1.8rem"] {
-        font-size: 1.6rem !important;
-      }
-    }
-  </style>
-  <!-- FIN ANUNCIO ESPECIAL -->
-
+      // Crear partículas flotantes continuamente (DOBLE frecuencia)
+      setInterval(createSparkle, 400);
+      setInterval(createTwinkleStar, 1500);
+    })();
+  </script>
+ 
 <br><br>
 
     <!-- Publicaciones de Facebook -->
@@ -2201,78 +1922,7 @@
       }
     }
   </style>
-  <div id="encuentro" style="display: flex; justify-content: center; align-items: center; padding: 40px 20px; position: relative;">
-    <div class="magic-container" style="max-width: 800px; width: 100%; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden; animation: fadeInUp 0.8s ease-out;">
-      <div id="magicEffects" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; overflow: visible;"></div>
-      <div style="padding: 10px 30px 10px 30px; text-align: center; background-image: url('./img/encuentro.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative; border-radius: 20px 20px 0 0;">
-        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.15); backdrop-filter: blur(0.5px); border-radius: 20px 20px 0 0;"></div>
-        <div style="position: relative; z-index: 1;">
-          <div style="margin-bottom: 20px;">
-            <!-- <span style="font-size: 3em;">✨</span> -->
-          </div>
-          <h2 style="font-family: 'Georgia', serif; font-size: 1.5em; color: #764ba2; margin: 0 0 15px 0; line-height: 1.4; font-weight: 600; text-shadow: 0 2px 8px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.8);">
-            "Donde hay dos o tres reunidos en mi nombre, yo estoy presente en medio de ellos"
-          </h2>
-          <p style="font-size: 1.1em; color: #555; margin: 0; font-style: italic; font-weight: 600; text-shadow: 0 1px 6px rgba(255,255,255,0.95), 0 0 8px rgba(255,255,255,0.8);">Mt. 18,20</p>
-        </div>
-      </div>
-      
-      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 0 0 20px 20px;">
-        <iframe 
-          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 0 0 20px 20px;"
-          src="https://www.youtube.com/embed/GuifrmBGS_w?autoplay=1&mute=0&loop=1&playlist=GuifrmBGS_w&rel=0&modestbranding=1" 
-          title="Reunidos en su nombre"    frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-          allowfullscreen
-          referrerpolicy="strict-origin-when-cross-origin">
-        </iframe>
-      </div>
-    </div>
-  </div>
-  
-  <script>
-    (function() {
-      const magicContainer = document.getElementById('magicEffects');
-      if (!magicContainer) return;
-      
-      const sparkleEmojis = ['✨', '⭐', '🌟', '💫', '✦', '✧', '⚡'];
-      
-      function createSparkle() {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle';
-        sparkle.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
-        sparkle.style.left = Math.random() * 100 + '%';
-        sparkle.style.top = Math.random() * 80 + 10 + '%';
-        sparkle.style.animationDelay = Math.random() * 2 + 's';
-        sparkle.style.animationDuration = (Math.random() * 2 + 2) + 's';
-        magicContainer.appendChild(sparkle);
-        
-        setTimeout(() => sparkle.remove(), 5000);
-      }
-      
-      function createTwinkleStar() {
-        const star = document.createElement('div');
-        star.className = 'twinkle-star';
-        star.textContent = '✨';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 100 + '%';
-        star.style.animationDelay = Math.random() * 2 + 's';
-        star.style.animationDuration = (Math.random() * 1.5 + 1.5) + 's';
-        magicContainer.appendChild(star);
-        
-        setTimeout(() => star.remove(), 6000);
-      }
-      
-      // Crear estrellas titilantes estáticas (DOBLE cantidad)
-      for (let i = 0; i < 16; i++) {
-        setTimeout(createTwinkleStar, i * 150);
-      }
-      
-      // Crear partículas flotantes continuamente (DOBLE frecuencia)
-      setInterval(createSparkle, 400);
-      setInterval(createTwinkleStar, 1500);
-    })();
-  </script>
+
 
   <!-- **GFE** -->
         <br><br>

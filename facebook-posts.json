@@ -17,24 +17,5 @@
     "playsinline": true,
     "enableZoom": false,
     "width":600
-  },
-   {
-    "id": "post-2",
-    "position": 2,
-    "type": "facebook",
-    "source": "facebook",
-    "layout": "full-row",
-    "orientation": "landscape",
-    "url": "https://www.facebook.com/photo/?fbid=10232929948891339&set=a.1655316943159",
-    "poster": "",
-    "title": "",
-    "description": "",
-    "autoplay": true,
-    "loop": false,
-    "muted": true,
-    "controls": true,
-    "playsinline": true,
-    "enableZoom": false,
-    "width": 500
   }
 ]
