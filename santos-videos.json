@@ -1,11 +1,23 @@
-[ 
-           {
+[   
+    {
     "id": 1,
-    "fecha": "18 de Febrero",
-    "santo": "Miércoles de Ceniza",
+    "fecha": "20 de Febrero",
+    "santo": "1er Viernes de cuaresma",
     "santoFontSize": "1.2em",
-    "poster": "./asantos/especiales/poster-ceni.jpg",
-    "video": "./asantos/especiales/ceniza.mp4",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/viernes1.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }
+  ,        {
+    "id": 2,
+    "fecha": "19 de Febrero",
+    "santo": "Cuaresma",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/cuaresma.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
@@ -13,30 +25,17 @@
   }
   ,  
            {
-    "id": 2,
-    "fecha": "17 de Febrero",
-    "santo": "7 Santos Fundadores de la Orden de los Siervos de María",
-    "santoFontSize": ".8em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/7.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
-  ,  
-         {
     "id": 3,
-    "fecha": "15 de Febrero",
-    "santo": "San Claudio de la Colombière",
+    "fecha": "18 de Febrero",
+    "santo": "Miércoles de Ceniza",
     "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/claudio.mp4",
+    "poster": "./asantos/especiales/poster-ceni.jpg",
+    "video": "./asantos/especiales/ceniza.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
   }
-
+ 
  
 ]
