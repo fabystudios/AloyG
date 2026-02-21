@@ -13,8 +13,8 @@
   }
   ,        {
     "id": 2,
-    "fecha": "19 de Febrero",
-    "santo": "Cuaresma",
+    "fecha": "Cuaresma",
+    "santo": "¿Qué significa?:",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/cuaresma.mp4",
