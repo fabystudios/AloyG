@@ -1,12 +1,12 @@
 [
     {
     "id": 1,
-    "fecha": "18 de Febrero",
-    "titulo": "Miércoles de Ceniza",
-    "subtitulo": "Conversión, Ayuno y Oración",
-    "videoMobile": "./asantos/especiales/ceniza.mp4",
-    "videoDesktop": "https://youtu.be/ilmmVSpXKdY",
+    "fecha": "22 de Febrero",
+    "titulo": "La Cátedra de San Pedro",
+    "subtitulo": "El Signo de la Autoridad de Cristo",
+    "videoMobile": "./asantos/especiales/pedro.mp4",
+    "videoDesktop": "https://youtu.be/y57wi9SXvEs",
     "poster": "./asantos/especiales/cposter-ceni.jpg",
-    "icono": "./img/ceni3.png"
+    "icono": "./img/lirios.png"
   }
 ]
