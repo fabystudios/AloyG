@@ -1,8 +1,8 @@
 [   
     {
     "id": 1,
-    "fecha": "20 de Febrero",
-    "santo": "1er Viernes de cuaresma",
+    "fecha": "1er Viernes",
+    "santo": "de cuaresma",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/viernes1.mp4",
