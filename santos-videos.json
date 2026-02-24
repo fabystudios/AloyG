@@ -1,41 +1,43 @@
 [   
-    {
+        {
     "id": 1,
-    "fecha": "1er Viernes",
-    "santo": "de cuaresma",
+    "fecha": "Historias",
+    "santo": "de Cuaresma",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/viernes1.mp4",
+    "video": "./asantos/centurion.mp4",
     "icono": "./img/cruz-cuaresma.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
     "showOnDesktop": true
   }
-  ,        {
-    "id": 2,
-    "fecha": "Cuaresma",
-    "santo": "¿Qué significa?:",
+  , 
+      {
+    "id": 1,
+    "fecha": "24 de Febrero",
+    "santo": "San Etelberto",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/cuaresma.mp4",
-    "icono": "./img/cruz-cuaresma.png",
+    "video": "./asantos/etel.mp4",
+    "icono": "./img/lirios.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
     "showOnDesktop": true
   }
   ,  
-           {
-    "id": 3,
-    "fecha": "18 de Febrero",
-    "santo": "Miércoles de Ceniza",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/especiales/poster-ceni.jpg",
-    "video": "./asantos/especiales/ceniza.mp4",
-    "icono": "./img/cruz-cuaresma.png",
+        {
+    "id": 1,
+    "fecha": "22 de Febrero",
+    "santo": "La cátedra de San Pedro",
+    "santoFontSize": "0.9em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/etel.mp4",
+    "icono": "./img/lirios.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
   }
+
  
  
 ]
