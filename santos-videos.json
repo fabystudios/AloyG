@@ -11,33 +11,5 @@
     "showOnMobile": true,
     "showOnDesktop": true
   }
-  , 
-      {
-    "id": 2,
-    "fecha": "24 de Febrero",
-    "santo": "San Etelberto",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/etel.mp4",
-    "icono": "./img/lirios.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
-  ,  
-        {
-    "id": 3,
-    "fecha": "22 de Febrero",
-    "santo": "La cátedra de San Pedro",
-    "santoFontSize": "0.9em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/especiales/pedro.mp4",
-    "icono": "./img/lirios.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
 
- 
- 
 ]
