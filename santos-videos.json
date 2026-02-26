@@ -21,7 +21,7 @@
     "video": "./asantos/etel.mp4",
     "icono": "./img/lirios.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   }
   ,  
