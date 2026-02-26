@@ -1,12 +1,12 @@
 [
-    {
+    {  vieja version
     "id": 1,
-    "fecha": "22 de Febrero",
-    "titulo": "La Cátedra de San Pedro",
-    "subtitulo": "El Signo de la Autoridad de Cristo",
-    "videoMobile": "./asantos/especiales/pedro.mp4",
-    "videoDesktop": "https://youtu.be/y57wi9SXvEs",
+    "fecha": "",
+    "titulo": "Jesús es Tentado en el Desierto",
+    "subtitulo": "",
+    "videoMobile": "./asantos/especiales/dia40.mp4",
+    "videoDesktop": "https://youtu.be/jFiK3Zq1I6Q",
     "poster": "./asantos/especiales/cposter-ceni.jpg",
-    "icono": "./img/lirios.png"
+    "icono": "./img/cristo.png"
   }
 ]
