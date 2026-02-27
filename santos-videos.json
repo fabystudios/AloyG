@@ -1,6 +1,18 @@
 [   
         {
     "id": 1,
+    "fecha": "27 de Febrero",
+    "santo": "San Gabriel de la Dolorosa",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/gaby.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+        {
+    "id": 2,
     "fecha": "Historias",
     "santo": "de Cuaresma",
     "santoFontSize": "1.2em",
@@ -8,8 +20,7 @@
     "video": "./asantos/centurion.mp4",
     "icono": "./img/cruz-cuaresma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   }
-
 ]
