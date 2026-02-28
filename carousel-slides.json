@@ -1,7 +1,23 @@
 [
-         {
+       {
     "id": "",
     "position": 1,
+    "hasVideo": true,
+    "link": "",
+    "desktop": {
+      "type": "video",
+      "src": "./video/misaenf_desk.mp4",
+      "poster": "./video/misaenf_desk.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/misaenf_mob.mp4",
+      "poster": "./video/misaenf_mob.png"
+    }
+  },
+         {
+    "id": "",
+    "position": -1,
     "hasVideo": true,
     "link": "",
     "desktop": {
