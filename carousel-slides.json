@@ -33,7 +33,7 @@
   },
        {
     "id": "",
-    "position": 5,
+    "position": 4,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -65,7 +65,7 @@
   },
     {
     "id": "",
-    "position": 3,
+    "position": -1,
     "hasVideo": true,
     "link": "#encuentro",
     "desktop": {
@@ -81,7 +81,7 @@
   },
   {
     "id": "feria",
-    "position": 2,
+    "position": 3,
     "hasVideo": true,
     "link": "#feria",
     "desktop": {
@@ -97,7 +97,7 @@
   },
   {
     "id": "rifa2",
-    "position": -1,
+    "position": 2,
     "hasVideo": true,
     "link": "#rifa",
     "desktop": {
@@ -107,7 +107,7 @@
     },
     "mobile": {
       "type": "video",
-      "src": "./video/rifa2-mov-mobile.mp4",
+      "src": "./video/rifa4-mov-mobile.mp4",
       "poster": "./slides/rifa2-mobile.png"
     }
   },
@@ -193,7 +193,7 @@
   },
   {
     "id": "banner2",
-    "position": 4,
+    "position": -1,
     "hasVideo": true,
     "link": "#banner2",
     "desktop": {
