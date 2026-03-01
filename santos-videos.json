@@ -2,11 +2,11 @@
 
         {
     "id": 1,
-    "fecha": "28 de Febrero",
-    "santo": "Beata Antonia de Florencia",
+    "fecha": "29 de Febrero",
+    "santo": "San Albino de Angers",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/anto.mp4",
+    "video": "./asantos/albino.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
