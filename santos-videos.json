@@ -18,10 +18,10 @@
     "santo": "San Gabriel de la Dolorosa",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/gaby.mp4",
+    "video": "./asantos/gaby2.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": false,
+    "showOnMobile": true,
     "showOnDesktop": true
   },
         {
