@@ -1,12 +1,11 @@
 [   
-
         {
     "id": 1,
-    "fecha": "1 de Marzo",
-    "santo": "San Albino de Angers",
+    "fecha": "2 de Marzo",
+    "santo": "Santa Ángela de la Cruz",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/albino.mp4",
+    "video": "./asantos/angela.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
