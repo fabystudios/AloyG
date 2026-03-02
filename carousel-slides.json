@@ -17,7 +17,7 @@
   },
          {
     "id": "",
-    "position": -1,
+    "position": 4,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -33,7 +33,7 @@
   },
        {
     "id": "",
-    "position": 4,
+    "position": 3,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -81,7 +81,7 @@
   },
   {
     "id": "feria",
-    "position": 3,
+    "position": 2,
     "hasVideo": true,
     "link": "#feria",
     "desktop": {
@@ -97,7 +97,7 @@
   },
   {
     "id": "rifa2",
-    "position": 2,
+    "position": 1,
     "hasVideo": true,
     "link": "#rifa",
     "desktop": {
