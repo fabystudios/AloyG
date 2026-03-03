@@ -1,11 +1,11 @@
 [   
         {
     "id": 1,
-    "fecha": "2 de Marzo",
-    "santo": "Santa Ángela de la Cruz",
+    "fecha": "3 de Marzo",
+    "santo": "Santa Catalina Drexel",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/angela.mp4",
+    "video": "./asantos/cat.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
