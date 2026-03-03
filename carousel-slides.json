@@ -1,4 +1,20 @@
 [
+         {
+    "id": "",
+    "position": 1,
+    "hasVideo": true,
+    "link": "",
+    "desktop": {
+      "type": "video",
+      "src": "./video/capilla_desk.mp4",
+      "poster": "./video/capilla_desk.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/capilla_mob.mp4",
+      "poster": "./video/capilla_mob.png"
+    }
+  },
        {
     "id": "",
     "position": -1,
@@ -17,7 +33,7 @@
   },
          {
     "id": "",
-    "position": 4,
+    "position": 2,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -33,7 +49,7 @@
   },
        {
     "id": "",
-    "position": 3,
+    "position": -1,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -81,7 +97,7 @@
   },
   {
     "id": "feria",
-    "position": 2,
+    "position": 3,
     "hasVideo": true,
     "link": "#feria",
     "desktop": {
@@ -97,7 +113,7 @@
   },
   {
     "id": "rifa2",
-    "position": 1,
+    "position": 4,
     "hasVideo": true,
     "link": "#rifa",
     "desktop": {
