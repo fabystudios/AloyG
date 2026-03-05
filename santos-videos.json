@@ -1,11 +1,11 @@
 [   
         {
     "id": 1,
-    "fecha": "3 de Marzo",
-    "santo": "Santa Catalina Drexel",
+    "fecha": "5 de Marzo",
+    "santo": "San Adrián",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/cat.mp4",
+    "video": "./asantos/adri.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
