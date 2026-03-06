@@ -1,11 +1,11 @@
 [   
-        {
+          {
     "id": 1,
-    "fecha": "5 de Marzo",
-    "santo": "San Adrián",
+    "fecha": "6 de Marzo",
+    "santo": "San Olegario",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/adri.mp4",
+    "video": "./asantos/ole.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
@@ -13,11 +13,11 @@
   },
         {
     "id": 2,
-    "fecha": "27 de Febrero",
-    "santo": "San Gabriel de la Dolorosa",
+    "fecha": "5 de Marzo",
+    "santo": "San Juan José de la Cruz",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/gaby2.mp4",
+    "video": "./asantos/sanj.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
