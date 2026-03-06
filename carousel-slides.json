@@ -17,7 +17,7 @@
     "overlay": {
       "src": "./img/eshoy.png",
       "desktopPos": "center",
-      "mobilePos": "top-quarter",
+      "mobilePos": "bottom-quarter",
       "effect": "blink",
       "desktopScale": 0.4,
       "mobileScale": 0.5
