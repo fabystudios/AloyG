@@ -2990,4 +2990,160 @@ left: 10%;  /* ajuste horizontal en porcentaje */
   padding: clamp(8px,1.5vw,20px) !important;
 }
 
+/* ============================================================
+   Carousel Overlay Images - Superposición de imágenes sobre slides
+   ============================================================ */
 
+/* Estilos base para overlay */
+.slide-overlay {
+  position: absolute;
+  z-index: 10;
+  pointer-events: none;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  transform: scale(var(--overlay-scale-desktop, 1));
+  transition: transform 0.3s ease;
+}
+
+/* Posiciones Desktop */
+.slide-overlay[data-desktop-pos="center"] {
+  background-position: center center;
+}
+
+.slide-overlay[data-desktop-pos="top-left"] {
+  background-position: 10% 10%;
+}
+
+.slide-overlay[data-desktop-pos="top-right"] {
+  background-position: 90% 10%;
+}
+
+.slide-overlay[data-desktop-pos="top-center"] {
+  background-position: 50% 10%;
+}
+
+.slide-overlay[data-desktop-pos="bottom-left"] {
+  background-position: 10% 90%;
+}
+
+.slide-overlay[data-desktop-pos="bottom-right"] {
+  background-position: 90% 90%;
+}
+
+.slide-overlay[data-desktop-pos="bottom-center"] {
+  background-position: 50% 90%;
+}
+
+.slide-overlay[data-desktop-pos="top-quarter"] {
+  background-position: 50% 25%;
+}
+
+/* Posiciones Mobile */
+@media (max-width: 768px) {
+  .slide-overlay {
+    transform: scale(var(--overlay-scale-mobile, 1));
+  }
+  
+  .slide-overlay[data-mobile-pos="center"] {
+    background-position: center center !important;
+  }
+  
+  .slide-overlay[data-mobile-pos="top-left"] {
+    background-position: 10% 10% !important;
+  }
+  
+  .slide-overlay[data-mobile-pos="top-right"] {
+    background-position: 90% 10% !important;
+  }
+  
+  .slide-overlay[data-mobile-pos="top-center"] {
+    background-position: 50% 10% !important;
+  }
+  
+  .slide-overlay[data-mobile-pos="bottom-left"] {
+    background-position: 10% 90% !important;
+  }
+  
+  .slide-overlay[data-mobile-pos="bottom-right"] {
+    background-position: 90% 90% !important;
+  }
+  
+  .slide-overlay[data-mobile-pos="bottom-center"] {
+    background-position: 50% 90% !important;
+  }
+  
+  .slide-overlay[data-mobile-pos="top-quarter"] {
+    background-position: 50% 25% !important;
+  }
+}
+
+/* Efectos de animación */
+@keyframes overlayBlink {
+  0%, 49% { opacity: 1; }
+  50%, 99% { opacity: 0; }
+}
+
+@keyframes overlayFade {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+@keyframes overlayPulse {
+  0%, 100% { 
+    transform: scale(var(--current-scale, 1)); 
+  }
+  50% { 
+    transform: scale(calc(var(--current-scale, 1) * 1.1)); 
+  }
+}
+
+@keyframes overlayZoom {
+  0%, 100% { 
+    transform: scale(var(--current-scale, 1)); 
+  }
+  50% { 
+    transform: scale(calc(var(--current-scale, 1) * 1.2)); 
+  }
+}
+
+/* Aplicar efectos */
+.slide-overlay[data-effect="blink"] {
+  animation: overlayBlink 1.5s infinite;
+  --current-scale: var(--overlay-scale-desktop, 1);
+}
+
+.slide-overlay[data-effect="fade"] {
+  animation: overlayFade 3s infinite;
+  --current-scale: var(--overlay-scale-desktop, 1);
+}
+
+.slide-overlay[data-effect="pulse"] {
+  animation: overlayPulse 2s infinite ease-in-out;
+  --current-scale: var(--overlay-scale-desktop, 1);
+}
+
+.slide-overlay[data-effect="zoom"] {
+  animation: overlayZoom 2.5s infinite ease-in-out;
+  --current-scale: var(--overlay-scale-desktop, 1);
+}
+
+.slide-overlay[data-effect="none"] {
+  animation: none;
+  --current-scale: var(--overlay-scale-desktop, 1);
+}
+
+/* Escala mobile para efectos animados */
+@media (max-width: 768px) {
+  .slide-overlay[data-effect="blink"],
+  .slide-overlay[data-effect="fade"],
+  .slide-overlay[data-effect="pulse"],
+  .slide-overlay[data-effect="zoom"],
+  .slide-overlay[data-effect="none"] {
+    --current-scale: var(--overlay-scale-mobile, 1);
+  }
+}

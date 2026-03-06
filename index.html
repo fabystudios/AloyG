@@ -717,23 +717,35 @@
             const hasVideoAttr = slide.hasVideo ? ' data-has-video="true"' : '';
             const preloadAttr = (preloadIndex < 2) ? 'auto' : 'none';
             
+            let content = '';
             if (slide.hasVideo && slide.desktop.type === 'video') {
-              return `<div class="carousel-item${activeClass}"${hasVideoAttr}>
-                <a href="${slide.link}">
+              content = `<a href="${slide.link}">
                   <video src="${slide.desktop.src}" class="d-none d-md-block w-100" alt="${slide.id} escritorio" 
                          autoplay muted loop playsinline preload="${preloadAttr}" poster="${slide.desktop.poster}"></video>
                   <video src="${slide.mobile.src}" class="d-block d-md-none w-100" alt="${slide.id} móvil" 
                          autoplay muted loop playsinline preload="${preloadAttr}" poster="${slide.mobile.poster}"></video>
-                </a>
-              </div>`;
+                </a>`;
             } else {
-              return `<div class="carousel-item${activeClass}"${hasVideoAttr}>
-                <a href="${slide.link}">
+              content = `<a href="${slide.link}">
                   <img src="${slide.desktop.src}" class="d-none d-md-block w-100" alt="${slide.id} escritorio" loading="${isFirst ? 'eager' : 'lazy'}">
                   <img src="${slide.mobile.src}" class="d-block d-md-none w-100" alt="${slide.id} móvil" loading="${isFirst ? 'eager' : 'lazy'}">
-                </a>
-              </div>`;
+                </a>`;
             }
+            
+            // Generar HTML del overlay si existe
+            let overlayHTML = '';
+            if (slide.overlay && slide.overlay.src) {
+              const {src, desktopPos, mobilePos, effect, desktopScale, mobileScale} = slide.overlay;
+              overlayHTML = `
+                <div class="slide-overlay" 
+                     data-desktop-pos="${desktopPos || 'center'}" 
+                     data-mobile-pos="${mobilePos || 'center'}" 
+                     data-effect="${effect || 'none'}"
+                     style="background-image: url('${src}'); --overlay-scale-desktop: ${desktopScale || 1}; --overlay-scale-mobile: ${mobileScale || 1};">
+                </div>`;
+            }
+            
+            return `<div class="carousel-item${activeClass}"${hasVideoAttr}>${content}${overlayHTML}</div>`;
           }
           
           async function loadCarousel() {

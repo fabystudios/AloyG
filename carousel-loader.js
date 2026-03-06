@@ -83,7 +83,20 @@
         </a>`;
     }
     
-    return `<div class="carousel-item${activeClass}"${hasVideoAttr}>${content}</div>`;
+    // Generar HTML del overlay si existe
+    let overlayHTML = '';
+    if (slide.overlay && slide.overlay.src) {
+      const {src, desktopPos, mobilePos, effect, desktopScale, mobileScale} = slide.overlay;
+      overlayHTML = `
+        <div class="slide-overlay" 
+             data-desktop-pos="${desktopPos || 'center'}" 
+             data-mobile-pos="${mobilePos || 'center'}" 
+             data-effect="${effect || 'none'}"
+             style="background-image: url('${src}'); --overlay-scale-desktop: ${desktopScale || 1}; --overlay-scale-mobile: ${mobileScale || 1};">
+        </div>`;
+    }
+    
+    return `<div class="carousel-item${activeClass}"${hasVideoAttr}>${content}${overlayHTML}</div>`;
   }
 
   // Función principal de carga

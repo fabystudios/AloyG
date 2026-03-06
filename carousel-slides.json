@@ -13,6 +13,14 @@
       "type": "video",
       "src": "./video/capilla_mob.mp4",
       "poster": "./video/capilla_mob.png"
+    },
+    "overlay": {
+      "src": "./img/eshoy.png",
+      "desktopPos": "center",
+      "mobilePos": "top-quarter",
+      "effect": "blink",
+      "desktopScale": 0.4,
+      "mobileScale": 0.5
     }
   },
        {
