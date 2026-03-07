@@ -1049,15 +1049,18 @@
       100% { transform: rotate(360deg); }
     }
 
-    /* Formato cuadrado 1:1 solo en mobile */
+    /* Formato cuadrado 1:1 solo en mobile con recorte centrado */
     @media (max-width: 768px) {
       .video-reflexiones-container {
-        padding-bottom: 100% !important; /* Aspect ratio 1:1 para formato cuadrado */
+        padding-bottom: 100% !important; /* Contenedor cuadrado 1:1 */
       }
       
       .video-reflexiones-iframe {
-        object-fit: cover;
-        object-position: center;
+        /* Hacer el iframe más grande para recortar los bordes y centrar */
+        width: 177.78% !important; /* 16/9 = 1.778 -> para llenar un cuadrado */
+        height: 100% !important;
+        left: 50% !important;
+        transform: translateX(-50%) !important;
       }
       
       .reflexiones-card {
