@@ -1,23 +1,24 @@
 [   
-          {
-    "id": 1,
-    "fecha": "6 de Marzo",
-    "santo": "San Olegario",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/ole.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": true,
-    "showOnDesktop": true
-  },
+
         {
-    "id": 2,
+    "id": 1,
     "fecha": "5 de Marzo",
     "santo": "San Juan José de la Cruz",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/sanj.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+            {
+    "id": 2,
+    "fecha": "25 de Febrero",
+    "santo": "Santa Walburga",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/monja.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
