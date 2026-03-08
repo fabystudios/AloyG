@@ -1,11 +1,11 @@
 [   
         {
     "id": 1,
-    "fecha": "7 de Marzo",
-    "santo": "Santa Mamá Antula",
+    "fecha": "8 de Marzo",
+    "santo": "San Juan de Dios",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/antula.mp4",
+    "video": "./asantos/juan.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
