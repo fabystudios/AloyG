@@ -1,7 +1,25 @@
 [
+         {
+    "id": "",
+    "position": 1,
+    "hasVideo": true,
+    "link": "",
+    "desktop": {
+      "type": "video",
+      "src": "./video/horario_desk.mp4",
+      "poster": "./video/horario_desk.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/horario_mob.mp4",
+      "poster": "./video/horario_mob.png"
+    }
+
+    
+  },
         {
     "id": "retiro",
-    "position": 1,
+    "position": 2,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -59,7 +77,7 @@
   },
          {
     "id": "",
-    "position": 2,
+    "position": 3,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -123,7 +141,7 @@
   },
   {
     "id": "feria",
-    "position": 4,
+    "position": 5,
     "hasVideo": true,
     "link": "#feria",
     "desktop": {
@@ -139,7 +157,7 @@
   },
   {
     "id": "rifa2",
-    "position": 5,
+    "position": -1,
     "hasVideo": true,
     "link": "#rifa",
     "desktop": {
@@ -203,7 +221,7 @@
   },
   {
     "id": "asistencia",
-    "position": 3,
+    "position": 4,
     "hasVideo": true,
     "link": "#asistencia",
     "desktop": {
