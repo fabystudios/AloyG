@@ -125,8 +125,13 @@ class GlassmorphismVideo extends HTMLElement {
           text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
         @media (max-width: 600px) {
-          .gm-title { font-size: 1.1em; }
+          .gm-title { font-size: 1.1em !important; }
           .gm-title-icon { font-size: 1.6em !important; }
+          /* En mobile: video arriba, dial abajo */
+          .gm-layout { flex-direction: column !important; }
+          /* Dial horizontal en mobile */
+          .gm-dial-wrapper { flex-direction: row !important; align-items: center !important; justify-content: center !important; width: 100% !important; }
+          .gm-dial-inner { flex-direction: row !important; padding: 12px 20px !important; gap: 18px !important; width: auto !important; border-radius: 50px !important; }
         }
       </style>
       
@@ -163,7 +168,7 @@ class GlassmorphismVideo extends HTMLElement {
           "></div>
           
           <!-- Contenido del video -->
-          <div style="position: relative; z-index: 2; display: flex; align-items: center; gap: 24px;">
+          <div class="gm-layout" style="position: relative; z-index: 2; display: flex; align-items: center; gap: 24px;">
             
             <!-- Columna principal: título + video -->
             <div style="flex: 1; min-width: 0;">
@@ -190,8 +195,8 @@ class GlassmorphismVideo extends HTMLElement {
 
             ${localSrc ? `
             <!-- Dial retro de TV -->
-            <div style="display: flex; flex-direction: column; align-items: center; flex-shrink: 0;">
-              <div style="
+            <div class="gm-dial-wrapper" style="display: flex; flex-direction: column; align-items: center; flex-shrink: 0;">
+              <div class="gm-dial-inner" style="
                 background: linear-gradient(160deg, #3e2a14, #5c3d20, #2a1a08);
                 border-radius: 14px;
                 padding: 18px 14px;
