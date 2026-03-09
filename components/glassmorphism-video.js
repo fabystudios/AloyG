@@ -129,8 +129,11 @@ class GlassmorphismVideo extends HTMLElement {
           .gm-title-icon { font-size: 1.6em !important; }
           /* En mobile: video arriba, dial abajo */
           .gm-layout { flex-direction: column !important; }
+          /* Contenedor ocupa casi todo el ancho */
+          .video-container-gm { margin: 16px 4px !important; padding: 10px !important; border-radius: 18px !important; }
+          .video-card-gm { padding: 14px !important; border-radius: 16px !important; }
           /* Dial horizontal en mobile */
-          .gm-dial-wrapper { flex-direction: row !important; align-items: center !important; justify-content: center !important; width: 100% !important; }
+          .gm-dial-wrapper { flex-direction: row !important; align-items: center !important; justify-content: center !important; width: 100% !important; margin-top: 14px; }
           .gm-dial-inner { flex-direction: row !important; padding: 12px 20px !important; gap: 18px !important; width: auto !important; border-radius: 50px !important; }
         }
       </style>
