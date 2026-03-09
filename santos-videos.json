@@ -11,8 +11,20 @@
     "showOnMobile": true,
     "showOnDesktop": true
   },
-        {
+          {
     "id": 2,
+    "fecha": "8 de Marzo",
+    "santo": "San Juan de Dios",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/juan.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+        {
+    "id": 3,
     "fecha": "5 de Marzo",
     "santo": "San Juan José de la Cruz",
     "santoFontSize": "1.2em",
@@ -24,7 +36,7 @@
     "showOnDesktop": true
   },
             {
-    "id": 3,
+    "id": 4,
     "fecha": "25 de Febrero",
     "santo": "Santa Walburga",
     "santoFontSize": "1.2em",
@@ -36,7 +48,7 @@
     "showOnDesktop": true
   },
         {
-    "id": 4,
+    "id": 5,
     "fecha": "Historias",
     "santo": "de Cuaresma",
     "santoFontSize": "1.2em",

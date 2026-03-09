@@ -19,7 +19,7 @@
   },
         {
     "id": "retiro",
-    "position": 2,
+    "position": 3,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -77,7 +77,7 @@
   },
          {
     "id": "",
-    "position": 3,
+    "position": -1,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -141,7 +141,7 @@
   },
   {
     "id": "feria",
-    "position": 5,
+    "position": 2,
     "hasVideo": true,
     "link": "#feria",
     "desktop": {
@@ -221,7 +221,7 @@
   },
   {
     "id": "asistencia",
-    "position": 4,
+    "position": -1,
     "hasVideo": true,
     "link": "#asistencia",
     "desktop": {
