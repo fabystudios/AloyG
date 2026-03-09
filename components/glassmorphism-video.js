@@ -128,13 +128,21 @@ class GlassmorphismVideo extends HTMLElement {
           .gm-title { font-size: 1.1em !important; }
           .gm-title-icon { font-size: 1.6em !important; }
           /* En mobile: video arriba, dial abajo */
-          .gm-layout { flex-direction: column !important; }
-          /* Contenedor ocupa casi todo el ancho */
-          .video-container-gm { margin: 16px 4px !important; padding: 10px !important; border-radius: 18px !important; }
-          .video-card-gm { padding: 14px !important; border-radius: 16px !important; }
-          /* Dial horizontal en mobile */
-          .gm-dial-wrapper { flex-direction: row !important; align-items: center !important; justify-content: center !important; width: 100% !important; margin-top: 14px; }
-          .gm-dial-inner { flex-direction: row !important; padding: 12px 20px !important; gap: 18px !important; width: auto !important; border-radius: 50px !important; }
+          .gm-layout { flex-direction: column !important; gap: 0 !important; }
+          /* Contenedor: casi full-width */
+          .video-container-gm { margin: 16px 4px !important; padding: 8px !important; border-radius: 22px !important; }
+          /* Card interna: padding mínimo → video máximo */
+          .video-card-gm { padding: 8px !important; border-radius: 18px !important; }
+          /* Dial: ocupa todo el ancho, más alto */
+          .gm-dial-wrapper { flex-direction: row !important; align-items: center !important; justify-content: center !important; width: 100% !important; margin-top: 5px; }
+          .gm-dial-inner { flex-direction: row !important; padding: 8px 24px !important; gap: 20px !important; width: 85% !important; border-radius: 50px !important; justify-content: center; }
+          /* Knob más grande en mobile */
+          .tv-dial-gm { width: 60px !important; height: 60px !important; }
+          .dial-light-gm { width: 14px !important; height: 14px !important; }
+          /* Columna de video ocupa todo el ancho */
+          .gm-video-col { width: 100% !important; flex: none !important; }
+          /* Menos margen bajo el título en mobile */
+          .gm-title-row { margin-bottom: 10px !important; }
         }
       </style>
       
@@ -174,9 +182,9 @@ class GlassmorphismVideo extends HTMLElement {
           <div class="gm-layout" style="position: relative; z-index: 2; display: flex; align-items: center; gap: 24px;">
             
             <!-- Columna principal: título + video -->
-            <div style="flex: 1; min-width: 0;">
+            <div class="gm-video-col" style="flex: 1; min-width: 0;">
               <!-- Título decorativo -->
-              <div style="text-align: center; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 12px;">
+              <div class="gm-title-row" style="text-align: center; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 12px;">
                 <i class="material-icons gm-title-icon" style="font-size: 2.5em; color: white; filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));">${icon}</i>
                 <h3 class="gm-title">${title}</h3>
               </div>
