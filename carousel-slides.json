@@ -1,7 +1,25 @@
 [
+       {
+    "id": "cursillos",
+    "position": 1,
+    "hasVideo": true,
+    "link": "",
+    "desktop": {
+      "type": "video",
+      "src": "./video/cursillos_desk.mp4",
+      "poster": "./video/cursillos_desk.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/cursillos_mob.mp4",
+      "poster": "./video/cursillos_mob.jpg"
+    }
+
+    
+  },
          {
     "id": "horas",
-    "position": 1,
+    "position": 2,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -19,7 +37,7 @@
   },
         {
     "id": "retiro",
-    "position": 3,
+    "position": 4,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -141,7 +159,7 @@
   },
   {
     "id": "feria",
-    "position": 2,
+    "position": 3,
     "hasVideo": true,
     "link": "#feria",
     "desktop": {

@@ -332,6 +332,7 @@ class CorkMuralCarousel extends HTMLElement {
     const modalPrev  = document.getElementById(uid + '-modal-prev');
     const modalNext  = document.getElementById(uid + '-modal-next');
     let   modalIndex = 0;
+    let   _modalOpenAt = 0;   // guard contra ghost-tap
 
     // Recolecta las fotos del carrusel en orden
     const getImgs = () => Array.from(track.querySelectorAll('img'));
@@ -363,6 +364,7 @@ class CorkMuralCarousel extends HTMLElement {
     };
 
     const openModal = (idx) => {
+      _modalOpenAt = Date.now();
       modalIndex = idx;
       const imgs = getImgs();
       modalImg.src = imgs[idx].src;
@@ -430,7 +432,10 @@ class CorkMuralCarousel extends HTMLElement {
       if (d < 0 && modalIndex > 0)                    showModalImg(modalIndex - 1, -1);
     }, { passive: true });
 
-    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    modal.addEventListener('click', e => {
+      if (Date.now() - _modalOpenAt < 400) return; // ignorar ghost-tap
+      if (e.target === modal) closeModal();
+    });
     closeBtn.addEventListener('click', closeModal);
     document.addEventListener('keydown', e => {
       if (modal.style.display !== 'flex') return;
