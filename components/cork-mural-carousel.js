@@ -50,7 +50,7 @@ class CorkMuralCarousel extends HTMLElement {
         <div class="cmc-slide" style="flex:0 0 75%;padding:0 8px;box-sizing:border-box;">
           <div style="background:#f5f0e8;padding:10px 10px 28px 10px;border-radius:3px;
                       box-shadow:0 8px 28px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.9);
-                      transform:rotate(${rot}deg);">
+                      transform:rotate(${rot}deg);cursor:pointer;" data-cmc-open>
             <img src="${CorkMuralCarousel._esc(folder)}${i + 1}.${CorkMuralCarousel._esc(ext)}"
                  alt="${CorkMuralCarousel._esc(subtitle || 'Foto')} ${i + 1}"
                  loading="lazy"
@@ -203,6 +203,56 @@ class CorkMuralCarousel extends HTMLElement {
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Modal zoom -->
+      <div id="${uid}-modal" style="
+        display:none;position:fixed;inset:0;z-index:9999;
+        background:rgba(0,0,0,0.88);
+        align-items:center;justify-content:center;
+        padding:16px;box-sizing:border-box;
+        cursor:zoom-out;
+      ">
+        <!-- Prev modal -->
+        <button id="${uid}-modal-prev" aria-label="Anterior" style="
+          position:fixed;left:12px;top:50%;transform:translateY(-50%);
+          width:46px;height:46px;border-radius:50%;border:none;
+          background:rgba(255,255,255,0.18);backdrop-filter:blur(8px);
+          color:#fff;font-size:2rem;line-height:1;
+          box-shadow:0 2px 12px rgba(0,0,0,0.5);
+          cursor:pointer;display:flex;align-items:center;justify-content:center;
+          padding:0;z-index:1;
+        ">&#8249;</button>
+        <img id="${uid}-modal-img" src="" alt="" style="
+          max-width:calc(100% - 120px);max-height:90vh;
+          border-radius:4px;
+          box-shadow:0 0 60px rgba(0,0,0,0.8);
+          background:#f5f0e8;
+          padding:10px 10px 32px;
+          object-fit:contain;
+          transform:scale(0.85);opacity:0;
+          transition:transform 0.28s cubic-bezier(0.34,1.56,0.64,1),opacity 0.22s ease;
+          cursor:default;
+        ">
+        <!-- Next modal -->
+        <button id="${uid}-modal-next" aria-label="Siguiente" style="
+          position:fixed;right:12px;top:50%;transform:translateY(-50%);
+          width:46px;height:46px;border-radius:50%;border:none;
+          background:rgba(255,255,255,0.18);backdrop-filter:blur(8px);
+          color:#fff;font-size:2rem;line-height:1;
+          box-shadow:0 2px 12px rgba(0,0,0,0.5);
+          cursor:pointer;display:flex;align-items:center;justify-content:center;
+          padding:0;z-index:1;
+        ">&#8250;</button>
+        <button id="${uid}-modal-close" aria-label="Cerrar" style="
+          position:fixed;top:18px;right:18px;
+          width:42px;height:42px;border-radius:50%;border:none;
+          background:rgba(255,255,255,0.18);backdrop-filter:blur(8px);
+          color:#fff;font-size:1.6rem;line-height:1;
+          box-shadow:0 2px 12px rgba(0,0,0,0.5);
+          cursor:pointer;display:flex;align-items:center;justify-content:center;
+          padding:0;
+        ">&#10005;</button>
       </div>`;
 
     this._initCarousel(uid, count);
@@ -274,6 +324,120 @@ class CorkMuralCarousel extends HTMLElement {
     });
 
     window.addEventListener('resize', () => update(false));
+
+    /* ── Modal zoom ───────────────────────────────────────── */
+    const modal      = document.getElementById(uid + '-modal');
+    const modalImg   = document.getElementById(uid + '-modal-img');
+    const closeBtn   = document.getElementById(uid + '-modal-close');
+    const modalPrev  = document.getElementById(uid + '-modal-prev');
+    const modalNext  = document.getElementById(uid + '-modal-next');
+    let   modalIndex = 0;
+
+    // Recolecta las fotos del carrusel en orden
+    const getImgs = () => Array.from(track.querySelectorAll('img'));
+
+    const showModalImg = (idx, dir) => {
+      const imgs = getImgs();
+      if (idx < 0 || idx >= imgs.length) return;
+      modalIndex = idx;
+      const img = imgs[idx];
+      // animación de slide
+      const outX = dir > 0 ? '-60px' : '60px';
+      modalImg.style.transition = 'none';
+      modalImg.style.transform  = `translateX(${dir === 0 ? '0' : outX.replace('-','')}) scale(${dir === 0 ? 0.85 : 1})`;
+      modalImg.style.opacity    = dir === 0 ? '0' : '0';
+      requestAnimationFrame(() => {
+        modalImg.src = img.src;
+        modalImg.alt = img.alt;
+        modalImg.style.transition = 'transform 0.28s cubic-bezier(0.34,1.56,0.64,1),opacity 0.22s ease';
+        requestAnimationFrame(() => {
+          modalImg.style.transform = 'translateX(0) scale(1)';
+          modalImg.style.opacity   = '1';
+        });
+      });
+      modalPrev.style.opacity = idx === 0              ? '0.3' : '1';
+      modalNext.style.opacity = idx === imgs.length-1  ? '0.3' : '1';
+      // sincroniza el carrusel principal
+      current = idx;
+      update(true);
+    };
+
+    const openModal = (idx) => {
+      modalIndex = idx;
+      const imgs = getImgs();
+      modalImg.src = imgs[idx].src;
+      modalImg.alt = imgs[idx].alt;
+      modal.style.display = 'flex';
+      document.body.style.overflow = 'hidden';
+      modalImg.style.transition = 'none';
+      modalImg.style.transform  = 'scale(0.85)';
+      modalImg.style.opacity    = '0';
+      modalPrev.style.opacity   = idx === 0             ? '0.3' : '1';
+      modalNext.style.opacity   = idx === imgs.length-1 ? '0.3' : '1';
+      requestAnimationFrame(() => {
+        modalImg.style.transition = 'transform 0.28s cubic-bezier(0.34,1.56,0.64,1),opacity 0.22s ease';
+        requestAnimationFrame(() => {
+          modalImg.style.transform = 'scale(1)';
+          modalImg.style.opacity   = '1';
+        });
+      });
+    };
+
+    const closeModal = () => {
+      modalImg.style.transform = 'scale(0.85)';
+      modalImg.style.opacity   = '0';
+      setTimeout(() => {
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+      }, 260);
+    };
+
+    // clicks en las fotos (distingue drag de tap)
+    track.addEventListener('click', e => {
+      const card = e.target.closest('[data-cmc-open]');
+      if (!card) return;
+      if (Math.abs(dragStartX - e.clientX) > 6) return;
+      const idx = Array.from(track.querySelectorAll('[data-cmc-open]')).indexOf(card);
+      openModal(idx >= 0 ? idx : 0);
+    });
+    // tap en mobile
+    let touchStartX = 0, touchStartY = 0;
+    track.addEventListener('touchstart', e => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    track.addEventListener('touchend', e => {
+      const dx = Math.abs(touchStartX - e.changedTouches[0].clientX);
+      const dy = Math.abs(touchStartY - e.changedTouches[0].clientY);
+      if (dx > 12 || dy > 12) return;
+      const card = e.target.closest('[data-cmc-open]');
+      if (!card) return;
+      const idx = Array.from(track.querySelectorAll('[data-cmc-open]')).indexOf(card);
+      openModal(idx >= 0 ? idx : 0);
+    }, { passive: true });
+
+    // Botones modal
+    modalPrev.addEventListener('click', e => { e.stopPropagation(); if (modalIndex > 0) showModalImg(modalIndex - 1, -1); });
+    modalNext.addEventListener('click', e => { e.stopPropagation(); if (modalIndex < getImgs().length - 1) showModalImg(modalIndex + 1, 1); });
+
+    // Swipe dentro del modal
+    let mSwipeX = 0;
+    modal.addEventListener('touchstart', e => { mSwipeX = e.touches[0].clientX; }, { passive: true });
+    modal.addEventListener('touchend', e => {
+      const d = mSwipeX - e.changedTouches[0].clientX;
+      if (Math.abs(d) < 40) return;
+      if (d > 0 && modalIndex < getImgs().length - 1) showModalImg(modalIndex + 1,  1);
+      if (d < 0 && modalIndex > 0)                    showModalImg(modalIndex - 1, -1);
+    }, { passive: true });
+
+    modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+    closeBtn.addEventListener('click', closeModal);
+    document.addEventListener('keydown', e => {
+      if (modal.style.display !== 'flex') return;
+      if (e.key === 'Escape')      closeModal();
+      if (e.key === 'ArrowRight' && modalIndex < getImgs().length - 1) showModalImg(modalIndex + 1,  1);
+      if (e.key === 'ArrowLeft'  && modalIndex > 0)                    showModalImg(modalIndex - 1, -1);
+    });
 
     if (document.readyState === 'complete') {
       update(false);
