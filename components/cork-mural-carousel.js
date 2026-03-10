@@ -98,6 +98,7 @@ class CorkMuralCarousel extends HTMLElement {
             text-align:center;
             letter-spacing:1px;
             text-transform:uppercase;
+            line-height:1.1;
             text-shadow:
               1px 1px 0 #ffe000,
               2px 2px 0 #ffd000,
