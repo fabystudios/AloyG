@@ -90,6 +90,7 @@
   
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
 
   <!-- JSON-LD Schema para SEO -->
   <script type="application/ld+json">
@@ -380,6 +381,8 @@
 
   <!-- Web Component para Video con Glassmorphism -->
   <script src="./components/glassmorphism-video.js"></script>
+  <!-- Web Component Carrusel de Corcho -->
+  <script src="./components/cork-mural-carousel.js"></script>
 
 </head>
 
@@ -970,7 +973,21 @@
       <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Avisos
     </h2>
   </section>
-  <div id="horas"></div>
+
+  <!-- ═══ Mural de Actividades ═══ -->
+  <cork-mural-carousel
+    title="Pizarra Actividades"
+    subtitle="Nuevo Mural"
+    description="Nuevo mural en el atrio del templo, resaltando el jubileo franciscano y el grupo Scout San Francisco."
+    folder="./actividades/mural/"
+    count="5"
+    icon="photo_library">
+  </cork-mural-carousel>
+  <!-- ═══ / Mural de Actividades ═══ -->
+
+  <div id="horas">
+    <br>
+  </div>
   <glassmorphism-video
     src="./video/horario.mp4"
     title="Horarios de Misa"
@@ -980,7 +997,7 @@
     autoplay
     loop
   ></glassmorphism-video>
- 
+     <br>
   
   <!-- Inicio  GFE   -->
 <!-- Reflexiones del Evangelio -->
