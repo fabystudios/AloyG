@@ -1,6 +1,18 @@
 [   
           {
     "id": 1,
+    "fecha": "11 de Marzo",
+    "santo": "San Sofronio de Jerusalén",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/Sofronio.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+          {
+    "id": 2,
     "fecha": "10 de Marzo",
     "santo": "40 Mártires de Sebaste",
     "santoFontSize": "1.2em",
@@ -8,11 +20,11 @@
     "video": "./asantos/40.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },
         {
-    "id": 2,
+    "id": 3,
     "fecha": "Historias",
     "santo": "de Cuaresma",
     "santoFontSize": "1.2em",

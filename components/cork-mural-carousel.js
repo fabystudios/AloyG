@@ -9,6 +9,10 @@
  *   count       — Cantidad de fotos               (default: 4)
  *   ext         — Extensión de las imágenes       (default: "jpeg")
  *   icon        — Material Icon name              (default: "photo_library")
+ *   board       — Fondo del tablero de corcho:
+ *                   vacío        → corcho ocre con textura por defecto
+ *                   color CSS    → ej: "#2e5a8a" | "darkgreen" | "rgb(80,40,20)"
+ *                   URL/ruta     → ej: "./img/madera.jpg" | "https://…/tex.png"
  *
  * Uso:
  *   <cork-mural-carousel
@@ -40,6 +44,26 @@ class CorkMuralCarousel extends HTMLElement {
     const count     = Math.max(1, parseInt(this.getAttribute('count') || '4', 10));
     const ext       = this.getAttribute('ext')         || 'jpeg';
     const icon      = this.getAttribute('icon')        || 'photo_library';
+    const board     = (this.getAttribute('board') || '').trim();
+
+    // Determina el estilo de fondo del tablero
+    const _isImgUrl = v => /[/\\]/.test(v) || /\.(?:jpe?g|png|gif|webp|svg|avif)$/i.test(v) || /^https?:\/\//i.test(v);
+
+    // El tablero exterior SIEMPRE tiene el corcho por defecto
+    const boardBgStyle = "background-color:#c08a45;background-image:url('./actividades/fondo.jpg');background-size:cover;background-position:center;";
+
+    // La tarjeta interior cambia según 'board'
+    let innerCardStyle;
+    if (!board) {
+      // glassmorphism por defecto
+      innerCardStyle = 'background:linear-gradient(135deg,rgba(255,255,255,0.22) 0%,rgba(255,255,255,0.07) 100%);backdrop-filter:blur(16px) saturate(1.6);-webkit-backdrop-filter:blur(16px) saturate(1.6);';
+    } else if (_isImgUrl(board)) {
+      const safeUrl = board.replace(/'/g, '%27').replace(/\)/g, '%29');
+      innerCardStyle = `background-image:url('${safeUrl}');background-size:cover;background-position:center;`;
+    } else {
+      // color sólido con un overlay oscuro para mantener legibilidad
+      innerCardStyle = `background:linear-gradient(135deg,${board}ee 0%,${board}bb 100%);`;
+    }
 
     const rotations = [-1.2, 0.7, -0.5, 1.4, -0.9, 1.1, -1.6, 0.3];
 
@@ -132,10 +156,7 @@ class CorkMuralCarousel extends HTMLElement {
 
         <!-- Pizarra de corcho -->
         <div style="
-          background-color:#c08a45;
-          background-image:url('./actividades/fondo.jpg');
-          background-size:cover;
-          background-position:center;
+          ${boardBgStyle}
           border-radius:18px;
           padding:26px 22px 22px;
           box-shadow:0 14px 45px rgba(0,0,0,0.5),
@@ -152,9 +173,7 @@ class CorkMuralCarousel extends HTMLElement {
 
           <!-- Tarjeta glassmorphism -->
           <div style="
-            background:linear-gradient(135deg,rgba(255,255,255,0.22) 0%,rgba(255,255,255,0.07) 100%);
-            backdrop-filter:blur(16px) saturate(1.6);
-            -webkit-backdrop-filter:blur(16px) saturate(1.6);
+            ${innerCardStyle}
             border-radius:14px;
             border:1px solid rgba(255,255,255,0.38);
             box-shadow:0 8px 32px rgba(0,0,0,0.28),inset 0 1px 0 rgba(255,255,255,0.35);
