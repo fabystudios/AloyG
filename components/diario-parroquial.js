@@ -70,8 +70,6 @@
       inset 0 1px 0 rgba(255,255,255,0.12);
   }
   .dp-masthead { padding-left: 0.1rem; }
-  .dp-mhead-icon { display: none; }
-  .dp-mhead-icon-mob { display: block; left: 0; }
 }
 
 .dp-section-label {
@@ -282,6 +280,10 @@
   flex-shrink: 0;
   filter: brightness(1.15) drop-shadow(0 1px 5px rgba(0,0,0,0.55));
   display: none;
+}
+@media (max-width: 520px) {
+  .dp-mhead-icon { display: none; }
+  .dp-mhead-icon-mob { display: block; left: 0; }
 }
 .dp-mhead-title {
   font-family: Georgia, 'Times New Roman', Times, serif;
