@@ -553,6 +553,11 @@
 /* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 480px) {
   .dp-container { max-width: 100%; }
+  .dp-mhead-icon {
+    width: clamp(52px, 14vw, 72px);
+    height: clamp(52px, 14vw, 72px);
+  }
+  .dp-mhead-title-row { min-height: clamp(52px, 14vw, 72px); }
   .dp-nav-btn {
     padding: 0.5rem 0.65rem 0.4rem;
     font-size: 0.78rem;
