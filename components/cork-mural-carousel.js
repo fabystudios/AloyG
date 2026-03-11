@@ -72,7 +72,7 @@ class CorkMuralCarousel extends HTMLElement {
       const rot = rotations[i % rotations.length];
       return `
         <div class="cmc-slide" style="flex:0 0 75%;padding:0 8px;box-sizing:border-box;">
-          <div style="background:#f5f0e8;padding:10px 10px 28px 10px;border-radius:3px;
+          <div class="cmc-photo-frame" style="background:#f5f0e8;padding:10px 10px 44px 10px;border-radius:3px;
                       box-shadow:0 8px 28px rgba(0,0,0,0.5),inset 0 1px 0 rgba(255,255,255,0.9);
                       transform:rotate(${rot}deg);cursor:pointer;" data-cmc-open>
             <img src="${CorkMuralCarousel._esc(folder)}${i + 1}.${CorkMuralCarousel._esc(ext)}"
@@ -148,11 +148,11 @@ class CorkMuralCarousel extends HTMLElement {
     if (!document.getElementById('cmc-desc-style')) {
       const s = document.createElement('style');
       s.id = 'cmc-desc-style';
-      s.textContent = '.cmc-desc{line-height:1.25 !important;}@media(min-width:768px){.cmc-subtitle{font-size:2.4rem !important;}.cmc-desc{font-size:1.55rem !important;line-height:1.3 !important;}.cmc-slide{flex:0 0 50% !important;}}';
+      s.textContent = '.cmc-desc{line-height:1.25 !important;}@media(min-width:768px){.cmc-subtitle{font-size:2.4rem !important;}.cmc-desc{font-size:1.55rem !important;line-height:1.3 !important;}.cmc-slide{flex:0 0 50% !important;}}@media(max-width:767px){.cmc-wrapper{width:95vw !important;max-width:95vw !important;padding:0 !important;}.cmc-photo-frame{padding:4px 4px 28px 4px !important;}}'
       document.head.appendChild(s);
     }
     this.innerHTML = `
-      <div style="margin:24px auto 30px;max-width:900px;padding:0 16px;box-sizing:border-box;">
+      <div class="cmc-wrapper" style="margin:24px auto 30px;max-width:900px;padding:0 16px;box-sizing:border-box;">
 
         <!-- Pizarra de corcho -->
         <div style="
@@ -203,20 +203,20 @@ class CorkMuralCarousel extends HTMLElement {
             <!-- Controles -->
             <div style="display:flex;justify-content:center;align-items:center;gap:14px;margin-top:16px;">
               <button id="${uid}-prev" aria-label="Anterior"
-                style="width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;
-                       background:rgba(255,255,255,0.2);backdrop-filter:blur(6px);
-                       -webkit-backdrop-filter:blur(6px);color:#fff;font-size:1.7rem;line-height:1;
-                       box-shadow:0 2px 10px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.3);
+                style="width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;
+                       background:linear-gradient(135deg,#e53935,#b71c1c);
+                       color:#fff;font-size:2rem;line-height:1;
+                       box-shadow:0 4px 14px rgba(183,28,28,0.6),inset 0 1px 0 rgba(255,255,255,0.25);
                        display:flex;align-items:center;justify-content:center;
                        transition:all 0.2s;padding:0;">&#8249;</button>
               <div id="${uid}-dots" style="display:flex;gap:9px;align-items:center;">
                 ${dotsHTML}
               </div>
               <button id="${uid}-next" aria-label="Siguiente"
-                style="width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;
-                       background:rgba(255,255,255,0.2);backdrop-filter:blur(6px);
-                       -webkit-backdrop-filter:blur(6px);color:#fff;font-size:1.7rem;line-height:1;
-                       box-shadow:0 2px 10px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.3);
+                style="width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;
+                       background:linear-gradient(135deg,#e53935,#b71c1c);
+                       color:#fff;font-size:2rem;line-height:1;
+                       box-shadow:0 4px 14px rgba(183,28,28,0.6),inset 0 1px 0 rgba(255,255,255,0.25);
                        display:flex;align-items:center;justify-content:center;
                        transition:all 0.2s;padding:0;">&#8250;</button>
             </div>
