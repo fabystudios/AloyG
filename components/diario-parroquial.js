@@ -69,7 +69,8 @@
       0 8px 28px rgba(0,0,0,0.4),
       inset 0 1px 0 rgba(255,255,255,0.12);
   }
-  .dp-mhead-icon { left: -0.85rem; }
+  .dp-mhead-icon { display: none; }
+  .dp-mhead-icon-mob { display: block; left: -1.4rem; }
 }
 
 .dp-section-label {
@@ -270,6 +271,16 @@
   object-fit: contain;
   flex-shrink: 0;
   filter: brightness(1.15) drop-shadow(0 1px 5px rgba(0,0,0,0.55));
+}
+.dp-mhead-icon-mob {
+  position: absolute;
+  left: 0;
+  width: clamp(64px, 12vw, 90px);
+  height: clamp(64px, 12vw, 90px);
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: brightness(1.15) drop-shadow(0 1px 5px rgba(0,0,0,0.55));
+  display: none;
 }
 .dp-mhead-title {
   font-family: Georgia, 'Times New Roman', Times, serif;
@@ -756,6 +767,7 @@
             <hr class="dp-mhead-rules-top">
             <div class="dp-mhead-title-row">
               <img src="./img/extra2.png" alt="" class="dp-mhead-icon" aria-hidden="true">
+              <img src="./img/extra3.png" alt="" class="dp-mhead-icon-mob" aria-hidden="true">
               <h1 class="dp-mhead-title">${esc(this._title)}</h1>
             </div>
             ${this._subtitle ? `<div class="dp-mhead-sub">${esc(this._subtitle)}</div>` : ''}
