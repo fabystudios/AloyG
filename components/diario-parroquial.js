@@ -259,13 +259,13 @@
   align-items: center;
   justify-content: center;
   margin: 0 0 0.05rem;
-  min-height: clamp(38px, 10vw, 58px);
+  min-height: clamp(64px, 12vw, 90px);
 }
 .dp-mhead-icon {
   position: absolute;
   left: 0;
-  width: clamp(38px, 10vw, 58px);
-  height: clamp(38px, 10vw, 58px);
+  width: clamp(64px, 12vw, 90px);
+  height: clamp(64px, 12vw, 90px);
   object-fit: contain;
   flex-shrink: 0;
   filter: brightness(1.15) drop-shadow(0 1px 5px rgba(0,0,0,0.55));
@@ -553,11 +553,6 @@
 /* ── Responsive ─────────────────────────────────────── */
 @media (max-width: 480px) {
   .dp-container { max-width: 100%; }
-  .dp-mhead-icon {
-    width: clamp(52px, 14vw, 72px);
-    height: clamp(52px, 14vw, 72px);
-  }
-  .dp-mhead-title-row { min-height: clamp(52px, 14vw, 72px); }
   .dp-nav-btn {
     padding: 0.5rem 0.65rem 0.4rem;
     font-size: 0.78rem;
@@ -759,7 +754,7 @@
             </div>
             <hr class="dp-mhead-rules-top">
             <div class="dp-mhead-title-row">
-              <img src="./img/extra.png" alt="" class="dp-mhead-icon" aria-hidden="true">
+              <img src="./img/extra2.png" alt="" class="dp-mhead-icon" aria-hidden="true">
               <h1 class="dp-mhead-title">${esc(this._title)}</h1>
             </div>
             ${this._subtitle ? `<div class="dp-mhead-sub">${esc(this._subtitle)}</div>` : ''}
