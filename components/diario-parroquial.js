@@ -60,12 +60,14 @@
 }
 
 @media (max-width: 520px) {
-  .dp-wrapper { padding: 0; }
+  .dp-wrapper { padding: 0.75rem 0.75rem; }
   .dp-outer {
     max-width: 100%;
-    border-radius: 0;
+    border-radius: 14px;
     border: none;
-    box-shadow: none;
+    box-shadow:
+      0 8px 28px rgba(0,0,0,0.4),
+      inset 0 1px 0 rgba(255,255,255,0.12);
   }
 }
 
