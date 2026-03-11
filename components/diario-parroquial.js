@@ -270,6 +270,7 @@
   object-fit: contain;
   flex-shrink: 0;
   filter: brightness(1.15) drop-shadow(0 1px 5px rgba(0,0,0,0.55));
+  z-index: 0;
 }
 .dp-mhead-icon-mob {
   position: absolute;
@@ -280,6 +281,7 @@
   flex-shrink: 0;
   filter: brightness(1.15) drop-shadow(0 1px 5px rgba(0,0,0,0.55));
   display: none;
+  z-index: 0;
 }
 @media (max-width: 520px) {
   .dp-mhead-icon { display: none; }
@@ -295,6 +297,8 @@
   line-height: 1;
   color: #ffffff;
   text-shadow: 0 1px 6px rgba(0,0,0,0.5);
+  position: relative;
+  z-index: 1;
 }
 .dp-mhead-rule-thick {
   border: none;
