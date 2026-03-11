@@ -12,7 +12,7 @@
     "mobile": {
       "type": "video",
       "src": "./video/cursillos_mob.mp4",
-      "poster": "./video/cursillos_mob.jpg"
+      "poster": "./video/cursillos_mob.png"
     }
 
     
