@@ -59,6 +59,9 @@ class GlassmorphismVideo extends HTMLElement {
       </div>` : '';
     
     // Soporte para video local (atributo src)
+    const size = this.getAttribute('size') || 'medium';
+    const maxWidth = size === 'large' ? '1200px' : '900px';
+
     const localSrc = this.getAttribute('src') || '';
     const loop = this.hasAttribute('loop') ? 'loop' : '';
     const autoplay = this.hasAttribute('autoplay') ? 'autoplay' : '';
@@ -146,7 +149,7 @@ class GlassmorphismVideo extends HTMLElement {
         }
       </style>
       
-      <div ${componentId ? `id="${componentId}"` : ''} class="video-container-gm" style="max-width: 900px; margin: 40px auto; padding: 20px; background: linear-gradient(135deg, ${color1} 0%, ${color2} 100%); border-radius: 30px; box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);">
+      <div ${componentId ? `id="${componentId}"` : ''} class="video-container-gm" style="max-width: ${maxWidth}; margin: 40px auto; padding: 20px; background: linear-gradient(135deg, ${color1} 0%, ${color2} 100%); border-radius: 30px; box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);">
         <div class="video-card-gm" style="
           background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.15));
           backdrop-filter: blur(25px);
