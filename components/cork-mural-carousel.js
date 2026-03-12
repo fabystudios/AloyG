@@ -13,6 +13,7 @@
  *                   vacío        → corcho ocre con textura por defecto
  *                   color CSS    → ej: "#2e5a8a" | "darkgreen" | "rgb(80,40,20)"
  *                   URL/ruta     → ej: "./img/madera.jpg" | "https://…/tex.png"
+ *   title-color — Color del título principal (default: #000 negro)
  *
  * Uso:
  *   <cork-mural-carousel
@@ -43,8 +44,9 @@ class CorkMuralCarousel extends HTMLElement {
     const folder    = this.getAttribute('folder')      || './actividades/mural/';
     const count     = Math.max(1, parseInt(this.getAttribute('count') || '4', 10));
     const ext       = this.getAttribute('ext')         || 'jpeg';
-    const icon      = this.getAttribute('icon')        || 'photo_library';
-    const board     = (this.getAttribute('board') || '').trim();
+    const icon       = this.getAttribute('icon')        || 'photo_library';
+    const board      = (this.getAttribute('board') || '').trim();
+    const titleColor = this.getAttribute('title-color')  || '#000';
 
     // Determina el estilo de fondo del tablero
     const _isImgUrl = v => /[/\\]/.test(v) || /\.(?:jpe?g|png|gif|webp|svg|avif)$/i.test(v) || /^https?:\/\//i.test(v);
@@ -182,7 +184,7 @@ class CorkMuralCarousel extends HTMLElement {
           ">
             <!-- Título principal -->
             <div style="text-align:center;margin-bottom:18px;padding:0 20px;">
-              <h3 style="color:#fff;font-size:1.3rem;font-weight:700;margin:0;
+              <h3 style="color:${titleColor};font-size:1.3rem;font-weight:700;margin:0;
                          text-shadow:0 2px 8px rgba(0,0,0,0.6);letter-spacing:0.5px;">
                 <i class="material-icons" style="vertical-align:middle;font-size:1.5rem;">${CorkMuralCarousel._esc(icon)}</i>
                 &nbsp;${CorkMuralCarousel._esc(title)}
