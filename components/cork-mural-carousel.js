@@ -148,11 +148,11 @@ class CorkMuralCarousel extends HTMLElement {
     if (!document.getElementById('cmc-desc-style')) {
       const s = document.createElement('style');
       s.id = 'cmc-desc-style';
-      s.textContent = '.cmc-desc{line-height:1.25 !important;}@media(min-width:768px){.cmc-subtitle{font-size:2.4rem !important;}.cmc-desc{font-size:1.55rem !important;line-height:1.3 !important;}.cmc-slide{flex:0 0 50% !important;}}@media(max-width:767px){.cmc-wrapper{width:95vw !important;max-width:95vw !important;padding:0 !important;}.cmc-photo-frame{padding:4px 4px 28px 4px !important;}}'
+      s.textContent = '.cmc-desc{line-height:1.25 !important;}@media(min-width:768px){.cmc-subtitle{font-size:2.4rem !important;}.cmc-desc{font-size:1.55rem !important;line-height:1.3 !important;}.cmc-slide{flex:0 0 33.333% !important;}.cmc-wrapper{max-width:1200px !important;}}@media(max-width:767px){.cmc-wrapper{width:95vw !important;max-width:95vw !important;padding:0 !important;}.cmc-photo-frame{padding:4px 4px 28px 4px !important;}}'
       document.head.appendChild(s);
     }
     this.innerHTML = `
-      <div class="cmc-wrapper" style="margin:24px auto 30px;max-width:900px;padding:0 16px;box-sizing:border-box;">
+      <div class="cmc-wrapper" style="margin:24px auto 30px;max-width:1200px;padding:0 16px;box-sizing:border-box;">
 
         <!-- Pizarra de corcho -->
         <div style="
