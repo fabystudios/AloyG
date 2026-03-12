@@ -1,7 +1,25 @@
 [
+     {
+    "id": "",
+    "position": 1,
+    "hasVideo": true,
+    "link": "",
+    "desktop": {
+      "type": "video",
+      "src": "./video/retiro_cuaresmal_desk.mp4",
+      "poster": "./video/retiro_cuaresmal_desk.jpeg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/retiro_cuaresmal_mob.mp4",
+      "poster": "./video/retiro_cuaresmal_mob.png"
+    }
+
+    
+  },
        {
     "id": "cursillos",
-    "position": 1,
+    "position": 2,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -19,7 +37,7 @@
   },
          {
     "id": "horas",
-    "position": 2,
+    "position": 3,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -37,7 +55,7 @@
   },
         {
     "id": "retiro",
-    "position": 4,
+    "position": 5,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -159,7 +177,7 @@
   },
   {
     "id": "feria",
-    "position": 3,
+    "position": 4,
     "hasVideo": true,
     "link": "#feria",
     "desktop": {
