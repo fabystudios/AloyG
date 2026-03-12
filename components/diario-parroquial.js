@@ -595,6 +595,90 @@
   outline: 2px solid #e53030;
   outline-offset: 2px;
 }
+
+/* ════════════════════════════════════════════════════════
+   DESKTOP — LIBRO ABIERTO (dos páginas lado a lado)
+════════════════════════════════════════════════════════ */
+@media (min-width: 769px) {
+  .dp-outer     { max-width: 980px !important; }
+  .dp-container { max-width: 100%; }
+
+  .dp-book.dp-book-desk {
+    aspect-ratio: 6 / 4.3;
+    perspective: 2800px !important;
+    perspective-origin: 50% 45%;
+  }
+
+  /* Capas estáticas: páginas destino debajo del flip */
+  .dp-desk-ul-left,
+  .dp-desk-ul-right {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: calc(50% - 6px);
+    overflow: hidden;
+    border-radius: 1px;
+    z-index: 1;
+  }
+  .dp-desk-ul-left  { left: 0; }
+  .dp-desk-ul-right { right: 0; }
+
+  /* Elemento flip (media página, alternado izq/der) */
+  .dp-desk-flip {
+    position: absolute;
+    top: 0; bottom: 0;
+    width: calc(50% - 6px);
+    transform-style: preserve-3d;
+    z-index: 2;
+  }
+  .dp-desk-flip.dp-flip-right { right: 0; left: auto; }
+  .dp-desk-flip.dp-flip-left  { left: 0;  right: auto; }
+
+  .dp-desk-flip .dp-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    overflow: hidden;
+    border-radius: 1px;
+  }
+  .dp-desk-flip .dp-face-back {
+    transform: rotateY(180deg);
+    background: #d4c49a;
+  }
+  .dp-desk-flip .dp-paper-back { width: 100%; height: 100%; }
+
+  /* Animaciones de vuelta de página */
+  .dp-desk-flip.dp-danim-fwd {
+    animation: dp-desk-fwd 0.72s cubic-bezier(0.4,0,0.2,1) forwards;
+  }
+  .dp-desk-flip.dp-danim-bwd {
+    animation: dp-desk-bwd 0.72s cubic-bezier(0.4,0,0.2,1) forwards;
+  }
+  @keyframes dp-desk-fwd {
+    0%   { transform: rotateY(0deg);    }
+    100% { transform: rotateY(-180deg); }
+  }
+  @keyframes dp-desk-bwd {
+    0%   { transform: rotateY(0deg);   }
+    100% { transform: rotateY(180deg); }
+  }
+
+  /* Lomo encuadernado */
+  .dp-book-spine {
+    position: absolute;
+    top: 0; bottom: 0;
+    left: calc(50% - 6px);
+    width: 12px;
+    background: linear-gradient(to right,
+      #2a1508 0%, #6b3818 18%, #b06030 38%,
+      #e8a878 50%, #b06030 62%, #6b3818 82%, #2a1508 100%);
+    box-shadow:
+      -4px 0 10px rgba(0,0,0,0.55),
+       4px 0 10px rgba(0,0,0,0.55);
+    z-index: 5;
+    pointer-events: none;
+  }
+}
 `;
 
   /* ══════════════════════════════════════════════════════════
@@ -613,11 +697,27 @@
       this._subtitle = this.getAttribute('subtitle') || '';
       this._edition  = this.getAttribute('edition')  || TODAY;
 
+      this._mq = window.matchMedia('(min-width: 769px)');
+      this._desktop = this._mq.matches;
+      this._mqHandler = () => {
+        const was = this._desktop;
+        this._desktop = this._mq.matches;
+        if (was !== this._desktop) { this._cur = 0; this._build(); }
+      };
+      this._mq.addEventListener('change', this._mqHandler);
+
       this._build();
+    }
+
+    disconnectedCallback() {
+      if (this._mq && this._mqHandler) {
+        this._mq.removeEventListener('change', this._mqHandler);
+      }
     }
 
     /* ── DOM CONSTRUCTION ───────────────────────────────── */
     _build() {
+      if (this._desktop) { this._buildDesktop(); return; }
       const t = esc(this._title);
       this.innerHTML = `
         <style>${CSS}</style>
@@ -687,8 +787,135 @@
       this._bindPhotoNav(this._faceFront);
     }
 
+    /* ── DESKTOP: LIBRO ABIERTO BUILD ─────────────────── */
+    _buildDesktop() {
+      const t = esc(this._title);
+      this.innerHTML = `
+        <style>${CSS}</style>
+        <div class="dp-wrapper">
+        <section class="dp-outer" aria-label="${t}">
+          <div class="dp-section-label">-- Publicaciones --</div>
+          <div class="dp-container">
+
+            <!-- ── LIBRO ABIERTO ── -->
+            <div class="dp-book dp-book-desk" role="region" aria-label="Diario parroquial">
+              <!-- Capas estáticas de destino -->
+              <div class="dp-desk-ul-left"></div>
+              <div class="dp-desk-ul-right"></div>
+
+              <!-- Página que gira -->
+              <div class="dp-desk-flip dp-flip-right">
+                <div class="dp-face dp-face-front"></div>
+                <div class="dp-face dp-face-back">
+                  <div class="dp-paper-back">
+                    ${Array(7).fill('<div class="dp-paper-col"></div>').join('')}
+                    <div class="dp-paper-watermark">${t}</div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Lomo -->
+              <div class="dp-book-spine"></div>
+            </div>
+
+            <!-- ── NAV ── -->
+            <nav class="dp-nav" aria-label="Navegar páginas del diario">
+              <button class="dp-nav-btn dp-btn-prev" aria-label="Página anterior">
+                ◀ <span class="dp-nav-label">Anterior</span>
+              </button>
+              <div class="dp-nav-center">
+                <div class="dp-dots" role="tablist"></div>
+                <span class="dp-page-ind"></span>
+              </div>
+              <button class="dp-nav-btn dp-btn-next" aria-label="Siguiente página">
+                <span class="dp-nav-label">Siguiente</span> ▶
+              </button>
+            </nav>
+
+          </div>
+        </section>
+        </div>`;
+
+      this._ulLeft  = this.querySelector('.dp-desk-ul-left');
+      this._ulRight = this.querySelector('.dp-desk-ul-right');
+      this._dFlip   = this.querySelector('.dp-desk-flip');
+      this._dFaceFr = this._dFlip.querySelector('.dp-face-front');
+      this._btnPrev = this.querySelector('.dp-btn-prev');
+      this._btnNext = this.querySelector('.dp-btn-next');
+      this._dotsEl  = this.querySelector('.dp-dots');
+      this._indEl   = this.querySelector('.dp-page-ind');
+
+      /* Render inicial */
+      this._ulLeft.innerHTML  = this._pageHTML(this._cur);
+      this._ulRight.innerHTML = this._pageHTML(this._cur + 1) || '';
+      this._dFaceFr.innerHTML = this._pageHTML(this._cur + 1) || '';
+
+      this._btnPrev.addEventListener('click', () => this._navigate(-1));
+      this._btnNext.addEventListener('click', () => this._navigate(+1));
+
+      this._updateNav();
+      this._bindPhotoNav(this._ulLeft);
+      this._bindPhotoNav(this._ulRight);
+    }
+
+    /* ── DESKTOP: VUELTA DE PÁGINA ──────────────────────── */
+    _navigateDesktop(dir) {
+      if (this._busy) return;
+      const target = this._cur + dir;
+      if (target < 0 || target >= this._pages.length) return;
+      this._busy = true;
+
+      const fwd = dir > 0;
+
+      /* Limpiar animaciones previas */
+      this._dFlip.classList.remove('dp-danim-fwd', 'dp-danim-bwd');
+      void this._dFlip.offsetWidth;
+
+      if (fwd) {
+        /* Avanzar: la página derecha gira hacia la izquierda */
+        this._dFlip.classList.remove('dp-flip-left');
+        this._dFlip.classList.add('dp-flip-right');
+        this._dFlip.style.transformOrigin = 'left center'; /* pivota en el lomo */
+        this._dFaceFr.innerHTML = this._pageHTML(this._cur + 1) || '';
+        /* Precarga la nueva página derecha en el underlay */
+        this._ulRight.innerHTML = this._pageHTML(target + 1) || '';
+      } else {
+        /* Retroceder: la página izquierda gira hacia la derecha */
+        this._dFlip.classList.remove('dp-flip-right');
+        this._dFlip.classList.add('dp-flip-left');
+        this._dFlip.style.transformOrigin = 'right center'; /* pivota en el lomo */
+        this._dFaceFr.innerHTML = this._pageHTML(this._cur) || '';
+        /* Precarga la nueva página izquierda en el underlay */
+        this._ulLeft.innerHTML = this._pageHTML(target) || '';
+      }
+
+      this._dFlip.style.transform = '';
+      this._dFlip.classList.add(fwd ? 'dp-danim-fwd' : 'dp-danim-bwd');
+
+      this._dFlip.addEventListener('animationend', () => {
+        this._cur = target;
+
+        /* Actualizar ambas capas con la nueva apertura */
+        this._ulLeft.innerHTML  = this._pageHTML(this._cur);
+        this._ulRight.innerHTML = this._pageHTML(this._cur + 1) || '';
+
+        /* Resetear flip a la derecha para la próxima interacción */
+        this._dFlip.classList.remove('dp-danim-fwd', 'dp-danim-bwd', 'dp-flip-left');
+        this._dFlip.classList.add('dp-flip-right');
+        this._dFlip.style.transform = '';
+        this._dFlip.style.transformOrigin = '';
+        this._dFaceFr.innerHTML = this._pageHTML(this._cur + 1) || '';
+
+        this._busy = false;
+        this._updateNav();
+        this._bindPhotoNav(this._ulLeft);
+        this._bindPhotoNav(this._ulRight);
+      }, { once: true });
+    }
+
     /* ── PAGE FLIP ──────────────────────────────────────── */
     _navigate(dir) {
+      if (this._desktop) { this._navigateDesktop(dir); return; }
       if (this._busy) return;
       const target = this._cur + dir;
       if (target < 0 || target >= this._pages.length) return;
