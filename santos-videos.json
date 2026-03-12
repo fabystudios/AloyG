@@ -1,11 +1,10 @@
-[   
-          {
+[             {
     "id": 1,
-    "fecha": "11 de Marzo",
-    "santo": "San Sofronio de Jerusalén",
+    "fecha": "12 de Marzo",
+    "santo": "San Luis Orione",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/Sofronio.mp4",
+    "video": "./asantos/orione.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
@@ -13,16 +12,17 @@
   },
           {
     "id": 2,
-    "fecha": "10 de Marzo",
-    "santo": "40 Mártires de Sebaste",
+    "fecha": "11 de Marzo",
+    "santo": "San Sofronio de Jerusalén",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/40.mp4",
+    "video": "./asantos/Sofronio.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
   },
+         
         {
     "id": 3,
     "fecha": "Historias",

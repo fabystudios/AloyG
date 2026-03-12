@@ -90,7 +90,7 @@
 }
 
 .navbar {
-    background-color: var(--primary-color) !important;
+    background-color: #502A63 !important;
 }
 
 .hero-section {
@@ -666,7 +666,7 @@ h2 {
 /* General */
 .cabecera {
     padding-top: 100px; /* Espacio para evitar que el contenido quede detrás del navbar */
-    background-color: #0d6efd !important; /* Azul tomado del logo */
+    background-color: #502A63 !important; /* Cuaresma — restaurar: #0d6efd */
 }
 
 /* Navbar General */
@@ -726,7 +726,7 @@ h2 {
         position: absolute;
         width: auto;
         min-width: 200px;
-        background: rgba(54, 0, 179, 0.74);
+        background: rgba(80, 42, 99, 0.96);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         padding: 5px;
         border-radius: 8px;
