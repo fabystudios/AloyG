@@ -1,7 +1,25 @@
 [
-     {
+    {
     "id": "",
     "position": 1,
+    "hasVideo": true,
+    "link": "",
+    "desktop": {
+      "type": "video",
+      "src": "./video/docat_desk.mp4",
+      "poster": "./video/docat_desk.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/docat_mob.mp4",
+      "poster": "./video/docat_mob.jpg"
+    }
+
+    
+  },
+     {
+    "id": "",
+    "position": 2,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -19,7 +37,7 @@
   },
        {
     "id": "cursillos",
-    "position": 2,
+    "position": 3,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -37,7 +55,7 @@
   },
          {
     "id": "horas",
-    "position": 3,
+    "position": 4,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -55,7 +73,7 @@
   },
         {
     "id": "retiro",
-    "position": 5,
+    "position": 6,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -177,7 +195,7 @@
   },
   {
     "id": "feria",
-    "position": 4,
+    "position": 5,
     "hasVideo": true,
     "link": "#feria",
     "desktop": {
