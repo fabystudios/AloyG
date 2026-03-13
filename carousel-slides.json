@@ -55,7 +55,7 @@
   },
          {
     "id": "horas",
-    "position": 4,
+    "position": -1,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -73,7 +73,7 @@
   },
         {
     "id": "retiro",
-    "position": 6,
+    "position": -1,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -195,7 +195,7 @@
   },
   {
     "id": "feria",
-    "position": 5,
+    "position": 4,
     "hasVideo": true,
     "link": "#feria",
     "desktop": {
