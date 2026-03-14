@@ -381,6 +381,8 @@
 
   <!-- Web Component para Video con Glassmorphism -->
   <script src="./components/glassmorphism-video.js"></script>
+  <!-- Web Component reproductor YT estilo glassmorphism -->
+  <script src="./components/glassmorphism-yt-player.js"></script>
   <!-- Web Component Carrusel de Corcho -->
   <script src="./components/cork-mural-carousel.js"></script>
   <!-- Web Component Diario Parroquial -->
@@ -980,25 +982,23 @@
       <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Avisos
     </h2>
   </section>
+<br>
+  <!-- Aviso en video — tonos dorados y marfil -->
+  <glassmorphism-yt-player
+    video-id="rSxyW4tMoEI"
+    title="📖 Semana del 7 al 13 de Marzo"
+    poster="./img/miniatura3.png"
+    gradient="#8b6c00, #c9a227"
+    glass-color1="rgba(255,248,200,0.28)"
+    glass-color2="rgba(218,165,32,0.15)"
+    glow-color="rgba(255,215,0,0.18)"
+    border-color="rgba(218,165,32,0.45)"
+    control-color="#7a5c00"
+    margin="20px auto">
+  </glassmorphism-yt-player>
 
-  <!-- ═══ Horario Misa ═══ -->
-  <div id="horas">
-  </div>
-  <glassmorphism-video
-    size= "large"
-    src="./video/horario.mp4"
-    title="Horarios de Misa"
-    gradient="#ff9800, #ffc107"
-    icon="church"
-    poster="./img/poster_horarios.png"
-    size="large"
-    autoplay
-    loop
-  ></glassmorphism-video>
- 
-  <!-- ═══ Fin Horario Misa ═══ -->
-
-  <!-- ═══ Diario Parroquial ═══ -->
+<br>
+<!-- ═══ Diario Parroquial ═══ -->
   <diario-parroquial
     title="DIARIO PARROQUIAL"
     subtitle="Parroquia San Luis Gonzaga"
@@ -1006,10 +1006,17 @@
     pages='[
     
       {
-        "headline": "Las últimas noticias parroquiales",
+        "headline": "",
         "desc": "",
         "photos": [ 
-          { "src": "6.gif" }
+          { "src": "pres.jpg" }
+        ] 
+      },
+            {
+        "headline": "",
+        "desc": "",
+        "photos": [ 
+          { "src": "usca.jpg" }
         ] 
       },
       {
@@ -1058,6 +1065,24 @@
   </diario-parroquial>
   <!-- ═══ / Diario Parroquial ═══ -->
 <br>
+  <!-- ═══ Horario Misa ═══ -->
+  <div id="horas">
+  </div>
+  <glassmorphism-video
+    size= "large"
+    src="./video/horario.mp4"
+    title="Horarios de Misa"
+    gradient="#ff9800, #ffc107"
+    icon="church"
+    poster="./img/poster_horarios.png"
+    size="large"
+    autoplay
+    loop
+  ></glassmorphism-video>
+ 
+  <!-- ═══ Fin Horario Misa ═══ -->
+
+  
   
   <!-- ═══ Nombramiento ═══ -->
   <cork-mural-carousel
@@ -1113,311 +1138,15 @@
 
   
   <!-- Inicio  GFE   -->
-<!-- Reflexiones del Evangelio -->
-  <div class="reflexiones-container" style="max-width: 900px; margin: 40px auto; padding: 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 30px; box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);">
-    <div class="reflexiones-card" style="
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.25), rgba(255, 255, 255, 0.15));
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-radius: 25px;
-      padding: 35px;
-      box-shadow: 
-        0 8px 32px 0 rgba(0, 0, 0, 0.2),
-        0 15px 40px rgba(0, 0, 0, 0.15),
-        inset 0 1px 1px rgba(255, 255, 255, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      position: relative;
-      overflow: hidden;
-    ">
-      <!-- Efecto de brillo sutil -->
-      <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: rotate-subtle 30s linear infinite; pointer-events: none; z-index: 0;"></div>
-      
-      <!-- Contenido -->
-      <div style="position: relative; z-index: 2;">
-        <!-- Título y subtítulo -->
-        <div style="text-align: center; margin-bottom: 25px;">
-          <h2 style="
-            font-family: 'Georgia', serif;
-            font-size: 2.2em;
-            color: white;
-            margin: 0 0 10px 0;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-          ">
-            ✝️ Reflexiones del Evangelio
-          </h2>
-          <p style="
-            font-size: 1.2em;
-            color: rgba(255, 255, 255, 0.95);
-            margin: 0;
-            font-weight: 500;
-            letter-spacing: 0.3px;
-            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
-          ">
-            📅 Semana del 1 al 5 de marzo
-          </p>
-        </div>
+  <!-- Reflexiones del Evangelio — ahora como web component -->
+  <glassmorphism-yt-player
+    video-id="Vt2BAUdpQAY"
+    title="✝️ Reflexiones del Evangelio"
+    subtitle="📅 Semana del 1 al 5 de marzo"
+    poster="./img/miniatura-reflexiones.png"
+    gradient="#667eea, #764ba2">
+  </glassmorphism-yt-player>
 
-        <!-- Video con efecto glassmorphism -->
-        <div class="video-reflexiones-wrapper" style="
-          position: relative;
-          border-radius: 20px;
-          overflow: hidden;
-          box-shadow: 
-            0 10px 30px rgba(0, 0, 0, 0.3),
-            inset 0 1px 1px rgba(255, 255, 255, 0.3);
-          border: 2px solid rgba(255, 255, 255, 0.2);
-        ">
-          <div class="video-reflexiones-container" style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-            <!-- Poster/Thumbnail personalizado -->
-            <img 
-              id="poster-reflexiones"
-              class="video-poster-reflexiones" 
-              src="./img/miniatura-reflexiones.png" 
-              alt="Reflexiones del Evangelio"
-              style="
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
-                cursor: pointer;
-                z-index: 1;
-              "
-              onclick="
-                this.style.display='none'; 
-                document.querySelector('.play-button').style.display='none';
-                var iframe = document.querySelector('.video-reflexiones-iframe');
-                iframe.src = iframe.src.replace('Vt2BAUdpQAY?', 'Vt2BAUdpQAY?autoplay=1&');
-                document.getElementById('video-controls-reflexiones').style.display='flex';
-              "
-            />
-            <!-- Botón de play sobre el poster -->
-            <div class="play-button" style="
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-              width: 80px;
-              height: 80px;
-              background: rgba(255, 0, 0, 0.8);
-              border-radius: 50%;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              cursor: pointer;
-              z-index: 2;
-              transition: all 0.3s ease;
-            " 
-            onclick="
-              document.getElementById('poster-reflexiones').click();
-            "
-            onmouseover="this.style.background='rgba(255, 0, 0, 1)'; this.style.transform='translate(-50%, -50%) scale(1.1)';"
-            onmouseout="this.style.background='rgba(255, 0, 0, 0.8)'; this.style.transform='translate(-50%, -50%) scale(1)';">
-              <i class="material-icons" style="color: white; font-size: 48px; margin-left: 5px;">play_arrow</i>
-            </div>
-            <iframe 
-              id="youtube-iframe-reflexiones"
-              class="video-reflexiones-iframe"
-              style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;"
-              src="https://www.youtube.com/embed/Vt2BAUdpQAY?controls=1&rel=0&modestbranding=1&playsinline=1&enablejsapi=1"
-              title="Reflexiones del Evangelio - Semana del 2 al 5 de marzo"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-              allowfullscreen
-              referrerpolicy="strict-origin-when-cross-origin">
-            </iframe>
-          </div>
-        </div>
-
-        <!-- Controles de video personalizados -->
-        <div id="video-controls-reflexiones" style="
-          display: none;
-          justify-content: center;
-          align-items: center;
-          gap: 15px;
-          margin-top: 20px;
-          padding: 15px;
-          background: rgba(255, 255, 255, 0.15);
-          backdrop-filter: blur(10px);
-          border-radius: 15px;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-        ">
-          <!-- Botón Play/Pausa -->
-          <button id="btn-play-pause" onclick="togglePlayPause()" style="
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.9);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-          " 
-          onmouseover="this.style.transform='scale(1.1)'; this.style.background='white';"
-          onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(255, 255, 255, 0.9)';">
-            <i class="material-icons" style="color: #667eea; font-size: 28px;">pause</i>
-          </button>
-
-          <!-- Botón Mute/Unmute -->
-          <button id="btn-mute" onclick="toggleMute()" style="
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.9);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-          " 
-          onmouseover="this.style.transform='scale(1.1)'; this.style.background='white';"
-          onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(255, 255, 255, 0.9)';">
-            <i class="material-icons" style="color: #667eea; font-size: 28px;">volume_up</i>
-          </button>
-
-          <!-- Botón Pantalla completa -->
-          <button onclick="toggleFullscreen()" style="
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(255, 255, 255, 0.9);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-          " 
-          onmouseover="this.style.transform='scale(1.1)'; this.style.background='white';"
-          onmouseout="this.style.transform='scale(1)'; this.style.background='rgba(255, 255, 255, 0.9)';">
-            <i class="material-icons" style="color: #667eea; font-size: 28px;">fullscreen</i>
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    // Control de reproducción del video de YouTube
-    let playerReflexiones;
-    let isPlayingReflexiones = true;
-    let isMutedReflexiones = false;
-
-    function togglePlayPause() {
-      const iframe = document.getElementById('youtube-iframe-reflexiones');
-      const btn = document.getElementById('btn-play-pause');
-      const icon = btn.querySelector('.material-icons');
-      
-      if (isPlayingReflexiones) {
-        iframe.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
-        icon.textContent = 'play_arrow';
-        isPlayingReflexiones = false;
-      } else {
-        iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
-        icon.textContent = 'pause';
-        isPlayingReflexiones = true;
-      }
-    }
-
-    function toggleMute() {
-      const iframe = document.getElementById('youtube-iframe-reflexiones');
-      const btn = document.getElementById('btn-mute');
-      const icon = btn.querySelector('.material-icons');
-      
-      if (isMutedReflexiones) {
-        iframe.contentWindow.postMessage('{"event":"command","func":"unMute","args":""}', '*');
-        icon.textContent = 'volume_up';
-        isMutedReflexiones = false;
-      } else {
-        iframe.contentWindow.postMessage('{"event":"command","func":"mute","args":""}', '*');
-        icon.textContent = 'volume_off';
-        isMutedReflexiones = true;
-      }
-    }
-
-    function toggleFullscreen() {
-      const container = document.querySelector('.video-reflexiones-wrapper');
-      if (!document.fullscreenElement) {
-        container.requestFullscreen().catch(err => {
-          console.log('Error al activar pantalla completa:', err);
-        });
-      } else {
-        document.exitFullscreen();
-      }
-    }
-  </script>
-      </div>
-    </div>
-  </div>
-
-  <style>
-    @keyframes rotate-subtle {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    /* Formato cuadrado 1:1 solo en mobile con recorte centrado */
-    @media (max-width: 768px) {
-      .video-reflexiones-container {
-        padding-bottom: 100% !important; /* Contenedor cuadrado 1:1 */
-      }
-      
-      .video-reflexiones-iframe {
-        /* Hacer el iframe más grande para recortar los bordes y centrar */
-        width: 177.78% !important; /* 16/9 = 1.778 -> para llenar un cuadrado */
-        height: 100% !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-      }
-      
-      .video-poster-reflexiones {
-        /* Aplicar el mismo recorte al poster */
-        width: 177.78% !important;
-        height: 100% !important;
-        left: 50% !important;
-        transform: translateX(-50%) !important;
-      }
-      
-      .reflexiones-card {
-        padding: 25px !important;
-      }
-      
-      .reflexiones-card h2 {
-        font-size: 1.6em !important;
-      }
-      
-      .reflexiones-card p {
-        font-size: 1em !important;
-      }
-    }
-
-    /* Botón de play siempre centrado */
-    .video-reflexiones-wrapper .play-button {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) !important;
-      z-index: 2;
-    }
-
-    .reflexiones-container:hover .reflexiones-card {
-      transform: translateY(-5px);
-      transition: all 0.3s ease;
-      box-shadow: 
-        0 12px 40px 0 rgba(31, 38, 135, 0.5),
-        0 20px 50px rgba(102, 126, 234, 0.4),
-        inset 0 1px 1px rgba(255, 255, 255, 0.6);
-    }
-  </style>
   
   <!-- Consagración Capilla San Francisco de Asís -->
   <div class="consagracion-container" style="max-width: 1100px; margin: 50px auto; padding: 25px;">
