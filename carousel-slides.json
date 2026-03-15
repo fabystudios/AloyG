@@ -19,7 +19,7 @@
   },
      {
     "id": "",
-    "position": 3,
+    "position": 2,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -37,7 +37,7 @@
   },
        {
     "id": "cursillos",
-    "position": 4,
+    "position": 3,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -54,19 +54,19 @@
     
   },
          {
-    "id": "horas",
-    "position": 2,
+    "id": "scout",
+    "position": 1,
     "hasVideo": true,
     "link": "",
     "desktop": {
       "type": "video",
-      "src": "./video/horario_desk.mp4",
-      "poster": "./video/horario_desk.png"
+      "src": "./video/scout_desk.mp4",
+      "poster": "./video/scout_desk.jpg"
     },
     "mobile": {
       "type": "video",
-      "src": "./video/horario_mob.mp4",
-      "poster": "./video/horario_mob.png"
+      "src": "./video/scout_mob.mp4",
+      "poster": "./video/scout_mob.jpg"
     }
 
     
@@ -195,7 +195,7 @@
   },
   {
     "id": "feria",
-    "position": 1,
+    "position": -1,
     "hasVideo": true,
     "link": "#feria",
     "desktop": {
