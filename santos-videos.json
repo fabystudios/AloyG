@@ -1,5 +1,19 @@
-[             {
+[          
+  
+   {
     "id": 1,
+    "fecha": "16 de Marzo",
+    "santo": "San Cura Brochero",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/brochero.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },
+{
+    "id": 2,
     "fecha": "15 de Marzo",
     "santo": "San Artémides Zatti",
     "santoFontSize": "1.2em",
@@ -7,21 +21,9 @@
     "video": "./asantos/arti.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
-    "showOnDesktop": true
-  },
-          {
-    "id": 2,
-    "fecha": "14 de Marzo",
-    "santo": "Santa Matilde",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/mat.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
-  }, 
+  },
         {
     "id": 3,
     "fecha": "Historias",
