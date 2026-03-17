@@ -1,24 +1,23 @@
 [          
-  
-   {
+     {
     "id": 1,
-    "fecha": "16 de Marzo",
-    "santo": "San Cura Brochero",
+    "fecha": "17 de Marzo",
+    "santo": "San Patricio",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/brochero.mp4",
+    "video": "./asantos/pat.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": true,
     "showOnDesktop": true
   },
-{
+   {
     "id": 2,
-    "fecha": "15 de Marzo",
-    "santo": "San Artémides Zatti",
+    "fecha": "16 de Marzo",
+    "santo": "San Cura Brochero",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
-    "video": "./asantos/arti.mp4",
+    "video": "./asantos/brochero.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
