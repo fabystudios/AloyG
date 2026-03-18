@@ -3563,521 +3563,6 @@
 
 
 
-
-
-  <div class="min-vh-50 d-flex align-items-center justify-content-center position-relative overflow-hidden rounded-4"
-    style="width: 90vw; max-width: 90%; margin: 0 auto;">
-
-    <!-- Animación flor de lis -->
-    <div c2lass="position-absolute w-100 h-100" style="pointer-events: none; z-index: 20;">
-      <div class="animate-fall text-warning position-absolute"
-        style="font-size: 2.5rem; left: 25%; animation-delay: 0s;">⚜️</div>
-      <div class="animate-fall-slow text-white position-absolute"
-        style="font-size: 1.875rem; left: 50%; animation-delay: 1s;">⚜️</div>
-      <div class="animate-fall position-absolute"
-        style="font-size: 1.25rem; left: 75%; color: #ddd6fe; animation-delay: 2s;">⚜️</div>
-      <div class="animate-fall-fast position-absolute"
-        style="font-size: 3rem; left: 33%; color: #fef3c7; animation-delay: 1.5s;">⚜️</div>
-      <div class="animate-fall text-white position-absolute"
-        style="font-size: 1.875rem; left: 40%; animation-delay: 2.5s;">⚜️</div>
-      <div class="animate-fall-slow position-absolute"
-        style="font-size: 1.25rem; left: 80%; color: #ede9fe; animation-delay: 3s;">⚜️</div>
-    </div>
-
-    <!-- Card -->
-    <div class="bg-white rounded-4 shadow-lg w-100 p-4 position-relative overflow-auto"
-      style="max-width: 48rem; background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); z-index: 10;">
-      <h2 class="fs-3 fw-bold text-center mb-4 align-middle" style="color: #7c3aed;">
-        <span class="d-none d-md-inline">Excursión a Tierra Santa <br> con el grupo scout (USCA)</span>
-        <span class="d-block d-md-none">Excursión a Tierra Santa con el grupo scout (USCA)</span>
-      </h2>
-      <img src="./img/scout.png" alt="boy scout"
-        style="width: 70px; position: absolute; top: 10px; right: 60px; opacity: 1; z-index: 10; border-radius: 50%;"
-        class="scout-img d-none d-md-block">
-      <img src="./img/scout2.png" alt="boy scout"
-        style="width: 70px; position: absolute; top: 10px; right: 60px; opacity: 1; z-index: 10; border-radius: 50%; display: none;"
-        class="scout2-img d-block d-md-none">
-
-      <style>
-        @media (max-width: 768px) {
-          .scout2-img {
-            opacity: 0.7;
-            left: 30px !important;
-            right: auto !important;
-            top: 100px !important;
-            width: 50px !important;
-          }
-        }
-      </style>
-
-      <!-- <img src="./img/scout.png" alt="Grupo Scout" class="img-fluid rounded-3 mb-4" style="width: 50px; height: auto; vertical-align: middle; margin-right: 10px;"> -->
-      <style>
-        @media (max-width: 768px) {
-          .fs-3 {
-            font-size: 1.4rem !important;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .fs-3 {
-            font-size: 1.2rem !important;
-          }
-
-          .min-vh-50 {
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-          }
-        }
-      </style>
-      <div class="overflow-hidden rounded-4 shadow mb-4">
-        <video class="w-100 object-fit-cover rounded-3" style="height: 500px;" controls poster="./img/usca.jpg">
-          <source src="./img/usca.mp4" type="video/mp4">
-          Tu navegador no soporta la reproducción de video.
-        </video>
-        <style>
-          @media (max-width: 768px) {
-            .overflow-hidden video {
-              height: 350px !important;
-            }
-          }
-
-          @media (max-width: 480px) {
-            .overflow-hidden video {
-              height: 280px !important;
-            }
-          }
-        </style>
-      </div>
-      <button class="btn btn-md3 w-100 text-white py-2 rounded-pill fw-medium" style="background-color: #7c3aed;"
-        onmouseover="this.style.backgroundColor='#6d28d9'" onmouseout="this.style.backgroundColor='#7c3aed'"
-        onclick="document.getElementById('scout').scrollIntoView({ behavior: 'smooth' });">
-        <img src="./img/scout-simbolo-white.png" alt="Scout Symbol" style="height: 2.7em; vertical-align: middle;">
-        <style>
-          @media (max-width: 768px) {
-            img[alt="Scout Symbol"] {
-              height: 2em !important;
-            }
-          }
-        </style>
-        Ver Más
-      </button>
-    </div>
-  </div>
-
-  <style>
-    @keyframes fall {
-      0% {
-        transform: translateY(-10%) rotate(0deg);
-        opacity: 0;
-      }
-
-      10% {
-        opacity: 1;
-      }
-
-      100% {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    .animate-fall {
-      animation: fall 10s linear infinite;
-    }
-
-    .animate-fall-slow {
-      animation: fall 14s linear infinite;
-    }
-
-    .animate-fall-fast {
-      animation: fall 7s linear infinite;
-    }
-  </style>
-
-
-
-  <!-- Botón Saber Más -->
-  <!-- <div class="text-center mt-4" style="width: 100%; margin: 0 20px 0 20px;">
-    <button class="btn-md3" style="
-      background: linear-gradient(45deg, #7B1FA2, #9C27B0);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 1rem 2rem;
-      font-size: 1.1rem;
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(123, 31, 162, 0.3);
-      transition: all 0.3s ease;
-      cursor: pointer;
-    " 
-    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 16px rgba(123, 31, 162, 0.4)'"
-    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(123, 31, 162, 0.3)'"
-    onclick="document.getElementById('Acutis').scrollIntoView({ behavior: 'smooth' });">
-    <span class="btn-text" style="display: flex; align-items: center; justify-content: center; text-align: center;">
-    <img src="apple-touch-icon.png" alt="Oración" class="btn-icon" style="width: 30px; height: 30px; margin-right: 8px; vertical-align: middle;">
-    <span>Canonización: 7 de septiembre del 2025</span>
-    <img src="apple-touch-icon.png" alt="Oración" class="btn-icon" style="width: 30px; height: 30px; margin-left: 8px; vertical-align: middle;">
-    </span>
-    </button>
-    </div> -->
-
-
-  </div>
-
-  </div>
-
-  <!-- Script para lazy loading de videos -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Función para cargar video cuando sea necesario
-      function loadVideo(video) {
-        if (video.getAttribute('data-loaded') !== 'true') {
-          video.load(); // Carga el video
-          video.setAttribute('data-loaded', 'true');
-        }
-      }
-
-      // Configurar Intersection Observer para lazy loading
-      const videoObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const video = entry.target;
-            loadVideo(video);
-            observer.unobserve(video); // Dejar de observar una vez cargado
-          }
-        });
-      }, {
-        rootMargin: '50px' // Cargar cuando esté a 50px de ser visible
-      });
-
-      // Observar todos los videos en esta sección
-      const videos = document.querySelectorAll('#videosCatolicos video');
-      videos.forEach(video => {
-        videoObserver.observe(video);
-
-        // También cargar cuando el usuario hace clic en play
-        video.addEventListener('play', function () {
-          loadVideo(this);
-        });
-      });
-    });
-  </script>
-
-  <!-- Mostrar SIEMPRE en todos los dispositivos -->
-  <style>
-    @media (max-width: 991px) {
-      #VideosCatolicos {
-        display: flex !important;
-      }
-    }
-
-    @media (min-width: 992px) {
-      #VideosCatolicos {
-        display: flex !important;
-      }
-    }
-  </style>
-
-  <!-- <br class="d-none d-lg-block"> -->
-  <br> <br>
-  <!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
-  <br> <br>
-  <section class="post-dia-nino viewport-container">
-    <div class="md3-card festiva">
-
-      <!-- Canvas para el confetti -->
-      <canvas id="confetti-canvas"></canvas>
-
-      <!-- Header festivo -->
-      <div class="header-festivo">
-        <!-- <span class="globo">🎈</span> -->
-        <h2 class="post-title d-none d-md-block">🌟 ¡Feliz Día del Niño! 🌟</h2>
-        <h2 class="post-title d-block d-md-none">¡Feliz Día del Niño!</h2>
-        <style>
-          /* Reducir fuente en móviles */
-          @media (max-width: 768px) {
-            .header-festivo .post-title {
-              font-size: 1.7rem !important;
-              margin: 0 !important;
-              padding: 0 !important;
-            }
-
-          }
-
-          @media (max-width: 360px) {
-            .header-festivo .post-title {
-              font-size: 1.0rem !important;
-              margin: 0 !important;
-              padding: 0 !important;
-            }
-          }
-        </style>
-        <!-- <style>
-      /* Reducir ligeramente la fuente en móviles */
-      @media (max-width: 600px) {
-        .post-title.post-title-3d { font-size: 1.4rem !important; }
-      }
-      @media (max-width: 360px) {
-        .post-title.post-title-3d { font-size: 1.2rem !important; }
-      }
-      </style> -->
-      </div>
-
-      <style>
-        /* Texto blanco con efecto 3D */
-        .header-festivo {
-          text-align: center;
-          margin-bottom: 2rem;
-        }
-
-        .header-festivo .globo {
-          font-size: 2.5rem;
-          display: block;
-          margin-bottom: .35rem;
-        }
-
-        /* Post title: blanco + 3D mediante múltiples text-shadows */
-        .header-festivo .post-title {
-          color: #ffffff;
-          font-family: "Playfair Display", "Roboto", sans-serif;
-          font-weight: 800;
-          font-size: 2.4rem;
-          letter-spacing: 0.4px;
-          margin: 0;
-          line-height: 1;
-          /* Capa superior ligeramente brillante + capas sucesivas para "extrusión" 3D */
-          text-shadow:
-            0 1px 0 rgba(255, 255, 255, 0.6),
-            /* brillo sutil */
-            0 2px 0 rgba(0, 0, 0, 0.12),
-            0 4px 0 rgba(0, 0, 0, 0.14),
-            0 6px 0 rgba(0, 0, 0, 0.16),
-            0 8px 14px rgba(0, 0, 0, 0.40);
-          /* sombra difusa */
-          -webkit-font-smoothing: antialiased;
-          -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* Ajuste responsivo */
-        @media (max-width: 768px) {
-          .header-festivo .post-title {
-            line-height: 1 !important;
-            font-size: 1.75rem !important;
-            margin: 0 !important;
-            padding: 0 !important;
-            /* font-size: 1.6rem; } */
-
-          }
-        }
-      </style>
-      <!-- https://youtu.be/SEUXl24mHkY -->
-      <!-- Video centrado en la card -->
-      <div class="video-container2">
-        <iframe src="https://www.youtube.com/embed/SEUXl24mHkY?rel=0" title="Video Día del Niño" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-      </div>
-
-      <!-- Texto -->
-      <p class="post-text" style="text-shadow: 2px 2px 8px rgba(100,100,100,0.75);">
-        El domingo 17 de agosto celebramos la <strong>alegría, inocencia y esperanza</strong> de los más pequeños.
-        <br>💖 ¡Ese día estuvo lleno de juegos, sonrisas y bendiciones!
-      </p>
-      <style>
-        /* Reducir interlineado en móviles */
-        @media (max-width: 768px) {
-          .post-text {
-            line-height: 1.15 !important;
-            font-size: 1.05rem !important;
-          }
-        }
-      </style>
-    </div>
-  </section>
-
-  <style>
-    .post-dia-nino {
-      position: relative;
-      margin: 2rem auto;
-      padding: 2rem;
-      max-width: 1200px;
-    }
-
-    .md3-card.festiva {
-      position: relative;
-      background: linear-gradient(135deg, #c326b6, #e858b3, #d542ab, #a1c4fd, #c2e9fb);
-      border-radius: 24px;
-      padding: 2rem;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-      overflow: hidden;
-    }
-
-    #confetti-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .header-festivo {
-      position: relative;
-      z-index: 2;
-      text-align: center;
-      margin-bottom: 2rem;
-    }
-
-    .post-title {
-      font-size: 2.5rem;
-      color: #7B1FA2;
-      /* violeta */
-      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6);
-      /* margin: 0.3rem 0; */
-    }
-
-    .globo {
-      font-size: 2rem;
-      animation: bounce 2s infinite;
-    }
-
-    .video-container2 {
-      position: relative;
-      z-index: 2;
-      margin: 0 auto 2rem auto;
-      display: flex;
-      justify-content: center;
-      width: 100%;
-    }
-
-    .video-container2 iframe {
-      width: 100%;
-      max-width: 800px;
-      aspect-ratio: 16/9;
-      border-radius: 16px;
-      border: none;
-      display: block;
-    }
-
-    .post-text {
-      position: relative;
-      z-index: 2;
-      font-size: 1.3rem;
-      color: #fff;
-      /* blanco puro */
-      text-align: center;
-      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
-      /* mejor contraste */
-      margin-top: 2rem;
-    }
-
-    @keyframes bounce {
-
-      0%,
-      20%,
-      50%,
-      80%,
-      100% {
-        transform: translateY(0);
-      }
-
-      40% {
-        transform: translateY(-10px);
-      }
-
-      60% {
-        transform: translateY(-5px);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .post-title {
-        font-size: 2rem;
-      }
-
-      .post-text {
-        font-size: 1.1rem;
-      }
-
-      .md3-card.festiva {
-        padding: 1.5rem;
-      }
-    }
-
-    /* Canvas confetti encima del card */
-    #confetti-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      /* para que no bloquee clicks */
-      z-index: 10;
-    }
-  </style>
-  <script>
-    // Confetti lento 🎉
-    const canvas = document.getElementById("confetti-canvas");
-    const ctx = canvas.getContext("2d");
-    let confetti = [];
-
-    function resizeCanvas() {
-      canvas.width = canvas.offsetWidth;
-      canvas.height = canvas.offsetHeight;
-    }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
-
-    for (let i = 0; i < 100; i++) {
-      confetti.push({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 6 + 4,
-        d: Math.random() * 50,
-        color: `hsl(${Math.random() * 360}, 70%, 60%)`,
-        tilt: Math.random() * 10 - 10,
-        tiltAngleIncremental: Math.random() * 0.02 + 0.005, // más lento
-        tiltAngle: 0
-      });
-    }
-
-    function drawConfetti() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      confetti.forEach(c => {
-        ctx.beginPath();
-        ctx.lineWidth = c.r;
-        ctx.strokeStyle = c.color;
-        ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
-        ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
-        ctx.stroke();
-      });
-      updateConfetti();
-    }
-
-    function updateConfetti() {
-      confetti.forEach(c => {
-        c.tiltAngle += c.tiltAngleIncremental;
-        c.y += (Math.cos(c.d) + 1 + c.r / 2) * 0.3; // más lento
-        c.x += Math.sin(c.d);
-        c.tilt = Math.sin(c.tiltAngle) * 15;
-
-        if (c.y > canvas.height) {
-          c.y = -10;
-          c.x = Math.random() * canvas.width;
-        }
-      });
-    }
-
-    (function animateConfetti() {
-      drawConfetti();
-      requestAnimationFrame(animateConfetti);
-    })();
-  </script>
-  <!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block">
-  <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
   <br><br><br>
 
 
@@ -4566,7 +4051,526 @@
       </div>
     </div>
   </section>
+<!-- inicio videos usca  -->
 
+<br><br>
+
+<!-- Excursion aTierra Santa con el grupo scout (USCA)   -->
+
+  <div class="min-vh-50 d-flex align-items-center justify-content-center position-relative overflow-hidden rounded-4"
+    style="width: 90vw; max-width: 90%; margin: 0 auto;">
+
+    <!-- Animación flor de lis -->
+    <div c2lass="position-absolute w-100 h-100" style="pointer-events: none; z-index: 20;">
+      <div class="animate-fall text-warning position-absolute"
+        style="font-size: 2.5rem; left: 25%; animation-delay: 0s;">⚜️</div>
+      <div class="animate-fall-slow text-white position-absolute"
+        style="font-size: 1.875rem; left: 50%; animation-delay: 1s;">⚜️</div>
+      <div class="animate-fall position-absolute"
+        style="font-size: 1.25rem; left: 75%; color: #ddd6fe; animation-delay: 2s;">⚜️</div>
+      <div class="animate-fall-fast position-absolute"
+        style="font-size: 3rem; left: 33%; color: #fef3c7; animation-delay: 1.5s;">⚜️</div>
+      <div class="animate-fall text-white position-absolute"
+        style="font-size: 1.875rem; left: 40%; animation-delay: 2.5s;">⚜️</div>
+      <div class="animate-fall-slow position-absolute"
+        style="font-size: 1.25rem; left: 80%; color: #ede9fe; animation-delay: 3s;">⚜️</div>
+    </div>
+
+    <!-- Card -->
+    <div class="bg-white rounded-4 shadow-lg w-100 p-4 position-relative overflow-auto"
+      style="max-width: 48rem; background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); z-index: 10;">
+      <h2 class="fs-3 fw-bold text-center mb-4 align-middle" style="color: #7c3aed;">
+        <span class="d-none d-md-inline">Excursión a Tierra Santa <br> con el grupo scout (USCA)</span>
+        <span class="d-block d-md-none">Excursión a Tierra Santa con el grupo scout (USCA)</span>
+      </h2>
+      <img src="./img/scout.png" alt="boy scout"
+        style="width: 70px; position: absolute; top: 10px; right: 60px; opacity: 1; z-index: 10; border-radius: 50%;"
+        class="scout-img d-none d-md-block">
+      <img src="./img/scout2.png" alt="boy scout"
+        style="width: 70px; position: absolute; top: 10px; right: 60px; opacity: 1; z-index: 10; border-radius: 50%; display: none;"
+        class="scout2-img d-block d-md-none">
+
+      <style>
+        @media (max-width: 768px) {
+          .scout2-img {
+            opacity: 0.7;
+            left: 30px !important;
+            right: auto !important;
+            top: 100px !important;
+            width: 50px !important;
+          }
+        }
+      </style>
+
+      <!-- <img src="./img/scout.png" alt="Grupo Scout" class="img-fluid rounded-3 mb-4" style="width: 50px; height: auto; vertical-align: middle; margin-right: 10px;"> -->
+      <style>
+        @media (max-width: 768px) {
+          .fs-3 {
+            font-size: 1.4rem !important;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .fs-3 {
+            font-size: 1.2rem !important;
+          }
+
+          .min-vh-50 {
+            padding-top: 0 !important;
+            padding-bottom: 0 !important;
+          }
+        }
+      </style>
+      <div class="overflow-hidden rounded-4 shadow mb-4">
+        <video class="w-100 object-fit-cover rounded-3" style="height: 500px;" controls poster="./img/usca.jpg">
+          <source src="./img/usca.mp4" type="video/mp4">
+          Tu navegador no soporta la reproducción de video.
+        </video>
+        <style>
+          @media (max-width: 768px) {
+            .overflow-hidden video {
+              height: 350px !important;
+            }
+          }
+
+          @media (max-width: 480px) {
+            .overflow-hidden video {
+              height: 280px !important;
+            }
+          }
+        </style>
+      </div>
+      <button class="btn btn-md3 w-100 text-white py-2 rounded-pill fw-medium" style="background-color: #7c3aed;"
+        onmouseover="this.style.backgroundColor='#6d28d9'" onmouseout="this.style.backgroundColor='#7c3aed'"
+        onclick="document.getElementById('scout').scrollIntoView({ behavior: 'smooth' });">
+        <img src="./img/scout-simbolo-white.png" alt="Scout Symbol" style="height: 2.7em; vertical-align: middle;">
+        <style>
+          @media (max-width: 768px) {
+            img[alt="Scout Symbol"] {
+              height: 2em !important;
+            }
+          }
+        </style>
+        Ver Más
+      </button>
+    </div>
+  </div>
+
+  <style>
+    @keyframes fall {
+      0% {
+        transform: translateY(-10%) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .animate-fall {
+      animation: fall 10s linear infinite;
+    }
+
+    .animate-fall-slow {
+      animation: fall 14s linear infinite;
+    }
+
+    .animate-fall-fast {
+      animation: fall 7s linear infinite;
+    }
+  </style>
+
+
+
+  <!-- Botón Saber Más -->
+  <!-- <div class="text-center mt-4" style="width: 100%; margin: 0 20px 0 20px;">
+    <button class="btn-md3" style="
+      background: linear-gradient(45deg, #7B1FA2, #9C27B0);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(123, 31, 162, 0.3);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    " 
+    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 16px rgba(123, 31, 162, 0.4)'"
+    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(123, 31, 162, 0.3)'"
+    onclick="document.getElementById('Acutis').scrollIntoView({ behavior: 'smooth' });">
+    <span class="btn-text" style="display: flex; align-items: center; justify-content: center; text-align: center;">
+    <img src="apple-touch-icon.png" alt="Oración" class="btn-icon" style="width: 30px; height: 30px; margin-right: 8px; vertical-align: middle;">
+    <span>Canonización: 7 de septiembre del 2025</span>
+    <img src="apple-touch-icon.png" alt="Oración" class="btn-icon" style="width: 30px; height: 30px; margin-left: 8px; vertical-align: middle;">
+    </span>
+    </button>
+    </div> -->
+
+
+  </div>
+
+  </div>
+
+  <!-- Script para lazy loading de videos -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Función para cargar video cuando sea necesario
+      function loadVideo(video) {
+        if (video.getAttribute('data-loaded') !== 'true') {
+          video.load(); // Carga el video
+          video.setAttribute('data-loaded', 'true');
+        }
+      }
+
+      // Configurar Intersection Observer para lazy loading
+      const videoObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const video = entry.target;
+            loadVideo(video);
+            observer.unobserve(video); // Dejar de observar una vez cargado
+          }
+        });
+      }, {
+        rootMargin: '50px' // Cargar cuando esté a 50px de ser visible
+      });
+
+      // Observar todos los videos en esta sección
+      const videos = document.querySelectorAll('#videosCatolicos video');
+      videos.forEach(video => {
+        videoObserver.observe(video);
+
+        // También cargar cuando el usuario hace clic en play
+        video.addEventListener('play', function () {
+          loadVideo(this);
+        });
+      });
+    });
+  </script>
+
+  <!-- Mostrar SIEMPRE en todos los dispositivos -->
+  <style>
+    @media (max-width: 991px) {
+      #VideosCatolicos {
+        display: flex !important;
+      }
+    }
+
+    @media (min-width: 992px) {
+      #VideosCatolicos {
+        display: flex !important;
+      }
+    }
+  </style>
+
+  <!-- <br class="d-none d-lg-block"> -->
+  <br> <br>
+  <!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
+  <!-- <br> <br> -->
+  <section class="post-dia-nino viewport-container">
+    <div class="md3-card festiva">
+
+      <!-- Canvas para el confetti -->
+      <canvas id="confetti-canvas"></canvas>
+
+      <!-- Header festivo -->
+      <div class="header-festivo">
+        <!-- <span class="globo">🎈</span> -->
+        <h2 class="post-title d-none d-md-block">🌟 ¡Feliz Día del Niño! 🌟</h2>
+        <h2 class="post-title d-block d-md-none">¡Feliz Día del Niño!</h2>
+        <style>
+          /* Reducir fuente en móviles */
+          @media (max-width: 768px) {
+            .header-festivo .post-title {
+              font-size: 1.7rem !important;
+              margin: 0 !important;
+              padding: 0 !important;
+            }
+
+          }
+
+          @media (max-width: 360px) {
+            .header-festivo .post-title {
+              font-size: 1.0rem !important;
+              margin: 0 !important;
+              padding: 0 !important;
+            }
+          }
+        </style>
+        <!-- <style>
+      /* Reducir ligeramente la fuente en móviles */
+      @media (max-width: 600px) {
+        .post-title.post-title-3d { font-size: 1.4rem !important; }
+      }
+      @media (max-width: 360px) {
+        .post-title.post-title-3d { font-size: 1.2rem !important; }
+      }
+      </style> -->
+      </div>
+
+      <style>
+        /* Texto blanco con efecto 3D */
+        .header-festivo {
+          text-align: center;
+          margin-bottom: 2rem;
+        }
+
+        .header-festivo .globo {
+          font-size: 2.5rem;
+          display: block;
+          margin-bottom: .35rem;
+        }
+
+        /* Post title: blanco + 3D mediante múltiples text-shadows */
+        .header-festivo .post-title {
+          color: #ffffff;
+          font-family: "Playfair Display", "Roboto", sans-serif;
+          font-weight: 800;
+          font-size: 2.4rem;
+          letter-spacing: 0.4px;
+          margin: 0;
+          line-height: 1;
+          /* Capa superior ligeramente brillante + capas sucesivas para "extrusión" 3D */
+          text-shadow:
+            0 1px 0 rgba(255, 255, 255, 0.6),
+            /* brillo sutil */
+            0 2px 0 rgba(0, 0, 0, 0.12),
+            0 4px 0 rgba(0, 0, 0, 0.14),
+            0 6px 0 rgba(0, 0, 0, 0.16),
+            0 8px 14px rgba(0, 0, 0, 0.40);
+          /* sombra difusa */
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Ajuste responsivo */
+        @media (max-width: 768px) {
+          .header-festivo .post-title {
+            line-height: 1 !important;
+            font-size: 1.75rem !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            /* font-size: 1.6rem; } */
+
+          }
+        }
+      </style>
+      <!-- https://youtu.be/SEUXl24mHkY -->
+      <!-- Video centrado en la card -->
+      <div class="video-container2">
+        <iframe src="https://www.youtube.com/embed/SEUXl24mHkY?rel=0" title="Video Día del Niño" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <!-- Texto -->
+      <p class="post-text" style="text-shadow: 2px 2px 8px rgba(100,100,100,0.75);">
+        El domingo 17 de agosto celebramos la <strong>alegría, inocencia y esperanza</strong> de los más pequeños.
+        <br>💖 ¡Ese día estuvo lleno de juegos, sonrisas y bendiciones!
+      </p>
+      <style>
+        /* Reducir interlineado en móviles */
+        @media (max-width: 768px) {
+          .post-text {
+            line-height: 1.15 !important;
+            font-size: 1.05rem !important;
+          }
+        }
+      </style>
+    </div>
+  </section>
+
+  <style>
+    .post-dia-nino {
+      position: relative;
+      margin: 2rem auto;
+      padding: 2rem;
+      max-width: 1200px;
+    }
+
+    .md3-card.festiva {
+      position: relative;
+      background: linear-gradient(135deg, #c326b6, #e858b3, #d542ab, #a1c4fd, #c2e9fb);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+    }
+
+    #confetti-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .header-festivo {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .post-title {
+      font-size: 2.5rem;
+      color: #7B1FA2;
+      /* violeta */
+      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.6);
+      /* margin: 0.3rem 0; */
+    }
+
+    .globo {
+      font-size: 2rem;
+      animation: bounce 2s infinite;
+    }
+
+    .video-container2 {
+      position: relative;
+      z-index: 2;
+      margin: 0 auto 2rem auto;
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .video-container2 iframe {
+      width: 100%;
+      max-width: 800px;
+      aspect-ratio: 16/9;
+      border-radius: 16px;
+      border: none;
+      display: block;
+    }
+
+    .post-text {
+      position: relative;
+      z-index: 2;
+      font-size: 1.3rem;
+      color: #fff;
+      /* blanco puro */
+      text-align: center;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
+      /* mejor contraste */
+      margin-top: 2rem;
+    }
+
+    @keyframes bounce {
+
+      0%,
+      20%,
+      50%,
+      80%,
+      100% {
+        transform: translateY(0);
+      }
+
+      40% {
+        transform: translateY(-10px);
+      }
+
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .post-title {
+        font-size: 2rem;
+      }
+
+      .post-text {
+        font-size: 1.1rem;
+      }
+
+      .md3-card.festiva {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Canvas confetti encima del card */
+    #confetti-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      /* para que no bloquee clicks */
+      z-index: 10;
+    }
+  </style>
+  <script>
+    // Confetti lento 🎉
+    const canvas = document.getElementById("confetti-canvas");
+    const ctx = canvas.getContext("2d");
+    let confetti = [];
+
+    function resizeCanvas() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    for (let i = 0; i < 100; i++) {
+      confetti.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 6 + 4,
+        d: Math.random() * 50,
+        color: `hsl(${Math.random() * 360}, 70%, 60%)`,
+        tilt: Math.random() * 10 - 10,
+        tiltAngleIncremental: Math.random() * 0.02 + 0.005, // más lento
+        tiltAngle: 0
+      });
+    }
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      confetti.forEach(c => {
+        ctx.beginPath();
+        ctx.lineWidth = c.r;
+        ctx.strokeStyle = c.color;
+        ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+        ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
+        ctx.stroke();
+      });
+      updateConfetti();
+    }
+
+    function updateConfetti() {
+      confetti.forEach(c => {
+        c.tiltAngle += c.tiltAngleIncremental;
+        c.y += (Math.cos(c.d) + 1 + c.r / 2) * 0.3; // más lento
+        c.x += Math.sin(c.d);
+        c.tilt = Math.sin(c.tiltAngle) * 15;
+
+        if (c.y > canvas.height) {
+          c.y = -10;
+          c.x = Math.random() * canvas.width;
+        }
+      });
+    }
+
+    (function animateConfetti() {
+      drawConfetti();
+      requestAnimationFrame(animateConfetti);
+    })();
+  </script>
+  <!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block">
+  <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
+  <!-- fin de video usca -->
 
   <!-- Educación -->
 
