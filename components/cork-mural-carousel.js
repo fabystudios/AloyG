@@ -150,7 +150,7 @@ class CorkMuralCarousel extends HTMLElement {
     if (!document.getElementById('cmc-desc-style')) {
       const s = document.createElement('style');
       s.id = 'cmc-desc-style';
-      s.textContent = '.cmc-desc{line-height:1.2 !important;}@media(min-width:768px){.cmc-subtitle{font-size:2.0rem !important;line-height:1.05 !important;margin-bottom:5px !important;}.cmc-desc{font-size:1.3rem !important;line-height:1.15 !important;}.cmc-paper{padding:12px 18px 10px !important;}.cmc-main-title{margin-bottom:8px !important;}.cmc-slide{flex:0 0 33.333% !important;}.cmc-wrapper{max-width:1200px !important;}}@media(max-width:767px){.cmc-wrapper{width:95vw !important;max-width:95vw !important;padding:0 !important;}.cmc-photo-frame{padding:4px 4px 28px 4px !important;}.cmc-slide{flex:0 0 88% !important;}.cmc-paper{padding:10px 12px 10px !important;margin:0 6px 10px !important;}.cmc-subtitle{font-size:1.0rem !important;}.cmc-desc{font-size:0.8rem !important;line-height:1.35 !important;}.cmc-main-title{font-size:1.05rem !important;}}'
+      s.textContent = '.cmc-nav-btn{position:relative;overflow:hidden;width:50px;height:50px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(145deg,#ef5350,#c62828,#8e0000);color:#fff;font-size:2.2rem;line-height:1;box-shadow:0 6px 0 #5a0000,0 10px 22px rgba(183,28,28,0.55),inset 0 2px 0 rgba(255,255,255,0.45),inset 0 -2px 0 rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;padding:0;transform:translateY(0);transition:box-shadow 0.14s ease,transform 0.14s ease,background 0.18s ease;}.cmc-nav-btn::after{content:"";position:absolute;top:4px;left:7px;width:56%;height:36%;background:radial-gradient(ellipse at 35% 35%,rgba(255,255,255,0.62) 0%,rgba(255,255,255,0.18) 45%,transparent 70%);border-radius:50%;pointer-events:none;}.cmc-nav-btn:hover{background:linear-gradient(145deg,#ff6b68,#ef5350,#b71c1c);box-shadow:0 8px 0 #5a0000,0 14px 28px rgba(198,40,40,0.65),inset 0 2px 0 rgba(255,255,255,0.52),inset 0 -2px 0 rgba(0,0,0,0.3);transform:translateY(-3px);}.cmc-nav-btn:active{background:linear-gradient(145deg,#b71c1c,#8e0000);box-shadow:0 2px 0 #5a0000,0 4px 8px rgba(183,28,28,0.4),inset 0 3px 6px rgba(0,0,0,0.28),inset 0 -1px 0 rgba(255,255,255,0.1);transform:translateY(4px);}.cmc-desc{line-height:1.2 !important;}@media(min-width:768px){.cmc-subtitle{font-size:2.0rem !important;line-height:1.05 !important;margin-bottom:5px !important;}.cmc-desc{font-size:1.3rem !important;line-height:1.15 !important;}.cmc-paper{padding:12px 18px 10px !important;}.cmc-main-title{margin-bottom:8px !important;}.cmc-slide{flex:0 0 33.333% !important;}.cmc-wrapper{max-width:1200px !important;}}@media(max-width:767px){.cmc-wrapper{width:95vw !important;max-width:95vw !important;padding:0 !important;}.cmc-photo-frame{padding:4px 4px 28px 4px !important;}.cmc-slide{flex:0 0 88% !important;}.cmc-paper{padding:10px 12px 10px !important;margin:0 6px 10px !important;}.cmc-subtitle{font-size:1.0rem !important;}.cmc-desc{font-size:0.8rem !important;line-height:1.35 !important;}.cmc-main-title{font-size:1.05rem !important;}.cmc-modal-wrap{padding:0 !important;}.cmc-modal-img{max-width:100% !important;max-height:100dvh !important;padding:0 !important;background:transparent !important;border-radius:0 !important;box-shadow:none !important;}}'
       document.head.appendChild(s);
     }
     this.innerHTML = `
@@ -204,30 +204,18 @@ class CorkMuralCarousel extends HTMLElement {
 
             <!-- Controles -->
             <div style="display:flex;justify-content:center;align-items:center;gap:14px;margin-top:16px;">
-              <button id="${uid}-prev" aria-label="Anterior"
-                style="width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;
-                       background:linear-gradient(135deg,#e53935,#b71c1c);
-                       color:#fff;font-size:2rem;line-height:1;
-                       box-shadow:0 4px 14px rgba(183,28,28,0.6),inset 0 1px 0 rgba(255,255,255,0.25);
-                       display:flex;align-items:center;justify-content:center;
-                       transition:all 0.2s;padding:0;">&#8249;</button>
+              <button id="${uid}-prev" class="cmc-nav-btn" aria-label="Anterior">&#8249;</button>
               <div id="${uid}-dots" style="display:flex;gap:9px;align-items:center;">
                 ${dotsHTML}
               </div>
-              <button id="${uid}-next" aria-label="Siguiente"
-                style="width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;
-                       background:linear-gradient(135deg,#e53935,#b71c1c);
-                       color:#fff;font-size:2rem;line-height:1;
-                       box-shadow:0 4px 14px rgba(183,28,28,0.6),inset 0 1px 0 rgba(255,255,255,0.25);
-                       display:flex;align-items:center;justify-content:center;
-                       transition:all 0.2s;padding:0;">&#8250;</button>
+              <button id="${uid}-next" class="cmc-nav-btn" aria-label="Siguiente">&#8250;</button>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Modal zoom -->
-      <div id="${uid}-modal" style="
+      <div id="${uid}-modal" class="cmc-modal-wrap" style="
         display:none;position:fixed;inset:0;z-index:9999;
         background:rgba(0,0,0,0.88);
         align-items:center;justify-content:center;
@@ -244,7 +232,7 @@ class CorkMuralCarousel extends HTMLElement {
           cursor:pointer;display:flex;align-items:center;justify-content:center;
           padding:0;z-index:1;
         ">&#8249;</button>
-        <img id="${uid}-modal-img" src="" alt="" style="
+        <img id="${uid}-modal-img" class="cmc-modal-img" src="" alt="" style="
           max-width:calc(100% - 120px);max-height:90vh;
           border-radius:4px;
           box-shadow:0 0 60px rgba(0,0,0,0.8);

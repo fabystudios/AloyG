@@ -504,24 +504,82 @@
           height: 18px;
         }
 
+        /* ── Lightbox mobile: imagen ocupa todo el viewport ── */
+        .cc-lb-inner {
+          padding: 0;
+        }
+
+        .cc-lb-nav-row {
+          position: relative;
+          width: 100vw;
+          height: 100dvh;
+          max-width: 100vw;
+          gap: 0;
+          align-items: stretch;
+        }
+
         .cc-lb-img-wrap {
-          max-width: 94vw;
-          max-height: 82vh;
+          position: absolute;
+          inset: 0;
+          max-width: 100vw;
+          max-height: 100dvh;
+          width: 100vw;
+          height: 100dvh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         .cc-lb-img {
-          max-height: 82vh;
-          border-radius: 12px;
+          width: 100%;
+          height: 100%;
+          max-width: 100vw;
+          max-height: 100dvh;
+          object-fit: contain;
+          border-radius: 0;
         }
 
+        /* Controles sobre la imagen */
         .cc-lb-nav-btn {
-          width: 42px;
-          height: 42px;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 10;
+          width: 48px;
+          height: 48px;
+          background: rgba(0, 0, 0, 0.52);
+          border: 1px solid rgba(255, 255, 255, 0.28);
+          backdrop-filter: blur(6px);
+          -webkit-backdrop-filter: blur(6px);
+          flex-shrink: 0;
         }
 
         .cc-lb-nav-btn svg {
-          width: 18px;
-          height: 18px;
+          width: 20px;
+          height: 20px;
+        }
+
+        .cc-lb-prev {
+          left: 14px;
+        }
+
+        .cc-lb-next {
+          right: 14px;
+        }
+
+        .cc-lb-nav-btn:hover,
+        .cc-lb-nav-btn:focus-visible {
+          transform: translateY(-50%) scale(1.1);
+        }
+
+        /* Caption fijo al fondo */
+        .cc-lb-caption {
+          position: fixed;
+          bottom: 1.4rem;
+          left: 50%;
+          transform: translateX(-50%);
+          white-space: nowrap;
+          z-index: 10;
         }
       }
     `;
