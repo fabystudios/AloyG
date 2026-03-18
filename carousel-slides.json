@@ -200,13 +200,13 @@
     "link": "#feria",
     "desktop": {
       "type": "video",
-      "src": "./feria/feria_mov_desktop.mp4",
-      "poster": "./feria/poster_desktop.png"
+      "src": "./feria/feria_desk.mp4",
+      "poster": "./feria/feria_desk.jpg"
     },
     "mobile": {
       "type": "video",
-      "src": "./feria/feria_mov_mobile.mp4",
-      "poster": "./feria/poster_mobile.png"
+      "src": "./feria/feria_mob.mp4",
+      "poster": "./feria/feria_mob.jpg"
     }
   },
   {
