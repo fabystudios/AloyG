@@ -57,7 +57,7 @@
     "id": "scout",
     "position": 2,
     "hasVideo": true,
-    "link": "",
+    "link": "#scout",
     "desktop": {
       "type": "video",
       "src": "./video/scout_desk.mp4",
