@@ -114,7 +114,7 @@ class CorkMuralCarousel extends HTMLElement {
           transform:rotate(-0.7deg);
           position:relative;
           border-top:4px solid rgba(0,0,0,0.06);
-        ">
+        " class="cmc-paper">
           ${subtitle ? `<div class="cmc-subtitle" style="
             font-family:'Lilita One',Georgia,serif;
             font-size:1.6rem;
@@ -150,7 +150,7 @@ class CorkMuralCarousel extends HTMLElement {
     if (!document.getElementById('cmc-desc-style')) {
       const s = document.createElement('style');
       s.id = 'cmc-desc-style';
-      s.textContent = '.cmc-desc{line-height:1.25 !important;}@media(min-width:768px){.cmc-subtitle{font-size:2.4rem !important;}.cmc-desc{font-size:1.55rem !important;line-height:1.3 !important;}.cmc-slide{flex:0 0 33.333% !important;}.cmc-wrapper{max-width:1200px !important;}}@media(max-width:767px){.cmc-wrapper{width:95vw !important;max-width:95vw !important;padding:0 !important;}.cmc-photo-frame{padding:4px 4px 28px 4px !important;}}'
+      s.textContent = '.cmc-desc{line-height:1.25 !important;}@media(min-width:768px){.cmc-subtitle{font-size:2.4rem !important;}.cmc-desc{font-size:1.55rem !important;line-height:1.3 !important;}.cmc-slide{flex:0 0 33.333% !important;}.cmc-wrapper{max-width:1200px !important;}}@media(max-width:767px){.cmc-wrapper{width:95vw !important;max-width:95vw !important;padding:0 !important;}.cmc-photo-frame{padding:4px 4px 28px 4px !important;}.cmc-slide{flex:0 0 88% !important;}.cmc-paper{padding:10px 12px 10px !important;margin:0 6px 10px !important;}.cmc-subtitle{font-size:1.0rem !important;}.cmc-desc{font-size:0.8rem !important;line-height:1.35 !important;}.cmc-main-title{font-size:1.05rem !important;}'
       document.head.appendChild(s);
     }
     this.innerHTML = `
@@ -184,7 +184,7 @@ class CorkMuralCarousel extends HTMLElement {
           ">
             <!-- Título principal -->
             <div style="text-align:center;margin-bottom:18px;padding:0 20px;">
-              <h3 style="color:${titleColor};font-size:1.3rem;font-weight:700;margin:0;
+              <h3 class="cmc-main-title" style="color:${titleColor};font-size:1.3rem;font-weight:700;margin:0;
                          text-shadow:0 2px 8px rgba(0,0,0,0.6);letter-spacing:0.5px;">
                 <i class="material-icons" style="vertical-align:middle;font-size:1.5rem;">${CorkMuralCarousel._esc(icon)}</i>
                 &nbsp;${CorkMuralCarousel._esc(title)}
@@ -309,7 +309,7 @@ class CorkMuralCarousel extends HTMLElement {
         ? 'transform 0.42s cubic-bezier(0.25,0.46,0.45,0.94)'
         : 'none';
       const w        = outer.offsetWidth;
-      const ratio    = window.innerWidth >= 768 ? 0.5 : 0.75;
+      const ratio    = window.innerWidth >= 768 ? 0.5 : 0.88;
       const slideW   = w * ratio;
       const offset   = -(current * slideW) + (w - slideW) / 2;
       track.style.transform   = `translateX(${offset}px)`;
