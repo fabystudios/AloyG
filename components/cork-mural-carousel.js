@@ -93,7 +93,7 @@ class CorkMuralCarousel extends HTMLElement {
 
     /* ── Papel pinchado ────────────────────────────────────── */
     const paperHTML = (subtitle || desc) ? `
-      <div style="position:relative;margin:0 16px 20px;display:flex;justify-content:center;">
+      <div style="position:relative;margin:0 16px 14px;display:flex;justify-content:center;">
         <!-- Tachuela central -->
         <div style="position:absolute;top:-14px;left:50%;transform:translateX(-50%);
                     width:20px;height:20px;border-radius:50%;
@@ -150,7 +150,7 @@ class CorkMuralCarousel extends HTMLElement {
     if (!document.getElementById('cmc-desc-style')) {
       const s = document.createElement('style');
       s.id = 'cmc-desc-style';
-      s.textContent = '.cmc-desc{line-height:1.25 !important;}@media(min-width:768px){.cmc-subtitle{font-size:2.4rem !important;}.cmc-desc{font-size:1.55rem !important;line-height:1.3 !important;}.cmc-slide{flex:0 0 33.333% !important;}.cmc-wrapper{max-width:1200px !important;}}@media(max-width:767px){.cmc-wrapper{width:95vw !important;max-width:95vw !important;padding:0 !important;}.cmc-photo-frame{padding:4px 4px 28px 4px !important;}.cmc-slide{flex:0 0 88% !important;}.cmc-paper{padding:10px 12px 10px !important;margin:0 6px 10px !important;}.cmc-subtitle{font-size:1.0rem !important;}.cmc-desc{font-size:0.8rem !important;line-height:1.35 !important;}.cmc-main-title{font-size:1.05rem !important;}'
+      s.textContent = '.cmc-desc{line-height:1.2 !important;}@media(min-width:768px){.cmc-subtitle{font-size:2.0rem !important;line-height:1.05 !important;margin-bottom:5px !important;}.cmc-desc{font-size:1.3rem !important;line-height:1.15 !important;}.cmc-paper{padding:12px 18px 10px !important;}.cmc-main-title{margin-bottom:8px !important;}.cmc-slide{flex:0 0 33.333% !important;}.cmc-wrapper{max-width:1200px !important;}}@media(max-width:767px){.cmc-wrapper{width:95vw !important;max-width:95vw !important;padding:0 !important;}.cmc-photo-frame{padding:4px 4px 28px 4px !important;}.cmc-slide{flex:0 0 88% !important;}.cmc-paper{padding:10px 12px 10px !important;margin:0 6px 10px !important;}.cmc-subtitle{font-size:1.0rem !important;}.cmc-desc{font-size:0.8rem !important;line-height:1.35 !important;}.cmc-main-title{font-size:1.05rem !important;}}'
       document.head.appendChild(s);
     }
     this.innerHTML = `
@@ -183,7 +183,7 @@ class CorkMuralCarousel extends HTMLElement {
             overflow:visible;
           ">
             <!-- Título principal -->
-            <div style="text-align:center;margin-bottom:18px;padding:0 20px;">
+            <div style="text-align:center;margin-bottom:12px;padding:0 20px;">
               <h3 class="cmc-main-title" style="color:${titleColor};font-size:1.3rem;font-weight:700;margin:0;
                          text-shadow:0 2px 8px rgba(0,0,0,0.6);letter-spacing:0.5px;">
                 <i class="material-icons" style="vertical-align:middle;font-size:1.5rem;">${CorkMuralCarousel._esc(icon)}</i>
