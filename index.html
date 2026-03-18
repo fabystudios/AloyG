@@ -387,6 +387,8 @@
   <script src="./components/cork-mural-carousel.js"></script>
   <!-- Web Component Diario Parroquial -->
   <script src="./components/diario-parroquial.js"></script>
+  <!-- Web Component Cartelera de Novedades -->
+  <script src="./components/cartelera-carousel.js"></script>
 
 </head>
 
@@ -977,12 +979,30 @@
 </section> -->
 
 
+  
+
+
   <section id="Anuncios" class="section-header" style="margin-bottom: 0; padding: 1.5rem 2rem;">
     <h2 class="md3-headline" style="color: white; margin: 0;">
       <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Avisos
     </h2>
   </section>
 <br>
+
+<!-- ═══ Cartelera de Novedades ═══ -->
+  <cartelera-carousel
+    base-path="./actividades/cartelera/"
+    slides='[
+ 
+    {"mob":"sj_mob.jpg","desk":"sj_desk.png","title":"San Jos\u00e9"},
+    {"mob":"horario_mob.png","desk":"horario_desk.png", "title":"Horarios Misa"},
+    {"mob":"retiro_cuaresmal_mob.png","desk":"retiro_cuaresmal_desk.jpeg", "title":"Retiro Cuaresmal"},
+    {"mob":"scout_mob.jpg","desk":"scout_desk.jpg","title":"Scouts"}
+
+    ]'
+  ></cartelera-carousel>
+  <!-- ═══ Fin Cartelera ═══ -->
+<br><br>
 <!-- ═══ Horario Misa ═══ -->
   <div id="horas">
   </div>
