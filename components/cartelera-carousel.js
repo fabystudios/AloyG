@@ -469,6 +469,98 @@
         min-height: 1.5rem;
       }
 
+      /* ── INFO BUTTON (card) ── */
+      .cc-card-info {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        z-index: 4;
+        width: 52px;
+        height: 52px;
+        border-radius: 50%;
+        border: none;
+        background: transparent;
+        box-shadow:
+          0 4px 14px rgba(0, 0, 0, 0.38);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.18s ease;
+        outline: none;
+        padding: 0;
+      }
+
+      .cc-info-img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 50%;
+        display: block;
+        filter: drop-shadow(0 3px 8px rgba(0,0,0,0.45));
+        background: linear-gradient(145deg, #fcd34d, #f59e0b);
+      }
+
+      .cc-card-info:hover,
+      .cc-card-info:focus-visible {
+        transform: translateY(-4px) scale(1.12);
+        box-shadow:
+          0 10px 28px rgba(0, 0, 0, 0.45);
+      }
+
+      .cc-card-info:active {
+        transform: translateY(3px) scale(0.95);
+        box-shadow:
+          0 2px 6px rgba(0, 0, 0, 0.3);
+      }
+
+      /* ── INFO BUTTON (lightbox) ── */
+      .cc-lb-info {
+        position: fixed;
+        top: 1.2rem;
+        left: 1.2rem;
+        z-index: 2;
+        width: 62px;
+        height: 62px;
+        background: transparent;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        text-decoration: none;
+        box-shadow: 0 6px 22px rgba(0,0,0,0.45);
+        transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.22s ease;
+        outline: none;
+        padding: 0;
+      }
+
+      .cc-lb-info img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 50%;
+        display: block;
+        filter: drop-shadow(0 3px 10px rgba(0,0,0,0.5));
+      }
+
+      .cc-lb-info:hover,
+      .cc-lb-info:focus-visible {
+        transform: translateY(-4px) scale(1.12);
+        box-shadow: 0 14px 34px rgba(0,0,0,0.55);
+      }
+
+      .cc-lb-info:active {
+        transform: translateY(3px) scale(0.95);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.32);
+      }
+
+      .cc-lb-info-hidden {
+        display: none !important;
+      }
+
       /* ── MOBILE ── */
       @media (max-width: 768px) {
         .cc-wrap {
@@ -615,6 +707,8 @@
       const bp     = this._basePath;
       const slides = this._slides;
 
+      const infoIcon = `<img src="./actividades/info.png" alt="Información" class="cc-info-img" />`;
+
       const slidesHTML = slides.map((s, i) => `
         <div class="cc-slide" data-i="${i}">
           <div class="cc-card" role="button" tabindex="0"
@@ -634,6 +728,10 @@
               </div>
             </div>
             ${s.title ? `<div class="cc-card-caption">${s.title}</div>` : ''}
+            ${s.anchor ? `<a class="cc-card-info" href="${s.anchor}"
+               ${s.anchor.startsWith('#') ? '' : 'target="_blank" rel="noopener noreferrer"'}
+               aria-label="Más información${s.title ? ' sobre ' + s.title : ''}"
+               title="Más información">${infoIcon}</a>` : ''}
           </div>
         </div>
       `).join('');
@@ -659,6 +757,7 @@
           <line x1="18" y1="6"  x2="6"  y2="18"/>
           <line x1="6"  y1="6"  x2="18" y2="18"/>
         </svg>`;
+      const infoIcon2 = infoIcon; // already defined above
       const searchIcon = `
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
              stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -707,6 +806,8 @@
           <div class="cc-lb-backdrop"></div>
 
           <button class="cc-lb-close" aria-label="Cerrar">${closeIcon}</button>
+          <a class="cc-lb-info cc-lb-info-hidden" href="#" target="_blank"
+             rel="noopener noreferrer" aria-label="Más información">${infoIcon}</a>
 
           <div class="cc-lb-inner">
             <div class="cc-lb-nav-row">
@@ -744,6 +845,11 @@
             this.showLightbox(i);
           }
         });
+      });
+
+      // Info buttons on cards — stop propagation so they don't open the lightbox
+      this.querySelectorAll('.cc-card-info').forEach(btn => {
+        btn.addEventListener('click', (e) => e.stopPropagation());
       });
 
       // Dots
@@ -866,6 +972,25 @@
       img.alt = slide.title || '';
 
       this.querySelector('.cc-lb-caption').textContent = slide.title || '';
+
+      // Info button in lightbox
+      const lbInfo = this.querySelector('.cc-lb-info');
+      if (lbInfo) {
+        if (slide.anchor) {
+          lbInfo.href = slide.anchor;
+          if (slide.anchor.startsWith('#')) {
+            lbInfo.removeAttribute('target');
+            lbInfo.removeAttribute('rel');
+          } else {
+            lbInfo.setAttribute('target', '_blank');
+            lbInfo.setAttribute('rel', 'noopener noreferrer');
+          }
+          lbInfo.classList.remove('cc-lb-info-hidden');
+        } else {
+          lbInfo.href = '#';
+          lbInfo.classList.add('cc-lb-info-hidden');
+        }
+      }
 
       const n    = this._slides.length;
       const prev = this.querySelector('.cc-lb-prev');
