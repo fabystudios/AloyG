@@ -3157,7 +3157,123 @@ async function reenviarEmail(numeroId) {
     </div>
 
   </div>
+<!-- SECCIÓN DE CONTACTO MEJORADA -->
+<section id="CONTACTO" class="section-header">
+  <h2 class="md3-headline" style="color: white;">
+    <i class="material-icons align-middle" style="font-size:1.4em;">sentiment_very_satisfied</i> Contacto<img src="./rifa/contacto3.png" alt="Contacto" style="height: 2em; vertical-align: middle; margin-left: 0.3em; filter: brightness(1.2) contrast(1.1); animation: happy-bounce 1.5s ease-in-out infinite;">
 
+    <style>
+    @keyframes happy-bounce {
+      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+      25% { transform: translateY(-12px) rotate(-10deg) scale(1.1); }
+      50% { transform: translateY(0) rotate(10deg) scale(1); }
+      75% { transform: translateY(-8px) rotate(-5deg) scale(1.05); }
+    }
+    </style>
+
+    <style>
+    @keyframes erratic-walk {
+      0%, 100% { transform: translateX(0) translateY(0) rotate(0deg); }
+      10% { transform: translateX(-3px) translateY(-2px) rotate(-5deg); }
+      20% { transform: translateX(4px) translateY(3px) rotate(3deg); }
+      30% { transform: translateX(-2px) translateY(-4px) rotate(-8deg); }
+      40% { transform: translateX(5px) translateY(2px) rotate(6deg); }
+      50% { transform: translateX(-4px) translateY(4px) rotate(-4deg); }
+      60% { transform: translateX(3px) translateY(-3px) rotate(7deg); }
+      70% { transform: translateX(-5px) translateY(2px) rotate(-6deg); }
+      80% { transform: translateX(4px) translateY(-2px) rotate(5deg); }
+      90% { transform: translateX(-3px) translateY(3px) rotate(-3deg); }
+    }
+    </style>
+  </h2>
+</section>
+
+<section id="contacto" class="contacto-section">
+  <div class="container">
+    <div class="contacto-grid">
+      
+      <!-- Información de Contacto -->
+      <div class="contacto-card">
+        <h4>
+          <i class="material-icons">info</i>
+          Información de Contacto
+        </h4>
+        <ul class="contact-list">
+          <li>
+            <a href="https://maps.google.com/maps?ll=-34.852837,-58.090878&z=16&t=m&hl=es-419&gl=AR&mapclient=embed&cid=14552632988079411306" 
+               target="_blank" 
+               rel="noopener noreferrer">
+              <i class="material-icons icono-contacto">location_on</i>
+              <span class="texto-contacto">
+                <strong>Dirección</strong>
+                Calle 8, Nº 1950<br>
+                Villa Elisa, Provincia de Buenos Aires<br>
+                Argentina
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            <a href="tel:+542215947600">
+              <i class="material-icons icono-contacto">phone</i>
+              <span class="texto-contacto">
+                <strong>Teléfono</strong>
+                +54 221 594-7600
+              </span>
+            </a>
+          </li>
+          
+          <li>
+            <a href="mailto:sanluisvillaelisa@gmail.com">
+              <i class="material-icons icono-contacto">email</i>
+              <span class="texto-contacto">
+                <strong>Email</strong>
+                sanluisvillaelisa@gmail.com
+              </span>
+            </a>
+          </li>
+        </ul>
+      </div>
+      
+      <!-- Formulario de Contacto -->
+      <div class="contacto-card" id="formulario-contacto">
+        <h4>
+          <img src="./rifa/mail.png" alt="Contacto" style="height: 4em; vertical-align: middle; margin-left: 0.7em; filter: brightness(1.2) contrast(1.1); animation: erratic-walk 6s ease-in-out infinite;">
+          <i class="material-icons">mail_outline</i>
+          Envíanos un Mensaje
+        </h4>
+        <form action="https://formspree.io/f/mvgzbwre" method="POST" class="contact-form">
+          <div class="mb-3">
+            <input type="text" 
+                   class="form-control" 
+                   name="name" 
+                   placeholder="Tu Nombre Completo" 
+                   required>
+          </div>
+          <div class="mb-3">
+            <input type="email" 
+                   class="form-control" 
+                   name="_replyto" 
+                   placeholder="Tu Email" 
+                   required>
+          </div>
+          <div class="mb-3">
+            <textarea class="form-control" 
+                      name="message" 
+                      rows="4" 
+                      placeholder="Tu Mensaje" 
+                      required></textarea>
+          </div>
+          <button type="submit" class="btn-md3">
+            <i class="material-icons">send</i> 
+            Enviar Mensaje
+          </button>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</section>
       <div class="stats">
         <div class="stat-card">
           <div class="number" id="public-stat-disponibles">0</div>
