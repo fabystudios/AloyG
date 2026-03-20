@@ -92,6 +92,11 @@ class RetroTvPlayer extends HTMLElement {
   z-index: -1;
   pointer-events: none;
 }
+@media (max-width: 767px) {
+  .${uid}-outer::before {
+    inset: -60px 0;  /* evita desbordamiento horizontal en móvil */
+  }
+}
 
 /* ─── 3D Title ─── */
 .${uid}-title {
@@ -404,7 +409,7 @@ class RetroTvPlayer extends HTMLElement {
   border-radius: 50%;
   background: radial-gradient(circle at 38% 32%,
     #4a4030 0%, #1e1a0e 60%, #0e0c07 100%);
-  box-shadow: inset 0 2px 5px rgba(0,0,0,0.8), inset 0 -1px 2px rgba(255,255,255,0.05));
+  box-shadow: inset 0 2px 5px rgba(0,0,0,0.8), inset 0 -1px 2px rgba(255,255,255,0.05);
 }
 /* Pointer / indicator mark */
 .${uid}-knob-ring::after {
