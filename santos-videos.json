@@ -1,6 +1,18 @@
 [     
-         {
+           {
     "id": 1,
+    "fecha": "21 de Marzo",
+    "santo": "Santa María Francisca de las Cinco Llagas",
+    "santoFontSize": "1em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/fran.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },  
+         {
+    "id": 2,
     "fecha": "19 de Marzo",
     "santo": "San José",
     "santoFontSize": "1.2em",
@@ -8,21 +20,9 @@
     "video": "./asantos/especiales/sanjose.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
-    "showOnDesktop": true
-  },  
-       {
-    "id": 2,
-    "fecha": "18 de Marzo",
-    "santo": "San Cirilo de Jerusalén",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/cirilo.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
-  },     
+  },   
 
         {
     "id": 3,
