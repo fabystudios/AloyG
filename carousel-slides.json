@@ -216,12 +216,12 @@
     "link": "#rifa",
     "desktop": {
       "type": "video",
-      "src": "./video/rifa5-mov-desktop.mp4",
+      "src": "./video/rifis_desk.mp4",
       "poster": "./slides/rifa2-desktop.png"
     },
     "mobile": {
       "type": "video",
-      "src": "./video/rifa4-mov-mobile.mp4",
+      "src": "./video/rifis_mov.mp4",
       "poster": "./slides/rifa2-mobile.png"
     }
   },
@@ -321,6 +321,7 @@
       "poster": "./slides/banner2-mobile.jpg"
     }
   },
+  
   {
     "id": "luz",
     "position": -1,
@@ -336,21 +337,6 @@
       "src": "./video/luz-mov-mobile.mp4",
       "poster": "./slides/luz-MOBILE.jpg"
     }
-  },
-  {
-    "id": "banner3",
-    "position": -1,
-    "hasVideo": true,
-    "link": "#banner3",
-    "desktop": {
-      "type": "video",
-      "src": "./video/rifis_mov.mp4",
-      "poster": "./slides/banner3-desktop.jpg"
-    },
-    "mobile": {
-      "type": "video",
-      "src": "./video/3-mov-mobile.mp4",
-      "poster": "./slides/banner3-mobile.jpg"
-    }
   }
+ 
 ]
