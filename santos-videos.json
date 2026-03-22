@@ -1,4 +1,16 @@
 [     
+             {
+    "id": 1,
+    "fecha": "22 de Marzo",
+    "santo": "San Nicolás Owen",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/nico.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },  
            {
     "id": 1,
     "fecha": "21 de Marzo",
@@ -8,21 +20,9 @@
     "video": "./asantos/fran.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
-    "showOnDesktop": true
-  },  
-         {
-    "id": 2,
-    "fecha": "19 de Marzo",
-    "santo": "San José",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/especiales/sanjose.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
-  },   
+  },  
 
         {
     "id": 3,
