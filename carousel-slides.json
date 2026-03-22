@@ -1,7 +1,7 @@
 [
     {
     "id": "",
-    "position": 1,
+    "position": -1,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -211,7 +211,7 @@
   },
   {
     "id": "rifa2",
-    "position": -1,
+    "position": 1,
     "hasVideo": true,
     "link": "#rifa",
     "desktop": {
