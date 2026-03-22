@@ -344,7 +344,7 @@
     "link": "#banner3",
     "desktop": {
       "type": "video",
-      "src": "./video/rifa4-mov-desktop.mp4",
+      "src": "./video/rifis_mov.mp4",
       "poster": "./slides/banner3-desktop.jpg"
     },
     "mobile": {
