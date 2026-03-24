@@ -151,513 +151,86 @@
     max-width: 99vw !important;
   }
 }
-/* ----------
-<style>
-
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .title-section {
-            text-align: center;
-            margin-bottom: 50px;
-            animation: fadeInDown 0.8s ease;
-        }
-
-        .title-section h1 {
-            color: white;
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-        }
-
-        .title-section .emoji {
-            font-size: 3.5rem;
-            display: inline-block;
-            animation: bounce 2s infinite;
-        } 
-            */
-        .title-section h1 {
-            color: rgb(57, 56, 56);
-            font-size: 3rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 10px rgba(0,0,0,0.2);
-            text-align: center;
-        }
-
-        .title-section .emoji {
-            font-size: 3.5rem;
-            display: inline-block;
-            animation: bounce 2s infinite;
-        }
-        /* Card del Párroco */
-
-        .priest-card {
-            background: white;
-            border-radius: 25px;
-            padding: 30px;
-            margin-bottom: 40px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: fadeInUp 0.8s ease 0.2s both;
-        }
-
-        .priest-info {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .priest-img {
-            width: 100px;
-            height: 93px;
-            border-radius: 50%;
-            border: 5px solid #667eea;
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
-            transition: transform 0.3s ease;
-        }
-
-        .priest-img:hover {
-            transform: scale(1.1) rotate(5deg);
-        }
-
-        .priest-details h3 {
-            color: #667eea;
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .priest-details p {
-            color: #666;
-            font-size: 1rem;
-        }
-
-        /* Grid de Horarios */
-        .schedule-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
-            margin-bottom: 40px;
-        }
-
-        .schedule-card {
-            background: white;
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            animation: fadeInUp 0.8s ease both;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .schedule-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 5px;
-            background: linear-gradient(90deg, #667eea, #764ba2);
-        }
-
-        .schedule-card:nth-child(1) { animation-delay: 0.3s; }
-        .schedule-card:nth-child(2) { animation-delay: 0.4s; }
-        .schedule-card:nth-child(3) { animation-delay: 0.5s; }
-
-        .schedule-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(102, 126, 234, 0.4);
-        }
-
-        .schedule-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-        }
-
-        .schedule-icon .material-icons {
-            color: white;
-            font-size: 32px;
-        }
-
-        .schedule-card h4 {
-            color: #333;
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-
-        .time-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            background: #f8f9ff;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            transition: all 0.3s ease;
-        }
-
-        .time-item:hover {
-            background: linear-gradient(135deg, #667eea15, #764ba215);
-            transform: translateX(5px);
-        }
-
-        .time-item .material-icons {
-            color: #667eea;
-            margin-right: 10px;
-            font-size: 20px;
-        }
-
-        .time-item span {
-            color: #333;
-            font-weight: 500;
-        }
-
-        /* Capilla Especial */
-        .chapel-card {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-radius: 20px;
-            padding: 35px;
-            color: white;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            animation: fadeInUp 0.8s ease 0.6s both;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .chapel-card::before {
-            content: '✨';
-            position: absolute;
-            font-size: 150px;
-            opacity: 0.1;
-            right: -20px;
-            top: -20px;
-            animation: rotate 20s linear infinite;
-        }
-
-        .chapel-card h4 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        .chapel-info {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .chapel-info-item {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            background: rgba(255,255,255,0.2);
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-        }
-
-        .chapel-info-item .material-icons {
-            margin-right: 12px;
-            font-size: 24px;
-        }
-
-        /* Botón de Contacto */
-        .contact-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: white;
-            color: #667eea;
-            padding: 18px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1.1rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            animation: fadeInUp 0.8s ease 0.7s both;
-        }
-
-        .contact-btn:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
-            background: #667eea;
-            color: white;
-        }
-
-        .contact-section {
-            text-align: center;
-            margin-top: 40px;
-        }
-
-        /* Animaciones */
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(50px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes bounce {
-            0%, 100% {
-                transform: translateY(0);
-            }
-            50% {
-                transform: translateY(-20px);
-            }
-        }
-
-        @keyframes rotate {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .title-section h1 {
-                font-size: 2rem;
-            }
-
-            .priest-info {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            .schedule-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-btn {
-                padding: 15px 30px;
-                font-size: 1rem;
-            }
-        }
- </style>
- <div class="container">
-        <div class="title-section" style="margin-top: 1rem;">
-          <h1><span class="emoji">⏰</span> Días y Horarios</h1>
-        </div>
-
-        <!-- Card del Párroco -->
-        <div class="priest-card">
-            <div class="priest-info">
-                <img src="./img/padre.png" alt="Padre Marcelo" class="priest-img">
-                <div class="priest-details">
-                    <h3>Padre Marcelo Cerniato</h3>
-                    <p>Párroco Iglesia San Luis Gonzaga</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Grid de Horarios -->
-        <div class="schedule-grid">
-            <!-- Lunes a Viernes -->
-            <div class="schedule-card">
-                <div class="schedule-icon">
-                    <span class="material-icons">calendar_today</span>
-                </div>
-                <h4>Lunes a Viernes</h4>
-                <div class="time-item">
-                    <span class="material-icons">access_time</span>
-                    <span>18:00 hs</span>
-                </div>
-            </div>
-
-            <!-- Sábados -->
-            <div class="schedule-card">
-                <div class="schedule-icon">
-                    <span class="material-icons">event</span>
-                </div>
-                <h4>Sábados</h4>
-                <div class="time-item">
-                    <span class="material-icons">access_time</span>
-                    <span >17:00 hs</span>
-                    <!-- style="color: #dc3545; font-weight: bold;" -->
-                </div>
-            </div>
-
-            <!-- Domingos -->
-            <div class="schedule-card">
-                <div class="schedule-icon">
-                    <span class="material-icons">today</span>
-                </div>
-                <h4>Domingos</h4>
-                <div class="time-item">
-                    <span class="material-icons">access_time</span>
-                    <span >11:00 hs</span>
-                </div>
-                <div class="time-item">
-                    <span class="material-icons">access_time</span>
-                    <span >19:00 hs</span>
-                    <!-- style="color: #dc3545; font-weight: bold;" -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Capilla Fátima -->
-        <div class="chapel-card">
-            <h4>✨ Capilla Nuestra Señora de Fátima ✨</h4>
-            <div class="chapel-info">
-                <div class="chapel-info-item">
-                    <span class="material-icons">schedule</span>
-                    <div>
-                        <strong>Domingos:</strong> 09:30 hs
-                    </div>
-                </div>
-                <div class="chapel-info-item">
-                    <span class="material-icons">place</span>
-                    <div>Calle 408 entre Camino Gral Belgrano y 26</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Botón de Contacto -->
-        <div class="contact-section">
-            <a href="#contacto" class="contact-btn">
-                <span class="material-icons">phone</span>
-                Contactar para más información
-            </a>
-        </div>
+  /* ── Misas section ─────────────────────── */
+  .misas-section {
+    padding: 2.5rem 1.5rem 2rem;
+    background: linear-gradient(160deg,#f0f4ff 0%,#e8eeff 100%);
+  }
+  .misas-inner { max-width: 860px; margin: 0 auto; }
+  .misas-priest-row {
+    display: flex; align-items: center; gap: 1.4rem;
+    background: #fff; border-radius: 18px; padding: 1.2rem 2rem;
+    box-shadow: 0 4px 22px rgba(102,126,234,.15); margin-bottom: 1.6rem;
+  }
+  .misas-priest-img {
+    width: 90px; height: 90px; border-radius: 50%;
+    border: 4px solid #667eea; object-fit: cover; flex-shrink: 0;
+  }
+  .misas-priest-name { font-size: 1.25rem; font-weight: 700; color: #222; margin: 0 0 4px; }
+  .misas-priest-role { font-size: .92rem; color: #888; margin: 0; }
+  .misas-heading { display: flex; align-items: center; gap: .65rem; margin-bottom: 1.1rem; }
+  .misas-heading h2 { font-size: 1.75rem; font-weight: 700; color: #1a1a2e; margin: 0; }
+  .misas-grid {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 1rem; margin-bottom: 1.1rem;
+  }
+  @media (max-width: 540px) { .misas-grid { grid-template-columns: 1fr; } }
+  .misa-chip {
+    background: #fff; border-radius: 16px; padding: 1.4rem 1rem;
+    text-align: center; box-shadow: 0 4px 16px rgba(0,0,0,.08);
+    border-top: 5px solid #667eea; transition: transform .2s,box-shadow .2s;
+  }
+  .misa-chip:hover { transform: translateY(-5px); box-shadow: 0 10px 28px rgba(102,126,234,.25); }
+  .misa-chip-day {
+    font-size: .8rem; font-weight: 700; color: #667eea;
+    text-transform: uppercase; letter-spacing: .7px; margin-bottom: .45rem;
+  }
+  .misa-chip-time { font-size: 1.6rem; font-weight: 700; color: #1a1a2e; }
+  .capilla-strip {
+    background: linear-gradient(135deg,#667eea,#764ba2);
+    border-radius: 16px; padding: 1.15rem 1.8rem; color: #fff;
+    display: flex; align-items: center; flex-wrap: wrap; gap: 1rem;
+  }
+  .capilla-strip-title { font-weight: 700; font-size: 1rem; flex-shrink: 0; }
+  .capilla-strip-info { display: flex; gap: 1.4rem; flex-wrap: wrap; font-size: .92rem; opacity: .95; }
+  .capilla-strip-info span { display: flex; align-items: center; gap: .3rem; }
+</style>
+<section class="misas-section">
+  <div class="misas-inner">
+    <div class="misas-priest-row">
+      <img src="./img/padre2.png" alt="Padre Marcelo" class="misas-priest-img">
+      <div>
+        <p class="misas-priest-name">Padre Marcelo Cerniato</p>
+        <p class="misas-priest-role">Párroco · Iglesia San Luis Gonzaga</p>
+      </div>
     </div>
-    <br> 
-<!-- <section id="misas" class="section-padding">
-    <div class="container">
-        <h2 class="text-center mb-5 fw-bold">
-            ⏰ Días y Horarios
-        </h2>
-        <div class="card shadow-lg border-0">
-            <div class="row g-0">
-                <div class="col-md-4 d-none d-md-block">
-                    <img src="./img/misa.jpg" class="img-fluid h-100 object-fit-cover rounded-start" alt="Iglesia">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-
-                            <div class="d-flex justify-content-center">
-                                <div>    <img src="./img/padre.png" alt="Padre Marcelo" class="rounded-circle me-3 img-autor" style="width: 50px; height: 50px;">  
-                                </div>
-                            <div class="biografia">      
-                                <h6 class="mb-0 text-center"><strong>Padre Marcelo Cerniato</h6>
-                                <p class="text-muted mb-0 text-center">párroco Iglesia San Luis Gonzaga</p>
-                            </div>
-
-                        </div>
-
-                        <div class="row">
-                        <div class="row justify-content-center misas-compact">
-                          <div class="col-lg-6 col-md-10 col-12">
-                            <ul class="list-group list-group-flush">
-                              <li class="list-group-item d-flex align-items-center">
-                                <i class="material-icons text-danger me-2">calendar_today</i>
-                                <strong class="me-2">Lunes a Viernes:</strong> 
-                                <span>18:00 hs</span>
-                              </li>
-
-                              <li class="list-group-item d-flex align-items-center">
-                                <i class="material-icons text-danger me-2">event</i>
-                                <strong class="me-2">Sábados:</strong> 
-                                <span>17:00 hs</span>
-                              </li>
-                              <li class="list-group-item d-flex align-items-center">
-                                <i class="material-icons text-danger me-2">schedule</i>
-                                <strong class="me-2">Domingos:</strong> 
-                                <span>11:00hs y 19:00hs</span>
-                              </li>
-                            </ul>
-                          </div>
-                        
-                          <div class="col-lg-6 col-md-10 col-12">
-                            <div class="alert alert-light border p-3 fatima-box" style="background: rgba(138, 43, 226, 0.1);">
-                              <div class="text-center">
-                                <h6 class="fw-bold mb-2">Capilla Nuestra Señora de Fátima</h6>
-                              </div>
-                              <p class="mb-2 d-flex align-items-center">
-                                <i class="material-icons text-info me-2">schedule</i>
-                                <strong class="me-2">Domingos:</strong> 
-                                <span>09:30 hs</span>
-                              </p>
-                              <p class="text-muted mb-0 d-flex align-items-center">
-                                <i class="material-icons text-info me-2">place</i>
-                                <span>Calle 408 entre Camino Gral Belgrano y 26</span>
-                              </p>
-                            </div>
-                          </div>
-
-          <style>
-          @media (max-width: 576px) {
-            .misas-compact .list-group-item {
-            padding: .35rem .75rem;
-            font-size: .9rem;
-            }
-            .misas-compact .list-group-item i {
-            font-size: 1.05rem;
-            margin-right: .4rem !important;
-            }
-            .misas-compact .list-group-item strong {
-            margin-right: .35rem !important;
-            }
-            .misas-compact .fatima-box {
-            padding: .75rem !important;
-            }
-            .misas-compact .fatima-box h6 {
-            font-size: .95rem;
-            margin-bottom: .35rem !important;
-            }
-            .misas-compact .fatima-box p {
-            margin-bottom: .4rem !important;
-            font-size: .9rem;
-            }
-          }
-          </style>
-                            </div>
-                            
-                        
-                        </div>
-                        
-                        <div class="text-center mt-4">
-                            <a href="#contacto" class="btn btn-md3 btn-danger">
-                                <i class="material-icons align-middle">phone</i> Contactar para más información
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="misas-heading">
+      <span class="material-icons" style="color:#667eea;font-size:1.6rem;">church</span>
+      <h2>Misas</h2>
     </div>
-</section> -->
+    <div class="misas-grid">
+      <div class="misa-chip">
+        <div class="misa-chip-day">Lun — Vie</div>
+        <div class="misa-chip-time">18:00</div>
+      </div>
+      <div class="misa-chip">
+        <div class="misa-chip-day">Sábados</div>
+        <div class="misa-chip-time">17:00</div>
+      </div>
+      <div class="misa-chip">
+        <div class="misa-chip-day">Domingos</div>
+        <div class="misa-chip-time">11:00 · 19:00</div>
+      </div>
+    </div>
+    <div class="capilla-strip">
+      <span class="capilla-strip-title">✨ Capilla Ntra. Sra. de Fátima</span>
+      <div class="capilla-strip-info">
+        <span><span class="material-icons" style="font-size:.95rem;">schedule</span>Dom · 09:30</span>
+        <span><span class="material-icons" style="font-size:.95rem;">place</span>Calle 408 entre Belgrano y 26</span>
+      </div>
+    </div>
+  </div>
+</section>
 
 <section id="homilias" class="section-header">
   <h2 class="md3-headline" style="color: white;">
