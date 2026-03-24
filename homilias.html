@@ -253,36 +253,55 @@
 
 <!-- Botones de acceso rápido -->
 <style>
-  .quick-btns { display:flex; justify-content:center; gap:1.2rem; flex-wrap:wrap; margin:1.6rem auto 1.8rem; padding:0 1rem; max-width:860px; }
+  .quick-btns { display:flex; justify-content:center; gap:1.4rem; flex-wrap:wrap; margin:1.6rem auto 1.8rem; padding:0 1rem; max-width:860px; }
   .qbtn {
-    display:inline-flex; align-items:center; gap:.65rem;
-    padding:.9rem 2rem; border-radius:14px; font-size:1.05rem; font-weight:700;
-    text-decoration:none; letter-spacing:.2px; border:none; cursor:pointer;
-    position:relative; transition:transform .12s ease, box-shadow .12s ease;
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:12px 2.4rem;
+    border-radius:30px; font-family:'Roboto',sans-serif; font-size:1.2rem; font-weight:500;
+    color:#ffffff; text-decoration:none; border:none; cursor:pointer;
+    background-color:#6200ea;
+    position:relative; overflow:hidden;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.4) inset,
+      0 8px 0 #3a008a,
+      0 10px 20px rgba(98,0,234,.45);
+    transition: all .15s ease-in-out;
   }
-  .qbtn-contacto {
-    background:linear-gradient(170deg,#4a90d9 0%,#1a5fb4 100%);
-    color:#fff;
-    box-shadow: 0 6px 0 #124080, 0 8px 18px rgba(26,95,180,.45);
+  .qbtn::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:50%;
+    background:linear-gradient(180deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,0) 100%);
+    border-radius:30px 30px 0 0; pointer-events:none;
   }
-  .qbtn-ubicacion {
-    background:linear-gradient(170deg,#f5813b 0%,#c0440a 100%);
-    color:#fff;
-    box-shadow: 0 6px 0 #832e06, 0 8px 18px rgba(192,68,10,.45);
+  .qbtn:hover {
+    background-color:#3700b3;
+    color:#ff6f00;
+    transform:translateY(-3px);
+    animation: pulse 0.6s infinite alternate;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.4) inset,
+      0 11px 0 #200070,
+      0 14px 26px rgba(98,0,234,.5);
   }
-  .qbtn:hover  { transform:translateY(-3px); }
-  .qbtn:active { transform:translateY(3px); box-shadow:0 2px 0 #124080, 0 4px 8px rgba(0,0,0,.25); }
-  .qbtn-ubicacion:active { box-shadow:0 2px 0 #832e06, 0 4px 8px rgba(0,0,0,.25); }
-  .qbtn .material-icons { font-size:1.35rem; }
+  .qbtn:active {
+    background-color:#6200ea;
+    color:#ffffff;
+    transform:translateY(5px);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.2) inset,
+      0 2px 0 #3a008a,
+      0 4px 8px rgba(98,0,234,.3);
+  }
+  .qbtn .material-icons { font-size:1.2rem; }
 </style>
 <div class="quick-btns">
-  <a href="#contacto" class="qbtn qbtn-contacto">
+  <a href="#contacto" class="qbtn">
     <span class="material-icons">phone_in_talk</span>
-    Info de Contacto
+    INFO
   </a>
-  <a href="#ubicacion" class="qbtn qbtn-ubicacion">
+  <a href="#ubicacion" class="qbtn">
     <span class="material-icons">location_on</span>
-    Cómo llegar
+    UBICACIÓN
   </a>
 </div>
 
