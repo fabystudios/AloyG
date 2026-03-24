@@ -251,6 +251,41 @@
        style="width:100%; border-radius:14px; box-shadow:0 4px 18px rgba(0,0,0,.13); display:block;">
 </div>
 
+<!-- Botones de acceso rápido -->
+<style>
+  .quick-btns { display:flex; justify-content:center; gap:1.2rem; flex-wrap:wrap; margin:1.6rem auto 1.8rem; padding:0 1rem; max-width:860px; }
+  .qbtn {
+    display:inline-flex; align-items:center; gap:.65rem;
+    padding:.9rem 2rem; border-radius:14px; font-size:1.05rem; font-weight:700;
+    text-decoration:none; letter-spacing:.2px; border:none; cursor:pointer;
+    position:relative; transition:transform .12s ease, box-shadow .12s ease;
+  }
+  .qbtn-contacto {
+    background:linear-gradient(170deg,#4a90d9 0%,#1a5fb4 100%);
+    color:#fff;
+    box-shadow: 0 6px 0 #124080, 0 8px 18px rgba(26,95,180,.45);
+  }
+  .qbtn-ubicacion {
+    background:linear-gradient(170deg,#f5813b 0%,#c0440a 100%);
+    color:#fff;
+    box-shadow: 0 6px 0 #832e06, 0 8px 18px rgba(192,68,10,.45);
+  }
+  .qbtn:hover  { transform:translateY(-3px); }
+  .qbtn:active { transform:translateY(3px); box-shadow:0 2px 0 #124080, 0 4px 8px rgba(0,0,0,.25); }
+  .qbtn-ubicacion:active { box-shadow:0 2px 0 #832e06, 0 4px 8px rgba(0,0,0,.25); }
+  .qbtn .material-icons { font-size:1.35rem; }
+</style>
+<div class="quick-btns">
+  <a href="#contacto" class="qbtn qbtn-contacto">
+    <span class="material-icons">phone_in_talk</span>
+    Info de Contacto
+  </a>
+  <a href="#ubicacion" class="qbtn qbtn-ubicacion">
+    <span class="material-icons">location_on</span>
+    Cómo llegar
+  </a>
+</div>
+
 <section id="homilias" class="section-header">
   <h2 class="md3-headline" style="color: white;">
     <span style="display:inline-flex; align-items:center; gap:.6rem;">
