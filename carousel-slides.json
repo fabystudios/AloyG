@@ -23,12 +23,12 @@
     "desktop": {
       "type": "video",
       "src": "./video/.mp4",
-      "poster": "./video/ssanta_desk.png"
+      "poster": "./video/ramos_desk.png"
     },
     "mobile": {
       "type": "video",
       "src": "./video/mp4",
-      "poster": "./video/ssanta_mob.png"
+      "poster": "./video/ramos_mob.png"
     }
   },
        {
