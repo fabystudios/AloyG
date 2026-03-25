@@ -17,6 +17,12 @@ serviceAccountKey.json
 config/secrets.js
 config/credentials.json
 
+# Nombres reservados de Windows (no pueden existir en el repo en Windows)
+nul
+con
+prn
+aux
+
 
 # ============================================
 # BACKUPS Y DATOS

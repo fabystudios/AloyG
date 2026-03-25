@@ -825,8 +825,6 @@ h2 {
     padding: 20px;
 }
 .footer {
-    background: linear-gradient(135deg, var(--primary-color), #3700b3);
-   
     color: white;
     padding: 40px 0;
     font-family: 'Roboto', sans-serif;

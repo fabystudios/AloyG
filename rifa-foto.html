@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="es-AR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estado de la Rifa · Parroquia San Luis Gonzaga</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.cdnfonts.com/css/amarillo" rel="stylesheet">
+
+  <!-- Bootstrap & Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
+  <style>
+    @import url('https://fonts.cdnfonts.com/css/amarillo');
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --libre:        #4CAF50;
+      --libre-dark:   #1b5e20;
+      --reservado:    #FF9800;
+      --reservado-dark: #3e2000;
+      --pagado:       #6750A4;
+      --pagado-dark:  #1e0d38;
+      --header-h:     90px;
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'Roboto', sans-serif;
+      background: #0d0818;
+      color: #fff;
+      overflow-x: hidden;
+    }
+
+    /* ─── HEADER ─── */
+    .cabecera {
+      background-color: #502A63 !important; /* Cuaresma */
+      width: 100vw;
+      height: var(--header-h);
+    }
+    .cabecera nav {
+      height: 100%;
+      width: 100%;
+    }
+    .cabecera .container { width: 100%; max-width: 100vw; padding: 0 1rem; height: 100%; }
+    .navbar-brand { gap: 1rem; text-decoration: none; }
+    .navbar-brand img { height: 70px; }
+    .titulo-ppal .linea1 {
+      font-family: 'amarillo', 'Arial Rounded MT Bold', Arial, sans-serif;
+      font-size: 1.15rem;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0,0,0,.5);
+    }
+    .titulo-ppal .linea2 { font-size: 0.9rem; color: #b8dbf7; padding-top: 0.2em; }
+
+    /* ─── STATS BAR ─── */
+    .stats-bar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.5rem 1rem;
+      background: linear-gradient(135deg, #120a22 0%, #1e1235 100%);
+      border-bottom: 1px solid rgba(103,80,164,.25);
+      flex-wrap: wrap;
+    }
+
+    .premio-foto {
+      position: relative;
+      flex-shrink: 0;
+    }
+    /* Banner del premio entre stats y grilla */
+    .premio-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      padding: 0.6rem 1.5rem;
+      background: linear-gradient(135deg, #1e0d38 0%, #2a0d54 60%, #1e0d38 100%);
+      border-bottom: 2px solid rgba(149,100,210,.4);
+      box-shadow: 0 4px 20px rgba(103,80,164,.3);
+    }
+    .premio-banner img {
+      height: 110px;
+      width: auto;
+      object-fit: contain;
+      border-radius: 14px;
+      border: 2px solid rgba(206,147,216,.6);
+      box-shadow: 0 0 24px rgba(103,80,164,.8), 0 0 8px rgba(206,147,216,.4);
+      transition: transform .25s ease;
+    }
+    .premio-banner img:hover { transform: scale(1.04); }
+    .premio-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+    .premio-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #ce93d8;
+    }
+    .premio-titulo {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.2;
+    }
+    .premio-subtitulo {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,.55);
+    }
+
+    .stat-chip {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      letter-spacing: .5px;
+    }
+    .stat-chip .dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .stat-chip.libre    { background: rgba(76,175,80,.2);   color: var(--libre); }
+    .stat-chip.libre .dot    { background: var(--libre); }
+    .stat-chip.reservado { background: rgba(255,152,0,.2);  color: var(--reservado); }
+    .stat-chip.reservado .dot { background: var(--reservado); }
+    .stat-chip.pagado   { background: rgba(103,80,164,.3);  color: #ce93d8; }
+    .stat-chip.pagado .dot   { background: var(--pagado); }
+    .stat-chip.total    { background: rgba(255,255,255,.08); color: #e2e8f0; }
+    .stat-chip.total .dot    { background: #94a3b8; }
+
+    .stat-chip .num { font-size: 1.1rem; font-weight: 900; }
+
+    .titulo-foto {
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 0 1rem;
+    }
+    .titulo-foto span { color: #ce93d8; }
+
+    /* ─── GRID SECTION ─── */
+    .grid-section {
+      height: calc(95vh - var(--header-h) - 54px - 134px); /* -134px por el banner del premio */
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 0.6rem 0.8rem 0.4rem;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(103,80,164,.5) transparent;
+    }
+    .grid-section::-webkit-scrollbar { width: 6px; }
+    .grid-section::-webkit-scrollbar-thumb {
+      background: rgba(103,80,164,.5);
+      border-radius: 3px;
+    }
+
+    .rifa-grid {
+      display: grid;
+      /* 20 cols: legibles en cualquier pantalla, 50 filas = 1000 */
+      grid-template-columns: repeat(20, 1fr);
+      gap: 5px;
+    }
+
+    /* ─── NÚMERO CARD ─── */
+    .num-card {
+      border-radius: 8px;
+      height: 52px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.06);
+    }
+    /* brillo superior */
+    .num-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 40%;
+      background: linear-gradient(to bottom, rgba(255,255,255,.1), transparent);
+      pointer-events: none;
+      border-radius: 8px 8px 0 0;
+    }
+
+    /* ESTADO: LIBRE (verde) */
+    .num-card.libre {
+      background: linear-gradient(160deg, #1e6b23 0%, #0d3511 100%);
+      border-color: rgba(76,175,80,.3);
+    }
+    .num-card.libre .n-num   { color: #a5d6a7; }
+    .num-card.libre .n-nombre { color: #81c784; }
+
+    /* ESTADO: RESERVADO (naranja, pulso) */
+    .num-card.reservado {
+      background: linear-gradient(160deg, #7c3b00 0%, #3e1d00 100%);
+      border-color: rgba(255,152,0,.5);
+      box-shadow: 0 0 8px rgba(255,152,0,.15);
+      animation: pulse-naranja 2.2s ease-in-out infinite;
+    }
+    .num-card.reservado .n-num   { color: #ffcc80; }
+    .num-card.reservado .n-nombre { color: #ffe0b2; }
+
+    /* ESTADO: PAGADO (morado Cuaresma) */
+    .num-card.pagado {
+      background: linear-gradient(160deg, #5e2d91 0%, #2a0d54 100%);
+      border-color: rgba(149,100,210,.55);
+      box-shadow: 0 0 10px rgba(103,80,164,.25);
+    }
+    .num-card.pagado .n-num   { color: #e1bee7; }
+    .num-card.pagado .n-nombre { color: #f3e5f5; }
+    /* tilde pagado */
+    .num-card.pagado::after {
+      content: '✓';
+      position: absolute;
+      top: 3px; right: 5px;
+      font-size: 0.62rem;
+      color: #ce93d8;
+      font-weight: 900;
+    }
+
+    @keyframes pulse-naranja {
+      0%, 100% { box-shadow: 0 0 8px rgba(255,152,0,.15); }
+      50%       { box-shadow: 0 0 16px rgba(255,152,0,.45), 0 0 4px rgba(255,152,0,.3); }
+    }
+
+    .n-num {
+      font-size: clamp(0.82rem, 1.4vw, 1.25rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.5px;
+    }
+    .n-nombre {
+      font-size: clamp(0.52rem, 0.8vw, 0.7rem);
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 90%;
+      text-align: center;
+      margin-top: 3px;
+      opacity: .9;
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      background: linear-gradient(135deg, #2a7fe0, #3700b3);
+      color: white;
+      padding: 40px 0;
+      font-family: 'Roboto', sans-serif;
+      text-align: center;
+    }
+    .footer-title { font-size: 1.3rem; margin-bottom: 12px; font-weight: bold; }
+    .footer-text  { font-size: 1rem; margin-bottom: 8px; line-height: 1.6; }
+    .footer-links { list-style: none; padding: 0; }
+    .footer-link  { color: #ffcc00; text-decoration: none; font-size: 1rem; display: block; margin-bottom: 8px; transition: color .3s; }
+    .footer-link:hover { color: #ffc107; text-decoration: underline; }
+    .footer-social-icons { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 10px; }
+    .social-link {
+      display: flex; align-items: center; gap: 10px;
+      color: white; font-size: 1.1rem;
+      background: rgba(255,255,255,.2);
+      padding: 10px; border-radius: 8px;
+      transition: background .3s, transform .3s;
+      text-decoration: none;
+    }
+    .social-link:hover { background: rgba(255,255,255,.4); transform: scale(1.05); color: white; }
+    .footer-copyright { font-size: 0.85rem; opacity: .8; margin-top: 16px; }
+
+    /* ─── LOADING ─── */
+    #loading-overlay {
+      position: fixed;
+      inset: 0;
+      background: #0d0818;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      z-index: 9999;
+      transition: opacity .4s ease;
+    }
+    #loading-overlay.hidden { opacity: 0; pointer-events: none; }
+    .spinner {
+      width: 52px; height: 52px;
+      border: 4px solid rgba(255,255,255,.1);
+      border-top-color: #9c27b0;
+      border-radius: 50%;
+      animation: spin .8s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    #loading-overlay p { color: #94a3b8; font-size: 1rem; }
+
+    /* ─── FOOTER TIMESTAMP ─── */
+    .footer-ts {
+      text-align: center;
+      font-size: 0.65rem;
+      color: rgba(255,255,255,.25);
+      padding: 0.2rem 0;
+      letter-spacing: 1px;
+      background: #0d0818;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .rifa-grid { grid-template-columns: repeat(10, 1fr); }
+      .num-card  { height: 48px; }
+    }
+    @media (max-width: 480px) {
+      .rifa-grid { grid-template-columns: repeat(5, 1fr); gap: 4px; }
+      .num-card  { height: 52px; }
+      .stats-bar { gap: 0.4rem; }
+      .stat-chip { font-size: 0.7rem; padding: 0.2rem 0.5rem; }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ─── LOADING ─── -->
+<div id="loading-overlay">
+  <div class="spinner"></div>
+  <p>Cargando estado de la rifa…</p>
+</div>
+
+<!-- ─── HEADER (igual a rifa.html) ─── -->
+<section class="cabecera" style="background-color:#502A63 !important;">
+  <div class="container d-flex align-items-center" style="height:100%; padding:0 1rem;">
+    <nav class="navbar navbar-dark w-100 p-0" style="height:100%;">
+      <div class="d-flex align-items-center w-100 justify-content-between" style="height:100%;">
+
+        <a class="navbar-brand d-flex align-items-center" href="./index.html" style="gap:1rem; text-decoration:none;">
+          <img src="./rifa/foto2.png" alt="Logo San Luis Gonzaga" height="100">
+          <div class="titulo-ppal d-flex flex-column justify-content-center">
+            <span class="linea1">San Luis Gonzaga</span>
+            <span class="linea2">Villa Elisa, La Plata, Argentina</span>
+          </div>
+        </a>
+
+        <a href="./index.html" class="btn btn-light d-flex align-items-center"
+           style="color:#502A63; border-radius:50%; padding:0.5em 0.6em; box-shadow:0 2px 6px rgba(0,0,0,.5);"
+           aria-label="Volver a la rifa">
+          <i class="fas fa-arrow-left"></i>
+        </a>
+
+      </div>
+    </nav>
+  </div>
+</section>
+
+<!-- ─── STATS BAR ─── -->
+<div class="stats-bar">
+  <span class="titulo-foto">Estado de la Rifa · <span id="titulo-fecha">--</span></span>
+  <div class="stat-chip libre">
+    <span class="dot"></span>
+    <span>Libres</span>
+    <span class="num" id="cnt-libre">--</span>
+  </div>
+  <div class="stat-chip reservado">
+    <span class="dot"></span>
+    <span>Reservados</span>
+    <span class="num" id="cnt-reservado">--</span>
+  </div>
+  <div class="stat-chip pagado">
+    <span class="dot"></span>
+    <span>Pagados</span>
+    <span class="num" id="cnt-pagado">--</span>
+  </div>
+  <div class="stat-chip total">
+    <span class="dot"></span>
+    <span>Total</span>
+    <span class="num" id="cnt-total">--</span>
+  </div>
+</div>
+
+<!-- ─── BANNER PREMIO ─── -->
+<div class="premio-banner">
+  <img src="./rifa/foto1.png" alt="Premio de la Rifa">
+  <div class="premio-info">
+    <span class="premio-label">🏆 Premio de la Rifa</span>
+    <span class="premio-titulo">Bicicleta Rodado 29</span>
+    <span class="premio-subtitulo">Sorteo · 25 de Marzo 2026 · Lotería Nacional Vespertina</span>
+  </div>
+</div>
+
+<!-- ─── GRID ─── -->
+<div class="grid-section">
+  <div class="rifa-grid" id="rifa-grid"></div>
+</div>
+
+<!-- ─── TIMESTAMP ─── -->
+<div class="footer-ts" id="footer-ts">Actualizando…</div>
+
+<!-- ─── FOOTER ─── -->
+<footer id="footer" class="footer text-light py-5 text-center" style="background: #502A63;">
+  <div class="container">
+    <a href="./index.html" class="footer-logo-link">
+      <img src="./img/IsoTipo-2-SanLuisGonzaga-Amarillo.png" alt="" style="max-width: 320px">
+    </a>
+    <br><br>
+    <div class="row justify-content-center">
+      <div class="col-md-4 mb-4 mb-md-0">
+        <h5 class="footer-title">Parroquia San Luis Gonzaga</h5>
+        <p class="footer-text">Villa Elisa, Argentina</p>
+      </div>
+      <div class="col-md-4 mb-4 mb-md-0">
+        <h5 class="footer-title">Enlaces Rápidos</h5>
+        <ul class="footer-links">
+          <li><a href="./index.html" class="footer-link">Inicio</a></li>
+          <li><a href="./rifa.html" class="footer-link">Volver a la Rifa</a></li>
+          <li><a href="#contacto" class="footer-link">Contacto</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h5 class="footer-title">Síguenos</h5>
+        <div class="footer-social-icons d-flex flex-column align-items-center">
+          <a href="https://www.facebook.com/profile.php?id=100089942000666" target="_blank" class="social-link mb-2">
+            <i class="fab fa-facebook-f"></i>
+            <span>Facebook Parroquial</span>
+          </a>
+          <a href="https://www.instagram.com/parroquiasanluisgonzaga_?igsh=MWs4cTgyMGJnZnI0OA==" target="_blank" class="social-link mb-2">
+            <i class="fab fa-instagram"></i>
+            <span>Instagram Parroquial</span>
+          </a>
+          <a href="https://www.instagram.com/colegiosanfranciscodeasis.ve?igsh=ZTV2bzZyNWpkYWI2" target="_blank" class="social-link mb-2">
+            <i class="fab fa-instagram"></i>
+            <span>Instagram Colegio</span>
+          </a>
+          <a href="https://www.instagram.com/gruposfa93usca?igsh=cHg2M3pudHJoNjh3" target="_blank" class="social-link mb-2">
+            <i class="fab fa-instagram"></i>
+            <span>Instagram Scout</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="text-center mt-4">
+      <p class="footer-copyright">&copy; 2026 Parroquia San Luis Gonzaga - Todos los Derechos Reservados.</p>
+    </div>
+    <div class="footer-icon">
+      <a href="./index.html">
+        <img src="./img/medalla_cuaresma.png" style="max-width: 250px;" alt="Distintivo" class="footer-logo">
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ── Firebase config ──
+  const firebaseConfig = {
+    apiKey: "AIzaSyD-3xKx4M5GxSQ-oJdnqz33hEZqFNBHoxM",
+    authDomain: "aloy-726.firebaseapp.com",
+    projectId: "aloy-726",
+    storageBucket: "aloy-726.appspot.com",
+    messagingSenderId: "441895072453",
+    appId: "1:441895072453:web:aeaabb2d4f5fbc1a85b6ac"
+  };
+
+  firebase.initializeApp(firebaseConfig);
+  const db = firebase.firestore();
+
+  const LABEL = { 1: 'LIBRE', 2: 'RESERVADO', 3: 'PAGADO' };
+  const CLASS = { 1: 'libre', 2: 'reservado', 3: 'pagado' };
+
+  const grid       = document.getElementById('rifa-grid');
+  const loading    = document.getElementById('loading-overlay');
+  const footerTs   = document.getElementById('footer-ts');
+  const cntLibre   = document.getElementById('cnt-libre');
+  const cntRes     = document.getElementById('cnt-reservado');
+  const cntPag     = document.getElementById('cnt-pagado');
+  const cntTot     = document.getElementById('cnt-total');
+  const titFecha   = document.getElementById('titulo-fecha');
+
+  // Fecha para el título
+  titFecha.textContent = new Date().toLocaleDateString('es-AR', {
+    day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
+  });
+
+  function renderGrid(data) {
+    grid.innerHTML = '';
+
+    let libre = 0, reservado = 0, pagado = 0;
+
+    // Sort por número por las dudas
+    data.sort((a, b) => a.numero - b.numero);
+
+    data.forEach(item => {
+      const state = item.state || 1;
+      const cls   = CLASS[state] || 'libre';
+
+      if (state === 1) libre++;
+      else if (state === 2) reservado++;
+      else if (state === 3) pagado++;
+
+      const card = document.createElement('div');
+      card.className = `num-card ${cls}`;
+
+      const primerNombre = item.nombre
+        ? item.nombre.trim().split(/\s+/)[0]
+        : '';
+
+      card.innerHTML = `
+        <div class="n-num">${String(item.numero).padStart(3, '0')}</div>
+        ${primerNombre ? `<div class="n-nombre">${primerNombre}</div>` : ''}
+      `;
+
+      grid.appendChild(card);
+    });
+
+    // Stats
+    const total = libre + reservado + pagado;
+    cntLibre.textContent    = libre;
+    cntRes.textContent      = reservado;
+    cntPag.textContent      = pagado;
+    cntTot.textContent      = total;
+
+    // Timestamp
+    const ahora = new Date();
+    footerTs.textContent = `Última actualización: ${ahora.toLocaleTimeString('es-AR')}`;
+  }
+
+  // ── Suscripción en tiempo real ──
+  db.collection('rifa').orderBy('numero').onSnapshot(snapshot => {
+    const data = [];
+    snapshot.forEach(doc => data.push({ id: doc.id, ...doc.data() }));
+    renderGrid(data);
+
+    // Ocultar loading la primera vez
+    loading.classList.add('hidden');
+    setTimeout(() => loading.style.display = 'none', 450);
+  }, err => {
+    console.error('Error Firestore:', err);
+    loading.innerHTML = `
+      <div style="text-align:center">
+        <span class="material-icons" style="font-size:48px;color:#ef4444">error_outline</span>
+        <p style="color:#ef4444;margin-top:1rem">Error de conexión</p>
+        <button onclick="location.reload()" style="margin-top:1rem;padding:.5rem 1.5rem;border:none;border-radius:8px;background:#3b82f6;color:#fff;font-size:1rem;cursor:pointer">Reintentar</button>
+      </div>`;
+  });
+</script>
+
+</body>
+</html>

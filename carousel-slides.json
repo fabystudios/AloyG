@@ -1,7 +1,7 @@
 [
     {
     "id": "",
-    "position": -1,
+    "position": 1,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -33,7 +33,7 @@
   },
        {
     "id": "cursillos",
-    "position": 3,
+    "position": 2,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -51,7 +51,7 @@
   },
          {
     "id": "scout",
-    "position": 2,
+    "position": 3,
     "hasVideo": true,
     "link": "#scout",
     "desktop": {
@@ -207,7 +207,7 @@
   },
   {
     "id": "rifa2",
-    "position": 1,
+    "position": -1,
     "hasVideo": true,
     "link": "#rifa",
     "desktop": {
