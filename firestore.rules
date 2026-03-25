@@ -27,22 +27,16 @@ service cloud.firestore {
 
     // ============================================
     // COLECCIÓN: rifa/{numero}
+    // ── VENTA PAUSADA: solo admins pueden escribir ──
     // ============================================
     match /rifa/{numero} {
       allow read: if true;
 
-      allow create: if request.resource.data.state == 2 &&
-                       request.resource.data.nombre != null &&
-                       request.resource.data.nombre != '';
+      // Reserva pública DESHABILITADA (venta pausada / sorteo en curso)
+      allow create: if isAdmin();
 
-      allow update: if 
-        (resource.data.state == 1 && request.resource.data.state == 2)
-        ||
-        (resource.data.state == 2 && 
-         request.resource.data.state == 1 &&
-         resource.data.dni == request.resource.data.dni)
-        ||
-        isAdmin();
+      // Modificaciones solo por admins
+      allow update: if isAdmin();
 
       allow delete: if isAdmin();
     }
