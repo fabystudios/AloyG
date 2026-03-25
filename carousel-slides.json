@@ -17,23 +17,23 @@
   },
      {
     "id": "",
-    "position": -1,
+    "position": 1,
     "hasVideo": true,
     "link": "",
     "desktop": {
       "type": "video",
-      "src": "./video/retiro_cuaresmal_desk.mp4",
-      "poster": "./video/retiro_cuaresmal_desk.jpeg"
+      "src": "./video/.mp4",
+      "poster": "./video/ssanta_desk.png"
     },
     "mobile": {
       "type": "video",
-      "src": "./video/retiro_cuaresmal_mob.mp4",
-      "poster": "./video/retiro_cuaresmal_mob.png"
+      "src": "./video/mp4",
+      "poster": "./video/ssanta_mob.png"
     }
   },
        {
     "id": "cursillos",
-    "position": 2,
+    "position": 3,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -51,7 +51,7 @@
   },
          {
     "id": "scout",
-    "position": 3,
+    "position": -1,
     "hasVideo": true,
     "link": "#scout",
     "desktop": {
@@ -67,24 +67,7 @@
 
     
   },
-        {
-    "id": "retiro",
-    "position": -1,
-    "hasVideo": true,
-    "link": "",
-    "desktop": {
-      "type": "video",
-      "src": "./video/retiro_desk.mp4",
-      "poster": "./video/retiro_desk2.png"
-    },
-    "mobile": {
-      "type": "video",
-      "src": "./video/retiro_mob.mp4",
-      "poster": "./video/retiro_mob.png"
-    }
 
-    
-  },
          {
     "id": "",
     "position": -1,
@@ -109,25 +92,10 @@
       "mobileScale": 0.5
     }
   },
-       {
-    "id": "",
-    "position": -1,
-    "hasVideo": true,
-    "link": "",
-    "desktop": {
-      "type": "video",
-      "src": "./video/misaenf_desk.mp4",
-      "poster": "./video/misaenf_desk.png"
-    },
-    "mobile": {
-      "type": "video",
-      "src": "./video/misaenf_mob.mp4",
-      "poster": "./video/misaenf_mob.png"
-    }
-  },
+    
          {
     "id": "",
-    "position": 1,
+    "position": 2,
     "hasVideo": true,
     "link": "",
     "desktop": {
