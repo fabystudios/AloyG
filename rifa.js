@@ -59,6 +59,13 @@ let busquedaActiva = false;
 let terminoBusqueda = '';
 let numerosSeleccionadosMasivo = new Set();
 
+// ========================================
+// 🔒 SISTEMA DE CONTROL DE VENTAS
+// ========================================
+let ventasDetenidas = false;
+let stopConfig = null;
+let stopSchedulerInterval = null;
+
 const estadoLabels = { 1: 'Disponible', 2: 'Reservado', 3: 'Pagado' };
 const estadoClasses = { 1: 'disponible', 2: 'reservado', 3: 'pagado' };
 
@@ -212,9 +219,21 @@ function showAdminView() {
   
   document.body.classList.add('admin-mode');
   document.body.classList.remove('public-mode');
-  
+
   isAdmin = true;
   console.log('✅ Vista admin activada');
+
+  // Refrescar estado del panel de ventas con datos frescos de Firestore
+  db.collection('rifa_config').doc('ventas_stop').get().then((doc) => {
+    if (doc.exists) {
+      stopConfig = doc.data();
+      ventasDetenidas = stopConfig.activo === true;
+    } else {
+      ventasDetenidas = false;
+      stopConfig = null;
+    }
+    actualizarUIStopVentas();
+  }).catch(() => actualizarUIStopVentas());
 }
 
 // ========================================
@@ -504,6 +523,18 @@ function renderRifaGrid(adminMode) {
         if (adminMode) {
           openAdminModal(item);
         } else {
+          // 🔒 Chequeo en tiempo real: si ventas están detenidas bloquear siempre
+          if (ventasDetenidas && item.state === 1) {
+            Swal.fire({
+              icon: 'info',
+              title: '🔒 Ventas pausadas',
+              html: `<p>${(stopConfig && stopConfig.mensaje) || 'Las ventas están temporalmente pausadas.'}</p>
+                     <p style="font-size:13px;color:#888;margin-top:10px;">Pronto se comunicará el resultado del sorteo. ¡Gracias por participar!</p>`,
+              confirmButtonText: 'Entendido',
+              confirmButtonColor: '#6750A4'
+            });
+            return;
+          }
           openPublicModal(item);
         }
       });
@@ -561,12 +592,384 @@ function updateStats(adminMode) {
 }
 
 // ========================================
+// 🔒 SISTEMA DE CONTROL DE VENTAS - FUNCIONES
+// ========================================
+
+function listenVentasStop() {
+  db.collection('rifa_config').doc('ventas_stop').onSnapshot((doc) => {
+    if (doc.exists) {
+      stopConfig = doc.data();
+      const ahora = new Date();
+
+      // Si no está activo pero hay un tiempo programado que ya pasó → activar automáticamente
+      if (!stopConfig.activo && stopConfig.programado) {
+        const programadoDate = stopConfig.programado.toDate ? stopConfig.programado.toDate() : new Date(stopConfig.programado);
+        if (ahora >= programadoDate) {
+          activarStopVentas(stopConfig.mensaje || '🔒 Ventas pausadas. Esperando el resultado del sorteo.', null, true);
+          return;
+        }
+      }
+      ventasDetenidas = stopConfig.activo === true;
+    } else {
+      ventasDetenidas = false;
+      stopConfig = null;
+    }
+    actualizarUIStopVentas();
+  }, (error) => {
+    console.warn('⚠️ No se pudo escuchar ventas_stop:', error.message);
+  });
+
+  // Verificar cada minuto si hay un stop programado pendiente
+  if (stopSchedulerInterval) clearInterval(stopSchedulerInterval);
+  stopSchedulerInterval = setInterval(() => {
+    if (!stopConfig || stopConfig.activo || !stopConfig.programado) return;
+    const ahora = new Date();
+    const programadoDate = stopConfig.programado.toDate ? stopConfig.programado.toDate() : new Date(stopConfig.programado);
+    if (ahora >= programadoDate) {
+      activarStopVentas(stopConfig.mensaje || '🔒 Ventas pausadas. Esperando el resultado del sorteo.', null, true);
+    }
+  }, 60000);
+}
+
+function actualizarUIStopVentas() {
+  // --- BANNER PÚBLICO ---
+  const banner = document.getElementById('ventas-stop-banner');
+  const accionDiv = document.getElementById('accion');
+  if (banner) {
+    const mensaje = (stopConfig && stopConfig.mensaje) ? stopConfig.mensaje : '🔒 Las ventas están pausadas. Pronto sabremos el ganador.';
+    banner.querySelector('#stop-banner-mensaje').textContent = mensaje;
+    banner.style.display = ventasDetenidas ? 'block' : 'none';
+  }
+  if (accionDiv) {
+    accionDiv.style.opacity = ventasDetenidas ? '0.35' : '1';
+    accionDiv.style.pointerEvents = ventasDetenidas ? 'none' : '';
+  }
+
+  // Bloquear/desbloquear también la grilla de números
+  const publicGrid = document.getElementById('public-rifa-grid');
+  if (publicGrid) {
+    publicGrid.style.pointerEvents = ventasDetenidas ? 'none' : '';
+    publicGrid.style.opacity = ventasDetenidas ? '0.55' : '';
+  }
+
+  // --- PANEL ADMIN ---
+  const dot = document.getElementById('ventas-status-dot');
+  const statusText = document.getElementById('ventas-status-text');
+  const activasControls = document.getElementById('ventas-activas-controls');
+  const detenidasControls = document.getElementById('ventas-detenidas-controls');
+  const stopProgramadoInfo = document.getElementById('stop-programado-info');
+
+  if (dot) {
+    dot.style.background = ventasDetenidas ? '#B3261E' : '#4CAF50';
+  }
+  if (statusText) {
+    statusText.textContent = ventasDetenidas ? '🔴 VENTAS DETENIDAS' : '🟢 VENTAS ACTIVAS';
+    statusText.style.color = ventasDetenidas ? '#B3261E' : '#2e7d32';
+  }
+  if (activasControls) activasControls.style.display = ventasDetenidas ? 'none' : 'block';
+  if (detenidasControls) detenidasControls.style.display = ventasDetenidas ? 'block' : 'none';
+
+  if (stopProgramadoInfo) {
+    if (!ventasDetenidas && stopConfig && stopConfig.programado) {
+      const programadoDate = stopConfig.programado.toDate ? stopConfig.programado.toDate() : new Date(stopConfig.programado);
+      document.getElementById('stop-programado-fecha').textContent = programadoDate.toLocaleString('es-AR', {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      });
+      stopProgramadoInfo.style.display = 'flex';
+    } else {
+      stopProgramadoInfo.style.display = 'none';
+    }
+  }
+
+  // Cargar log si el panel admin está visible
+  if (isAdmin && document.getElementById('stop-log-list')) {
+    cargarYRenderLogStop();
+  }
+
+  // Re-renderizar la grilla pública siempre que haya datos (aun si está oculta)
+  // Así cuando el admin cambia el estado y luego vuelve a la vista pública, los cards están actualizados
+  if (rifaData && rifaData.length > 0) {
+    renderRifaGrid(false);
+  }
+}
+
+async function activarStopVentas(mensaje, programadoPara, automatico = false) {
+  const adminActual = currentUser ? (currentUser.displayName || currentUser.email) : 'Sistema (automático)';
+  try {
+    await db.collection('rifa_config').doc('ventas_stop').set({
+      activo: true,
+      mensaje: mensaje || '🔒 Ventas pausadas. Esperando el resultado del sorteo.',
+      activadoPor: adminActual,
+      programado: null,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    // Actualizar estado local inmediatamente sin esperar el snapshot
+    ventasDetenidas = true;
+    stopConfig = { activo: true, mensaje: mensaje || '🔒 Ventas pausadas. Esperando el resultado del sorteo.', programado: null };
+    actualizarUIStopVentas();
+    await registrarLogStop('STOP_ACTIVADO', automatico
+      ? `Stop activado automáticamente por programación. Mensaje: "${mensaje}"`
+      : `Stop activado manualmente. Mensaje: "${mensaje}"`, { automatico });
+    console.log('🔒 Ventas detenidas');
+    return true;
+  } catch (error) {
+    console.error('❌ Error activando stop de ventas:', error);
+    return false;
+  }
+}
+
+async function desactivarStopVentas() {
+  const adminActual = currentUser ? (currentUser.displayName || currentUser.email) : 'Sistema';
+  try {
+    await db.collection('rifa_config').doc('ventas_stop').set({
+      activo: false,
+      mensaje: '',
+      activadoPor: adminActual,
+      programado: null,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    // Actualizar estado local inmediatamente sin esperar el snapshot
+    ventasDetenidas = false;
+    stopConfig = { activo: false, mensaje: '', programado: null };
+    actualizarUIStopVentas();
+    await registrarLogStop('STOP_DESACTIVADO', 'Ventas reanudadas manualmente.', {});
+    console.log('🟢 Ventas reanudadas');
+    return true;
+  } catch (error) {
+    console.error('❌ Error reanudando ventas:', error);
+    return false;
+  }
+}
+
+async function programarStopVentas(fechaHoraISO, mensaje) {
+  const adminActual = currentUser ? (currentUser.displayName || currentUser.email) : 'Sistema';
+  try {
+    const fechaHora = new Date(fechaHoraISO);
+    await db.collection('rifa_config').doc('ventas_stop').set({
+      activo: false,
+      mensaje: mensaje || '🔒 Ventas pausadas. Esperando el resultado del sorteo.',
+      activadoPor: adminActual,
+      programado: firebase.firestore.Timestamp.fromDate(fechaHora),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    await registrarLogStop('STOP_PROGRAMADO',
+      `Stop programado para el ${fechaHora.toLocaleString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}. Mensaje: "${mensaje}"`,
+      { programadoPara: fechaHoraISO });
+    console.log('📅 Stop de ventas programado para:', fechaHora);
+  } catch (error) {
+    console.error('❌ Error programando stop:', error);
+    Swal.fire({ icon: 'error', title: 'Error', text: 'No se pudo programar el stop: ' + error.message });
+  }
+}
+
+async function cancelarStopProgramado() {
+  const confirm = await Swal.fire({
+    icon: 'question',
+    title: '¿Cancelar stop programado?',
+    text: 'El stop programado será eliminado y las ventas continuarán con normalidad.',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, cancelar',
+    cancelButtonText: 'No',
+    confirmButtonColor: '#6750A4'
+  });
+  if (!confirm.isConfirmed) return;
+  const adminActual = currentUser ? (currentUser.displayName || currentUser.email) : 'Sistema';
+  try {
+    await db.collection('rifa_config').doc('ventas_stop').update({
+      programado: null,
+      activadoPor: adminActual,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    await registrarLogStop('STOP_CANCELADO', 'Stop programado cancelado manualmente.', {});
+  } catch (error) {
+    Swal.fire({ icon: 'error', title: 'Error', text: error.message });
+  }
+}
+
+async function registrarLogStop(tipo, detalle, extra = {}) {
+  const adminActual = currentUser ? (currentUser.displayName || currentUser.email) : 'Sistema';
+  try {
+    await db.collection('rifa_logs').add({
+      tipo,
+      detalle,
+      admin: adminActual,
+      fecha: firebase.firestore.FieldValue.serverTimestamp(),
+      ...extra
+    });
+  } catch (error) {
+    console.warn('⚠️ No se pudo registrar log:', error.message);
+  }
+}
+
+async function cargarYRenderLogStop() {
+  const container = document.getElementById('stop-log-list');
+  if (!container) return;
+  try {
+    const snapshot = await db.collection('rifa_logs')
+      .orderBy('fecha', 'desc')
+      .limit(25)
+      .get();
+    if (snapshot.empty) {
+      container.innerHTML = '<p style="color:#999; font-size:13px; text-align:center; padding:12px;">Sin registros aún.</p>';
+      return;
+    }
+    const tipoIcons = {
+      'STOP_ACTIVADO': '🔴',
+      'STOP_DESACTIVADO': '🟢',
+      'STOP_PROGRAMADO': '📅',
+      'STOP_CANCELADO': '❌'
+    };
+    let html = '';
+    snapshot.forEach(doc => {
+      const d = doc.data();
+      const fecha = d.fecha ? d.fecha.toDate().toLocaleString('es-AR', {
+        day: '2-digit', month: '2-digit', year: 'numeric',
+        hour: '2-digit', minute: '2-digit'
+      }) : '—';
+      const icon = tipoIcons[d.tipo] || '📋';
+      html += `
+        <div class="stop-log-entry">
+          <span class="stop-log-icon">${icon}</span>
+          <div class="stop-log-body">
+            <div class="stop-log-detalle">${d.detalle || d.tipo}</div>
+            <div class="stop-log-meta">👤 ${d.admin || '—'} &nbsp;·&nbsp; 🕐 ${fecha}</div>
+          </div>
+        </div>`;
+    });
+    container.innerHTML = html;
+  } catch (error) {
+    container.innerHTML = '<p style="color:#B3261E; font-size:13px;">Error cargando log: ' + error.message + '</p>';
+  }
+}
+
+// ========================================
+// 🔒 CHECK FRESCO DE STOP DESDE FIRESTORE
+// ========================================
+async function verificarStopVentasAhora() {
+  try {
+    const doc = await db.collection('rifa_config').doc('ventas_stop').get();
+    if (doc.exists) {
+      const data = doc.data();
+      // Verificar stop activo
+      if (data.activo === true) {
+        return { detenidas: true, mensaje: data.mensaje || '' };
+      }
+      // Verificar stop programado que ya pasó
+      if (data.programado) {
+        const programadoDate = data.programado.toDate ? data.programado.toDate() : new Date(data.programado);
+        if (new Date() >= programadoDate) {
+          return { detenidas: true, mensaje: data.mensaje || '' };
+        }
+      }
+    }
+    return { detenidas: false, mensaje: '' };
+  } catch (error) {
+    console.warn('⚠️ verificarStopVentasAhora falló, usando caché:', error.message);
+    return { detenidas: ventasDetenidas, mensaje: (stopConfig && stopConfig.mensaje) || '' };
+  }
+}
+
+// Confirmaciones admin para stop/reanudar
+async function confirmarActivarStop() {
+  const mensajeInput = document.getElementById('stop-mensaje-input');
+  const mensaje = mensajeInput ? mensajeInput.value.trim() : '';
+  const { isConfirmed } = await Swal.fire({
+    icon: 'warning',
+    title: '🔒 ¿Detener ventas AHORA?',
+    html: `
+      <p>Se bloqueará la posibilidad de hacer nuevas reservas.</p>
+      ${mensaje ? `<p style="margin-top:10px;font-size:14px;color:#555;">Mensaje: <em>"${mensaje}"</em></p>` : ''}
+      <p style="font-size:13px;color:#B3261E;margin-top:10px;">⚠️ Los usuarios verán el cartel de ventas pausadas.</p>`,
+    showCancelButton: true,
+    confirmButtonText: 'Sí, detener ventas',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#B3261E'
+  });
+  if (isConfirmed) {
+    const ok = await activarStopVentas(mensaje || '🔒 Ventas pausadas. Esperando el resultado del sorteo.');
+    if (ok) {
+      actualizarUIStopVentas();
+      Swal.fire({ icon: 'success', title: 'Ventas detenidas', text: 'El cartel está activo para los usuarios.', timer: 2500, showConfirmButton: false });
+    } else {
+      Swal.fire({ icon: 'error', title: 'Error al detener ventas', text: 'No se pudo guardar el cambio en Firestore. Verificá tu conexión y que estés autenticado.' });
+    }
+  }
+}
+
+async function confirmarReanudarVentas() {
+  const { isConfirmed } = await Swal.fire({
+    icon: 'question',
+    title: '🟢 ¿Reanudar ventas?',
+    text: 'Los usuarios podrán volver a reservar números.',
+    showCancelButton: true,
+    confirmButtonText: 'Sí, reanudar',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#4CAF50'
+  });
+  if (isConfirmed) {
+    const ok = await desactivarStopVentas();
+    if (ok) {
+      actualizarUIStopVentas();
+      Swal.fire({ icon: 'success', title: 'Ventas reanudadas', text: 'Los usuarios ya pueden reservar nuevamente.', timer: 2500, showConfirmButton: false });
+    } else {
+      Swal.fire({ icon: 'error', title: 'Error al reanudar ventas', text: 'No se pudo guardar el cambio en Firestore. Verificá tu conexión y que estés autenticado.' });
+    }
+  }
+}
+
+async function confirmarProgramarStop() {
+  const fechaInput = document.getElementById('stop-programado-input');
+  const mensajeInput = document.getElementById('stop-mensaje-input');
+  if (!fechaInput || !fechaInput.value) {
+    Swal.fire({ icon: 'warning', title: 'Falta la fecha', text: 'Seleccioná la fecha y hora para el stop programado.' });
+    return;
+  }
+  const fechaHora = new Date(fechaInput.value);
+  const ahora = new Date();
+  if (fechaHora <= ahora) {
+    Swal.fire({ icon: 'warning', title: 'Fecha inválida', text: 'La fecha programada debe ser en el futuro.' });
+    return;
+  }
+  const mensaje = mensajeInput ? mensajeInput.value.trim() : '';
+  const fechaStr = fechaHora.toLocaleString('es-AR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+  const { isConfirmed } = await Swal.fire({
+    icon: 'info',
+    title: '📅 Programar stop de ventas',
+    html: `<p>Las ventas se detendrán automáticamente el:</p>
+           <p style="font-size:18px;font-weight:700;color:#6750A4;margin:10px 0;">${fechaStr}</p>
+           ${mensaje ? `<p style="font-size:13px;color:#555;">Mensaje: <em>"${mensaje}"</em></p>` : ''}`,
+    showCancelButton: true,
+    confirmButtonText: 'Programar',
+    cancelButtonText: 'Cancelar',
+    confirmButtonColor: '#6750A4'
+  });
+  if (isConfirmed) {
+    await programarStopVentas(fechaInput.value, mensaje || '🔒 Ventas pausadas. Esperando el resultado del sorteo.');
+    Swal.fire({ icon: 'success', title: 'Stop programado', text: `Las ventas se detendrán automáticamente el ${fechaStr}.`, timer: 3000, showConfirmButton: false });
+  }
+}
+
+// ========================================
 // ✅ MODAL PÚBLICO CON AUTO-RELLENADO
 // ========================================
 function openPublicModal(item) {
   currentEditingId = item.id;
   
   if (item.state === 1) {
+    // 🔒 Bloquear si las ventas están detenidas
+    if (ventasDetenidas) {
+      Swal.fire({
+        icon: 'info',
+        title: '🔒 Ventas pausadas',
+        html: `<p>${(stopConfig && stopConfig.mensaje) ? stopConfig.mensaje : 'Las ventas están temporalmente pausadas.'}</p>
+               <p style="font-size:13px;color:#888;margin-top:10px;">Pronto se comunicará el resultado del sorteo. ¡Gracias por participar!</p>`,
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#6750A4'
+      });
+      return;
+    }
+
     document.getElementById('public-modal-numero').textContent = item.numero;
     document.querySelector('#public-modal .modal-header h3').innerHTML = 
       'Reservar Número <span id="public-modal-numero">' + item.numero + '</span>';
@@ -732,7 +1135,22 @@ function limpiarYRecargar() {
 // ========================================
 document.getElementById('public-form').onsubmit = async function(e) {
   e.preventDefault();
-  
+
+  // 🔒 CHECK FRESCO: verificar stop antes de cualquier acción
+  const stopStatus = await verificarStopVentasAhora();
+  if (stopStatus.detenidas) {
+    closePublicModal();
+    Swal.fire({
+      icon: 'info',
+      title: '🔒 Ventas pausadas',
+      html: `<p>${stopStatus.mensaje || 'Las ventas están temporalmente pausadas.'}</p>
+             <p style="font-size:13px;color:#888;margin-top:10px;">Pronto se comunicará el resultado del sorteo. ¡Gracias por participar!</p>`,
+      confirmButtonText: 'Entendido',
+      confirmButtonColor: '#6750A4'
+    });
+    return;
+  }
+
   if (!currentEditingId) {
     console.error('❌ ERROR: currentEditingId es null');
     Swal.fire({
@@ -2166,11 +2584,30 @@ function updateSearchResults(count) {
 window.abrirModalReservaMasiva = abrirModalReservaMasiva;
 window.cerrarModalMasivo = cerrarModalMasivo;
 window.toggleNumeroMasivo = toggleNumeroMasivo;
+// 🔒 Funciones de control de ventas (llamadas desde onclick en HTML)
+window.confirmarActivarStop = confirmarActivarStop;
+window.confirmarReanudarVentas = confirmarReanudarVentas;
+window.confirmarProgramarStop = confirmarProgramarStop;
+window.cancelarStopProgramado = cancelarStopProgramado;
+window.cargarYRenderLogStop = cargarYRenderLogStop;
 
 // Función para abrir modal
 function abrirModalReservaMasiva() {
   console.log('📋 Abriendo modal...');
-  
+
+  // 🔒 Bloquear si las ventas están detenidas
+  if (ventasDetenidas) {
+    Swal.fire({
+      icon: 'info',
+      title: '🔒 Ventas pausadas',
+      html: `<p>${(stopConfig && stopConfig.mensaje) ? stopConfig.mensaje : 'Las ventas están temporalmente pausadas.'}</p>
+             <p style="font-size:13px;color:#888;margin-top:10px;">Pronto se comunicará el resultado del sorteo. ¡Gracias por participar!</p>`,
+      confirmButtonText: 'Entendido',
+      confirmButtonColor: '#6750A4'
+    });
+    return;
+  }
+
   try {
     const modal = document.getElementById('modal-reserva-masiva');
     if (!modal) throw new Error('Modal no encontrado');
@@ -2424,7 +2861,21 @@ document.getElementById('form-reserva-masiva').onsubmit = async function(e) {
     if (numerosReservados.length === 0) {
       throw new Error('Ninguno de los números seleccionados está disponible. Por favor, actualiza la página.');
     }
-    
+
+    // 🔒 CHECK FRESCO: verificar stop justo antes de confirmar el batch
+    const stopCheck = await verificarStopVentasAhora();
+    if (stopCheck.detenidas) {
+      Swal.fire({
+        icon: 'info',
+        title: '🔒 Ventas pausadas',
+        html: `<p>${stopCheck.mensaje || 'Las ventas están temporalmente pausadas.'}</p>
+               <p style="font-size:13px;color:#888;margin-top:10px;">Pronto se comunicará el resultado del sorteo. ¡Gracias por participar!</p>`,
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#6750A4'
+      });
+      return;
+    }
+
     console.log('📤 Enviando batch con', numerosReservados.length, 'números');
     await batch.commit();
     console.log('✅ Reserva masiva completada:', numerosReservados);
@@ -2654,6 +3105,7 @@ window.addEventListener('load', function() {
   console.log('🌐 Página completamente cargada');
   console.log('🔄 Iniciando carga de datos en modo público...');
   loadRifaData(false); // false = modo público
+  listenVentasStop();  // 🔒 Escuchar estado de ventas en tiempo real
 });
 // ========================================
 // LOGS FINALES

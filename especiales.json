@@ -2,10 +2,10 @@
   
  {
     "id": 1,
-    "fecha": "",
-    "titulo": "San José: El Padre Terrenal de Jesús | 19 de Marzo",
+    "fecha": "25 de marzo",
+    "titulo": "La Solemnidad de la Anunciación del Señor",
     "videoMobile": "./asantos/especiales/sanjose.mp4?v=3",
-    "videoDesktop": "https://youtu.be/JfOHmxiOoYc",
+    "videoDesktop": "https://youtu.be/wE-9oOuiLds",
     "poster": "./asantos/santos.jpg",
     "icono": "./img/paloma.png"
   }

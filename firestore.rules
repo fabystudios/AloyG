@@ -1,0 +1,83 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ============================================
+    // FUNCIÓN AUXILIAR: Verificar si es admin
+    // ============================================
+    function isAdmin() {
+      return request.auth != null && 
+             exists(/databases/$(database)/documents/admins/$(request.auth.token.email)) &&
+             get(/databases/$(database)/documents/admins/$(request.auth.token.email)).data.activo == true;
+    }
+
+    // ============================================
+    // COLECCIÓN: config/datos_pago
+    // Datos de pago CIFRADOS
+    // ============================================
+    match /config/datos_pago {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /config/{document} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ============================================
+    // COLECCIÓN: rifa/{numero}
+    // ============================================
+    match /rifa/{numero} {
+      allow read: if true;
+
+      allow create: if request.resource.data.state == 2 &&
+                       request.resource.data.nombre != null &&
+                       request.resource.data.nombre != '';
+
+      allow update: if 
+        (resource.data.state == 1 && request.resource.data.state == 2)
+        ||
+        (resource.data.state == 2 && 
+         request.resource.data.state == 1 &&
+         resource.data.dni == request.resource.data.dni)
+        ||
+        isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    // ============================================
+    // COLECCIÓN: rifa_config
+    // Estado de ventas (stop/reanudar) — lectura pública
+    // ============================================
+    match /rifa_config/{documento=**} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ============================================
+    // COLECCIÓN: admins/{email}
+    // ============================================
+    match /admins/{email} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    // ============================================
+    // COLECCIÓN: rifa_logs
+    // Log de auditoría — solo admins
+    // ============================================
+    match /rifa_logs/{documento=**} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+
+    // ============================================
+    // TODO LO DEMÁS: DENEGADO
+    // ============================================
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

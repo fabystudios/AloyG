@@ -1004,6 +1004,9 @@
     </h2>
   </section>
 <br>
+ <!-- Publicaciones Especiales última-->
+  <efemerides-card json-file="./especiales.json" card-type="especiales"></efemerides-card>
+<br><br>
   <!-- Rifa -->
   <article class="rifa-navidad-article" id="rifa">
 
@@ -1018,8 +1021,8 @@
               <img src="./img/click.png" alt="Click" style="max-width: 100px; height: auto; " />
               <!-- <span> Reservá tu número</span> -->
             </a>    
-                <h1 class="rifa-title">Premio desierto<br>Nueva Chance<br>25 de Marzo</h1>    
-                <h2 class="rifa-subtitle"> Bicicleta rodado 29  </h2>
+                <h1 class="rifa-title"><strong>Sale ó Sale!!!<br>últimas horas!!<br>25 de Marzo</strong></h1>    
+                <h2 class="rifa-subtitle"> <strong>Bicicleta rodado 29 </strong> </h2>
           <!-- <p class="rifa-description">
             Cada boleto que adquieras nos ayuda a continuar con nuestra misión y proyectos comunitarios.
             ¡No te pierdas la oportunidad de ganar y hacer el bien al mismo tiempo!
@@ -1381,6 +1384,10 @@
           const effectsContainer = document.getElementById('rifaEffectsContainer');
           const imageEffects = document.getElementById('rifaImageEffects');
           const rifaArticle = document.getElementById('rifa');
+
+          // Si los contenedores no existen, no hacer nada
+          if (!effectsContainer || !imageEffects) return;
+
           let particleInterval = null;
           let confettiInterval = null;
 
@@ -1496,7 +1503,7 @@
     margin="20px auto">
   </glassmorphism-yt-player>
 <br> <br>
- <!-- Publicaciones Especiales -->
+
 
   <!-- ═══ Video Presentación (Retro TV) ═══ -->
    <div id="encuentro"></div>
@@ -1510,7 +1517,6 @@
   </retro-tv-player>
   <!-- ═══ Fin Video Presentación ═══ -->
 
-  <!-- <efemerides-card json-file="./especiales.json" card-type="especiales"></efemerides-card> -->
 <br>
   <!-- ═══ ADORACIÓN EUCARÍSTICA ═══ -->
   <section id="adoracion" class="ado-section">
