@@ -702,10 +702,12 @@
         const ganadorCard = document.querySelector('.num-card.ganador');
         const gridSection = document.querySelector('.grid-section');
         if (ganadorCard && gridSection) {
-          const cardTop = ganadorCard.offsetTop;
+          const containerRect = gridSection.getBoundingClientRect();
+          const cardRect = ganadorCard.getBoundingClientRect();
           const sectionH = gridSection.clientHeight;
           const cardH = ganadorCard.offsetHeight;
-          gridSection.scrollTo({ top: cardTop - sectionH / 2 + cardH / 2, behavior: 'smooth' });
+          const scrollOffset = cardRect.top - containerRect.top + gridSection.scrollTop - sectionH / 2 + cardH / 2;
+          gridSection.scrollTo({ top: scrollOffset, behavior: 'smooth' });
         }
       }, 600);
     }
