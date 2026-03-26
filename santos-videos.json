@@ -1,6 +1,18 @@
 [   
-                 {
+                   {
     "id": 1,
+    "fecha": "26 de Marzo",
+    "santo": "San Ludgero",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/lud.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },   
+                 {
+    "id": 2,
     "fecha": "24 de Marzo",
     "santo": "San Óscar Romero",
     "santoFontSize": "1.2em",
@@ -11,19 +23,7 @@
     "showOnMobile": false,
     "showOnDesktop": true
   },   
-               {
-    "id": 2,
-    "fecha": "23 de Marzo",
-    "santo": "Santo Toribio de Mogrovejo",
-    "santoFontSize": "1em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/toribio.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },    
-       
+           
         {
     "id": 3,
     "fecha": "Historias",
