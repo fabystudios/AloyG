@@ -1919,75 +1919,22 @@
   </style>
   <!-- ═══ / ADORACIÓN EUCARÍSTICA ═══ -->
 <br>
+
+
   <!-- ═══ Horario Misa ═══ -->
   <div id="horas"></div>
 
-  <style>
-    .horario-bloque { display:flex; flex-direction:column; align-items:center; width:100%; }
-    .horario-bloque glassmorphism-video { width:100%; }
-    .qbtn-info {
-      display:flex; align-items:center; justify-content:center; gap:10px;
-      width:calc(100% - 40px); max-width:1200px; box-sizing:border-box;
-      margin:0 auto;
-      padding:16px 24px;
-      border-radius:9999px;
-      font-family:'Roboto',sans-serif; font-size:1.1rem; font-weight:600; letter-spacing:.03em;
-      color:#3d1a00; text-decoration:none; cursor:pointer;
-      background: linear-gradient(145deg, #ffc107 0%, #ff9800 50%, #e65100 100%);
-      position:relative; overflow:hidden;
-      box-shadow:
-        0 6px 0 #bf5600,
-        0 9px 22px rgba(230, 81, 0, 0.50),
-        inset 0 1px 0 rgba(255,255,255, 0.45),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.20);
-      transition: box-shadow .14s ease, transform .14s ease, background .18s ease;
-      margin-bottom: 1.4rem;
-    }
-    .qbtn-info::before {
-      content:'';
-      position:absolute; top:0; left:0; right:0; height:52%;
-      background: linear-gradient(180deg, rgba(255,255,255,.32) 0%, rgba(255,255,255,0) 100%);
-      border-radius:9999px 9999px 60% 60% / 9999px 9999px 40px 40px;
-      pointer-events:none;
-    }
-    .qbtn-info:hover {
-      background: linear-gradient(145deg, #ffe082 0%, #ffb300 50%, #ff6f00 100%);
-      color:#3d1a00;
-      transform:translateY(-3px);
-      box-shadow:
-        0 9px 0 #bf5600,
-        0 14px 28px rgba(230, 81, 0, 0.65),
-        inset 0 1px 0 rgba(255,255,255, 0.50),
-        inset 0 -1px 0 rgba(0, 0, 0, 0.20);
-    }
-    .qbtn-info:active {
-      background: linear-gradient(145deg, #e65100 0%, #ff9800 100%);
-      color:#fff3e0;
-      transform:translateY(4px);
-      box-shadow:
-        0 2px 0 #bf5600,
-        0 4px 8px rgba(230, 81, 0, 0.35),
-        inset 0 3px 7px rgba(0, 0, 0, 0.28),
-        inset 0 -1px 0 rgba(255,255,255, 0.10);
-    }
-  </style>
-
-  <div class="horario-bloque">
-    <glassmorphism-video
-      size="large"
-      src="./video/horario.mp4"
-      title="Horarios de Misa"
-      gradient="#ff9800, #ffc107"
-      icon="church"
-      poster="./img/poster_horarios.png"
-      autoplay
-      loop
-    ></glassmorphism-video>
-    <a href="./homilias.html" class="qbtn-info">
-      <img src="./actividades/info.png" alt="" style="width:2.2rem; height:2.2rem; object-fit:contain;">
-      Ver Info
-    </a>
-  </div>
+  <glassmorphism-video
+    size="large"
+    src="./video/horario.mp4"
+    title="Horarios de Misa"
+    gradient="#ff9800, #ffc107"
+    icon="church"
+    poster="./img/poster_horarios.png"
+    info-url="./homilias.html"
+    autoplay
+    loop
+  ></glassmorphism-video>
 
   <!-- ═══ Fin Horario Misa ═══ -->
 

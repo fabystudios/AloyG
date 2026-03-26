@@ -63,6 +63,7 @@ class GlassmorphismVideo extends HTMLElement {
     const maxWidth = size === 'large' ? '1200px' : '900px';
 
     const localSrc = this.getAttribute('src') || '';
+    const infoUrl = this.getAttribute('info-url') || '';
     const loop = this.hasAttribute('loop') ? 'loop' : '';
     const autoplay = this.hasAttribute('autoplay') ? 'autoplay' : '';
     const muted = this.hasAttribute('autoplay') ? 'muted' : ''; // requerido por browsers para autoplay
@@ -127,6 +128,42 @@ class GlassmorphismVideo extends HTMLElement {
           letter-spacing: 0.5px;
           text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
+        /* ── Info button ── */
+        .gm-info-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 62px;
+          height: 62px;
+          border-radius: 50%;
+          border: none;
+          background: transparent;
+          cursor: pointer;
+          text-decoration: none;
+          padding: 0;
+          flex-shrink: 0;
+          box-shadow: 0 4px 14px rgba(0,0,0,0.38);
+          transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.18s ease;
+          outline: none;
+          margin-top: 10px;
+        }
+        .gm-info-btn img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          border-radius: 50%;
+          display: block;
+          filter: drop-shadow(0 3px 8px rgba(0,0,0,0.45));
+          background: linear-gradient(145deg, #fcd34d, #f59e0b);
+        }
+        .gm-info-btn:hover, .gm-info-btn:focus-visible {
+          transform: translateY(-4px) scale(1.12);
+          box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+        }
+        .gm-info-btn:active {
+          transform: translateY(3px) scale(0.95);
+          box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        }
         @media (max-width: 600px) {
           .gm-title { font-size: 1.1em !important; }
           .gm-title-icon { font-size: 1.6em !important; }
@@ -146,6 +183,8 @@ class GlassmorphismVideo extends HTMLElement {
           .gm-video-col { width: 100% !important; flex: none !important; }
           /* Menos margen bajo el título en mobile */
           .gm-title-row { margin-bottom: 10px !important; }
+          /* Info button en mobile: al lado del dial, sin margin-top */
+          .gm-info-btn { margin-top: 0 !important; width: 56px !important; height: 56px !important; }
         }
       </style>
       
@@ -303,6 +342,10 @@ class GlassmorphismVideo extends HTMLElement {
                   text-shadow: 0 0 8px rgba(200,151,46,0.6);
                 ">AUDIO</div>
               </div>
+              ${infoUrl ? `
+              <a class="gm-info-btn" href="${infoUrl}" aria-label="Más información" title="Ver más información">
+                <img src="./actividades/info.png" alt="Información" />
+              </a>` : ''}
             </div>` : ''}
 
           </div>
