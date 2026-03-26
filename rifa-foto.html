@@ -695,13 +695,17 @@
     loading.classList.add('hidden');
     setTimeout(() => loading.style.display = 'none', 450);
 
-    // Scroll al número ganador (solo la primera vez)
+    // Scroll interno de la grilla al número ganador (solo la primera vez)
     if (!window._scrolledToGanador) {
       window._scrolledToGanador = true;
       setTimeout(() => {
         const ganadorCard = document.querySelector('.num-card.ganador');
-        if (ganadorCard) {
-          ganadorCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const gridSection = document.querySelector('.grid-section');
+        if (ganadorCard && gridSection) {
+          const cardTop = ganadorCard.offsetTop;
+          const sectionH = gridSection.clientHeight;
+          const cardH = ganadorCard.offsetHeight;
+          gridSection.scrollTo({ top: cardTop - sectionH / 2 + cardH / 2, behavior: 'smooth' });
         }
       }, 600);
     }
