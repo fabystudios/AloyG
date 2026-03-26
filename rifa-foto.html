@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Estado de la Rifa · Parroquia San Luis Gonzaga</title>
+  <title>🏆 Resultado del Sorteo · Rifa Parroquia San Luis Gonzaga</title>
 
   <!-- Open Graph / WhatsApp / redes sociales -->
   <meta property="og:type"        content="website">
   <meta property="og:url"         content="https://www.sanluisgonzaga.ar/rifa-foto.html">
-  <meta property="og:title"       content="🎟️ Grilla de Concursantes · Rifa Parroquia San Luis Gonzaga">
-  <meta property="og:description" content="Mirá en tiempo real el estado de los 1000 números de la rifa. ¡Seguí el sorteo en vivo!">
+  <meta property="og:title"       content="🏆 ¡Numero 888 Ganador! · Rifa Parroquia San Luis Gonzaga">
+  <meta property="og:description" content="¡El número 888 resultó ganador! Oscar Carreras se llevó el premio. Consultá la grilla completa de la venta para verificar la transparencia del sorteo.">
   <meta property="og:image"       content="https://www.sanluisgonzaga.ar/rifa/foto-preview.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -111,6 +111,123 @@
       transition: transform .25s ease;
     }
     .premio-banner img:hover { transform: scale(1.04); }
+
+    /* ── Winner announcement ── */
+    .winner-banner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 1.5rem;
+      background: linear-gradient(135deg, #2a0d54 0%, #3d1563 40%, #1a0030 100%);
+      border-bottom: 3px solid rgba(255,204,0,.7);
+      box-shadow: 0 6px 40px rgba(255,152,0,.35), inset 0 1px 0 rgba(255,204,0,.2);
+      position: relative;
+      overflow: hidden;
+      flex-wrap: wrap;
+    }
+    .winner-banner::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent 0%, rgba(255,204,0,.06) 50%, transparent 100%);
+      background-size: 200% auto;
+      animation: wbShimmer 3s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes wbShimmer {
+      0%   { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    .winner-foto {
+      flex-shrink: 0;
+      position: relative;
+    }
+    .winner-foto img {
+      height: 130px;
+      width: auto;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 3px solid #ffdc00;
+      box-shadow: 0 0 30px rgba(255,220,0,.9), 0 0 8px rgba(255,220,0,.5);
+      animation: wfGlow 2.5s ease-in-out infinite;
+    }
+    @keyframes wfGlow {
+      0%,100% { box-shadow: 0 0 30px rgba(255,220,0,.9), 0 0 8px rgba(255,220,0,.5); }
+      50%      { box-shadow: 0 0 55px rgba(255,220,0,1),  0 0 20px rgba(255,220,0,.8); }
+    }
+    .winner-info {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      z-index: 1;
+    }
+    .winner-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: #ffdc00;
+    }
+    .winner-nombre {
+      font-size: clamp(1.4rem, 3vw, 2.2rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.1;
+      text-shadow: 0 2px 20px rgba(255,152,0,.7);
+    }
+    .winner-numero {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: clamp(1.2rem, 2.5vw, 1.8rem);
+      font-weight: 900;
+      background: linear-gradient(135deg, #ffdc00 0%, #ff9800 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .winner-sub {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,.6);
+    }
+    .winner-copa img {
+      height: 100px;
+      filter: drop-shadow(0 4px 20px rgba(255,220,0,1));
+      animation: rpTrophyFloat2 3s ease-in-out infinite;
+    }
+    @keyframes rpTrophyFloat2 {
+      0%,100% { transform: translateY(0) rotate(-3deg); }
+      50%      { transform: translateY(-8px) rotate(3deg); }
+    }
+    @media (max-width: 600px) {
+      .winner-banner { gap: 1rem; padding: 0.8rem 1rem; }
+      .winner-foto img { height: 90px; }
+      .winner-copa img { height: 70px; }
+    }
+
+    /* ── Winning card ── */
+    .num-card.ganador {
+      background: linear-gradient(135deg, #b8860b 0%, #ffdc00 40%, #ff9800 100%) !important;
+      border: 2px solid #fff !important;
+      box-shadow: 0 0 0 3px #ffdc00, 0 0 24px rgba(255,220,0,1) !important;
+      animation: cardWinnerPulse 1.5s ease-in-out infinite !important;
+      z-index: 2;
+      position: relative;
+    }
+    .num-card.ganador .n-num   { color: #1a0030 !important; font-size: 1.1em !important; }
+    .num-card.ganador .n-nombre { color: #1a0030 !important; }
+    .num-card.ganador::after {
+      content: '🏆';
+      position: absolute;
+      top: 2px; right: 3px;
+      font-size: 0.7rem;
+    }
+    @keyframes cardWinnerPulse {
+      0%,100% { box-shadow: 0 0 0 3px #ffdc00, 0 0 24px rgba(255,220,0,.9); }
+      50%      { box-shadow: 0 0 0 6px #ffdc00, 0 0 44px rgba(255,220,0,1); }
+    }
+
     .premio-info {
       display: flex;
       flex-direction: column;
@@ -384,7 +501,7 @@
 
 <!-- ─── STATS BAR ─── -->
 <div class="stats-bar">
-  <span class="titulo-foto">Estado de la Rifa · <span id="titulo-fecha">--</span></span>
+  <span class="titulo-foto">Registro de Venta · <span id="titulo-fecha">--</span></span>
   <div class="stat-chip libre">
     <span class="dot"></span>
     <span>Libres</span>
@@ -407,13 +524,29 @@
   </div>
 </div>
 
+<!-- ─── BANNER GANADOR ─── -->
+<div class="winner-banner">
+  <div class="winner-foto">
+    <img src="./rifa/carlos1.png" alt="Oscar Carreras - Ganador" />
+  </div>
+  <div class="winner-info">
+    <span class="winner-label">🏆 Número ganador</span>
+    <div class="winner-numero">888</div>
+    <div class="winner-nombre">Oscar Carreras</div>
+    <span class="winner-sub">Sorteo realizado · 25 de Marzo 2026 · Lotería Nacional Vespertina</span>
+  </div>
+  <div class="winner-copa">
+    <img src="./rifa/copa2.png" alt="Copa" />
+  </div>
+</div>
+
 <!-- ─── BANNER PREMIO ─── -->
 <div class="premio-banner">
   <img src="./rifa/foto1.png" alt="Premio de la Rifa">
   <div class="premio-info">
-    <span class="premio-label">🏆 Premio de la Rifa</span>
+    <span class="premio-label">🎁 Premio entregado</span>
     <span class="premio-titulo">Bicicleta Rodado 29</span>
-    <span class="premio-subtitulo">Sorteo · 25 de Marzo 2026 · Lotería Nacional Vespertina</span>
+    <span class="premio-subtitulo">La grilla a continuación muestra cómo quedó registrada la venta de boletas</span>
   </div>
 </div>
 
@@ -505,9 +638,7 @@
   const titFecha   = document.getElementById('titulo-fecha');
 
   // Fecha para el título
-  titFecha.textContent = new Date().toLocaleDateString('es-AR', {
-    day: '2-digit', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit'
-  });
+  titFecha.textContent = '25 de marzo de 2026 · Sorteo finalizado';
 
   function renderGrid(data) {
     grid.innerHTML = '';
@@ -526,7 +657,9 @@
       else if (state === 3) pagado++;
 
       const card = document.createElement('div');
-      card.className = `num-card ${cls}`;
+      const esGanador = item.numero === 888;
+      card.className = `num-card ${cls}${esGanador ? ' ganador' : ''}`;
+      if (esGanador) card.title = '🏆 ¡NÚMERO GANADOR!';
 
       const primerNombre = item.nombre
         ? item.nombre.trim().split(/\s+/)[0]
@@ -561,6 +694,17 @@
     // Ocultar loading la primera vez
     loading.classList.add('hidden');
     setTimeout(() => loading.style.display = 'none', 450);
+
+    // Scroll al número ganador (solo la primera vez)
+    if (!window._scrolledToGanador) {
+      window._scrolledToGanador = true;
+      setTimeout(() => {
+        const ganadorCard = document.querySelector('.num-card.ganador');
+        if (ganadorCard) {
+          ganadorCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 600);
+    }
   }, err => {
     console.error('Error Firestore:', err);
     loading.innerHTML = `

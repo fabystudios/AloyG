@@ -1025,9 +1025,9 @@
       background: linear-gradient(135deg, rgba(80,42,99,0.72) 0%, rgba(42,13,84,0.82) 100%);
       backdrop-filter: blur(18px);
       -webkit-backdrop-filter: blur(18px);
-      border: 1.5px solid rgba(183,140,220,0.35);
+      border: 2px solid rgba(255,204,0,0.65);
       border-radius: 28px;
-      box-shadow: 0 8px 48px rgba(80,42,99,0.55), 0 0 0 1px rgba(255,255,255,0.06) inset;
+      box-shadow: 0 8px 60px rgba(80,42,99,0.8), 0 0 0 1px rgba(255,255,255,0.06) inset, 0 0 90px rgba(255,152,0,0.25);
       padding: 0;
       overflow: hidden;
       position: relative;
@@ -1113,7 +1113,7 @@
       50%      { box-shadow: 0 0 0 8px rgba(255,152,0,.0); }
     }
     .rifa-pausa-badge::before {
-      content: '⏸';
+      content: '⏹';
       font-size: 1em;
     }
     .rifa-pausa-titulo {
@@ -1172,21 +1172,126 @@
       .rifa-pausa-texts { padding: 28px 28px 36px; }
       .rifa-pausa-titulo { font-size: 1.9rem; }
     }
+    /* ── Gold animated ribbon ── */
+    .rifa-ribbon {
+      text-align: center;
+      background: linear-gradient(90deg, #3d1563 0%, #b8740a 20%, #ffdc00 50%, #b8740a 80%, #3d1563 100%);
+      background-size: 300% auto;
+      animation: rpRibbonShift 4s linear infinite;
+      color: #1a0030;
+      font-weight: 900;
+      font-size: .83rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      padding: 11px 0;
+      border-radius: 26px 26px 0 0;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 1px 0 rgba(255,255,255,.3);
+    }
+    @keyframes rpRibbonShift {
+      0%   { background-position: 0% center; }
+      100% { background-position: 300% center; }
+    }
+    /* ── Foto wrapper ── */
+    .rifa-foto-wrapper {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+    .rifa-foto-wrapper .rifa-foto-winner {
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 0 0 0 26px;
+      transition: transform .5s ease;
+      filter: brightness(1.08) contrast(1.06);
+      display: block;
+      box-shadow: none !important;
+    }
+    .rifa-foto-wrapper:hover .rifa-foto-winner { transform: scale(1.04); }
+    /* ── Winner stamp (sello dorado) ── */
+    .rifa-winner-stamp {
+      position: absolute;
+      top: 14px;
+      right: 10px;
+      background: linear-gradient(135deg, #ffdc00 0%, #ff9800 100%);
+      color: #1a0030;
+      font-weight: 900;
+      text-align: center;
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.1;
+      font-size: .85rem;
+      letter-spacing: .5px;
+      box-shadow: 0 4px 24px rgba(255,152,0,.85), 0 0 0 4px rgba(255,255,255,.4);
+      animation: rpStampAppear .7s cubic-bezier(.36,2,.6,1) .4s both, rpStampGlow 2.5s ease-in-out infinite;
+      z-index: 5;
+    }
+    .rifa-winner-stamp .stamp-emoji { font-size: 1.9rem; line-height: 1; display: block; }
+    .rifa-winner-stamp .stamp-sub { font-size: .52rem; letter-spacing: 2px; text-transform: uppercase; opacity: .85; display: block; margin-top: 1px; }
+    @keyframes rpStampAppear {
+      from { transform: scale(0) rotate(-25deg); opacity: 0; }
+      to   { transform: scale(1) rotate(0deg);   opacity: 1; }
+    }
+    @keyframes rpStampGlow {
+      0%,100% { box-shadow: 0 4px 24px rgba(255,152,0,.85), 0 0 0 4px rgba(255,255,255,.4); }
+      50%      { box-shadow: 0 6px 40px rgba(255,220,0,1),   0 0 0 8px rgba(255,255,255,.6); }
+    }
+    /* ── Mini trophy floating ── */
+    .rifa-foto-wrapper .rifa-trophy-mini {
+      position: absolute;
+      bottom: 14px;
+      left: 10px;
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      border-radius: 0 !important;
+      box-shadow: none !important;
+      filter: drop-shadow(0 6px 22px rgba(255,220,0,1));
+      animation: rpTrophyFloat 3s ease-in-out infinite;
+      z-index: 5;
+      pointer-events: none;
+    }
+    @keyframes rpTrophyFloat {
+      0%,100% { transform: translateY(0) rotate(-5deg); }
+      50%      { transform: translateY(-10px) rotate(5deg); }
+    }
+    @media (max-width: 800px) {
+      .rifa-foto-wrapper .rifa-foto-winner { min-height: 260px; border-radius: 0 !important; }
+      .rifa-winner-stamp { right: 12px; top: 12px; }
+      .rifa-foto-wrapper .rifa-trophy-mini { left: 10px; bottom: 10px; width: 90px; height: 90px; }
+      .rifa-ribbon { border-radius: 26px 26px 0 0; font-size: .72rem; letter-spacing: 3px; }
+    }
   </style>
 
   <article class="rifa-pausa-wrap" id="rifa">
     <div class="rifa-pausa-card">
+      <!-- Ribbon superior animado -->
+      <div class="rifa-ribbon">🏆 &nbsp; ¡SORTEO REALIZADO! &nbsp; 🏆</div>
       <div class="rifa-pausa-inner">
         <div class="rifa-pausa-foto">
-          <img src="./rifa/foto2.png" alt="Premio Bicicleta Rodado 29" />
+          <div class="rifa-foto-wrapper">
+            <img class="rifa-foto-winner" src="./rifa/carlos1.png" alt="Oscar Carreras - Ganador de la Rifa" />
+            <div class="rifa-winner-stamp"><span class="stamp-emoji">🏆</span><span class="stamp-sub">GANADOR</span></div>
+            <img class="rifa-trophy-mini" src="./rifa/copa2.png" alt="Copa del sorteo" />
+          </div>
         </div>
         <div class="rifa-pausa-texts">
-          <div class="rifa-pausa-badge">Venta Pausada</div>
-          <h2 class="rifa-pausa-titulo">Esperando los<br><span>resultados del sorteo</span></h2>
-          <p class="rifa-pausa-sub">🎉 ¡Ya cerramos la venta de números!<br>Mirá la FOTO de la grilla de concursantes y seguí el sorteo en vivo.</p>
+          <div class="rifa-pausa-badge">Sorteo finalizado</div>
+          <h2 class="rifa-pausa-titulo">Oscar Carreras<br><span>¡Ganador del sorteo!</span></h2>
+          <p class="rifa-pausa-sub">🏅 En pos de la <strong style="color:#ffdc00;font-weight:800;">transparencia</strong>, podés consultar la grilla completa con todos los números vendidos y verificar cómo quedó registrada la venta de las boletas.</p>
           <a href="./rifa-foto.html" class="rifa-pausa-cta">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-            Ver grilla concursantes
+            Ver grilla de la venta
           </a>
         </div>
       </div>
