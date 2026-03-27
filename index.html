@@ -391,6 +391,8 @@
   <script src="./components/cartelera-carousel.js"></script>
   <!-- Web Component Televisor Retro con glassmorphism -->
   <script src="./components/retro-tv-player.js"></script>
+  <!-- Web Component Programa Semana Santa (mosaico glassmorphism) -->
+  <script src="./components/semana-santa-programa.js"></script>
 
 </head>
 
@@ -986,8 +988,8 @@
     base-path="./actividades/cartelera/"
     slides='[
     {"mob":"ado_mob.jpg","desk":"ado_desk.png","title":"Adoración al Santísimo", "anchor":"#adoracion"},
-    {"mob":"ramos_mob.png","desk":"ramos_desk.png","title":"Domingo de Ramos"},
-    {"mob":"ssanta_mob.png","desk":"ssanta_desk.png", "title":"Semana Santa"},
+    {"mob":"ramos_mob.png","desk":"ramos_desk.png","title":"Domingo de Ramos", "anchor":"#semsant"},
+    {"mob":"ssanta_mob.png","desk":"ssanta_desk.png", "title":"Semana Santa", "anchor":"#semsant"},
     {"mob":"encuentro_mob.jpg","desk":"encuentro_desk.jpg","title":"Encuentro en la Palabra", "anchor":"#encuentro"},
     {"mob":"horario_mob.png","desk":"horario_desk.jpg", "title":"Horarios Misa", "anchor":"#horas"},
     {"mob":"feria_modal.jpg","desk":"feria_modal_desk.jpg","title":"Feria  Americana", "anchor":"#feria"},
@@ -1006,6 +1008,15 @@
   </section>
 <br>
 
+<!-- ══════════════════════════════════════════════════════════
+     ✝  SEMANA SANTA · Programa litúrgico — mosaico glassmorphism
+     ══════════════════════════════════════════════════════════ -->
+<div id="semsant">  
+     <semana-santa-programa
+      base-path="./actividades/programa/"
+      count="8"
+      ></semana-santa-programa>
+</div>
 
 <!-- ══════════════════════════════════════════════════════════
      🎫  RIFA · Venta Pausada  —  card glassmorphism
