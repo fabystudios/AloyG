@@ -1010,6 +1010,485 @@
   </section>
 <br>
 
+  <!-- ══════════════════════════════════════════════════════════
+       ✝  QUINTA SEMANA DE CUARESMA · Publicación especial
+       ══════════════════════════════════════════════════════════ -->
+  <style>
+    .cuaresma-wrap {
+      width: 94%;
+      max-width: 1100px;
+      margin: 24px auto 36px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    @media (min-width: 1025px) {
+      .cuaresma-wrap {
+        max-width: 1380px;
+      }
+    }
+    .cuaresma-card {
+      background: linear-gradient(135deg, rgba(92,29,36,0.78) 0%, rgba(50,22,15,0.84) 100%);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 2px solid rgba(212,172,104,0.58);
+      border-radius: 28px;
+      box-shadow: 0 8px 54px rgba(66,22,18,0.5), 0 0 0 1px rgba(255,255,255,0.06) inset, 0 0 80px rgba(201,144,80,0.17);
+      overflow: hidden;
+      position: relative;
+      animation: cuaresmaFadeUp .9s ease-out both, cuaresmaBreath 6s ease-in-out infinite;
+    }
+    .cuaresma-card::before {
+      content: '';
+      position: absolute;
+      width: 280px;
+      height: 280px;
+      top: -100px;
+      right: -80px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(235,181,98,.17) 0%, rgba(235,181,98,0) 72%);
+      pointer-events: none;
+      animation: cuaresmaWarmGlow 5s ease-in-out infinite;
+    }
+    @keyframes cuaresmaFadeUp {
+      from { opacity: 0; transform: translateY(28px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes cuaresmaBreath {
+      0%, 100% { box-shadow: 0 8px 54px rgba(66,22,18,0.5), 0 0 0 1px rgba(255,255,255,0.06) inset, 0 0 80px rgba(201,144,80,0.17); }
+      50% { box-shadow: 0 9px 60px rgba(72,25,20,0.56), 0 0 0 1px rgba(255,255,255,0.07) inset, 0 0 95px rgba(210,154,88,0.2); }
+    }
+    @keyframes cuaresmaWarmGlow {
+      0%, 100% { opacity: .68; transform: scale(1); }
+      50% { opacity: .86; transform: scale(1.06); }
+    }
+    .cuaresma-ribbon {
+      text-align: center;
+      background: linear-gradient(90deg, #4f1d20 0%, #8f5f2d 20%, #d9b16a 50%, #8f5f2d 80%, #4f1d20 100%);
+      background-size: 300% auto;
+      animation: cuaresmaRibbonShift 4s linear infinite;
+      color: #2a1305;
+      font-weight: 900;
+      font-size: .83rem;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      padding: 11px 0;
+      text-shadow: 0 1px 0 rgba(255,255,255,.3);
+    }
+    @keyframes cuaresmaRibbonShift {
+      0%   { background-position: 0% center; }
+      100% { background-position: 300% center; }
+    }
+    .cuaresma-inner {
+      display: grid;
+      grid-template-columns: 460px 1fr;
+    }
+    .cuaresma-foto {
+      background: linear-gradient(160deg, rgba(68,24,20,.9) 0%, rgba(116,62,34,.62) 100%);
+      overflow: hidden;
+      position: relative;
+    }
+    .cuaresma-foto::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(112deg, rgba(246,205,142,.1) 0%, rgba(246,205,142,0) 36%, rgba(56,20,16,.14) 100%);
+      mix-blend-mode: screen;
+      z-index: 2;
+    }
+    .cuaresma-foto img {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      min-height: 360px;
+      object-fit: cover;
+      object-position: center;
+      transition: transform .5s ease, filter .5s ease;
+      filter: drop-shadow(0 0 15px rgba(122,72,39,.48));
+      animation: cuaresmaImageDrift 12s ease-in-out infinite;
+    }
+    .cuaresma-foto img:hover { transform: scale(1.05); filter: drop-shadow(0 0 18px rgba(160,94,52,.52)); }
+    @keyframes cuaresmaImageDrift {
+      0%, 100% { transform: scale(1.01); }
+      50% { transform: scale(1.045); }
+    }
+    .cuaresma-candle-fx {
+      position: absolute;
+      left: 20px;
+      bottom: 14px;
+      width: 170px;
+      height: 140px;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .cuaresma-candle {
+      position: absolute;
+      bottom: 0;
+      width: 20px;
+      height: 38px;
+      border-radius: 8px 8px 5px 5px;
+      background: linear-gradient(180deg, rgba(251,241,220,.93) 0%, rgba(221,194,159,.86) 78%, rgba(174,132,96,.88) 100%);
+      box-shadow: 0 0 0 1px rgba(72,42,25,.28) inset;
+    }
+    .cuaresma-candle-left { left: 16px; }
+    .cuaresma-candle-right { left: 76px; height: 32px; }
+    .cuaresma-candle::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: -8px;
+      width: 2px;
+      height: 10px;
+      border-radius: 2px;
+      background: rgba(55,34,19,.8);
+      z-index: 2;
+    }
+    .cuaresma-flame {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: -28px;
+      width: 16px;
+      height: 24px;
+      border-radius: 55% 55% 50% 50%;
+      background: radial-gradient(circle at 50% 70%, rgba(255,248,190,1) 0%, rgba(255,199,89,.92) 44%, rgba(223,123,39,.88) 70%, rgba(223,123,39,0) 100%);
+      filter: drop-shadow(0 0 8px rgba(255,180,70,.55));
+      transform-origin: 50% 85%;
+      animation: cuaresmaFlameFlicker 1.6s ease-in-out infinite;
+      z-index: 3;
+    }
+    .cuaresma-candle-right .cuaresma-flame {
+      width: 14px;
+      height: 21px;
+      animation-delay: .45s;
+    }
+    .cuaresma-smoke {
+      position: absolute;
+      left: 50%;
+      top: -18px;
+      width: 7px;
+      height: 26px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(223,214,205,.44) 0%, rgba(223,214,205,.16) 45%, rgba(223,214,205,0) 72%);
+      filter: blur(1px);
+      animation: cuaresmaSmokeWisp 4.8s ease-out infinite;
+      opacity: 0;
+      z-index: 1;
+    }
+    .cuaresma-smoke.s2 { animation-delay: 1.7s; }
+    .cuaresma-candle-right .cuaresma-smoke { animation-delay: .8s; }
+    .cuaresma-candle-right .cuaresma-smoke.s2 { animation-delay: 2.4s; }
+    @keyframes cuaresmaFlameFlicker {
+      0%, 100% { transform: translateX(-50%) scale(1) rotate(-2deg); opacity: .92; }
+      35% { transform: translateX(-50%) scale(.9,1.08) rotate(2deg); opacity: .8; }
+      70% { transform: translateX(-50%) scale(1.04,.94) rotate(-1deg); opacity: 1; }
+    }
+    @keyframes cuaresmaSmokeWisp {
+      0% { transform: translate(-50%,0) scale(.8); opacity: .06; }
+      20% { opacity: .34; }
+      100% { transform: translate(-38%,-112px) scale(2); opacity: 0; }
+    }
+    .cuaresma-texts {
+      padding: 44px 48px 44px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .cuaresma-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(181,125,58,.2);
+      border: 1px solid rgba(205,160,92,.55);
+      color: #e9c988;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 50px;
+      width: fit-content;
+      animation: cuaresmaBadgePulse 3.5s ease-in-out infinite;
+    }
+    @keyframes cuaresmaBadgePulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(214,167,97,.25); }
+      50% { box-shadow: 0 0 0 8px rgba(214,167,97,0); }
+    }
+    .cuaresma-titulo {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.15;
+      margin: 0;
+      text-shadow: 0 2px 24px rgba(70,22,19,.82);
+    }
+    .cuaresma-titulo span {
+      background: linear-gradient(90deg, #f0d7ad, #c28743);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .cuaresma-copy {
+      font-size: 1.03rem;
+      color: rgba(255,255,255,.9);
+      margin: 0;
+      line-height: 1.72;
+      text-wrap: pretty;
+    }
+    .cuaresma-retro-audio {
+      margin-top: 8px;
+      background: linear-gradient(160deg, rgba(22,13,8,.86) 0%, rgba(73,46,23,.78) 100%);
+      border: 1px solid rgba(255,205,122,.35);
+      border-radius: 16px;
+      padding: 14px 16px;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06), 0 10px 24px rgba(0,0,0,.28);
+    }
+    .cuaresma-retro-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+      color: #efd3a2;
+      font-weight: 700;
+      letter-spacing: .5px;
+      font-size: .93rem;
+    }
+    .cuaresma-retro-btn {
+      appearance: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      border: 1px solid rgba(210,162,99,.7);
+      border-radius: 999px;
+      background: linear-gradient(140deg, #d39a52 0%, #8f5d31 100%);
+      color: #25130a;
+      font-weight: 900;
+      font-size: .9rem;
+      letter-spacing: .4px;
+      padding: 9px 16px;
+      cursor: pointer;
+      transition: transform .2s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,.35);
+    }
+    .cuaresma-retro-btn-sol {
+      width: 34px;
+      height: 34px;
+      object-fit: contain;
+      flex-shrink: 0;
+      filter: brightness(1.35) drop-shadow(0 0 6px #fff8) drop-shadow(0 2px 8px #fff6) drop-shadow(0 2px 4px rgba(90,47,15,.25));
+      transition: filter .2s;
+    }
+    .cuaresma-retro-btn-label {
+      line-height: 1;
+    }
+    .cuaresma-retro-btn.is-playing {
+      background: linear-gradient(140deg, #e1b169 0%, #a16835 100%);
+    }
+    .cuaresma-retro-btn.is-loading {
+      opacity: .8;
+      cursor: wait;
+    }
+    .cuaresma-retro-btn:hover { transform: translateY(-2px); }
+    .cuaresma-retro-btn:active { transform: translateY(0); }
+    .cuaresma-retro-controls {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 12px;
+    }
+    .cuaresma-retro-slider {
+      width: 100%;
+      accent-color: #c78c46;
+      height: 5px;
+      cursor: pointer;
+    }
+    .cuaresma-retro-value {
+      min-width: 52px;
+      text-align: right;
+      color: #f1d6ab;
+      font-weight: 700;
+      font-size: .88rem;
+    }
+    .cuaresma-creditos {
+      margin: 10px 0 0;
+      color: rgba(244,216,171,.85);
+      font-size: .85rem;
+      line-height: 1.5;
+    }
+    .cuaresma-creditos strong { color: #e8be78; }
+    .cuaresma-audio-status {
+      margin: 8px 0 0;
+      color: rgba(244,216,171,.78);
+      font-size: .8rem;
+      line-height: 1.4;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .cuaresma-card,
+      .cuaresma-card::before,
+      .cuaresma-foto img,
+      .cuaresma-flame,
+      .cuaresma-smoke,
+      .cuaresma-badge,
+      .cuaresma-ribbon {
+        animation: none !important;
+      }
+    }
+    @media (max-width: 800px) {
+      .cuaresma-inner { grid-template-columns: 1fr; }
+      .cuaresma-foto img { min-height: 260px; }
+      .cuaresma-candle-fx { left: 10px; bottom: 8px; transform: scale(.82); transform-origin: left bottom; }
+      .cuaresma-texts { padding: 28px 28px 36px; }
+      .cuaresma-titulo { font-size: 1.85rem; }
+      .cuaresma-ribbon { font-size: .72rem; letter-spacing: 3px; }
+      .cuaresma-retro-btn { font-size: .86rem; padding: 8px 13px; gap: 8px; }
+      .cuaresma-retro-btn-sol { width: 28px; height: 28px; }
+    }
+  </style>
+
+  <article class="cuaresma-wrap" id="cuaresma-quinta-semana">
+    <div class="cuaresma-card">
+      <div class="cuaresma-ribbon">✝ &nbsp; QUINTA SEMANA DE CUARESMA &nbsp; ✝</div>
+      <div class="cuaresma-inner">
+        <div class="cuaresma-foto">
+          <img src="./video/quintasemana.jpg" alt="Virgen María al pie de la Cruz en la quinta semana de Cuaresma" />
+          <div class="cuaresma-candle-fx" aria-hidden="true">
+            <div class="cuaresma-candle cuaresma-candle-left">
+              <span class="cuaresma-flame"></span>
+              <span class="cuaresma-smoke"></span>
+              <span class="cuaresma-smoke s2"></span>
+            </div>
+            <div class="cuaresma-candle cuaresma-candle-right">
+              <span class="cuaresma-flame"></span>
+              <span class="cuaresma-smoke"></span>
+              <span class="cuaresma-smoke s2"></span>
+            </div>
+          </div>
+        </div>
+        <div class="cuaresma-texts">
+          <div class="cuaresma-badge">Tiempo de oración y esperanza</div>
+          <h2 class="cuaresma-titulo">María junto a la Cruz<br><span>Quinta semana de Cuaresma</span></h2>
+          <p class="cuaresma-copy">Cada viernes de la quinta semana de Cuaresma, la Iglesia nos invita a contemplar a la Virgen María al pie de la Cruz. Allí está, en silencio, firme en la fe, acompañando a su Hijo en el momento más doloroso, pero también más lleno de amor.</p>
+          <p class="cuaresma-copy">María no huye del sufrimiento, no se esconde: permanece. Su presencia nos enseña a estar cerca, a no abandonar, a confiar incluso cuando todo parece oscuro. En ella vemos el corazón de una Madre que ama hasta el extremo y que sigue creyendo en la promesa de Dios.</p>
+          <p class="cuaresma-copy">Este momento es también un anticipo de lo que vamos a vivir en la Semana Santa: el misterio del amor que se entrega, del dolor que se transforma en esperanza, de la cruz que abre el camino a la vida nueva.</p>
+          <p class="cuaresma-copy">Pidámosle a María que nos acompañe en este camino cuaresmal, que nos ayude a permanecer junto a Jesús y a preparar el corazón para celebrar con fe el gran misterio de la Pascua.</p>
+          <div class="cuaresma-retro-audio" aria-label="Control retro de volumen">
+            <div class="cuaresma-retro-head">
+              <span>Audio de reflexión: Madre Dolorosa</span>
+              <button id="cuaresmaAudioBtn" class="cuaresma-retro-btn" type="button" aria-pressed="false">
+                <img class="cuaresma-retro-btn-sol" src="./img/auri.png" alt="Clave de sol" />
+                <span id="cuaresmaAudioBtnLabel" class="cuaresma-retro-btn-label">Reproducir audio</span>
+              </button>
+            </div>
+            <div class="cuaresma-retro-controls">
+              <input id="cuaresmaVolume" class="cuaresma-retro-slider" type="range" min="0" max="1" step="0.01" value="0.7" aria-label="Volumen del audio" />
+              <span id="cuaresmaVolumeValue" class="cuaresma-retro-value">70%</span>
+            </div>
+            <p id="cuaresmaAudioStatus" class="cuaresma-audio-status">Listo para reproducir</p>
+            <p class="cuaresma-creditos">Créditos musicales: <strong>Mariano Duán</strong> · @marianoduranmusic</p>
+            <audio id="cuaresmaAudio" preload="metadata">
+              <source src="./video/Madre%20Dolorosa.m4a" type="audio/mp4">
+            </audio>
+          </div>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <script>
+    (function () {
+      const audio = document.getElementById('cuaresmaAudio');
+      const button = document.getElementById('cuaresmaAudioBtn');
+      const buttonLabel = document.getElementById('cuaresmaAudioBtnLabel');
+      const volume = document.getElementById('cuaresmaVolume');
+      const value = document.getElementById('cuaresmaVolumeValue');
+      const status = document.getElementById('cuaresmaAudioStatus');
+      if (!audio || !button || !buttonLabel || !volume || !value || !status) return;
+
+      audio.volume = Number(volume.value);
+
+      function setAudioUI(mode) {
+        button.classList.remove('is-playing', 'is-loading');
+        if (mode === 'playing') {
+          buttonLabel.textContent = 'Pausar audio';
+          button.setAttribute('aria-pressed', 'true');
+          button.classList.add('is-playing');
+          status.textContent = 'Reproduciendo';
+          return;
+        }
+        if (mode === 'loading') {
+          buttonLabel.textContent = 'Cargando...';
+          button.setAttribute('aria-pressed', 'false');
+          button.classList.add('is-loading');
+          status.textContent = 'Preparando audio';
+          return;
+        }
+        if (mode === 'error') {
+          buttonLabel.textContent = 'Reintentar audio';
+          button.setAttribute('aria-pressed', 'false');
+          status.textContent = 'No se pudo reproducir. Tocá para intentar de nuevo';
+          return;
+        }
+        buttonLabel.textContent = 'Reproducir audio';
+        button.setAttribute('aria-pressed', 'false');
+        status.textContent = 'Listo para reproducir';
+      }
+
+      function renderVolume() {
+        value.textContent = Math.round(Number(volume.value) * 100) + '%';
+      }
+
+      volume.addEventListener('input', function () {
+        audio.volume = Number(volume.value);
+        renderVolume();
+      });
+
+      button.addEventListener('click', async function () {
+        if (audio.paused) {
+          try {
+            setAudioUI('loading');
+            await audio.play();
+          } catch (err) {
+            setAudioUI('error');
+          }
+          return;
+        }
+        try {
+          if (!audio.paused) {
+            audio.pause();
+            setAudioUI('idle');
+          }
+        } catch (err) {
+          setAudioUI('error');
+        }
+      });
+
+      audio.addEventListener('play', function () {
+        setAudioUI('playing');
+      });
+
+      audio.addEventListener('pause', function () {
+        if (!audio.ended) setAudioUI('idle');
+      });
+
+      audio.addEventListener('ended', function () {
+        setAudioUI('idle');
+      });
+
+      audio.addEventListener('error', function () {
+        setAudioUI('error');
+      });
+
+      renderVolume();
+      setAudioUI('idle');
+    })();
+  </script>
+
+
+
+<br>
+
 <!-- ══════════════════════════════════════════════════════════
      ✝  SEMANA SANTA · Programa litúrgico — mosaico glassmorphism
      ══════════════════════════════════════════════════════════ -->
