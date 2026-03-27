@@ -198,10 +198,15 @@ class SemanaSantaPrograma extends HTMLElement {
       .ss-footer {
         text-align: center;
         margin-top: 22px;
-        font-size: 0.78rem;
+        font-size: 1.5rem;
         color: rgba(255,200,160,0.5);
         letter-spacing: 1px;
       }
+        @media (max-width: 640px) {
+          .ss-footer {
+            font-size: 0.78rem;
+          }
+        }
 
       /* ════════════ MODAL ════════════ */
       .ss-modal-overlay {
