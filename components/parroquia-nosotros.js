@@ -140,8 +140,16 @@ class ParroquiaNosotros extends HTMLElement {
             gap: 28px;
           }
           .ala-gif { flex: 0 0 auto; width: 100%; }
-          h2 { font-size: 2rem; margin-left: 0; }
-          h2::before { display: none; }
+          h2 { font-size: 2rem; margin-left: 12px; }
+          h2::before {
+            display: block;
+            left: -12px;
+            top: 4px;
+            bottom: 4px;
+            width: 3px;
+            border-radius: 3px;
+            opacity: .9;
+          }
           .badge {
             align-self: center;
             font-size: .66rem;
@@ -154,10 +162,25 @@ class ParroquiaNosotros extends HTMLElement {
 
         @media (max-width: 480px) {
           :host { padding: 32px 16px; }
-          h2 { font-size: 1.7rem; }
+          h2 { font-size: 1.7rem; margin-left: 8px; }
+          h2::before {
+            left: -8px;
+            width: 2px;
+            top: 6px;
+            bottom: 6px;
+            border-radius: 2px;
+            opacity: .75;
+          }
           .lead { font-size: 1.1rem; }
           .desc { font-size: 1rem; }
           .header-img { height: 140px; }
+        }
+
+        @media (max-width: 380px) {
+          h2::before {
+            background: #6b35d7;
+            opacity: .68;
+          }
         }
       </style>
 
