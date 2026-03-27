@@ -1,6 +1,18 @@
 [   
-                   {
+                     {
     "id": 1,
+    "fecha": "27 de Marzo",
+    "santo": "San Juan de Egipto",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/ju.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },   
+                   {
+    "id": 2,
     "fecha": "26 de Marzo",
     "santo": "San Ludgero",
     "santoFontSize": "1.2em",
@@ -8,22 +20,9 @@
     "video": "./asantos/lud.mp4",
     "icono": "./img/paloma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
-    "showOnDesktop": true
-  },   
-                 {
-    "id": 2,
-    "fecha": "24 de Marzo",
-    "santo": "San Óscar Romero",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/romero.mp4",
-    "icono": "./img/paloma.png",
-    "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
   },   
-           
         {
     "id": 3,
     "fecha": "Historias",
