@@ -1400,56 +1400,120 @@ section {
 
 /* Contenedor Principal */
 #nosotros .contenedor {
-    max-width: 1100px;
+    max-width: 1200px;
     width: 100%;
+    padding: 0 24px;
 }
 
 /* Contenido en Flex */
 #nosotros .contenido {
     display: flex;
-    align-items: center; /* Alinea verticalmente */
-    gap: 40px; /* Espacio entre imagen y texto */
+    align-items: center;
+    gap: 64px;
 }
 
 /* Imagen */
 #nosotros .imagen {
-    flex: 1; /* Ocupa la mitad */
+    flex: 0 0 44%;
     text-align: center;
 }
 
 #nosotros .imagen img {
-    max-width: 100%;
+    width: 100%;
     height: auto;
-    border-radius: 8px;
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 22px;
+    display: block;
+    box-shadow: 0 28px 64px rgba(0, 0, 0, 0.22), 0 8px 20px rgba(0, 0, 0, 0.13);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+#nosotros .imagen img:hover {
+    transform: scale(1.015);
+    box-shadow: 0 36px 80px rgba(0, 0, 0, 0.26), 0 12px 28px rgba(0, 0, 0, 0.16);
+}
+
+/* Badge decorativo */
+.nos-badge {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #5c17d4;
+    background: rgba(92, 23, 212, 0.08);
+    border: 1px solid rgba(92, 23, 212, 0.25);
+    border-radius: 50px;
+    padding: 6px 18px;
+    margin-bottom: 20px;
+    width: fit-content;
 }
 
 /* Texto */
 #nosotros .texto {
-    flex: 1;
-    max-width: 700px;
-    text-align:justify;
- 
+    flex: 1 1 0%;
+    min-width: 0;
+    max-width: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 #nosotros .texto h2 {
-    color: #5c17d4;
-    font-size: 30px;
-    margin-bottom: 15px;
+    color: #1a0a3c;
+    font-size: 2.9rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    line-height: 1.12;
+    position: relative;
+    padding-left: 22px;
+}
+
+#nosotros .texto h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    bottom: 5px;
+    width: 5px;
+    background: linear-gradient(180deg, #7c3aed, #5c17d4);
+    border-radius: 4px;
 }
 
 #nosotros .texto .lead {
-    font-size: 18px;
-    font-weight: bold;
-    line-height: 1.4;
+    font-size: 1.32rem;
+    font-weight: 600;
+    line-height: 1.7;
+    color: #374151;
+    margin-bottom: 20px;
+    font-family: 'Montserrat', sans-serif;
 }
 
 #nosotros .texto .descripcion {
-    color: #6c757d;
-    font-size: 19px;
-    /* interlineado */
-    line-height: 1.2;
+    color: #4b5563;
+    font-size: 1.12rem;
+    line-height: 1.95;
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+    text-align: justify;
+}
 
+/* Imagen apaisada en el ala de texto */
+.nos-apaisado {
+    width: 100%;
+    height: 220px;
+    margin-bottom: 28px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.16), 0 4px 12px rgba(0,0,0,0.10);
+    flex-shrink: 0;
+}
+
+.nos-apaisado img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
 }
 
 
@@ -1807,19 +1871,37 @@ section {
 @media (max-width: 768px) {
 
     #nosotros .contenido {
-        flex-direction: column; /* Apila en móviles */
+        flex-direction: column;
         text-align: center;
-        gap: 20px;
+        gap: 28px;
+    }
+    #nosotros .imagen {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+    #nosotros .texto {
+        align-items: center;
     }
     #nosotros .texto h2,
     #nosotros .texto .lead {
-        text-align: center !important;    /* centrar */
+        text-align: center !important;
+    }
+    #nosotros .texto h2 {
+        font-size: 2rem;
+        padding-left: 0;
+    }
+    #nosotros .texto h2::before {
+        display: none;
+    }
+    #nosotros .texto .descripcion {
+        text-align: left;
     }
     #nosotros {
         background-color: #f8f9fa;
         padding: 0px 20px;
         display: flex;
-        justify-content: center; /* Centra el contenido */
+        justify-content: center;
+        margin-top: 2em;
     }
 }
 
