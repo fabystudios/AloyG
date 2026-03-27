@@ -142,7 +142,13 @@ class ParroquiaNosotros extends HTMLElement {
           .ala-gif { flex: 0 0 auto; width: 100%; }
           h2 { font-size: 2rem; margin-left: 0; }
           h2::before { display: none; }
-          .badge { align-self: center; }
+          .badge {
+            align-self: center;
+            font-size: .66rem;
+            letter-spacing: .06em;
+            white-space: nowrap;
+            padding: 5px 14px;
+          }
           .header-img { height: 180px; }
         }
 
