@@ -1211,6 +1211,12 @@
       width: fit-content;
       animation: cuaresmaBadgePulse 3.5s ease-in-out infinite;
     }
+    @media (max-width: 600px) {
+      .cuaresma-badge {
+        padding-left: 7px;
+        padding-right: 7px;
+      }
+    }
     @keyframes cuaresmaBadgePulse {
       0%, 100% { box-shadow: 0 0 0 0 rgba(214,167,97,.25); }
       50% { box-shadow: 0 0 0 8px rgba(214,167,97,0); }
