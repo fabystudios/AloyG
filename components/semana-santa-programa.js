@@ -380,7 +380,7 @@ class SemanaSantaPrograma extends HTMLElement {
 
           <!-- Header -->
           <div class="ss-header">
-            <div class="ss-eyebrow">✝ Parroquia Nuestra Señora de Luján ✝</div>
+            <div class="ss-eyebrow">✝ Parroquia San Luis Gonzaga ✝</div>
             <h2 class="ss-title">Semana Santa 2026</h2>
             <p class="ss-subtitle">Programa de celebraciones litúrgicas</p>
             <div class="ss-divider"></div>
