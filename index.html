@@ -3952,220 +3952,406 @@
   </cork-mural-carousel>
     <!-- ═══ Mural de Actividades ═══ -->
 <br><br>
-<!-- Excursion aTierra Santa con el grupo scout (USCA)   -->
+<!-- Card Video USCA - NUEVO -->
 
-  <div class="min-vh-50 d-flex align-items-center justify-content-center position-relative overflow-hidden rounded-4"
-    style="width: 90vw; max-width: 90%; margin: 0 auto;">
+<!--
+  ╔══════════════════════════════════════════════╗
+  ║  USCA Scout Cards — Glassmorphism Refactor   ║
+  ║  Reemplaza tu bloque anterior por este code  ║
+  ╚══════════════════════════════════════════════╝
 
-    <!-- Animación flor de lis -->
-    <div c2lass="position-absolute w-100 h-100" style="pointer-events: none; z-index: 20;">
-      <div class="animate-fall text-warning position-absolute"
-        style="font-size: 2.5rem; left: 25%; animation-delay: 0s;">⚜️</div>
-      <div class="animate-fall-slow text-white position-absolute"
-        style="font-size: 1.875rem; left: 50%; animation-delay: 1s;">⚜️</div>
-      <div class="animate-fall position-absolute"
-        style="font-size: 1.25rem; left: 75%; color: #ddd6fe; animation-delay: 2s;">⚜️</div>
-      <div class="animate-fall-fast position-absolute"
-        style="font-size: 3rem; left: 33%; color: #fef3c7; animation-delay: 1.5s;">⚜️</div>
-      <div class="animate-fall text-white position-absolute"
-        style="font-size: 1.875rem; left: 40%; animation-delay: 2.5s;">⚜️</div>
-      <div class="animate-fall-slow position-absolute"
-        style="font-size: 1.25rem; left: 80%; color: #ede9fe; animation-delay: 3s;">⚜️</div>
+  DEPENDENCIAS EXTERNAS (ya las tenés en tu proyecto):
+  - Bootstrap 5 (grid + utilities)
+  - Sin dependencias nuevas
+
+  NOTAS:
+  - Usá un fondo oscuro/imagen detrás de la sección para que
+    el glassmorphism se vea correctamente.
+  - Las variables CSS están en :root por si necesitás override.
+-->
+
+<style>
+  /* ─── Variables ─────────────────────────────────────────── */
+  :root {
+    --scout-purple:       #7c3aed;
+    --scout-purple-dark:  #5b21b6;
+    --scout-purple-glow:  rgba(124, 58, 237, 0.35);
+    --scout-gold:         #f59e0b;
+    --glass-bg:           rgba(255, 255, 255, 0.12);
+    --glass-border:       rgba(255, 255, 255, 0.25);
+    --glass-shadow:       0 8px 32px rgba(0, 0, 0, 0.25),
+                          0 2px 8px  rgba(0, 0, 0, 0.15);
+    --glass-inner-shadow: inset 0 1px 0 rgba(255,255,255,0.4);
+    --radius-card:        1.25rem;
+    --radius-video:       0.875rem;
+    --font-display:       'Cinzel', serif;
+    --font-body:          'DM Sans', sans-serif;
+  }
+
+  /* ─── Google Fonts ──────────────────────────────────────── */
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  /* ─── Wrapper oscuro (aísla del CSS global) ─────────────── */
+  /*
+    Este wrapper crea el fondo oscuro necesario para que el
+    glassmorphism funcione, sin importar el CSS del resto de la página.
+    Podés cambiar el gradiente o poner una imagen de fondo acá.
+  */
+  #usca-bg {
+    background: linear-gradient(135deg, #1e0a40 0%, #3b1578 55%, #0f0428 100%);
+    /* Alternativa con imagen:
+    background: url('./img/tu-foto.jpg') center/cover no-repeat;
+    */
+    /* padding: 3rem 1.25rem; */
+    border-radius: 1.5rem;          /* quitá esto si querés que ocupe todo el ancho */
+    position: relative;
+    overflow: hidden;
+    /* Aísla completamente: ningún color/font del padre entra acá */
+    isolation: isolate;
+  }
+
+  /* ─── Sección contenedora ───────────────────────────────── */
+  #usca-section {
+    width: 80%;
+    max-width: 960px;
+    margin: 0 auto;
+    position: relative;
+    font-family: var(--font-body);
+  }
+
+  /* ─── Grid de dos cards ─────────────────────────────────── */
+  .usca-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    align-items: stretch;
+  }
+
+  @media (max-width: 767px) {
+    .usca-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* ─── Glass Card ────────────────────────────────────────── */
+  .glass-card {
+    background:    var(--glass-bg);
+    border:        1px solid var(--glass-border);
+    border-radius: var(--radius-card);
+    box-shadow:    var(--glass-shadow), var(--glass-inner-shadow);
+    backdrop-filter:         blur(18px) saturate(1.6);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--glass-shadow),
+                var(--glass-inner-shadow),
+                0 0 30px var(--scout-purple-glow);
+  }
+
+  /* Reflejo de luz en esquina superior */
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 60%; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+  }
+
+  /* ─── Video ─────────────────────────────────────────────── */
+  .card-video-wrap {
+    border-radius: var(--radius-video);
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    flex-shrink: 0;
+  }
+
+  .card-video-wrap video {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    display: block;
+  }
+
+  @media (max-width: 480px) {
+    .card-video-wrap video { height: 220px; }
+  }
+
+  /* ─── Títulos ───────────────────────────────────────────── */
+  .card-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-align: center;
+    letter-spacing: 0.04em;
+    line-height: 1.3;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+    margin: 0;
+  }
+
+  .card-subtitle {
+    font-family: var(--font-body);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--scout-gold);
+    text-align: center;
+    margin: 0;
+    opacity: 0.9;
+  }
+
+  /* ─── Badge ─────────────────────────────────────────────── */
+  .card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(124, 58, 237, 0.3);
+    border: 1px solid rgba(124, 58, 237, 0.5);
+    border-radius: 2rem;
+    padding: 0.3rem 0.85rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #e2d9ff;
+    letter-spacing: 0.05em;
+    width: fit-content;
+    margin: 0 auto;
+    backdrop-filter: blur(8px);
+  }
+
+  .card-badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--scout-gold);
+    box-shadow: 0 0 6px var(--scout-gold);
+    animation: pulse-dot 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  /* ─── Botón ─────────────────────────────────────────────── */
+  .scout-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.65rem 1.25rem;
+    border-radius: 2rem;
+    border: 1.5px solid rgba(255,255,255,0.3);
+    background: linear-gradient(135deg,
+      rgba(124,58,237,0.6) 0%,
+      rgba(91,33,182,0.75) 100%
+    );
+    color: #ffffff;
+    font-family: var(--font-body);
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    text-decoration: none;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 16px rgba(124,58,237,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.2);
+    transition: all 0.25s ease;
+    margin-top: auto;
+  }
+
+  .scout-btn:hover {
+    transform: scale(1.02);
+    background: linear-gradient(135deg,
+      rgba(124,58,237,0.85) 0%,
+      rgba(91,33,182,0.95) 100%
+    );
+    box-shadow: 0 6px 24px rgba(124,58,237,0.5),
+                inset 0 1px 0 rgba(255,255,255,0.3);
+    color: #ffffff;
+    text-decoration: none;
+  }
+
+  .scout-btn:active {
+    transform: scale(0.98);
+  }
+
+  .scout-btn-icon {
+    height: 1.4em;
+    width: auto;
+    filter: brightness(0) invert(1);
+    opacity: 0.95;
+  }
+
+  /* ─── Flor de lis mejorada ──────────────────────────────── */
+  .lis-field {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .lis {
+    position: absolute;
+    top: -10%;
+    font-size: 1.5rem;
+    opacity: 0;
+    animation: lis-fall var(--dur, 10s) var(--delay, 0s) linear infinite;
+    user-select: none;
+  }
+
+  @keyframes lis-fall {
+    0%   { transform: translateY(-5vh) rotate(0deg);   opacity: 0; }
+    8%   { opacity: 0.7; }
+    92%  { opacity: 0.4; }
+    100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* ─── Imagen scout ──────────────────────────────────────── */
+  .scout-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.4);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    object-fit: cover;
+    z-index: 2;
+  }
+
+  /* ─── Separador decorativo ──────────────────────────────── */
+  .card-divider {
+    height: 1px;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255,255,255,0.3),
+      rgba(245,158,11,0.5),
+      rgba(255,255,255,0.3),
+      transparent
+    );
+    border: none;
+    margin: 0;
+  }
+</style>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SECCIÓN PRINCIPAL
+     ═══════════════════════════════════════════════════════════ -->
+<div id="usca-bg" style="margin: 0 auto; width: 90vw;  border-radius: 1.5rem;" >
+<section id="usca-section" >
+
+  <!-- Flores de lis flotantes (una sola instancia compartida) -->
+  <div class="lis-field" aria-hidden="true">
+    <span class="lis" style="left:12%;  --dur:11s; --delay:0s;   color:#f59e0b;">⚜️</span>
+    <span class="lis" style="left:28%;  --dur:15s; --delay:1.2s; color:#ede9fe;">⚜️</span>
+    <span class="lis" style="left:45%;  --dur:9s;  --delay:2.5s; color:#ddd6fe;">⚜️</span>
+    <span class="lis" style="left:62%;  --dur:13s; --delay:0.7s; color:#f59e0b;">⚜️</span>
+    <span class="lis" style="left:78%;  --dur:10s; --delay:3.1s; color:#ede9fe;">⚜️</span>
+    <span class="lis" style="left:90%;  --dur:16s; --delay:1.8s; color:#fef3c7;">⚜️</span>
+    <span class="lis" style="left:5%;   --dur:12s; --delay:4s;   color:#ddd6fe;">⚜️</span>
+    <span class="lis" style="left:55%;  --dur:8s;  --delay:5s;   color:#f59e0b;">⚜️</span>
+  </div>
+
+  <!-- Grid de dos cards -->
+  <div class="usca-grid">
+
+<style>
+  @media (max-width: 767px) {
+    #usca-section {
+      width: 95vw !important;
+      max-width: 99vw !important;
+    }
+  }
+</style>
+
+    <!-- ── CARD 1 — 2026 Volvimos ─────────────────────────── -->
+    <div class="glass-card">
+      <div class="card-subtitle">Grupo Scout · USCA</div>
+      <p class="card-title">2026 · ¡Volvimos!</p>
+      <hr class="card-divider">
+ 
+      <div class="card-video-wrap">
+        <video controls preload="none" loading="lazy" poster="./img/volvimos.jpeg">
+          <source src="./video/usca.mp4" type="video/mp4">
+          Tu navegador no soporta video.
+        </video>
+      </div>
+      <div class="card-badge">
+        <span class="card-badge-dot"></span>
+        Nuevo video disponible
+      </div>
     </div>
 
-    <!-- Card -->
-    <div class="bg-white rounded-4 shadow-lg w-100 p-4 position-relative overflow-auto"
-      style="max-width: 48rem; background-color: rgba(255, 255, 255, 0.9); backdrop-filter: blur(12px); z-index: 10;">
-      <h2 class="fs-3 fw-bold text-center mb-4 align-middle" style="color: #7c3aed;">
-        <span class="d-none d-md-inline">Excursión a Tierra Santa <br> con el grupo scout (USCA)</span>
-        <span class="d-block d-md-none">Excursión a Tierra Santa con el grupo scout (USCA)</span>
-      </h2>
-      <img src="./img/scout.png" alt="boy scout"
-        style="width: 70px; position: absolute; top: 10px; right: 60px; opacity: 1; z-index: 10; border-radius: 50%;"
-        class="scout-img d-none d-md-block">
-      <img src="./img/scout2.png" alt="boy scout"
-        style="width: 70px; position: absolute; top: 10px; right: 60px; opacity: 1; z-index: 10; border-radius: 50%; display: none;"
-        class="scout2-img d-block d-md-none">
-
-      <style>
-        @media (max-width: 768px) {
-          .scout2-img {
-            opacity: 0.7;
-            left: 30px !important;
-            right: auto !important;
-            top: 100px !important;
-            width: 50px !important;
-          }
-        }
-      </style>
-
-      <!-- <img src="./img/scout.png" alt="Grupo Scout" class="img-fluid rounded-3 mb-4" style="width: 50px; height: auto; vertical-align: middle; margin-right: 10px;"> -->
-      <style>
-        @media (max-width: 768px) {
-          .fs-3 {
-            font-size: 1.4rem !important;
-          }
-        }
-
-        @media (max-width: 480px) {
-          .fs-3 {
-            font-size: 1.2rem !important;
-          }
-
-          .min-vh-50 {
-            padding-top: 0 !important;
-            padding-bottom: 0 !important;
-          }
-        }
-      </style>
-      <div class="overflow-hidden rounded-4 shadow mb-4">
-        <video class="w-100 object-fit-cover rounded-3" style="height: 500px;" controls poster="./img/usca.jpg">
+    <!-- ── CARD 2 — Excursión Tierra Santa ───────────────── -->
+    <div class="glass-card">
+      <img
+        src="./img/scout3.png"
+        alt="Grupo Scout"
+        class="scout-avatar"
+        onerror="this.style.display='none'"
+      >
+      <div class="card-subtitle">Excursión · 2025</div>
+      <p class="card-title">Tierra Santa con el grupo scout (USCA)</p>
+      <hr class="card-divider">
+      <div class="card-video-wrap">
+        <video controls preload="none" loading="lazy" poster="./img/usca.jpg">
           <source src="./img/usca.mp4" type="video/mp4">
-          Tu navegador no soporta la reproducción de video.
+          Tu navegador no soporta video.
         </video>
-        <style>
-          @media (max-width: 768px) {
-            .overflow-hidden video {
-              height: 350px !important;
-            }
-          }
-
-          @media (max-width: 480px) {
-            .overflow-hidden video {
-              height: 280px !important;
-            }
-          }
-        </style>
       </div>
-      <button class="btn btn-md3 w-100 text-white py-2 rounded-pill fw-medium" style="background-color: #7c3aed;"
-        onmouseover="this.style.backgroundColor='#6d28d9'" onmouseout="this.style.backgroundColor='#7c3aed'"
-        onclick="document.getElementById('scout').scrollIntoView({ behavior: 'smooth' });">
-        <img src="./img/scout-simbolo-white.png" alt="Scout Symbol" style="height: 2.7em; vertical-align: middle;">
-        <style>
-          @media (max-width: 768px) {
-            img[alt="Scout Symbol"] {
-              height: 2em !important;
-            }
-          }
-        </style>
-        Ver Más
+      <button
+        class="scout-btn"
+        onclick="document.getElementById('scout').scrollIntoView({ behavior: 'smooth' })"
+        type="button"
+      >
+        <img
+          src="./img/scout-simbolo-white.png"
+          alt=""
+          class="scout-btn-icon"
+          onerror="this.style.display='none'"
+        >
+        Ver más
       </button>
     </div>
-  </div>
-
-  <style>
-    @keyframes fall {
-      0% {
-        transform: translateY(-10%) rotate(0deg);
-        opacity: 0;
-      }
-
-      10% {
-        opacity: 1;
-      }
-
-      100% {
-        transform: translateY(110vh) rotate(360deg);
-        opacity: 0;
-      }
-    }
-
-    .animate-fall {
-      animation: fall 10s linear infinite;
-    }
-
-    .animate-fall-slow {
-      animation: fall 14s linear infinite;
-    }
-
-    .animate-fall-fast {
-      animation: fall 7s linear infinite;
-    }
-  </style>
-
-
-
-  <!-- Botón Saber Más -->
-  <!-- <div class="text-center mt-4" style="width: 100%; margin: 0 20px 0 20px;">
-    <button class="btn-md3" style="
-      background: linear-gradient(45deg, #7B1FA2, #9C27B0);
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 1rem 2rem;
-      font-size: 1.1rem;
-      font-weight: 600;
-      box-shadow: 0 4px 12px rgba(123, 31, 162, 0.3);
-      transition: all 0.3s ease;
-      cursor: pointer;
-    " 
-    onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 6px 16px rgba(123, 31, 162, 0.4)'"
-    onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 12px rgba(123, 31, 162, 0.3)'"
-    onclick="document.getElementById('Acutis').scrollIntoView({ behavior: 'smooth' });">
-    <span class="btn-text" style="display: flex; align-items: center; justify-content: center; text-align: center;">
-    <img src="apple-touch-icon.png" alt="Oración" class="btn-icon" style="width: 30px; height: 30px; margin-right: 8px; vertical-align: middle;">
-    <span>Canonización: 7 de septiembre del 2025</span>
-    <img src="apple-touch-icon.png" alt="Oración" class="btn-icon" style="width: 30px; height: 30px; margin-left: 8px; vertical-align: middle;">
-    </span>
-    </button>
-    </div> -->
-
 
   </div>
+</section>
+</div><!-- /#usca-bg -->
 
-  </div>
-
-  <!-- Script para lazy loading de videos -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Función para cargar video cuando sea necesario
-      function loadVideo(video) {
-        if (video.getAttribute('data-loaded') !== 'true') {
-          video.load(); // Carga el video
-          video.setAttribute('data-loaded', 'true');
+<!-- Lazy-load de videos con IntersectionObserver -->
+<script>
+(function () {
+  if (!('IntersectionObserver' in window)) return;
+  var videos = document.querySelectorAll('#usca-section video');
+  var obs = new IntersectionObserver(function (entries, observer) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        var v = entry.target;
+        if (!v.dataset.loaded) {
+          v.load();
+          v.dataset.loaded = 'true';
         }
+        observer.unobserve(v);
       }
-
-      // Configurar Intersection Observer para lazy loading
-      const videoObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const video = entry.target;
-            loadVideo(video);
-            observer.unobserve(video); // Dejar de observar una vez cargado
-          }
-        });
-      }, {
-        rootMargin: '50px' // Cargar cuando esté a 50px de ser visible
-      });
-
-      // Observar todos los videos en esta sección
-      const videos = document.querySelectorAll('#videosCatolicos video');
-      videos.forEach(video => {
-        videoObserver.observe(video);
-
-        // También cargar cuando el usuario hace clic en play
-        video.addEventListener('play', function () {
-          loadVideo(this);
-        });
-      });
     });
-  </script>
-
-  <!-- Mostrar SIEMPRE en todos los dispositivos -->
-  <style>
-    @media (max-width: 991px) {
-      #VideosCatolicos {
-        display: flex !important;
-      }
-    }
-
-    @media (min-width: 992px) {
-      #VideosCatolicos {
-        display: flex !important;
-      }
-    }
-  </style>
+  }, { rootMargin: '80px' });
+  videos.forEach(function (v) { obs.observe(v); });
+}());
+</script>
 
   <!-- <br class="d-none d-lg-block"> -->
   <br> 
