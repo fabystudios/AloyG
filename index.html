@@ -3966,6 +3966,15 @@
   ╚══════════════════════════════════════════════════════════╝
 -->
 
+<!--
+  ╔══════════════════════════════════════════════════════════╗
+  ║  USCA Scout Cards — Glassmorphism v2                     ║
+  ║  · Sin CSS duplicado                                     ║
+  ║  · Video 16:9 con aspect-ratio nativo                    ║
+  ║  · Responsive mobile-first (95vw en móvil)              ║
+  ╚══════════════════════════════════════════════════════════╝
+-->
+
 <!-- Fonts: va ANTES del style, fuera de él -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -4198,6 +4207,15 @@
   z-index: 2;
 }
 
+@media (max-width: 700px) {
+  .scout-avatar {
+    width: 36px;
+    height: 36px;
+    top: 0.5rem;
+    right: 0.6rem;
+  }
+}
+
 /* ── 11. Botón ────────────────────────────────────────────────── */
 .scout-btn {
   display: flex;
@@ -4332,7 +4350,7 @@
 }());
 </script>
 
-  <!-- <br class="d-none d-lg-block"> -->
+<!-- fin videos  usca -->
   <br> 
   <!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
   <!-- <br> <br> -->
