@@ -4058,12 +4058,24 @@
       width: 100%;
   }
 
+
+  .card-video-wrap {
+    aspect-ratio: 16/9;
+    width: 100%;
+    max-width: 100vw;
+    border-radius: var(--radius-video);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .card-video-wrap video {
     width: 100%;
-    height: auto;
-    max-width: 100%;
+    height: 100%;
+    object-fit: contain;
     border-radius: var(--radius-video);
     display: block;
+    background: transparent;
   }
 
   @media (max-width: 767px) {
@@ -4314,7 +4326,7 @@
  
       <div class="card-video-wrap">
         <video controls preload="none" loading="lazy" poster="./img/volvimos.jpeg">
-          <source src="./video/usca.mp4" type="video/mp4">
+          <source src="./video/usca2.mp4" type="video/mp4">
           Tu navegador no soporta video.
         </video>
       </div>
