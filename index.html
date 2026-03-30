@@ -990,7 +990,6 @@
     base-path="./actividades/cartelera/"
     slides='[
     {"mob":"ado_mob.jpg","desk":"ado_desk.png","title":"Adoración al Santísimo", "anchor":"#adoracion"},
-    {"mob":"ramos_mob.png","desk":"ramos_desk.png","title":"Domingo de Ramos", "anchor":"#semsant"},
     {"mob":"9.png","desk":"ssanta_desk.png", "title":"Semana Santa", "anchor":"#semsant"},
     {"mob":"encuentro_mob.jpg","desk":"encuentro_desk.jpg","title":"Encuentro en la Palabra", "anchor":"#encuentro"},
     {"mob":"horario_mob.png","desk":"horario_desk.jpg", "title":"Horarios Misa", "anchor":"#horas"},
@@ -1002,12 +1001,35 @@
   ></cartelera-carousel>
   <!-- ═══ Fin Cartelera ═══ -->
 
+    <script type="module" src="./components/ramos-expo.js"></script>
+
 
   <section id="Anuncios" class="section-header" style="margin-bottom: 0; padding: 1.5rem 2rem;">
     <h2 class="md3-headline" style="color: white; margin: 0;">
       <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Avisos
     </h2>
   </section>
+<br>
+
+<!-- ═══ Exposición fotográfica Misa de Ramos ═══ trabajarlo  -->
+<!-- <section id="expo-ramos">
+  <ramos-expo></ramos-expo>
+</section> -->
+
+  <!-- ✅ EL WEB COMPONENT — una sola línea -->
+  <script src="./components/misa-ramos-gallery.js"></script>
+  <misa-ramos-gallery base-path="./actividades/ramos/"></misa-ramos-gallery>
+<!-- ------------ -->
+ <br>
+<!-- ══════════════════════════════════════════════════════════
+     ✝  SEMANA SANTA · Programa litúrgico — mosaico glassmorphism
+     ══════════════════════════════════════════════════════════ -->
+<div id="semsant">  
+     <semana-santa-programa
+      base-path="./actividades/programa/"
+      count="8"
+      ></semana-santa-programa>
+</div>
 <br>
 <!-- --------------- -->
  <!-- CARD DOMINGO DE RAMOS — pegá esto donde quieras en tu página -->
@@ -1723,16 +1745,7 @@ class="rc-card-ramos"
 
 <br>
 
-<!-- ══════════════════════════════════════════════════════════
-     ✝  SEMANA SANTA · Programa litúrgico — mosaico glassmorphism
-     ══════════════════════════════════════════════════════════ -->
-<div id="semsant">  
-     <semana-santa-programa
-      base-path="./actividades/programa/"
-      count="8"
-      ></semana-santa-programa>
-</div>
-<br>
+
 <!-- ══════════════════════════════════════════════════════════
      🎫  RIFA · Venta Pausada  —  card glassmorphism
      ➜  Enlaza a: rifa-foto.html  |  id="rifa"
