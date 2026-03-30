@@ -51,7 +51,7 @@
   },
          {
     "id": "scout",
-    "position": -1,
+    "position": 1,
     "hasVideo": true,
     "link": "#scout",
     "desktop": {
@@ -159,7 +159,7 @@
   },
   {
     "id": "feria",
-    "position": 1,
+    "position": -1,
     "hasVideo": true,
     "link": "#feria",
     "desktop": {
