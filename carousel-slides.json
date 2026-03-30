@@ -50,10 +50,10 @@
     
   },
          {
-    "id": "scout",
+    "id": "",
     "position": 1,
     "hasVideo": true,
-    "link": "#scout",
+    "link": "#volvimos",
     "desktop": {
       "type": "video",
       "src": "./video/scout_desk.mp4",
