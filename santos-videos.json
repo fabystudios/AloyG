@@ -1,7 +1,19 @@
 [   
-                     {
+                       {
     "id": 1,
-    "fecha": "28 de Marzo",
+    "fecha": "Lunes Santo",
+    "santo": "30  de  Marzo",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/lunes.mp4",
+    "icono": "./img/paloma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },   
+                     {
+    "id": 2,
+    "fecha": "29 de Marzo",
     "santo": "Mensaje de Domingo de Ramos",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
@@ -13,7 +25,7 @@
   },   
                  
         {
-    "id": 2,
+    "id": 3,
     "fecha": "Historias",
     "santo": "de Cuaresma",
     "santoFontSize": "1.2em",
