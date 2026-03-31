@@ -25,8 +25,8 @@
   },   
                      {
     "id": 3,
-    "fecha": "29 de Marzo",
-    "santo": "Mensaje de Domingo de Ramos",
+    "fecha": "Domingo Ramos",
+    "santo": "Reflexión del Padre Marcelo",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/padre-ramos.mp4",
