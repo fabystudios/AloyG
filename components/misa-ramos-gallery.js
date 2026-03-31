@@ -112,8 +112,10 @@ class MisaRamosGallery extends HTMLElement {
     const themeName   = this.getAttribute('theme')        || 'violeta-dorado';
     const customC1    = this.getAttribute('color1')       || null;
     const customC2    = this.getAttribute('color2')       || null;
-    const captions    = ['Procesión','Bendición','Comunidad','Palmas','Celebración',
-                         'Fe','Oración','Ramos','Alegría'];
+    const captions    = [
+      'Altar','Bendición','Palmas','Comunidad','Celebración',
+      'Alegría','comunidad','oración','Padre'
+                        ];
 
     // ── Resolver paleta ─────────────────────────────────
     // Prioridad: color1/color2 custom > theme > default violeta-dorado
