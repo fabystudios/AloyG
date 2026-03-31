@@ -157,6 +157,14 @@ El PNG pasado en `particle-src` flota dentro de la card con efecto de **hojas al
 
 > Usar PNGs con fondo transparente para mejor resultado.
 
+```html
+<!-- PNG diferente para el lightbox -->
+<misa-ramos-gallery
+  particle-src="./img/cam.png"
+  lightbox-particle-src="./img/estrella.png">
+</misa-ramos-gallery>
+```
+
 ---
 
 ## Ejemplos por evento

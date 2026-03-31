@@ -7,7 +7,8 @@
  * ══════════════════════════════════════════════════════════
  *  base-path      ruta carpeta de fotos        (default: './actividades/ramos/')
  *  mascot-src     imagen mascota               (default: './actividades/photo.png')
- *  particle-src   PNG que flota de fondo       (default: '' → estrellitas)
+ *  particle-src          PNG que flota de fondo (card)    (default: '' → estrellitas)
+ *  lightbox-particle-src PNG que sube en el lightbox      (default: '' → estrellitas CSS)
  *  width          ancho en desktop             (default: '80%')
  *  total          cantidad de fotos            (default: 9)
  *
@@ -106,16 +107,15 @@ class MisaRamosGallery extends HTMLElement {
     // ── Leer atributos ──────────────────────────────────
     const basePath    = this.getAttribute('base-path')    || './actividades/ramos/';
     const mascotSrc   = this.getAttribute('mascot-src')   || './actividades/photo.png';
-    const particleSrc = this.getAttribute('particle-src') || '';
+    const particleSrc   = this.getAttribute('particle-src')          || '';
+    const lbParticleSrc = this.getAttribute('lightbox-particle-src') || '';
     const widthVal    = this.getAttribute('width')        || '80%';
     const total       = parseInt(this.getAttribute('total') || '9', 10);
     const themeName   = this.getAttribute('theme')        || 'violeta-dorado';
     const customC1    = this.getAttribute('color1')       || null;
     const customC2    = this.getAttribute('color2')       || null;
-    const captions    = [
-      'Altar','Bendición','Palmas','Comunidad','Celebración',
-      'Alegría','comunidad','oración','Padre'
-                        ];
+    const captions    = ['Procesión','Bendición','Comunidad','Palmas','Celebración',
+                         'Fe','Oración','Ramos','Alegría'];
 
     // ── Resolver paleta ─────────────────────────────────
     // Prioridad: color1/color2 custom > theme > default violeta-dorado
@@ -470,13 +470,55 @@ class MisaRamosGallery extends HTMLElement {
     transform:scale(0.86);transition:transform 0.38s cubic-bezier(0.23,1,0.32,1);
   }
   .lb-overlay.active .lb-content{transform:scale(1);}
+  /* ── lb-frame: marco polaroid beige real, igual que en la galería ── */
   .lb-frame{
-    position:relative;background:rgba(255,255,255,0.05);
-    backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
-    border:1px solid ${rgb(c2,0.40)};border-radius:6px;padding:14px 14px 46px;
-    box-shadow:0 40px 100px rgba(0,0,0,0.85),0 0 80px ${rgb(c1,0.15)},0 0 40px ${rgb(c2,0.10)},inset 0 1px 0 rgba(255,255,255,0.08);
+    position:relative;
+    background:linear-gradient(165deg,#fefaf3 0%,#f8edd8 100%);
+    border-radius:4px;
+    padding:16px 16px 56px;
+    box-shadow:
+      0 40px 100px rgba(0,0,0,0.85),
+      0 12px 36px  rgba(0,0,0,0.65),
+      0  3px  8px  rgba(0,0,0,0.45),
+      inset 0 0 0 1px rgba(255,255,255,0.97),
+      0 0 60px ${rgb(c1,0.20)},
+      0 0 30px ${rgb(c2,0.12)};
+    overflow:visible;
   }
-  .lb-frame img{display:block;max-width:84vw;max-height:72vh;object-fit:contain;border-radius:2px;}
+  /* Tachuela del lightbox */
+  .lb-frame::before{
+    content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%);
+    width:18px;height:18px;
+    background:radial-gradient(circle at 32% 32%,#fff8c0,#d4a017,#7a5800);
+    border-radius:50%;
+    box-shadow:0 3px 10px rgba(0,0,0,0.65),inset 0 1px 0 rgba(255,255,255,0.5);
+    z-index:60;
+  }
+  /* Área de imagen dentro del marco */
+  .lb-img-wrap{
+    position:relative;
+    border-radius:2px;
+    overflow:hidden;
+    line-height:0;
+  }
+  .lb-frame img{display:block;max-width:82vw;max-height:68vh;object-fit:contain;border-radius:2px;}
+  /* Canvas confeti lightbox */
+  #lbCanvas{
+    position:absolute;inset:0;
+    width:100%;height:100%;
+    pointer-events:none;z-index:2;
+    border-radius:4px;
+  }
+  /* Pie del marco — franja beige inferior */
+  .lb-frame-footer{
+    position:absolute;bottom:0;left:0;right:0;height:56px;
+    display:flex;align-items:center;justify-content:center;
+    border-top:1px solid rgba(180,150,100,0.15);
+  }
+  .lb-frame-caption{
+    font-size:0.78rem;color:rgba(80,50,15,0.60);
+    letter-spacing:0.18em;font-style:italic;
+  }
   .lb-close{
     position:absolute;top:-16px;right:-16px;
     background:${rgb(c1,0.70)};border:1px solid ${rgb(c1,0.50)};
@@ -528,10 +570,16 @@ class MisaRamosGallery extends HTMLElement {
 
 <div class="lb-overlay" id="lightbox">
   <div class="lb-backdrop" id="lbBackdrop"></div>
+  <canvas id="lbCanvas"></canvas>
   <div class="lb-content">
     <div class="lb-frame">
       <button class="lb-close" id="lbClose">✕</button>
-      <img id="lbImg" src="" alt=""/>
+      <div class="lb-img-wrap">
+        <img id="lbImg" src="" alt=""/>
+      </div>
+      <div class="lb-frame-footer">
+        <span class="lb-frame-caption" id="lbFrameCaption"></span>
+      </div>
     </div>
     <div class="lb-counter" id="lbCounter">1 / ${total}</div>
     <div class="lb-nav">
@@ -641,9 +689,130 @@ class MisaRamosGallery extends HTMLElement {
     const lbLabel = shadow.getElementById('lbLabel');
     const lbCtr   = shadow.getElementById('lbCounter');
 
-    const openLB  = idx => { cur=idx; lbImg.src=`${basePath}${cur+1}.jpg`; lbImg.alt=capts[cur]||`Foto ${cur+1}`; lbLabel.textContent=capts[cur]||`Foto ${cur+1}`; lbCtr.textContent=`${cur+1} / ${total}`; lb.classList.add('active'); };
-    const closeLB = () => lb.classList.remove('active');
-    const navLB   = dir => { cur=(cur+dir+total)%total; lbImg.src=`${basePath}${cur+1}.jpg`; lbLabel.textContent=capts[cur]||`Foto ${cur+1}`; lbCtr.textContent=`${cur+1} / ${total}`; };
+    const lbFrameCaption = shadow.getElementById('lbFrameCaption');
+
+    const setLBContent = () => {
+      lbImg.src = `${basePath}${cur+1}.jpg`;
+      lbImg.alt = capts[cur]||`Foto ${cur+1}`;
+      lbLabel.textContent = capts[cur]||`Foto ${cur+1}`;
+      lbFrameCaption.textContent = capts[cur]||`Foto ${cur+1}`;
+      lbCtr.textContent = `${cur+1} / ${total}`;
+    };
+    const openLB  = idx => { cur=idx; setLBContent(); lb.classList.add('active'); startLBParticles(); };
+    const closeLB = () => { lb.classList.remove('active'); stopLBParticles(); };
+    const navLB   = dir => { cur=(cur+dir+total)%total; setLBContent(); };
+
+    /* ── CANVAS CONFETI LIGHTBOX (sube desde abajo) ── */
+    const lbCanvas = shadow.getElementById('lbCanvas');
+    const lbCtx    = lbCanvas.getContext('2d');
+    let lbPImg = null, lbParticles = [], lbRaf = null;
+    const LB_COUNT = 28;
+
+    // Cargar PNG del lightbox si existe
+    if (lbParticleSrc) {
+      lbPImg = new Image();
+      lbPImg.src = lbParticleSrc;
+    }
+
+    function resizeLBCanvas() {
+      lbCanvas.width  = Math.round(window.innerWidth  * DPR);
+      lbCanvas.height = Math.round(window.innerHeight * DPR);
+      lbCanvas.style.width  = window.innerWidth  + 'px';
+      lbCanvas.style.height = window.innerHeight + 'px';
+      lbCtx.setTransform(DPR, 0, 0, DPR, 0, 0);
+      lbCtx.imageSmoothingEnabled = true;
+      lbCtx.imageSmoothingQuality = 'high';
+    }
+
+    function makeLBParticle() {
+      const W = window.innerWidth, H = window.innerHeight;
+      return {
+        x:      Math.random() * W,
+        y:      H + 40 + Math.random() * 120,   // arranca debajo
+        size:   30 + Math.random() * 40,
+        speedY: -(0.8 + Math.random() * 1.4),   // sube (negativo)
+        speedX: -0.6 + Math.random() * 1.2,
+        rot:    Math.random() * Math.PI * 2,
+        rotV:   (0.015 + Math.random() * 0.030) * (Math.random()<0.5?1:-1),
+        sway:   0.4 + Math.random() * 0.8,
+        swayS:  0.008 + Math.random() * 0.012,
+        swayT:  Math.random() * Math.PI * 2,
+        // Fade: aparece desde 0, llega al máximo y desaparece arriba
+        alpha:  0,
+        life:   0,
+        maxLife: 180 + Math.random() * 120,
+      };
+    }
+
+    function drawLBStar(x, y, size, alpha, col) {
+      lbCtx.save();
+      lbCtx.globalAlpha = alpha;
+      lbCtx.fillStyle   = col;
+      lbCtx.beginPath();
+      const pts=6, outer=size/2, inner=size/5;
+      for (let i=0;i<pts*2;i++){
+        const r=i%2===0?outer:inner;
+        const a=(i*Math.PI)/pts-Math.PI/2;
+        i===0?lbCtx.moveTo(Math.cos(a)*r,Math.sin(a)*r)
+             :lbCtx.lineTo(Math.cos(a)*r,Math.sin(a)*r);
+      }
+      lbCtx.closePath();
+      lbCtx.fill();
+      lbCtx.restore();
+    }
+
+    function animateLB() {
+      const W = window.innerWidth, H = window.innerHeight;
+      lbCtx.clearRect(0, 0, W, H);
+
+      // Emitir nuevas si hay espacio
+      if (lbParticles.length < LB_COUNT) lbParticles.push(makeLBParticle());
+
+      lbParticles = lbParticles.filter(p => {
+        p.life++;
+        p.swayT += p.swayS;
+        p.x += p.speedX + Math.sin(p.swayT) * p.sway;
+        p.y += p.speedY;
+        p.rot += p.rotV;
+
+        // Fade in (primeros 30 frames) y fade out (últimos 40 frames)
+        const t = p.life / p.maxLife;
+        p.alpha = t < 0.15 ? t/0.15 * 0.85
+                : t > 0.75 ? (1-t)/0.25 * 0.85
+                : 0.85;
+
+        lbCtx.save();
+        lbCtx.translate(p.x, p.y);
+        lbCtx.rotate(p.rot);
+
+        const useImg = lbPImg && lbPImg.complete && lbPImg.naturalWidth > 0;
+        if (useImg) {
+          lbCtx.globalAlpha = p.alpha;
+          lbCtx.drawImage(lbPImg, -p.size/2, -p.size/2, p.size, p.size);
+        } else {
+          // Estrella alternando c1/c2 del tema
+          const col = p.life % 2 === 0 ? `rgb(${c1[0]},${c1[1]},${c1[2]})` : `rgb(${c2[0]},${c2[1]},${c2[2]})`;
+          drawLBStar(0, 0, p.size, p.alpha, col);
+        }
+        lbCtx.restore();
+
+        // Eliminar si salió arriba o cumplió su vida
+        return p.y > -p.size && p.life < p.maxLife;
+      });
+
+      lbRaf = requestAnimationFrame(animateLB);
+    }
+
+    function startLBParticles() {
+      lbParticles = [];
+      resizeLBCanvas();
+      if (lbRaf) cancelAnimationFrame(lbRaf);
+      lbRaf = requestAnimationFrame(animateLB);
+    }
+    function stopLBParticles() {
+      if (lbRaf) { cancelAnimationFrame(lbRaf); lbRaf = null; }
+      lbCtx.clearRect(0, 0, lbCanvas.width, lbCanvas.height);
+    }
 
     shadow.getElementById('lbClose').addEventListener('click', closeLB);
     shadow.getElementById('lbBackdrop').addEventListener('click', closeLB);
