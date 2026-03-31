@@ -1,6 +1,18 @@
 [   
-                       {
+                         {
     "id": 1,
+    "fecha": "Martes Santo",
+    "santo": "31  de  Marzo",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/martes.mp4",
+    "icono": "./img/cruz-cuaresma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },   
+                       {
+    "id": 2,
     "fecha": "Lunes Santo",
     "santo": "30  de  Marzo",
     "santoFontSize": "1.2em",
@@ -8,29 +20,16 @@
     "video": "./asantos/lunes.mp4",
     "icono": "./img/cruz-cuaresma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },   
                      {
-    "id": 2,
+    "id": 3,
     "fecha": "29 de Marzo",
     "santo": "Mensaje de Domingo de Ramos",
     "santoFontSize": "1.2em",
     "poster": "./asantos/santos.jpg",
     "video": "./asantos/padre-ramos.mp4",
-    "icono": "./img/cruz-cuaresma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": true,
-    "showOnDesktop": true
-  },   
-                 
-        {
-    "id": 3,
-    "fecha": "Historias",
-    "santo": "de Cuaresma",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/centurion.mp4",
     "icono": "./img/cruz-cuaresma.png",
     "iconoWidth": "35px",
     "showOnMobile": false,
