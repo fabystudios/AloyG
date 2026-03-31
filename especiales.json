@@ -2,11 +2,11 @@
   
  {
     "id": 1,
-    "fecha": "29 de marzo",
-    "titulo": "Domingo de Ramos: El Inicio de la Semana Santa",
-    "videoMobile": "./asantos/especiales/ramos.mp4?v=3",
-    "videoDesktop": "https://youtu.be/013i09-SfE0",
+    "fecha": "6 dias antes de la Pascua",
+    "titulo": "La unción en Betania",
+    "videoMobile": "./asantos/especiales/betania.mp4?v=3",
+    "videoDesktop": "https://youtu.be/9Q6HD1eNBDk",
     "poster": "./asantos/santos.jpg",
-    "icono": "./img/paloma.png"
+    "icono": "./img/cruz-cuaresma.png"
   }
 ]
