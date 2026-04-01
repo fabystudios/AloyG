@@ -47,4 +47,17 @@
     "showOnMobile": false,
     "showOnDesktop": true
   }
+  ,   
+                     {
+    "id": 4,
+    "fecha": "Domingo Ramos",
+    "santo": "29 de  Marzo",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/ramos.mp4",
+    "icono": "./img/cruz-cuaresma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": false,
+    "showOnDesktop": true
+  }
 ]
