@@ -1,5 +1,5 @@
 /**
- * <semana-santa-card> — Web Component
+ * <semana-santa-card> — Web Component · v2
  * ─────────────────────────────────────────────────────────────────
  * Uso:
  *   <script type="module" src="./components/semana-santa-card.js"></script>
@@ -27,23 +27,20 @@
  * ─────────────────────────────────────────────────────────────────
  */
 
-const SSC_FONTS = 'https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap';
+const SSC_FONTS = 'https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap';
 
 class SemanaSantaCard extends HTMLElement {
 
   static get observedAttributes() {
-    return [
-      'desktop-width', 'video-src', 'event-name', 'event-sub',
-      'season-label',  'footer-label', 'quote',    'quote-ref',
-    ];
+    return ['desktop-width','video-src','event-name','event-sub',
+            'season-label','footer-label','quote','quote-ref'];
   }
 
-  connectedCallback()            { this._injectFonts(); this._render(); }
-  attributeChangedCallback()     { if (this.isConnected) this._render(); }
+  connectedCallback()        { this._injectFonts(); this._render(); }
+  attributeChangedCallback() { if (this.isConnected) this._render(); }
 
   _attr(name, fallback) { return this.getAttribute(name) || fallback; }
 
-  /* Inyecta la hoja de Google Fonts una sola vez en el documento */
   _injectFonts() {
     if (document.querySelector('link[data-ssc-fonts]')) return;
     const link = document.createElement('link');
@@ -54,14 +51,14 @@ class SemanaSantaCard extends HTMLElement {
   }
 
   _render() {
-    const dw    = this._attr('desktop-width', '900px');
-    const vsrc  = this._attr('video-src',      'video.mp4');
-    const ename = this._attr('event-name',     'Jueves Santo');
-    const esub  = this._attr('event-sub',      'Triduo Pascual');
-    const slbl  = this._attr('season-label',   'Semana Santa · 2026');
-    const flbl  = this._attr('footer-label',   'In Cena Domini');
-    const qt    = this._attr('quote',          '«Hagan esto en memoria mía.»');
-    const qref  = this._attr('quote-ref',      '— Lucas 22, 19');
+    const dw    = this._attr('desktop-width', '920px');
+    const vsrc  = this._attr('video-src',     'video.mp4');
+    const ename = this._attr('event-name',    'Jueves Santo');
+    const esub  = this._attr('event-sub',     'Triduo Pascual');
+    const slbl  = this._attr('season-label',  'Semana Santa · 2026');
+    const flbl  = this._attr('footer-label',  'In Cena Domini');
+    const qt    = this._attr('quote',         '«Hagan esto en memoria mía.»');
+    const qref  = this._attr('quote-ref',     '— Lucas 22, 19');
 
     this.setAttribute('role',       'article');
     this.setAttribute('aria-label', `${ename} · ${slbl}`);
@@ -70,53 +67,71 @@ class SemanaSantaCard extends HTMLElement {
 <style>
 semana-santa-card { display: block; }
 
+/* ── HOST ── */
 .ssc-host {
   width: ${dw};
   max-width: ${dw};
   margin: 0 auto;
 }
 
-/* ── CARD: glassmorphism con borde luminoso ── */
+/* ══════════════════════════════════════════
+   CARD SHELL
+   Glassmorphism: fondo oscuro semi-opaco +
+   backdrop-filter + bordes luminosos dorados
+   ══════════════════════════════════════════ */
 .ssc-card {
   display: grid;
-  grid-template-columns: 260px 1fr;
-  border-radius: 22px;
+  grid-template-columns: 280px 1fr;
+  border-radius: 20px;
   overflow: hidden;
   position: relative;
-  background: rgba(16, 10, 3, 0.52);
-  backdrop-filter: blur(28px) saturate(170%);
-  -webkit-backdrop-filter: blur(28px) saturate(170%);
-  border: 1px solid rgba(215, 162, 58, 0.42);
+
+  /* Glass oscuro con transparencia controlada */
+  background: rgba(8, 5, 2, 0.78);
+  backdrop-filter: blur(32px) saturate(180%) brightness(0.9);
+  -webkit-backdrop-filter: blur(32px) saturate(180%) brightness(0.9);
+
+  /* Borde luminoso exterior — capas múltiples */
+  border: 1px solid rgba(220, 168, 60, 0.50);
+  outline: 1px solid rgba(255, 210, 100, 0.08);
+  outline-offset: 2px;
+
   box-shadow:
-    0 0 0 1px rgba(255, 205, 85, 0.07),
-    0 0 45px  rgba(200, 138, 28, 0.22),
-    0 0 100px rgba(140,  85,  8, 0.14),
-    0 36px 100px rgba(0, 0, 0, 0.82),
-    inset 0  1.5px 0 rgba(255, 225, 130, 0.24),
-    inset 0 -1px   0 rgba(255, 180,  40, 0.10);
+    /* Aureola dorada exterior */
+    0 0 0 1px rgba(255, 200, 70, 0.06),
+    0 0 50px  rgba(200, 130, 20, 0.28),
+    0 0 120px rgba(150,  90,  8, 0.18),
+    /* Profundidad */
+    0 40px 120px rgba(0, 0, 0, 0.90),
+    /* Reflejos internos del vidrio */
+    inset 0  2px 0 rgba(255, 230, 140, 0.28),
+    inset 0 -1px 0 rgba(200, 150,  30, 0.12),
+    inset 1px 0  0 rgba(255, 220, 100, 0.08),
+    inset -1px 0 0 rgba(200, 150,  30, 0.08);
 }
 
-/* Brillo refractado superior */
+/* Capa de reflejo superior del vidrio grueso */
 .ssc-card::before {
   content: '';
   position: absolute; inset: 0;
-  border-radius: 22px;
+  border-radius: 20px;
   background: linear-gradient(
-    158deg,
-    rgba(255, 225, 130, 0.11) 0%,
-    rgba(255, 185,  65, 0.05) 28%,
-    transparent 55%
+    150deg,
+    rgba(255, 230, 140, 0.13) 0%,
+    rgba(255, 195,  70, 0.06) 22%,
+    transparent 45%
   );
   pointer-events: none;
-  z-index: 10;
+  z-index: 20;
 }
 
-/* ── PANEL IZQUIERDO: VIDEO ── */
+/* ══════════════════════════════════════════
+   PANEL IZQUIERDO — VIDEO
+   ══════════════════════════════════════════ */
 .ssc-video-panel {
   position: relative;
-  background: rgba(7, 4, 1, 0.62);
-  border-right: 1px solid rgba(215, 162, 58, 0.32);
-  box-shadow: inset -10px 0 22px rgba(0,0,0,0.45);
+  background: #050301;
+  border-right: 1px solid rgba(220, 168, 60, 0.38);
 }
 
 .ssc-video-wrap {
@@ -132,6 +147,7 @@ semana-santa-card { display: block; }
   display: block;
 }
 
+/* Fade superior e inferior sobre el video */
 .ssc-video-wrap::before,
 .ssc-video-wrap::after {
   content: '';
@@ -139,355 +155,458 @@ semana-santa-card { display: block; }
   z-index: 2; pointer-events: none;
 }
 .ssc-video-wrap::before {
-  top: 0; height: 85px;
-  background: linear-gradient(to bottom, rgba(10,6,2,0.78), transparent);
+  top: 0; height: 90px;
+  background: linear-gradient(to bottom, rgba(5,3,1,0.85), transparent);
 }
 .ssc-video-wrap::after {
-  bottom: 0; height: 115px;
-  background: linear-gradient(to top, rgba(10,6,2,0.92), transparent);
+  bottom: 0; height: 130px;
+  background: linear-gradient(to top, rgba(5,3,1,0.95), transparent);
 }
 
-/* Línea de luz dorada entre paneles */
-.ssc-video-glow {
+/* Línea de luz vertical entre paneles */
+.ssc-seam {
   position: absolute;
-  right: -1px; top: 12%; bottom: 12%;
+  right: -1px; top: 8%; bottom: 8%;
   width: 2px;
   background: linear-gradient(to bottom,
-    transparent,
-    rgba(215,162,55,0.55) 25%,
-    rgba(235,185,70,0.90) 50%,
-    rgba(215,162,55,0.55) 75%,
-    transparent
+    transparent 0%,
+    rgba(220,168,60,0.45) 20%,
+    rgba(255,210,80,1.00) 50%,
+    rgba(220,168,60,0.45) 80%,
+    transparent 100%
   );
-  filter: blur(1.5px);
+  filter: blur(1px);
   z-index: 5;
 }
 
-/* ── PANEL DERECHO: TEXTO ── */
+/* ══════════════════════════════════════════
+   PANEL DERECHO — TEXTO
+   Panel oscuro profundo con luz de vela
+   ══════════════════════════════════════════ */
 .ssc-text-panel {
   position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 2.8rem 3rem 2.8rem 3.2rem;
+  /* Fondo propio del panel, más oscuro y cálido */
+  background:
+    radial-gradient(ellipse 80% 60% at 30% 45%, rgba(80, 45, 5, 0.55) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 50% at 85% 80%, rgba(55, 28, 2, 0.40) 0%, transparent 65%),
+    rgba(10, 6, 1, 0.88);
+  padding: 3rem 3.2rem 3rem 3.5rem;
   overflow: hidden;
 }
 
-.ssc-text-panel::before {
-  content: '';
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse at 22% 40%, rgba(115,68,12,0.16) 0%, transparent 58%),
-    radial-gradient(ellipse at 82% 78%, rgba(85,48,6,0.12)   0%, transparent 50%);
-  pointer-events: none; z-index: 0;
-}
-
-.ssc-bg-svg {
+/* SVG de atmósfera detrás del contenido */
+.ssc-atm {
   position: absolute; inset: 0;
   width: 100%; height: 100%;
   z-index: 0; pointer-events: none;
 }
 
-.ssc-content { position: relative; z-index: 2; }
-
-/* ── TIPOGRAFÍA ── */
-.ssc-ornament {
-  display: flex; align-items: center;
-  gap: 0.7rem; margin-bottom: 1.4rem;
-}
-.ssc-orn-line {
-  flex: 1; height: 1px;
-  background: linear-gradient(to right, transparent, rgba(205,158,55,0.52));
-}
-.ssc-orn-line.r {
-  background: linear-gradient(to left, transparent, rgba(205,158,55,0.52));
+.ssc-content {
+  position: relative;
+  z-index: 2;
 }
 
+/* ══════════════════════════════════════════
+   TIPOGRAFÍA — alto contraste, jerarquía clara
+   ══════════════════════════════════════════ */
+
+/* Eyebrow: pequeño, espaciado, dorado tenue */
 .ssc-eyebrow {
-  font-family: 'Cinzel', 'Times New Roman', serif;
-  font-size: 0.58rem; letter-spacing: 0.35em;
-  text-transform: uppercase; color: rgba(212,168,65,0.55);
-  margin-bottom: 0.5rem; display: block;
+  display: block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.60rem;
+  font-weight: 400;
+  letter-spacing: 0.40em;
+  text-transform: uppercase;
+  color: rgba(210, 162, 55, 0.60);
+  margin-bottom: 1.1rem;
 }
 
+/* Título: grande, luminoso, con text-shadow de vela */
 .ssc-title {
-  font-family: 'Cinzel', 'Times New Roman', serif;
-  font-size: clamp(1.5rem, 2.8vw, 2.1rem);
-  font-weight: 600; letter-spacing: 0.07em;
-  color: #edd99a; line-height: 1.1;
-  margin: 0 0 0.25rem;
+  font-family: 'Cinzel', serif;
+  font-size: clamp(2rem, 3.5vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+  color: #f5e4a8;
+  margin: 0 0 0.3rem;
   text-shadow:
-    0 0 28px rgba(225,172,50,0.42),
-    0 0 65px rgba(180,120,18,0.22);
+    0 0  12px rgba(255, 200, 60, 0.55),
+    0 0  35px rgba(220, 150, 20, 0.35),
+    0 0  80px rgba(180, 100, 10, 0.20),
+    0  2px  6px rgba(0, 0, 0, 0.80);
 }
 
+/* Subtítulo: finísimo, espaciado */
 .ssc-subtitle {
-  font-family: 'Cinzel', 'Times New Roman', serif;
-  font-size: 0.63rem; font-weight: 400;
-  letter-spacing: 0.24em; text-transform: uppercase;
-  color: rgba(202,158,55,0.45); margin: 0 0 1.8rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.62rem;
+  font-weight: 400;
+  letter-spacing: 0.30em;
+  text-transform: uppercase;
+  color: rgba(195, 145, 45, 0.48);
+  margin: 0 0 2.2rem;
+}
+
+/* Línea divisoria ornamental */
+.ssc-rule {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin-bottom: 1.8rem;
+}
+.ssc-rule-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(to right,
+    rgba(200,150,45,0.55),
+    rgba(200,150,45,0.15)
+  );
+}
+.ssc-rule-line.rev {
+  background: linear-gradient(to left,
+    rgba(200,150,45,0.55),
+    rgba(200,150,45,0.15)
+  );
+}
+.ssc-rule-diamond {
+  width: 6px; height: 6px;
+  background: rgba(210,162,55,0.70);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* Cita bíblica: protagonista, grande, clara */
+.ssc-quote-wrap {
+  margin-bottom: 2rem;
+  padding: 1.4rem 1.5rem;
+  background: rgba(255, 200, 60, 0.04);
+  border: 1px solid rgba(210, 162, 55, 0.20);
+  border-left: 3px solid rgba(210, 162, 55, 0.70);
+  border-radius: 0 8px 8px 0;
 }
 
 .ssc-quote {
   font-family: 'EB Garamond', Georgia, serif;
-  font-size: clamp(0.98rem, 1.6vw, 1.17rem);
-  font-style: italic; color: rgba(240,222,170,0.88);
-  line-height: 1.65; margin: 0 0 0.42rem;
-  padding-left: 1.1rem;
-  border-left: 2px solid rgba(205,158,55,0.48);
+  font-size: clamp(1.15rem, 2vw, 1.42rem);
+  font-style: italic;
+  font-weight: 400;
+  color: #f0e0b0;
+  line-height: 1.60;
+  margin: 0 0 0.55rem;
+  /* Sombra para que resalte sobre el fondo */
+  text-shadow: 0 1px 8px rgba(0,0,0,0.60);
 }
 
 .ssc-quote-ref {
-  font-family: 'EB Garamond', Georgia, serif;
-  font-size: 0.75rem; letter-spacing: 0.1em;
-  color: rgba(192,148,52,0.5);
-  padding-left: 1.1rem; margin: 0 0 1.75rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  color: rgba(200, 152, 48, 0.65);
+  margin: 0;
+  text-transform: uppercase;
 }
 
-.ssc-sep {
-  display: flex; align-items: center;
-  gap: 0.55rem; margin-bottom: 1.6rem;
+/* Pilares: tres momentos del Jueves Santo */
+.ssc-pillars {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
-.ssc-sep-dot {
-  width: 3.5px; height: 3.5px; border-radius: 50%;
-  background: rgba(192,148,52,0.5); flex-shrink: 0;
-}
-.ssc-sep-line { flex: 1; height: 1px; background: rgba(192,148,52,0.18); }
 
-.ssc-pillars { display: flex; flex-direction: column; gap: 0.9rem; }
-.ssc-pillar  { display: flex; gap: 0.85rem; align-items: flex-start; }
-
-.ssc-pillar-icon {
-  width: 26px; height: 26px;
-  flex-shrink: 0; margin-top: 2px; opacity: 0.72;
+.ssc-pillar {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid rgba(200, 150, 45, 0.12);
 }
+.ssc-pillar:last-child { border-bottom: none; }
+
+/* Número romano decorativo */
+.ssc-pillar-num {
+  font-family: 'Cinzel', serif;
+  font-size: 0.70rem;
+  font-weight: 700;
+  color: rgba(210, 162, 55, 0.50);
+  letter-spacing: 0.05em;
+  min-width: 22px;
+  padding-top: 3px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.ssc-pillar-inner { flex: 1; }
 
 .ssc-pillar-label {
   font-family: 'Cinzel', serif;
-  font-size: 0.59rem; letter-spacing: 0.25em;
-  text-transform: uppercase; color: rgba(202,158,55,0.58);
-  display: block; margin-bottom: 0.12rem;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(215, 165, 55, 0.80);
+  display: block;
+  margin-bottom: 0.22rem;
 }
 
 .ssc-pillar-body {
   font-family: 'EB Garamond', Georgia, serif;
-  font-size: clamp(0.82rem, 1.3vw, 0.94rem);
-  color: rgba(220,200,150,0.70);
-  line-height: 1.52; margin: 0;
+  font-size: clamp(0.90rem, 1.4vw, 1.02rem);
+  font-weight: 400;
+  color: rgba(235, 215, 168, 0.82);
+  line-height: 1.55;
+  margin: 0;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.50);
 }
 
+/* Pie */
 .ssc-footer {
-  margin-top: 1.8rem;
-  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 1.6rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(200,150,45,0.16);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
-.ssc-year {
-  font-family: 'Cinzel', serif; font-size: 0.59rem;
-  letter-spacing: 0.28em; color: rgba(182,138,45,0.35);
+.ssc-footer-label {
+  font-family: 'Cinzel', serif;
+  font-size: 0.58rem;
+  letter-spacing: 0.32em;
   text-transform: uppercase;
+  color: rgba(180, 132, 38, 0.42);
 }
 
-.ssc-candles { display: flex; gap: 0.38rem; align-items: flex-end; }
+.ssc-candles { display: flex; gap: 5px; align-items: flex-end; }
 
-/* ── KEYFRAMES ── */
+/* ══════════════════════════════════════════
+   ANIMACIONES
+   ══════════════════════════════════════════ */
 @keyframes ssc-flicker1 {
-  0%,100% { opacity:.85; transform:scaleY(1)    translateY(0);    }
-  25%     { opacity:.68; transform:scaleY(.94)  translateY(1px);  }
-  50%     { opacity:.92; transform:scaleY(1.04) translateY(-1px); }
-  75%     { opacity:.73; transform:scaleY(.97)  translateY(.5px); }
+  0%,100% { opacity:.90; transform:scaleY(1.00) translateY( 0px); }
+  20%     { opacity:.72; transform:scaleY(.93)  translateY( 1px); }
+  45%     { opacity:.95; transform:scaleY(1.05) translateY(-1px); }
+  70%     { opacity:.78; transform:scaleY(.96)  translateY(.5px); }
 }
 @keyframes ssc-flicker2 {
-  0%,100% { opacity:.80; transform:scaleY(1)    translateY(0);     }
-  30%     { opacity:.94; transform:scaleY(1.05) translateY(-1.5px);}
-  60%     { opacity:.66; transform:scaleY(.93)  translateY(1.5px); }
+  0%,100% { opacity:.85; transform:scaleY(1.00) translateY(  0px); }
+  30%     { opacity:.96; transform:scaleY(1.06) translateY(-1.5px); }
+  65%     { opacity:.68; transform:scaleY(.92)  translateY( 1.5px); }
 }
-@keyframes ssc-glow {
-  0%,100% { opacity:.55; }
-  50%     { opacity:.27; }
+@keyframes ssc-halo {
+  0%,100% { opacity:.50; r: 65px; }
+  50%     { opacity:.22; r: 70px; }
+}
+@keyframes ssc-halo2 {
+  0%,100% { opacity:.40; }
+  50%     { opacity:.18; }
 }
 @keyframes ssc-fadeup {
-  from { opacity:0; transform:translateY(16px); }
+  from { opacity:0; transform:translateY(20px); }
   to   { opacity:1; transform:translateY(0);    }
 }
 
-.ssc-content > * { animation: ssc-fadeup 0.75s ease both; }
-.ssc-content > *:nth-child(1) { animation-delay:.10s; }
-.ssc-content > *:nth-child(2) { animation-delay:.20s; }
-.ssc-content > *:nth-child(3) { animation-delay:.28s; }
-.ssc-content > *:nth-child(4) { animation-delay:.35s; }
-.ssc-content > *:nth-child(5) { animation-delay:.42s; }
-.ssc-content > *:nth-child(6) { animation-delay:.50s; }
+.ssc-content > * { animation: ssc-fadeup 0.80s cubic-bezier(.22,.68,0,1.2) both; }
+.ssc-content > *:nth-child(1) { animation-delay:.08s; }
+.ssc-content > *:nth-child(2) { animation-delay:.16s; }
+.ssc-content > *:nth-child(3) { animation-delay:.24s; }
+.ssc-content > *:nth-child(4) { animation-delay:.32s; }
+.ssc-content > *:nth-child(5) { animation-delay:.40s; }
+.ssc-content > *:nth-child(6) { animation-delay:.48s; }
 .ssc-content > *:nth-child(7) { animation-delay:.56s; }
-.ssc-content > *:nth-child(8) { animation-delay:.62s; }
-.ssc-content > *:nth-child(9) { animation-delay:.68s; }
 
-/* ── RESPONSIVE ── */
+/* ══════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════ */
 @media (max-width: 640px) {
   .ssc-host { width: 95% !important; max-width: 95vw !important; }
   .ssc-card { grid-template-columns: 1fr; }
   .ssc-video-panel {
     border-right: none;
-    border-bottom: 1px solid rgba(215,162,58,0.30);
-    box-shadow: inset 0 -10px 24px rgba(0,0,0,0.45);
+    border-bottom: 1px solid rgba(220,168,60,0.35);
   }
-  .ssc-video-wrap { max-height: 62vh; }
-  .ssc-video-glow {
-    right: 15%; left: 15%; bottom: -1px;
-    top: unset; width: unset; height: 2px;
-    background: linear-gradient(to right, transparent, rgba(215,162,55,0.75) 50%, transparent);
+  .ssc-video-wrap { max-height: 65vh; }
+  .ssc-seam {
+    right: 10%; left: 10%;
+    top: unset; bottom: -1px;
+    width: unset; height: 2px;
+    background: linear-gradient(to right,
+      transparent, rgba(220,168,60,0.80) 50%, transparent);
   }
-  .ssc-text-panel { padding: 1.8rem 1.6rem 2.2rem; }
-  .ssc-title { font-size: 1.5rem; }
+  .ssc-text-panel { padding: 2rem 1.6rem 2.4rem; }
+  .ssc-title      { font-size: 1.75rem; }
+  .ssc-quote      { font-size: 1.1rem; }
 }
 
-@media (min-width: 641px) and (max-width: 820px) {
-  .ssc-card { grid-template-columns: 195px 1fr; }
-  .ssc-text-panel { padding: 2rem 2rem 2rem 2.2rem; }
+@media (min-width: 641px) and (max-width: 860px) {
+  .ssc-card       { grid-template-columns: 210px 1fr; }
+  .ssc-text-panel { padding: 2.2rem 2.2rem 2.2rem 2.4rem; }
+  .ssc-title      { font-size: 1.8rem; }
 }
 </style>
 
 <div class="ssc-host">
   <div class="ssc-card">
 
-    <!-- ▌ VIDEO ▐ -->
+    <!-- ▌▌ PANEL VIDEO ▌▌ -->
     <div class="ssc-video-panel">
       <div class="ssc-video-wrap">
-        <video autoplay muted loop playsinline>
+        <video autoplay muted loop controls playsinline>
           <source src="${vsrc}" type="video/mp4">
         </video>
       </div>
-      <div class="ssc-video-glow"></div>
+      <div class="ssc-seam"></div>
     </div>
 
-    <!-- ▌ TEXTO ▐ -->
+    <!-- ▌▌ PANEL TEXTO ▌▌ -->
     <div class="ssc-text-panel">
 
-      <!-- Atmósfera: velas + halos SVG -->
-      <svg class="ssc-bg-svg" viewBox="0 0 580 462"
+      <!-- SVG atmósfera: halos de vela + llamas -->
+      <svg class="ssc-atm" viewBox="0 0 620 500"
            preserveAspectRatio="xMidYMid slice"
            xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
         <defs>
-          <radialGradient id="ssc-g1" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"   stop-color="#c8880a" stop-opacity="0.22"/>
-            <stop offset="100%" stop-color="#c8880a" stop-opacity="0"/>
+          <radialGradient id="sg-warm" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#d4820a" stop-opacity="0.30"/>
+            <stop offset="100%" stop-color="#d4820a" stop-opacity="0"/>
           </radialGradient>
-          <radialGradient id="ssc-g2" cx="50%" cy="50%" r="50%">
-            <stop offset="0%"   stop-color="#e0a030" stop-opacity="0.16"/>
-            <stop offset="100%" stop-color="#e0a030" stop-opacity="0"/>
+          <radialGradient id="sg-cool" cx="50%" cy="50%" r="50%">
+            <stop offset="0%"   stop-color="#f0a020" stop-opacity="0.22"/>
+            <stop offset="100%" stop-color="#f0a020" stop-opacity="0"/>
           </radialGradient>
+          <filter id="sg-blur"><feGaussianBlur stdDeviation="2"/></filter>
         </defs>
-        <ellipse cx="68"  cy="72"  rx="78"  ry="62" fill="url(#ssc-g1)" style="animation:ssc-glow 3.1s ease-in-out infinite"/>
-        <ellipse cx="510" cy="108" rx="88"  ry="72" fill="url(#ssc-g2)" style="animation:ssc-glow 2.7s ease-in-out infinite .6s"/>
-        <ellipse cx="286" cy="400" rx="118" ry="74" fill="url(#ssc-g1)" style="animation:ssc-glow 4.2s ease-in-out infinite 1.1s"/>
-        <ellipse cx="505" cy="384" rx="72"  ry="54" fill="url(#ssc-g2)" style="animation:ssc-glow 3.5s ease-in-out infinite .3s"/>
-        <!-- Vela 1 -->
-        <g transform="translate(62,60)">
-          <rect x="-5" y="0" width="10" height="36" rx="2" fill="#3a2a10" opacity="0.65"/>
-          <ellipse cx="0" cy="0" rx="5" ry="3" fill="#c8880a" opacity="0.55"/>
-          <path d="M0 0Q-4 -11 0 -21Q4 -11 0 0" fill="#e8b040" style="transform-origin:0 0;animation:ssc-flicker1 1.8s ease-in-out infinite"/>
-          <path d="M0 -4Q-2 -13 0 -19Q2 -13 0 -4" fill="#fff8d0" style="transform-origin:0 -4px;animation:ssc-flicker1 1.8s ease-in-out infinite"/>
+
+        <!-- Halos de vela -->
+        <circle cx="58"  cy="68"  r="65" fill="url(#sg-warm)"
+          style="animation:ssc-halo  3.2s ease-in-out infinite"/>
+        <circle cx="562" cy="95"  r="75" fill="url(#sg-cool)"
+          style="animation:ssc-halo2 2.8s ease-in-out infinite .5s"/>
+        <ellipse cx="310" cy="460" rx="130" ry="70" fill="url(#sg-warm)"
+          style="animation:ssc-halo2 4.0s ease-in-out infinite 1.2s"/>
+        <circle cx="548" cy="430" r="58" fill="url(#sg-cool)"
+          style="animation:ssc-halo  3.7s ease-in-out infinite .8s"/>
+
+        <!-- Vela 1 — superior izquierda -->
+        <g transform="translate(54,52)" filter="url(#sg-blur)">
+          <rect x="-6" y="2" width="12" height="40" rx="2.5" fill="#2e1e08" opacity="0.8"/>
+          <ellipse cx="0" cy="2" rx="6" ry="3.5" fill="#b07010" opacity="0.6"/>
         </g>
-        <!-- Vela 2 -->
-        <g transform="translate(506,96)">
-          <rect x="-5" y="0" width="10" height="42" rx="2" fill="#3a2a10" opacity="0.62"/>
-          <ellipse cx="0" cy="0" rx="5" ry="3" fill="#c8880a" opacity="0.50"/>
-          <path d="M0 0Q-4 -13 0 -23Q4 -13 0 0" fill="#e8b040" style="transform-origin:0 0;animation:ssc-flicker2 2.2s ease-in-out infinite .4s"/>
-          <path d="M0 -5Q-2 -15 0 -21Q2 -15 0 -5" fill="#fff8d0" style="transform-origin:0 -5px;animation:ssc-flicker2 2.2s ease-in-out infinite .4s"/>
+        <g transform="translate(54,52)">
+          <path d="M0 2Q-5 -10 0 -24Q5 -10 0 2" fill="#e8a830"
+            style="transform-origin:0 2px;animation:ssc-flicker1 1.9s ease-in-out infinite"/>
+          <path d="M0 -3Q-2.5 -14 0 -22Q2.5 -14 0 -3" fill="#fff5c8"
+            style="transform-origin:0 -3px;animation:ssc-flicker1 1.9s ease-in-out infinite"/>
         </g>
-        <!-- Vela 3 -->
-        <g transform="translate(496,366)">
-          <rect x="-4" y="0" width="8" height="30" rx="2" fill="#3a2a10" opacity="0.58"/>
-          <ellipse cx="0" cy="0" rx="4" ry="2.5" fill="#c8880a" opacity="0.48"/>
-          <path d="M0 0Q-3 -9 0 -17Q3 -9 0 0" fill="#e8b040" style="transform-origin:0 0;animation:ssc-flicker1 1.5s ease-in-out infinite .9s"/>
-          <path d="M0 -3Q-1.5 -10 0 -15Q1.5 -10 0 -3" fill="#fff8d0" style="transform-origin:0 -3px;animation:ssc-flicker1 1.5s ease-in-out infinite .9s"/>
+
+        <!-- Vela 2 — superior derecha -->
+        <g transform="translate(558,78)" filter="url(#sg-blur)">
+          <rect x="-6" y="2" width="12" height="46" rx="2.5" fill="#2e1e08" opacity="0.8"/>
+          <ellipse cx="0" cy="2" rx="6" ry="3.5" fill="#b07010" opacity="0.6"/>
         </g>
-        <!-- Partículas -->
-        <circle cx="175" cy="145" r="1.8" fill="#e8c060" opacity="0.28"/>
-        <circle cx="408" cy="192" r="1.4" fill="#e8c060" opacity="0.22"/>
-        <circle cx="92"  cy="292" r="1.2" fill="#fff0b0" opacity="0.18"/>
-        <circle cx="458" cy="302" r="1.5" fill="#e8c060" opacity="0.20"/>
-        <circle cx="308" cy="82"  r="1.3" fill="#fff0b0" opacity="0.16"/>
-        <circle cx="233" cy="412" r="1.6" fill="#e8c060" opacity="0.18"/>
+        <g transform="translate(558,78)">
+          <path d="M0 2Q-5 -12 0 -26Q5 -12 0 2" fill="#e8a830"
+            style="transform-origin:0 2px;animation:ssc-flicker2 2.3s ease-in-out infinite .5s"/>
+          <path d="M0 -3Q-2.5 -15 0 -24Q2.5 -15 0 -3" fill="#fff5c8"
+            style="transform-origin:0 -3px;animation:ssc-flicker2 2.3s ease-in-out infinite .5s"/>
+        </g>
+
+        <!-- Vela 3 — inferior derecha, pequeña -->
+        <g transform="translate(542,418)" filter="url(#sg-blur)">
+          <rect x="-5" y="2" width="10" height="32" rx="2" fill="#2e1e08" opacity="0.75"/>
+          <ellipse cx="0" cy="2" rx="5" ry="3" fill="#b07010" opacity="0.55"/>
+        </g>
+        <g transform="translate(542,418)">
+          <path d="M0 2Q-4 -8 0 -18Q4 -8 0 2" fill="#e8a830"
+            style="transform-origin:0 2px;animation:ssc-flicker1 1.5s ease-in-out infinite 1s"/>
+          <path d="M0 -2Q-2 -10 0 -16Q2 -10 0 -2" fill="#fff5c8"
+            style="transform-origin:0 -2px;animation:ssc-flicker1 1.5s ease-in-out infinite 1s"/>
+        </g>
+
+        <!-- Partículas flotantes de polvo de luz -->
+        <g opacity="0.35">
+          <circle cx="185" cy="155" r="1.5" fill="#f0d060"/>
+          <circle cx="420" cy="205" r="1.2" fill="#f0d060"/>
+          <circle cx="95"  cy="310" r="1.0" fill="#fff0a0"/>
+          <circle cx="470" cy="320" r="1.3" fill="#f0d060"/>
+          <circle cx="320" cy="80"  r="1.1" fill="#fff0a0"/>
+          <circle cx="245" cy="430" r="1.4" fill="#f0d060"/>
+          <circle cx="140" cy="250" r="0.9" fill="#fff0a0"/>
+          <circle cx="500" cy="180" r="1.0" fill="#f0d060"/>
+        </g>
       </svg>
 
+      <!-- CONTENIDO -->
       <div class="ssc-content">
 
-        <div class="ssc-ornament">
-          <div class="ssc-orn-line"></div>
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <line x1="8" y1="0"  x2="8"  y2="16" stroke="rgba(192,148,52,0.68)" stroke-width="1.1"/>
-            <line x1="0" y1="6"  x2="16" y2="6"  stroke="rgba(192,148,52,0.68)" stroke-width="1.1"/>
-          </svg>
-          <div class="ssc-orn-line r"></div>
-        </div>
-
         <span class="ssc-eyebrow">${slbl}</span>
+
         <h1 class="ssc-title">${ename}</h1>
         <p class="ssc-subtitle">${esub}</p>
 
-        <blockquote class="ssc-quote">${qt}</blockquote>
-        <p class="ssc-quote-ref">${qref}</p>
-
-        <div class="ssc-sep">
-          <div class="ssc-sep-dot"></div>
-          <div class="ssc-sep-line"></div>
-          <div class="ssc-sep-dot"></div>
-          <div class="ssc-sep-line"></div>
-          <div class="ssc-sep-dot"></div>
+        <!-- Cita en caja destacada -->
+        <div class="ssc-quote-wrap">
+          <p class="ssc-quote">${qt}</p>
+          <p class="ssc-quote-ref">${qref}</p>
         </div>
 
+        <!-- Línea ornamental -->
+        <div class="ssc-rule">
+          <div class="ssc-rule-line"></div>
+          <div class="ssc-rule-diamond"></div>
+          <div class="ssc-rule-line rev"></div>
+        </div>
+
+        <!-- Tres momentos con número romano -->
         <div class="ssc-pillars">
           <div class="ssc-pillar">
-            <svg class="ssc-pillar-icon" viewBox="0 0 28 28" fill="none">
-              <path d="M14 4C14 4 8 9 8 16A6 6 0 0020 16C20 9 14 4 14 4Z" stroke="rgba(200,160,60,0.6)" stroke-width="1.2" fill="rgba(200,130,20,0.08)"/>
-              <circle cx="14" cy="16" r="2.5" fill="rgba(200,160,60,0.45)"/>
-            </svg>
-            <div>
-              <span class="ssc-pillar-label">Institución</span>
-              <p class="ssc-pillar-body">La Última Cena y el don de la Eucaristía, pan y vino que se vuelven Cuerpo y Sangre.</p>
+            <span class="ssc-pillar-num">I</span>
+            <div class="ssc-pillar-inner">
+              <span class="ssc-pillar-label">La Eucaristía</span>
+              <p class="ssc-pillar-body">Pan y vino que se vuelven Cuerpo y Sangre en la Última Cena.</p>
             </div>
           </div>
           <div class="ssc-pillar">
-            <svg class="ssc-pillar-icon" viewBox="0 0 28 28" fill="none">
-              <ellipse cx="14" cy="17" rx="8" ry="4.5" stroke="rgba(200,160,60,0.5)" stroke-width="1.2" fill="none"/>
-              <path d="M8 17Q14 7 20 17" stroke="rgba(200,160,60,0.55)" stroke-width="1.2" fill="rgba(200,130,20,0.06)"/>
-              <path d="M11 12Q14 9 17 12" stroke="rgba(200,160,60,0.4)" stroke-width="1" fill="none"/>
-            </svg>
-            <div>
-              <span class="ssc-pillar-label">Mandato</span>
-              <p class="ssc-pillar-body">El lavatorio de los pies: «Ámense los unos a los otros, como yo los he amado.»</p>
+            <span class="ssc-pillar-num">II</span>
+            <div class="ssc-pillar-inner">
+              <span class="ssc-pillar-label">El Mandato</span>
+              <p class="ssc-pillar-body">El lavatorio de los pies: «Ámense como yo los he amado.»</p>
             </div>
           </div>
           <div class="ssc-pillar">
-            <svg class="ssc-pillar-icon" viewBox="0 0 28 28" fill="none">
-              <path d="M5 22Q9 10 14 8Q19 10 23 22" stroke="rgba(200,160,60,0.5)" stroke-width="1.2" fill="rgba(200,130,20,0.06)"/>
-              <circle cx="14" cy="8" r="2.2" stroke="rgba(200,160,60,0.55)" stroke-width="1" fill="none"/>
-              <line x1="14" y1="22" x2="14" y2="26" stroke="rgba(200,160,60,0.35)" stroke-width="1"/>
-            </svg>
-            <div>
+            <span class="ssc-pillar-num">III</span>
+            <div class="ssc-pillar-inner">
               <span class="ssc-pillar-label">Getsemaní</span>
-              <p class="ssc-pillar-body">La oración en el huerto, la agonía y el sí definitivo a la voluntad del Padre.</p>
+              <p class="ssc-pillar-body">La agonía en el huerto y el sí definitivo al Padre.</p>
             </div>
           </div>
         </div>
 
+        <!-- Pie -->
         <div class="ssc-footer">
-          <span class="ssc-year">${flbl}</span>
+          <span class="ssc-footer-label">${flbl}</span>
+          <!-- Tres velitas decorativas -->
           <div class="ssc-candles" aria-hidden="true">
-            <svg width="6" height="22" viewBox="0 0 6 22">
-              <rect x="1" y="8" width="4" height="14" rx="1" fill="rgba(155,115,38,0.42)"/>
-              <ellipse cx="3" cy="8" rx="2.5" ry="1.5" fill="rgba(195,148,38,0.38)"/>
-              <path d="M3 8Q1 3 3 0Q5 3 3 8" fill="rgba(220,155,38,0.62)" style="transform-origin:3px 8px;animation:ssc-flicker2 2s ease-in-out infinite"/>
+            <svg width="7" height="24" viewBox="0 0 7 24">
+              <rect x="1.5" y="9" width="4" height="15" rx="1.2" fill="rgba(140,100,30,0.50)"/>
+              <ellipse cx="3.5" cy="9" rx="3" ry="1.8" fill="rgba(185,135,30,0.45)"/>
+              <path d="M3.5 9Q1 3.5 3.5 0Q6 3.5 3.5 9" fill="rgba(220,155,35,0.72)"
+                style="transform-origin:3.5px 9px;animation:ssc-flicker2 2.1s ease-in-out infinite"/>
             </svg>
-            <svg width="6" height="28" viewBox="0 0 6 28">
-              <rect x="1" y="10" width="4" height="18" rx="1" fill="rgba(155,115,38,0.45)"/>
-              <ellipse cx="3" cy="10" rx="2.5" ry="1.5" fill="rgba(195,148,38,0.42)"/>
-              <path d="M3 10Q1 4 3 0Q5 4 3 10" fill="rgba(220,155,38,0.68)" style="transform-origin:3px 10px;animation:ssc-flicker1 1.7s ease-in-out infinite .3s"/>
+            <svg width="7" height="30" viewBox="0 0 7 30">
+              <rect x="1.5" y="11" width="4" height="19" rx="1.2" fill="rgba(140,100,30,0.55)"/>
+              <ellipse cx="3.5" cy="11" rx="3" ry="1.8" fill="rgba(185,135,30,0.50)"/>
+              <path d="M3.5 11Q1 4.5 3.5 0Q6 4.5 3.5 11" fill="rgba(220,155,35,0.80)"
+                style="transform-origin:3.5px 11px;animation:ssc-flicker1 1.8s ease-in-out infinite .3s"/>
             </svg>
-            <svg width="6" height="20" viewBox="0 0 6 20">
-              <rect x="1" y="7" width="4" height="13" rx="1" fill="rgba(155,115,38,0.40)"/>
-              <ellipse cx="3" cy="7" rx="2.5" ry="1.5" fill="rgba(195,148,38,0.35)"/>
-              <path d="M3 7Q1 2 3 0Q5 2 3 7" fill="rgba(220,155,38,0.57)" style="transform-origin:3px 7px;animation:ssc-flicker2 2.3s ease-in-out infinite .7s"/>
+            <svg width="7" height="22" viewBox="0 0 7 22">
+              <rect x="1.5" y="8" width="4" height="14" rx="1.2" fill="rgba(140,100,30,0.45)"/>
+              <ellipse cx="3.5" cy="8" rx="3" ry="1.8" fill="rgba(185,135,30,0.40)"/>
+              <path d="M3.5 8Q1 3 3.5 0Q6 3 3.5 8" fill="rgba(220,155,35,0.65)"
+                style="transform-origin:3.5px 8px;animation:ssc-flicker2 2.5s ease-in-out infinite .7s"/>
             </svg>
           </div>
         </div>
