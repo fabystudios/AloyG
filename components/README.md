@@ -47,7 +47,11 @@ Usa todos los valores por defecto: fotos en `./actividades/ramos/`, tema violeta
 | `mascot-src` | string | `./actividades/photo.png` | Imagen de la mascota que aparece sobre el título con animación de bounce |
 | `particle-src` | string | _(vacío)_ | PNG que flota de fondo como hojas al viento. Si se omite, usa estrellitas doradas como fallback |
 | `width` | string | `80%` | Ancho del componente **solo en desktop**. En mobile siempre es `95%` fijo |
-| `total` | número | `9` | Cantidad de fotos a mostrar |
+| `total` | número | `9` | Cantidad total de fotos |
+| `page-size` | número | `9` | Fotos por página en desktop (se pagina automáticamente) |
+| `eyebrow` | string | `✦ Parroquia · Semana Santa ✦` | Texto pequeño sobre el título |
+| `title` | string | `Misa de` | Título principal |
+| `title-em` | string | `Ramos` | Parte del título con efecto shimmer |
 | `theme` | string | `violeta-dorado` | Tema de color predefinido (ver tabla abajo) |
 | `color1` | hex | _(del tema)_ | Color primario custom. Tiene prioridad sobre `theme` |
 | `color2` | hex | _(del tema)_ | Color secundario custom. Tiene prioridad sobre `theme` |
@@ -63,6 +67,7 @@ Pasarlos con el atributo `theme="nombre"`:
 | Nombre | Colores | Ocasión sugerida |
 |---|---|---|
 | `violeta-dorado` | 🟣 violeta + 🟡 dorado | **Default** — Semana Santa, Ramos |
+| `azul-dorado` | 🔵 azul marino + 🟡 dorado | Jueves Santo, Eucaristía, Lavado de Pies |
 | `verde-dorado` | 🟢 esmeralda + 🟡 dorado | Navidad, naturaleza, corpus |
 | `rojo-dorado` | 🔴 rojo + 🟡 dorado | Pascua, Pentecostés, confirmación |
 | `azul-plateado` | 🔵 celeste + ⚪ plateado | Adviento, fiestas de la Virgen |
@@ -170,6 +175,20 @@ El PNG pasado en `particle-src` flota dentro de la card con efecto de **hojas al
 ## Ejemplos por evento
 
 ```html
+<!-- Jueves Santo — Lavado de Pies -->
+<misa-ramos-gallery
+  base-path="./actividades/jueves-santo/"
+  mascot-src="./actividades/photo.png"
+  particle-src="./img/gota.png, ./img/hostia.png, ./img/pan.png"
+  lightbox-particle-src="./img/paloma.png"
+  theme="azul-dorado"
+  eyebrow="Conmemorando la última cena de Jesús"
+  title="Celebrando"
+  title-em="Jueves Santo"
+  total="20"
+  width="80%">
+</misa-ramos-gallery>
+
 <!-- Misa de Ramos -->
 <misa-ramos-gallery
   base-path="./fotos/ramos/"

@@ -1010,6 +1010,8 @@
       <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Avisos
     </h2>
   </section>
+
+
 <br> <br>
     <script type="module" src="./components/semana-santa-card.js"></script>
 <semana-santa-card
@@ -1027,6 +1029,23 @@
 <br>
  <!-- Publicaciones Especiales última-->
   <efemerides-card json-file="./especiales.json" card-type="especiales"></efemerides-card>
+
+
+<misa-ramos-gallery
+  base-path="./actividades/pies/"
+  mascot-src="./img/medalla_cuaresma.png"
+  particle-src="./img/caliz.png, ./img/pan.png"
+  lightbox-particle-src="./img/paloma.png"
+  theme="azul-dorado"
+  eyebrow="Conmemorando la última cena de Jesús"
+  title="Celebrando"
+  title-em="Jueves Santo"
+  total="20"
+  width="80%">
+</misa-ramos-gallery>
+
+<br><br>
+
 <!-- ══════════════════════════════════════════════════════════
      ✝  SEMANA SANTA · Programa litúrgico — mosaico glassmorphism
      ══════════════════════════════════════════════════════════ -->
@@ -1068,6 +1087,8 @@
   base-path="./actividades/ramos/"
   particle-src="./img/olivo.png"
   mascot-src="./img/medalla_cuaresma.png"
+  captions='["altar","Bendición","Palmas","Bendición","Oración","Alegría","Comunidad","Palmas"]'
+  total="9"
   width="90%">
 </misa-ramos-gallery>
  <!-- Mascota fotógrafo — aparece centrada arriba del texto del título, 
