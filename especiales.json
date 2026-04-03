@@ -8,5 +8,14 @@
     "videoDesktop": "https://youtu.be/sSM4PgQsQdM",
     "poster": "./asantos/santos.jpg",
     "icono": "./img/cruz-cuaresma.png"
+  },
+   {
+    "id": 1,
+    "fecha": "",
+    "titulo": "Las 7 Palabras de Jesús en la Cruz",
+    "videoMobile": "./asantos/especiales/7.mp4?v=3",
+    "videoDesktop": "https://youtu.be/K4ro-3ww0zY",
+    "poster": "./asantos/santos.jpg",
+    "icono": "./img/cruz-cuaresma.png"
   }
 ]
