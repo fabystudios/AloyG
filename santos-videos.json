@@ -21,7 +21,7 @@
     "video": "./asantos/miercoles.mp4",
     "icono": "./img/cruz-cuaresma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
+    "showOnMobile": false,
     "showOnDesktop": true
   },   
                          {
