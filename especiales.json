@@ -2,10 +2,10 @@
   
  {
     "id": 1,
-    "fecha": "6 dias antes de la Pascua",
-    "titulo": "La unción en Betania",
-    "videoMobile": "./asantos/especiales/betania.mp4?v=3",
-    "videoDesktop": "https://youtu.be/9Q6HD1eNBDk",
+    "fecha": "",
+    "titulo": "JESÚS MUERE EN LA CRUZ",
+    "videoMobile": "./asantos/especiales/vie.mp4?v=3",
+    "videoDesktop": "https://youtu.be/sSM4PgQsQdM",
     "poster": "./asantos/santos.jpg",
     "icono": "./img/cruz-cuaresma.png"
   }

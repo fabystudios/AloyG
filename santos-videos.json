@@ -1,4 +1,16 @@
 [   
+                             {
+    "id": 1,
+    "fecha": "Jueves Santo",
+    "santo": "La Última Cena",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/jueves.mp4",
+    "icono": "./img/cruz-cuaresma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  },   
 
                            {
     "id": 1,
