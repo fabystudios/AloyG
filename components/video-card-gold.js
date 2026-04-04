@@ -127,8 +127,6 @@ _tpl.innerHTML = `
   /* ─── Botón Play / Pause ─────────────────────────────────────────── */
   .play-btn {
     position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
     width: 56px; height: 56px;
     border-radius: 50%;
     border: 2px solid rgba(245, 208, 107, 0.85);
@@ -140,9 +138,29 @@ _tpl.innerHTML = `
     align-items: center;
     justify-content: center;
     z-index: 10;
-    transition: transform 0.25s ease, background 0.25s ease, border-color 0.25s, box-shadow 0.25s;
+    transition: top 0.4s cubic-bezier(0.22,1,0.36,1),
+                left 0.4s cubic-bezier(0.22,1,0.36,1),
+                bottom 0.4s cubic-bezier(0.22,1,0.36,1),
+                right 0.4s cubic-bezier(0.22,1,0.36,1),
+                transform 0.4s cubic-bezier(0.22,1,0.36,1),
+                width 0.4s cubic-bezier(0.22,1,0.36,1),
+                height 0.4s cubic-bezier(0.22,1,0.36,1),
+                background 0.25s ease, border-color 0.25s, box-shadow 0.25s;
+    /* Estado inicial: centrado (play) */
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
     box-shadow: 0 0 18px rgba(197, 162, 39, 0.3), inset 0 1px 0 rgba(255, 245, 192, 0.3);
     animation: pulsePlay 2.5s ease-in-out infinite;
+  }
+
+  /* Cuando está en modo pausa: esquina inferior derecha, más pequeño */
+  .play-btn.is-playing {
+    top: auto; left: auto;
+    bottom: 1.15rem; right: 1.2rem;
+    transform: none;
+    width: 32px; height: 32px;
+    animation: none;
+    box-shadow: 0 0 10px rgba(197, 162, 39, 0.25);
   }
 
   @keyframes pulsePlay {
@@ -151,11 +169,18 @@ _tpl.innerHTML = `
   }
 
   .play-btn:hover {
-    transform: translate(-50%, -50%) scale(1.12);
     background: rgba(197, 162, 39, 0.22);
     border-color: rgba(245, 208, 107, 1);
     box-shadow: 0 0 40px rgba(197, 162, 39, 0.6), 0 0 80px rgba(197, 162, 39, 0.2);
+  }
+
+  .play-btn:not(.is-playing):hover {
+    transform: translate(-50%, -50%) scale(1.12);
     animation: none;
+  }
+
+  .play-btn.is-playing:hover {
+    transform: scale(1.12);
   }
 
   .play-icon {
@@ -167,12 +192,12 @@ _tpl.innerHTML = `
     filter: drop-shadow(0 0 4px rgba(245, 208, 107, 0.7));
   }
 
-  .pause-icon { display: flex; gap: 5px; }
+  .pause-icon { display: flex; gap: 3px; }
   .pause-bar {
-    width: 5px; height: 20px;
+    width: 3px; height: 12px;
     background: rgba(245, 208, 107, 0.95);
     border-radius: 2px;
-    filter: drop-shadow(0 0 4px rgba(245, 208, 107, 0.7));
+    filter: drop-shadow(0 0 3px rgba(245, 208, 107, 0.7));
   }
 
   /* ─── Info (título, badge, meta) ─────────────────────────────────── */
@@ -362,12 +387,14 @@ class VideoCardGold extends HTMLElement {
     if (this._playing) {
       this._vid.pause();
       this._playing = false;
+      this._btn.classList.remove('is-playing');
       this._icon.className = 'play-icon';
       this._icon.innerHTML = '';
       this._btn.style.animation = '';
     } else {
       this._vid.play().catch(() => {});
       this._playing = true;
+      this._btn.classList.add('is-playing');
       this._icon.className = 'pause-icon';
       this._icon.innerHTML = '<div class="pause-bar"></div><div class="pause-bar"></div>';
       this._btn.style.animation = 'none';
@@ -388,6 +415,7 @@ class VideoCardGold extends HTMLElement {
 
   _onEnded() {
     this._playing = false;
+    this._btn.classList.remove('is-playing');
     this._icon.className = 'play-icon';
     this._icon.innerHTML = '';
     this._btn.style.animation = '';
