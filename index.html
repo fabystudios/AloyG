@@ -4582,25 +4582,7 @@ html<misa-ramos-gallery mascot-src="./otra/ruta/photo.png"></misa-ramos-gallery>
   </script>
 
   <script>
-    // Prevenir scroll automático del carrusel al cargar la página SOLO si no hay hash en la URL
-    if (history.scrollRestoration) {
-      history.scrollRestoration = 'manual';
-    }
-    
-    // Solo hacer scroll al top si NO hay un hash en la URL
-    if (!window.location.hash) {
-      window.addEventListener('load', function() {
-        setTimeout(function() {
-          window.scrollTo(0, 0);
-        }, 0);
-      });
-    }
-
     document.addEventListener('DOMContentLoaded', function () {
-      // Mantener la página en el tope al cargar SOLO si no hay hash
-      if (!window.location.hash) {
-        window.scrollTo(0, 0);
-      }
 
       const menu = document.getElementById('navbarNav');
       const toggler = document.querySelector('.navbar-toggler');
