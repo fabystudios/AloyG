@@ -1010,14 +1010,42 @@
       <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Avisos
     </h2>
   </section>
+<br><br>
+<script src="./components/video-card-gold.js"></script>
 
+<!-- Desktop (260px × 463px, ratio 9:16) -->
+<video-card-gold
+  titulo="La Pasión de Cristo"
+  video="./asantos/pasion.mp4"
+>
+</video-card-gold>
+
+
+
+
+   <!-- Videos de Santos 
+     -->
+   <efemerides-card json-file="./santos-videos.json" card-type="santos"></efemerides-card>
+
+
+<misa-ramos-gallery
+  base-path="./actividades/cruz/"
+  mascot-src="./img/medalla_cuaresma.png"
+  particle-src="./img/cruz.png, ./img/corona.png"
+  lightbox-particle-src="./img/cua-flot.png"
+  theme="rojo-dorado"
+  eyebrow="Viernes Santo · Pasión del Señor"
+  title="Contemplando la"
+  title-em="Pasión"
+  total="13"
+  width="80%"
+  captions='["El silencio que habla","El amor hasta el extremo","La entrega total","Contemplando la cruz","El Señor entre nosotros","La Pasión del Señor","Jesús camino al Calvario","El abrazo de la cruz","El sacrificio redentor","Viernes de entrega","La última mirada","Amor sin límites","En la cruz nos encontramos","El peso del amor","Hasta el extremo","Silencio que conmueve","La corona y la gloria","El Hijo entregado","Contemplación en comunidad","Unidos en la Pasión"]'>
+</misa-ramos-gallery>
 
 <br> <br>
-    <script type="module" src="./components/semana-santa-card.js"></script>
+<!-- <script type="module" src="./components/semana-santa-card.js"></script>
 <semana-santa-card
-
   desktop-width="900px"
-
   video-src="./asantos/viernes.mp4"
   event-name="Viernes Santo"
   event-sub="La Pasión del Señor"
@@ -1026,9 +1054,9 @@
   footer-label="In Passione Domini"
 ></semana-santa-card>
 
-<br>
+<br> -->
  <!-- Publicaciones Especiales última-->
-  <efemerides-card json-file="./especiales.json" card-type="especiales"></efemerides-card>
+  <!-- <efemerides-card json-file="./especiales.json" card-type="especiales"></efemerides-card> -->
 
 
 <misa-ramos-gallery
@@ -1070,9 +1098,7 @@
     quote-ref="— Lucas 22, 19"
   ></semana-santa-card> -->
   
-    <!-- Videos de Santos 
-     -->
-   <efemerides-card json-file="./santos-videos.json" card-type="santos"></efemerides-card>
+ 
 <!-- ═══ Exposición fotográfica Misa de Ramos ═══ trabajarlo  -->
 <!-- <section id="expo-ramos">
   <ramos-expo></ramos-expo>

@@ -1,6 +1,30 @@
 [   
-                             {
+                                 {
     "id": 1,
+    "fecha": "Sábado Santo",
+    "santo": "La guardia en el sepulcro",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/guardia.mp4",
+    "icono": "./img/cruz-cuaresma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }, 
+                               {
+    "id": 2,
+    "fecha": "Viernes Santo",
+    "santo": "La Crucifixión",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/viernes.mp4",
+    "icono": "./img/cruz-cuaresma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": false,
+    "showOnDesktop": true
+  }, 
+                             {
+    "id": 2,
     "fecha": "Jueves Santo",
     "santo": "La Última Cena",
     "santoFontSize": "1.2em",
@@ -8,69 +32,8 @@
     "video": "./asantos/jueves.mp4",
     "icono": "./img/cruz-cuaresma.png",
     "iconoWidth": "35px",
-    "showOnMobile": true,
-    "showOnDesktop": true
-  },   
-
-                           {
-    "id": 1,
-    "fecha": "Miércoles Santo",
-    "santo": "La traición de Judas",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/miercoles.mp4",
-    "icono": "./img/cruz-cuaresma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },   
-                         {
-    "id": 2,
-    "fecha": "Martes Santo",
-    "santo": "31  de  Marzo",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/martes.mp4",
-    "icono": "./img/cruz-cuaresma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },   
-                       {
-    "id": 3,
-    "fecha": "Lunes Santo",
-    "santo": "30  de  Marzo",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/lunes.mp4",
-    "icono": "./img/cruz-cuaresma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  },   
-                     {
-    "id": 3,
-    "fecha": "Domingo Ramos",
-    "santo": "Reflexión del Padre Marcelo",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/padre-ramos.mp4",
-    "icono": "./img/cruz-cuaresma.png",
-    "iconoWidth": "35px",
     "showOnMobile": false,
     "showOnDesktop": true
   }
-  ,   
-                     {
-    "id": 4,
-    "fecha": "Domingo Ramos",
-    "santo": "29 de  Marzo",
-    "santoFontSize": "1.2em",
-    "poster": "./asantos/santos.jpg",
-    "video": "./asantos/ramos.mp4",
-    "icono": "./img/cruz-cuaresma.png",
-    "iconoWidth": "35px",
-    "showOnMobile": false,
-    "showOnDesktop": true
-  }
+       
 ]
