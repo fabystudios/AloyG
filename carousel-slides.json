@@ -33,7 +33,7 @@
   },
        {
     "id": "cursillos",
-    "position": 3,
+    "position": -1,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -51,7 +51,7 @@
   },
          {
     "id": "",
-    "position": 2,
+    "position": -1,
     "hasVideo": true,
     "link": "#volvimos",
     "desktop": {
