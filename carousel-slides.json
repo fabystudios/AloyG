@@ -29,7 +29,7 @@
     },
     "mobile": {
       "type": "video",
-      "src": "./video/resu.mp4",
+      "src": "./video/resu2.mp4",
       "poster": "./slides/domingo_mob.png"
     }
   },
