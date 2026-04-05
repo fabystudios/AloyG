@@ -1,5 +1,5 @@
 [
-      {
+        {
     "id": "",
     "position": 1,
     "hasVideo": true,
@@ -13,6 +13,23 @@
     "mobile": {
       "type": "video",
       "src": "./video/domingo_mob.mp4",
+      "poster": "./slides/domingo_mob.png"
+    }
+  },
+      {
+    "id": "",
+    "position": 2,
+    "hasVideo": true,
+    "link": "#cartel",
+     "time": { "desktop": 10, "mobile": 10 },
+    "desktop": {
+      "type": "video",
+      "src": "./video/resu2_desk.mp4",
+      "poster": "./slides/domingo_desk.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/resu.mp4",
       "poster": "./slides/domingo_mob.png"
     }
   },
