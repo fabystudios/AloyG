@@ -90,7 +90,7 @@
 }
 
 .navbar {
-    background-color: #502A63 !important;
+    background: linear-gradient(135deg, #0d47a1, #1565c0, #1976d2) !important;
 }
 
 .hero-section {
@@ -726,7 +726,9 @@ h2 {
         position: absolute;
         width: auto;
         min-width: 200px;
-        background: rgba(80, 42, 99, 0.96);
+        background: linear-gradient(135deg, rgba(21, 101, 192, 0.9), rgba(66, 165, 245, 0.85));
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         padding: 5px;
         border-radius: 8px;
@@ -751,7 +753,9 @@ h2 {
         top: 100%; /* Debajo del logo */
         left:0; /* Alineado al logo */
         width: auto; /* Ancho ajustado al contenido */
-        background-color: #3600b3bc; /* Fondo diferente para el menú desplegado */
+        background: linear-gradient(135deg, rgba(21, 101, 192, 0.9), rgba(66, 165, 245, 0.85)); /* Fondo diferente para el menú desplegado */
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra para destacar */
         padding: 10px;
         border-radius: 8px;

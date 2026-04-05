@@ -1,7 +1,8 @@
-# Paleta de Colores Original — Backup para restaurar post-Cuaresma
+# Tema: Original Plano — Backup
 
-> Guardado el: 11 de marzo de 2026  
-> Aplicar a: `index.html` — Header y Footer únicamente
+> Guardado el: 5 de abril de 2026  
+> Tema azul plano, sin gradientes en header  
+> Aplicar a: `index.html` + `style.css` — Header y Footer
 
 ---
 
