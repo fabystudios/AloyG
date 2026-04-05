@@ -3,16 +3,17 @@
     "id": "",
     "position": 1,
     "hasVideo": true,
-    "link": "#semsant",
+    "link": "#cartel",
+     "time": { "desktop": 15, "mobile": 15 },
     "desktop": {
       "type": "video",
-      "src": "",
-      "poster": "./slides/sabado_desk.png"
+      "src": "./video/domingo_desk.mp4",
+      "poster": "./slides/domingo_desk.png"
     },
     "mobile": {
       "type": "video",
-      "src": "",
-      "poster": "./slides/sabado_mob.png"
+      "src": "./video/domingo_mob.mp4",
+      "poster": "./slides/domingo_mob.png"
     }
   },
     {

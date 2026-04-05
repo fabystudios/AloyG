@@ -64,6 +64,21 @@
     // Los primeros 2 slides usan preload="auto", el resto "metadata" para ahorrar ancho de banda
     const preloadAttr = (preloadIndex < 2) ? 'auto' : 'metadata';
     
+    // Tiempo personalizado por slide (Bootstrap usa data-bs-interval en ms)
+    let intervalAttr = '';
+    if (slide.time != null) {
+      const isMobile = window.innerWidth < 768;
+      let seconds;
+      if (typeof slide.time === 'object') {
+        seconds = isMobile ? slide.time.mobile : slide.time.desktop;
+      } else {
+        seconds = slide.time;
+      }
+      if (seconds != null) {
+        intervalAttr = ` data-bs-interval="${seconds * 1000}"`;
+      }
+    }
+    
     let content = '';
     
     if (slide.hasVideo && slide.desktop.type === 'video') {
@@ -96,7 +111,7 @@
         </div>`;
     }
     
-    return `<div class="carousel-item${activeClass}"${hasVideoAttr}>${content}${overlayHTML}</div>`;
+    return `<div class="carousel-item${activeClass}"${hasVideoAttr}${intervalAttr}>${content}${overlayHTML}</div>`;
   }
 
   // Función principal de carga

@@ -740,6 +740,17 @@
             const hasVideoAttr = slide.hasVideo ? ' data-has-video="true"' : '';
             const preloadAttr = (preloadIndex < 2) ? 'auto' : 'none';
             
+            // Calcular atributos de tiempo por slide
+            let timeAttrs = '';
+            if (slide.time != null) {
+              if (typeof slide.time === 'object') {
+                if (slide.time.desktop != null) timeAttrs += ` data-time-desktop="${slide.time.desktop}"`;
+                if (slide.time.mobile != null) timeAttrs += ` data-time-mobile="${slide.time.mobile}"`;
+              } else {
+                timeAttrs = ` data-time-desktop="${slide.time}" data-time-mobile="${slide.time}"`;
+              }
+            }
+            
             let content = '';
             if (slide.hasVideo && slide.desktop.type === 'video') {
               content = `<a href="${slide.link}">
@@ -768,7 +779,7 @@
                 </div>`;
             }
             
-            return `<div class="carousel-item${activeClass}"${hasVideoAttr}>${content}${overlayHTML}</div>`;
+            return `<div class="carousel-item${activeClass}"${hasVideoAttr}${timeAttrs}>${content}${overlayHTML}</div>`;
           }
           
           async function loadCarousel() {
@@ -810,10 +821,20 @@
               console.log('✅ Slides cargadas');
               
               // Carrusel custom sin Bootstrap
+              const DEFAULT_SLIDE_TIME = 10; // segundos por defecto
               let currentSlide = 0;
               const slides = carouselInner.querySelectorAll('.carousel-item');
               const totalSlides = slides.length;
-              let autoplayInterval;
+              let autoplayTimeout;
+              
+              // Obtener duración del slide actual según dispositivo
+              function getSlideTime(index) {
+                const slide = slides[index];
+                const isMobile = window.innerWidth < 768;
+                const attr = isMobile ? 'data-time-mobile' : 'data-time-desktop';
+                const val = slide ? slide.getAttribute(attr) : null;
+                return (val ? parseFloat(val) : DEFAULT_SLIDE_TIME) * 1000;
+              }
               
               function showSlide(index) {
                 slides.forEach(slide => slide.classList.remove('active'));
@@ -830,20 +851,27 @@
               
               function nextSlide() {
                 showSlide(currentSlide + 1);
+                scheduleNext();
               }
               
               function prevSlide() {
                 showSlide(currentSlide - 1);
+                scheduleNext();
+              }
+              
+              function scheduleNext() {
+                stopAutoplay();
+                autoplayTimeout = setTimeout(nextSlide, getSlideTime(currentSlide));
               }
               
               function startAutoplay() {
-                stopAutoplay();
-                autoplayInterval = setInterval(nextSlide, 10000);
+                scheduleNext();
               }
               
               function stopAutoplay() {
-                if (autoplayInterval) {
-                  clearInterval(autoplayInterval);
+                if (autoplayTimeout) {
+                  clearTimeout(autoplayTimeout);
+                  autoplayTimeout = null;
                 }
               }
               
@@ -855,7 +883,6 @@
                 prevBtn.addEventListener('click', (e) => {
                   e.preventDefault();
                   prevSlide();
-                  startAutoplay();
                 });
               }
               
@@ -863,7 +890,6 @@
                 nextBtn.addEventListener('click', (e) => {
                   e.preventDefault();
                   nextSlide();
-                  startAutoplay();
                 });
               }
               
@@ -871,7 +897,6 @@
               document.addEventListener('keydown', (e) => {
                 if (e.key === 'ArrowLeft') prevSlide();
                 if (e.key === 'ArrowRight') nextSlide();
-                startAutoplay();
               });
               
               // Pausar en hover
@@ -984,12 +1009,12 @@
     </div>
 </section> -->
 
-
+<div id="cartel"></div>
   <!-- ═══ Cartelera de Novedades ═══ -->
   <cartelera-carousel
     base-path="./actividades/cartelera/"
     slides='[
-    {"mob":"9.png","desk":"ssanta_desk.png", "title":"Semana Santa", "anchor":"#semsant"},
+    {"mob":"domingo_mob.png","desk":"domingo_desk.png", "title":"Domingo de Pascua"},
     {"mob":"horario_mob.png","desk":"horario_desk.jpg", "title":"Horarios Misa", "anchor":"#horas"},
     {"mob":"ado_mob.jpg","desk":"ado_desk.png","title":"Adoración al Santísimo", "anchor":"#adoracion"},
     {"mob":"encuentro_mob.jpg","desk":"encuentro_desk.jpg","title":"Encuentro en la Palabra", "anchor":"#encuentro"},
@@ -1015,6 +1040,24 @@
 
 <!-- Desktop (260px × 463px, ratio 9:16) -->
 <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+    <video-card-gold
+  titulo="Jesucristo resucitó de entre los muertos"
+  video="./video/resu.mp4"
+  style="width:auto; flex:0 0 auto;"
+>
+</video-card-gold>
+  <video-card-gold
+  titulo="Domingo de Resurrección"
+  video="./video/resurreccion.mp4"
+  style="width:auto; flex:0 0 auto;"
+>
+</video-card-gold>
+  <video-card-gold
+  titulo="Sábado de Gloria"
+  video="./video/gloria.mp4"
+  style="width:auto; flex:0 0 auto;"
+>
+</video-card-gold>
 <video-card-gold
   titulo="La Pasión de Cristo"
   video="./asantos/pasion.mp4"
@@ -1033,7 +1076,7 @@
 
    <!-- Videos de Santos 
      -->
-   <efemerides-card json-file="./santos-videos.json" card-type="santos"></efemerides-card>
+   <!-- <efemerides-card json-file="./santos-videos.json" card-type="santos"></efemerides-card> -->
 
 
 <misa-ramos-gallery
@@ -1085,13 +1128,13 @@
 <!-- ══════════════════════════════════════════════════════════
      ✝  SEMANA SANTA · Programa litúrgico — mosaico glassmorphism
      ══════════════════════════════════════════════════════════ -->
-<div id="semsant">  
+<!-- <div id="semsant">  
      <semana-santa-programa
       base-path="./actividades/programa/"
       count="8"
       ></semana-santa-programa>
 </div>
-<br>
+<br> -->
 
 
 
