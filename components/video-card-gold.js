@@ -337,7 +337,7 @@ _tpl.innerHTML = `
 
   <!-- Info -->
   <div class="info">
-    <div class="badge"><span class="badge-dot"></span>Premium</div>
+    <div class="badge"><span class="badge-dot"></span><span id="badgeEl">Premium</span></div>
     <div class="titulo" id="titleEl">Título</div>
     <div class="gold-line"></div>
     <div class="meta">
@@ -353,7 +353,7 @@ _tpl.innerHTML = `
 `;
 
 class VideoCardGold extends HTMLElement {
-  static get observedAttributes() { return ['titulo', 'video']; }
+  static get observedAttributes() { return ['titulo', 'video', 'badge']; }
 
   connectedCallback() {
     this._shadow = this.attachShadow({ mode: 'open' });
@@ -369,6 +369,8 @@ class VideoCardGold extends HTMLElement {
 
     this._titleEl.textContent = this.getAttribute('titulo') || 'Sin título';
     this._vid.src = this.getAttribute('video') || '';
+    this._badgeEl = this._shadow.getElementById('badgeEl');
+    this._badgeEl.textContent = this.getAttribute('badge') || 'Premium';
 
     this._btn.addEventListener('click', () => this._toggle());
     this._vid.addEventListener('timeupdate', () => this._updateTime());
@@ -381,6 +383,7 @@ class VideoCardGold extends HTMLElement {
     if (!this._shadow) return;
     if (name === 'titulo') this._titleEl.textContent = val || 'Sin título';
     if (name === 'video')  this._vid.src = val || '';
+    if (name === 'badge')  this._badgeEl.textContent = val || 'Premium';
   }
 
   _toggle() {
