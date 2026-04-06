@@ -191,7 +191,7 @@
       "poster": "./video/encuentro.jpg"
     }
   },
-  {
+    {
     "id": "feria",
     "position": 1,
     "hasVideo": true,
@@ -204,6 +204,22 @@
     "mobile": {
       "type": "video",
       "src": "./feria/feria_mob_abril.mp4",
+      "poster": "./feria/feria_mob.jpg"
+    }
+  },
+  {
+    "id": "feria-desp",
+    "position": 1,
+    "hasVideo": true,
+    "link": "#feria",
+    "desktop": {
+      "type": "video",
+      "src": "",
+      "poster": "./feria/feria_desk.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "",
       "poster": "./feria/feria_mob.jpg"
     }
   },
