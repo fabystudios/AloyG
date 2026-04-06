@@ -215,6 +215,20 @@ class CorkMuralCarousel extends HTMLElement {
       </div>
 
       <!-- Modal zoom -->
+      <style>
+        @media(max-width:640px){
+          .cmc-modal-wrap{
+            align-items:flex-start!important;
+            overflow-y:auto!important;
+            -webkit-overflow-scrolling:touch;
+          }
+          .cmc-modal-img{
+            max-width:calc(100% - 24px)!important;
+            max-height:70vh!important;
+            margin:auto!important;
+          }
+        }
+      </style>
       <div id="${uid}-modal" class="cmc-modal-wrap" style="
         display:none;position:fixed;inset:0;z-index:9999;
         background:rgba(0,0,0,0.88);
