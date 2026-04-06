@@ -408,7 +408,7 @@
   <!-- Botón Flotante con Imagen -->
   <a href="#inicio" class="btn-floating">
     <!-- <img src="./img/logo.png" alt="Contacto"> -->
-    <img src="./img/cristo_flot1.png" alt="Contacto">
+    <img src="./img/cristo_flot2.png" alt="Contacto">
   </a>
 
   <section class="cabecera" style="background: linear-gradient(135deg, #0d47a1, #1565c0, #1976d2); width: 100vw; max-width: 95vw; margin: 0 auto; border: 1px solid rgba(212,175,55,0.4); border-radius: 0 0 12px 12px; box-shadow: 0 4px 30px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1);">
@@ -1038,12 +1038,11 @@
   <cartelera-carousel
     base-path="./actividades/cartelera/"
     slides='[
-    {"mob":"domingo_mob.png","desk":"domingo_desk.png", "title":""},
+    {"mob":"feria_modal.jpg","desk":"feria_modal_desk.jpg","title":"Feria  Americana", "anchor":"#feria"},
     {"mob":"horario_mob.png","desk":"horario_desk.jpg", "title":"Horarios Misa", "anchor":"#horas"},
     {"mob":"ado_mob.jpg","desk":"ado_desk.png","title":"Adoración al Santísimo", "anchor":"#adoracion"},
     {"mob":"encuentro_mob.jpg","desk":"encuentro_desk.jpg","title":"Encuentro en la Palabra", "anchor":"#encuentro"},
     {"mob":"sacerdotes.jpeg","desk":"sacerdotes_desk.png", "title":"Hogar Sacerdotal"},
-    {"mob":"feria_modal.jpg","desk":"feria_modal_desk.jpg","title":"Feria  Americana", "anchor":"#feria"},
     {"mob":"scout_mob.jpg","desk":"scout_desk.jpg","title":"Scouts", "anchor":"#scout"},
     {"mob":"docat_mob.jpg","desk":"docat_desk.jpg","title":"Doctrina Católica"},
     {"mob":"cursillos_mob.png","desk":"cursillos_desk.png", "title":"Cursillos de Cristiandad"}
@@ -1059,11 +1058,12 @@
       <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Avisos
     </h2>
   </section>
-<br><br>
+
 <script src="./components/video-card-gold.js"></script>
 
 <!-- Desktop (260px × 463px, ratio 9:16) -->
-<div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+ <!-- videos premium -->
+<!-- <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
     <video-card-gold
   titulo="Jesucristo resucitó de entre los muertos"
   video="./video/resu.mp4"
@@ -1095,7 +1095,7 @@
   style="width:auto; flex:0 0 auto;"
 >
 </video-card-gold>
-</div>
+</div> -->
 
 
    <!-- Videos de Santos 
@@ -3675,8 +3675,8 @@ html<misa-ramos-gallery mascot-src="./otra/ruta/photo.png"></misa-ramos-gallery>
 /* ── 2. Wrapper oscuro — aísla del CSS global ─────────────────── */
 #usca-bg {
   background: linear-gradient(135deg, #1e0a40 0%, #3b1578 55%, #0f0428 100%);
-  width: 90vw;
-  max-width: 980px;
+  width: 95vw;
+  max-width: 1100px;
   margin: 0 auto;
   border-radius: 1.5rem;
   padding: 2.5rem 1.5rem;
@@ -3723,11 +3723,18 @@ html<misa-ramos-gallery mascot-src="./otra/ruta/photo.png"></misa-ramos-gallery>
 /* ── 4. Grid ──────────────────────────────────────────────────── */
 .usca-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: auto 1fr 1fr;
   gap: 1.25rem;
   align-items: stretch;
   position: relative;
   z-index: 1;
+}
+
+@media (max-width: 1000px) {
+  .usca-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
 }
 
 @media (max-width: 700px) {
@@ -3957,7 +3964,11 @@ html<misa-ramos-gallery mascot-src="./otra/ruta/photo.png"></misa-ramos-gallery>
   </div>
 
   <div class="usca-grid">
-
+<video-card-gold
+  titulo="Via Crusis 2026 - USCA"
+  video="./video/via-usca.mp4"
+>
+</video-card-gold>
     <!-- Card 1 — 2026 Volvimos -->
     <div id="volvimos" class="glass-card">
        <img
