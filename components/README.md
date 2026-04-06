@@ -1,4 +1,4 @@
-# 📷 `<misa-ramos-gallery>`
+# 📷 `<panel-photo-gallery>`
 
 Web Component con **Shadow DOM** para galerías fotográficas de eventos parroquiales. Totalmente aislado del CSS de la plataforma donde se inserte — no interfiere ni es interferido por estilos externos.
 
@@ -6,10 +6,10 @@ Web Component con **Shadow DOM** para galerías fotográficas de eventos parroqu
 
 ## Instalación
 
-Copiar `misa-ramos-gallery.js` en el proyecto y agregar el `<script>` en la página:
+Copiar `panel-photo-gallery.js` en el proyecto y agregar el `<script>` en la página:
 
 ```html
-<script src="./misa-ramos-gallery.js"></script>
+<script src="./panel-photo-gallery.js"></script>
 ```
 
 ---
@@ -17,7 +17,7 @@ Copiar `misa-ramos-gallery.js` en el proyecto y agregar el `<script>` en la pág
 ## Uso mínimo
 
 ```html
-<misa-ramos-gallery></misa-ramos-gallery>
+<panel-photo-gallery></panel-photo-gallery>
 ```
 
 Usa todos los valores por defecto: fotos en `./actividades/ramos/`, tema violeta/dorado, ancho 80%.
@@ -27,14 +27,14 @@ Usa todos los valores por defecto: fotos en `./actividades/ramos/`, tema violeta
 ## Uso completo
 
 ```html
-<misa-ramos-gallery
+<panel-photo-gallery
   base-path="./actividades/ramos/"
   mascot-src="./actividades/photo.png"
   particle-src="./img/cam.png"
   theme="rojo-dorado"
   width="80%"
   total="9">
-</misa-ramos-gallery>
+</panel-photo-gallery>
 ```
 
 ---
@@ -75,9 +75,9 @@ Pasarlos con el atributo `theme="nombre"`:
 
 ```html
 <!-- Ejemplos -->
-<misa-ramos-gallery theme="verde-dorado"></misa-ramos-gallery>
-<misa-ramos-gallery theme="azul-plateado"></misa-ramos-gallery>
-<misa-ramos-gallery theme="blanco-dorado"></misa-ramos-gallery>
+<panel-photo-gallery theme="verde-dorado"></panel-photo-gallery>
+<panel-photo-gallery theme="azul-plateado"></panel-photo-gallery>
+<panel-photo-gallery theme="blanco-dorado"></panel-photo-gallery>
 ```
 
 ---
@@ -88,13 +88,13 @@ Se puede pasar uno o ambos colores en formato hexadecimal:
 
 ```html
 <!-- Solo color primario (secundario hereda dorado del tema) -->
-<misa-ramos-gallery color1="#0d6e4f"></misa-ramos-gallery>
+<panel-photo-gallery color1="#0d6e4f"></panel-photo-gallery>
 
 <!-- Ambos colores custom -->
-<misa-ramos-gallery color1="#0d4f8c" color2="#a8d8ea"></misa-ramos-gallery>
+<panel-photo-gallery color1="#0d4f8c" color2="#a8d8ea"></panel-photo-gallery>
 
 <!-- Custom + tema como base (color1/color2 ganan) -->
-<misa-ramos-gallery theme="azul-plateado" color1="#1e3a5f"></misa-ramos-gallery>
+<panel-photo-gallery theme="azul-plateado" color1="#1e3a5f"></panel-photo-gallery>
 ```
 
 > El componente genera automáticamente el fondo oscuro derivando `color1` al 15% de luminosidad, para que el glasmorfismo siempre quede bien sin importar el color elegido.
@@ -118,7 +118,7 @@ actividades/
 Si la carpeta tiene otro nombre o ruta, pasarla con `base-path`:
 
 ```html
-<misa-ramos-gallery base-path="./fotos/navidad-2025/"></misa-ramos-gallery>
+<panel-photo-gallery base-path="./fotos/navidad-2025/"></panel-photo-gallery>
 ```
 
 ---
@@ -157,17 +157,17 @@ El PNG pasado en `particle-src` flota dentro de la card con efecto de **hojas al
 - Si no se pasa `particle-src`, el fallback son estrellitas del color del tema
 
 ```html
-<misa-ramos-gallery particle-src="./img/ramo.png"></misa-ramos-gallery>
+<panel-photo-gallery particle-src="./img/ramo.png"></panel-photo-gallery>
 ```
 
 > Usar PNGs con fondo transparente para mejor resultado.
 
 ```html
 <!-- PNG diferente para el lightbox -->
-<misa-ramos-gallery
+<panel-photo-gallery
   particle-src="./img/cam.png"
   lightbox-particle-src="./img/estrella.png">
-</misa-ramos-gallery>
+</panel-photo-gallery>
 ```
 
 ---
@@ -176,7 +176,7 @@ El PNG pasado en `particle-src` flota dentro de la card con efecto de **hojas al
 
 ```html
 <!-- Jueves Santo — Lavado de Pies -->
-<misa-ramos-gallery
+<panel-photo-gallery
   base-path="./actividades/jueves-santo/"
   mascot-src="./actividades/photo.png"
   particle-src="./img/gota.png, ./img/hostia.png, ./img/pan.png"
@@ -187,41 +187,41 @@ El PNG pasado en `particle-src` flota dentro de la card con efecto de **hojas al
   title-em="Jueves Santo"
   total="20"
   width="80%">
-</misa-ramos-gallery>
+</panel-photo-gallery>
 
 <!-- Misa de Ramos -->
-<misa-ramos-gallery
+<panel-photo-gallery
   base-path="./fotos/ramos/"
   theme="violeta-dorado"
   particle-src="./img/ramo.png"
   mascot-src="./img/camarita.png"
   width="80%">
-</misa-ramos-gallery>
+</panel-photo-gallery>
 
 <!-- Navidad -->
-<misa-ramos-gallery
+<panel-photo-gallery
   base-path="./fotos/navidad/"
   theme="verde-dorado"
   particle-src="./img/estrella.png"
   width="75%">
-</misa-ramos-gallery>
+</panel-photo-gallery>
 
 <!-- Primera Comunión -->
-<misa-ramos-gallery
+<panel-photo-gallery
   base-path="./fotos/comunion/"
   theme="blanco-dorado"
   particle-src="./img/paloma.png"
   total="12"
   width="85%">
-</misa-ramos-gallery>
+</panel-photo-gallery>
 
 <!-- Color institucional custom -->
-<misa-ramos-gallery
+<panel-photo-gallery
   base-path="./fotos/evento/"
   color1="#1a3a6b"
   color2="#d4af37"
   width="80%">
-</misa-ramos-gallery>
+</panel-photo-gallery>
 ```
 
 ---
@@ -237,4 +237,4 @@ El componente usa **Shadow DOM** (`mode: 'open'`), por lo que:
 
 ---
 
-*misa-ramos-gallery.js — v5*
+*panel-photo-gallery.js — v5*

@@ -203,7 +203,7 @@
     },
     "mobile": {
       "type": "video",
-      "src": "./feria/feria_mob.mp4",
+      "src": "./feria/feria_mob_abril.mp4",
       "poster": "./feria/feria_mob.jpg"
     }
   },
