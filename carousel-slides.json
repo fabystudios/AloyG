@@ -203,13 +203,13 @@
     },
     "mobile": {
       "type": "video",
-      "src": "./feria/feria_mob_abril.mp4",
+      "src": "./feria/feria_mob.mp4",
       "poster": "./feria/feria_mob.jpg"
     }
   },
   {
     "id": "feria-desp",
-    "position": 2,
+    "position": -1,
     "hasVideo": true,
     "link": "#feria",
     "time": { "desktop": 1, "mobile": 1 },
