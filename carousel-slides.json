@@ -212,6 +212,7 @@
     "position": 2,
     "hasVideo": true,
     "link": "#feria",
+    "time": { "desktop": 1, "mobile": 1 },
     "desktop": {
       "type": "video",
       "src": "",
