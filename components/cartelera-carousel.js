@@ -1051,8 +1051,12 @@
       }
       this._renderLightboxSlide();
       this._lb().classList.add('open');
-      document.body.style.overflow = 'hidden';
-      document.body.style.paddingRight = '0';
+      /* Lock scroll WITHOUT removing scrollbar (prevents calc(-50vw+50%) shift) */
+      this._savedScrollY = window.scrollY;
+      document.body.style.position = 'fixed';
+      document.body.style.top = `-${this._savedScrollY}px`;
+      document.body.style.width = '100%';
+      document.body.style.overflowY = 'scroll';
       this._startMagicEffects();
     }
 
@@ -1307,8 +1311,13 @@
         this._lbPlaceholder = null;
       }
       this._lbEl = null;
-      document.body.style.overflow = '';
-      document.body.style.paddingRight = '';
+      /* Restore scroll position */
+      const scrollY = this._savedScrollY || 0;
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflowY = '';
+      window.scrollTo(0, scrollY);
     }
 
     lbPrev() {
