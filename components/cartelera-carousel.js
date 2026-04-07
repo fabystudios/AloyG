@@ -1028,23 +1028,23 @@
       this._stopMagicEffects(); // limpiar si quedó algo
       this._magicEls = [];
 
-      // Spawn magic dots (persistent, float around the lightbox)
-      this._spawnMagicDots();
-
       // Spawn initial golden particles
       this._spawnGoldenWave();
 
-      // Keep spawning gold particles every ~3s
+      // Spawn initial celestial stars
+      this._spawnCelestialStars();
+
+      // Keep spawning gold particles every ~1.8s
       this._bubbleInterval = setInterval(() => {
         if (!this._lbOpen) return;
         this._spawnGoldenWave();
-      }, 3000);
+      }, 1800);
 
-      // Refresh celestial stars every 5s
+      // Refresh celestial stars every 3s
       this._dotInterval = setInterval(() => {
         if (!this._lbOpen) return;
         this._spawnCelestialStars();
-      }, 5000);
+      }, 3000);
     }
 
     _stopMagicEffects() {
@@ -1058,7 +1058,7 @@
     }
 
     _spawnCelestialStars() {
-      const count = window.innerWidth < 600 ? 10 : 18;
+      const count = window.innerWidth < 600 ? 22 : 40;
       const starColors = [
         '#fbbf24','#fde68a','#fffbeb','#f59e0b',
         '#d4a053','#fff7cc','#e0c068','#fff'
@@ -1102,7 +1102,7 @@
     }
 
     _spawnGoldenWave() {
-      const count = window.innerWidth < 600 ? 5 : 9;
+      const count = window.innerWidth < 600 ? 12 : 22;
       const goldTones = [
         'rgba(255,200,50,0.6)', 'rgba(212,175,55,0.55)', 'rgba(255,223,100,0.5)',
         'rgba(245,158,11,0.5)', 'rgba(255,240,180,0.45)', 'rgba(218,165,32,0.55)'
