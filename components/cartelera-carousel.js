@@ -674,6 +674,101 @@
           z-index: 10;
         }
       }
+
+      /* ── BURBUJAS + CHISPAS al abrir lightbox ── */
+      .cc-bubble {
+        position: fixed;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10001;
+        background: radial-gradient(circle at 30% 30%,
+          rgba(200, 160, 255, 0.7),
+          rgba(100, 80, 220, 0.4) 50%,
+          rgba(60, 40, 180, 0.15) 100%);
+        box-shadow:
+          inset -4px -4px 8px rgba(255,255,255,0.25),
+          inset 2px 2px 4px rgba(255,255,255,0.4),
+          0 0 12px rgba(150, 100, 255, 0.3);
+        animation: ccBubbleRise var(--dur) ease-out forwards;
+        will-change: transform, opacity;
+      }
+      .cc-bubble::after {
+        content: '';
+        position: absolute;
+        top: 18%; left: 22%;
+        width: 30%; height: 20%;
+        background: rgba(255,255,255,0.55);
+        border-radius: 50%;
+        transform: rotate(-30deg);
+        filter: blur(1px);
+      }
+      @keyframes ccBubbleRise {
+        0%   { transform: translate(0, 0) scale(0.3); opacity: 0; }
+        15%  { opacity: 1; transform: translate(var(--dx1), var(--dy1)) scale(1); }
+        70%  { opacity: 0.9; transform: translate(var(--dx2), var(--dy2)) scale(var(--s)); }
+        85%  { opacity: 1; transform: translate(var(--dx3), var(--dy3)) scale(calc(var(--s) * 1.25)); }
+        100% { opacity: 0; transform: translate(var(--dx3), var(--dy3)) scale(0); }
+      }
+
+      /* Chispas (sparks) al explotar */
+      .cc-spark {
+        position: fixed;
+        width: 4px; height: 4px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10002;
+        animation: ccSparkBurst var(--sdur) ease-out forwards;
+        will-change: transform, opacity;
+      }
+      @keyframes ccSparkBurst {
+        0%   { transform: translate(0,0) scale(1); opacity: 1; }
+        60%  { opacity: 1; }
+        100% { transform: translate(var(--sx), var(--sy)) scale(0); opacity: 0; }
+      }
+
+      /* Estrellita flash al pop */
+      .cc-pop-star {
+        position: fixed;
+        pointer-events: none;
+        z-index: 10002;
+        font-size: 14px;
+        animation: ccPopStar 0.5s ease-out forwards;
+        will-change: transform, opacity;
+      }
+      @keyframes ccPopStar {
+        0%   { transform: scale(0) rotate(0deg); opacity: 1; }
+        50%  { transform: scale(1.4) rotate(180deg); opacity: 1; }
+        100% { transform: scale(0) rotate(360deg); opacity: 0; }
+      }
+
+      /* ── Magic Dots: flotan constantemente ── */
+      .cc-magic-dot {
+        position: fixed;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 10001;
+        animation: ccDotFloat var(--ddur) ease-in-out infinite;
+        will-change: transform, opacity;
+        filter: blur(0.5px);
+      }
+      @keyframes ccDotFloat {
+        0%   { transform: translate(0, 0) scale(1); opacity: 0; }
+        10%  { opacity: var(--dopa); }
+        50%  { transform: translate(var(--ddx), var(--ddy)) scale(var(--ds)); opacity: var(--dopa); }
+        90%  { opacity: var(--dopa); }
+        100% { transform: translate(var(--ddx2), var(--ddy2)) scale(1); opacity: 0; }
+      }
+
+      /* Dot twinkle variation */
+      .cc-magic-dot.twinkle {
+        animation: ccDotTwinkle var(--ddur) ease-in-out infinite;
+      }
+      @keyframes ccDotTwinkle {
+        0%, 100% { opacity: 0.15; transform: scale(0.6); }
+        25%      { opacity: var(--dopa); transform: scale(1.3); }
+        50%      { opacity: 0.3; transform: scale(0.8); }
+        75%      { opacity: var(--dopa); transform: scale(1.1); }
+      }
     `;
     document.head.appendChild(style);
   }
@@ -945,9 +1040,208 @@
     showLightbox(i) {
       this._lbIndex = i;
       this._lbOpen  = true;
+      // Teleport lightbox to body to avoid ancestor transforms/backdrop-filter
+      // breaking position:fixed on mobile
+      const lb = this.querySelector('.cc-lightbox');
+      if (lb && lb.parentElement !== document.body) {
+        this._lbPlaceholder = document.createComment('cc-lb-placeholder');
+        lb.parentElement.insertBefore(this._lbPlaceholder, lb);
+        document.body.appendChild(lb);
+        this._lbEl = lb;
+      }
       this._renderLightboxSlide();
-      this.querySelector('.cc-lightbox').classList.add('open');
+      this._lb().classList.add('open');
       document.body.style.overflow = 'hidden';
+      document.body.style.paddingRight = '0';
+      this._startMagicEffects();
+    }
+
+    /* ── Magic Effects: continuous bubbles + dots ── */
+    _startMagicEffects() {
+      this._stopMagicEffects(); // limpiar si quedó algo
+      this._magicEls = [];
+
+      // Spawn magic dots (persistent, float around the lightbox)
+      this._spawnMagicDots();
+
+      // Spawn initial burst of bubbles
+      this._spawnBubbleWave();
+
+      // Keep spawning bubbles every ~2.5s
+      this._bubbleInterval = setInterval(() => {
+        if (!this._lbOpen) return;
+        this._spawnBubbleWave();
+      }, 2500);
+
+      // Refresh magic dots every 6s to keep them alive
+      this._dotInterval = setInterval(() => {
+        if (!this._lbOpen) return;
+        this._spawnMagicDots();
+      }, 6000);
+    }
+
+    _stopMagicEffects() {
+      if (this._bubbleInterval) { clearInterval(this._bubbleInterval); this._bubbleInterval = null; }
+      if (this._dotInterval)    { clearInterval(this._dotInterval);    this._dotInterval = null; }
+      // Remove all magic elements
+      if (this._magicEls) {
+        this._magicEls.forEach(el => el.remove());
+        this._magicEls = [];
+      }
+      // Also cleanup any stragglers
+      document.querySelectorAll('.cc-bubble, .cc-spark, .cc-pop-star, .cc-magic-dot').forEach(el => el.remove());
+    }
+
+    _spawnMagicDots() {
+      const count = window.innerWidth < 600 ? 14 : 24;
+      const dotColors = [
+        '#e0b4ff','#a5b4fc','#7dd3fc','#fbbf24','#f9a8d4',
+        '#c4b5fd','#67e8f9','#fde68a','#fbcfe8','#fff'
+      ];
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      for (let d = 0; d < count; d++) {
+        const dot = document.createElement('div');
+        const isTwinkle = Math.random() > 0.5;
+        dot.className = 'cc-magic-dot' + (isTwinkle ? ' twinkle' : '');
+        const size = 3 + Math.random() * 7;
+        const x = Math.random() * vw;
+        const y = Math.random() * vh;
+        const ddx = (Math.random() - 0.5) * 80;
+        const ddy = (Math.random() - 0.5) * 80;
+        const ddx2 = (Math.random() - 0.5) * 120;
+        const ddy2 = -20 - Math.random() * 60;
+        const dur = 3 + Math.random() * 5;
+        const delay = Math.random() * 3;
+        const opa = 0.3 + Math.random() * 0.6;
+        const ds = 0.8 + Math.random() * 0.8;
+        const color = dotColors[Math.floor(Math.random() * dotColors.length)];
+
+        dot.style.cssText = `
+          left: ${x}px; top: ${y}px;
+          width: ${size}px; height: ${size}px;
+          background: ${color};
+          box-shadow: 0 0 ${size * 2}px ${color}, 0 0 ${size * 4}px ${color}44;
+          --ddx: ${ddx}px; --ddy: ${ddy}px;
+          --ddx2: ${ddx2}px; --ddy2: ${ddy2}px;
+          --ddur: ${dur}s; --dopa: ${opa}; --ds: ${ds};
+          animation-delay: ${delay}s;
+        `;
+        document.body.appendChild(dot);
+        this._magicEls.push(dot);
+
+        // Auto-remove and re-create to keep them fresh
+        const lifespan = (delay + dur) * 1000;
+        setTimeout(() => {
+          dot.remove();
+          const idx = this._magicEls.indexOf(dot);
+          if (idx > -1) this._magicEls.splice(idx, 1);
+        }, lifespan);
+      }
+    }
+
+    _spawnBubbleWave() {
+      const count = window.innerWidth < 600 ? 4 : 7;
+      const colors = [
+        'rgba(180,140,255,0.55)', 'rgba(100,180,255,0.45)', 'rgba(255,180,220,0.45)',
+        'rgba(120,220,255,0.45)', 'rgba(200,160,255,0.55)', 'rgba(255,200,100,0.4)'
+      ];
+      const sparkColors = ['#e0b4ff','#a5b4fc','#7dd3fc','#fbbf24','#f9a8d4','#fff'];
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+      for (let b = 0; b < count; b++) {
+        const bubble = document.createElement('div');
+        bubble.className = 'cc-bubble';
+        const size = 16 + Math.random() * 36;
+        const startX = Math.random() * vw;
+        const startY = vh * 0.5 + Math.random() * vh * 0.5;
+        const dx1 = (Math.random() - 0.5) * 120;
+        const dy1 = -60 - Math.random() * 100;
+        const dx2 = dx1 + (Math.random() - 0.5) * 80;
+        const dy2 = dy1 - 80 - Math.random() * 150;
+        const dx3 = dx2 + (Math.random() - 0.5) * 60;
+        const dy3 = dy2 - 40 - Math.random() * 80;
+        const dur = 1.8 + Math.random() * 2;
+        const delay = Math.random() * 1.5;
+        const scale = 0.8 + Math.random() * 0.5;
+
+        bubble.style.cssText = `
+          left: ${startX}px; top: ${startY}px;
+          width: ${size}px; height: ${size}px;
+          --dx1: ${dx1}px; --dy1: ${dy1}px;
+          --dx2: ${dx2}px; --dy2: ${dy2}px;
+          --dx3: ${dx3}px; --dy3: ${dy3}px;
+          --dur: ${dur}s; --s: ${scale};
+          animation-delay: ${delay}s;
+          background: radial-gradient(circle at 30% 30%,
+            ${colors[b % colors.length]},
+            rgba(60,40,180,0.1) 100%);
+        `;
+        document.body.appendChild(bubble);
+        this._magicEls.push(bubble);
+
+        // Pop → sparks
+        const popTime = (delay + dur * 0.85) * 1000;
+        setTimeout(() => {
+          if (!this._lbOpen) { bubble.remove(); return; }
+          const rect = bubble.getBoundingClientRect();
+          const cx = rect.left + rect.width / 2;
+          const cy = rect.top + rect.height / 2;
+          if (cx > 0 && cy > 0) this._spawnSparks(cx, cy, sparkColors, size);
+          bubble.remove();
+          const idx = this._magicEls.indexOf(bubble);
+          if (idx > -1) this._magicEls.splice(idx, 1);
+        }, popTime);
+
+        // Safety cleanup
+        setTimeout(() => {
+          bubble.remove();
+          const idx = this._magicEls.indexOf(bubble);
+          if (idx > -1) this._magicEls.splice(idx, 1);
+        }, (delay + dur + 0.5) * 1000);
+      }
+    }
+
+    _spawnSparks(cx, cy, sparkColors, bubbleSize) {
+      const sparkCount = 5 + Math.floor(Math.random() * 4);
+      for (let s = 0; s < sparkCount; s++) {
+        const spark = document.createElement('div');
+        spark.className = 'cc-spark';
+        const angle = (Math.PI * 2 / sparkCount) * s + (Math.random() - 0.5) * 0.5;
+        const dist = 18 + Math.random() * (bubbleSize * 1.3);
+        const sx = Math.cos(angle) * dist;
+        const sy = Math.sin(angle) * dist;
+        const sdur = 0.3 + Math.random() * 0.4;
+        const ssize = 2 + Math.random() * 4;
+        const color = sparkColors[Math.floor(Math.random() * sparkColors.length)];
+
+        spark.style.cssText = `
+          left: ${cx}px; top: ${cy}px;
+          width: ${ssize}px; height: ${ssize}px;
+          background: ${color};
+          box-shadow: 0 0 6px ${color}, 0 0 10px ${color};
+          --sx: ${sx}px; --sy: ${sy}px; --sdur: ${sdur}s;
+        `;
+        document.body.appendChild(spark);
+        setTimeout(() => spark.remove(), sdur * 1000 + 100);
+      }
+
+      // Mini star flash
+      const star = document.createElement('div');
+      star.className = 'cc-pop-star';
+      const symbols = ['✦','✧','⟡','✶'];
+      star.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      star.style.cssText = `left:${cx-7}px;top:${cy-7}px;color:${sparkColors[Math.floor(Math.random()*sparkColors.length)]};`;
+      document.body.appendChild(star);
+      setTimeout(() => star.remove(), 600);
+    }
+
+    // Helper: find lightbox element whether it's in this component or teleported to body
+    _lb(sel) {
+      const lb = this._lbEl || this.querySelector('.cc-lightbox') || document.querySelector('.cc-lightbox');
+      return sel ? lb?.querySelector(sel) : lb;
     }
 
     _renderLightboxSlide() {
@@ -957,7 +1251,7 @@
       // Desktop → desk version; mobile → mob version
       const src = this._basePath + (this._isMobile() ? slide.mob : (slide.desk || slide.mob));
 
-      const img = this.querySelector('.cc-lb-img');
+      const img = this._lb('.cc-lb-img');
       img.classList.add('cc-loading');
       img.onload  = () => img.classList.remove('cc-loading');
       img.onerror = () => {
@@ -971,10 +1265,10 @@
       img.src = src;
       img.alt = slide.title || '';
 
-      this.querySelector('.cc-lb-caption').textContent = slide.title || '';
+      this._lb('.cc-lb-caption').textContent = slide.title || '';
 
       // Info button in lightbox
-      const lbInfo = this.querySelector('.cc-lb-info');
+      const lbInfo = this._lb('.cc-lb-info');
       if (lbInfo) {
         if (slide.anchor) {
           lbInfo.href = slide.anchor;
@@ -993,8 +1287,8 @@
       }
 
       const n    = this._slides.length;
-      const prev = this.querySelector('.cc-lb-prev');
-      const next = this.querySelector('.cc-lb-next');
+      const prev = this._lb('.cc-lb-prev');
+      const next = this._lb('.cc-lb-next');
       prev.style.opacity       = this._lbIndex === 0      ? '0.25' : '1';
       prev.style.pointerEvents = this._lbIndex === 0      ? 'none' : 'auto';
       next.style.opacity       = this._lbIndex >= n - 1   ? '0.25' : '1';
@@ -1003,8 +1297,18 @@
 
     closeLightbox() {
       this._lbOpen = false;
-      this.querySelector('.cc-lightbox').classList.remove('open');
+      this._stopMagicEffects();
+      const lb = this._lbEl || document.querySelector('.cc-lightbox');
+      if (lb) lb.classList.remove('open');
+      // Return lightbox to component
+      if (lb && this._lbPlaceholder && this._lbPlaceholder.parentElement) {
+        this._lbPlaceholder.parentElement.insertBefore(lb, this._lbPlaceholder);
+        this._lbPlaceholder.remove();
+        this._lbPlaceholder = null;
+      }
+      this._lbEl = null;
       document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
     }
 
     lbPrev() {
