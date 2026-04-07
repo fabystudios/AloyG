@@ -4,6 +4,7 @@
     "position": 3,
     "hasVideo": true,
     "link": "#feria",
+    "time": { "desktop": 4, "mobile": 7 },
     "desktop": {
       "type": "video",
       "src": "./feria/feria_desk.mp4",
