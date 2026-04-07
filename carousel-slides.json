@@ -1,4 +1,50 @@
 [
+      {
+    "id": "feria",
+    "position": 1,
+    "hasVideo": true,
+    "link": "#feria",
+    "desktop": {
+      "type": "video",
+      "src": "./feria/feria_desk.mp4",
+      "poster": "./feria/feria_desk.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./feria/feria_mob.mp4",
+      "poster": "./feria/feria_mob.jpg"
+    }
+  },
+          {
+  "id": "ejemplo",
+  "position": 2,
+  "hasVideo": false,
+  "link": "#seccion",
+  "time": { "desktop": 5, "mobile": 5 },
+  "desktop": {
+    "type": "image",
+    "src": "./slides/aflijidos_desk.jpg"
+  },
+  "mobile": {
+    "type": "image",
+    "src": "./slides/aflijidos_mob.jpg"
+  }
+  },
+  {
+  "id": "ejemplo",
+  "position": 3,
+  "hasVideo": false,
+  "link": "./avisos.html",
+  "time": { "desktop": 5, "mobile": 5 },
+  "desktop": {
+    "type": "image",
+    "src": "./slides/aure_desk.jpg"
+  },
+  "mobile": {
+    "type": "image",
+    "src": "./slides/aure_mob.jpg"
+  }
+},
         {
     "id": "",
     "position": -1,
@@ -35,7 +81,7 @@
   },
     {
     "id": "",
-    "position": 5,
+    "position": -1,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -67,7 +113,7 @@
   },
        {
     "id": "cursillos",
-    "position": 2,
+    "position": -1,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -85,7 +131,7 @@
   },
          {
     "id": "",
-    "position": 3,
+    "position": -1,
     "hasVideo": true,
     "link": "#volvimos",
     "desktop": {
@@ -191,22 +237,7 @@
       "poster": "./video/encuentro.jpg"
     }
   },
-    {
-    "id": "feria",
-    "position": 1,
-    "hasVideo": true,
-    "link": "#feria",
-    "desktop": {
-      "type": "video",
-      "src": "./feria/feria_desk.mp4",
-      "poster": "./feria/feria_desk.jpg"
-    },
-    "mobile": {
-      "type": "video",
-      "src": "./feria/feria_mob.mp4",
-      "poster": "./feria/feria_mob.jpg"
-    }
-  },
+
   {
     "id": "feria-desp",
     "position": -1,
@@ -298,7 +329,7 @@
   },
   {
     "id": "asistencia",
-    "position": 4,
+    "position": -1,
     "hasVideo": true,
     "link": "#asistencia",
     "desktop": {
