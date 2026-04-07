@@ -1,7 +1,7 @@
 [
       {
     "id": "feria",
-    "position": 1,
+    "position": 3,
     "hasVideo": true,
     "link": "#feria",
     "desktop": {
@@ -17,7 +17,7 @@
   },
           {
   "id": "ejemplo",
-  "position": 2,
+  "position": 1,
   "hasVideo": false,
   "link": "#seccion",
   "time": { "desktop": 5, "mobile": 5 },
@@ -32,7 +32,7 @@
   },
   {
   "id": "ejemplo",
-  "position": 3,
+  "position": 2,
   "hasVideo": false,
   "link": "./avisos.html",
   "time": { "desktop": 5, "mobile": 5 },
