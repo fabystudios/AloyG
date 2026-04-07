@@ -25,6 +25,13 @@ _tpl.innerHTML = `
     width: 100%;
   }
 
+  /* Ocultar en mobile si tiene atributo hide-mobile */
+  @media (max-width: 767px) {
+    :host([hide-mobile]) {
+      display: none !important;
+    }
+  }
+
   /* ─── Card shell ─────────────────────────────────────────────────── */
   .card {
     /* Ancho: máximo 260px pero nunca más del 95% del viewport */
