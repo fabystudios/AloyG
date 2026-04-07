@@ -976,12 +976,14 @@
       object-position: center;
     }
 
-    /* Slides de imagen (flyers 16:9): mostrar completos sin recortar */
-    #mainCarousel .carousel-item:not([data-has-video]) {
-      background: linear-gradient(135deg, #0d47a1, #1565c0, #1976d2);
-    }
-    #mainCarousel .carousel-item:not([data-has-video]) img {
-      object-fit: contain;
+    /* Slides de imagen (flyers 16:9): mostrar completos sin recortar - solo desktop */
+    @media (min-width: 768px) {
+      #mainCarousel .carousel-item:not([data-has-video]) {
+        background: linear-gradient(135deg, #0d47a1, #1565c0, #1976d2);
+      }
+      #mainCarousel .carousel-item:not([data-has-video]) img {
+        object-fit: contain;
+      }
     }
 
     /* -----------------------------
