@@ -845,8 +845,8 @@
       this._dotsEl  = this.querySelector('.dp-dots');
       this._indEl   = this.querySelector('.dp-page-ind');
 
-      /* Render inicial */
-      this._ulLeft.innerHTML  = this._pageHTML(this._cur);
+      /* Render inicial — left panel starts on 2nd photo if available */
+      this._ulLeft.innerHTML  = this._pageHTML(this._cur, 1);
       this._ulRight.innerHTML = this._pageHTML(this._cur + 1) || '';
       this._dFaceFr.innerHTML = this._pageHTML(this._cur + 1) || '';
 
@@ -885,8 +885,8 @@
         this._dFlip.classList.add('dp-flip-left');
         this._dFlip.style.transformOrigin = 'right center'; /* pivota en el lomo */
         this._dFaceFr.innerHTML = this._pageHTML(this._cur) || '';
-        /* Precarga la nueva página izquierda en el underlay */
-        this._ulLeft.innerHTML = this._pageHTML(target) || '';
+        /* Precarga la nueva página izquierda — 2nd photo */
+        this._ulLeft.innerHTML = this._pageHTML(target, 1) || '';
       }
 
       this._dFlip.style.transform = '';
@@ -896,7 +896,7 @@
         this._cur = target;
 
         /* Actualizar ambas capas con la nueva apertura */
-        this._ulLeft.innerHTML  = this._pageHTML(this._cur);
+        this._ulLeft.innerHTML  = this._pageHTML(this._cur, 1);
         this._ulRight.innerHTML = this._pageHTML(this._cur + 1) || '';
 
         /* Resetear flip a la derecha para la próxima interacción */
@@ -964,7 +964,7 @@
     }
 
     /* ── PAGE TEMPLATE ──────────────────────────────────── */
-    _pageHTML(idx) {
+    _pageHTML(idx, startSlide = 0) {
       const page = this._pages[idx];
       if (!page) return '';
 
@@ -973,8 +973,11 @@
       const pageNum = String(idx + 1).padStart(2, '0');
       const total   = this._pages.length;
 
+      /* Clamp startSlide: use it if valid, otherwise fall back to 0 */
+      const active = startSlide < photos.length ? startSlide : 0;
+
       const slidesHTML = photos.map((p, i) => `
-        <div class="dp-slide${i === 0 ? ' dp-on' : ''}" data-sli="${i}">
+        <div class="dp-slide${i === active ? ' dp-on' : ''}" data-sli="${i}">
           <img src="${esc(this._folder + p.src)}"
                alt="${esc(page.headline || '')} ${i + 1}"
                class="dp-photo-img"
@@ -986,7 +989,7 @@
       const inavHTML = multi ? `
         <div class="dp-inav">
           <button class="dp-inav-btn" data-inprev aria-label="Foto anterior">‹</button>
-          <span class="dp-inav-count">1 / ${photos.length}</span>
+          <span class="dp-inav-count">${active + 1} / ${photos.length}</span>
           <button class="dp-inav-btn" data-innext aria-label="Siguiente foto">›</button>
         </div>` : '';
 
@@ -1041,6 +1044,7 @@
       const slides  = photosDiv.querySelectorAll('.dp-slide');
       const counter = photosDiv.querySelector('.dp-inav-count');
       let cur = 0;
+      slides.forEach((s, i) => { if (s.classList.contains('dp-on')) cur = i; });
 
       const show = n => {
         slides[cur].classList.remove('dp-on');
