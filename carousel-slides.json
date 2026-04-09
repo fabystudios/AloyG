@@ -1,7 +1,22 @@
 [
+        {
+    "id": "lujan",
+    "position": 1,
+    "hasVideo": false,
+    "link": "",
+   "time": { "desktop": 4, "mobile": 4 },
+  "desktop": {
+    "type": "image",
+    "src": "./slides/lujan_desk.png"
+  },
+  "mobile": {
+    "type": "image",
+    "src": "./slides/lujan_mob.jpg"
+  }
+  },
       {
     "id": "feria",
-    "position": 3,
+    "position": 5,
     "hasVideo": true,
     "link": "#feria",
     "time": { "desktop": 4, "mobile": 7 },
@@ -17,8 +32,8 @@
     }
   },
           {
-  "id": "ejemplo",
-  "position": 1,
+  "id": "Misa",
+  "position": 3,
   "hasVideo": false,
   "link": "#seccion",
   "time": { "desktop": 5, "mobile": 5 },
@@ -32,8 +47,8 @@
   }
   },
   {
-  "id": "ejemplo",
-  "position": 2,
+  "id": "Aurelia",
+  "position": 4,
   "hasVideo": false,
   "link": "./avisos.html",
   "time": { "desktop": 5, "mobile": 5 },
@@ -238,24 +253,6 @@
       "poster": "./video/encuentro.jpg"
     }
   },
-
-  {
-    "id": "feria-desp",
-    "position": -1,
-    "hasVideo": true,
-    "link": "#feria",
-    "time": { "desktop": 1, "mobile": 1 },
-    "desktop": {
-      "type": "video",
-      "src": "",
-      "poster": "./feria/feria_desk.jpg"
-    },
-    "mobile": {
-      "type": "video",
-      "src": "",
-      "poster": "./feria/feria_mob.jpg"
-    }
-  },
   {
     "id": "rifa2",
     "position": -1,
@@ -298,9 +295,10 @@
   },
   {
     "id": "adoracion",
-    "position": -1,
+    "position": 2,
     "hasVideo": true,
     "link": "#adoracion",
+    "time": { "desktop": 4, "mobile": 4 },
     "desktop": {
       "type": "video",
       "src": "./video/ado-mov-desktop.mp4",
