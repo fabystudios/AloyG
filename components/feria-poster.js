@@ -161,14 +161,19 @@ class FeriaPoster extends HTMLElement {
         .feria-poster-modal {
           display: none;
           position: fixed;
-          inset: 0;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
           z-index: 999999;
           background: rgba(0,0,0,0.72);
           backdrop-filter: blur(10px);
           -webkit-backdrop-filter: blur(10px);
           align-items: center;
           justify-content: center;
-          padding: 1.5rem;
+          padding: 0;
+          margin: 0;
+          overflow: hidden;
         }
         .feria-poster-modal[open] {
           display: flex;
