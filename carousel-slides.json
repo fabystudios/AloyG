@@ -1,7 +1,7 @@
 [
         {
     "id": "lujan",
-    "position": 2,
+    "position": 3,
     "hasVideo": false,
     "link": "",
    "time": { "desktop": 4, "mobile": 4 },
@@ -33,7 +33,7 @@
   },
           {
   "id": "Misa",
-  "position": 3,
+  "position": 2,
   "hasVideo": false,
   "link": "#seccion",
   "time": { "desktop": 5, "mobile": 5 },
