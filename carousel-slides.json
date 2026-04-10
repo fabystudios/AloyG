@@ -19,7 +19,7 @@
     "position": 5,
     "hasVideo": true,
     "link": "#feria",
-    "time": { "desktop": 5, "mobile": 7 },
+    "time": { "desktop": 6, "mobile": 7 },
     "desktop": {
       "type": "video",
       "src": "./feria/feria_desk.mp4",
