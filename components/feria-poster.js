@@ -400,7 +400,7 @@ class FeriaPoster extends HTMLElement {
       }
       .fp-figure--mobile {
         display: block;
-        height: clamp(562px, 160vw, 898px);
+        height: clamp(843px, 240vw, 1347px);
         width: auto;
         bottom: var(--fp-fig-mob-bottom, 0px);
         left: var(--fp-fig-mob-left, -14%);
