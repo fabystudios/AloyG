@@ -16,7 +16,7 @@
   },
         {
     "id": "lujan",
-    "position": 4,
+    "position": 3,
     "hasVideo": false,
     "link": "",
    "time": { "desktop": 4, "mobile": 4 },
@@ -31,7 +31,7 @@
   },
       {
     "id": "feria",
-    "position": 2,
+    "position": -1,
     "hasVideo": true,
     "link": "#feria",
     "time": { "desktop": 6, "mobile": 7 },
@@ -48,7 +48,7 @@
   },
           {
   "id": "Misa",
-  "position": 3,
+  "position": 2,
   "hasVideo": false,
   "link": "#seccion",
   "time": { "desktop": 5, "mobile": 5 },
@@ -63,7 +63,7 @@
   },
   {
   "id": "Aurelia",
-  "position": 5,
+  "position": 4,
   "hasVideo": false,
   "link": "./avisos.html",
   "time": { "desktop": 5, "mobile": 5 },
