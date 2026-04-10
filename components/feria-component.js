@@ -251,6 +251,27 @@ class FeriaComponent extends HTMLElement {
         .modal-backdrop.show {
           opacity: 1 !important;
         }
+
+        /* Fix modal descentrado en mobile */
+        @media (max-width: 768px) {
+          #feriaModal .modal-dialog {
+            margin: 0;
+            padding: 0;
+            max-width: 100vw;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+          #feriaModal .modal-content {
+            margin: 0 auto;
+            max-width: 95vw;
+          }
+          #feriaModal {
+            padding: 0 !important;
+          }
+        }
       </style>
 
       <div id="feria">
