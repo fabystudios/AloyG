@@ -198,7 +198,7 @@ class FeriaComponent extends HTMLElement {
             top: 75%;
             left: 5%;
             animation-delay: 1s;
-            scale: 0.5;
+            scale: 0.7;
           }
         }
 
@@ -225,7 +225,7 @@ class FeriaComponent extends HTMLElement {
             top: 58%;
             left: 0%;
             animation-delay: 1s;
-            scale: 1;
+            scale: 1.4;
           }
 
           .mujer-1 {
