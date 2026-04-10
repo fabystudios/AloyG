@@ -1,7 +1,7 @@
 [
         {
     "id": "lujan",
-    "position": 1,
+    "position": 2,
     "hasVideo": false,
     "link": "",
    "time": { "desktop": 4, "mobile": 4 },
@@ -16,7 +16,7 @@
   },
       {
     "id": "feria",
-    "position": 5,
+    "position": 1,
     "hasVideo": true,
     "link": "#feria",
     "time": { "desktop": 6, "mobile": 7 },
@@ -295,7 +295,7 @@
   },
   {
     "id": "adoracion",
-    "position": 2,
+    "position": -1,
     "hasVideo": true,
     "link": "#adoracion",
     "time": { "desktop": 4, "mobile": 4 },
