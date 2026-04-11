@@ -1069,7 +1069,6 @@
     </h2>
   </section>
   <br><br>
-
 <!-- ═══ Showcase Paz ═══ -->
 <section id="paz" style="
   position: relative;
@@ -1145,8 +1144,19 @@
         style="display:block; width:100%; height:auto; border-radius:16px;">
     </picture>
 
-    <!-- Video card -->
-    <div class="paz-video" style="flex: 0 0 auto;">
+    <!-- Video card con medallón superpuesto -->
+    <div class="paz-video" style="flex: 0 0 auto; position: relative;">
+
+      <!-- ✦ Medallón SOLO MOBILE ✦ -->
+      <div class="paz-medallon-wrap">
+        <div class="paz-medallon-ring"></div>
+        <img
+          src="./slides/paz_cuadrado.png"
+          alt="Paz"
+          class="paz-medallon-img"
+        >
+      </div>
+
       <video-card-gold
         badge="11 de abril"
         titulo="Santo Rosario por la Paz"
@@ -1163,6 +1173,22 @@
     50%  { left: 120%; }
     100% { left: 120%; }
   }
+
+  @keyframes pazFloat {
+    0%, 100% { transform: translateY(0px);  }
+    50%       { transform: translateY(-5px); }
+  }
+
+  @keyframes pazGlow {
+    0%, 100% { box-shadow: 0 0 10px 2px rgba(197,162,39,0.5), 0 3px 14px rgba(0,0,0,0.5); }
+    50%       { box-shadow: 0 0 22px 7px rgba(245,208,107,0.75), 0 5px 22px rgba(0,0,0,0.55); }
+  }
+
+  @keyframes pazRingSpin {
+    from { transform: translateY(var(--ty, 0px)) rotate(0deg);   }
+    to   { transform: translateY(var(--ty, 0px)) rotate(360deg); }
+  }
+
   #paz:hover {
     box-shadow:
       0 0 0 1.5px rgba(245,208,107,0.85),
@@ -1172,11 +1198,14 @@
       inset 0 1px 0 rgba(245,208,107,0.35),
       inset 0 -1px 0 rgba(197,162,39,0.12) !important;
   }
-  /* Desktop: lado a lado */
+
+  /* Desktop */
   @media (min-width: 768px) {
-    .paz-layout { flex-direction: row; }
+    .paz-layout        { flex-direction: row; }
+    .paz-medallon-wrap { display: none; }
   }
-  /* Mobile: horizontal, afiche izq, video der, misma altura */
+
+  /* Mobile */
   @media (max-width: 767px) {
     #paz {
       width: 95vw !important;
@@ -1184,37 +1213,75 @@
       margin-left: auto !important;
       margin-right: auto !important;
     }
+
     .paz-layout {
       flex-direction: row !important;
       align-items: center !important;
       gap: 0.7rem;
-      min-height: unset;
-      height: auto;
-      max-height: none;
     }
-    .paz-poster {
-      display: none !important;
-    }
+
+    .paz-poster { display: none !important; }
+
     .paz-video {
       flex: 1 1 100% !important;
       max-width: 100%;
-      min-width: 100px;
       display: flex;
       align-items: center;
       justify-content: center;
-      height: auto;
-      max-height: none;
     }
+
     .paz-video video-card-gold {
       width: 100% !important;
       height: auto !important;
-      min-height: 80px;
-      max-height: none;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+    }
+
+    /* Wrap: posicionado sobre la esquina superior izquierda del card */
+    .paz-medallon-wrap {
+      position: absolute;
+      top: -28px;
+      left: -28px;
+      width: 72px;
+      height: 72px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pazFloat 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    /* Anillo cónico giratorio */
+    .paz-medallon-ring {
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      background: conic-gradient(
+        rgba(245,208,107,0.95) 0deg,
+        rgba(197,162,39,0.25) 90deg,
+        rgba(245,208,107,0.95) 180deg,
+        rgba(197,162,39,0.2)  270deg,
+        rgba(245,208,107,0.95) 360deg
+      );
+      animation: pazRingSpin 5s linear infinite;
+    }
+
+    /* Imagen circular */
+    .paz-medallon-img {
+      position: relative;
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(245,208,107,0.95);
+      animation: pazGlow 4s ease-in-out infinite;
+      z-index: 2;
+      background: #0f0a1e;
     }
   }
 </style>
 <!-- ═══ Fin Showcase Paz ═══ -->
+
+
 <br>
   <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
 
