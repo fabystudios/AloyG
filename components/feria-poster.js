@@ -240,6 +240,7 @@ class FeriaPoster extends HTMLElement {
         display: block;
         --fp-accent: #c97b2a;
         --fp-accent2: #f5d89a;
+        overflow: hidden;
       }
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -420,7 +421,7 @@ class FeriaPoster extends HTMLElement {
       }
       .fp-figure--mobile {
         display: block;
-        height: clamp(843px, 240vw, 1347px);
+        height: clamp(986px, 281vw, 1576px);
         width: auto;
         bottom: var(--fp-fig-mob-bottom, 0px);
         left: var(--fp-fig-mob-left, -14%);
@@ -432,7 +433,7 @@ class FeriaPoster extends HTMLElement {
       }
       @media (max-width: 420px) {
         .fp-figure--mobile {
-          height: clamp(250px, 75vw, 380px);
+          height: clamp(293px, 88vw, 445px);
         }
       }
 
@@ -458,7 +459,7 @@ class FeriaPoster extends HTMLElement {
       }
       .fp-figure2--mobile {
         display: block;
-        height: clamp(340px, 90vw, 520px);
+        height: clamp(450px, 120vw, 720px);
         width: auto;
         bottom: var(--fp-fig2-mob-bottom, 0px);
         right: var(--fp-fig2-mob-right, -10%);
@@ -470,8 +471,7 @@ class FeriaPoster extends HTMLElement {
       }
       @media (max-width: 420px) {
         .fp-figure2--mobile {
-          height: clamp(280px, 80vw, 400px);
-          right: -8%;
+          height: clamp(360px, 98vw, 570px);
         }
       }
 
