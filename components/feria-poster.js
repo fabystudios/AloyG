@@ -241,6 +241,7 @@ class FeriaPoster extends HTMLElement {
         --fp-accent: #c97b2a;
         --fp-accent2: #f5d89a;
         overflow: hidden;
+        max-width: 100%;
       }
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -310,12 +311,14 @@ class FeriaPoster extends HTMLElement {
       .fp-banderines {
         position: absolute;
         top: -16px;
-        right: -8px;
+        right: 0;
         width: clamp(140px, 18vw, 240px);
+        max-width: 30%;
         pointer-events: none;
         z-index: 12;
         filter: drop-shadow(0 6px 14px rgba(0,0,0,0.35));
         animation: fp-sway 3s ease-in-out infinite alternate;
+        transform-origin: top right;
       }
       @keyframes fp-sway {
         0%   { transform: rotate(-4deg) translateY(0); }
@@ -507,7 +510,7 @@ class FeriaPoster extends HTMLElement {
         .fp-stage { width: 94%; }
         .fp-poster-area { padding: 4px; }
         .fp-tape { width: 36px; height: 14px; }
-        .fp-banderines { width: clamp(100px, 22vw, 150px); top: -10px; right: -4px; }
+        .fp-banderines { width: clamp(100px, 22vw, 150px); max-width: 28%; top: -10px; right: 0; }
       }
       @media (max-width: 768px) {
         .fp-scene { overflow: hidden; }
