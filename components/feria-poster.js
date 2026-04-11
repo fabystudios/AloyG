@@ -425,6 +425,7 @@ class FeriaPoster extends HTMLElement {
       .fp-figure--mobile {
         display: block;
         height: clamp(405px, 108vw, 648px);
+        max-width: 45%;
         width: auto;
         bottom: var(--fp-fig-mob-bottom, 0px);
         left: var(--fp-fig-mob-left, -14%);
@@ -463,6 +464,7 @@ class FeriaPoster extends HTMLElement {
       .fp-figure2--mobile {
         display: block;
         height: clamp(450px, 120vw, 720px);
+        max-width: 45%;
         width: auto;
         bottom: var(--fp-fig2-mob-bottom, 0px);
         right: var(--fp-fig2-mob-right, -10%);
