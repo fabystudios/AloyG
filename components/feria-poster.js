@@ -421,7 +421,7 @@ class FeriaPoster extends HTMLElement {
       }
       .fp-figure--mobile {
         display: block;
-        height: clamp(986px, 281vw, 1576px);
+        height: clamp(843px, 240vw, 1347px);
         width: auto;
         bottom: var(--fp-fig-mob-bottom, 0px);
         left: var(--fp-fig-mob-left, -14%);
@@ -433,7 +433,7 @@ class FeriaPoster extends HTMLElement {
       }
       @media (max-width: 420px) {
         .fp-figure--mobile {
-          height: clamp(293px, 88vw, 445px);
+          height: clamp(250px, 75vw, 380px);
         }
       }
 
