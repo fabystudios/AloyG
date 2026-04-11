@@ -40,10 +40,12 @@ class FeriaPoster extends HTMLElement {
   static get observedAttributes() {
     return [
       'bg-src', 'poster-desktop', 'poster-mobile', 'modal-image',
-      'figure-src', 'figure-mobile-src', 'banderines-src',
+      'figure-src', 'figure-mobile-src', 'figure-src2', 'banderines-src',
       'cta-mobile', 'cta-desktop', 'board-src',
       'figure-bottom', 'figure-left',
-      'figure-mobile-bottom', 'figure-mobile-left'
+      'figure-mobile-bottom', 'figure-mobile-left',
+      'figure2-bottom', 'figure2-right',
+      'figure2-mobile-bottom', 'figure2-mobile-right'
     ];
   }
 
@@ -80,10 +82,16 @@ class FeriaPoster extends HTMLElement {
   get figureLeft()          { return this.getAttribute('figure-left') || '-22%'; }
   get figureMobileBottom() { return this.getAttribute('figure-mobile-bottom') || '0px'; }
   get figureMobileLeft()    { return this.getAttribute('figure-mobile-left') || '-14%'; }
+  get figureSrc2()       { return this.getAttribute('figure-src2') || ''; }
+  get figure2Bottom()       { return this.getAttribute('figure2-bottom') || '0px'; }
+  get figure2Right()         { return this.getAttribute('figure2-right') || '-18%'; }
+  get figure2MobileBottom() { return this.getAttribute('figure2-mobile-bottom') || '0px'; }
+  get figure2MobileRight()   { return this.getAttribute('figure2-mobile-right') || '-10%'; }
 
   /* ── Render (Shadow DOM) ─────────────────────────── */
   render() {
     const hasFigure = !!this.figureSrc;
+    const hasFigure2 = !!this.figureSrc2;
     const hasBanderines = !!this.banderinesSrc;
 
     this.shadowRoot.innerHTML = `
@@ -93,6 +101,10 @@ class FeriaPoster extends HTMLElement {
           --fp-fig-left: ${this.figureLeft};
           --fp-fig-mob-bottom: ${this.figureMobileBottom};
           --fp-fig-mob-left: ${this.figureMobileLeft};
+          --fp-fig2-bottom: ${this.figure2Bottom};
+          --fp-fig2-right: ${this.figure2Right};
+          --fp-fig2-mob-bottom: ${this.figure2MobileBottom};
+          --fp-fig2-mob-right: ${this.figure2MobileRight};
         }
         ${this._styles()}
       </style>
@@ -126,6 +138,14 @@ class FeriaPoster extends HTMLElement {
              src="${this.figureSrc}" alt="" aria-hidden="true" draggable="false">
         <img class="fp-figure fp-figure--mobile"
              src="${this.figureMobileSrc}" alt="" aria-hidden="true" draggable="false">
+        ` : ''}
+
+        ${hasFigure2 ? `
+        <!-- Segunda figura (rubia) — simétrica a la derecha -->
+        <img class="fp-figure2 fp-figure2--desktop"
+             src="${this.figureSrc2}" alt="" aria-hidden="true" draggable="false">
+        <img class="fp-figure2 fp-figure2--mobile"
+             src="${this.figureSrc2}" alt="" aria-hidden="true" draggable="false">
         ` : ''}
 
         <!-- Hojas cayendo -->
@@ -419,6 +439,45 @@ class FeriaPoster extends HTMLElement {
       @keyframes fp-float {
         0%, 100% { transform: translateY(0) rotate(-1deg); }
         50%      { transform: translateY(-12px) rotate(1.5deg); }
+      }
+
+      /* ═══ Segunda figura (rubia) — simétrica a la derecha ═══ */
+      .fp-figure2 {
+        position: absolute;
+        pointer-events: none;
+        z-index: 10;
+        filter: drop-shadow(0 10px 24px rgba(0,0,0,0.35));
+      }
+      .fp-figure2--desktop {
+        display: none;
+        height: clamp(420px, 56vw, 620px);
+        width: auto;
+        bottom: var(--fp-fig2-bottom, 0px);
+        right: var(--fp-fig2-right, -18%);
+        animation: fp-float2 3.5s ease-in-out infinite;
+      }
+      .fp-figure2--mobile {
+        display: block;
+        height: clamp(340px, 90vw, 520px);
+        width: auto;
+        bottom: var(--fp-fig2-mob-bottom, 0px);
+        right: var(--fp-fig2-mob-right, -10%);
+        animation: fp-float2 3.5s ease-in-out infinite;
+      }
+      @media (min-width: 769px) {
+        .fp-figure2--desktop { display: block; }
+        .fp-figure2--mobile  { display: none; }
+      }
+      @media (max-width: 420px) {
+        .fp-figure2--mobile {
+          height: clamp(280px, 80vw, 400px);
+          right: -8%;
+        }
+      }
+
+      @keyframes fp-float2 {
+        0%, 100% { transform: translateY(0) rotate(1deg); }
+        50%      { transform: translateY(-14px) rotate(-1.5deg); }
       }
 
       /* ═══ Hojas cayendo ═══ */
