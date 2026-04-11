@@ -1,17 +1,17 @@
 [
         {
-    "id": "feria2",
+    "id": "paz",
     "position": 1,
     "hasVideo": false,
-    "link": "#feria",
+    "link": "",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/feria2_desk.png"
+      "src": "./slides/paz_desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/feria2_mob.png"
+      "src": "./slides/paz_mob.jpg"
     }
   },
         {
