@@ -503,11 +503,14 @@ class FeriaPoster extends HTMLElement {
 
       /* ═══ Responsive ═══ */
       @media (max-width: 600px) {
-        .fp-scene { width: 95%; min-height: 380px; padding: 2rem 0.5rem 2.5rem; border-radius: 20px; }
+        .fp-scene { width: 95%; min-height: 380px; padding: 2rem 0.5rem 2.5rem; border-radius: 20px; overflow: hidden; }
         .fp-stage { width: 94%; }
         .fp-poster-area { padding: 4px; }
         .fp-tape { width: 36px; height: 14px; }
         .fp-banderines { width: clamp(100px, 22vw, 150px); top: -10px; right: -4px; }
+      }
+      @media (max-width: 768px) {
+        .fp-scene { overflow: hidden; }
       }
       @media (min-width: 1200px) {
         .fp-scene { min-height: 620px; }
