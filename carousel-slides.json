@@ -3,7 +3,7 @@
     "id": "paz",
     "position": 1,
     "hasVideo": false,
-    "link": "",
+    "link": "#paz",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
