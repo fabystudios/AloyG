@@ -1121,6 +1121,12 @@
     <circle cx="2" cy="2" r="2.5" fill="rgba(245,208,107,0.7)"/>
   </svg>
 
+  <!-- ✦ Medallón SOLO MOBILE ✦ -->
+  <div class="paz-medallon-wrap">
+    <div class="paz-medallon-ring"></div>
+    <img src="./slides/paz_cuadrado.png" alt="Paz" class="paz-medallon-img">
+  </div>
+
   <!-- Layout: poster + video -->
   <div class="paz-layout" style="
     display: flex;
@@ -1144,19 +1150,8 @@
         style="display:block; width:100%; height:auto; border-radius:16px;">
     </picture>
 
-    <!-- Video card con medallón superpuesto -->
-    <div class="paz-video" style="flex: 0 0 auto; position: relative;">
-
-      <!-- ✦ Medallón SOLO MOBILE ✦ -->
-      <div class="paz-medallon-wrap">
-        <div class="paz-medallon-ring"></div>
-        <img
-          src="./slides/paz_cuadrado.png"
-          alt="Paz"
-          class="paz-medallon-img"
-        >
-      </div>
-
+    <!-- Video card -->
+    <div class="paz-video" style="flex: 0 0 auto;">
       <video-card-gold
         badge="11 de abril"
         titulo="Santo Rosario por la Paz"
@@ -1176,17 +1171,17 @@
 
   @keyframes pazFloat {
     0%, 100% { transform: translateY(0px);  }
-    50%       { transform: translateY(-5px); }
+    50%       { transform: translateY(-6px); }
   }
 
   @keyframes pazGlow {
-    0%, 100% { box-shadow: 0 0 10px 2px rgba(197,162,39,0.5), 0 3px 14px rgba(0,0,0,0.5); }
-    50%       { box-shadow: 0 0 22px 7px rgba(245,208,107,0.75), 0 5px 22px rgba(0,0,0,0.55); }
+    0%, 100% { box-shadow: 0 0 12px 3px rgba(197,162,39,0.5), 0 3px 16px rgba(0,0,0,0.5); }
+    50%       { box-shadow: 0 0 28px 10px rgba(245,208,107,0.78), 0 6px 24px rgba(0,0,0,0.55); }
   }
 
   @keyframes pazRingSpin {
-    from { transform: translateY(var(--ty, 0px)) rotate(0deg);   }
-    to   { transform: translateY(var(--ty, 0px)) rotate(360deg); }
+    from { transform: rotate(0deg);   }
+    to   { transform: rotate(360deg); }
   }
 
   #paz:hover {
@@ -1235,13 +1230,13 @@
       height: auto !important;
     }
 
-    /* Wrap: posicionado sobre la esquina superior izquierda del card */
+    /* ── Medallón ── */
     .paz-medallon-wrap {
       position: absolute;
-      top: -28px;
-      left: -28px;
-      width: 72px;
-      height: 72px;
+      top: 12px;
+      left: 12px;
+      width: 110px;
+      height: 110px;
       z-index: 10;
       display: flex;
       align-items: center;
@@ -1250,29 +1245,27 @@
       pointer-events: none;
     }
 
-    /* Anillo cónico giratorio */
     .paz-medallon-ring {
       position: absolute;
       inset: -4px;
       border-radius: 50%;
       background: conic-gradient(
         rgba(245,208,107,0.95) 0deg,
-        rgba(197,162,39,0.25) 90deg,
+        rgba(197,162,39,0.2)   90deg,
         rgba(245,208,107,0.95) 180deg,
-        rgba(197,162,39,0.2)  270deg,
+        rgba(197,162,39,0.15)  270deg,
         rgba(245,208,107,0.95) 360deg
       );
       animation: pazRingSpin 5s linear infinite;
     }
 
-    /* Imagen circular */
     .paz-medallon-img {
       position: relative;
-      width: 72px;
-      height: 72px;
+      width: 110px;
+      height: 110px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid rgba(245,208,107,0.95);
+      border: 2.5px solid rgba(245,208,107,0.95);
       animation: pazGlow 4s ease-in-out infinite;
       z-index: 2;
       background: #0f0a1e;
