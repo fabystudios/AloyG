@@ -8,9 +8,7 @@
  *   ancho-desktop  — ancho en desktop. Default: "80vw"
  *   badge          — texto de la píldora inferior.       Default: "Special"
  *   etiqueta       — texto del badge superior centrado.  Default: "Special Edition"
- *   poster-mobile  — imagen de portada para el video mobile. Si no se pasa,
- *                    usa automáticamente el thumbnail del video YouTube desktop
- *   poster-desktop — imagen de portada para desktop (solo si no hay URL de YouTube)
+ *   logo           — URL de un PNG flotante en la esquina superior derecha
  *
  * USO:
  *   <script src="video-gold-special.js"></script>
@@ -519,7 +517,7 @@ _tplSpecial.innerHTML = `
 
 class VideoGoldSpecial extends HTMLElement {
   static get observedAttributes() {
-    return ['titulo', 'video-desktop', 'video-mobile', 'ancho-desktop', 'badge', 'etiqueta', 'logo', 'logo-duracion', 'poster-mobile', 'poster-desktop'];
+    return ['titulo', 'video-desktop', 'video-mobile', 'ancho-desktop', 'badge', 'etiqueta', 'logo', 'logo-duracion'];
   }
 
   connectedCallback() {
@@ -576,96 +574,45 @@ class VideoGoldSpecial extends HTMLElement {
   }
 
   _render() {
-    const videoDesktop  = this.getAttribute('video-desktop')  || '';
-    const videoMobile   = this.getAttribute('video-mobile')   || '';
-    const anchoDesktop  = this.getAttribute('ancho-desktop')  || '80vw';
-    const posterMobile  = this.getAttribute('poster-mobile')  || '';
-    const posterDesktop = this.getAttribute('poster-desktop') || '';
+    const videoDesktop = this.getAttribute('video-desktop') || '';
+    const videoMobile  = this.getAttribute('video-mobile')  || '';
+    const anchoDesktop = this.getAttribute('ancho-desktop') || '80vw';
     const mobile = isMobile();
 
-    /* Detectar si video-desktop es YouTube o mp4 */
-    const ytId       = extractYouTubeId(videoDesktop);
-    const ytThumb    = ytId ? `https://img.youtube.com/vi/${ytId}/maxresdefault.jpg` : '';
-    const isYouTube  = !!ytId;
-    const isMp4Desktop = !isYouTube && !!videoDesktop;
-
     if (mobile) {
-      /* ── MOBILE ── */
       this._outer.style.setProperty('--card-width', 'min(260px, 95vw)');
       this._outer.style.setProperty('--badge-top', '14px');
       this._outer.style.setProperty('--badge-bottom', 'auto');
       this._videoWrap.className = 'video-wrap portrait';
-
-      if (videoMobile) {
-        /* poster: explícito → thumbnail YouTube → sin poster */
-        const poster = posterMobile || ytThumb;
-        this._videoWrap.innerHTML = `
-          <video id="vid" src="${videoMobile}" ${poster ? `poster="${poster}"` : ''} loop playsinline></video>
-          <div class="overlay"></div>
-          <button class="play-btn" id="playBtn" aria-label="Reproducir / Pausar">
-            <span class="play-icon" id="playIcon"></span>
-          </button>
-        `;
-        this._timeEl.textContent = '0:00';
-        this._bindVideo(true);
-      } else {
-        this._videoWrap.innerHTML = `
-          <div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(245,208,107,0.5);font-family:'Raleway',sans-serif;font-size:13px;letter-spacing:2px;">
-            Sin video mobile configurado
-          </div>`;
-        this._timeEl.textContent = '';
-      }
-
+      this._videoWrap.innerHTML = `
+        <video id="vid" src="${videoMobile}" loop playsinline></video>
+        <div class="overlay"></div>
+        <button class="play-btn" id="playBtn" aria-label="Reproducir / Pausar">
+          <span class="play-icon" id="playIcon"></span>
+        </button>
+      `;
+      this._timeEl.textContent = '0:00';
+      this._bindVideo();
     } else {
-      /* ── DESKTOP ── */
       this._outer.style.setProperty('--card-width', anchoDesktop);
       this._outer.style.setProperty('--badge-top', 'auto');
       this._outer.style.setProperty('--badge-bottom', '72px');
+      const ytId = extractYouTubeId(videoDesktop);
+      const embedSrc = ytId
+        ? `https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&color=white`
+        : '';
       this._videoWrap.className = 'video-wrap landscape';
-
-      if (isYouTube) {
-        /* YouTube embed — controles nativos, sin play-btn propio */
-        const embedSrc = `https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&color=white`;
-        this._videoWrap.innerHTML = `
-          <iframe src="${embedSrc}" allowfullscreen
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-          </iframe>
-          <div class="overlay"></div>
-        `;
-        this._timeEl.textContent = '';
-
-      } else if (isMp4Desktop) {
-        /* Mp4 en desktop — landscape, con play-btn propio */
-        const poster = posterDesktop || ytThumb;
-        this._videoWrap.innerHTML = `
-          <video id="vid" src="${videoDesktop}" ${poster ? `poster="${poster}"` : ''} loop playsinline></video>
-          <div class="overlay"></div>
-          <button class="play-btn" id="playBtn" aria-label="Reproducir / Pausar">
-            <span class="play-icon" id="playIcon"></span>
-          </button>
-        `;
-        this._timeEl.textContent = '0:00';
-        this._bindVideo(false);
-
-      } else if (posterDesktop) {
-        /* Sin video: mostrar imagen estática */
-        this._videoWrap.innerHTML = `
-          <img src="${posterDesktop}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="" />
-          <div class="overlay"></div>
-        `;
-        this._timeEl.textContent = '';
-
-      } else {
-        this._videoWrap.innerHTML = `
-          <div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(245,208,107,0.5);font-family:'Raleway',sans-serif;font-size:13px;letter-spacing:2px;">
-            Sin video configurado
-          </div>`;
-        this._timeEl.textContent = '';
-      }
+      this._videoWrap.innerHTML = embedSrc
+        ? `<iframe src="${embedSrc}" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+           <div class="overlay"></div>`
+        : `<div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(245,208,107,0.5);font-family:'Raleway',sans-serif;font-size:13px;letter-spacing:2px;">
+             Sin video de YouTube configurado
+           </div>`;
+      this._timeEl.textContent = '';
     }
   }
 
-  _bindVideo(isMobileCtx) {
+  _bindVideo() {
     const vid  = this._shadow.getElementById('vid');
     const btn  = this._shadow.getElementById('playBtn');
     const icon = this._shadow.getElementById('playIcon');
@@ -696,7 +643,8 @@ class VideoGoldSpecial extends HTMLElement {
         icon.className = 'play-icon';
         icon.innerHTML = '';
         btn.style.animation = '';
-        if (isMobileCtx) mostrarLogo();
+        /* Al pausar: restaurar logo y cancelar el timer */
+        mostrarLogo();
       } else {
         vid.play().catch(() => {});
         this._playing = true;
@@ -704,7 +652,8 @@ class VideoGoldSpecial extends HTMLElement {
         icon.className = 'pause-icon';
         icon.innerHTML = '<div class="pause-bar"></div><div class="pause-bar"></div>';
         btn.style.animation = 'none';
-        if (isMobileCtx) arrancarTimer();
+        /* Al reproducir: arrancar el contador para ocultar el logo */
+        arrancarTimer();
       }
     });
 
@@ -721,7 +670,8 @@ class VideoGoldSpecial extends HTMLElement {
       icon.className = 'play-icon';
       icon.innerHTML = '';
       btn.style.animation = '';
-      if (isMobileCtx) mostrarLogo();
+      /* Al terminar: restaurar logo */
+      mostrarLogo();
     });
   }
 
