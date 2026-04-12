@@ -1,7 +1,7 @@
 [
         {
     "id": "paz",
-    "position": 1,
+    "position": -1,
     "hasVideo": false,
     "link": "#paz",
     "time": { "desktop": 3, "mobile": 3 },
@@ -16,7 +16,7 @@
   },
         {
     "id": "lujan",
-    "position": 3,
+    "position": 2,
     "hasVideo": false,
     "link": "",
    "time": { "desktop": 4, "mobile": 4 },
@@ -48,7 +48,7 @@
   },
           {
   "id": "Misa",
-  "position": 2,
+  "position": 1,
   "hasVideo": false,
   "link": "#seccion",
   "time": { "desktop": 5, "mobile": 5 },
@@ -63,7 +63,7 @@
   },
   {
   "id": "Aurelia",
-  "position": 4,
+  "position": 3,
   "hasVideo": false,
   "link": "./avisos.html",
   "time": { "desktop": 5, "mobile": 5 },
