@@ -16,7 +16,7 @@
   },
         {
     "id": "lujan",
-    "position": 2,
+    "position": 1,
     "hasVideo": false,
     "link": "",
    "time": { "desktop": 4, "mobile": 4 },
@@ -48,7 +48,7 @@
   },
           {
   "id": "Misa",
-  "position": 1,
+  "position": -1,
   "hasVideo": false,
   "link": "#seccion",
   "time": { "desktop": 5, "mobile": 5 },
@@ -294,7 +294,7 @@
   },
   {
     "id": "misas",
-    "position": -1,
+    "position": 2,
     "hasVideo": true,
     "link": "#MISAS",
     "desktop": {
