@@ -1074,19 +1074,26 @@
     video-id="Gv3KSJWqbz4"
     title="✝️ Reflexiones del Evangelio"
     subtitle="📅 Del 22 de marzo al 12 de abril"
-    poster="./img/miniatura-reflexiones-semana-santa.png"
+    poster=".\actividades\news2\fall.png"
     gradient="#4B0082, #800020">
   </glassmorphism-yt-player>
 
 
   <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
 
+         <video-card-gold
+  badge="14 de abril"
+  titulo="Santa Liduvina"
+  video="./asantos/14.mp4"
+  style="width:auto; flex:0 0 auto;"
+></video-card-gold>
+
       <video-card-gold
   badge="13 de abril"
   titulo="San Hermenegildo"
   video="./asantos/13.mp4"
-
   style="width:auto; flex:0 0 auto;"
+  hide-mobile
 ></video-card-gold>
 
   <video-card-gold
@@ -1113,16 +1120,10 @@
   style="width:auto; flex:0 0 auto;"
 ></video-card-gold>
 
-  <video-card-gold
-  badge="7 de abril"
-  titulo="San Juan Bautista de la Salle"
-  video="./asantos/bautista.mp4"
-  hide-mobile
-  style="width:auto; flex:0 0 auto;"
-></video-card-gold>
+
 
 </div>
-<br>
+<br><br>
 
 
 <script src="./components/video-gold-special.js"></script>
@@ -1347,28 +1348,7 @@
 
 <br>
 
-    <!-- ═══ Publicación de Feria (Web Component) ═══ -->
-  <feria-poster id="feria"
-    bg-src="./img/feria-autumn.png"
-    poster-desktop="./feria/poster_desk.png"
-    poster-mobile="./feria/poster_mob.jpg"
-    modal-image="./feria/poster_modal.png"
-    figure-src="./feria/piloto50s.png"
-    figure-src2="./feria/rubia.png"
-    banderines-src="./img/banderines.png"
-    cta-mobile="tocar sobre el flyer para zoom"
-    cta-desktop="tocar sobre el flyer para zoom"
-    figure-bottom="10px"
-    figure-left="10%"
-    figure-mobile-bottom="0px"
-    figure-mobile-left="5%"
-    figure2-bottom="5px"
-    figure2-right="15%"
-    figure2-mobile-bottom="0px"
-    figure2-mobile-right="10%"
-    >
-  </feria-poster>
-  <!-- ═══ / Publicación de Feria ═══ -->
+
 
   <!-- ═══ Diario Parroquial ═══ -->
   <diario-parroquial
@@ -1444,7 +1424,14 @@
           { "src": "B6.jpg" }
         ]
       },
-
+            {
+        "headline": "La Divina Misericordia",
+        "desc": "",
+        "photos": [
+          { "src": "mise1.jpg" },
+          { "src": "mise2.jpg" }
+        ]
+      },
         {
         "headline": "",
         "desc": "",
@@ -1455,6 +1442,28 @@
     ]'>
   </diario-parroquial>
   <!-- ═══ / Diario Parroquial ═══ -->
+       <!-- ═══ Publicación de Feria (Web Component) ═══ -->
+  <feria-poster id="feria"
+    bg-src="./img/feria-autumn.png"
+    poster-desktop="./feria/poster_desk.png"
+    poster-mobile="./feria/poster_mob.jpg"
+    modal-image="./feria/poster_modal.png"
+    figure-src="./feria/piloto50s.png"
+    figure-src2="./feria/rubia.png"
+    banderines-src="./img/banderines.png"
+    cta-mobile="tocar sobre el flyer para zoom"
+    cta-desktop="tocar sobre el flyer para zoom"
+    figure-bottom="10px"
+    figure-left="10%"
+    figure-mobile-bottom="0px"
+    figure-mobile-left="5%"
+    figure2-bottom="5px"
+    figure2-right="15%"
+    figure2-mobile-bottom="0px"
+    figure2-mobile-right="10%"
+    >
+  </feria-poster>
+  <!-- ═══ / Publicación de Feria ═══ -->
 <!-- <br><br> -->
 <script src="./components/video-card-gold.js"></script>
 <script src="./components/comunicado-card.js"></script>
