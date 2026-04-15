@@ -136,9 +136,9 @@
       grid-column: 1 / -1;
       height: 220px;
     }
-    fb-post-mosaic .g5 .photo-cell { height: 140px; }
-    fb-post-mosaic .g5 .photo-cell:nth-child(1),
-    fb-post-mosaic .g5 .photo-cell:nth-child(2) { height: 160px; }
+    fb-post-mosaic .g5 .photo-cell {
+      height: 150px;
+    }
 
     fb-post-mosaic .more-overlay {
       position: absolute;
