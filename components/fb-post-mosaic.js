@@ -218,7 +218,7 @@
         const isLast = (i === show - 1) && n > 5;
         return `<div class="photo-cell ${hc}">
           <img src="${src}" alt="Foto ${i + 1}" loading="lazy">
-          ${isLast ? `<div class="more-overlay">+${n - 5}</div>` : ''}
+          ${isLast ? `<div class="more-overlay">+${n - 4}</div>` : ''}
         </div>`;
       }).join('');
 
