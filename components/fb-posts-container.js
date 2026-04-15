@@ -330,7 +330,7 @@
   class FbPostsContainer extends HTMLElement {
 
     static get observedAttributes() {
-      return ['src', 'cache-ttl', 'wallpaper'];
+      return ['src', 'cache-ttl', 'wallpaper', 'floatingimage'];
     }
 
     connectedCallback() {
@@ -348,6 +348,7 @@
     get _src()      { return this.getAttribute('src')       || './facebook-posts.json'; }
     get _cacheTtl() { return Number(this.getAttribute('cache-ttl')) || 3600000; }
     get _wallpaper(){ return this.getAttribute('wallpaper') || './img/fb-wallpaper.png'; }
+    get _floatingImage(){ return this.getAttribute('floatingimage') || null; }
     get _cacheKey() { return `fb_posts_cache__${this._src}`; }
 
     _showStatus(type, msg) {
@@ -359,12 +360,18 @@
       if (this._rendering) return;
       this._rendering = true;
 
-      /* Estructura base */
+      // Estructura base
       this.innerHTML = `
         <div class="wallpaper-layer" style="background-image:url('${this._wallpaper}')"></div>
+        <canvas class="floating-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
         <div class="posts-grid">
           <div class="fb-loading">Cargando publicaciones…</div>
         </div>`;
+
+      // Iniciar partículas si corresponde
+      if (this._floatingImage) {
+        this._initFloatingParticles();
+      }
 
       try {
         const posts = await this._loadPosts();
@@ -392,6 +399,97 @@
       } finally {
         this._rendering = false;
       }
+    }
+
+    _initFloatingParticles() {
+      // Inspirado en panel-photo-gallery.js
+      const canvas = this.querySelector('.floating-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const DPR = window.devicePixelRatio || 1;
+      let running = true;
+      let particles = [];
+      let img = new window.Image();
+      img.src = this._floatingImage;
+
+      const resizeCanvas = () => {
+        const w = this.offsetWidth, h = this.offsetHeight;
+        canvas.width = Math.round(w * DPR);
+        canvas.height = Math.round(h * DPR);
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = 'high';
+      };
+
+      const makeParticle = () => {
+        const w = this.offsetWidth;
+        return {
+          x: Math.random() * w,
+          y: -40 - Math.random() * 200,
+          size: 36 + Math.random() * 44,
+          speedY: 0.18 + Math.random() * 0.42,
+          speedX: -0.2 + Math.random() * 0.4,
+          rot: Math.random() * Math.PI * 2,
+          rotV: -0.008 + Math.random() * 0.016,
+          sway: 0.5 + Math.random() * 0.7,
+          swayS: 0.004 + Math.random() * 0.008,
+          swayT: Math.random() * Math.PI * 2,
+          alpha: 0.45 + Math.random() * 0.35
+        };
+      };
+
+      const initParticles = () => {
+        particles = [];
+        for (let i = 0; i < 22; i++) {
+          const p = makeParticle();
+          p.y = Math.random() * this.offsetHeight;
+          particles.push(p);
+        }
+      };
+
+      const animate = () => {
+        if (!running) return;
+        const lw = this.offsetWidth, lh = this.offsetHeight;
+        ctx.clearRect(0, 0, lw, lh);
+        particles.forEach(p => {
+          p.swayT += p.swayS;
+          p.x += p.speedX + Math.sin(p.swayT) * p.sway;
+          p.y += p.speedY;
+          p.rot += p.rotV;
+          if (p.y > lh + 40) Object.assign(p, makeParticle());
+          ctx.save();
+          ctx.globalAlpha = p.alpha;
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          if (img.complete && img.naturalWidth > 0) {
+            ctx.drawImage(img, -p.size / 2, -p.size / 2, p.size, p.size);
+          }
+          ctx.restore();
+        });
+        requestAnimationFrame(animate);
+      };
+
+      // Iniciar cuando la imagen esté lista
+      const start = () => {
+        resizeCanvas();
+        initParticles();
+        animate();
+      };
+      if (img.complete) start();
+      else img.onload = start;
+
+      // Resize observer
+      this._floatingResizeObs?.disconnect?.();
+      this._floatingResizeObs = new window.ResizeObserver(() => {
+        resizeCanvas();
+        initParticles();
+      });
+      this._floatingResizeObs.observe(this);
+
+      // Limpiar al desconectar
+      this._floatingCleanup = () => { running = false; this._floatingResizeObs?.disconnect?.(); };
     }
 
     async _loadPosts() {
@@ -498,6 +596,7 @@
     disconnectedCallback() {
       this._zoomObserver?.disconnect();
       this._intersectionObserver?.disconnect();
+      this._floatingCleanup?.();
     }
   }
 
