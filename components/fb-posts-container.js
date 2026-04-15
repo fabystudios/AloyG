@@ -330,7 +330,7 @@
   class FbPostsContainer extends HTMLElement {
 
     static get observedAttributes() {
-      return ['src', 'cache-ttl', 'wallpaper', 'floatingimage'];
+      return ['src', 'cache-ttl', 'wallpaper', 'floatingimage', 'floatingimage2'];
     }
 
     connectedCallback() {
@@ -349,6 +349,7 @@
     get _cacheTtl() { return Number(this.getAttribute('cache-ttl')) || 3600000; }
     get _wallpaper(){ return this.getAttribute('wallpaper') || './img/fb-wallpaper.png'; }
     get _floatingImage(){ return this.getAttribute('floatingimage') || null; }
+    get _floatingImage2(){ return this.getAttribute('floatingimage2') || null; }
     get _cacheKey() { return `fb_posts_cache__${this._src}`; }
 
     _showStatus(type, msg) {
@@ -369,7 +370,7 @@
         </div>`;
 
       // Iniciar partículas si corresponde
-      if (this._floatingImage) {
+      if (this._floatingImage || this._floatingImage2) {
         this._initFloatingParticles();
       }
 
@@ -409,8 +410,19 @@
       const DPR = window.devicePixelRatio || 1;
       let running = true;
       let particles = [];
-      let img = new window.Image();
-      img.src = this._floatingImage;
+      // Soporta una o dos imágenes
+      let imgs = [];
+      if (this._floatingImage) {
+        let img1 = new window.Image();
+        img1.src = this._floatingImage;
+        imgs.push(img1);
+      }
+      if (this._floatingImage2) {
+        let img2 = new window.Image();
+        img2.src = this._floatingImage2;
+        imgs.push(img2);
+      }
+      if (!imgs.length) return;
 
       const resizeCanvas = () => {
         const w = this.offsetWidth, h = this.offsetHeight;
@@ -436,7 +448,8 @@
           sway: 0.5 + Math.random() * 0.7,
           swayS: 0.004 + Math.random() * 0.008,
           swayT: Math.random() * Math.PI * 2,
-          alpha: 0.45 + Math.random() * 0.35
+          alpha: 0.45 + Math.random() * 0.35,
+          imgIdx: Math.floor(Math.random() * imgs.length)
         };
       };
 
@@ -463,7 +476,8 @@
           ctx.globalAlpha = p.alpha;
           ctx.translate(p.x, p.y);
           ctx.rotate(p.rot);
-          if (img.complete && img.naturalWidth > 0) {
+          let img = imgs[p.imgIdx];
+          if (img && img.complete && img.naturalWidth > 0) {
             ctx.drawImage(img, -p.size / 2, -p.size / 2, p.size, p.size);
           }
           ctx.restore();
@@ -471,14 +485,20 @@
         requestAnimationFrame(animate);
       };
 
-      // Iniciar cuando la imagen esté lista
+      // Iniciar cuando todas las imágenes estén listas
+      let loaded = 0;
       const start = () => {
-        resizeCanvas();
-        initParticles();
-        animate();
+        loaded++;
+        if (loaded === imgs.length) {
+          resizeCanvas();
+          initParticles();
+          animate();
+        }
       };
-      if (img.complete) start();
-      else img.onload = start;
+      imgs.forEach(img => {
+        if (img.complete) start();
+        else img.onload = start;
+      });
 
       // Resize observer
       this._floatingResizeObs?.disconnect?.();
