@@ -1064,10 +1064,102 @@
     <script type="module" src="./components/ramos-expo.js"></script>
 
 <!-- Super GFE -->
-  <section id="Anuncios" class="section-header" style="margin-bottom: 0; padding: 1.5rem 2rem;">
-    <h2 class="md3-headline" style="color: white; margin: 0;">
-      <i class="material-icons align-middle" style="font-size: 1.7em;">campaign</i> Avisos
+  <section id="Anuncios" class="section-header" style="margin-bottom: 0; padding: 1.5rem 2rem; position:relative;">
+    <canvas id="magicStarsCanvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
+    <h2 class="md3-headline" style="color: white; margin: 0; position:relative; z-index:2; font-family: 'Roboto', Arial, sans-serif; letter-spacing: 1.5px; font-weight: 700; text-shadow: 0 2px 8px #000a, 0 4px 16px #fff8, 0 1px 0 #ffd700, 0 0 24px #00e5ff;">
+      <i class="material-icons align-middle" style="font-size: 1.7em; vertical-align: middle; color: #fff; text-shadow: 0 0 12px #fff, 0 0 24px #00e5ff;">campaign</i>
+      <span id="magicTitleText" style="text-shadow: 0 2px 8px #000a, 0 4px 16px #fff8, 0 1px 0 #ffd700, 0 0 24px #00e5ff;">Avisos</span>
     </h2>
+    <script>
+    // Magic stars and sparkles animation (más estrellas, colores variados, 3D efecto)
+    (function() {
+      const canvas = document.getElementById('magicStarsCanvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let dpr = window.devicePixelRatio || 1;
+      let width, height;
+      function resize() {
+        width = canvas.offsetWidth;
+        height = canvas.offsetHeight;
+        canvas.width = width * dpr;
+        canvas.height = height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+      window.addEventListener('resize', resize);
+      resize();
+      // Más estrellas y colores
+      const STAR_COLORS = ['#fffbe9', '#ffd700', '#00e5ff', '#ff80ab', '#b388ff', '#fff', '#ffe082', '#80d8ff', '#ffb300', '#ff4081'];
+      const stars = Array.from({length: 48}, () => createStar());
+      const sparks = [];
+      function createStar() {
+        const color = STAR_COLORS[Math.floor(Math.random()*STAR_COLORS.length)];
+        return {
+          x: Math.random() * width,
+          y: Math.random() * height * 0.7 + 10,
+          r: Math.random() * 1.7 + 0.8,
+          twinkle: Math.random() * Math.PI * 2,
+          speed: 0.2 + Math.random() * 0.3,
+          color,
+          z: Math.random() * 2 + 1 // para efecto 3D
+        };
+      }
+      function createSpark(x, y) {
+        return {
+          x, y,
+          vx: (Math.random() - 0.5) * 2.2,
+          vy: -Math.random() * 2.2 - 0.5,
+          alpha: 1,
+          r: Math.random() * 1.5 + 0.7,
+          color: STAR_COLORS[Math.floor(Math.random()*STAR_COLORS.length)]
+        };
+      }
+      function drawStar(star) {
+        ctx.save();
+        ctx.globalAlpha = 0.7 + 0.3 * Math.sin(star.twinkle);
+        ctx.beginPath();
+        // Efecto 3D: sombra y brillo
+        ctx.arc(star.x, star.y, star.r * star.z, 0, Math.PI * 2);
+        ctx.fillStyle = star.color;
+        ctx.shadowColor = star.color;
+        ctx.shadowBlur = 12 * star.z;
+        ctx.fill();
+        ctx.restore();
+      }
+      function drawSpark(spark) {
+        ctx.save();
+        ctx.globalAlpha = spark.alpha;
+        ctx.beginPath();
+        ctx.arc(spark.x, spark.y, spark.r, 0, Math.PI * 2);
+        ctx.fillStyle = spark.color;
+        ctx.shadowColor = '#fff';
+        ctx.shadowBlur = 10;
+        ctx.fill();
+        ctx.restore();
+      }
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        for (const star of stars) {
+          drawStar(star);
+          star.twinkle += 0.04 + Math.random()*0.01;
+          if (Math.random() < 0.01) {
+            // Más chispas
+            sparks.push(createSpark(star.x, star.y));
+          }
+        }
+        for (let i = sparks.length - 1; i >= 0; i--) {
+          const s = sparks[i];
+          drawSpark(s);
+          s.x += s.vx;
+          s.y += s.vy;
+          s.vy += 0.04;
+          s.alpha -= 0.018;
+          if (s.alpha <= 0) sparks.splice(i, 1);
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
+    })();
+    </script>
   </section>
 
 
