@@ -1218,7 +1218,25 @@
     </script>
   </section>
 
-  
+<br><br>
+
+<script src="./components/fb-post-mosaic.js"></script>
+<script src="./components/fb-posts-container.js"></script>
+
+<!--
+  El componente:
+    src        → ruta al JSON (default: ./facebook-posts.json)
+    cache-ttl  → ms de cache (default: 3600000 = 1 hora)
+    wallpaper  → imagen de fondo (default: ./img/fb-wallpaper.png)
+-->
+<fb-posts-container
+  src="./facebook-posts.json"
+  wallpaper="./img/fb-wallpaper.png"
+></fb-posts-container>
+
+
+  <br>
+
 
   <glassmorphism-yt-player
     video-id="Gv3KSJWqbz4"
@@ -2892,313 +2910,7 @@ html<panel-photo-gallery mascot-src="./otra/ruta/photo.png"></panel-photo-galler
  
 <br><br> -->
 
-    <!-- Publicaciones de Facebook -->
-         <!-- Wallpaper decorativo de fondo -->
-  <!-- <div id="facebookPostsContainer" class="container" style="padding: 20px 8px; max-width: 1200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 20px; position: relative; overflow: hidden; box-shadow: 0 4px 8px 3px rgba(0, 0, 0, 0.15), 0 1px 3px 0 rgba(0, 0, 0, 0.3);">
-
-    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('./img/fb-wallpaper.png'); background-repeat: repeat; background-size: 200px; background-position: center; opacity: 0.3; pointer-events: none;"></div>
  
-  </div> -->
-    <!-- Las publicaciones se cargarán dinámicamente desde facebook-posts.json -->
-
-  <!-- SDK de Facebook para embeds elegantes -->
-  <script async defer crossorigin="anonymous" 
-          src="https://connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v18.0"></script>
-  
-  <!-- SDK de Instagram para embeds -->
-  <script async src="https://www.instagram.com/embed.js"></script>
-
-  <script>
-    (function() {
-      'use strict';
-      
-      console.log('🚀 Script de Facebook Posts iniciado');
-      
-      const CACHE_KEY = 'facebook_posts_cache';
-      const CACHE_DURATION = 3600000; // 1 hora
-      let postsLoaded = false;
-      
-      function sortPosts(posts) {
-        const activePosts = posts.filter(p => p.position !== -1);
-        if (activePosts.length === 0) return [];
-        
-        const fixedPosts = activePosts.filter(p => p.position > 0).sort((a, b) => a.position - b.position);
-        const randomPosts = activePosts.filter(p => p.position === 0);
-        
-        for (let i = randomPosts.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [randomPosts[i], randomPosts[j]] = [randomPosts[j], randomPosts[i]];
-        }
-        
-        const result = [];
-        const maxPosition = Math.max(activePosts.length, ...fixedPosts.map(p => p.position));
-        let randomIndex = 0;
-        
-        for (let i = 1; i <= maxPosition; i++) {
-          const fixedPost = fixedPosts.find(p => p.position === i);
-          if (fixedPost) {
-            result.push(fixedPost);
-          } else if (randomIndex < randomPosts.length) {
-            result.push(randomPosts[randomIndex++]);
-          }
-        }
-        
-        while (randomIndex < randomPosts.length) {
-          result.push(randomPosts[randomIndex++]);
-        }
-        
-        return result;
-      }
-      
-      function generatePostHTML(post, index) {
-        const title = post.title ? `<div class="fb-post-title">${post.title}</div>` : '';
-        const description = post.description ? `<div class="fb-post-description">${post.description}</div>` : '';
-        const type = post.type || (post.url && post.url.includes('instagram.com') ? 'instagram' : 'facebook');
-
-        if (type === 'video') {
-          const autoplay = post.autoplay !== false;
-          const loop = post.loop !== false;
-          const muted = post.muted !== false;
-          const controls = post.controls !== false;
-          const posterAttr = post.poster ? `poster="${post.poster}"` : '';
-          const isFull = post.layout === 'full-row' || post.orientation === 'landscape';
-          const wrapperClass = isFull ? 'fb-post-wrapper full-row' : 'fb-post-wrapper';
-          const containerClass = isFull ? 'fb-embed-container video-full' : 'fb-embed-container';
-
-          return `
-            <div class="${wrapperClass}" style="animation-delay: ${index * 0.1}s" data-autoplay="${autoplay}">
-              ${title}
-              <div class="${containerClass}">
-                <video data-src="${post.url}" ${loop ? 'loop' : ''} ${muted ? 'muted' : ''} ${controls ? 'controls' : ''} ${posterAttr} playsinline preload="metadata" style="border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);"></video>
-              </div>
-              ${description}
-            </div>
-          `;
-        }
-        
-        if (type === 'instagram') {
-          return `
-            <div class="fb-post-wrapper" style="animation-delay: ${index * 0.1}s">
-              ${title}
-              <div class="fb-embed-container" style="display: flex; justify-content: center;">
-                <blockquote class="instagram-media" data-instgrm-captioned data-instgrm-permalink="${post.url}" data-instgrm-version="14" 
-                            style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); 
-                            margin: 1px; max-width:540px; min-width:326px; padding:0; width:99.375%; width:-webkit-calc(100% - 2px); width:calc(100% - 2px);">
-                  <div style="padding:16px;">
-                    <a href="${post.url}" style="background:#FFFFFF; line-height:0; padding:0 0; text-align:center; text-decoration:none; width:100%;" target="_blank" rel="noopener noreferrer">Ver publicación en Instagram</a>
-                  </div>
-                </blockquote>
-              </div>
-              ${description}
-            </div>
-          `;
-        }
-        
-        const isMobile = window.innerWidth < 768;
-        const fbWidth = post.width || (isMobile ? 'auto' : '700');
-        const hasCustomWidth = post.width && post.width > 500;
-        const customWidthClass = hasCustomWidth ? 'custom-width' : '';
-        const embedWideClass = hasCustomWidth ? 'wide' : '';
-        console.log(`📊 Post ${post.id}: width=${post.width}, fbWidth=${fbWidth}, customClass=${customWidthClass}`);
-        const enableZoom = post.enableZoom !== false;
-        const zoom = post.zoom || 1;
-        const offsetX = post.offsetX || 0;
-        const offsetY = post.offsetY || 0;
-        const zoomClass = enableZoom ? 'fb-post-zoom' : '';
-        const dataAttrs = enableZoom ? `data-zoom="${zoom}" data-offset-x="${offsetX}" data-offset-y="${offsetY}"` : '';
-        
-        return `
-          <div class="fb-post-wrapper ${customWidthClass}" style="animation-delay: ${index * 0.1}s">
-            ${title}
-            <div class="fb-embed-container ${embedWideClass}">
-              <div class="fb-post ${zoomClass}" ${dataAttrs}
-                   data-href="${post.url}?t=${Date.now()}" 
-                   data-width="${fbWidth}" 
-                   data-show-text="false">
-              </div>
-            </div>
-            ${description}
-          </div>
-        `;
-      }
-      
-      async function loadFacebookPosts() {
-        try {
-          if (postsLoaded) {
-            console.log('⚠️ Posts ya cargados, saltando...');
-            return;
-          }
-          postsLoaded = true;
-          
-          const container = document.getElementById('facebookPostsContainer');
-          if (!container) {
-            console.error('❌ No se encontró facebookPostsContainer');
-            return;
-          }
-          
-          sessionStorage.removeItem(CACHE_KEY);
-          localStorage.removeItem(CACHE_KEY);
-          console.log('🧹 Cache limpiado (session + local)');
-          
-          const cached = sessionStorage.getItem(CACHE_KEY);
-          let sortedPosts;
-          
-          if (cached) {
-            const cacheData = JSON.parse(cached);
-            if (Date.now() - cacheData.timestamp < CACHE_DURATION) {
-              sortedPosts = cacheData.posts;
-              console.log('⚡ Facebook posts desde cache');
-            }
-          }
-          
-          if (!sortedPosts) {
-            console.log('📥 Cargando facebook-posts.json...');
-            const response = await fetch('./facebook-posts.json');
-            if (!response.ok) throw new Error('Error al cargar facebook-posts.json');
-            const posts = await response.json();
-            console.log('📦 Posts recibidos:', posts);
-            sortedPosts = sortPosts(posts);
-            console.log('📊 Posts después de sortear:', sortedPosts);
-            
-            sessionStorage.setItem(CACHE_KEY, JSON.stringify({
-              posts: sortedPosts,
-              timestamp: Date.now()
-            }));
-            console.log('✅ Facebook posts cargados: ' + sortedPosts.length);
-          }
-          
-          if (sortedPosts.length === 0) {
-            container.style.display = 'none';
-            return;
-          }
-          
-          sortedPosts.forEach((post, index) => {
-            container.insertAdjacentHTML('beforeend', generatePostHTML(post, index));
-          });
-          
-          if (window.FB) {
-            window.FB.XFBML.parse(container);
-          }
-          
-          if (window.instgrm) {
-            console.log('📷 Procesando embeds de Instagram...');
-            window.instgrm.Embeds.process();
-          } else {
-            console.log('⏳ Esperando SDK de Instagram...');
-            setTimeout(() => {
-              if (window.instgrm) {
-                console.log('📷 Instagram SDK cargado, procesando...');
-                window.instgrm.Embeds.process();
-              }
-            }, 2000);
-          }
-          
-          function applyZoomToIframes() {
-            document.querySelectorAll('.fb-post-zoom').forEach(postDiv => {
-              const zoom = parseFloat(postDiv.dataset.zoom) || 1;
-              const offsetX = parseFloat(postDiv.dataset.offsetX) || 0;
-              const offsetY = parseFloat(postDiv.dataset.offsetY) || 0;
-              
-              if (zoom !== 1 || offsetX !== 0 || offsetY !== 0) {
-                const iframe = postDiv.querySelector('iframe');
-                if (iframe) {
-                  iframe.style.transform = `scale(${zoom}) translate(${offsetX}px, ${offsetY}px)`;
-                  iframe.style.transformOrigin = 'center center';
-                  iframe.style.transition = 'none';
-                }
-              }
-            });
-          }
-          
-          setTimeout(applyZoomToIframes, 2000);
-          setTimeout(applyZoomToIframes, 4000);
-          setTimeout(applyZoomToIframes, 6000);
-          
-          const mutationObserver = new MutationObserver((mutations) => {
-            mutations.forEach((mutation) => {
-              if (mutation.addedNodes.length) {
-                mutation.addedNodes.forEach((node) => {
-                  if (node.tagName === 'IFRAME' || (node.querySelector && node.querySelector('iframe'))) {
-                    setTimeout(applyZoomToIframes, 100);
-                  }
-                });
-              }
-            });
-          });
-          
-          if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries) => {
-              entries.forEach(entry => {
-                const wrapper = entry.target;
-
-                if (entry.isIntersecting) {
-                  setTimeout(applyZoomToIframes, 500);
-                  setTimeout(applyZoomToIframes, 1500);
-                }
-
-                try {
-                  const vid = wrapper.querySelector('video[data-src]');
-                  if (vid) {
-                    if (entry.isIntersecting) {
-                      if (!vid.dataset.loaded) {
-                        vid.src = vid.dataset.src;
-                        vid.load();
-                        vid.dataset.loaded = '1';
-                      }
-
-                      const shouldAutoplay = wrapper.dataset.autoplay === 'true' || wrapper.getAttribute('data-autoplay') === 'true';
-                      if (shouldAutoplay) {
-                        vid.play().catch(() => {});
-                      }
-                    } else {
-                      if (!vid.paused) {
-                        try { vid.pause(); } catch(e){}
-                      }
-                    }
-                  }
-                } catch (e) {
-                  console.warn('Error manejando video lazy-load:', e);
-                }
-
-                if (entry.isIntersecting) {
-                  setTimeout(applyZoomToIframes, 500);
-                }
-              });
-            }, { threshold: 0.25 });
-
-            document.querySelectorAll('.fb-post-wrapper').forEach(wrapper => {
-              observer.observe(wrapper);
-              mutationObserver.observe(wrapper, {
-                childList: true,
-                subtree: true
-              });
-            });
-          }
-          
-        } catch (error) {
-          console.error('❌ Error al cargar publicaciones de Facebook:', error);
-        }
-      }
-      
-      window.fbAsyncInit = function() {
-        console.log('📱 SDK de Facebook cargado');
-        loadFacebookPosts();
-      };
-      
-      if (window.FB) {
-        console.log('📱 SDK de Facebook ya estaba cargado');
-        loadFacebookPosts();
-      } else {
-        console.log('⏳ Esperando SDK de Facebook...');
-      }
-      
-      setTimeout(() => {
-        console.log('⏰ Timeout: forzando carga de posts');
-        loadFacebookPosts();
-      }, 5000);
-    })();
-  </script>
-  <br><br>
 
   <!-- Publicación Especial: Reunidos en su nombre -->
   <style>
@@ -3262,13 +2974,9 @@ html<panel-photo-gallery mascot-src="./otra/ruta/photo.png"></panel-photo-galler
     }
   </style>
 
-
-
   
      <!-- // section con un div con clase "rifa-navidad-article"para poner el video: '/video/rifa.mp4 ciclico infinito, y abajo un boton animado que diga: Adquierela aqui, que lleve a <div class="
   // ">rifa/rifa.html' -->
-
-
 
 
 
