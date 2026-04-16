@@ -134,7 +134,9 @@
 
     fb-post-mosaic .g3 .photo-cell:first-child {
       grid-column: 1 / -1;
-      height: 220px;
+      height: 270px;
+      min-height: 180px;
+      max-height: 340px;
     }
     fb-post-mosaic .g5 .photo-cell {
       height: 150px;
@@ -210,17 +212,43 @@
       try { photos = JSON.parse(this.getAttribute('photos') || '[]'); } catch (e) {}
 
       const n    = photos.length;
-      const show = Math.min(n, 5);
-      const gc   = n === 1 ? 'g1' : n === 2 ? 'g2' : n === 3 ? 'g3' : n === 4 ? 'g4' : 'g5';
-      const hc   = n === 1 ? 'h1' : n >= 5 ? 'h5' : 'h2';
+      let show = n;
+      let gc = '';
+      let hc = '';
+      let cols = 0;
+      let filas = 1;
+      let maxShow = 5;
 
-      const photosHTML = photos.slice(0, show).map((src, i) => {
-        const isLast = (i === show - 1) && n > 5;
-        return `<div class="photo-cell ${hc}">
-          <img src="${src}" alt="Foto ${i + 1}" loading="lazy">
-          ${isLast ? `<div class="more-overlay">+${n - 4}</div>` : ''}
-        </div>`;
-      }).join('');
+      if (n === 1) {
+        gc = 'g1'; hc = 'h1'; maxShow = 1; cols = 1; filas = 1;
+      } else if (n === 2) {
+        gc = 'g2'; hc = 'h2'; maxShow = 2; cols = 2; filas = 1;
+      } else if (n === 3) {
+        gc = 'g3'; hc = 'h2'; maxShow = 3; cols = 3; filas = 1;
+      } else if (n === 4) {
+        gc = 'g4'; hc = 'h2'; maxShow = 4; cols = 2; filas = 2;
+      } else if (n > 4) {
+        gc = 'g5'; hc = 'h5';
+          maxShow = n > 9 ? 9 : n;
+        cols = 3;
+        filas = Math.ceil(Math.min(n, 12) / 3);
+      }
+      show = Math.min(n, maxShow);
+
+      // Generar grilla de hasta 4 filas x 3 columnas
+      let photosHTML = '';
+      for (let f = 0; f < filas; f++) {
+        for (let c = 0; c < cols; c++) {
+          const idx = f * cols + c;
+          if (idx >= show) break;
+          const src = photos[idx];
+          const isLast = (idx === show - 1) && n > maxShow;
+          photosHTML += `<div class="photo-cell ${hc}">
+            <img src="${src}" alt="Foto ${idx + 1}" loading="lazy">
+            ${isLast ? `<div class="more-overlay">+${n - maxShow}</div>` : ''}
+          </div>`;
+        }
+      }
 
       const descHTML = description
         ? `<div class="post-description">${description}</div>`
