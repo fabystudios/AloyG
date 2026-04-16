@@ -63,7 +63,7 @@
   },
   {
   "id": "Aurelia",
-  "position": 3,
+  "position": -1,
   "hasVideo": false,
   "link": "./avisos.html",
   "time": { "desktop": 5, "mobile": 5 },
@@ -222,7 +222,7 @@
   },
        {
     "id": "",
-    "position": -1,
+    "position": 3,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -343,7 +343,7 @@
   },
   {
     "id": "asistencia",
-    "position": -1,
+    "position": 4,
     "hasVideo": true,
     "link": "#asistencia",
     "desktop": {
