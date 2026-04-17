@@ -109,10 +109,9 @@
     }
     fb-post-mosaic .g1 { grid-template-columns: 1fr; }
     fb-post-mosaic .g2 { grid-template-columns: 1fr 1fr; }
-    fb-post-mosaic .g3 { grid-template-columns: 1fr 1fr; } /* primera ocupa fila completa */
+    fb-post-mosaic .g3 { grid-template-columns: 1fr 1fr; }
     fb-post-mosaic .g4 { grid-template-columns: 1fr 1fr; }
-    fb-post-mosaic .g6 { grid-template-columns: 1fr 1fr; } /* 2 col × 3 filas */
-    fb-post-mosaic .g9 { grid-template-columns: 1fr 1fr 1fr; }
+    fb-post-mosaic .g5 { grid-template-columns: 1fr 1fr 1fr; }
 
     fb-post-mosaic .photo-cell {
       position: relative;
@@ -129,27 +128,19 @@
     }
     fb-post-mosaic .photo-cell:hover img { transform: scale(1.05); }
 
-    /* n=1 */
-    fb-post-mosaic .g1 .photo-cell { height: 300px; }
+    fb-post-mosaic .h1 { height: 300px; }
+    fb-post-mosaic .h2 { height: 190px; }
+    fb-post-mosaic .h5 { height: 140px; }
 
-    /* n=2 */
-    fb-post-mosaic .g2 .photo-cell { height: 220px; }
-
-    /* n=3: primera foto ancha arriba, dos cuadradas abajo */
-    fb-post-mosaic .g3 .photo-cell          { height: 160px; }
     fb-post-mosaic .g3 .photo-cell:first-child {
       grid-column: 1 / -1;
-      height: 220px;
+      height: 270px;
+      min-height: 180px;
+      max-height: 340px;
     }
-
-    /* n=4: 2×2, celdas cuadradas ~160px → total ~322px */
-    fb-post-mosaic .g4 .photo-cell { height: 160px; }
-
-    /* n=5-6: 2×3, celdas cuadradas ~130px → total ~392px */
-    fb-post-mosaic .g6 .photo-cell { height: 130px; }
-
-    /* n=7-9: 3×3 */
-    fb-post-mosaic .g9 .photo-cell { height: 110px; }
+    fb-post-mosaic .g5 .photo-cell {
+      height: 150px;
+    }
 
     fb-post-mosaic .more-overlay {
       position: absolute;
@@ -220,30 +211,43 @@
       let photos = [];
       try { photos = JSON.parse(this.getAttribute('photos') || '[]'); } catch (e) {}
 
-      const n = photos.length;
+      const n    = photos.length;
+      let show = n;
+      let gc = '';
+      let hc = '';
+      let cols = 0;
+      let filas = 1;
+      let maxShow = 5;
 
-      // Layout: cols × filas
-      // n=1 → 1×1 | n=2 → 2×1 | n=3 → 2×2 (primera ocupa fila entera)
-      // n=4 → 2×2 | n=5,6 → 2×3 | n=7-9 → 3×3
-      let cols, filas, gc;
-      if (n === 1)      { cols = 1; filas = 1; gc = 'g1'; }
-      else if (n === 2) { cols = 2; filas = 1; gc = 'g2'; }
-      else if (n === 3) { cols = 2; filas = 2; gc = 'g3'; } // primera en fila completa via CSS
-      else if (n === 4) { cols = 2; filas = 2; gc = 'g4'; }
-      else if (n <= 6)  { cols = 2; filas = 3; gc = 'g6'; }
-      else              { cols = 3; filas = 3; gc = 'g9'; }
+      if (n === 1) {
+        gc = 'g1'; hc = 'h1'; maxShow = 1; cols = 1; filas = 1;
+      } else if (n === 2) {
+        gc = 'g2'; hc = 'h2'; maxShow = 2; cols = 2; filas = 1;
+      } else if (n === 3) {
+        gc = 'g3'; hc = 'h2'; maxShow = 3; cols = 3; filas = 1;
+      } else if (n === 4) {
+        gc = 'g4'; hc = 'h2'; maxShow = 4; cols = 2; filas = 2;
+      } else if (n > 4) {
+        gc = 'g5'; hc = 'h5';
+          maxShow = n > 9 ? 9 : n;
+        cols = 3;
+        filas = Math.ceil(Math.min(n, 12) / 3);
+      }
+      show = Math.min(n, maxShow);
 
-      const maxShow = (gc === 'g3') ? 3 : cols * filas;
-      const show    = Math.min(n, maxShow);
-
+      // Generar grilla de hasta 4 filas x 3 columnas
       let photosHTML = '';
-      for (let i = 0; i < show; i++) {
-        const src    = photos[i];
-        const isLast = (i === show - 1) && n > maxShow;
-        photosHTML += `<div class="photo-cell">
-          <img src="${src}" alt="Foto ${i + 1}" loading="lazy">
-          ${isLast ? `<div class="more-overlay">+${n - maxShow}</div>` : ''}
-        </div>`;
+      for (let f = 0; f < filas; f++) {
+        for (let c = 0; c < cols; c++) {
+          const idx = f * cols + c;
+          if (idx >= show) break;
+          const src = photos[idx];
+          const isLast = (idx === show - 1) && n > maxShow;
+          photosHTML += `<div class="photo-cell ${hc}">
+            <img src="${src}" alt="Foto ${idx + 1}" loading="lazy">
+            ${isLast ? `<div class="more-overlay">+${n - maxShow}</div>` : ''}
+          </div>`;
+        }
       }
 
       const descHTML = description
