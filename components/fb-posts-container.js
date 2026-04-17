@@ -330,7 +330,7 @@
   class FbPostsContainer extends HTMLElement {
 
     static get observedAttributes() {
-      return ['src', 'cache-ttl', 'wallpaper', 'floatingimage', 'floatingimage2'];
+      return ['src', 'json', 'cache-ttl', 'wallpaper', 'floatingimage', 'floatingimage2'];
     }
 
     connectedCallback() {
@@ -345,7 +345,10 @@
       if (this.isConnected) this._render();
     }
 
-    get _src()      { return this.getAttribute('src')       || './facebook-posts.json'; }
+    // Permite usar el prop 'json' como fuente alternativa, con fallback a 'src' y default
+    get _src() {
+      return this.getAttribute('json') || this.getAttribute('src') || './facebook-posts.json';
+    }
     get _cacheTtl() { return Number(this.getAttribute('cache-ttl')) || 3600000; }
     get _wallpaper(){ return this.getAttribute('wallpaper') || './img/fb-wallpaper.png'; }
     get _floatingImage(){ return this.getAttribute('floatingimage') || null; }
