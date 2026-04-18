@@ -76,7 +76,7 @@ class FeriaPoster extends HTMLElement {
   get figureMobileSrc() { return this.getAttribute('figure-mobile-src') || this.figureSrc; }
   get banderinesSrc()   { return this.getAttribute('banderines-src') || ''; }
   get boardSrc()         { return this.getAttribute('board-src') || ''; }
-  get ctaMobile()       { return this.getAttribute('cta-mobile') || 'click para zoom'; }
+  get ctaMobile()       { return this.getAttribute('cta-mobile') || 'click = zoom'; }
   get ctaDesktop()      { return this.getAttribute('cta-desktop') || 'click sobre el flyer para zoom'; }
   get figureBottom()       { return this.getAttribute('figure-bottom') || '0px'; }
   get figureLeft()          { return this.getAttribute('figure-left') || '-22%'; }
