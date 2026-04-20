@@ -82,13 +82,32 @@
     let content = '';
     
     if (slide.hasVideo && slide.desktop.type === 'video') {
-      content = `
-        <a href="${slide.link}">
-          <video src="${slide.desktop.src}" class="d-none d-md-block w-100" alt="${slide.id} escritorio" 
-                 autoplay muted loop preload="${preloadAttr}" poster="${slide.desktop.poster}"></video>
-          <video src="${slide.mobile.src}" class="d-block d-md-none w-100" alt="${slide.id} móvil" 
-                 autoplay muted loop preload="${preloadAttr}" poster="${slide.mobile.poster}"></video>
-        </a>`;
+            content = `
+         <a href="${slide.link}">
+           <video data-src="${slide.desktop.src}" class="d-none d-md-block w-100" alt="${slide.id} escritorio" 
+             autoplay muted loop preload="${preloadAttr}" poster="${slide.desktop.poster}"></video>
+           <video data-src="${slide.mobile.src}" class="d-block d-md-none w-100" alt="${slide.id} móvil" 
+             autoplay muted loop preload="${preloadAttr}" poster="${slide.mobile.poster}"></video>
+         </a>`;
+    // Lazy loading para videos mp4 en carousel-loader
+    if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+      window.addEventListener('DOMContentLoaded', function() {
+        const videos = document.querySelectorAll('video[data-src]');
+        const loadVideo = (video) => {
+          if (!video.src && video.dataset.src) video.src = video.dataset.src;
+          video.load();
+        };
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              loadVideo(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.2 });
+        videos.forEach(video => observer.observe(video));
+      });
+    }
     } else {
       // Soporte para imágenes (si en el futuro las usas)
       content = `

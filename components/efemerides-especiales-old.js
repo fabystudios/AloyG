@@ -67,10 +67,33 @@ class EfemeridesEspeciales extends HTMLElement {
       videoHTML = `
         <video class="video-player vertical-video" controls preload="metadata" playsinline
           poster="${especial.poster || ''}"
-          controlsList="nodownload">
-          <source src="${videoUrl}" type="video/mp4">
+          controlsList="nodownload" data-src="${videoUrl}">
+          <source data-src="${videoUrl}" type="video/mp4">
           Tu navegador no soporta la reproducción de video.
         </video>
+      // Lazy loading para videos mp4 en efemerides-especiales-old
+      if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+        window.addEventListener('DOMContentLoaded', function() {
+          const videos = document.querySelectorAll('video[data-src]');
+          const sources = (video) => Array.from(video.querySelectorAll('source[data-src]'));
+          const loadVideo = (video) => {
+            if (!video.src && video.dataset.src) video.src = video.dataset.src;
+            sources(video).forEach(source => {
+              if (!source.src && source.dataset.src) source.src = source.dataset.src;
+            });
+            video.load();
+          };
+          const observer = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                loadVideo(entry.target);
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.2 });
+          videos.forEach(video => observer.observe(video));
+        });
+      }
       `;
     } else if (isYouTube && videoUrl) {
       const embedUrl = this.getYouTubeEmbedUrl(videoUrl, mobile);

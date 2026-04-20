@@ -454,8 +454,31 @@ semana-santa-card { display: block; }
     <!-- ▌▌ PANEL VIDEO ▌▌ -->
     <div class="ssc-video-panel">
       <div class="ssc-video-wrap">
-        <video autoplay muted loop controls playsinline>
-          <source src="${vsrc}" type="video/mp4">
+        <video autoplay muted loop controls playsinline data-src="${vsrc}">
+          <source data-src="${vsrc}" type="video/mp4">
+        // Lazy loading para videos mp4 en semana-santa-card
+        if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+          window.addEventListener('DOMContentLoaded', function() {
+            const videos = document.querySelectorAll('video[data-src]');
+            const sources = (video) => Array.from(video.querySelectorAll('source[data-src]'));
+            const loadVideo = (video) => {
+              if (!video.src && video.dataset.src) video.src = video.dataset.src;
+              sources(video).forEach(source => {
+                if (!source.src && source.dataset.src) source.src = source.dataset.src;
+              });
+              video.load();
+            };
+            const observer = new IntersectionObserver(entries => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  loadVideo(entry.target);
+                  observer.unobserve(entry.target);
+                }
+              });
+            }, { threshold: 0.2 });
+            videos.forEach(video => observer.observe(video));
+          });
+        }
         </video>
       </div>
       <div class="ssc-seam"></div>

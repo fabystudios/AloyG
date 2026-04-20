@@ -576,8 +576,8 @@ class VideoGoldSpecial extends HTMLElement {
   }
 
   _render() {
-    const videoDesktop  = this.getAttribute('video-desktop')  || '';
-    const videoMobile   = this.getAttribute('video-mobile')   || '';
+      const videoDesktop  = this.getAttribute('video-desktop')  || '';
+      const videoMobile   = this.getAttribute('video-mobile')   || '';
     const anchoDesktop  = this.getAttribute('ancho-desktop')  || '80vw';
     const posterMobile  = this.getAttribute('poster-mobile')  || '';
     const posterDesktop = this.getAttribute('poster-desktop') || '';
@@ -589,78 +589,102 @@ class VideoGoldSpecial extends HTMLElement {
     const isYouTube  = !!ytId;
     const isMp4Desktop = !isYouTube && !!videoDesktop;
 
-    if (mobile) {
-      /* ── MOBILE ── */
-      this._outer.style.setProperty('--card-width', 'min(260px, 95vw)');
-      this._outer.style.setProperty('--badge-top', '14px');
-      this._outer.style.setProperty('--badge-bottom', 'auto');
-      this._videoWrap.className = 'video-wrap portrait';
+      if (mobile) {
+        /* ── MOBILE ── */
+        this._outer.style.setProperty('--card-width', 'min(260px, 95vw)');
+        this._outer.style.setProperty('--badge-top', '14px');
+        this._outer.style.setProperty('--badge-bottom', 'auto');
+        this._videoWrap.className = 'video-wrap portrait';
 
-      if (videoMobile) {
-        /* poster: explícito → thumbnail YouTube → sin poster */
-        const poster = posterMobile || ytThumb;
-        this._videoWrap.innerHTML = `
-          <video id="vid" src="${videoMobile}" ${poster ? `poster="${poster}"` : ''} loop playsinline></video>
-          <div class="overlay"></div>
-          <button class="play-btn" id="playBtn" aria-label="Reproducir / Pausar">
-            <span class="play-icon" id="playIcon"></span>
-          </button>
-        `;
-        this._timeEl.textContent = '0:00';
-        this._bindVideo(true);
+        if (videoMobile) {
+          /* poster: explícito → thumbnail YouTube → sin poster */
+          const poster = posterMobile || ytThumb;
+          this._videoWrap.innerHTML = `
+            <video id="vid" data-src="${videoMobile}" ${poster ? `poster=\"${poster}\"` : ''} loop playsinline></video>
+            <div class="overlay"></div>
+            <button class="play-btn" id="playBtn" aria-label="Reproducir / Pausar">
+              <span class="play-icon" id="playIcon"></span>
+            </button>
+          `;
+          this._timeEl.textContent = '0:00';
+          this._setupLazyVideo(true);
+        } else {
+          this._videoWrap.innerHTML = `
+            <div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(245,208,107,0.5);font-family:'Raleway',sans-serif;font-size:13px;letter-spacing:2px;">
+              Sin video mobile configurado
+            </div>`;
+          this._timeEl.textContent = '';
+        }
+
       } else {
-        this._videoWrap.innerHTML = `
-          <div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(245,208,107,0.5);font-family:'Raleway',sans-serif;font-size:13px;letter-spacing:2px;">
-            Sin video mobile configurado
-          </div>`;
-        this._timeEl.textContent = '';
+        /* ── DESKTOP ── */
+        this._outer.style.setProperty('--card-width', anchoDesktop);
+        this._outer.style.setProperty('--badge-top', 'auto');
+        this._outer.style.setProperty('--badge-bottom', '72px');
+        this._videoWrap.className = 'video-wrap landscape';
+
+        if (isYouTube) {
+          /* YouTube embed — controles nativos, sin play-btn propio */
+          const embedSrc = `https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&color=white`;
+          this._videoWrap.innerHTML = `
+            <iframe src="${embedSrc}" allowfullscreen
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+            </iframe>
+            <div class="overlay"></div>
+          `;
+          this._timeEl.textContent = '';
+
+        } else if (isMp4Desktop) {
+          /* Mp4 en desktop — landscape, con play-btn propio */
+          const poster = posterDesktop || ytThumb;
+          this._videoWrap.innerHTML = `
+            <video id="vid" data-src="${videoDesktop}" ${poster ? `poster=\"${poster}\"` : ''} loop playsinline></video>
+            <div class="overlay"></div>
+            <button class="play-btn" id="playBtn" aria-label="Reproducir / Pausar">
+              <span class="play-icon" id="playIcon"></span>
+            </button>
+          `;
+          this._timeEl.textContent = '0:00';
+          this._setupLazyVideo(false);
+
+        } else if (posterDesktop) {
+          /* Sin video: mostrar imagen estática */
+          this._videoWrap.innerHTML = `
+            <img src="${posterDesktop}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="" />
+            <div class="overlay"></div>
+          `;
+          this._timeEl.textContent = '';
+
+        } else {
+          this._videoWrap.innerHTML = `
+            <div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(245,208,107,0.5);font-family:'Raleway',sans-serif;font-size:13px;letter-spacing:2px;">
+              Sin video configurado
+            </div>`;
+          this._timeEl.textContent = '';
+        }
       }
+    }
 
-    } else {
-      /* ── DESKTOP ── */
-      this._outer.style.setProperty('--card-width', anchoDesktop);
-      this._outer.style.setProperty('--badge-top', 'auto');
-      this._outer.style.setProperty('--badge-bottom', '72px');
-      this._videoWrap.className = 'video-wrap landscape';
-
-      if (isYouTube) {
-        /* YouTube embed — controles nativos, sin play-btn propio */
-        const embedSrc = `https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&color=white`;
-        this._videoWrap.innerHTML = `
-          <iframe src="${embedSrc}" allowfullscreen
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-          </iframe>
-          <div class="overlay"></div>
-        `;
-        this._timeEl.textContent = '';
-
-      } else if (isMp4Desktop) {
-        /* Mp4 en desktop — landscape, con play-btn propio */
-        const poster = posterDesktop || ytThumb;
-        this._videoWrap.innerHTML = `
-          <video id="vid" src="${videoDesktop}" ${poster ? `poster="${poster}"` : ''} loop playsinline></video>
-          <div class="overlay"></div>
-          <button class="play-btn" id="playBtn" aria-label="Reproducir / Pausar">
-            <span class="play-icon" id="playIcon"></span>
-          </button>
-        `;
-        this._timeEl.textContent = '0:00';
-        this._bindVideo(false);
-
-      } else if (posterDesktop) {
-        /* Sin video: mostrar imagen estática */
-        this._videoWrap.innerHTML = `
-          <img src="${posterDesktop}" style="width:100%;height:100%;object-fit:cover;display:block;" alt="" />
-          <div class="overlay"></div>
-        `;
-        this._timeEl.textContent = '';
-
+    _setupLazyVideo(isMobileCtx) {
+      const vid = this._shadow.getElementById('vid');
+      if (!vid) return;
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !vid.src) {
+              vid.src = vid.dataset.src;
+              vid.load();
+              this._bindVideo(isMobileCtx);
+              observer.disconnect();
+            }
+          });
+        }, { threshold: 0.2 });
+        observer.observe(vid);
       } else {
-        this._videoWrap.innerHTML = `
-          <div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(245,208,107,0.5);font-family:'Raleway',sans-serif;font-size:13px;letter-spacing:2px;">
-            Sin video configurado
-          </div>`;
-        this._timeEl.textContent = '';
+        // Fallback: cargar de inmediato
+        vid.src = vid.dataset.src;
+        vid.load();
+        this._bindVideo(isMobileCtx);
       }
     }
   }

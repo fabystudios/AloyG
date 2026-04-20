@@ -13,19 +13,38 @@ class GlassmorphismVideo extends HTMLElement {
     
     // Generar HTML del poster si existe (igual que "Reflexiones del Evangelio" que funciona)
     const posterHTML = poster ? `
-      <img 
-        class="video-poster-gm"
-        src="${poster}" 
-        alt="${title}"
+      <video
         style="
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
           height: 100%;
+          border-radius: 20px;
           object-fit: cover;
-          cursor: pointer;
-          z-index: 1;
+        "
+        data-src="${videoUrl}"
+        poster="${posterUrl}"
+        autoplay muted loop playsinline></video>
+        // Lazy loading para videos mp4 en glassmorphism-video
+        if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
+          window.addEventListener('DOMContentLoaded', function() {
+            const videos = document.querySelectorAll('video[data-src]');
+            const loadVideo = (video) => {
+              if (!video.src && video.dataset.src) video.src = video.dataset.src;
+              video.load();
+            };
+            const observer = new IntersectionObserver(entries => {
+              entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                  loadVideo(entry.target);
+                  observer.unobserve(entry.target);
+                }
+              });
+            }, { threshold: 0.2 });
+            videos.forEach(video => observer.observe(video));
+          });
+        }
         "
         onclick="
           this.style.display='none'; 

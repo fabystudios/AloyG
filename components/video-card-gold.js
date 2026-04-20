@@ -375,9 +375,13 @@ class VideoCardGold extends HTMLElement {
     this._playing = false;
 
     this._titleEl.textContent = this.getAttribute('titulo') || 'Sin título';
-    this._vid.src = this.getAttribute('video') || '';
     this._badgeEl = this._shadow.getElementById('badgeEl');
     this._badgeEl.textContent = this.getAttribute('badge') || 'Premium';
+
+    // Lazy loading para video
+    this._vid.removeAttribute('src');
+    this._vid.setAttribute('data-src', this.getAttribute('video') || '');
+    this._setupLazyVideo();
 
     this._btn.addEventListener('click', () => this._toggle());
     this._vid.addEventListener('timeupdate', () => this._updateTime());
@@ -386,10 +390,34 @@ class VideoCardGold extends HTMLElement {
     this._initDotAnim();
   }
 
+  _setupLazyVideo() {
+    if (!this._vid) return;
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !this._vid.src) {
+            this._vid.src = this._vid.dataset.src;
+            this._vid.load();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.2 });
+      observer.observe(this._vid);
+    } else {
+      // Fallback: cargar de inmediato
+      this._vid.src = this._vid.dataset.src;
+      this._vid.load();
+    }
+  }
+
   attributeChangedCallback(name, _old, val) {
     if (!this._shadow) return;
     if (name === 'titulo') this._titleEl.textContent = val || 'Sin título';
-    if (name === 'video')  this._vid.src = val || '';
+    if (name === 'video') {
+      this._vid.removeAttribute('src');
+      this._vid.setAttribute('data-src', val || '');
+      this._setupLazyVideo();
+    }
     if (name === 'badge')  this._badgeEl.textContent = val || 'Premium';
   }
 
