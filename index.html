@@ -1219,210 +1219,37 @@
   </section>
 
 <br><br>
-<!-- ═══ Showcase Paz ═══ -->
-<section id="paz" style="
-  position: relative;
-  max-width: 1100px;
-  margin: 0 auto 2rem;
-  padding: 1.5rem;
-  border-radius: 24px;
-  overflow: hidden;
-  background: url('./img/sky.jpg') center center/cover no-repeat, rgba(15, 10, 30, 0.5);
-  backdrop-filter: blur(20px) saturate(1.3);
-  -webkit-backdrop-filter: blur(20px) saturate(1.3);
-  box-shadow:
-    0 0 0 1.5px rgba(197,162,39,0.55),
-    0 0 0 3px rgba(197,162,39,0.12),
-    0 12px 48px rgba(0,0,0,0.5),
-    inset 0 1px 0 rgba(245,208,107,0.2),
-    inset 0 -1px 0 rgba(197,162,39,0.1);
-  transition: box-shadow 0.4s ease;
-">
-  <!-- Shimmer sweep -->
-  <div style="
-    position:absolute; top:0; left:-100%; width:60%; height:100%;
-    background:linear-gradient(105deg, transparent 30%, rgba(245,208,107,0.06) 50%, transparent 70%);
-    pointer-events:none; z-index:6;
-    animation: pazShimmer 6s ease-in-out infinite 1s;
-  "></div>
 
-  <!-- Glass reflection -->
-  <div style="
-    position:absolute; inset:0; border-radius:24px;
-    background:linear-gradient(135deg, rgba(245,208,107,0.1) 0%, transparent 40%, transparent 60%, rgba(197,162,39,0.05) 100%);
-    pointer-events:none; z-index:3;
-  "></div>
+<script src="./components/video-card-gold.js"></script>
+<script src="./components/showcase-card.js"></script>
+<showcase-card
+  bg="./img/sky.jpg"
+  cover="./img/francis.webp"
+  medallion="./img/francis-square.jpeg"
 
-  <!-- Esquinas doradas decorativas -->
-  <svg style="position:absolute;top:0;left:0;width:44px;height:44px;z-index:7;pointer-events:none" viewBox="0 0 40 40" fill="none">
-    <path d="M2 20 L2 4 Q2 2 4 2 L20 2" stroke="rgba(245,208,107,0.8)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <circle cx="2" cy="2" r="2.5" fill="rgba(245,208,107,0.7)"/>
-  </svg>
-  <svg style="position:absolute;top:0;right:0;width:44px;height:44px;z-index:7;pointer-events:none;transform:scaleX(-1)" viewBox="0 0 40 40" fill="none">
-    <path d="M2 20 L2 4 Q2 2 4 2 L20 2" stroke="rgba(245,208,107,0.8)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <circle cx="2" cy="2" r="2.5" fill="rgba(245,208,107,0.7)"/>
-  </svg>
-  <svg style="position:absolute;bottom:0;left:0;width:44px;height:44px;z-index:7;pointer-events:none;transform:scaleY(-1)" viewBox="0 0 40 40" fill="none">
-    <path d="M2 20 L2 4 Q2 2 4 2 L20 2" stroke="rgba(245,208,107,0.8)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <circle cx="2" cy="2" r="2.5" fill="rgba(245,208,107,0.7)"/>
-  </svg>
-  <svg style="position:absolute;bottom:0;right:0;width:44px;height:44px;z-index:7;pointer-events:none;transform:scale(-1,-1)" viewBox="0 0 40 40" fill="none">
-    <path d="M2 20 L2 4 Q2 2 4 2 L20 2" stroke="rgba(245,208,107,0.8)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <circle cx="2" cy="2" r="2.5" fill="rgba(245,208,107,0.7)"/>
-  </svg>
+  video="./video/anecdota.mp4"
+  titulo="Te extrañamos"
+  badge="Gracias Padre!"
 
-  <!-- ✦ Medallón SOLO MOBILE ✦ -->
-  <div class="paz-medallon-wrap">
-    <div class="paz-medallon-ring"></div>
-    <img src="./img/francis-square.jpeg" alt="Paz" class="paz-medallon-img">
-  </div>
+  video2="./video/francis.mp4"
+  titulo2="Homenaje al Papa Francisco"
+  badge2="Padre Guilherme"
 
-  <!-- Layout: poster + video -->
-  <div class="paz-layout" style="
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    position: relative;
-    z-index: 4;
-  ">
-    <!-- Poster desk (visible solo en desktop) -->
-    <picture class="paz-poster" style="
-      flex: 1 1 60%;
-      min-width: 0;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(197,162,39,0.25);
-    ">
-      <source media="(max-width: 767px)" srcset="./img/francis.webp">
-      <source media="(min-width: 768px)" srcset="./img/francis.webp">
-      <img src="./img/francis.webp" alt="Homenaje a un año de la muerte del Papa Francisco"
-        style="display:block; width:100%; height:auto; border-radius:16px;">
-    </picture>
 
-    <!-- Video card -->
-    <div class="paz-video" style="flex: 0 0 auto;">
-      <video-card-gold
-        badge="Padre Guilherme"
-        titulo="Homenaje al Papa Francisco, a un año de su muerte."
-        video="./video/francis.mp4"
-        style="width:auto;"
-      ></video-card-gold>
-    </div>
-  </div>
-</section>
+  effects="ember,dust,stars"
+  intensity="1"
+></showcase-card>
+<!-- <showcase-card
+  bg="./img/sky.jpg"
+  cover="./img/francis.webp"
+  medallion="./img/francis-square.jpeg"
+  video="./video/francis.mp4"
+  titulo="Homenaje al Papa Francisco, a un año de su muerte."
+  badge="Padre Guilherme"
+  effects="ember,dust,stars"
+  intensity="1"
+></showcase-card> -->
 
-<style>
-  @keyframes pazShimmer {
-    0%   { left: -60%; }
-    50%  { left: 120%; }
-    100% { left: 120%; }
-  }
-
-  @keyframes pazFloat {
-    0%, 100% { transform: translateY(0px);  }
-    50%       { transform: translateY(-6px); }
-  }
-
-  @keyframes pazGlow {
-    0%, 100% { box-shadow: 0 0 12px 3px rgba(197,162,39,0.5), 0 3px 16px rgba(0,0,0,0.5); }
-    50%       { box-shadow: 0 0 28px 10px rgba(245,208,107,0.78), 0 6px 24px rgba(0,0,0,0.55); }
-  }
-
-  @keyframes pazRingSpin {
-    from { transform: rotate(0deg);   }
-    to   { transform: rotate(360deg); }
-  }
-
-  #paz:hover {
-    box-shadow:
-      0 0 0 1.5px rgba(245,208,107,0.85),
-      0 0 0 3px rgba(197,162,39,0.22),
-      0 0 36px rgba(197,162,39,0.18),
-      0 16px 60px rgba(0,0,0,0.55),
-      inset 0 1px 0 rgba(245,208,107,0.35),
-      inset 0 -1px 0 rgba(197,162,39,0.12) !important;
-  }
-
-  /* Desktop */
-  @media (min-width: 768px) {
-    .paz-layout        { flex-direction: row; }
-    .paz-medallon-wrap { display: none; }
-  }
-
-  /* Mobile */
-  @media (max-width: 767px) {
-    #paz {
-      width: 95vw !important;
-      max-width: 95vw !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-    }
-
-    .paz-layout {
-      flex-direction: row !important;
-      align-items: center !important;
-      gap: 0.7rem;
-    }
-
-    .paz-poster { display: none !important; }
-
-    .paz-video {
-      flex: 1 1 100% !important;
-      max-width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .paz-video video-card-gold {
-      width: 100% !important;
-      height: auto !important;
-    }
-
-    /* ── Medallón ── */
-    .paz-medallon-wrap {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      width: 110px;
-      height: 110px;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: pazFloat 4s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    .paz-medallon-ring {
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      background: conic-gradient(
-        rgba(245,208,107,0.95) 0deg,
-        rgba(197,162,39,0.2)   90deg,
-        rgba(245,208,107,0.95) 180deg,
-        rgba(197,162,39,0.15)  270deg,
-        rgba(245,208,107,0.95) 360deg
-      );
-      animation: pazRingSpin 5s linear infinite;
-    }
-
-    .paz-medallon-img {
-      position: relative;
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2.5px solid rgba(245,208,107,0.95);
-      animation: pazGlow 4s ease-in-out infinite;
-      z-index: 2;
-      background: #0f0a1e;
-    }
-  }
-</style>
-<!-- ═══ Fin Showcase Paz ═══ -->
 
   <!-- ═══ Video Presentación (Retro TV) ═══ -->
    <div id="encuentro"></div>
@@ -1520,210 +1347,20 @@
 
 
   <br><br> -->
-<!-- ═══ Showcase Paz ═══ -->
-<section id="paz" style="
-  position: relative;
-  max-width: 1100px;
-  margin: 0 auto 2rem;
-  padding: 1.5rem;
-  border-radius: 24px;
-  overflow: hidden;
-  background: url('./img/papel.jpg') center center/cover no-repeat, rgba(15, 10, 30, 0.5);
-  backdrop-filter: blur(20px) saturate(1.3);
-  -webkit-backdrop-filter: blur(20px) saturate(1.3);
-  box-shadow:
-    0 0 0 1.5px rgba(197,162,39,0.55),
-    0 0 0 3px rgba(197,162,39,0.12),
-    0 12px 48px rgba(0,0,0,0.5),
-    inset 0 1px 0 rgba(245,208,107,0.2),
-    inset 0 -1px 0 rgba(197,162,39,0.1);
-  transition: box-shadow 0.4s ease;
-">
-  <!-- Shimmer sweep -->
-  <div style="
-    position:absolute; top:0; left:-100%; width:60%; height:100%;
-    background:linear-gradient(105deg, transparent 30%, rgba(245,208,107,0.06) 50%, transparent 70%);
-    pointer-events:none; z-index:6;
-    animation: pazShimmer 6s ease-in-out infinite 1s;
-  "></div>
 
-  <!-- Glass reflection -->
-  <div style="
-    position:absolute; inset:0; border-radius:24px;
-    background:linear-gradient(135deg, rgba(245,208,107,0.1) 0%, transparent 40%, transparent 60%, rgba(197,162,39,0.05) 100%);
-    pointer-events:none; z-index:3;
-  "></div>
 
-  <!-- Esquinas doradas decorativas -->
-  <svg style="position:absolute;top:0;left:0;width:44px;height:44px;z-index:7;pointer-events:none" viewBox="0 0 40 40" fill="none">
-    <path d="M2 20 L2 4 Q2 2 4 2 L20 2" stroke="rgba(245,208,107,0.8)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <circle cx="2" cy="2" r="2.5" fill="rgba(245,208,107,0.7)"/>
-  </svg>
-  <svg style="position:absolute;top:0;right:0;width:44px;height:44px;z-index:7;pointer-events:none;transform:scaleX(-1)" viewBox="0 0 40 40" fill="none">
-    <path d="M2 20 L2 4 Q2 2 4 2 L20 2" stroke="rgba(245,208,107,0.8)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <circle cx="2" cy="2" r="2.5" fill="rgba(245,208,107,0.7)"/>
-  </svg>
-  <svg style="position:absolute;bottom:0;left:0;width:44px;height:44px;z-index:7;pointer-events:none;transform:scaleY(-1)" viewBox="0 0 40 40" fill="none">
-    <path d="M2 20 L2 4 Q2 2 4 2 L20 2" stroke="rgba(245,208,107,0.8)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <circle cx="2" cy="2" r="2.5" fill="rgba(245,208,107,0.7)"/>
-  </svg>
-  <svg style="position:absolute;bottom:0;right:0;width:44px;height:44px;z-index:7;pointer-events:none;transform:scale(-1,-1)" viewBox="0 0 40 40" fill="none">
-    <path d="M2 20 L2 4 Q2 2 4 2 L20 2" stroke="rgba(245,208,107,0.8)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <circle cx="2" cy="2" r="2.5" fill="rgba(245,208,107,0.7)"/>
-  </svg>
+<showcase-card
+  bg="./img/papel.jpg"
+  cover="./slides/paz_desk.png"
+  medallion="./slides/paz_cuadrado.png"
+  video="./video/paz.mp4"
+  titulo="Santo Rosario por la Paz"
+  badge="11 de abril"
+  effects="dust,bubbles,stars,rain,comets,ember"
+  intensity="1"
+></showcase-card>
 
-  <!-- ✦ Medallón SOLO MOBILE ✦ -->
-  <div class="paz-medallon-wrap">
-    <div class="paz-medallon-ring"></div>
-    <img src="./slides/paz_cuadrado.png" alt="Paz" class="paz-medallon-img">
-  </div>
 
-  <!-- Layout: poster + video -->
-  <div class="paz-layout" style="
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    position: relative;
-    z-index: 4;
-  ">
-    <!-- Poster desk (visible solo en desktop) -->
-    <picture class="paz-poster" style="
-      flex: 1 1 60%;
-      min-width: 0;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.4), 0 0 0 1px rgba(197,162,39,0.25);
-    ">
-      <source media="(max-width: 767px)" srcset="./slides/paz.png">
-      <source media="(min-width: 768px)" srcset="./slides/paz_desk.png">
-      <img src="./slides/paz_desk.png" alt="Vigilia de Oración por la Paz – Papa León XIV"
-        style="display:block; width:100%; height:auto; border-radius:16px;">
-    </picture>
-
-    <!-- Video card -->
-    <div class="paz-video" style="flex: 0 0 auto;">
-      <video-card-gold
-        badge="11 de abril"
-        titulo="Santo Rosario por la Paz"
-        video="./video/paz.mp4"
-        style="width:auto;"
-      ></video-card-gold>
-    </div>
-  </div>
-</section>
-
-<style>
-  @keyframes pazShimmer {
-    0%   { left: -60%; }
-    50%  { left: 120%; }
-    100% { left: 120%; }
-  }
-
-  @keyframes pazFloat {
-    0%, 100% { transform: translateY(0px);  }
-    50%       { transform: translateY(-6px); }
-  }
-
-  @keyframes pazGlow {
-    0%, 100% { box-shadow: 0 0 12px 3px rgba(197,162,39,0.5), 0 3px 16px rgba(0,0,0,0.5); }
-    50%       { box-shadow: 0 0 28px 10px rgba(245,208,107,0.78), 0 6px 24px rgba(0,0,0,0.55); }
-  }
-
-  @keyframes pazRingSpin {
-    from { transform: rotate(0deg);   }
-    to   { transform: rotate(360deg); }
-  }
-
-  #paz:hover {
-    box-shadow:
-      0 0 0 1.5px rgba(245,208,107,0.85),
-      0 0 0 3px rgba(197,162,39,0.22),
-      0 0 36px rgba(197,162,39,0.18),
-      0 16px 60px rgba(0,0,0,0.55),
-      inset 0 1px 0 rgba(245,208,107,0.35),
-      inset 0 -1px 0 rgba(197,162,39,0.12) !important;
-  }
-
-  /* Desktop */
-  @media (min-width: 768px) {
-    .paz-layout        { flex-direction: row; }
-    .paz-medallon-wrap { display: none; }
-  }
-
-  /* Mobile */
-  @media (max-width: 767px) {
-    #paz {
-      width: 95vw !important;
-      max-width: 95vw !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-    }
-
-    .paz-layout {
-      flex-direction: row !important;
-      align-items: center !important;
-      gap: 0.7rem;
-    }
-
-    .paz-poster { display: none !important; }
-
-    .paz-video {
-      flex: 1 1 100% !important;
-      max-width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .paz-video video-card-gold {
-      width: 100% !important;
-      height: auto !important;
-    }
-
-    /* ── Medallón ── */
-    .paz-medallon-wrap {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      width: 110px;
-      height: 110px;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: pazFloat 4s ease-in-out infinite;
-      pointer-events: none;
-    }
-
-    .paz-medallon-ring {
-      position: absolute;
-      inset: -4px;
-      border-radius: 50%;
-      background: conic-gradient(
-        rgba(245,208,107,0.95) 0deg,
-        rgba(197,162,39,0.2)   90deg,
-        rgba(245,208,107,0.95) 180deg,
-        rgba(197,162,39,0.15)  270deg,
-        rgba(245,208,107,0.95) 360deg
-      );
-      animation: pazRingSpin 5s linear infinite;
-    }
-
-    .paz-medallon-img {
-      position: relative;
-      width: 110px;
-      height: 110px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2.5px solid rgba(245,208,107,0.95);
-      animation: pazGlow 4s ease-in-out infinite;
-      z-index: 2;
-      background: #0f0a1e;
-    }
-  }
-</style>
-<!-- ═══ Fin Showcase Paz ═══ -->
 
 
 <br>
