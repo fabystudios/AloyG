@@ -151,32 +151,35 @@ _scTpl.innerHTML = `
   /* ── Mobile carousel ── */
   .sc-carousel-wrap{display:none;flex:1 1 100%;max-width:100%;flex-direction:column;align-items:center;gap:0.5rem;}
 
-  /* fila: flecha izq | pista | flecha der */
-  .sc-carousel-row{display:flex;align-items:center;width:100%;gap:6px;}
+  /* fila: solo la pista, ocupa todo el ancho */
+  .sc-carousel-row{position:relative;width:100%;}
 
-  .sc-carousel-outer{flex:1 1 auto;overflow:hidden;border-radius:16px;touch-action:pan-y;min-width:0;}
+  .sc-carousel-outer{width:100%;overflow:hidden;border-radius:16px;touch-action:pan-y;}
   .sc-carousel-track{display:flex;transition:transform .38s cubic-bezier(.22,1,.36,1);will-change:transform;}
   .sc-carousel-track > *{flex:0 0 100%;max-width:100%;}
 
-  /* flechas laterales */
+  /* flechas: absolutas, centradas verticalmente, sobre el track */
   .sc-arr{
-    flex:0 0 auto;
+    position:absolute;
+    top:50%;transform:translateY(-50%);
     width:34px;height:34px;
     border-radius:50%;
     border:1.5px solid rgba(245,208,107,.6);
-    background:rgba(15,10,30,.55);
+    background:rgba(15,10,30,.65);
     backdrop-filter:blur(8px);
     -webkit-backdrop-filter:blur(8px);
     display:flex;align-items:center;justify-content:center;
     cursor:pointer;
-    transition:background .2s, border-color .2s, box-shadow .2s, opacity .2s, transform .15s;
-    box-shadow:0 0 12px rgba(197,162,39,.2);
+    transition:background .2s,border-color .2s,box-shadow .2s,opacity .25s,transform .15s;
+    box-shadow:0 0 12px rgba(197,162,39,.25);
     z-index:9;
     -webkit-tap-highlight-color:transparent;
     user-select:none;
   }
+  #scArrPrev{left:6px;}
+  #scArrNext{right:6px;}
   .sc-arr:hover{background:rgba(197,162,39,.22);border-color:rgba(245,208,107,.95);box-shadow:0 0 20px rgba(197,162,39,.45);}
-  .sc-arr:active{transform:scale(.92);}
+  .sc-arr:active{transform:translateY(-50%) scale(.9);}
   .sc-arr.hidden{opacity:0;pointer-events:none;}
   .sc-arr svg{width:14px;height:14px;fill:none;stroke:rgba(245,208,107,.9);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
 
