@@ -211,7 +211,7 @@ header .intro-text { padding-top: 100px; padding-bottom: 50px; }
 header .intro-text .intro-lead-in { font-family: 'Droid Serif', serif; font-style: italic; font-size: 22px; line-height: 22px; margin-bottom: 25px; }
 header .intro-text .intro-heading { font-family: 'Montserrat', sans-serif; text-transform: uppercase; font-weight: 700; font-size: 50px; line-height: 50px; margin-bottom: 25px; }
 
-.carousel-section { padding: 0; margin: 0; width: 100%; overflow: hidden; position: relative; z-index: 1; display: block; margin-top: 4px; }
+.carousel-section { padding: 0; margin: 0; width: 100%; overflow: hidden; }
 
 .carousel-item {
   height: 60vh;
@@ -219,7 +219,7 @@ header .intro-text .intro-heading { font-family: 'Montserrat', sans-serif; text-
   background: no-repeat center center scroll;
   background-size: cover;
 }
-.carousel-item img { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.carousel-item img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
 
 .carousel-caption {
   position: absolute;
