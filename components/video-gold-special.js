@@ -687,7 +687,6 @@ class VideoGoldSpecial extends HTMLElement {
         this._bindVideo(isMobileCtx);
       }
     }
-  }
 
   _bindVideo(isMobileCtx) {
     const vid  = this._shadow.getElementById('vid');
