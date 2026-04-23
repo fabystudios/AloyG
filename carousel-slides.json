@@ -7,7 +7,7 @@
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/misa-abril-desk.png"
+      "src": "./slides/misa-abril-desk.jpg"
     },
     "mobile": {
       "type": "image",
