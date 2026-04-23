@@ -1,17 +1,17 @@
 [
         {
-    "id": "francisco",
-    "position": -1,
+    "id": "Misa",
+    "position": 1,
     "hasVideo": false,
-    "link": "#fran",
+    "link": "",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/fran_desk.png"
+      "src": "./slides/misa-abril-desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/fran_mob.png"
+      "src": "./slides/misa-abril-mob.png"
     }
   },
         {
@@ -310,7 +310,7 @@
   },
   {
     "id": "adoracion",
-    "position": 1,
+    "position": -1,
     "hasVideo": true,
     "link": "#adoracion",
     "time": { "desktop": 4, "mobile": 4 },
