@@ -1,7 +1,7 @@
 [
         {
-    "id": "Misa",
-    "position": 1,
+    "id": "Misa Enfermos",
+    "position": 2,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -12,6 +12,21 @@
     "mobile": {
       "type": "image",
       "src": "./slides/misa-abril-mob.png"
+    }
+  },
+          {
+    "id": "Misa",
+    "position": 1,
+    "hasVideo": false,
+    "link": "",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/pastor_desk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/pastor_mob.jpg"
     }
   },
         {
@@ -222,7 +237,7 @@
   },
        {
     "id": "",
-    "position": 2,
+    "position": -1,
     "hasVideo": true,
     "link": "",
     "desktop": {
