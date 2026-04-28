@@ -44,6 +44,23 @@
     "src": "./slides/lujan_mob.jpg"
   }
   },
+        {
+    "id": "feria",
+    "position": 3,
+    "hasVideo": false,
+    "link": "#feria",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./actividades/cartelera/feria_desk.png"
+ 
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./actividades/cartelera/feria_mob.png"
+ 
+    }
+  },
       {
     "id": "feria",
     "position": -1,
@@ -358,7 +375,7 @@
   },
   {
     "id": "asistencia",
-    "position": 3,
+    "position": -1,
     "hasVideo": true,
     "link": "#asistencia",
     "desktop": {
