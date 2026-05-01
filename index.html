@@ -961,6 +961,26 @@
 
 <br><br>
 
+<script src="./components/fb-post-mosaic.js"></script>
+<script src="./components/fb-posts-container.js"></script>
+<script src="./components/panel-photo-gallery.js"></script>
+<!--
+  El componente:
+    src        → ruta al JSON (default: ./facebook-posts.json)
+    cache-ttl  → ms de cache (default: 3600000 = 1 hora)
+    wallpaper  → imagen de fondo (default: ./img/fb-wallpaper.png)
+-->
+<fb-posts-container
+  src="facebook-posts-joseobrero.json"
+  wallpaper="./img/f1.jpg"
+  floatingImage="./img/lirio.png"
+  floatingImage2="./img/aloy-marmol-piel.png"
+  width="500px"
+></fb-posts-container>
+
+
+  <br>
+
 <script src="./components/video-gold-special.js"></script>
 <video-gold-special
   badge="San José Obrero"
@@ -1043,24 +1063,7 @@
 ></showcase-card>
 
 
-<script src="./components/fb-post-mosaic.js"></script>
-<script src="./components/fb-posts-container.js"></script>
-<script src="./components/panel-photo-gallery.js"></script>
-<!--
-  El componente:
-    src        → ruta al JSON (default: ./facebook-posts.json)
-    cache-ttl  → ms de cache (default: 3600000 = 1 hora)
-    wallpaper  → imagen de fondo (default: ./img/fb-wallpaper.png)
--->
-<!-- <fb-posts-container
-  src="facebook-posts-retiro.json"
-  wallpaper="./img/f1.jpg"
-  floatingImage="./img/moneda-fb.png"
-  floatingImage2="./img/like.png"
-></fb-posts-container>
 
-
-  <br> -->
 
 <!-- <br><br> -->
 

@@ -334,7 +334,7 @@
   class FbPostsContainer extends HTMLElement {
 
     static get observedAttributes() {
-      return ['src', 'json', 'cache-ttl', 'wallpaper', 'floatingimage', 'floatingimage2', 'width'];
+      return ['src', 'json', 'cache-ttl', 'wallpaper', 'floatingimage', 'floatingimage2'];
     }
 
     connectedCallback() {
@@ -375,34 +375,6 @@
         <div class="posts-grid">
           <div class="fb-loading">Cargando publicaciones…</div>
         </div>`;
-
-      // Aplicar ancho del contenedor si se especifica vía atributo (solo en desktop)
-      const attrWidth = this.getAttribute('width');
-      if (attrWidth) {
-        // En mobile (≤768px) siempre 95vw con margen; en desktop usamos el atributo
-        const mq = window.matchMedia('(max-width: 768px)');
-        const applyWidth = () => {
-          if (mq.matches) {
-            this.style.width = '';
-            this.style.maxWidth = '';
-          } else {
-            // Acepta valores con unidad ("500px", "60%") o solo número (lo trata como px)
-            const val = /^\d+(\.\d+)?$/.test(attrWidth) ? attrWidth + 'px' : attrWidth;
-            this.style.width = val;
-            this.style.maxWidth = val;
-          }
-        };
-        applyWidth();
-        if (!this._mq) {
-          this._mq = mq;
-          this._mqListener = applyWidth;
-          mq.addEventListener('change', applyWidth);
-        }
-      } else {
-        // Sin atributo: limpiamos inline para que tome el CSS (90vw / max 1200px)
-        this.style.width = '';
-        this.style.maxWidth = '';
-      }
 
       // Iniciar partículas si corresponde
       if (this._floatingImage || this._floatingImage2) {
@@ -513,17 +485,7 @@
           ctx.rotate(p.rot);
           let img = imgs[p.imgIdx];
           if (img && img.complete && img.naturalWidth > 0) {
-            // Respetar aspect ratio: p.size es el lado mayor
-            const nw = img.naturalWidth, nh = img.naturalHeight;
-            let dw, dh;
-            if (nw >= nh) {
-              dw = p.size;
-              dh = p.size * (nh / nw);
-            } else {
-              dh = p.size;
-              dw = p.size * (nw / nh);
-            }
-            ctx.drawImage(img, -dw / 2, -dh / 2, dw, dh);
+            ctx.drawImage(img, -p.size / 2, -p.size / 2, p.size, p.size);
           }
           ctx.restore();
         });
@@ -662,9 +624,6 @@
       this._zoomObserver?.disconnect();
       this._intersectionObserver?.disconnect();
       this._floatingCleanup?.();
-      if (this._mq && this._mqListener) {
-        this._mq.removeEventListener('change', this._mqListener);
-      }
     }
   }
 
