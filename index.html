@@ -949,56 +949,26 @@
     })();
     </script>
   </section>
-  <!-- <script src="./components/magic-header.js"></script>
-<br>
-    <magic-header
-     max-width="1000px"
-     margin="0 auto"
-     glow-color="#ffffff"    
-     glow-spread="20"        
-    ></magic-header> -->
-
 
 <br><br>
 
-<script src="./components/fb-post-mosaic.js"></script>
-<script src="./components/fb-posts-container.js"></script>
-<script src="./components/panel-photo-gallery.js"></script>
-<!--
-  El componente:
-    src        → ruta al JSON (default: ./facebook-posts.json)
-    cache-ttl  → ms de cache (default: 3600000 = 1 hora)
-    wallpaper  → imagen de fondo (default: ./img/fb-wallpaper.png)
--->
-<fb-posts-container
-  src="facebook-posts-joseobrero.json"
-  wallpaper="./img/f1.jpg"
-  floatingImage="./img/lirio.png"
-  floatingImage2="./img/aloy-marmol-piel.png"
-  width="500px"
-></fb-posts-container>
-
-
-  <br>
-
-<script src="./components/video-gold-special.js"></script>
-<video-gold-special
-  badge="San José Obrero"
-  titulo="El Santo del Trabajo y la Humildad"
-  video-desktop="https://youtu.be/kiQiYRazZII"
-  video-mobile="./asantos/1.mp4"
-  ancho-desktop="860px"
-  etiqueta="1ro. de Mayo"
-  logo="./img/aloy-marmol-piel.png"
-  logo-duracion="10"
-  poster-mobile="./asantos/sanjose.png"
-  >
-</video-gold-special>
-
-<br>
-
 
 <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+<video-card-gold
+  badge="2 de Mayo"
+  titulo="San Atanasio de Alejandría"
+  video="./asantos/2.mp4"
+  style="width:auto; flex:0 0 auto;"
+
+></video-card-gold>
+
+<video-card-gold
+  badge="1ro. de Mayo"
+  titulo="San José Obrero"
+  video="./asantos/1.mp4"
+  style="width:auto; flex:0 0 auto;"
+  hide-mobile 
+></video-card-gold>
 
 <video-card-gold
   badge="30 de abril"
@@ -1016,20 +986,7 @@
   hide-mobile  
 ></video-card-gold>
 
-<video-card-gold
-  badge="28 de abril"
-  titulo="Beata María Felicia de Jesús Sacramentado"
-  video="./asantos/28.mp4"
-  style="width:auto; flex:0 0 auto;"
-  hide-mobile  
-></video-card-gold>
-
-<video-card-gold
-  badge="27 de abril"
-  titulo="Santa Zita de Lucca"
-  video="./asantos/27_h264.mp4"
-  style="width:auto; flex:0 0 auto;"
-  hide-mobile  
+ 
 ></video-card-gold>
 
 
@@ -1039,6 +996,56 @@
 </div>
 
 <br><br>
+
+  <!-- <script src="./components/magic-header.js"></script>
+<br>
+    <magic-header
+     max-width="1000px"
+     margin="0 auto"
+     glow-color="#ffffff"    
+     glow-spread="20"        
+    ></magic-header> -->
+
+
+
+<!-- <script src="./components/fb-post-mosaic.js"></script> -->
+<script src="./components/fb-posts-container.js"></script>
+<!-- <script src="./components/panel-photo-gallery.js"></script> -->
+<!--
+  El componente:
+    src        → ruta al JSON (default: ./facebook-posts.json)
+    cache-ttl  → ms de cache (default: 3600000 = 1 hora)
+    wallpaper  → imagen de fondo (default: ./img/fb-wallpaper.png)
+-->
+<fb-posts-container
+  src="facebook-posts-joseobrero.json"
+  wallpaper="./img/f1.jpg"
+  floatingImage="./img/lirio.png"
+  floatingImage2="./img/aloy-marmol-piel.png"
+  width="500px"
+></fb-posts-container>
+
+
+  <br><br>
+
+<!-- <script src="./components/video-gold-special.js"></script>
+<video-gold-special
+  badge="San José Obrero"
+  titulo="El Santo del Trabajo y la Humildad"
+  video-desktop="https://youtu.be/kiQiYRazZII"
+  video-mobile="./asantos/1.mp4"
+  ancho-desktop="860px"
+  etiqueta="1ro. de Mayo"
+  logo="./img/aloy-marmol-piel.png"
+  logo-duracion="10"
+  poster-mobile="./asantos/sanjose.png"
+  >
+</video-gold-special>
+
+<br> -->
+
+
+
 <script src="./components/video-card-gold.js"></script>
 <script src="./components/showcase-card.js"></script>
 <showcase-card

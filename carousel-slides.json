@@ -1,7 +1,7 @@
 [
         {
     "id": "Misa Enfermos",
-    "position": 1,
+    "position": -1,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -46,7 +46,7 @@
   },
         {
     "id": "feria",
-    "position": 3,
+    "position": 1,
     "hasVideo": false,
     "link": "#feria",
     "time": { "desktop": 3, "mobile": 3 },
@@ -254,7 +254,7 @@
   },
        {
     "id": "",
-    "position": -1,
+    "position": 3,
     "hasVideo": true,
     "link": "",
     "desktop": {
