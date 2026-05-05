@@ -1,17 +1,17 @@
 [
         {
-    "id": "Misa Enfermos",
-    "position": -1,
+    "id": "fatima",
+    "position": 1,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/misa-abril-desk.jpg"
+      "src": "./slides/fatima_desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/misa-abril-mob.png"
+      "src": "./slides/fatima_mob.png"
     }
   },
           {
@@ -31,7 +31,7 @@
   },
         {
     "id": "lujan",
-    "position": 2,
+    "position": 3,
     "hasVideo": false,
     "link": "",
    "time": { "desktop": 4, "mobile": 4 },
@@ -46,7 +46,7 @@
   },
         {
     "id": "feria",
-    "position": 1,
+    "position": 2,
     "hasVideo": false,
     "link": "#feria",
     "time": { "desktop": 3, "mobile": 3 },
@@ -254,7 +254,7 @@
   },
        {
     "id": "",
-    "position": 3,
+    "position": 4,
     "hasVideo": true,
     "link": "",
     "desktop": {
