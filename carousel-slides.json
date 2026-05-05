@@ -1,4 +1,5 @@
 [
+
         {
     "id": "fatima",
     "position": 1,
@@ -43,6 +44,22 @@
     "type": "image",
     "src": "./slides/lujan_mob.jpg"
   }
+  },
+         {
+    "id": "",
+    "position": 4,
+    "hasVideo": true,
+    "link": "",
+    "desktop": {
+      "type": "video",
+      "src": "./video/sec_desktop.mp4",
+      "poster": "./video/cover_sec_desktop.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/sec_mobile.mp4",
+      "poster": "./video/cover_sec_mobile.png"
+    }
   },
         {
     "id": "feria",
@@ -250,22 +267,6 @@
       "type": "video",
       "src": "./video/viacrusis.mp4",
       "poster": "./video/viacrusis.png"
-    }
-  },
-       {
-    "id": "",
-    "position": 4,
-    "hasVideo": true,
-    "link": "",
-    "desktop": {
-      "type": "video",
-      "src": "./video/sec_desktop.mp4",
-      "poster": "./video/cover_sec_desktop.png"
-    },
-    "mobile": {
-      "type": "video",
-      "src": "./video/sec_mobile.mp4",
-      "poster": "./video/cover_sec_mobile.png"
     }
   },
       {
