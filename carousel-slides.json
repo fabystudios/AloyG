@@ -359,7 +359,7 @@
     }
     ,
     "overlay": {
-      "src": "./img/aviso.png",
+      "src": "./img/aviso2.png",
       "desktopPos": "center",
       "mobilePos": "bottom-quarter",
       "effect": "blink",
