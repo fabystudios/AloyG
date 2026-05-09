@@ -91,6 +91,15 @@
       "src": "./actividades/cartelera/feria_mob2.png"
  
     }
+    ,
+    "overlay": {
+      "src": "./img/eshoy.png",
+      "desktopPos": "center",
+      "mobilePos": "bottom-quarter",
+      "effect": "blink",
+      "desktopScale": 0.4,
+      "mobileScale": 0.5
+    }
   },
       {
     "id": "feria",
