@@ -192,25 +192,24 @@ const FX = {
   /* ── LLUVIA CON VIENTO ────────────────────────────── */
   'rain-wind': {
     particles: [],
-    countBase: 30,
+    countBase: 40,
     css: `
       @keyframes fx-rainwind {
-        0%   { opacity: 0; transform: translate(0, 0) rotate(25deg); }
-        5%   { opacity: 0.7; }
-        95%  { opacity: 0.5; }
-        100% { opacity: 0; transform: translate(var(--drift), 100vh) rotate(25deg); }
+        0%   { opacity: 0.8; transform: translate(0, 0) rotate(20deg); }
+        100% { opacity: 0.6; transform: translate(var(--drift-x), 640px) rotate(20deg); }
       }`,
     spawn(el, cfg) {
       el.textContent = '';
-      el.style.left        = `${Math.random() * 100}%`;
-      el.style.top         = `-${Math.floor(Math.random() * 30)}px`;
-      el.style.width       = `${1 + Math.random() * 0.5}px`;
-      el.style.height      = `${14 + Math.random() * 12}px`;
-      el.style.background  = 'linear-gradient(135deg, transparent, rgba(180,210,255,0.85))';
-      el.style.borderRadius = '2px';
-      el.style.setProperty('--dur',   `${(0.5 + Math.random() * 0.4) / cfg.speed}s`);
-      el.style.setProperty('--delay', `${Math.random() * 1}s`);
-      el.style.setProperty('--drift', `${40 + Math.random() * 60}px`);
+      el.style.left         = `${-10 + Math.random() * 100}%`;
+      el.style.top          = '0px';
+      el.style.width        = `${1 + Math.random() * 1}px`;
+      el.style.height       = `${16 + Math.random() * 14}px`;
+      el.style.background   = 'linear-gradient(160deg, transparent 0%, rgba(180,215,255,0.9) 100%)';
+      el.style.borderRadius = '1px';
+      el.style.opacity      = '0';
+      el.style.setProperty('--dur',    `${(1.0 + Math.random() * 0.6) / cfg.speed}s`);
+      el.style.setProperty('--delay',  `${Math.random() * 0.8}s`);
+      el.style.setProperty('--drift-x',`${80 + Math.random() * 80}px`);
       el.style.animation = `fx-rainwind var(--dur) var(--delay) linear infinite`;
     }
   },
@@ -218,40 +217,61 @@ const FX = {
   /* ── TORMENTA ─────────────────────────────────────── */
   'thunderstorm': {
     particles: [],
-    countBase: 40,
+    countBase: 55,
     css: `
       @keyframes fx-thunder-rain {
-        0%   { opacity: 0; transform: translate(0, 0) rotate(20deg); }
-        4%   { opacity: 0.85; }
-        95%  { opacity: 0.6; }
-        100% { opacity: 0; transform: translate(var(--drift), 100vh) rotate(20deg); }
+        0%   { opacity: 0.9; transform: translate(0, 0) rotate(18deg); }
+        100% { opacity: 0.5; transform: translate(var(--drift-x), 660px) rotate(18deg); }
       }
-      @keyframes fx-lightning {
-        0%, 93%, 96%, 100% { opacity: 0; }
-        94%, 95%           { opacity: 0.85; }
+      @keyframes fx-lightning-flash {
+        0%, 89%, 91%, 93%, 100% { opacity: 0; }
+        90%, 92%                { opacity: 1; }
+      }
+      @keyframes fx-lightning-bolt {
+        0%, 94%, 100% { opacity: 0; transform: scaleY(0); }
+        95%, 98%      { opacity: 1; transform: scaleY(1); }
+        99%           { opacity: 0.3; transform: scaleY(1); }
       }`,
     spawn(el, cfg, container, i) {
       /* Gotas de lluvia */
       el.textContent = '';
-      el.style.left        = `${Math.random() * 100}%`;
-      el.style.top         = `-${Math.floor(Math.random() * 30)}px`;
-      el.style.width       = `${1 + Math.random() * 0.8}px`;
-      el.style.height      = `${12 + Math.random() * 14}px`;
-      el.style.background  = 'linear-gradient(135deg, transparent, rgba(160,200,255,0.9))';
+      el.style.left         = `${-5 + Math.random() * 105}%`;
+      el.style.top          = '0px';
+      el.style.width        = `${1 + Math.random() * 1.2}px`;
+      el.style.height       = `${14 + Math.random() * 16}px`;
+      el.style.background   = 'linear-gradient(160deg, transparent 0%, rgba(160,205,255,0.95) 100%)';
       el.style.borderRadius = '1px';
-      el.style.setProperty('--dur',   `${(0.45 + Math.random() * 0.35) / cfg.speed}s`);
-      el.style.setProperty('--delay', `${Math.random() * 1.5}s`);
-      el.style.setProperty('--drift', `${30 + Math.random() * 50}px`);
+      el.style.opacity      = '0';
+      el.style.setProperty('--dur',    `${(0.9 + Math.random() * 0.5) / cfg.speed}s`);
+      el.style.setProperty('--delay',  `${Math.random() * 0.6}s`);
+      el.style.setProperty('--drift-x',`${50 + Math.random() * 60}px`);
       el.style.animation = `fx-thunder-rain var(--dur) var(--delay) linear infinite`;
 
-      /* Relámpago (una sola vez en índice 0) */
+      /* Flash de cielo (índice 0) */
       if (i === 0) {
+        const flash = document.createElement('div');
+        flash.style.cssText = `
+          position:absolute; inset:0; pointer-events:none;
+          background: rgba(200,220,255,0.18);
+          animation: fx-lightning-flash ${5 + Math.random() * 5}s ${Math.random() * 3}s linear infinite;
+          z-index:4;`;
+        container.appendChild(flash);
+      }
+
+      /* Rayo visible (índice 1) */
+      if (i === 1) {
         const bolt = document.createElement('div');
+        const bx = 20 + Math.random() * 60;
         bolt.style.cssText = `
-          position:absolute; inset:0; pointer-events:none; border-radius:inherit;
-          background: linear-gradient(135deg, transparent 30%, rgba(200,220,255,0.25) 50%, transparent 70%);
-          animation: fx-lightning ${8 + Math.random() * 6}s ${Math.random() * 4}s linear infinite;
-          z-index:20;`;
+          position:absolute;
+          left:${bx}%; top:0; width:2px; height:55%;
+          background: linear-gradient(to bottom, rgba(255,255,255,0.9), rgba(180,200,255,0.3));
+          box-shadow: 0 0 8px 3px rgba(180,200,255,0.6);
+          transform-origin: top center;
+          transform: scaleY(0) rotate(${-5 + Math.random()*10}deg);
+          pointer-events:none;
+          animation: fx-lightning-bolt ${6 + Math.random() * 5}s ${Math.random() * 4}s linear infinite;
+          z-index:5;`;
         container.appendChild(bolt);
       }
     }
