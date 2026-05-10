@@ -106,11 +106,11 @@ const FX = {
       @keyframes fx-fall {
         0%   { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0); }
         8%   { opacity: 0.85; }
-        100% { opacity: 0; transform: translateY(112vh) rotate(400deg) translateX(var(--drift)); }
+        100% { opacity: 0; transform: translateY(100vh) rotate(400deg) translateX(var(--drift)); }
       }`,
     spawn(el, cfg) {
-      el.style.left     = `${Math.random() * 105 - 2}%`;
-      el.style.top      = '-30px';
+      el.style.left     = `${Math.random() * 100}%`;
+      el.style.top      = `-${Math.floor(Math.random() * 40)}px`;
       el.style.fontSize = `${12 + Math.random() * 16}px`;
       el.style.setProperty('--dur',   `${(5 + Math.random() * 6) / cfg.speed}s`);
       el.style.setProperty('--delay', `${Math.random() * 9}s`);
@@ -128,11 +128,11 @@ const FX = {
         0%   { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0); }
         10%  { opacity: 0.9; }
         90%  { opacity: 0.7; }
-        100% { opacity: 0; transform: translateY(108vh) rotate(180deg) translateX(var(--drift)); }
+        100% { opacity: 0; transform: translateY(100vh) rotate(180deg) translateX(var(--drift)); }
       }`,
     spawn(el, cfg) {
-      el.style.left     = `${Math.random() * 105}%`;
-      el.style.top      = '-20px';
+      el.style.left     = `${Math.random() * 100}%`;
+      el.style.top      = `-${Math.floor(Math.random() * 40)}px`;
       el.style.fontSize = `${8 + Math.random() * 12}px`;
       el.style.color    = 'rgba(255,255,255,0.9)';
       el.style.setProperty('--dur',   `${(7 + Math.random() * 8) / cfg.speed}s`);
@@ -150,11 +150,11 @@ const FX = {
       @keyframes fx-blizzard {
         0%   { opacity: 0; transform: translateY(0) translateX(0) rotate(0); }
         5%   { opacity: 1; }
-        100% { opacity: 0; transform: translateY(110vh) translateX(var(--drift)) rotate(90deg); }
+        100% { opacity: 0; transform: translateY(100vh) translateX(var(--drift)) rotate(90deg); }
       }`,
     spawn(el, cfg) {
-      el.style.left     = `${-10 + Math.random() * 110}%`;
-      el.style.top      = `${Math.random() * -20}px`;
+      el.style.left     = `${Math.random() * 100}%`;
+      el.style.top      = `-${Math.floor(Math.random() * 20)}px`;
       el.style.fontSize = `${5 + Math.random() * 10}px`;
       el.style.color    = 'rgba(220,240,255,0.85)';
       el.style.setProperty('--dur',   `${(2 + Math.random() * 3) / cfg.speed}s`);
@@ -170,18 +170,18 @@ const FX = {
     countBase: 25,
     css: `
       @keyframes fx-rain {
-        0%   { opacity: 0; transform: translateY(-10px) scaleY(0.5); }
-        5%   { opacity: 0.7; }
-        95%  { opacity: 0.5; }
-        100% { opacity: 0; transform: translateY(110vh) scaleY(1); }
+        0%   { opacity: 0; transform: translateY(0) scaleY(0.5); }
+        5%   { opacity: 0.75; }
+        95%  { opacity: 0.6; }
+        100% { opacity: 0;   transform: translateY(100vh) scaleY(1); }
       }`,
     spawn(el, cfg) {
       el.textContent = '';
       el.style.left        = `${Math.random() * 100}%`;
-      el.style.top         = '-20px';
+      el.style.top         = `-${Math.floor(Math.random() * 30)}px`;
       el.style.width       = `${1 + Math.random()}px`;
       el.style.height      = `${10 + Math.random() * 15}px`;
-      el.style.background  = 'linear-gradient(to bottom, transparent, rgba(180,210,255,0.7))';
+      el.style.background  = 'linear-gradient(to bottom, transparent, rgba(180,210,255,0.9))';
       el.style.borderRadius = '2px';
       el.style.setProperty('--dur',   `${(0.6 + Math.random() * 0.5) / cfg.speed}s`);
       el.style.setProperty('--delay', `${Math.random() * 2}s`);
@@ -195,21 +195,22 @@ const FX = {
     countBase: 30,
     css: `
       @keyframes fx-rainwind {
-        0%   { opacity: 0; transform: translate(-10px, -10px) rotate(25deg); }
-        5%   { opacity: 0.65; }
-        100% { opacity: 0; transform: translate(var(--drift), 110vh) rotate(25deg); }
+        0%   { opacity: 0; transform: translate(0, 0) rotate(25deg); }
+        5%   { opacity: 0.7; }
+        95%  { opacity: 0.5; }
+        100% { opacity: 0; transform: translate(var(--drift), 100vh) rotate(25deg); }
       }`,
     spawn(el, cfg) {
       el.textContent = '';
-      el.style.left        = `${-5 + Math.random() * 105}%`;
-      el.style.top         = '-20px';
+      el.style.left        = `${Math.random() * 100}%`;
+      el.style.top         = `-${Math.floor(Math.random() * 30)}px`;
       el.style.width       = `${1 + Math.random() * 0.5}px`;
       el.style.height      = `${14 + Math.random() * 12}px`;
-      el.style.background  = 'linear-gradient(135deg, transparent, rgba(180,210,255,0.65))';
+      el.style.background  = 'linear-gradient(135deg, transparent, rgba(180,210,255,0.85))';
       el.style.borderRadius = '2px';
       el.style.setProperty('--dur',   `${(0.5 + Math.random() * 0.4) / cfg.speed}s`);
-      el.style.setProperty('--delay', `${Math.random() * 2}s`);
-      el.style.setProperty('--drift', `${60 + Math.random() * 60}px`);
+      el.style.setProperty('--delay', `${Math.random() * 1}s`);
+      el.style.setProperty('--drift', `${40 + Math.random() * 60}px`);
       el.style.animation = `fx-rainwind var(--dur) var(--delay) linear infinite`;
     }
   },
@@ -220,9 +221,10 @@ const FX = {
     countBase: 40,
     css: `
       @keyframes fx-thunder-rain {
-        0%   { opacity: 0; transform: translate(0, -10px) rotate(20deg); }
-        4%   { opacity: 0.8; }
-        100% { opacity: 0; transform: translate(var(--drift), 112vh) rotate(20deg); }
+        0%   { opacity: 0; transform: translate(0, 0) rotate(20deg); }
+        4%   { opacity: 0.85; }
+        95%  { opacity: 0.6; }
+        100% { opacity: 0; transform: translate(var(--drift), 100vh) rotate(20deg); }
       }
       @keyframes fx-lightning {
         0%, 93%, 96%, 100% { opacity: 0; }
@@ -231,15 +233,15 @@ const FX = {
     spawn(el, cfg, container, i) {
       /* Gotas de lluvia */
       el.textContent = '';
-      el.style.left        = `${Math.random() * 108 - 4}%`;
-      el.style.top         = '-15px';
+      el.style.left        = `${Math.random() * 100}%`;
+      el.style.top         = `-${Math.floor(Math.random() * 30)}px`;
       el.style.width       = `${1 + Math.random() * 0.8}px`;
       el.style.height      = `${12 + Math.random() * 14}px`;
-      el.style.background  = 'linear-gradient(135deg, transparent, rgba(160,200,255,0.7))';
+      el.style.background  = 'linear-gradient(135deg, transparent, rgba(160,200,255,0.9))';
       el.style.borderRadius = '1px';
       el.style.setProperty('--dur',   `${(0.45 + Math.random() * 0.35) / cfg.speed}s`);
       el.style.setProperty('--delay', `${Math.random() * 1.5}s`);
-      el.style.setProperty('--drift', `${40 + Math.random() * 50}px`);
+      el.style.setProperty('--drift', `${30 + Math.random() * 50}px`);
       el.style.animation = `fx-thunder-rain var(--dur) var(--delay) linear infinite`;
 
       /* Relámpago (una sola vez en índice 0) */
@@ -261,18 +263,19 @@ const FX = {
     countBase: 12,
     css: `
       @keyframes fx-wind-ltr {
-        0%   { opacity: 0; transform: translateX(-120px) translateY(0) rotate(0deg); }
-        10%  { opacity: 0.85; }
-        90%  { opacity: 0.7; }
-        100% { opacity: 0; transform: translateX(calc(100vw + 60px)) translateY(var(--ydrift)) rotate(540deg); }
+        0%   { opacity: 0;    transform: translateX(0) translateY(0) rotate(0deg); }
+        8%   { opacity: 0.9; }
+        88%  { opacity: 0.8; }
+        100% { opacity: 0;    transform: translateX(var(--travel)) translateY(var(--ydrift)) rotate(540deg); }
       }`,
     spawn(el, cfg) {
-      el.style.left     = '-5%';
+      el.style.left     = '0%';
       el.style.top      = `${10 + Math.random() * 80}%`;
       el.style.fontSize = `${14 + Math.random() * 14}px`;
-      el.style.setProperty('--dur',   `${(2 + Math.random() * 3) / cfg.speed}s`);
-      el.style.setProperty('--delay', `${Math.random() * 5}s`);
+      el.style.setProperty('--dur',    `${(2.5 + Math.random() * 3) / cfg.speed}s`);
+      el.style.setProperty('--delay',  `${Math.random() * 6}s`);
       el.style.setProperty('--ydrift', `${-30 + Math.random() * 60}px`);
+      el.style.setProperty('--travel', `${80 + Math.random() * 20}vw`);
       el.style.animation = `fx-wind-ltr var(--dur) var(--delay) ease-in-out infinite`;
     }
   },
@@ -283,18 +286,20 @@ const FX = {
     countBase: 12,
     css: `
       @keyframes fx-wind-rtl {
-        0%   { opacity: 0; transform: translateX(120px) translateY(0) rotate(0deg); }
-        10%  { opacity: 0.85; }
-        90%  { opacity: 0.7; }
-        100% { opacity: 0; transform: translateX(calc(-100vw - 60px)) translateY(var(--ydrift)) rotate(-540deg); }
+        0%   { opacity: 0;    transform: translateX(0) translateY(0) rotate(0deg); }
+        8%   { opacity: 0.9; }
+        88%  { opacity: 0.8; }
+        100% { opacity: 0;    transform: translateX(var(--travel)) translateY(var(--ydrift)) rotate(-540deg); }
       }`,
     spawn(el, cfg) {
-      el.style.right    = '-5%';
+      el.style.right    = '0%';
+      el.style.left     = 'auto';
       el.style.top      = `${10 + Math.random() * 80}%`;
       el.style.fontSize = `${14 + Math.random() * 14}px`;
-      el.style.setProperty('--dur',   `${(2 + Math.random() * 3) / cfg.speed}s`);
-      el.style.setProperty('--delay', `${Math.random() * 5}s`);
+      el.style.setProperty('--dur',    `${(2.5 + Math.random() * 3) / cfg.speed}s`);
+      el.style.setProperty('--delay',  `${Math.random() * 6}s`);
       el.style.setProperty('--ydrift', `${-30 + Math.random() * 60}px`);
+      el.style.setProperty('--travel', `${-80 - Math.random() * 20}vw`);
       el.style.animation = `fx-wind-rtl var(--dur) var(--delay) ease-in-out infinite`;
     }
   },
@@ -365,11 +370,11 @@ const FX = {
       @keyframes fx-petal {
         0%   { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0) scale(0.6); }
         8%   { opacity: 0.8; }
-        100% { opacity: 0; transform: translateY(110vh) rotate(600deg) translateX(var(--drift)) scale(1); }
+        100% { opacity: 0; transform: translateY(100vh) rotate(600deg) translateX(var(--drift)) scale(1); }
       }`,
     spawn(el, cfg) {
-      el.style.left     = `${Math.random() * 105}%`;
-      el.style.top      = '-20px';
+      el.style.left     = `${Math.random() * 100}%`;
+      el.style.top      = `-${Math.floor(Math.random() * 40)}px`;
       el.style.fontSize = `${10 + Math.random() * 10}px`;
       el.style.setProperty('--dur',   `${(6 + Math.random() * 6) / cfg.speed}s`);
       el.style.setProperty('--delay', `${Math.random() * 8}s`);
@@ -387,11 +392,11 @@ const FX = {
         0%   { opacity: 0; transform: translateY(0) translateX(0) rotate(0deg) scale(0.5); }
         8%   { opacity: 0.85; }
         50%  { transform: translateY(var(--mid)) translateX(var(--drift)) rotate(200deg) scale(1.1); }
-        100% { opacity: 0; transform: translateY(108vh) translateX(var(--drift2)) rotate(480deg) scale(0.8); }
+        100% { opacity: 0; transform: translateY(100vh) translateX(var(--drift2)) rotate(480deg) scale(0.8); }
       }`,
     spawn(el, cfg) {
-      el.style.left     = `${Math.random() * 105}%`;
-      el.style.top      = `${-10 + Math.random() * -20}px`;
+      el.style.left     = `${Math.random() * 100}%`;
+      el.style.top      = `-${Math.floor(Math.random() * 40)}px`;
       el.style.fontSize = `${12 + Math.random() * 14}px`;
       el.style.setProperty('--dur',    `${(5 + Math.random() * 7) / cfg.speed}s`);
       el.style.setProperty('--delay',  `${Math.random() * 9}s`);
@@ -480,8 +485,7 @@ const FX = {
       el.textContent = '';
       const size = 8 + Math.random() * 20;
       el.style.left         = `${5 + Math.random() * 90}%`;
-      el.style.bottom       = '0';
-      el.style.top          = 'auto';
+      el.style.top          = '85%';   /* empieza cerca del fondo del contenedor */
       el.style.width        = `${size}px`;
       el.style.height       = `${size}px`;
       el.style.borderRadius = '50%';
@@ -489,7 +493,7 @@ const FX = {
       el.style.background   = 'radial-gradient(circle at 35% 35%, rgba(255,255,255,0.4), rgba(160,210,255,0.1))';
       el.style.setProperty('--dur',   `${(3 + Math.random() * 4) / cfg.speed}s`);
       el.style.setProperty('--delay', `${Math.random() * 5}s`);
-      el.style.setProperty('--rise',  `${-150 - Math.random() * 200}px`);
+      el.style.setProperty('--rise',  `${-60 - Math.random() * 40}vh`);
       el.style.setProperty('--drift', `${-30 + Math.random() * 60}px`);
       el.style.animation = `fx-bubble var(--dur) var(--delay) ease-out infinite`;
     }
@@ -503,14 +507,14 @@ const FX = {
       @keyframes fx-confetti {
         0%   { opacity: 0; transform: translateY(0) rotate(0deg) translateX(0); }
         8%   { opacity: 1; }
-        100% { opacity: 0; transform: translateY(110vh) rotate(var(--spin)) translateX(var(--drift)); }
+        100% { opacity: 0; transform: translateY(100vh) rotate(var(--spin)) translateX(var(--drift)); }
       }`,
     spawn(el, cfg) {
       el.textContent = '';
       const colors = ['#ff4444','#ffaa00','#44ff44','#4488ff','#ff44ff','#44ffff','#ffff44'];
       const w = 4 + Math.random() * 8, h = 6 + Math.random() * 10;
-      el.style.left         = `${Math.random() * 105}%`;
-      el.style.top          = '-20px';
+      el.style.left         = `${Math.random() * 100}%`;
+      el.style.top          = `-${Math.floor(Math.random() * 30)}px`;
       el.style.width        = `${w}px`;
       el.style.height       = `${h}px`;
       el.style.background   = colors[Math.floor(Math.random() * colors.length)];
@@ -548,13 +552,13 @@ const FX = {
     countBase: 7,
     css: `
       @keyframes fx-bakery {
-        0%   { opacity: 0; transform: translateX(-80px) translateY(20px) rotate(-20deg) scale(0.5); }
-        8%   { opacity: 0.9; transform: translateX(0) translateY(0) rotate(0deg) scale(1); }
+        0%   { opacity: 0;   transform: translateX(0)    translateY(0)             rotate(0deg)       scale(0.6); }
+        8%   { opacity: 0.9; transform: translateX(5%)   translateY(-10px)         rotate(5deg)        scale(1); }
         92%  { opacity: 0.8; }
-        100% { opacity: 0; transform: translateX(calc(100vw + 60px)) translateY(var(--ydrift)) rotate(var(--spin)) scale(0.8); }
+        100% { opacity: 0;   transform: translateX(100%) translateY(var(--ydrift)) rotate(var(--spin)) scale(0.8); }
       }`,
     spawn(el, cfg) {
-      el.style.left     = '-5%';
+      el.style.left     = '0%';
       el.style.top      = `${5 + Math.random() * 85}%`;
       el.style.fontSize = `${18 + Math.random() * 16}px`;
       el.style.filter   = 'drop-shadow(2px 4px 6px rgba(0,0,0,0.3))';
@@ -820,7 +824,7 @@ class FeriaPoster extends HTMLElement {
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        overflow: visible;
+        overflow: hidden;
         padding: 2.5rem 1rem 3.5rem;
         border-radius: 28px;
         box-shadow:
@@ -1025,26 +1029,18 @@ class FeriaPoster extends HTMLElement {
       /* ── Contenedor de partículas del efecto ── */
       .fp-particles {
         position: absolute;
-        /* Extendemos el área más allá de la escena para que los efectos
-           de viento y los que empiezan fuera del borde sean visibles.
-           El clip real lo hace .fp-scene con overflow:hidden en mobile;
-           en desktop usamos clip-path para mantener el borde redondeado
-           sin cortar las partículas que entran/salen por los lados. */
-        inset: -60px -80px;   /* margen extra izq/der para wind, bakery */
-        top: -30px;           /* margen arriba para lluvia/nieve */
-        bottom: -20px;        /* margen abajo para burbujas */
+        inset: 0;
         pointer-events: none;
-        overflow: visible;
+        overflow: visible; /* el clip lo hace .fp-scene con overflow:hidden */
         z-index: 3;
       }
-      /* Base de cada partícula — posición y animación las pone el spawn */
+      /* Base de cada partícula */
       .fp-particle {
         position: absolute;
+        display: block;
         pointer-events: none;
         user-select: none;
         will-change: transform, opacity;
-        /* Asegurar que divs sin textContent sean visibles */
-        display: block;
       }
 
       /* ── Responsive ── */
@@ -1052,16 +1048,14 @@ class FeriaPoster extends HTMLElement {
         .fp-scene {
           width: 95%; min-height: 380px;
           padding: 2rem 0.5rem 2.5rem;
-          border-radius: 20px; overflow: hidden;
+          border-radius: 20px;
         }
         .fp-stage { width: 94%; }
         .fp-poster-area { padding: 4px; }
         .fp-tape { width: 36px; height: 14px; }
         .fp-banderines { width: clamp(100px, 22vw, 150px); max-width: 28%; top: -10px; right: 0; }
       }
-      @media (max-width: 768px) {
-        .fp-scene { overflow: hidden; }
-      }
+      /* fp-scene ya tiene overflow:hidden globalmente */
       @media (min-width: 1200px) {
         .fp-scene { min-height: 620px; }
         .fp-stage { max-width: 650px; }
