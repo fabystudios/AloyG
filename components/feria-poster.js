@@ -650,7 +650,7 @@ class FeriaPoster extends HTMLElement {
   get banderinesSrc()  { return this.getAttribute('banderines-src') || ''; }
   get boardSrc()       { return this.getAttribute('board-src') || ''; }
   get ctaMobile()      { return this.getAttribute('cta-mobile') || 'tocar = zoom'; }
-  get ctaDesktop()     { return this.getAttribute('cta-desktop') || 'click sobre el flyer para zoom'; }
+  get ctaDesktop()     { return this.getAttribute('cta-desktop') || 'click para zoom'; }
 
   /* ── Getters de posición de figuras ─────────────── */
   get figureBottom()       { return this.getAttribute('figure-bottom') || '0px'; }
