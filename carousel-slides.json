@@ -22,11 +22,11 @@
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/fatima_desk.png"
+      "src": "./slides/fatima-mie_desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/fatima_mob.png"
+      "src": "./slides/fatima-mie_mob.png"
     }
   },
           {
