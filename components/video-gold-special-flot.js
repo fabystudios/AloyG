@@ -55,6 +55,229 @@ _tplSpecialFlot.innerHTML = `
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+  /* ══════════════════════════════════════════
+     TEMAS DE COLOR — atributo tema="..."
+     Valores: "dorado" (default) | "celeste" | "rojo" | "verde" | "violeta"
+     ══════════════════════════════════════════ */
+
+  /* Default: dorado */
+  :host {
+    --t-c1:       #f5d06b;   /* color primario claro  */
+    --t-c2:       #c9a227;   /* color primario medio  */
+    --t-c3:       #fff5c0;   /* color primario brillo */
+    --t-c4:       rgba(197,162,39,0.3);   /* glow sombra 1 */
+    --t-c5:       rgba(197,162,39,0.45);  /* glow sombra 2 */
+    --t-c6:       rgba(197,162,39,0.2);   /* glow sombra 3 */
+    --t-c7:       rgba(197,162,39,0.08);  /* glow sombra 4 */
+    --t-c8:       rgba(245,208,107,0.6);  /* hover glow 1  */
+    --t-c9:       rgba(197,162,39,0.7);   /* hover glow 2  */
+    --t-c10:      rgba(197,162,39,0.35);  /* hover glow 3  */
+    --t-c11:      rgba(197,162,39,0.15);  /* hover glow 4  */
+    --t-card-bg:  rgba(10,6,22,0.72);
+    --t-card-bg2: rgba(10,6,22,0.75);     /* badge bg      */
+    --t-refl1:    rgba(245,208,107,0.15); /* reflejo card  */
+    --t-refl2:    rgba(197,162,39,0.08);
+    --t-border:   rgba(245,208,107,0.7);
+    --t-text:     #f5d06b;
+    --t-text2:    rgba(245,208,107,0.9);
+    --t-text3:    rgba(197,162,39,0.65);
+    --t-text-sh:  rgba(197,162,39,0.6);
+    --t-star:     #fff5c0;
+    --t-play-sh:  rgba(197,162,39,0.35);
+    --t-play-sh2: rgba(245,208,107,0.3);
+    --t-play-sh3: rgba(255,245,192,0.3);
+    --t-pulse1:   rgba(197,162,39,0.65);
+    --t-pulse2:   rgba(197,162,39,0.2);
+    --t-icon:     rgba(245,208,107,0.95);
+    --t-icon-sh:  rgba(245,208,107,0.8);
+    --t-line:     rgba(197,162,39,1);
+    --t-line2:    rgba(245,208,107,0.5);
+    --t-badge-bg: rgba(197,162,39,0.18);
+    --t-badge-br: rgba(245,208,107,0.45);
+    --t-dot:      rgba(245,208,107,0.9);
+    --t-shimmer:  rgba(255,220,100,0.18);
+    --t-part:     rgba(245,208,107,VAL);  /* placeholder — se usa directo */
+    --t-corner:   #c9a227;
+    --t-corner-glow: rgba(197,162,39,0.7);
+    --t-orb1:     rgba(255,245,192,0.9);
+    --t-orb2:     rgba(245,208,107,0.7);
+    --t-orb3:     rgba(197,162,39,0.4);
+    --t-halo:     rgba(245,208,107,0.35);
+  }
+
+  :host([tema="celeste"]) {
+    --t-c1:       #6bd4f5;
+    --t-c2:       #2799c9;
+    --t-c3:       #c0f0ff;
+    --t-c4:       rgba(39,153,201,0.3);
+    --t-c5:       rgba(39,153,201,0.45);
+    --t-c6:       rgba(39,153,201,0.2);
+    --t-c7:       rgba(39,153,201,0.08);
+    --t-c8:       rgba(107,212,245,0.6);
+    --t-c9:       rgba(39,153,201,0.7);
+    --t-c10:      rgba(39,153,201,0.35);
+    --t-c11:      rgba(39,153,201,0.15);
+    --t-card-bg:  rgba(4,18,28,0.72);
+    --t-card-bg2: rgba(4,18,28,0.75);
+    --t-refl1:    rgba(107,212,245,0.15);
+    --t-refl2:    rgba(39,153,201,0.08);
+    --t-border:   rgba(107,212,245,0.7);
+    --t-text:     #6bd4f5;
+    --t-text2:    rgba(107,212,245,0.9);
+    --t-text3:    rgba(39,153,201,0.65);
+    --t-text-sh:  rgba(39,153,201,0.6);
+    --t-star:     #c0f0ff;
+    --t-play-sh:  rgba(39,153,201,0.35);
+    --t-play-sh2: rgba(107,212,245,0.3);
+    --t-play-sh3: rgba(192,240,255,0.3);
+    --t-pulse1:   rgba(39,153,201,0.65);
+    --t-pulse2:   rgba(39,153,201,0.2);
+    --t-icon:     rgba(107,212,245,0.95);
+    --t-icon-sh:  rgba(107,212,245,0.8);
+    --t-line:     rgba(39,153,201,1);
+    --t-line2:    rgba(107,212,245,0.5);
+    --t-badge-bg: rgba(39,153,201,0.18);
+    --t-badge-br: rgba(107,212,245,0.45);
+    --t-dot:      rgba(107,212,245,0.9);
+    --t-shimmer:  rgba(100,210,255,0.18);
+    --t-corner:   #2799c9;
+    --t-corner-glow: rgba(39,153,201,0.7);
+    --t-orb1:     rgba(192,240,255,0.9);
+    --t-orb2:     rgba(107,212,245,0.7);
+    --t-orb3:     rgba(39,153,201,0.4);
+    --t-halo:     rgba(107,212,245,0.35);
+  }
+
+  :host([tema="rojo"]) {
+    --t-c1:       #f56b6b;
+    --t-c2:       #c92727;
+    --t-c3:       #ffc0c0;
+    --t-c4:       rgba(201,39,39,0.3);
+    --t-c5:       rgba(201,39,39,0.45);
+    --t-c6:       rgba(201,39,39,0.2);
+    --t-c7:       rgba(201,39,39,0.08);
+    --t-c8:       rgba(245,107,107,0.6);
+    --t-c9:       rgba(201,39,39,0.7);
+    --t-c10:      rgba(201,39,39,0.35);
+    --t-c11:      rgba(201,39,39,0.15);
+    --t-card-bg:  rgba(22,4,4,0.72);
+    --t-card-bg2: rgba(22,4,4,0.75);
+    --t-refl1:    rgba(245,107,107,0.15);
+    --t-refl2:    rgba(201,39,39,0.08);
+    --t-border:   rgba(245,107,107,0.7);
+    --t-text:     #f56b6b;
+    --t-text2:    rgba(245,107,107,0.9);
+    --t-text3:    rgba(201,39,39,0.65);
+    --t-text-sh:  rgba(201,39,39,0.6);
+    --t-star:     #ffc0c0;
+    --t-play-sh:  rgba(201,39,39,0.35);
+    --t-play-sh2: rgba(245,107,107,0.3);
+    --t-play-sh3: rgba(255,192,192,0.3);
+    --t-pulse1:   rgba(201,39,39,0.65);
+    --t-pulse2:   rgba(201,39,39,0.2);
+    --t-icon:     rgba(245,107,107,0.95);
+    --t-icon-sh:  rgba(245,107,107,0.8);
+    --t-line:     rgba(201,39,39,1);
+    --t-line2:    rgba(245,107,107,0.5);
+    --t-badge-bg: rgba(201,39,39,0.18);
+    --t-badge-br: rgba(245,107,107,0.45);
+    --t-dot:      rgba(245,107,107,0.9);
+    --t-shimmer:  rgba(255,100,100,0.18);
+    --t-corner:   #c92727;
+    --t-corner-glow: rgba(201,39,39,0.7);
+    --t-orb1:     rgba(255,192,192,0.9);
+    --t-orb2:     rgba(245,107,107,0.7);
+    --t-orb3:     rgba(201,39,39,0.4);
+    --t-halo:     rgba(245,107,107,0.35);
+  }
+
+  :host([tema="verde"]) {
+    --t-c1:       #6bf5a0;
+    --t-c2:       #27c960;
+    --t-c3:       #c0ffd8;
+    --t-c4:       rgba(39,201,96,0.3);
+    --t-c5:       rgba(39,201,96,0.45);
+    --t-c6:       rgba(39,201,96,0.2);
+    --t-c7:       rgba(39,201,96,0.08);
+    --t-c8:       rgba(107,245,160,0.6);
+    --t-c9:       rgba(39,201,96,0.7);
+    --t-c10:      rgba(39,201,96,0.35);
+    --t-c11:      rgba(39,201,96,0.15);
+    --t-card-bg:  rgba(4,22,10,0.72);
+    --t-card-bg2: rgba(4,22,10,0.75);
+    --t-refl1:    rgba(107,245,160,0.15);
+    --t-refl2:    rgba(39,201,96,0.08);
+    --t-border:   rgba(107,245,160,0.7);
+    --t-text:     #6bf5a0;
+    --t-text2:    rgba(107,245,160,0.9);
+    --t-text3:    rgba(39,201,96,0.65);
+    --t-text-sh:  rgba(39,201,96,0.6);
+    --t-star:     #c0ffd8;
+    --t-play-sh:  rgba(39,201,96,0.35);
+    --t-play-sh2: rgba(107,245,160,0.3);
+    --t-play-sh3: rgba(192,255,216,0.3);
+    --t-pulse1:   rgba(39,201,96,0.65);
+    --t-pulse2:   rgba(39,201,96,0.2);
+    --t-icon:     rgba(107,245,160,0.95);
+    --t-icon-sh:  rgba(107,245,160,0.8);
+    --t-line:     rgba(39,201,96,1);
+    --t-line2:    rgba(107,245,160,0.5);
+    --t-badge-bg: rgba(39,201,96,0.18);
+    --t-badge-br: rgba(107,245,160,0.45);
+    --t-dot:      rgba(107,245,160,0.9);
+    --t-shimmer:  rgba(100,255,160,0.18);
+    --t-corner:   #27c960;
+    --t-corner-glow: rgba(39,201,96,0.7);
+    --t-orb1:     rgba(192,255,216,0.9);
+    --t-orb2:     rgba(107,245,160,0.7);
+    --t-orb3:     rgba(39,201,96,0.4);
+    --t-halo:     rgba(107,245,160,0.35);
+  }
+
+  :host([tema="violeta"]) {
+    --t-c1:       #c46bf5;
+    --t-c2:       #7b27c9;
+    --t-c3:       #ecc0ff;
+    --t-c4:       rgba(123,39,201,0.3);
+    --t-c5:       rgba(123,39,201,0.45);
+    --t-c6:       rgba(123,39,201,0.2);
+    --t-c7:       rgba(123,39,201,0.08);
+    --t-c8:       rgba(196,107,245,0.6);
+    --t-c9:       rgba(123,39,201,0.7);
+    --t-c10:      rgba(123,39,201,0.35);
+    --t-c11:      rgba(123,39,201,0.15);
+    --t-card-bg:  rgba(12,4,22,0.72);
+    --t-card-bg2: rgba(12,4,22,0.75);
+    --t-refl1:    rgba(196,107,245,0.15);
+    --t-refl2:    rgba(123,39,201,0.08);
+    --t-border:   rgba(196,107,245,0.7);
+    --t-text:     #c46bf5;
+    --t-text2:    rgba(196,107,245,0.9);
+    --t-text3:    rgba(123,39,201,0.65);
+    --t-text-sh:  rgba(123,39,201,0.6);
+    --t-star:     #ecc0ff;
+    --t-play-sh:  rgba(123,39,201,0.35);
+    --t-play-sh2: rgba(196,107,245,0.3);
+    --t-play-sh3: rgba(236,192,255,0.3);
+    --t-pulse1:   rgba(123,39,201,0.65);
+    --t-pulse2:   rgba(123,39,201,0.2);
+    --t-icon:     rgba(196,107,245,0.95);
+    --t-icon-sh:  rgba(196,107,245,0.8);
+    --t-line:     rgba(123,39,201,1);
+    --t-line2:    rgba(196,107,245,0.5);
+    --t-badge-bg: rgba(123,39,201,0.18);
+    --t-badge-br: rgba(196,107,245,0.45);
+    --t-dot:      rgba(196,107,245,0.9);
+    --t-shimmer:  rgba(180,100,255,0.18);
+    --t-corner:   #7b27c9;
+    --t-corner-glow: rgba(123,39,201,0.7);
+    --t-orb1:     rgba(236,192,255,0.9);
+    --t-orb2:     rgba(196,107,245,0.7);
+    --t-orb3:     rgba(123,39,201,0.4);
+    --t-halo:     rgba(196,107,245,0.35);
+  }
+
+
   :host { display: block; width: 100%; }
 
   /* ── Outer: borde animado + glow exterior ── */
@@ -65,23 +288,23 @@ _tplSpecialFlot.innerHTML = `
     border-radius: 24px;
     padding: 3px;
     background: linear-gradient(135deg,
-      #f5d06b 0%, #c9a227 25%, #fff5c0 50%, #c9a227 75%, #f5d06b 100%);
+      var(--t-c1) 0%, var(--t-c2) 25%, var(--t-c3) 50%, var(--t-c2) 75%, var(--t-c1) 100%);
     background-size: 300% 300%;
     animation: borderFlow 4s linear infinite, cardEntrance 0.8s cubic-bezier(0.22,1,0.36,1) both;
     box-shadow:
-      0 0 0 1px rgba(197,162,39,0.3),
-      0 0 30px rgba(197,162,39,0.45),
-      0 0 70px rgba(197,162,39,0.2),
-      0 0 120px rgba(197,162,39,0.08);
+      0 0 0 1px var(--t-c4),
+      0 0 30px var(--t-c5),
+      0 0 70px var(--t-c6),
+      0 0 120px var(--t-c7);
     transition: box-shadow 0.4s ease;
   }
 
   .outer-wrap:hover {
     box-shadow:
-      0 0 0 1px rgba(245,208,107,0.6),
-      0 0 50px rgba(197,162,39,0.7),
-      0 0 100px rgba(197,162,39,0.35),
-      0 0 160px rgba(197,162,39,0.15);
+      0 0 0 1px var(--t-c8),
+      0 0 50px var(--t-c9),
+      0 0 100px var(--t-c10),
+      0 0 160px var(--t-c11);
   }
 
   @keyframes borderFlow {
@@ -100,7 +323,7 @@ _tplSpecialFlot.innerHTML = `
     position: relative;
     border-radius: 22px;
     overflow: hidden;
-    background: rgba(10, 6, 22, 0.72);
+    background: var(--t-card-bg);
     backdrop-filter: blur(28px) saturate(1.6);
     -webkit-backdrop-filter: blur(28px) saturate(1.6);
     transition: transform 0.35s ease;
@@ -114,10 +337,10 @@ _tplSpecialFlot.innerHTML = `
     inset: 0;
     border-radius: 22px;
     background: linear-gradient(135deg,
-      rgba(245,208,107,0.15) 0%,
+      var(--t-refl1) 0%,
       transparent 35%,
       transparent 65%,
-      rgba(197,162,39,0.08) 100%);
+      var(--t-refl2) 100%);
     pointer-events: none;
     z-index: 3;
   }
@@ -149,8 +372,8 @@ _tplSpecialFlot.innerHTML = `
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: rgba(10,6,22,0.75);
-    border: 1.5px solid rgba(245,208,107,0.7);
+    background: var(--t-card-bg2);
+    border: 1.5px solid var(--t-border);
     border-radius: 30px;
     padding: 5px 16px;
     font-family: 'Cinzel', serif;
@@ -158,17 +381,17 @@ _tplSpecialFlot.innerHTML = `
     font-weight: 700;
     letter-spacing: 3px;
     text-transform: uppercase;
-    color: #f5d06b;
-    text-shadow: 0 0 12px rgba(197,162,39,0.8);
+    color: var(--t-c1);
+    text-shadow: 0 0 12px var(--t-text-sh);
     backdrop-filter: blur(8px);
-    box-shadow: 0 0 16px rgba(197,162,39,0.3), inset 0 1px 0 rgba(255,245,192,0.2);
+    box-shadow: 0 0 16px var(--t-play-sh), inset 0 1px 0 var(--t-play-sh3);
   }
 
   .badge-star {
     font-size: 11px;
     animation: starPulse 3s ease-in-out infinite;
     display: inline-block;
-    color: #fff5c0;
+    color: var(--t-star);
   }
   @keyframes starPulse {
     0%,100% { transform: scale(1) rotate(0deg); opacity: 1; }
@@ -194,15 +417,14 @@ _tplSpecialFlot.innerHTML = `
   .logo-img {
     display: block;
     width: 100%;
-    height: auto;          /* respeta el ratio original de la imagen */
+    height: auto;
     object-fit: contain;
-    border-radius: 0;      /* sin recorte: la imagen flota libre */
-    /* Halo luminoso multicapa */
+    border-radius: 0;
     filter:
       drop-shadow(0 0 8px rgba(255,255,255,0.6))
-      drop-shadow(0 0 18px rgba(197,162,39,0.85))
-      drop-shadow(0 0 40px rgba(197,162,39,0.45))
-      drop-shadow(0 0 70px rgba(197,162,39,0.2));
+      drop-shadow(0 0 18px var(--t-c9))
+      drop-shadow(0 0 40px var(--t-c10))
+      drop-shadow(0 0 70px var(--t-c6));
     animation:
       logoFloat   5s ease-in-out infinite,
       logoEntrance 1s cubic-bezier(0.22,1,0.36,1) both 0.4s;
@@ -212,9 +434,9 @@ _tplSpecialFlot.innerHTML = `
   .outer-wrap:hover .logo-img {
     filter:
       drop-shadow(0 0 12px rgba(255,255,255,0.9))
-      drop-shadow(0 0 28px rgba(245,208,107,1))
-      drop-shadow(0 0 60px rgba(197,162,39,0.7))
-      drop-shadow(0 0 100px rgba(197,162,39,0.35));
+      drop-shadow(0 0 28px var(--t-c8))
+      drop-shadow(0 0 60px var(--t-c9))
+      drop-shadow(0 0 100px var(--t-c10));
   }
 
   /* Flotación suave con leve balanceo */
@@ -272,8 +494,8 @@ _tplSpecialFlot.innerHTML = `
     position: absolute;
     width: 64px; height: 64px;
     border-radius: 50%;
-    border: 2.5px solid rgba(245,208,107,0.9);
-    background: rgba(10,6,22,0.6);
+    border: 2.5px solid var(--t-c1);
+    background: var(--t-card-bg);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     cursor: pointer;
@@ -292,7 +514,7 @@ _tplSpecialFlot.innerHTML = `
       background 0.25s, border-color 0.25s, box-shadow 0.25s;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 22px rgba(197,162,39,0.35), inset 0 1px 0 rgba(255,245,192,0.3);
+    box-shadow: 0 0 22px var(--t-play-sh), inset 0 1px 0 var(--t-play-sh3);
     animation: pulsePlay 2.5s ease-in-out infinite;
   }
 
@@ -302,42 +524,42 @@ _tplSpecialFlot.innerHTML = `
     transform: none;
     width: 34px; height: 34px;
     animation: none;
-    box-shadow: 0 0 10px rgba(197,162,39,0.25);
+    box-shadow: 0 0 10px var(--t-play-sh);
   }
 
   .play-btn:not(.is-playing):hover {
     transform: translate(-50%,-50%) scale(1.12);
-    background: rgba(197,162,39,0.25);
-    border-color: #f5d06b;
-    box-shadow: 0 0 50px rgba(197,162,39,0.7), 0 0 90px rgba(197,162,39,0.25);
+    background: var(--t-badge-bg);
+    border-color: var(--t-c1);
+    box-shadow: 0 0 50px var(--t-c9), 0 0 90px var(--t-c6);
     animation: none;
   }
 
   .play-btn.is-playing:hover {
     transform: scale(1.15);
-    background: rgba(197,162,39,0.22);
+    background: var(--t-badge-bg);
   }
 
   @keyframes pulsePlay {
-    0%,100% { box-shadow: 0 0 22px rgba(197,162,39,0.35), inset 0 1px 0 rgba(255,245,192,0.3); }
-    50%      { box-shadow: 0 0 40px rgba(197,162,39,0.65), 0 0 70px rgba(197,162,39,0.2); }
+    0%,100% { box-shadow: 0 0 22px var(--t-play-sh), inset 0 1px 0 var(--t-play-sh3); }
+    50%      { box-shadow: 0 0 40px var(--t-pulse1), 0 0 70px var(--t-pulse2); }
   }
 
   .play-icon {
     width: 0; height: 0;
     border-style: solid;
     border-width: 11px 0 11px 20px;
-    border-color: transparent transparent transparent rgba(245,208,107,0.95);
+    border-color: transparent transparent transparent var(--t-icon);
     margin-left: 5px;
-    filter: drop-shadow(0 0 5px rgba(245,208,107,0.8));
+    filter: drop-shadow(0 0 5px var(--t-icon-sh));
   }
 
   .pause-icon { display: flex; gap: 3px; }
   .pause-bar {
     width: 3px; height: 13px;
-    background: rgba(245,208,107,0.95);
+    background: var(--t-icon);
     border-radius: 2px;
-    filter: drop-shadow(0 0 3px rgba(245,208,107,0.7));
+    filter: drop-shadow(0 0 3px var(--t-icon-sh));
   }
 
   /* ── Info inferior ── */
@@ -359,8 +581,8 @@ _tplSpecialFlot.innerHTML = `
     display: inline-flex;
     align-items: center;
     gap: 5px;
-    background: rgba(197,162,39,0.18);
-    border: 1px solid rgba(245,208,107,0.45);
+    background: var(--t-badge-bg);
+    border: 1px solid var(--t-badge-br);
     border-radius: 20px;
     padding: 3px 10px;
     font-family: 'Raleway', sans-serif;
@@ -368,13 +590,13 @@ _tplSpecialFlot.innerHTML = `
     font-weight: 500;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: rgba(245,208,107,0.9);
+    color: var(--t-text2);
   }
 
   .badge-dot {
     width: 5px; height: 5px;
     border-radius: 50%;
-    background: rgba(245,208,107,0.9);
+    background: var(--t-dot);
     animation: dotPulse 1.5s ease-in-out infinite;
   }
   @keyframes dotPulse {
@@ -386,24 +608,24 @@ _tplSpecialFlot.innerHTML = `
     font-family: 'Cinzel', serif;
     font-size: 1.1rem;
     font-weight: 700;
-    color: #f5d06b;
+    color: var(--t-text);
     letter-spacing: 0.05em;
     line-height: 1.3;
-    text-shadow: 0 0 24px rgba(197,162,39,0.6), 0 1px 0 rgba(0,0,0,0.9);
+    text-shadow: 0 0 24px var(--t-text-sh), 0 1px 0 rgba(0,0,0,0.9);
     flex: 1;
   }
 
   .gold-line {
     height: 1px;
     margin: 0.5rem 0 0.45rem;
-    background: linear-gradient(to right, rgba(197,162,39,1), rgba(245,208,107,0.5), transparent);
+    background: linear-gradient(to right, var(--t-line), var(--t-line2), transparent);
   }
 
   .meta-time {
     font-family: 'Raleway', sans-serif;
     font-size: 11px;
     font-weight: 300;
-    color: rgba(197,162,39,0.65);
+    color: var(--t-text3);
     letter-spacing: 1px;
   }
 
@@ -431,7 +653,7 @@ _tplSpecialFlot.innerHTML = `
     flex: 1 1 0;
     min-width: 0;
     min-height: 0;
-    background: rgba(10,6,22,0.6);
+    background: var(--t-card-bg);
   }
 
   .panel-flotante canvas {
@@ -451,10 +673,10 @@ _tplSpecialFlot.innerHTML = `
     z-index: 2;
   }
   .panel-flotante.panel-izq::after {
-    background: linear-gradient(to left, rgba(10,6,22,0.92) 0%, transparent 65%);
+    background: linear-gradient(to left, var(--t-card-bg) 0%, transparent 65%);
   }
   .panel-flotante.panel-der::after {
-    background: linear-gradient(to right, rgba(10,6,22,0.92) 0%, transparent 65%);
+    background: linear-gradient(to right, var(--t-card-bg) 0%, transparent 65%);
   }
 
   /* El video-wrap en modo flotantes: ancho fijo portrait, no crece */
@@ -481,7 +703,7 @@ _tplSpecialFlot.innerHTML = `
     top: 0; left: -100%;
     width: 60%; height: 100%;
     background: linear-gradient(105deg,
-      transparent 30%, rgba(245,208,107,0.09) 50%, transparent 70%);
+      transparent 30%, var(--t-shimmer) 50%, transparent 70%);
     pointer-events: none;
     z-index: 6;
     animation: shimmerMove 5s ease-in-out infinite 1.5s;
@@ -503,7 +725,7 @@ _tplSpecialFlot.innerHTML = `
   .particle {
     position: absolute;
     border-radius: 50%;
-    background: rgba(245,208,107,0.8);
+    background: var(--t-c1);
     animation: floatUp var(--dur,6s) ease-in-out infinite var(--delay,0s);
     opacity: 0;
   }
@@ -537,31 +759,24 @@ _tplSpecialFlot.innerHTML = `
 
     <!-- Esquinas decorativas -->
     <svg class="gold-corner gc-tl" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <linearGradient id="sg-grad-tl" x1="0" y1="0" x2="28" y2="28" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#fff5c0"/>
-          <stop offset="50%" stop-color="#f5d06b"/>
-          <stop offset="100%" stop-color="rgba(197,162,39,0.2)"/>
-        </linearGradient>
-      </defs>
-      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="rgba(245,208,107,0.25)" stroke-width="6" fill="none" stroke-linecap="round"/>
-      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="url(#sg-grad-tl)" stroke-width="2" fill="none" stroke-linecap="round"/>
-      <rect x="0" y="0" width="6" height="6" rx="1" fill="#f5d06b" transform="rotate(45 3 3)" opacity="0.9"/>
+      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="var(--t-c4)" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="var(--t-c1)" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <rect x="0" y="0" width="6" height="6" rx="1" fill="var(--t-c1)" transform="rotate(45 3 3)" opacity="0.9"/>
     </svg>
     <svg class="gold-corner gc-tr" viewBox="0 0 56 56" fill="none">
-      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="rgba(245,208,107,0.25)" stroke-width="6" fill="none" stroke-linecap="round"/>
-      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="#f5d06b" stroke-width="2" fill="none" stroke-linecap="round"/>
-      <rect x="0" y="0" width="6" height="6" rx="1" fill="#f5d06b" transform="rotate(45 3 3)" opacity="0.9"/>
+      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="var(--t-c4)" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="var(--t-c1)" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <rect x="0" y="0" width="6" height="6" rx="1" fill="var(--t-c1)" transform="rotate(45 3 3)" opacity="0.9"/>
     </svg>
     <svg class="gold-corner gc-bl" viewBox="0 0 56 56" fill="none">
-      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="rgba(245,208,107,0.25)" stroke-width="6" fill="none" stroke-linecap="round"/>
-      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="#f5d06b" stroke-width="2" fill="none" stroke-linecap="round"/>
-      <rect x="0" y="0" width="6" height="6" rx="1" fill="#f5d06b" transform="rotate(45 3 3)" opacity="0.9"/>
+      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="var(--t-c4)" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="var(--t-c1)" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <rect x="0" y="0" width="6" height="6" rx="1" fill="var(--t-c1)" transform="rotate(45 3 3)" opacity="0.9"/>
     </svg>
     <svg class="gold-corner gc-br" viewBox="0 0 56 56" fill="none">
-      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="rgba(245,208,107,0.25)" stroke-width="6" fill="none" stroke-linecap="round"/>
-      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="#f5d06b" stroke-width="2" fill="none" stroke-linecap="round"/>
-      <rect x="0" y="0" width="6" height="6" rx="1" fill="#f5d06b" transform="rotate(45 3 3)" opacity="0.9"/>
+      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="var(--t-c4)" stroke-width="6" fill="none" stroke-linecap="round"/>
+      <path d="M3 30 L3 6 Q3 3 6 3 L30 3" stroke="var(--t-c1)" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <rect x="0" y="0" width="6" height="6" rx="1" fill="var(--t-c1)" transform="rotate(45 3 3)" opacity="0.9"/>
     </svg>
 
     <!-- Paneles flotantes laterales (activos con flotante1/flotante2) -->
@@ -608,7 +823,9 @@ class VideoGoldSpecialFlot extends HTMLElement {
       'poster-mobile',
       'poster-desktop',
       'flotante1',
-      'flotante2'
+      'flotante2',
+      'tema',
+      'fondo'
     ];
   }
 
@@ -653,6 +870,7 @@ class VideoGoldSpecialFlot extends HTMLElement {
     if (name === 'badge')    { this._badgeEl.textContent = val || 'Special'; return; }
     if (name === 'etiqueta') { this._etiquetaEl.textContent = val || 'Special Edition'; return; }
     if (name === 'logo')     { this._applyLogo(val); return; }
+    if (name === 'fondo')    { this._applyFondo(val); return; }
     if (name === 'flotante1' || name === 'flotante2') { this._render(); return; }
     this._render();
   }
@@ -663,6 +881,7 @@ class VideoGoldSpecialFlot extends HTMLElement {
     this._badgeEl.textContent    = this.getAttribute('badge')    || 'Special';
     this._etiquetaEl.textContent = this.getAttribute('etiqueta') || 'Special Edition';
     this._applyLogo(this.getAttribute('logo'));
+    this._applyFondo(this.getAttribute('fondo'));
   }
 
   _applyLogo(url) {
@@ -671,6 +890,24 @@ class VideoGoldSpecialFlot extends HTMLElement {
       this._logoWrap.style.display = 'block';
     } else {
       this._logoWrap.style.display = 'none';
+    }
+  }
+
+  _applyFondo(color) {
+    if (color) {
+      // Sobreescribe --t-card-bg con el color personalizado
+      // Funciona como fondo de la card y de los paneles laterales
+      this.style.setProperty('--t-card-bg',  color);
+      this.style.setProperty('--t-card-bg2', color);
+      // Ajustar también el reflejo interno para que sea coherente
+      this.style.setProperty('--t-refl1', 'rgba(255,255,255,0.06)');
+      this.style.setProperty('--t-refl2', 'rgba(255,255,255,0.03)');
+    } else {
+      // Si se quita el atributo, limpiamos las overrides y vuelve al tema
+      this.style.removeProperty('--t-card-bg');
+      this.style.removeProperty('--t-card-bg2');
+      this.style.removeProperty('--t-refl1');
+      this.style.removeProperty('--t-refl2');
     }
   }
 
@@ -720,17 +957,17 @@ class VideoGoldSpecialFlot extends HTMLElement {
       // ── MOBILE ──
       if (hasFlotantes) {
         this._outer.style.setProperty('--card-width', '95vw');
-        // Diferimos el cálculo en px hasta que el DOM tenga tamaño real
         requestAnimationFrame(() => {
-          const totalW = this._outer.getBoundingClientRect().width || window.innerWidth * 0.95;
-          // Video portrait: alto = totalW * 0.9 (aprox pantalla alta), ancho = alto * 9/16
-          const vidH = Math.round(totalW * 0.9);
-          const vidW = Math.round(vidH * 9 / 16);
-          this._outer.style.setProperty('--video-portrait-w', vidW + 'px');
+          // Mismo alto que el modo sin flotantes: 260px ancho × 16/9 = 462px alto
+          // Así el video portrait tiene la misma altura visual que el componente original
+          const vidW = Math.min(260, window.innerWidth * 0.95 * 0.42);
+          this._outer.style.setProperty('--video-portrait-w', Math.round(vidW) + 'px');
         });
       } else {
+        // Sin flotantes: ancho portrait estándar, sin video-portrait-w
         this._outer.style.setProperty('--card-width', 'min(260px, 95vw)');
         this._outer.style.removeProperty('--video-portrait-w');
+        this._card.classList.remove('has-flotantes'); // seguridad
       }
       this._outer.style.setProperty('--badge-top', '14px');
       this._outer.style.setProperty('--badge-bottom', 'auto');
@@ -958,11 +1195,17 @@ class VideoGoldSpecialFlot extends HTMLElement {
 
   _startBubbles(canvas, imgSrc, side) {
     if (!canvas) return;
-    // Detener loop anterior si existe
     this._stopBubbles(canvas);
 
     const img = new Image();
     img.src = imgSrc;
+
+    // Leer colores del tema actual desde las CSS variables del host
+    const cs = getComputedStyle(this);
+    const orb1 = cs.getPropertyValue('--t-orb1').trim() || 'rgba(255,245,192,0.9)';
+    const orb2 = cs.getPropertyValue('--t-orb2').trim() || 'rgba(245,208,107,0.7)';
+    const orb3 = cs.getPropertyValue('--t-orb3').trim() || 'rgba(197,162,39,0.4)';
+    const halo = cs.getPropertyValue('--t-halo').trim() || 'rgba(245,208,107,0.35)';
 
     const resize = () => {
       const rect = canvas.parentElement.getBoundingClientRect();
@@ -1031,19 +1274,19 @@ class VideoGoldSpecialFlot extends HTMLElement {
             ctx.globalAlpha = b.alpha * 0.5;
             ctx.translate(b.x, b.y);
             const grd = ctx.createRadialGradient(0, 0, b.r * 0.7, 0, 0, b.r * 1.4);
-            grd.addColorStop(0, 'rgba(245,208,107,0.35)');
-            grd.addColorStop(1, 'rgba(197,162,39,0)');
+            grd.addColorStop(0, halo);
+            grd.addColorStop(1, 'rgba(0,0,0,0)');
             ctx.beginPath();
             ctx.arc(0, 0, b.r * 1.4, 0, Math.PI * 2);
             ctx.fillStyle = grd;
             ctx.fill();
           } else {
-            // Burbuja dorada simple (fallback o tipo 'orb')
+            // Burbuja simple (orb)
             const grd = ctx.createRadialGradient(-b.r*0.3, -b.r*0.3, b.r*0.05, 0, 0, b.r);
-            grd.addColorStop(0, 'rgba(255,245,192,0.9)');
-            grd.addColorStop(0.4, 'rgba(245,208,107,0.7)');
-            grd.addColorStop(0.8, 'rgba(197,162,39,0.4)');
-            grd.addColorStop(1, 'rgba(197,162,39,0)');
+            grd.addColorStop(0, orb1);
+            grd.addColorStop(0.4, orb2);
+            grd.addColorStop(0.8, orb3);
+            grd.addColorStop(1, 'rgba(0,0,0,0)');
             ctx.beginPath();
             ctx.arc(0, 0, b.r, 0, Math.PI * 2);
             ctx.fillStyle = grd;

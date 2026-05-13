@@ -953,10 +953,46 @@
 
 <br>
 <br>
+<script src="./components/video-gold-special.js"></script>
+<video-gold-special
+  titulo="Nuestra Señora de Fátima"
+  video-desktop="https://youtu.be/BiomdtpS7BY?si=2rgsitLlElKdwMUU"
+  video-mobile="./asantos/13.mp4"
+  ancho-desktop="860px"
+  badge="13 de mayo"
+  etiqueta="la primera aparición"
+  logo="./img/aloy-marmol-piel.png"
+  logo-duracion="4"
+  poster-mobile="./img/fat.png"
+  >
+</video-gold-special> 
+<br><br>
+<script src="./components/video-card-gold.js"></script>
+<script src="./components/showcase-card.js"></script>
+<showcase-card
+  bg="./img/sky.jpg"
+  id="fran"
+  cover="./img/fatima.jpg"
+  medallion="./img/fat2.png"
 
-<script src="./components/video-gold-special-flot.js"></script>
+  video="./asantos/fatima1.mp4"
+  titulo="primera aparición de Nuestra Señora de Fátima en 1917."
+  badge="13 de mayo"
 
-<!-- <video-gold-special-flot
+  video2="./asantos/fatima2.mp4"
+  titulo2="Centenario de las apariciones de la Virgen María en Fátima"
+  badge2="Santuario de Fátima" 
+
+
+
+
+  effects="ember,dust,stars"
+  intensity="1"
+></showcase-card>
+<br>
+<!-- <script src="./components/video-gold-special-flot.js"></script>
+
+<video-gold-special-flot
   badge="El aporte de la iglesia a la educación"
   titulo="Padre Marcelo"
   video-desktop="./asantos/aporte.mp4"
@@ -968,12 +1004,14 @@
   logo="./img/aloy-marmol-piel.png"
   logo-duracion="10"
   poster-mobile="./asantos/padre.jpg"
-  poster-desktop="./asantos/padre.jpg"  >
+  poster-desktop="./asantos/padre.jpg"
+  fondo="rgba(30,10,10,0.9)"
+  tema="celeste" >
 </video-gold-special-flot> -->
  
 
 
-<script src="./components/video-gold-special.js"></script>
+
 <video-gold-special
   badge="
   la iglesia a la educación"
@@ -981,14 +1019,14 @@
   video-desktop="./asantos/aporte.mp4"
   video-mobile="./asantos/aporte.mp4"
   ancho-desktop="860px"
-  etiqueta="8 de Mayo"
+  etiqueta="12 de Mayo"
   logo="./img/aloy-marmol-piel.png"
   logo-duracion="10"
   poster-mobile="./asantos/padre.jpg"
  poster-desktop="./asantos/padre.jpg"
   >
 </video-gold-special>
-
+<br>
   <!-- ═══ Publicación de Feria (Web Component) ═══ -->
   <feria-poster 
     bg-src="./feria/lustre.png"
@@ -1012,16 +1050,16 @@
     >
   </feria-poster>
   <!-- ═══ / Publicación de Feria ═══ -->
+<br>
 
-
-<div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+<!-- <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
 
 <video-card-gold
   badge="12 de Mayo"
   titulo="San Pancracio"
   video="./asantos/12.mp4"
   style="width:auto; flex:0 0 auto;"
-
+  hide-mobile 
 ></video-card-gold>
 
 <video-card-gold
@@ -1061,7 +1099,7 @@
 
 </div>
 
-<br><br>
+<br><br> -->
 
   <!-- <script src="./components/magic-header.js"></script>
 <br>
@@ -1075,7 +1113,7 @@
 
 
 <!-- <script src="./components/fb-post-mosaic.js"></script> -->
-<script src="./components/fb-posts-container.js"></script>
+
 <!-- <script src="./components/panel-photo-gallery.js"></script> -->
 <!--
   El componente:
@@ -1083,6 +1121,7 @@
     cache-ttl  → ms de cache (default: 3600000 = 1 hora)
     wallpaper  → imagen de fondo (default: ./img/fb-wallpaper.png)
 -->
+<!-- <script src="./components/fb-posts-container.js"></script>
 <fb-posts-container
   src="facebook-posts-joseobrero.json"
   wallpaper="./img/f1.jpg"
@@ -1090,9 +1129,7 @@
   floatingImage2="./img/aloy-marmol-piel.png"
   width="500px"
 ></fb-posts-container>
-
-
-  <br><br>
+  <br><br> -->
 
 
 
@@ -1121,7 +1158,7 @@
   intensity="1"
 ></showcase-card>
 
-
+ 
 
 
 <!-- <br><br> -->
@@ -2386,452 +2423,7 @@
     margin="20px auto">
   </glassmorphism-yt-player>
 
-<br>
-<!-- ═══ Diario Parroquial ═══ -->
-  <diario-parroquial
-    title="DIARIO PARROQUIAL"
-    subtitle="Parroquia San Luis Gonzaga"
-    folder="./actividades/news/"
-    pages='[
-    
-      {
-        "headline": "",
-        "desc": "",
-        "photos": [ 
-          { "src": "pres.jpg" }
-        ] 
-      },
-           
-      {
-        "headline": "Más casamientos",
-        "desc": "Compartimos momentos de nuestra comunidad parroquial, sus actividades, celebraciones y la vida en común que nos une como familia de fe.",
-        "photos": [
-          { "src": "1.1.jpg" },
-          { "src": "1.2.jpg" },
-          { "src": "1.3.jpg" },
-          { "src": "1.4.jpg" }
 
-        ]
-      },
-      {
-        "headline": "Ermita de Schoestant",
-        "desc": "La Misa en la ermita de Schoestant es el segundo sábado de cada mes a las 16 hs",
-        "photos": [
-          { "src": "2.1.jpg" },
-          { "src": "2.2.jpeg" },
-          { "src": "2.3.jpg" } 
-        ]
-      },
-      {
-        "headline": "Bautismos",
-        "desc": "Seguimos teniendo bautizos casi todas las semanas.",
-        "photos": [
-          { "src": "3.jpg" }
-        ]
-      },
-      {
-        "headline": "Ntra Señora de Fátima",
-        "desc": "Se reparó la ermita de la capilla Ntra Sra de Fátima, donde celebramos la Misa todos los domingos a las 09.30 hs.",
-        "photos": [ 
-          { "src": "4.png" }
-        ] 
-      }
-,
-      {
-        "headline": "Caritas",
-        "desc": "Seguimos construyendo juntos la comunidad de fe, de esperanza y de amor que nos convoca cada día en torno al Evangelio acompañando desde nuestra Caritas a más de 200 familias con necesidades",
-        "photos": [ 
-          { "src": "5.jpg" }
-        ] 
-      },
-        {
-        "headline": "",
-        "desc": "",
-        "photos": [ 
-          { "src": "cover.gif" }
-        ] 
-      }
-    ]'>
-  </diario-parroquial>
-  <!-- ═══ / Diario Parroquial ═══ -->
-
-  
-  
-  <!-- ═══ Nombramiento ═══ -->
-  <cork-mural-carousel
-    title="Nombramiento"
-    title-color="white"
-    subtitle="Padre Juan Francisco"
-    description="El Padre Juan Francisco fue nombrado párroco de Ntra Sra de la Paz, en el barrio aeropuerto de La Plata. ¡Felicidades por esta nueva etapa! Le deseamos plenitud, sabiduría y muchas bendiciones en esta nueva misión pastoral. 🙏✨"
-    folder="./actividades/jf/"
-    count="6"
-    ext="jpg"
-    board="./actividades/dios.png"
-    icon="photo_library">
-  </cork-mural-carousel>
-  <!-- ═══ / Nombramiento ═══ -->
-   <br>
- 
-
-  <!-- <cork-mural-carousel
-    title="Pizarra Actividades"
-    subtitle="Nuevo Mural"
-    description="Nuevo mural en el atrio del templo, resaltando el jubileo franciscano y el grupo Scout San Francisco."
-    board="./img/corcho.jpg"
-    folder="./actividades/mural/"
-    count="5"
-    icon="photo_library">
-  </cork-mural-carousel> -->
-  <!-- ═══ / Mural de Actividades ═══ -->
-
-
-
-  
-  <!-- Inicio  GFE   -->
-  <!-- Reflexiones del Evangelio — ahora como web component -->
-  <glassmorphism-yt-player
-    video-id="Vt2BAUdpQAY"
-    title="✝️ Reflexiones del Evangelio"
-    subtitle="📅 Semana del 1 al 5 de marzo"
-    poster="./img/miniatura-reflexiones.png"
-    gradient="#667eea, #764ba2">
-  </glassmorphism-yt-player>
-
-  
-  
-
-   <!-- ------INICIO GFE-------- -->
-
-
-  <!-- <div id="encuentro" style="display: flex; justify-content: center; align-items: center; padding: 40px 20px; position: relative;">
-    <div class="magic-container" style="max-width: 800px; width: 100%; border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.3); overflow: hidden; animation: fadeInUp 0.8s ease-out;">
-      <div id="magicEffects" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 99; overflow: visible;"></div>
-      <div style="padding: 10px 30px 10px 30px; text-align: center; background-image: url('./img/encuentro.jpg'); background-size: cover; background-position: center; background-repeat: no-repeat; position: relative; border-radius: 20px 20px 0 0;">
-        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.15); backdrop-filter: blur(0.5px); border-radius: 20px 20px 0 0;"></div>
-        <div style="position: relative; z-index: 1;">
-          <div style="margin-bottom: 20px;">
-       
-          </div>
-          <h2 style="font-family: 'Georgia', serif; font-size: 1.5em; color: #764ba2; margin: 0 0 15px 0; line-height: 1.4; font-weight: 600; text-shadow: 0 2px 8px rgba(255,255,255,0.95), 0 0 10px rgba(255,255,255,0.8);">
-            "Donde hay dos o tres reunidos en mi nombre, yo estoy presente en medio de ellos"
-          </h2>
-          <p style="font-size: 1.1em; color: #555; margin: 0; font-style: italic; font-weight: 600; text-shadow: 0 1px 6px rgba(255,255,255,0.95), 0 0 8px rgba(255,255,255,0.8);">Mt. 18,20</p>
-        </div>
-      </div>
-      
-      <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 0 0 20px 20px;">
-        <iframe 
-          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 0 0 20px 20px;"
-          src="https://www.youtube.com/embed/IVWwg3AqtHk?autoplay=0&mute=0&loop=1&playlist=IVWwg3AqtHk&rel=0&modestbranding=1" 
-          title="Reunidos en su nombre"    frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-          allowfullscreen
-          referrerpolicy="strict-origin-when-cross-origin">
-        </iframe>
-      </div>
-    </div>
-    
-  </div>
-  
-  <script>
-    (function() {
-      const magicContainer = document.getElementById('magicEffects');
-      if (!magicContainer) return;
-      
-      const sparkleEmojis = ['✨', '⭐', '🌟', '💫', '✦', '✧', '⚡'];
-      
-      function createSparkle() {
-        const sparkle = document.createElement('div');
-        sparkle.className = 'sparkle';
-        sparkle.textContent = sparkleEmojis[Math.floor(Math.random() * sparkleEmojis.length)];
-        sparkle.style.left = Math.random() * 100 + '%';
-        sparkle.style.top = Math.random() * 80 + 10 + '%';
-        sparkle.style.animationDelay = Math.random() * 2 + 's';
-        sparkle.style.animationDuration = (Math.random() * 2 + 2) + 's';
-        magicContainer.appendChild(sparkle);
-        
-        setTimeout(() => sparkle.remove(), 5000);
-      }
-      
-      function createTwinkleStar() {
-        const star = document.createElement('div');
-        star.className = 'twinkle-star';
-        star.textContent = '✨';
-        star.style.left = Math.random() * 100 + '%';
-        star.style.top = Math.random() * 100 + '%';
-        star.style.animationDelay = Math.random() * 2 + 's';
-        star.style.animationDuration = (Math.random() * 1.5 + 1.5) + 's';
-        magicContainer.appendChild(star);
-        
-        setTimeout(() => star.remove(), 6000);
-      }
-      
-      // Crear estrellas titilantes estáticas (DOBLE cantidad)
-      for (let i = 0; i < 16; i++) {
-        setTimeout(createTwinkleStar, i * 150);
-      }
-      
-      // Crear partículas flotantes continuamente (DOBLE frecuencia)
-      setInterval(createSparkle, 400);
-      setInterval(createTwinkleStar, 1500);
-    })();
-  </script>
- 
-<br><br> -->
-
- 
-
-  <!-- Publicación Especial: Reunidos en su nombre -->
-  <style>
-    @keyframes floatSparkle {
-      0% {
-        transform: translateY(0) scale(0);
-        opacity: 0;
-      }
-      20% {
-        opacity: 1;
-      }
-      80% {
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(-100px) scale(1);
-        opacity: 0;
-      }
-    }
-    
-    @keyframes twinkle {
-      0%, 100% {
-        opacity: 0.3;
-        transform: scale(0.8);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.2);
-      }
-    }
-    
-    .magic-container {
-      position: relative;
-      overflow: visible !important;
-    }
-    
-    .sparkle {
-      position: absolute;
-      pointer-events: none;
-      z-index: 100;
-      font-size: 12px;
-      animation: floatSparkle 3s ease-in-out infinite;
-    }
-    
-    .twinkle-star {
-      position: absolute;
-      pointer-events: none;
-      z-index: 100;
-      color: #ffd700;
-      font-size: 10px;
-      animation: twinkle 2s ease-in-out infinite;
-    }
-    
-    @media (max-width: 768px) {
-      #encuentro h2 {
-        font-size: 1.1em !important;
-      }
-      #encuentro p {
-        font-size: 0.9em !important;
-      }
-    }
-  </style>
-
-  
-     <!-- // section con un div con clase "rifa-navidad-article"para poner el video: '/video/rifa.mp4 ciclico infinito, y abajo un boton animado que diga: Adquierela aqui, que lleve a <div class="
-  // ">rifa/rifa.html' -->
-
-
-
-  <!-- Triple VideoMOSAICOS DOCAT Card (MD3 style) -->
-  <!-- <section id="docat" class="triple-video-card">
-    <div class="tv-card-surface">
-      <div class="triple-video-row">
-        <div class="video-col">
-          <video class="tv-video" data-src="./video/docat.mp4" muted autoplay loop playsinline preload="auto"></video>
-        </div>
-        <div class="video-col">
-          <video class="tv-video" data-src="./video/docat.mp4" muted autoplay loop playsinline preload="auto"></video>
-        </div>
-        <div class="video-col">
-          <video class="tv-video" data-src="./video/docat.mp4" muted autoplay loop playsinline preload="auto"></video>
-        <script>
-        // Lazy loading global para videos mp4 con data-src
-        document.addEventListener('DOMContentLoaded', function() {
-          if ('IntersectionObserver' in window) {
-            const videos = document.querySelectorAll('video[data-src]');
-            const sources = (video) => Array.from(video.querySelectorAll('source[data-src]'));
-            const loadVideo = (video) => {
-              if (!video.src && video.dataset.src) video.src = video.dataset.src;
-              sources(video).forEach(source => {
-                if (!source.src && source.dataset.src) source.src = source.dataset.src;
-              });
-              video.load();
-            };
-            const observer = new IntersectionObserver(entries => {
-              entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                  loadVideo(entry.target);
-                  observer.unobserve(entry.target);
-                }
-              });
-            }, { threshold: 0.2 });
-            videos.forEach(video => observer.observe(video));
-          } else {
-            // Fallback: cargar todos los videos
-            document.querySelectorAll('video[data-src]').forEach(video => {
-              if (!video.src && video.dataset.src) video.src = video.dataset.src;
-              Array.from(video.querySelectorAll('source[data-src]')).forEach(source => {
-                if (!source.src && source.dataset.src) source.src = source.dataset.src;
-              });
-              video.load();
-            });
-          }
-        });
-        </script>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <style>
-    .triple-video-card {
-      --tv-radius: 32px;
-      --tv-pad: clamp(10px, 1.8vw, 24px);
-      --tv-shadow: 0 4px 8px -2px rgba(0, 0, 0, .18),
-        0 8px 20px -4px rgba(0, 0, 0, .22);
-      width: 100%;
-      margin: 0 auto;
- 
-      position: relative;
-      z-index: 1;
-      max-width: 1400px;
-      overflow: hidden;
-    }
-
-    .triple-video-card .tv-card-surface {
-      background: linear-gradient(145deg, #ffffff 8%, #f2f4f8 55%, #e7edf5 100%);
-      border-radius: var(--tv-radius);
-      padding: var(--tv-pad);
-      box-shadow: var(--tv-shadow);
-      overflow: hidden;
-      border: 1px solid rgba(0, 0, 0, 0.06);
-      position: relative;
-      isolation: isolate;
-    }
-
-    .triple-video-card .tv-card-surface:before {
-      content: "";
-      position: absolute;
-      top: -25%;
-      left: -10%;
-      width: 55%;
-      height: 140%;
-      background: radial-gradient(circle at 30% 40%, rgba(255, 255, 255, .55), rgba(255, 255, 255, 0) 70%);
-      pointer-events: none;
-      mix-blend-mode: screen;
-      opacity: .65;
-    }
-
-    .triple-video-row {
-      display: flex;
-      gap: 0;
-      width: 100%;
-      aspect-ratio: 16/9;
-    }
-
-    .triple-video-row .video-col {
-      flex: 1 1 33.333%;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      background: #000;
-    }
-
-    .triple-video-row .video-col:not(:first-child) {
-      margin-left: -1px;
-    }
-
-    .tv-video {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      background: #000;
-      display: block;
-      user-select: none;
-      -webkit-user-drag: none;
-      pointer-events: none;
-      transition: filter .6s ease, transform .6s ease;
-    }
-
-    @media (hover:hover) and (pointer:fine) {
-      .video-col:hover .tv-video {
-        filter: brightness(1.07) contrast(1.03);
-        transform: scale(1.01);
-      }
-    }
-
-    @media (max-width:768px) {
-      .triple-video-card {
-        margin: 0 auto;
- 
-        border-radius: 0;
-        max-width: 100%;
-      }
-
-      .triple-video-card .tv-card-surface {
-        padding: 0;
-        border-radius: 0;
-        box-shadow: none;
-        border: none;
-      }
-
-      .triple-video-row {
-        flex-direction: column;
-        aspect-ratio: auto;
-        min-height: 100vh;
-      }
-
-      .triple-video-row .video-col {
-        flex: 1 1 100%;
-        width: 100%;
-        margin-left: 0;
-        border-radius: 0;
-        min-height: 100vh;
-        height: 100dvh;
-      }
-
-      .triple-video-row .video-col:not(:first-child) {
-        display: none;
-      }
-
-      .tv-video {
-        width: 100%;
-        height: 100%;
-        aspect-ratio: auto;
-        object-fit: cover;
-      }
-    }
-
-    @media (max-width:420px) {
-      .triple-video-card {
-        margin: 0 auto;
-      }
-    }
-  </style> -->
-
-  <!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block">
-  <br class="d-none d-lg-block">
-  <br class="d-none d-lg-block">
-  <br class="d-none d-lg-block"> -->
 
 
   <section id="RETIROS" class="section-header">
