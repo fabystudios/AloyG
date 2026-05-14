@@ -380,15 +380,7 @@
       "src": "./video/ado-mov-mobile.mp4",
       "poster": "./slides/adoracion_mobile.png"
     }
-    ,
-    "overlay": {
-      "src": "./img/aviso2.png",
-      "desktopPos": "center",
-      "mobilePos": "bottom-quarter",
-      "effect": "blink",
-      "desktopScale": 0.4,
-      "mobileScale": 0.5
-    }
+
   },
   {
     "id": "actividades",
