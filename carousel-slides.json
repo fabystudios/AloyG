@@ -16,7 +16,7 @@
   },
         {
     "id": "fatima",
-    "position": 1,
+    "position": -1,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -216,7 +216,7 @@
   },
        {
     "id": "cursillos",
-    "position": -1,
+    "position": 2,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -366,7 +366,7 @@
   },
   {
     "id": "adoracion",
-    "position": -1,
+    "position": 1,
     "hasVideo": true,
     "link": "#adoracion",
     "time": { "desktop": 4, "mobile": 4 },
