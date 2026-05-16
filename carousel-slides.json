@@ -52,11 +52,11 @@
    "time": { "desktop": 4, "mobile": 4 },
   "desktop": {
     "type": "image",
-    "src": "./actividades/cartelera/lujan2_desk.png"
+    "src": "./actividades/cartelera/lujan3_desk.png"
   },
   "mobile": {
     "type": "image",
-    "src": "./actividades/cartelera/lujan2_mob.png"
+    "src": "./actividades/cartelera/lujan3_mob.png"
   }
   },
          {
