@@ -45,18 +45,18 @@
     }
   },
         {
-    "id": "lujan",
+    "id": "pentecostes",
     "position": 1,
     "hasVideo": false,
     "link": "",
    "time": { "desktop": 4, "mobile": 4 },
   "desktop": {
     "type": "image",
-    "src": "./actividades/cartelera/lujan3_desk.png"
+    "src": "./actividades/cartelera/pentecostes_desk.png"
   },
   "mobile": {
     "type": "image",
-    "src": "./actividades/cartelera/lujan3_mob.png"
+    "src": "./actividades/cartelera/pentecostes_mob.png"
   }
   },
          {
