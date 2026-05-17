@@ -188,12 +188,52 @@ _scTpl.innerHTML = `
   .sc-dot.active{background:rgba(245,208,107,.95);transform:scale(1.4);}
 
   /* ── Medallón mobile ── */
-  .sc-medallon-wrap{position:absolute;top:12px;left:12px;width:110px;height:110px;z-index:10;display:none;align-items:center;justify-content:center;animation:scFloat 4s ease-in-out infinite;pointer-events:none;}
+  .sc-medallon-wrap{position:absolute;top:12px;left:12px;width:110px;height:110px;z-index:10;display:none;align-items:center;justify-content:center;animation:scFloat 4s ease-in-out infinite;pointer-events:auto;cursor:pointer;}
   @keyframes scFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
   .sc-medallon-ring{position:absolute;inset:-4px;border-radius:50%;background:conic-gradient(rgba(245,208,107,.95) 0deg,rgba(197,162,39,.2) 90deg,rgba(245,208,107,.95) 180deg,rgba(197,162,39,.15) 270deg,rgba(245,208,107,.95) 360deg);animation:scRingSpin 5s linear infinite;}
   @keyframes scRingSpin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
   .sc-medallon-img{position:relative;width:110px;height:110px;border-radius:50%;object-fit:cover;border:2.5px solid rgba(245,208,107,.95);animation:scGlow 4s ease-in-out infinite;z-index:2;background:#0f0a1e;}
   @keyframes scGlow{0%,100%{box-shadow:0 0 12px 3px rgba(197,162,39,.5),0 3px 16px rgba(0,0,0,.5)}50%{box-shadow:0 0 28px 10px rgba(245,208,107,.78),0 6px 24px rgba(0,0,0,.55)}}
+
+  /* ── Modal medallón ── */
+  .sc-med-modal{
+    display:none;position:fixed;inset:0;z-index:9999;
+    align-items:center;justify-content:center;
+    background:rgba(0,0,0,.72);
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+    animation:scModalIn .22s ease;
+  }
+  .sc-med-modal.open{display:flex;}
+  @keyframes scModalIn{from{opacity:0}to{opacity:1}}
+  .sc-med-modal-inner{
+    position:relative;display:inline-flex;
+    border-radius:50%;
+    box-shadow:0 0 0 2.5px rgba(245,208,107,.9),0 0 48px rgba(197,162,39,.55),0 8px 40px rgba(0,0,0,.7);
+    animation:scModalPop .28s cubic-bezier(.22,1,.36,1);
+  }
+  @keyframes scModalPop{from{transform:scale(.7)}to{transform:scale(1)}}
+  .sc-med-modal-img{
+    width:min(72vw,320px);height:min(72vw,320px);
+    border-radius:50%;object-fit:cover;
+    border:3px solid rgba(245,208,107,.95);
+    display:block;
+  }
+  .sc-med-modal-close{
+    position:absolute;top:-6px;right:-6px;
+    width:34px;height:34px;border-radius:50%;
+    background:#c0392b;
+    border:2.5px solid #fff;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    box-shadow:0 2px 12px rgba(0,0,0,.5);
+    z-index:2;
+    transition:background .18s,transform .15s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .sc-med-modal-close:hover{background:#e74c3c;transform:scale(1.1);}
+  .sc-med-modal-close:active{transform:scale(.92);}
+  .sc-med-modal-close svg{width:14px;height:14px;stroke:#fff;stroke-width:2.5;stroke-linecap:round;}
 
   /* ── Responsive ── */
   @media (min-width:768px){
@@ -258,6 +298,15 @@ _scTpl.innerHTML = `
       <div class="sc-carousel-dots" id="scCarouselDots"></div>
     </div>
   </div>
+  <!-- Modal medallón (mobile touch) -->
+  <div class="sc-med-modal" id="scMedModal">
+    <div class="sc-med-modal-inner" id="scMedModalInner">
+      <img class="sc-med-modal-img" id="scMedModalImg" src="" alt="">
+      <button class="sc-med-modal-close" id="scMedModalClose" aria-label="Cerrar">
+        <svg viewBox="0 0 14 14" fill="none"><line x1="2" y1="2" x2="12" y2="12"/><line x1="12" y1="2" x2="2" y2="12"/></svg>
+      </button>
+    </div>
+  </div>
 </div>
 `;
 
@@ -268,7 +317,7 @@ const OVERLAY_PRESETS = {light:.15, medium:.35, dark:.58};
 
 class ShowcaseCard extends HTMLElement {
   static get observedAttributes() {
-    return ['bg','cover','medallion',
+    return ['bg','cover','medallion','medallion-modal',
             'video','titulo','badge',
             'video2','titulo2','badge2',
             'overlay-preset','overlay','effects','intensity'];
@@ -296,6 +345,7 @@ class ShowcaseCard extends HTMLElement {
     this._arrPrev.addEventListener('click', () => this._goTo(this._carouselIdx - 1));
     this._arrNext.addEventListener('click', () => this._goTo(this._carouselIdx + 1));
     this._initSwipe();
+    this._initMedallionModal();
 
     this._engine = new ParticleEngine(this._canvas);
     this._applyAll();
@@ -308,7 +358,7 @@ class ShowcaseCard extends HTMLElement {
   }
 
   _applyAll() {
-    ['bg','cover','medallion',
+    ['bg','cover','medallion','medallion-modal',
      'video','titulo','badge',
      'video2','titulo2','badge2',
      'overlay-preset','overlay','effects','intensity']
@@ -328,6 +378,10 @@ class ShowcaseCard extends HTMLElement {
 
     } else if (name === 'medallion') {
       if (val) this._medImg.src = val;
+
+    } else if (name === 'medallion-modal') {
+      /* solo guardamos el valor; se usa al abrir el modal */
+      this._medallionModalSrc = val || null;
 
     } else if (name === 'overlay-preset' || name === 'overlay') {
       const raw = this.getAttribute('overlay');
@@ -443,6 +497,48 @@ class ShowcaseCard extends HTMLElement {
         this._goTo(this._carouselIdx + (dx < 0 ? 1 : -1));
       }
     }, {passive: true});
+  }
+
+  _initMedallionModal() {
+    const medWrap  = this._shadow.querySelector('.sc-medallon-wrap');
+    const modal    = this._shadow.getElementById('scMedModal');
+    const modalImg = this._shadow.getElementById('scMedModalImg');
+    const closeBtn = this._shadow.getElementById('scMedModalClose');
+    const inner    = this._shadow.getElementById('scMedModalInner');
+
+    const open = () => {
+      /* solo en mobile */
+      if (window.innerWidth >= 768) return;
+      const src = this._medallionModalSrc || this._medImg.src;
+      if (!src) return;
+      modalImg.src = src;
+      modal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const close = () => {
+      modal.classList.remove('open');
+      document.body.style.overflow = '';
+    };
+
+    medWrap.addEventListener('touchend', e => {
+      e.preventDefault(); /* evita disparo del click fantasma */
+      open();
+    }, {passive: false});
+
+    /* también responde a click (útil en DevTools mobile simulation) */
+    medWrap.addEventListener('click', open);
+
+    closeBtn.addEventListener('click', e => { e.stopPropagation(); close(); });
+    closeBtn.addEventListener('touchend', e => { e.preventDefault(); e.stopPropagation(); close(); }, {passive: false});
+
+    /* toque fuera de la imagen (en el backdrop) */
+    modal.addEventListener('touchend', e => {
+      if (!inner.contains(e.target)) { e.preventDefault(); close(); }
+    }, {passive: false});
+    modal.addEventListener('click', e => {
+      if (!inner.contains(e.target)) close();
+    });
   }
 
   disconnectedCallback() {
