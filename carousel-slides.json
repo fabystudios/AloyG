@@ -45,8 +45,23 @@
     }
   },
         {
-    "id": "pentecostes",
+    "id": "sabana",
     "position": 1,
+    "hasVideo": false,
+    "link": "",
+   "time": { "desktop": 4, "mobile": 4 },
+  "desktop": {
+    "type": "image",
+    "src": "./actividades/cartelera/sabana_desk.png"
+  },
+  "mobile": {
+    "type": "image",
+    "src": "./actividades/cartelera/sabana_mob.jpg"
+  }
+  },
+          {
+    "id": "pentecostes",
+    "position": 2,
     "hasVideo": false,
     "link": "",
    "time": { "desktop": 4, "mobile": 4 },
@@ -61,7 +76,7 @@
   },
          {
     "id": "",
-    "position": 3,
+    "position": 4,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -216,7 +231,7 @@
   },
        {
     "id": "cursillos",
-    "position": 2,
+    "position": 3,
     "hasVideo": true,
     "link": "",
     "desktop": {
