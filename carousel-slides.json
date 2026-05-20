@@ -48,7 +48,7 @@
     "id": "sabana",
     "position": 1,
     "hasVideo": false,
-    "link": "",
+    "link": "#sabana",
    "time": { "desktop": 4, "mobile": 4 },
   "desktop": {
     "type": "image",
