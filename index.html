@@ -1255,12 +1255,24 @@
             <p class="info-value">Prof. Manuel Macías</p>
           </div>
         </div>
+        <style>
+          /* show full text with dashes on desktop, plain on mobile */
+          /* desktop: make the element a block so its text can be centered */
+          .desktop-only { display: block; text-align: center; }
+          .mobile-only { display: none; }
+          @media (max-width: 600px) {
+            .desktop-only { display: none !important; }
+            .mobile-only { display: inline !important; }
+          }
+        </style>
+
         <div class="info-item">
           <div class="info-icon"><i class="ti ti-map-pin" aria-hidden="true"></i></div>
           <div>
             <p class="info-label">Lugar</p>
             <p class="info-value">Casa Cura Brochero<br>
-              <span style="display:block; text-align:center;">— Villa Elisa —</span>
+              <span class="desktop-only">— Villa Elisa —</span>
+              <span class="mobile-only" style="text-align:center;">Villa Elisa</span>
             </p>
           </div>
         </div>
