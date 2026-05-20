@@ -63,7 +63,7 @@
     "id": "pentecostes",
     "position": 2,
     "hasVideo": false,
-    "link": "",
+    "link": "#pentecostes",
    "time": { "desktop": 4, "mobile": 4 },
   "desktop": {
     "type": "image",
