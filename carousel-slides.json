@@ -30,18 +30,18 @@
     }
   },
           {
-    "id": "Misa",
-    "position": -1,
+    "id": "afligidos",
+    "position": 3,
     "hasVideo": false,
-    "link": "",
+    "link": "#afligidos",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/pastor_desk.png"
+      "src": "./actividades/cartelera/afligidos_desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/pastor_mob.jpg"
+      "src": "./actividades/cartelera/afligidos_mob.jpg"
     }
   },
         {
@@ -76,7 +76,7 @@
   },
          {
     "id": "",
-    "position": 4,
+    "position": -1,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -231,7 +231,7 @@
   },
        {
     "id": "cursillos",
-    "position": 3,
+    "position": -1,
     "hasVideo": true,
     "link": "",
     "desktop": {

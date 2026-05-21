@@ -817,6 +817,7 @@
   <cartelera-carousel
     base-path="./actividades/cartelera/"
     slides='[
+    {"mob":"afligidos_mob.png","desk":"afligidos_desk.png","title":"Misa Afligidos", "anchor":"#afligidos"},
     {"mob":"adoGFE_mob.png","desk":"adoGFE_desk.png","title":"Adoración Eucarística", "anchor":"#adoGFE"},
     {"mob":"pentecostes_ori.jpg","desk":"pentecostes_desk.png","title":"Vigilia de Pentecostés", "anchor":"#pentecostes"},
     {"mob":"cursillos_mob.png","desk":"cursillos_desk.png", "title":"Cursillos de Cristiandad"},
@@ -956,6 +957,375 @@
 
 <br>
 <br>
+
+
+
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .scene {
+    width: 100%;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 0;
+    position: relative;
+  }
+
+  .layout {
+    position: relative;
+    z-index: 10;
+    width: 95vw;
+    max-width: 720px;
+  }
+
+  /* ── Flyer flotante solo desktop ── */
+  .flyer-float { display: none; }
+
+  @media (min-width: 860px) {
+    .layout { max-width: 720px; }
+    .flyer-float {
+      display: block;
+      position: absolute;
+      left: -340px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 320px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1.5px solid rgba(255,210,80,0.45);
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.08),
+        0 30px 70px rgba(0,0,0,0.7),
+        0 0 50px rgba(255,180,50,0.2),
+        inset 0 1px 0 rgba(255,255,255,0.15);
+      backdrop-filter: blur(16px);
+      background: rgba(10,15,45,0.6);
+      animation: flyer-in 1.2s ease-out forwards, flyer-bob 7s ease-in-out 1.2s infinite alternate;
+      z-index: 20;
+    }
+    .flyer-float img { width: 100%; display: block; }
+    .flyer-label {
+      text-align: center; padding: 0.55rem 0.5rem;
+      font-family: 'Cinzel', serif; font-size: 0.62rem;
+      letter-spacing: 0.16em; color: rgba(255,210,80,0.8);
+      background: rgba(5,8,28,0.85);
+      border-top: 1px solid rgba(255,210,80,0.2);
+    }
+  }
+  @keyframes flyer-in {
+    from { opacity: 0; transform: translateY(-44%) translateX(28px); }
+    to   { opacity: 1; transform: translateY(-50%) translateX(0); }
+  }
+  @keyframes flyer-bob {
+    from { transform: translateY(-50%) rotate(-1.2deg); }
+    to   { transform: translateY(-52.5%) rotate(1.2deg); }
+  }
+
+  /* ── Card principal — azul marino + glasmorfismo ── */
+  .glass-card {
+    width: 100%;
+    min-height: 96vh;
+    background:
+      linear-gradient(145deg,
+        rgba(8,18,60,0.97) 0%,
+        rgba(12,10,38,0.97) 45%,
+        rgba(18,8,48,0.97) 100%);
+    border: 1.5px solid rgba(255,210,80,0.4);
+    border-radius: 26px;
+    padding: 2rem 1.8rem;
+    box-shadow:
+      0 24px 60px rgba(0,0,0,0.65),
+      0 8px 24px rgba(0,0,0,0.45),
+      0 0 60px rgba(30,20,120,0.25),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    animation: cardIn 0.9s ease-out forwards;
+    /* glasmorfismo */
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Borde dorado sutil superior */
+  .glass-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 10%; right: 10%; height: 1px;
+    background: linear-gradient(to right, transparent, rgba(255,210,80,0.7), transparent);
+    border-radius: 50%;
+  }
+
+  /* Estrellas dentro de la card */
+  .card-stars { position: absolute; inset: 0; pointer-events: none; overflow: hidden; border-radius: 26px; z-index: 0; }
+  .star {
+    position: absolute; border-radius: 50%; background: white;
+    animation: twinkle var(--card-star-dur) ease-in-out infinite alternate;
+    opacity: var(--card-star-op);
+  }
+  @keyframes twinkle {
+    from { opacity: var(--card-star-op); }
+    to   { opacity: calc(var(--card-star-op)*0.1); }
+  }
+  .particle {
+    position: absolute; border-radius: 50%; background: rgba(255,210,80,0.75);
+    animation: float-up var(--card-p-fdur) ease-in infinite var(--card-p-fdelay);
+  }
+  @keyframes float-up {
+    0%   { transform: translateY(0) translateX(0); opacity: 0; }
+    15%  { opacity: 0.9; }
+    100% { transform: translateY(-96vh) translateX(var(--card-p-fx)); opacity: 0; }
+  }
+
+  .orb {
+    position: absolute; border-radius: 50%; filter: blur(70px); pointer-events: none; z-index: 0;
+    animation: orb-pulse var(--card-orb-pd,5s) ease-in-out infinite alternate;
+  }
+  @keyframes orb-pulse {
+    from { transform: scale(1); opacity: 0.3; }
+    to   { transform: scale(1.3); opacity: 0.6; }
+  }
+
+  .card-shimmer {
+    position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255,210,80,0.03) 50%, transparent 70%);
+    animation: shimmer 10s linear infinite; pointer-events: none; z-index: 0;
+  }
+  @keyframes shimmer {
+    from { transform: translateX(-100%) rotate(45deg); }
+    to   { transform: translateX(100%) rotate(45deg); }
+  }
+
+  /* ── Contenido ── */
+  .card-content { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+
+  .logo-area { display: flex; justify-content: center; margin-bottom: 0.8rem; }
+  .logo-circle {
+    width: 66px; height: 66px; border-radius: 50%;
+    border: 1.5px solid rgba(255,210,80,0.5);
+    background: rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 28px rgba(255,200,50,0.3), inset 0 0 16px rgba(255,255,255,0.04);
+    position: relative;
+  }
+  .logo-ring {
+    position: absolute; inset: -6px; border-radius: 50%;
+    border: 1px solid rgba(255,210,80,0.18);
+    animation: ring-pulse 3s ease-in-out infinite alternate;
+  }
+  @keyframes ring-pulse {
+    from { transform: scale(1); opacity: 0.2; }
+    to   { transform: scale(1.12); opacity: 0.8; }
+  }
+
+  .parish-name {
+    font-family: 'Cinzel', serif; font-size: px;
+    letter-spacing: 0.18em; color: rgba(255, 211, 80, 0.837);
+    text-align: center; text-transform: uppercase; margin-bottom: 0.25rem;
+  }
+  .misa-title {
+    font-family: 'Cinzel', serif; font-size: 3rem; font-weight: 600;
+    color: #fff; text-align: center; line-height: 1; letter-spacing: 0.07em;
+    text-shadow: 0 0 40px rgba(255,210,80,0.837), 0 2px 6px rgba(0,0,0,0.7);
+    margin: 0.35rem 0 0.25rem;
+  }
+  .subtitle {
+    font-family: 'Cormorant Garamond', serif; font-size: 1.3rem;
+    font-style: italic; color: rgba(255,255,255,0.837);
+    text-align: center; margin-bottom: 0.8rem;
+  }
+
+  .divider { display: flex; align-items: center; gap: 0.7rem; margin: 0.6rem 0; }
+  .divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(255,210,80,0.38), transparent); }
+  .divider-star { color: rgba(255,210,80,0.837); font-size: 0.82rem; }
+
+  .photo-frame {
+    border-radius: 14px; overflow: hidden;
+    border: 1px solid rgba(255,210,80,0.2);
+    margin: 0.7rem auto; position: relative;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.55), 0 0 18px rgba(255,180,50,0.06), inset 0 1px 0 rgba(255,255,255,0.04);
+    flex-shrink: 0;
+    width: 75%;
+    max-width: 420px;
+  }
+  .photo-frame img { width: 100%; height: 340px; object-fit: cover; display: block; filter: brightness(0.83) contrast(1.06); }
+  .photo-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(8,12,40,0.7) 0%, transparent 55%); }
+
+  .verse-block {
+    background: rgba(255,210,80,0.15);
+    border: 1px solid rgba(255,210,80,0.4);
+    border-radius: 12px; padding: 0.35rem 0.9rem;
+    margin: 0.45rem 0; position: relative; flex-shrink: 0;
+  }
+  .verse-block::before {
+    content: '"'; position: absolute;
+     /* top: -0.3rem;  */
+    left: 0.75rem;
+    font-family: 'Cormorant Garamond', serif; font-size: 2.2rem;
+    color: rgba(255, 211, 80, 0.445); line-height: 1;
+  }
+  .verse-text {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: 1.45rem; color: rgba(255,255,255,0.86);
+    line-height: 1.05; 
+    padding-top: 0;
+    text-align: center;
+  }
+  .verse-ref {
+    font-family: 'Cinzel', serif; font-size: 1rem;
+    color: rgba(255,210,80,0.6); text-align: center;
+    margin-top: 0.02rem; margin-bottom: 0;
+    letter-spacing: 0.1em;
+  }
+
+  .date-block { display: flex; align-items: center; justify-content: center; gap: 1.2rem; margin: 1rem 0 0.75rem; flex-shrink: 0; }
+  .date-item { text-align: center; }
+  .date-label { font-family: 'Cinzel', serif; font-size: 0.9rem; letter-spacing: 0.14em; color: rgba(255,210,80,0.58); text-transform: uppercase; margin-bottom: 0.12rem; }
+  .date-value { font-family: 'Cinzel', serif; font-size: 1.6rem; font-weight: 600; color: #fff; text-shadow: 0 0 20px rgba(255,210,80,0.5); line-height: 1; }
+  .date-sub { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; color: rgba(255, 255, 255, 0.903); font-style: italic; }
+  .date-sep { width: 1px; height: 40px; background: linear-gradient(to bottom, transparent, rgba(255,210,80,0.3), transparent); }
+
+  .cta-button {
+    width: 100%; padding: 0.85rem;
+    background: linear-gradient(135deg, rgba(255,210,80,0.18), rgba(255,170,40,0.12));
+    border: 1.5px solid rgba(255,210,80,0.42); border-radius: 12px;
+    font-family: 'Cinzel', serif; font-size: 0.78rem;
+    letter-spacing: 0.15em; color: rgba(255,210,80,0.95);
+    text-align: center; margin-top: 0.8rem; flex-shrink: 0;
+    box-shadow: 0 0 24px rgba(255,170,40,0.1), inset 0 1px 0 rgba(255,255,255,0.08);
+    position: relative; overflow: hidden;
+  }
+  .cta-button::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+    animation: btn-sh 4s ease-in-out infinite;
+  }
+  @keyframes btn-sh {
+    0%,100% { transform: translateX(-130%); }
+    50%      { transform: translateX(130%); }
+  }
+
+  .villa-elisa {
+    font-family: 'Cormorant Garamond', serif; font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.612); text-align: center;
+    margin-top: 0.7rem; font-style: italic; flex-shrink: 0;
+  }
+</style>
+
+<div id="afligidos" class="scene">
+  <div class="layout">
+
+    <!-- Flyer flotante solo desktop -->
+    <div class="flyer-float">
+      <img src="/img-cards/fyer.jpeg" alt="Flyer Misa" onerror="this.style.display='none'"/>
+      <div class="flyer-label">MISA · SAN LUIS GONZAGA</div>
+    </div>
+
+    <!-- Card principal -->
+    <div id="afligidos" class="glass-card">
+      <div class="card-stars" id="cardStars"></div>
+      <div class="orb" style="width:260px;height:260px;background:rgba(30,60,200,0.22);top:-10%;left:-15%;--card-orb-pd:5s;"></div>
+      <div class="orb" style="width:200px;height:200px;background:rgba(140,50,220,0.15);bottom:5%;right:-10%;--card-orb-pd:7s;animation-delay:2s;"></div>
+      <div class="orb" style="width:150px;height:150px;background:rgba(255,160,40,0.1);top:45%;left:40%;--card-orb-pd:6s;animation-delay:1s;"></div>
+      <div class="card-shimmer"></div>
+
+      <div class="card-content">
+        <!-- <div>
+          <div class="logo-area">
+            <div class="logo-circle">
+              <div class="logo-ring"></div>
+              <svg width="38" height="38" viewBox="0 0 44 44" fill="none">
+                <circle cx="22" cy="22" r="20" stroke="rgba(255,210,80,0.55)" stroke-width="1"/>
+                <path d="M22 9L22 35" stroke="rgba(255,210,80,0.9)" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M16 15L28 15" stroke="rgba(255,210,80,0.9)" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="22" cy="28" r="3.5" stroke="rgba(255,210,80,0.65)" stroke-width="1"/>
+              </svg>
+            </div>
+          </div> -->
+
+          <p class="parish-name">Parroquia San Luis Gonzaga · Villa Elisa</p>
+          <h1 class="misa-title">MISA</h1>
+          <p class="subtitle">Para orar por enfermos y afligidos</p>
+
+          <div class="divider">
+            <div class="divider-line"></div>
+            <span class="divider-star">✦</span>
+            <div class="divider-line"></div>
+          </div>
+
+          <div class="photo-frame">
+            <img src="/img-cards/misa-foto.jpg" alt="Misa de sanación" onerror="this.parentElement.style.display='none'"/>
+            <div class="photo-overlay"></div>
+          </div>
+
+          <div class="verse-block">
+            <p class="verse-text">Vengan a mí todos los que están cansados y agobiados, y yo los aliviaré.</p>
+            <p class="verse-ref">— Mateo 11, 28</p>
+          </div>
+        </div>
+
+        <div>
+          <div class="date-block">
+            <div class="date-item">
+              <div class="date-label">Día</div>
+              <div class="date-value">07</div>
+              <div class="date-sub">Domingo</div>
+            </div>
+            <div class="date-sep"></div>
+            <div class="date-item">
+              <div class="date-label">Mes</div>
+              <div class="date-value">Jun</div>
+              <div class="date-sub">2026</div>
+            </div>
+            <div class="date-sep"></div>
+            <div class="date-item">
+              <div class="date-label">Hora</div>
+              <div class="date-value">19hs</div>
+              <div class="date-sub">En punto</div>
+            </div>
+          </div>
+
+          <div class="cta-button">✦ Estás invitado · Ven a sanar ✦</div>
+          <p class="villa-elisa">Parroquia San Luis Gonzaga — Villa Elisa, La Plata</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const cs = document.getElementById('cardStars');
+  for (let i = 0; i < 70; i++) {
+  const s = document.createElement('div');
+  s.className = 'star';
+  const sz = Math.random() * 2 + 0.3;
+  s.style.cssText = `width:${sz}px;height:${sz}px;top:${Math.random()*100}%;left:${Math.random()*100}%;--card-star-op:${(Math.random()*0.6+0.15).toFixed(2)};--card-star-dur:${(Math.random()*3+2).toFixed(1)}s;animation-delay:${(Math.random()*6).toFixed(1)}s;`;
+  cs.appendChild(s);
+}
+for (let i = 0; i < 18; i++) {
+  const p = document.createElement('div');
+  p.className = 'particle';
+  const sz = Math.random() * 2.5 + 0.6;
+  p.style.cssText = `width:${sz}px;height:${sz}px;left:${Math.random()*100}%;bottom:${Math.random()*5}%;--card-p-fdur:${(Math.random()*6+5).toFixed(1)}s;--card-p-fdelay:${(Math.random()*8).toFixed(1)}s;--card-p-fx:${Math.round((Math.random()-0.5)*65)}px;`;
+  cs.appendChild(p);
+}
+</script>
+
+
+
+<br><br>
+
 <script src="./components/showcase-card.js"></script>
 <showcase-card
   id="pentecostes"
@@ -3427,13 +3797,14 @@
 
 /* ── 5. Glass Card ────────────────────────────────────────────── */
 .glass-card {
-  background:    var(--glass-bg);
-  border:        1px solid var(--glass-border);
-  border-radius: var(--radius-card);
+  background:    var(--glass-bg, linear-gradient(145deg, rgba(8,18,60,0.97) 0%, rgba(12,10,38,0.97) 45%, rgba(18,8,48,0.97) 100%));
+  border:        1px solid var(--glass-border, rgba(255,210,80,0.4));
+  border-radius: var(--radius-card, 26px);
   box-shadow:
-    0 8px 32px rgba(0,0,0,0.28),
-    0 2px 8px  rgba(0,0,0,0.18),
-    inset 0 1px 0 rgba(255,255,255,0.38);
+    0 24px 60px rgba(0,0,0,0.6),
+    0 8px 24px rgba(0,0,0,0.45),
+    0 0 50px rgba(30,20,120,0.22),
+    inset 0 1px 0 rgba(255,255,255,0.2);
   backdrop-filter:         blur(20px) saturate(1.5);
   -webkit-backdrop-filter: blur(20px) saturate(1.5);
   padding: 1.25rem;
@@ -3460,8 +3831,8 @@
 .glass-card:hover {
   transform: translateY(-4px);
   box-shadow:
-    0 12px 40px rgba(0,0,0,0.32),
-    0 0 28px var(--scout-purple-glow),
+    0 30px 90px rgba(0,0,0,0.72),
+    0 0 36px var(--scout-purple-glow),
     inset 0 1px 0 rgba(255,255,255,0.38);
 }
 
