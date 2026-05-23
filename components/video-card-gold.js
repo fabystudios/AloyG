@@ -360,7 +360,7 @@ _tpl.innerHTML = `
 `;
 
 class VideoCardGold extends HTMLElement {
-  static get observedAttributes() { return ['titulo', 'video', 'badge']; }
+  static get observedAttributes() { return ['titulo', 'video', 'badge', 'poster']; }
 
   connectedCallback() {
     this._shadow = this.attachShadow({ mode: 'open' });
@@ -377,6 +377,9 @@ class VideoCardGold extends HTMLElement {
     this._titleEl.textContent = this.getAttribute('titulo') || 'Sin título';
     this._badgeEl = this._shadow.getElementById('badgeEl');
     this._badgeEl.textContent = this.getAttribute('badge') || 'Premium';
+
+    const poster = this.getAttribute('poster');
+    if (poster) this._vid.poster = poster;
 
     // Lazy loading para video
     this._vid.removeAttribute('src');
@@ -419,6 +422,7 @@ class VideoCardGold extends HTMLElement {
       this._setupLazyVideo();
     }
     if (name === 'badge')  this._badgeEl.textContent = val || 'Premium';
+    if (name === 'poster') this._vid.poster = val || '';
   }
 
   _toggle() {

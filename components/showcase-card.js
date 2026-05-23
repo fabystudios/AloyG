@@ -318,8 +318,8 @@ const OVERLAY_PRESETS = {light:.15, medium:.35, dark:.58};
 class ShowcaseCard extends HTMLElement {
   static get observedAttributes() {
     return ['bg','cover','medallion','medallion-modal',
-            'video','titulo','badge',
-            'video2','titulo2','badge2',
+            'video','titulo','badge','poster',
+            'video2','titulo2','badge2','poster2',
             'overlay-preset','overlay','effects','intensity'];
   }
 
@@ -359,8 +359,8 @@ class ShowcaseCard extends HTMLElement {
 
   _applyAll() {
     ['bg','cover','medallion','medallion-modal',
-     'video','titulo','badge',
-     'video2','titulo2','badge2',
+     'video','titulo','badge','poster',
+     'video2','titulo2','badge2','poster2',
      'overlay-preset','overlay','effects','intensity']
       .forEach(a => this._applyAttr(a, this.getAttribute(a)));
   }
@@ -395,17 +395,18 @@ class ShowcaseCard extends HTMLElement {
       const it    = parseFloat(this.getAttribute('intensity')||'0.6');
       this._engine.setEffects(names, it);
 
-    } else if (['video','titulo','badge','video2','titulo2','badge2'].includes(name)) {
+    } else if (['video','titulo','badge','poster','video2','titulo2','badge2','poster2'].includes(name)) {
       this._rebuildVideos();
     }
   }
 
   /* Crea un <video-card-gold> con los atributos dados */
-  _makeCard(video, titulo, badge) {
+  _makeCard(video, titulo, badge, poster) {
     const card = document.createElement('video-card-gold');
     card.setAttribute('video',  video  || '');
     card.setAttribute('titulo', titulo || 'Sin título');
     card.setAttribute('badge',  badge  || 'Premium');
+    if (poster) card.setAttribute('poster', poster);
     card.style.width = 'auto';
     return card;
   }
@@ -416,29 +417,31 @@ class ShowcaseCard extends HTMLElement {
     const v1 = this.getAttribute('video')   || '';
     const t1 = this.getAttribute('titulo')  || 'Sin título';
     const b1 = this.getAttribute('badge')   || 'Premium';
+    const p1 = this.getAttribute('poster')  || '';
     const v2 = this.getAttribute('video2')  || '';
     const t2 = this.getAttribute('titulo2') || t1;
     const b2 = this.getAttribute('badge2')  || b1;
+    const p2 = this.getAttribute('poster2') || '';
 
     const hasV2 = !!v2;
 
     /* ── Desktop: limpiar y reconstruir ── */
     this._videosDesktop.innerHTML = '';
-    this._videosDesktop.appendChild(this._makeCard(v1, t1, b1));
-    if (hasV2) this._videosDesktop.appendChild(this._makeCard(v2, t2, b2));
+    this._videosDesktop.appendChild(this._makeCard(v1, t1, b1, p1));
+    if (hasV2) this._videosDesktop.appendChild(this._makeCard(v2, t2, b2, p2));
 
     /* ── Mobile carousel: limpiar y reconstruir ── */
     this._carouselTrack.innerHTML = '';
     this._carouselDots.innerHTML  = '';
 
-    const slides = [[v1,t1,b1]];
-    if (hasV2) slides.push([v2,t2,b2]);
+    const slides = [[v1,t1,b1,p1]];
+    if (hasV2) slides.push([v2,t2,b2,p2]);
 
-    slides.forEach(([v,t,b], idx) => {
+    slides.forEach(([v,t,b,p], idx) => {
       /* slide */
       const slide = document.createElement('div');
       slide.style.cssText = 'flex:0 0 100%;max-width:100%;display:flex;align-items:center;justify-content:center;padding:0 2px;';
-      const card = this._makeCard(v, t, b);
+      const card = this._makeCard(v, t, b, p);
       card.style.width = '100%';
       slide.appendChild(card);
       this._carouselTrack.appendChild(slide);

@@ -34,7 +34,7 @@ No requiere dependencias externas ni frameworks.
   video-desktop="https://youtu.be/Y5r7IgYTptA"
   video-mobile="./videos/misericordia.mp4"
   ancho-desktop="860px"
-  badge="Especial"
+  badge=<!-- <script src="./components/video-gold-special.js"></script>"Especial"
   etiqueta="12 de Abril"
   logo="./img/jesus.png"
   logo-duracion="4"
@@ -47,20 +47,20 @@ No requiere dependencias externas ni frameworks.
 
 ## Atributos
 
-| Atributo | Tipo | Default | Descripción |
-|---|---|---|---|
-| `titulo` | string | `"Sin título"` | Título principal que aparece en la parte inferior de la card |
-| `video-desktop` | string | — | Video para desktop. Acepta URL de YouTube **o** ruta a un archivo `.mp4` |
-| `video-mobile` | string | — | Video para mobile. Ruta a un archivo `.mp4` vertical (ratio 9:16) |
-| `ancho-desktop` | string | `"80vw"` | Ancho de la card en desktop. Acepta cualquier valor CSS: `860px`, `70vw`, `100%`, etc. |
-| `badge` | string | `"Special"` | Texto de la píldora inferior (junto al contador de tiempo) |
-| `etiqueta` | string | `"Special Edition"` | Texto del badge superior centrado (con estrellas decorativas) |
-| `logo` | string (URL) | — | Ruta a un PNG que flota en la esquina superior derecha con efectos de halo y animación |
-| `logo-duracion` | number | `4` | Segundos que el logo permanece visible en mobile tras dar play, antes de desvanecerse |
-| `poster-mobile` | string (URL) | — | Imagen de portada del video mobile. Si se omite, usa el thumbnail de YouTube automáticamente |
-| `poster-desktop` | string (URL) | — | Imagen de portada para desktop con mp4. No aplica cuando se usa YouTube (que tiene su propia miniatura) |
-| `fondo-izquierda` | string (URL) | — | PNG que rellena el panel izquierdo cuando se activa el modo video vertical con fondos |
-| `fondo-derecha` | string (URL) | — | PNG que rellena el panel derecho cuando se activa el modo video vertical con fondos |
+| Atributo            | Tipo         | Default               | Descripción                                                                                            |
+| ------------------- | ------------ | --------------------- | ------------------------------------------------------------------------------------------------------- |
+| `titulo`          | string       | `"Sin título"`     | Título principal que aparece en la parte inferior de la card                                           |
+| `video-desktop`   | string       | —                    | Video para desktop. Acepta URL de YouTube**o** ruta a un archivo `.mp4`                         |
+| `video-mobile`    | string       | —                    | Video para mobile. Ruta a un archivo `.mp4` vertical (ratio 9:16)                                     |
+| `ancho-desktop`   | string       | `"80vw"`            | Ancho de la card en desktop. Acepta cualquier valor CSS:`860px`, `70vw`, `100%`, etc.             |
+| `badge`           | string       | `"Special"`         | Texto de la píldora inferior (junto al contador de tiempo)                                             |
+| `etiqueta`        | string       | `"Special Edition"` | Texto del badge superior centrado (con estrellas decorativas)                                           |
+| `logo`            | string (URL) | —                    | Ruta a un PNG que flota en la esquina superior derecha con efectos de halo y animación                 |
+| `logo-duracion`   | number       | `4`                 | Segundos que el logo permanece visible en mobile tras dar play, antes de desvanecerse                   |
+| `poster-mobile`   | string (URL) | —                    | Imagen de portada del video mobile. Si se omite, usa el thumbnail de YouTube automáticamente           |
+| `poster-desktop`  | string (URL) | —                    | Imagen de portada para desktop con mp4. No aplica cuando se usa YouTube (que tiene su propia miniatura) |
+| `fondo-izquierda` | string (URL) | —                    | PNG que rellena el panel izquierdo cuando se activa el modo video vertical con fondos                   |
+| `fondo-derecha`   | string (URL) | —                    | PNG que rellena el panel derecho cuando se activa el modo video vertical con fondos                     |
 
 ---
 
@@ -70,12 +70,12 @@ El componente detecta el dispositivo automáticamente con `window.matchMedia('(m
 
 ### Desktop (> 768px)
 
-| `video-desktop` | Comportamiento |
-|---|---|
-| URL de YouTube | Embed iframe en formato landscape **16:9**, controles nativos de YouTube |
-| Ruta `.mp4` | `<video>` en landscape **16:9**, con botón play/pause propio |
-| No configurado + `poster-desktop` | Muestra la imagen estática como fondo |
-| No configurado | Mensaje "Sin video configurado" |
+| `video-desktop`                  | Comportamiento                                                                |
+| ---------------------------------- | ----------------------------------------------------------------------------- |
+| URL de YouTube                     | Embed iframe en formato landscape**16:9**, controles nativos de YouTube |
+| Ruta `.mp4`                      | `<video>` en landscape **16:9**, con botón play/pause propio         |
+| No configurado +`poster-desktop` | Muestra la imagen estática como fondo                                        |
+| No configurado                     | Mensaje "Sin video configurado"                                               |
 
 - El ancho es controlado por `ancho-desktop` (default `80vw`).
 - La card queda centrada automáticamente.
@@ -83,10 +83,10 @@ El componente detecta el dispositivo automáticamente con `window.matchMedia('(m
 
 ### Mobile (≤ 768px)
 
-| `video-mobile` | Comportamiento |
-|---|---|
-| Ruta `.mp4` | `<video>` en portrait **9:16**, con botón play/pause propio |
-| No configurado | Mensaje "Sin video mobile configurado" |
+| `video-mobile` | Comportamiento                                                       |
+| ---------------- | -------------------------------------------------------------------- |
+| Ruta `.mp4`    | `<video>` en portrait **9:16**, con botón play/pause propio |
+| No configurado   | Mensaje "Sin video mobile configurado"                               |
 
 - El ancho máximo es `95vw`, nunca más de `260px`.
 - La card queda centrada automáticamente.
@@ -104,7 +104,7 @@ Cuando se pasan los atributos `fondo-izquierda` y/o `fondo-derecha`, el componen
 - Los fondos tienen un **efecto de fundido hacia el centro** (mask-image) y una **animación de flotación sutil** para que el conjunto se sienta vivo
 - Al hacer hover, los fondos se iluminan levemente
 
-**Para desktop:** el video portrait ocupa ~38% del ancho total; los fondos cubren el resto.  
+**Para desktop:** el video portrait ocupa ~38% del ancho total; los fondos cubren el resto.
 **Para mobile:** el video portrait ocupa ~56vw; los fondos se ajustan al espacio restante.
 
 Si solo se pasa uno de los dos atributos, ese lado muestra el fondo y el otro queda con el color oscuro de la card.
@@ -144,11 +144,13 @@ Cuando se pasa el atributo `logo`, aparece un PNG en la esquina superior derecha
 El atributo `poster` es la imagen que muestra el `<video>` antes de que el usuario presione play.
 
 **Prioridad para mobile:**
+
 1. `poster-mobile` si se especifica
 2. Thumbnail automático de YouTube (`maxresdefault.jpg`) si hay `video-desktop` configurado con URL de YouTube
 3. Sin poster (el video arranca en negro)
 
 **Para desktop con mp4:**
+
 1. `poster-desktop` si se especifica
 2. Sin poster
 
@@ -156,17 +158,17 @@ El atributo `poster` es la imagen que muestra el `<video>` antes de que el usuar
 
 ## Efectos visuales
 
-| Efecto | Descripción |
-|---|---|
-| Borde dorado animado | Gradiente que fluye continuamente alrededor de la card (`background-position` animado) |
-| Halo exterior | Triple `box-shadow` hacia afuera que se intensifica en hover |
-| Glassmorfismo | `backdrop-filter: blur(28px) saturate(1.6)` con fondo semitransparente |
-| Reflejo interno | Gradiente sutil en diagonal que simula el reflejo del cristal |
-| Esquinas decorativas | SVG con doble trazo (glow + línea) y diamante en la punta |
-| Badge superior | Texto con estrellas animadas y blur de fondo |
-| Shimmer sweep | Destello dorado que cruza la card cada 5 segundos |
-| Partículas | 18 partículas de polvo dorado que flotan hacia arriba en loop |
-| Play/Pause | En play: botón centrado con pulso luminoso. En pause: se desplaza a la esquina inferior derecha, se achica y deja de pulsar |
+| Efecto               | Descripción                                                                                                                 |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Borde dorado animado | Gradiente que fluye continuamente alrededor de la card (`background-position` animado)                                     |
+| Halo exterior        | Triple `box-shadow` hacia afuera que se intensifica en hover                                                               |
+| Glassmorfismo        | `backdrop-filter: blur(28px) saturate(1.6)` con fondo semitransparente                                                     |
+| Reflejo interno      | Gradiente sutil en diagonal que simula el reflejo del cristal                                                                |
+| Esquinas decorativas | SVG con doble trazo (glow + línea) y diamante en la punta                                                                   |
+| Badge superior       | Texto con estrellas animadas y blur de fondo                                                                                 |
+| Shimmer sweep        | Destello dorado que cruza la card cada 5 segundos                                                                            |
+| Partículas          | 18 partículas de polvo dorado que flotan hacia arriba en loop                                                               |
+| Play/Pause           | En play: botón centrado con pulso luminoso. En pause: se desplaza a la esquina inferior derecha, se achica y deja de pulsar |
 
 ---
 
@@ -181,13 +183,13 @@ El atributo `poster` es la imagen que muestra el `<video>` antes de que el usuar
 
 ## Compatibilidad
 
-| Feature | Soporte |
-|---|---|
-| Shadow DOM | Chrome 53+, Firefox 63+, Safari 10.1+, Edge 79+ |
-| `aspect-ratio` CSS | Chrome 88+, Firefox 89+, Safari 15+ |
-| `backdrop-filter` | Chrome 76+, Safari 9+, Firefox 103+ |
-| `matchMedia` | Todos los navegadores modernos |
-| Custom Elements v1 | Chrome 54+, Firefox 63+, Safari 10.1+ |
+| Feature              | Soporte                                         |
+| -------------------- | ----------------------------------------------- |
+| Shadow DOM           | Chrome 53+, Firefox 63+, Safari 10.1+, Edge 79+ |
+| `aspect-ratio` CSS | Chrome 88+, Firefox 89+, Safari 15+             |
+| `backdrop-filter`  | Chrome 76+, Safari 9+, Firefox 103+             |
+| `matchMedia`       | Todos los navegadores modernos                  |
+| Custom Elements v1   | Chrome 54+, Firefox 63+, Safari 10.1+           |
 
 > Internet Explorer no está soportado.
 

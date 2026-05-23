@@ -817,9 +817,9 @@
   <cartelera-carousel
     base-path="./actividades/cartelera/"
     slides='[
+    {"mob":"pentecostes_ori.jpg","desk":"pentecostes_desk.png","title":"Vigilia de Pentecostés", "anchor":"#pentecostes"},
     {"mob":"afligidos_mob.png","desk":"afligidos_desk.png","title":"Misa Afligidos", "anchor":"#afligidos"},
     {"mob":"adoGFE_mob.png","desk":"adoGFE_desk.png","title":"Adoración Eucarística", "anchor":"#adoGFE"},
-    {"mob":"pentecostes_ori.jpg","desk":"pentecostes_desk.png","title":"Vigilia de Pentecostés", "anchor":"#pentecostes"},
     {"mob":"cursillos_mob.png","desk":"cursillos_desk.png", "title":"Cursillos de Cristiandad"},
     {"mob":"encuentro_mob.jpg","desk":"encuentro_desk.jpg","title":"Encuentro en la Palabra", "anchor":"#encuentro"},
     {"mob":"feria_mob.png","desk":"feria_desk.png","title":"Feria Americana", "anchor":"#feria"},
@@ -958,15 +958,37 @@
 <br>
 <br>
 
+
+<script src="./components/showcase-card.js"></script>
+<showcase-card
+  id="pentecostes"
+  bg="./img/sky.jpg"
+  id="fran"
+  cover="./actividades/pentecostes_scase.jpg"
+  medallion="./actividades/cartelera/pentecostes_ori.jpg"
+
+  video="./asantos/23.mp4"
+  titulo="Vigilia de Pentecostés"
+  badge="noche del 23 de mayo"
+  poster="./asantos/23.jpg"
+  
+  video2="./asantos/es.mp4"
+  titulo2="Vigilia de Pentecostés"
+  badge2="23 de mayo"
+
+  effects="ember,dust,stars"
+  intensity="1"
+></showcase-card>
+
+<br>
 <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
-
-
+  
 <video-card-gold
   badge="22 de Mayo"
   titulo="Santa Rita de Casia"
   video="./asantos/22.mp4"
   style="width:auto; flex:0 0 auto;"
-
+  hide-mobile 
 ></video-card-gold>
 
 <video-card-gold
@@ -984,18 +1006,6 @@
   style="width:auto; flex:0 0 auto;"
   hide-mobile
 ></video-card-gold>
-
-<video-card-gold
-  badge="19 de mayo"
-  titulo="Santa María Bernarda Bütler"
-  video="./asantos/19.mp4"
-  style="width:auto; flex:0 0 auto;"
-  hide-mobile 
-></video-card-gold>
-
-
-
-
 
 
 </video-card-gold>
@@ -1372,21 +1382,7 @@ for (let i = 0; i < 18; i++) {
 
 <br><br>
 
-<script src="./components/showcase-card.js"></script>
-<showcase-card
-  id="pentecostes"
-  bg="./img/sky.jpg"
-  id="fran"
-  cover="./actividades/pentecostes_scase.jpg"
-  medallion="./actividades/cartelera/pentecostes_ori.jpg"
 
-  video="./asantos/es.mp4"
-  titulo="Vigilia de Pentecostés"
-  badge="23 de mayo"
-
-  effects="ember,dust,stars"
-  intensity="1"
-></showcase-card>
 
 
 <style>
@@ -1784,7 +1780,6 @@ for (let i = 0; i < 18; i++) {
   video2="./asantos/17B.mp4"
   titulo2="Jesus sube al cielo"
   badge2="Ascención"
-
 
 
   effects="ember,dust,stars"
