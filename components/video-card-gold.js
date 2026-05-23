@@ -335,7 +335,7 @@ _tpl.innerHTML = `
 
   <!-- Video -->
   <div class="video-wrap">
-    <video id="vid" src="" loop playsinline></video>
+    <video id="vid" src="" playsinline></video>
     <div class="overlay"></div>
     <button class="play-btn" id="playBtn" aria-label="Reproducir / Pausar">
       <span class="play-icon" id="playIcon"></span>
@@ -378,8 +378,8 @@ class VideoCardGold extends HTMLElement {
     this._badgeEl = this._shadow.getElementById('badgeEl');
     this._badgeEl.textContent = this.getAttribute('badge') || 'Premium';
 
-    const poster = this.getAttribute('poster');
-    if (poster) this._vid.poster = poster;
+    this._posterSrc = this.getAttribute('poster') || '';
+    if (this._posterSrc) this._vid.poster = this._posterSrc;
 
     // Lazy loading para video
     this._vid.removeAttribute('src');
@@ -422,7 +422,7 @@ class VideoCardGold extends HTMLElement {
       this._setupLazyVideo();
     }
     if (name === 'badge')  this._badgeEl.textContent = val || 'Premium';
-    if (name === 'poster') this._vid.poster = val || '';
+    if (name === 'poster') { this._posterSrc = val || ''; this._vid.poster = this._posterSrc; }
   }
 
   _toggle() {
@@ -433,7 +433,11 @@ class VideoCardGold extends HTMLElement {
       this._icon.className = 'play-icon';
       this._icon.innerHTML = '';
       this._btn.style.animation = '';
+      /* restaurar poster al pausar */
+      if (this._posterSrc) this._vid.poster = this._posterSrc;
     } else {
+      /* limpiar poster para que se vean los frames del video */
+      this._vid.poster = '';
       this._vid.play().catch(() => {});
       this._playing = true;
       this._btn.classList.add('is-playing');
@@ -461,6 +465,8 @@ class VideoCardGold extends HTMLElement {
     this._icon.className = 'play-icon';
     this._icon.innerHTML = '';
     this._btn.style.animation = '';
+    /* restaurar poster al terminar */
+    if (this._posterSrc) this._vid.poster = this._posterSrc;
   }
 
   _initDotAnim() {
