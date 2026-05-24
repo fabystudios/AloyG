@@ -31,7 +31,7 @@
   },
           {
     "id": "afligidos",
-    "position": 1,
+    "position": 2,
     "hasVideo": false,
     "link": "#afligidos",
     "time": { "desktop": 3, "mobile": 3 },
@@ -46,7 +46,7 @@
   },
         {
     "id": "sabana",
-    "position": 2,
+    "position": 1,
     "hasVideo": false,
     "link": "#sabana",
    "time": { "desktop": 4, "mobile": 4 },
