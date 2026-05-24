@@ -235,19 +235,6 @@ _scTpl.innerHTML = `
   .sc-med-modal-close:active{transform:scale(.92);}
   .sc-med-modal-close svg{width:14px;height:14px;stroke:#fff;stroke-width:2.5;stroke-linecap:round;}
 
-  /* ── Modal modo full (medallion-full) ── */
-  .sc-med-modal-inner.full{
-    border-radius:16px;
-    box-shadow:0 0 0 2.5px rgba(245,208,107,.9),0 0 48px rgba(197,162,39,.55),0 8px 40px rgba(0,0,0,.7);
-  }
-  .sc-med-modal-img.full{
-    width:min(88vw,480px);
-    height:auto;
-    max-height:82vh;
-    border-radius:14px;
-    object-fit:contain;
-  }
-
   /* ── Responsive ── */
   @media (min-width:768px){
     .sc-layout{flex-direction:row;}
@@ -330,7 +317,7 @@ const OVERLAY_PRESETS = {light:.15, medium:.35, dark:.58};
 
 class ShowcaseCard extends HTMLElement {
   static get observedAttributes() {
-    return ['bg','cover','medallion','medallion-modal','medallion-full',
+    return ['bg','cover','medallion','medallion-modal',
             'video','titulo','badge','poster',
             'video2','titulo2','badge2','poster2',
             'overlay-preset','overlay','effects','intensity'];
@@ -371,7 +358,7 @@ class ShowcaseCard extends HTMLElement {
   }
 
   _applyAll() {
-    ['bg','cover','medallion','medallion-modal','medallion-full',
+    ['bg','cover','medallion','medallion-modal',
      'video','titulo','badge','poster',
      'video2','titulo2','badge2','poster2',
      'overlay-preset','overlay','effects','intensity']
@@ -395,10 +382,6 @@ class ShowcaseCard extends HTMLElement {
     } else if (name === 'medallion-modal') {
       /* solo guardamos el valor; se usa al abrir el modal */
       this._medallionModalSrc = val || null;
-
-    } else if (name === 'medallion-full') {
-      /* guardamos el flag; se aplica al abrir el modal */
-      this._medallionFull = (val !== null && val !== 'no' && val !== 'false');
 
     } else if (name === 'overlay-preset' || name === 'overlay') {
       const raw = this.getAttribute('overlay');
@@ -532,12 +515,6 @@ class ShowcaseCard extends HTMLElement {
       const src = this._medallionModalSrc || this._medImg.src;
       if (!src) return;
       modalImg.src = src;
-
-      /* Modo full: imagen rectangular sin clip circular */
-      const isFull = !!this._medallionFull;
-      inner.classList.toggle('full', isFull);
-      modalImg.classList.toggle('full', isFull);
-
       modal.classList.add('open');
       document.body.style.overflow = 'hidden';
     };
