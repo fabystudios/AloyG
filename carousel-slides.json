@@ -31,7 +31,7 @@
   },
           {
     "id": "afligidos",
-    "position": 3,
+    "position": 1,
     "hasVideo": false,
     "link": "#afligidos",
     "time": { "desktop": 3, "mobile": 3 },
@@ -61,7 +61,7 @@
   },
           {
     "id": "pentecostes",
-    "position": 1,
+    "position": -1,
     "hasVideo": false,
     "link": "#pentecostes",
    "time": { "desktop": 4, "mobile": 4 },
