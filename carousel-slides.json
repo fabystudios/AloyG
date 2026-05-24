@@ -1,4 +1,19 @@
 [
+            {
+    "id": "30",
+    "position": 1,
+    "hasVideo": false,
+    "link": "",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./actividades/cartelera/30_desk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./actividades/cartelera/30_mob.png"
+    }
+  },
         {
     "id": "8M",
     "position": -1,
@@ -31,7 +46,7 @@
   },
           {
     "id": "afligidos",
-    "position": 2,
+    "position": 3,
     "hasVideo": false,
     "link": "#afligidos",
     "time": { "desktop": 3, "mobile": 3 },
@@ -46,7 +61,7 @@
   },
         {
     "id": "sabana",
-    "position": 1,
+    "position": 2,
     "hasVideo": false,
     "link": "#sabana",
    "time": { "desktop": 4, "mobile": 4 },
