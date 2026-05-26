@@ -818,7 +818,6 @@
     base-path="./actividades/cartelera/"
     slides='[
     {"mob":"afligidos_mob.png","desk":"afligidos_desk.png","title":"Misa Afligidos", "anchor":"#afligidos"},
-    {"mob":"30.jpg","desk":"30_desk.png","title":"30 años de Bendición"},
     {"mob":"adoGFE_mob.png","desk":"adoGFE_desk.png","title":"Adoración Eucarística", "anchor":"#adoGFE"},
     {"mob":"cursillos_mob.png","desk":"cursillos_desk.png", "title":"Cursillos de Cristiandad"},
     {"mob":"encuentro_mob.jpg","desk":"encuentro_desk.jpg","title":"Encuentro en la Palabra", "anchor":"#encuentro"},
@@ -956,8 +955,24 @@
 
 <br>
 <br>
+<!-- <script src="./components/cpanel-photo-gallery.js"></script>
+ <panel-photo-gallery
+  base-path="./actividades/cruz/"
+  mascot-src="./img/medalla.png"
+  particle-src="./img/cruz.png, ./img/corona.png"
+  lightbox-particle-src="./img/cua-flot.png"
+  theme="rojo-dorado"
+  eyebrow="Viernes Santo · Pasión del Señor"
+  title="Contemplando la"
+  title-em="Pasión"
+  total="13"
+  width="80%"
+  captions='["El silencio que habla","El amor hasta el extremo","La entrega total","Contemplando la cruz","El Señor entre nosotros","La Pasión del Señor","Jesús camino al Calvario","El abrazo de la cruz","El sacrificio redentor","Viernes de entrega","La última mirada","Amor sin límites","En la cruz nos encontramos","El peso del amor","Hasta el extremo","Silencio que conmueve","La corona y la gloria","El Hijo entregado","Contemplación en comunidad","Unidos en la Pasión"]'>
+</panel-photo-gallery>
 
-<script src="./components/video-card-gold.js"></script>
+<br> <br>  -->
+
+<!-- <script src="./components/video-card-gold.js"></script>
 <script src="./components/showcase-card.js"></script>
 <showcase-card
   id="pentecostes"
@@ -980,8 +995,8 @@
   intensity="1"
 ></showcase-card>
 
-<br>
-
+<br> -->
+<!-- 
 <script src="./components/video-gold-special.js"></script>
 <video-gold-special
   titulo="Pentecostés"
@@ -1012,10 +1027,34 @@
 </video-gold-special>
 
 
-  <br><br>
+  <br><br> -->
+  <script src="./components/video-card-gold.js"></script>
+<div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+  <video-card-gold
+  badge="Pentecostés"
+  titulo="Espíritu Santo"
+  video="./asantos/24.mp4"
+  style="width:auto; flex:0 0 auto;"
+
+></video-card-gold>
 
 <div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
-  
+  <video-card-gold
+  badge="Pentecostés"
+  titulo="Espiritu Santo"
+  video="./asantos/24es.mp4"
+  style="width:auto; flex:0 0 auto;"
+
+></video-card-gold>
+
+  <video-card-gold
+  badge="María Auxiliadora"
+  titulo="San Bernardino de Siena"
+  video="./asantos/24.mp4"
+  style="width:auto; flex:0 0 auto;"
+  hide-mobile
+></video-card-gold>
+
 <video-card-gold
   badge="22 de Mayo"
   titulo="Santa Rita de Casia"
@@ -1032,13 +1071,7 @@
   hide-mobile 
 ></video-card-gold>
 
-<video-card-gold
-  badge="20 de Mayo"
-  titulo="San Bernardino de Siena"
-  video="./asantos/20.mp4"
-  style="width:auto; flex:0 0 auto;"
-  hide-mobile
-></video-card-gold>
+
 
 
 </div>
