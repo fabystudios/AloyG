@@ -30,10 +30,17 @@ Usa todos los valores por defecto: fotos en `./actividades/ramos/`, tema violeta
 <panel-photo-gallery
   base-path="./actividades/ramos/"
   mascot-src="./actividades/photo.png"
+  mascot-size="100px"
   particle-src="./img/cam.png"
+  lightbox-particle-src="./img/estrella.png"
   theme="rojo-dorado"
+  eyebrow="✦ Parroquia · Semana Santa ✦"
+  title="Misa de"
+  title-em="Ramos"
+  captions='["Procesión","Bendición","Comunidad","Palmas","Celebración","Fe","Oración","Ramos","Alegría"]'
   width="80%"
-  total="9">
+  total="9"
+  page-size="9">
 </panel-photo-gallery>
 ```
 
@@ -45,13 +52,16 @@ Usa todos los valores por defecto: fotos en `./actividades/ramos/`, tema violeta
 |---|---|---|---|
 | `base-path` | string | `./actividades/ramos/` | Ruta a la carpeta de fotos. Las imágenes deben llamarse `1.jpg`, `2.jpg` … `N.jpg` |
 | `mascot-src` | string | `./actividades/photo.png` | Imagen de la mascota que aparece sobre el título con animación de bounce |
-| `particle-src` | string | _(vacío)_ | PNG que flota de fondo como hojas al viento. Si se omite, usa estrellitas doradas como fallback |
-| `width` | string | `80%` | Ancho del componente **solo en desktop**. En mobile siempre es `95%` fijo |
+| `mascot-size` | string | `84px` | Tamaño de la mascota. Aceptar cualquier valor CSS válido: `84px`, `120px`, `6rem` |
+| `particle-src` | string | _(vacío)_ | PNG(s) que flotan dentro de la card como hojas al viento. Acepta varios separados por coma. Si se omite, usa estrellitas doradas como fallback. El ratio del PNG se respeta automáticamente |
+| `lightbox-particle-src` | string | _(vacío)_ | PNG(s) que suben desde abajo al abrir el lightbox. Misma sintaxis que `particle-src`. Si se omite, usa estrellas animadas multicolor |
+| `width` | string | `80%` | Ancho del componente **solo en desktop**. En mobile siempre es `95%` del viewport |
 | `total` | número | `9` | Cantidad total de fotos |
 | `page-size` | número | `9` | Fotos por página en desktop (se pagina automáticamente) |
 | `eyebrow` | string | `✦ Parroquia · Semana Santa ✦` | Texto pequeño sobre el título |
 | `title` | string | `Misa de` | Título principal |
 | `title-em` | string | `Ramos` | Parte del título con efecto shimmer |
+| `captions` | JSON array | `[]` | Pie de foto por imagen, en orden. Si hay menos items que fotos, el resto queda vacío |
 | `theme` | string | `violeta-dorado` | Tema de color predefinido (ver tabla abajo) |
 | `color1` | hex | _(del tema)_ | Color primario custom. Tiene prioridad sobre `theme` |
 | `color2` | hex | _(del tema)_ | Color secundario custom. Tiene prioridad sobre `theme` |
@@ -101,6 +111,36 @@ Se puede pasar uno o ambos colores en formato hexadecimal:
 
 ---
 
+## Pie de foto por imagen (`captions`)
+
+El atributo `captions` acepta un array JSON con el texto de cada foto en orden:
+
+```html
+<panel-photo-gallery
+  captions='["Procesión","Bendición","Comunidad","Palmas","Celebración","Fe","Oración","Ramos","Alegría"]'>
+</panel-photo-gallery>
+```
+
+- Si hay menos items que fotos, las fotos sin caption quedan sin texto
+- El caption aparece tanto en el grid/carrusel como en el lightbox
+- Usar comillas simples en el atributo HTML y dobles dentro del JSON
+
+---
+
+## Mascota (`mascot-src` / `mascot-size`)
+
+```html
+<!-- Tamaño default (84px) -->
+<panel-photo-gallery mascot-src="./img/camarita.png"></panel-photo-gallery>
+
+<!-- Mascota más grande -->
+<panel-photo-gallery mascot-src="./img/logo.png" mascot-size="120px"></panel-photo-gallery>
+```
+
+La mascota aparece sobre el título con animación de entrada y bounce continuo.
+
+---
+
 ## Estructura de carpeta de fotos
 
 Las fotos deben ser archivos **JPEG** nombrados con números consecutivos desde `1`:
@@ -130,7 +170,7 @@ Si la carpeta tiene otro nombre o ruta, pasarla con `base-path`:
 | **Desktop** (> 640px) | Grid de exposición asimétrico — fotos inclinadas con efecto polaroid y tachuelas |
 | **Mobile** (≤ 640px) | Carrusel horizontal con swipe táctil, dots indicadores y botones ‹ › |
 
-- El ancho en mobile es siempre `95%`, independientemente del atributo `width`
+- El ancho en mobile es siempre `95%` del viewport, ignorando el atributo `width`
 - Hacer click en cualquier foto (en ambos modos) abre el **lightbox** con navegación
 
 ---
@@ -150,20 +190,28 @@ Se activa haciendo click en cualquier foto. Controles disponibles:
 ## Partículas de fondo
 
 El PNG pasado en `particle-src` flota dentro de la card con efecto de **hojas al viento**:
+
 - Caen desde arriba con vaivén sinusoidal
+- El **ratio original del PNG se respeta** — no se fuerza a cuadrado
 - Cada partícula tiene rotación, velocidad y opacidad propias
 - Se reciclan automáticamente al llegar al borde inferior
 - Usan `devicePixelRatio` para máxima nitidez en pantallas Retina/HiDPI
 - Si no se pasa `particle-src`, el fallback son estrellitas del color del tema
 
 ```html
+<!-- Un solo PNG -->
 <panel-photo-gallery particle-src="./img/ramo.png"></panel-photo-gallery>
+
+<!-- Varios PNGs mezclados aleatoriamente -->
+<panel-photo-gallery particle-src="./img/gota.png, ./img/hostia.png, ./img/pan.png"></panel-photo-gallery>
 ```
 
 > Usar PNGs con fondo transparente para mejor resultado.
 
+### Partículas del lightbox
+
 ```html
-<!-- PNG diferente para el lightbox -->
+<!-- PNG diferente para el lightbox (sube desde abajo) -->
 <panel-photo-gallery
   particle-src="./img/cam.png"
   lightbox-particle-src="./img/estrella.png">
@@ -175,6 +223,20 @@ El PNG pasado en `particle-src` flota dentro de la card con efecto de **hojas al
 ## Ejemplos por evento
 
 ```html
+<!-- Misa de Ramos -->
+<panel-photo-gallery
+  base-path="./actividades/ramos/"
+  particle-src="./img/ramo.png"
+  lightbox-particle-src="./img/ramo.png"
+  theme="violeta-dorado"
+  eyebrow="✦ Parroquia · Semana Santa ✦"
+  title="Misa de"
+  title-em="Ramos"
+  captions='["Procesión","Bendición","Comunidad","Palmas","Celebración","Fe","Oración","Ramos","Alegría"]'
+  total="9"
+  width="80%">
+</panel-photo-gallery>
+
 <!-- Jueves Santo — Lavado de Pies -->
 <panel-photo-gallery
   base-path="./actividades/jueves-santo/"
@@ -186,15 +248,6 @@ El PNG pasado en `particle-src` flota dentro de la card con efecto de **hojas al
   title="Celebrando"
   title-em="Jueves Santo"
   total="20"
-  width="80%">
-</panel-photo-gallery>
-
-<!-- Misa de Ramos -->
-<panel-photo-gallery
-  base-path="./fotos/ramos/"
-  theme="violeta-dorado"
-  particle-src="./img/ramo.png"
-  mascot-src="./img/camarita.png"
   width="80%">
 </panel-photo-gallery>
 
@@ -210,6 +263,8 @@ El PNG pasado en `particle-src` flota dentro de la card con efecto de **hojas al
 <panel-photo-gallery
   base-path="./fotos/comunion/"
   theme="blanco-dorado"
+  mascot-src="./img/paloma.png"
+  mascot-size="100px"
   particle-src="./img/paloma.png"
   total="12"
   width="85%">
@@ -237,4 +292,4 @@ El componente usa **Shadow DOM** (`mode: 'open'`), por lo que:
 
 ---
 
-*panel-photo-gallery.js — v5*
+*panel-photo-gallery.js — v7*
