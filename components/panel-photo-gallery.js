@@ -7,6 +7,7 @@
  * ══════════════════════════════════════════════════════════
  *  base-path             ruta carpeta de fotos        (default: './actividades/ramos/')
  *  mascot-src            imagen mascota               (default: './actividades/photo.png')
+ *  mascot-size           tamaño de la mascota         (default: '84px') ej: '120px'
  *  particle-src          PNG(s) que caen en la card   (default: '' → estrellitas)
  *                        Acepta varios separados por coma:
  *                        particle-src="./gota.png, ./hostia.png, ./pan.png"
@@ -76,6 +77,7 @@ class PanelPhotoGallery extends HTMLElement {
     // ── Atributos ────────────────────────────────────
     const basePath      = this.getAttribute('base-path')             || './actividades/ramos/';
     const mascotSrc     = this.getAttribute('mascot-src')            || './actividades/photo.png';
+    const mascotSize    = this.getAttribute('mascot-size')           || '84px';
     const particleRaw   = this.getAttribute('particle-src')          || '';
     const lbParticleRaw = this.getAttribute('lightbox-particle-src') || '';
     const widthVal      = this.getAttribute('width')                 || '80%';
@@ -135,7 +137,7 @@ class PanelPhotoGallery extends HTMLElement {
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
   :host{display:block;width:${widthVal};max-width:1280px;margin:36px auto;font-family:'Playfair Display',Georgia,serif;position:relative;}
-  @media(max-width:768px){:host{width:95%!important;}}
+  @media(max-width:768px){:host{width:95%!important;max-width:none!important;}}
 
   /* ══ CARD ══ */
   .ramos-card{
@@ -163,7 +165,7 @@ class PanelPhotoGallery extends HTMLElement {
   .card-header{position:relative;z-index:10;text-align:center;padding:36px 28px 24px;border-bottom:1px solid ${rgb(c2,.18)};}
   .card-header::before{content:'';display:block;width:120px;height:2px;margin:0 auto 22px;background:linear-gradient(90deg,${rgb(c1,0)} 0%,${rgb(c1,1)} 30%,${rgb(c2,1)} 50%,${rgb(c2,1)} 70%,${rgb(c2,0)} 100%);border-radius:2px;}
   .mascot-wrap{display:flex;justify-content:center;margin-bottom:14px;}
-  .mascot-wrap img{width:84px;height:84px;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 0 18px ${rgb(c1,.70)}) drop-shadow(0 0 8px ${rgb(c2,.60)}) drop-shadow(0 6px 14px rgba(0,0,0,.55));animation:mascotIn .9s cubic-bezier(.34,1.56,.64,1) both,mascotBob 3.8s .9s ease-in-out infinite;transform-origin:bottom center;}
+  .mascot-wrap img{width:${mascotSize};height:${mascotSize};object-fit:contain;object-position:center bottom;filter:drop-shadow(0 0 18px ${rgb(c1,.70)}) drop-shadow(0 0 8px ${rgb(c2,.60)}) drop-shadow(0 6px 14px rgba(0,0,0,.55));animation:mascotIn .9s cubic-bezier(.34,1.56,.64,1) both,mascotBob 3.8s .9s ease-in-out infinite;transform-origin:bottom center;}
   @keyframes mascotIn{from{opacity:0;transform:translateY(32px) scale(.6) rotate(-8deg);}to{opacity:1;transform:translateY(0) scale(1) rotate(0);}}
   @keyframes mascotBob{0%,100%{transform:translateY(0) rotate(0);}25%{transform:translateY(-6px) rotate(-2deg);}75%{transform:translateY(-3px) rotate(2deg);}}
   .card-eyebrow{font-size:.70rem;letter-spacing:.40em;text-transform:uppercase;font-style:italic;color:${rgb(c2,.80)};margin-bottom:10px;animation:fadeUp .7s .3s ease both;}
@@ -387,7 +389,7 @@ class PanelPhotoGallery extends HTMLElement {
         if(p.y>lh+60)Object.assign(p,makeP());
         ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);
         const img=p.imgIdx>=0?pImgs[p.imgIdx]:null;
-        if(img&&img.complete&&img.naturalWidth>0){ctx.globalAlpha=p.alpha;ctx.drawImage(img,-p.size/2,-p.size/2,p.size,p.size);}
+        if(img&&img.complete&&img.naturalWidth>0){ctx.globalAlpha=p.alpha;const ar=img.naturalWidth/img.naturalHeight;const pw=ar>=1?p.size:p.size*ar;const ph=ar>=1?p.size/ar:p.size;ctx.drawImage(img,-pw/2,-ph/2,pw,ph);}
         else drawStar6(0,0,p.size,p.alpha,rgb(c2,1));
         ctx.restore();
       });
