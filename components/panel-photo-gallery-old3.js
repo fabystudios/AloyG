@@ -7,6 +7,7 @@
  * ══════════════════════════════════════════════════════════
  *  base-path             ruta carpeta de fotos        (default: './actividades/ramos/')
  *  mascot-src            imagen mascota               (default: './actividades/photo.png')
+ *  mascot-size           tamaño de la mascota         (default: '84px') ej: '120px'
  *  particle-src          PNG(s) que caen en la card   (default: '' → estrellitas)
  *                        Acepta varios separados por coma:
  *                        particle-src="./gota.png, ./hostia.png, ./pan.png"
@@ -76,6 +77,7 @@ class PanelPhotoGallery extends HTMLElement {
     // ── Atributos ────────────────────────────────────
     const basePath      = this.getAttribute('base-path')             || './actividades/ramos/';
     const mascotSrc     = this.getAttribute('mascot-src')            || './actividades/photo.png';
+    const mascotSize    = this.getAttribute('mascot-size')           || '84px';
     const particleRaw   = this.getAttribute('particle-src')          || '';
     const lbParticleRaw = this.getAttribute('lightbox-particle-src') || '';
     const widthVal      = this.getAttribute('width')                 || '80%';
@@ -135,7 +137,7 @@ class PanelPhotoGallery extends HTMLElement {
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
   :host{display:block;width:${widthVal};max-width:1280px;margin:36px auto;font-family:'Playfair Display',Georgia,serif;position:relative;}
-  @media(max-width:768px){:host{width:95%!important;}}
+  @media(max-width:768px){:host{width:95%!important;max-width:none!important;}}
 
   /* ══ CARD ══ */
   .ramos-card{
@@ -163,7 +165,7 @@ class PanelPhotoGallery extends HTMLElement {
   .card-header{position:relative;z-index:10;text-align:center;padding:36px 28px 24px;border-bottom:1px solid ${rgb(c2,.18)};}
   .card-header::before{content:'';display:block;width:120px;height:2px;margin:0 auto 22px;background:linear-gradient(90deg,${rgb(c1,0)} 0%,${rgb(c1,1)} 30%,${rgb(c2,1)} 50%,${rgb(c2,1)} 70%,${rgb(c2,0)} 100%);border-radius:2px;}
   .mascot-wrap{display:flex;justify-content:center;margin-bottom:14px;}
-  .mascot-wrap img{width:84px;height:84px;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 0 18px ${rgb(c1,.70)}) drop-shadow(0 0 8px ${rgb(c2,.60)}) drop-shadow(0 6px 14px rgba(0,0,0,.55));animation:mascotIn .9s cubic-bezier(.34,1.56,.64,1) both,mascotBob 3.8s .9s ease-in-out infinite;transform-origin:bottom center;}
+  .mascot-wrap img{width:${mascotSize};height:${mascotSize};object-fit:contain;object-position:center bottom;filter:drop-shadow(0 0 18px ${rgb(c1,.70)}) drop-shadow(0 0 8px ${rgb(c2,.60)}) drop-shadow(0 6px 14px rgba(0,0,0,.55));animation:mascotIn .9s cubic-bezier(.34,1.56,.64,1) both,mascotBob 3.8s .9s ease-in-out infinite;transform-origin:bottom center;}
   @keyframes mascotIn{from{opacity:0;transform:translateY(32px) scale(.6) rotate(-8deg);}to{opacity:1;transform:translateY(0) scale(1) rotate(0);}}
   @keyframes mascotBob{0%,100%{transform:translateY(0) rotate(0);}25%{transform:translateY(-6px) rotate(-2deg);}75%{transform:translateY(-3px) rotate(2deg);}}
   .card-eyebrow{font-size:.70rem;letter-spacing:.40em;text-transform:uppercase;font-style:italic;color:${rgb(c2,.80)};margin-bottom:10px;animation:fadeUp .7s .3s ease both;}
@@ -232,53 +234,9 @@ class PanelPhotoGallery extends HTMLElement {
   .cr-dots{display:flex;justify-content:center;gap:7px;margin-top:20px;padding:0 16px;flex-wrap:wrap;}
   .cr-dot{width:7px;height:7px;border-radius:50%;background:${rgb(c1,.20)};border:1px solid ${rgb(c1,.45)};cursor:pointer;transition:background .25s,transform .25s;flex-shrink:0;}
   .cr-dot.active{background:${rgb(c1,1)};transform:scale(1.45);}
-  .cr-nav{display:flex;justify-content:center;gap:20px;margin-top:18px;}
-  .cr-btn{
-    position:relative;
-    width:52px;height:52px;border-radius:50%;cursor:pointer;
-    display:flex;align-items:center;justify-content:center;
-    border:none;outline:none;
-    -webkit-tap-highlight-color:transparent;
-    /* esfera metálica dorada — igual que el pin */
-    background:radial-gradient(circle at 35% 32%, #fff8c0, ${rgb(c2,1)} 45%, #7a5800 80%, #3d2c00);
-    box-shadow:
-      0 6px 18px rgba(0,0,0,.70),
-      0 2px 6px rgba(0,0,0,.50),
-      inset 0 1px 0 rgba(255,255,255,.55),
-      inset 0 -2px 4px rgba(0,0,0,.30);
-    transition:transform .15s cubic-bezier(.34,1.56,.64,1), box-shadow .15s ease;
-  }
-  /* flecha SVG inline — color oscuro sobre el dorado */
-  .cr-btn::after{
-    content:'';
-    display:block;
-    width:18px;height:18px;
-    background-color:#3d2800;
-    -webkit-mask-repeat:no-repeat;
-    mask-repeat:no-repeat;
-    -webkit-mask-position:center;
-    mask-position:center;
-    -webkit-mask-size:contain;
-    mask-size:contain;
-    filter:drop-shadow(0 1px 0 rgba(255,255,255,.25));
-  }
-  #crPrev::after{
-    -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 19l-7-7 7-7' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
-    mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 19l-7-7 7-7' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
-  }
-  #crNext::after{
-    -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8.5 5l7 7-7 7' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
-    mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8.5 5l7 7-7 7' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
-  }
-  .cr-btn:active{
-    transform:scale(.88) translateY(2px);
-    box-shadow:
-      0 2px 8px rgba(0,0,0,.65),
-      0 1px 3px rgba(0,0,0,.45),
-      inset 0 1px 0 rgba(255,255,255,.35),
-      inset 0 2px 6px rgba(0,0,0,.25);
-  }
-  .cr-btn:disabled{opacity:.35;cursor:default;transform:none;}
+  .cr-nav{display:flex;justify-content:center;gap:16px;margin-top:14px;}
+  .cr-btn{background:rgba(255,255,255,.06);border:1px solid ${rgb(c1,.35)};color:${rgb(c1,1)};font-size:1.4rem;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .15s;padding-bottom:2px;-webkit-tap-highlight-color:transparent;}
+  .cr-btn:active{background:${rgb(c1,.18)};transform:scale(.92);}
 
   /* ══ FOOTER ══ */
   .card-footer{position:relative;z-index:10;text-align:center;padding:14px 0 24px;border-top:1px solid ${rgb(c1,.15)};font-size:1.1rem;letter-spacing:.7em;background:linear-gradient(90deg,${rgb(c1,0)} 0%,${rgb(c1,.8)} 30%,${rgb(c2,1)} 50%,${rgb(c1,.8)} 70%,${rgb(c1,0)} 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
@@ -366,8 +324,8 @@ class PanelPhotoGallery extends HTMLElement {
       </div>
       <div class="cr-dots" id="crDots"></div>
       <div class="cr-nav">
-        <button class="cr-btn" id="crPrev" aria-label="Anterior"></button>
-        <button class="cr-btn" id="crNext" aria-label="Siguiente"></button>
+        <button class="cr-btn" id="crPrev">‹</button>
+        <button class="cr-btn" id="crNext">›</button>
       </div>
     </div>
   </div>
@@ -431,7 +389,7 @@ class PanelPhotoGallery extends HTMLElement {
         if(p.y>lh+60)Object.assign(p,makeP());
         ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);
         const img=p.imgIdx>=0?pImgs[p.imgIdx]:null;
-        if(img&&img.complete&&img.naturalWidth>0){ctx.globalAlpha=p.alpha;ctx.drawImage(img,-p.size/2,-p.size/2,p.size,p.size);}
+        if(img&&img.complete&&img.naturalWidth>0){ctx.globalAlpha=p.alpha;const ar=img.naturalWidth/img.naturalHeight;const pw=ar>=1?p.size:p.size*ar;const ph=ar>=1?p.size/ar:p.size;ctx.drawImage(img,-pw/2,-ph/2,pw,ph);}
         else drawStar6(0,0,p.size,p.alpha,rgb(c2,1));
         ctx.restore();
       });
