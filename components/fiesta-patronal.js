@@ -20,13 +20,14 @@ class FiestaPatronal extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['saint-src', 'saint-side', 'effect', 'intensity'];
+    return ['saint-src', 'cantina-src', 'saint-side', 'effect', 'intensity'];
   }
 
   connectedCallback() { this.render(); }
   attributeChangedCallback() { if (this.shadowRoot.firstChild) this.render(); }
 
   get saintSrc()      { return this.getAttribute('saint-src') || './img/aloy.png'; }
+  get cantinaSrc()    { return this.getAttribute('cantina-src') || './img/cantina.png'; }
   get saintSide()     { return this.getAttribute('saint-side') === 'right' ? 'right' : 'left'; }
   get effects()       { return (this.getAttribute('effect') || 'sparkles confetti').toLowerCase().split(/\s+/).filter(Boolean); }
   get intensity()     { return this.getAttribute('intensity') || 'medium'; }
@@ -59,7 +60,7 @@ class FiestaPatronal extends HTMLElement {
               <span class="fpat-badge" aria-hidden="true">⛪</span>
               <div class="fpat-event-body">
                 <h3>Santa Misa</h3>
-                <p class="fpat-time">🕕 18:00 <small>hs</small></p>
+                <p class="fpat-time fpat-time--big">${this._clockSvg()}<span class="fpat-hour">18:00</span><small>hs</small></p>
               </div>
             </div>
             <div class="fpat-event">
@@ -67,19 +68,22 @@ class FiestaPatronal extends HTMLElement {
               <div class="fpat-event-body">
                 <h3>Peña Patronal</h3>
                 <p class="fpat-sub">★ Bandas en vivo ★</p>
-                <p class="fpat-time">🕕 desde las 19:30 <small>hs</small></p>
+                <p class="fpat-time">${this._clockSvg()} desde las 19:30 <small>hs</small></p>
                 <p class="fpat-place">📍 en el Colegio Parroquial</p>
               </div>
             </div>
           </div>
 
           <div class="fpat-cantina">
-            <h3 class="fpat-cantina-title">Servicio de Cantina</h3>
-            <ul>
-              <li><span aria-hidden="true">🍲</span> Guiso de lentejas</li>
-              <li><span aria-hidden="true">🌭</span> Panchos para los chicos</li>
-              <li><span aria-hidden="true">🍷</span> Gaseosas y vino</li>
-            </ul>
+            <div class="fpat-cantina-info">
+              <h3 class="fpat-cantina-title">Servicio de Cantina</h3>
+              <ul>
+                <li><span aria-hidden="true">🍲</span> Guiso de lentejas</li>
+                <li><span aria-hidden="true">🌭</span> Panchos para los chicos</li>
+                <li><span aria-hidden="true">🍷</span> Gaseosas y vino</li>
+              </ul>
+            </div>
+            <img class="fpat-cantina-img" src="${this.cantinaSrc}" alt="Servicio de cantina" draggable="false">
           </div>
 
           <div class="fpat-locations">
@@ -113,6 +117,10 @@ class FiestaPatronal extends HTMLElement {
       html += `<span class="fpat-flag fpat-flag--${i % 2 ? 'oro' : 'bordo'}" style="--n:${i}"></span>`;
     }
     return html;
+  }
+
+  _clockSvg() {
+    return `<svg class="fpat-clock" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2.2"/><path d="M12 7.2V12l3.2 2" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   }
 
   _lightBulbs() {
@@ -416,15 +424,56 @@ class FiestaPatronal extends HTMLElement {
       .fpat-sub { color: var(--oro-claro); font-weight: 700; font-size: 0.85rem; }
       .fpat-time { color: var(--crema); font-weight: 700; font-size: 0.98rem; margin-top: 0.15rem; }
       .fpat-time small { font-weight: 600; opacity: 0.8; }
+      .fpat-clock { color: var(--oro-claro); flex: 0 0 auto; }
+      .fpat-time .fpat-clock { width: 1.05em; height: 1.05em; vertical-align: -0.2em; }
+      .fpat-time--big {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.55rem;
+      }
+      .fpat-time--big .fpat-clock { width: 2.4rem; height: 2.4rem; }
+      .fpat-hour {
+        font-size: clamp(2.4rem, 8vw, 3.4rem);
+        line-height: 1;
+        font-weight: 900;
+        letter-spacing: 0.01em;
+        background: linear-gradient(180deg, var(--oro-claro), var(--oro));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        filter: drop-shadow(0 2px 5px rgba(0,0,0,0.45));
+      }
+      .fpat-time--big small {
+        font-size: 0.95rem;
+        font-weight: 700;
+        align-self: flex-end;
+        margin-bottom: 0.45rem;
+        color: var(--crema);
+      }
       .fpat-place { color: var(--crema); font-size: 0.82rem; opacity: 0.9; margin-top: 0.2rem; }
 
       /* ── Cantina ── */
       .fpat-cantina {
+        display: flex;
+        align-items: center;
+        gap: 1.1rem;
         padding: 1rem 1.2rem;
         border-radius: 18px;
         background: rgba(0,0,0,0.18);
         border: 1px solid rgba(240,215,154,0.2);
         margin-bottom: 1.1rem;
+      }
+      .fpat-cantina-info { flex: 1 1 auto; min-width: 0; }
+      .fpat-cantina-img {
+        flex: 0 0 auto;
+        width: clamp(180px, 44%, 320px);
+        height: auto;
+        aspect-ratio: 4 / 3;
+        border-radius: 14px;
+        object-fit: cover;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+        border: 1px solid rgba(240,215,154,0.25);
       }
       .fpat-cantina-title {
         color: var(--oro-claro);
@@ -433,7 +482,7 @@ class FiestaPatronal extends HTMLElement {
         letter-spacing: 0.08em;
         font-size: 0.95rem;
         margin-bottom: 0.6rem;
-        text-align: center;
+        text-align: left;
       }
       .fpat-cantina ul { list-style: none; display: grid; gap: 0.45rem; }
       .fpat-cantina li {
@@ -537,6 +586,9 @@ class FiestaPatronal extends HTMLElement {
         }
         .fpat-events { grid-template-columns: 1fr; }
         .fpat-locations { flex-direction: column; }
+        .fpat-cantina { flex-direction: column; }
+        .fpat-cantina-info { width: 100%; }
+        .fpat-cantina-img { width: 100%; }
       }
       @media (prefers-reduced-motion: reduce) {
         .fpat-glow, .fpat-saint, .fpat-flag, .fpat-bulb, .fpat-particle { animation: none !important; }
