@@ -20,13 +20,14 @@ class FiestaPatronal extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['saint-src', 'cantina-src', 'saint-side', 'effect', 'intensity'];
+    return ['saint-src', 'saint-top-src', 'cantina-src', 'saint-side', 'effect', 'intensity'];
   }
 
   connectedCallback() { this.render(); }
   attributeChangedCallback() { if (this.shadowRoot.firstChild) this.render(); }
 
   get saintSrc()      { return this.getAttribute('saint-src') || './img/aloy.png'; }
+  get saintTopSrc()   { return this.getAttribute('saint-top-src') || './img/aloy2.png'; }
   get cantinaSrc()    { return this.getAttribute('cantina-src') || './img/cantina.png'; }
   get saintSide()     { return this.getAttribute('saint-side') === 'right' ? 'right' : 'left'; }
   get effects()       { return (this.getAttribute('effect') || 'sparkles confetti').toLowerCase().split(/\s+/).filter(Boolean); }
@@ -48,9 +49,14 @@ class FiestaPatronal extends HTMLElement {
         <div class="fpat-content">
 
           <header class="fpat-head">
-            <p class="fpat-eyebrow">Fiestas</p>
-            <h2 class="fpat-title">PATRONALES</h2>
-            <p class="fpat-year">2026</p>
+            <div class="fpat-head-top">
+              <img class="fpat-saint-top" src="${this.saintTopSrc}" alt="San Luis Gonzaga" draggable="false">
+              <div class="fpat-head-text">
+                <p class="fpat-eyebrow">Fiestas</p>
+                <h2 class="fpat-title">PATRONALES</h2>
+                <p class="fpat-year">2026</p>
+              </div>
+            </div>
             <p class="fpat-lema">Vivamos juntos una noche de fe,<br>encuentro y fraternidad</p>
             <p class="fpat-date"><span>Sábado</span> 20/6</p>
           </header>
@@ -338,6 +344,7 @@ class FiestaPatronal extends HTMLElement {
 
       /* Header */
       .fpat-head { text-align: center; margin-bottom: 1.4rem; }
+      .fpat-saint-top { display: none; }  /* solo visible en mobile */
       .fpat-eyebrow {
         font-family: Georgia, "Times New Roman", serif;
         font-style: italic;
@@ -572,26 +579,28 @@ class FiestaPatronal extends HTMLElement {
       @media (max-width: 720px) {
         .fpat-card { padding: 2rem 1.1rem 1.8rem; border-radius: 24px; }
         .fpat-content { width: 100%; margin: 0; }
-        /* El santo pasa a ser acento de fondo translúcido */
-        .fpat-saint {
-          height: 82%;
-          opacity: 0.42;
-          filter: drop-shadow(0 0 18px rgba(0,0,0,0.55)) saturate(0.95);
+        /* Se quita el santo de fondo en mobile */
+        .fpat-saint { display: none; }
+        /* Imagen del santo (aloy2) arriba, junto al título */
+        .fpat-head-top {
+          display: flex;
+          align-items: center;
+          gap: 0.7rem;
+          text-align: left;
+          margin-bottom: 0.6rem;
         }
-        .fpat-saint-left  .fpat-saint { left: 50%; transform: translateX(-50%); }
-        .fpat-saint-right .fpat-saint { right: auto; left: 50%; transform: translateX(-50%); }
-        @keyframes fpat-float {
-          0%, 100% { transform: translateX(-50%) translateY(0); }
-          50%      { transform: translateX(-50%) translateY(-10px); }
+        .fpat-saint-top {
+          display: block;
+          flex: 0 0 auto;
+          width: clamp(86px, 27vw, 124px);
+          height: auto;
+          filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5));
+          animation: fpat-float 6s ease-in-out infinite;
         }
+        .fpat-head-text { flex: 1 1 auto; min-width: 0; text-align: center; }
+        .fpat-head-text .fpat-title { font-size: clamp(1.4rem, 7vw, 2.1rem); letter-spacing: 0.01em; }
+        .fpat-head-text .fpat-year  { font-size: clamp(1.7rem, 8vw, 2.6rem); }
         .fpat-events { grid-template-columns: 1fr; }
-        /* Menos opacidad/desenfoque para no tapar la cara del santo */
-        .fpat-event {
-          background: rgba(245,234,208,0.02);
-          backdrop-filter: none;
-          -webkit-backdrop-filter: none;
-          border-color: rgba(240,215,154,0.18);
-        }
         .fpat-locations { flex-direction: column; }
         .fpat-cantina { flex-direction: column; }
         .fpat-cantina-info { width: 100%; }
