@@ -27,7 +27,7 @@ class FiestaPatronal extends HTMLElement {
   attributeChangedCallback() { if (this.shadowRoot.firstChild) this.render(); }
 
   get saintSrc()      { return this.getAttribute('saint-src') || './img/aloy.png'; }
-  get saintTopSrc()   { return this.getAttribute('saint-top-src') || './img/aloy2.png'; }
+  get saintTopSrc()   { return this.getAttribute('saint-top-src') || './img/Aloy2.png'; }
   get cantinaSrc()    { return this.getAttribute('cantina-src') || './img/cantina.png'; }
   get saintSide()     { return this.getAttribute('saint-side') === 'right' ? 'right' : 'left'; }
   get effects()       { return (this.getAttribute('effect') || 'sparkles confetti').toLowerCase().split(/\s+/).filter(Boolean); }
