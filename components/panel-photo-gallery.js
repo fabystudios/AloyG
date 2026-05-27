@@ -135,7 +135,7 @@ class PanelPhotoGallery extends HTMLElement {
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 
   :host{display:block;width:${widthVal};max-width:1280px;margin:36px auto;font-family:'Playfair Display',Georgia,serif;position:relative;}
-  @media(max-width:768px){:host{width:95%!important;}}
+  @media(max-width:768px){:host{width:95%!important;max-width:95%!important;}}
 
   /* ══ CARD ══ */
   .ramos-card{
@@ -232,10 +232,10 @@ class PanelPhotoGallery extends HTMLElement {
   .cr-dots{display:flex;justify-content:center;gap:7px;margin-top:20px;padding:0 16px;flex-wrap:wrap;}
   .cr-dot{width:7px;height:7px;border-radius:50%;background:${rgb(c1,.20)};border:1px solid ${rgb(c1,.45)};cursor:pointer;transition:background .25s,transform .25s;flex-shrink:0;}
   .cr-dot.active{background:${rgb(c1,1)};transform:scale(1.45);}
-  .cr-nav{display:flex;justify-content:center;gap:20px;margin-top:18px;}
+  .cr-nav{display:flex;justify-content:center;gap:16px;margin-top:18px;}
   .cr-btn{
     position:relative;
-    width:52px;height:52px;border-radius:50%;cursor:pointer;
+    width:34px;height:34px;border-radius:50%;cursor:pointer;
     display:flex;align-items:center;justify-content:center;
     border:none;outline:none;
     -webkit-tap-highlight-color:transparent;
@@ -252,7 +252,7 @@ class PanelPhotoGallery extends HTMLElement {
   .cr-btn::after{
     content:'';
     display:block;
-    width:18px;height:18px;
+    width:12px;height:12px;
     background-color:#3d2800;
     -webkit-mask-repeat:no-repeat;
     mask-repeat:no-repeat;
