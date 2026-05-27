@@ -817,6 +817,7 @@
   <cartelera-carousel
     base-path="./actividades/cartelera/"
     slides='[
+    {"mob":"aloy_ori.jpg","desk":"aloy_desk.jpg","title":"Fiestas Patronales"},
     {"mob":"afligidos_mob.png","desk":"afligidos_desk.png","title":"Misa Afligidos", "anchor":"#afligidos"},
     {"mob":"adoGFE_mob.png","desk":"adoGFE_desk.png","title":"Adoración Eucarística", "anchor":"#adoGFE"},
     {"mob":"cursillos_mob.png","desk":"cursillos_desk.png", "title":"Cursillos de Cristiandad"},
@@ -1032,53 +1033,71 @@
 
 
   <br><br> -->
+
   <script src="./components/video-card-gold.js"></script>
-<div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
+  <div class="video-card-gold-container">
 
-<video-card-gold
-  badge="26 de Mayo"
-  titulo="San Felipe Neri"
-  video="./asantos/26.mp4"
-  style="width:auto; flex:0 0 auto;"
- 
-></video-card-gold>
+    <video-card-gold
+      badge="27 de Mayo"
+      titulo="San Agustín de Canterbury"
+      video="./asantos/27.mp4"
+      style="width:auto; flex:0 0 auto;"
 
-  <video-card-gold
-  badge="Pentecostés"
-  titulo="Espíritu Santo"
-  video="./asantos/24.mp4"
-  style="width:auto; flex:0 0 auto;"
-  hide-mobile
-></video-card-gold>
+    ></video-card-gold>
 
-<div style="display:flex; justify-content:center; gap:20px; flex-wrap:wrap;">
-  <video-card-gold
-  badge="Pentecostés"
-  titulo="Espiritu Santo"
-  video="./asantos/24es.mp4"
-  style="width:auto; flex:0 0 auto;"
-  hide-mobile
-></video-card-gold>
+    <video-card-gold
+      badge="26 de Mayo"
+      titulo="San Felipe Neri"
+      video="./asantos/26.mp4"
+      style="width:auto; flex:0 0 auto;"
+      hide-mobile
+    ></video-card-gold>
 
-  <video-card-gold
-  badge="María Auxiliadora"
-  titulo="San Bernardino de Siena"
-  video="./asantos/24.mp4"
-  style="width:auto; flex:0 0 auto;"
-  hide-mobile
-></video-card-gold>
+    <video-card-gold
+      badge="Pentecostés"
+      titulo="Espíritu Santo"
+      video="./asantos/24.mp4"
+      style="width:auto; flex:0 0 auto;"
+      hide-mobile
+    ></video-card-gold>
 
-></video-card-gold>
+    <video-card-gold
+      badge="Pentecostés"
+      titulo="Espiritu Santo"
+      video="./asantos/24es.mp4"
+      style="width:auto; flex:0 0 auto;"
+      hide-mobile
+    ></video-card-gold>
 
 
-
-
-</div>
+  </div>
 
 <br><br><br>
 
 
 <style>
+  .video-card-gold-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 600px) {
+    .video-card-gold-container {
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .video-card-gold-container video-card-gold {
+      margin-left: auto;
+      margin-right: auto;
+      width: 100%;
+      max-width: 350px;
+      min-width: 220px;
+      display: block;
+    }
+  }
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@400;600&display=swap');
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
