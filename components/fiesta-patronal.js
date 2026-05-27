@@ -594,6 +594,7 @@ class FiestaPatronal extends HTMLElement {
           flex: 0 0 auto;
           width: clamp(86px, 27vw, 124px);
           height: auto;
+          margin-top: 22px;
           filter: drop-shadow(0 8px 16px rgba(0,0,0,0.5));
           animation: fpat-float 6s ease-in-out infinite;
         }
