@@ -235,32 +235,29 @@ class PanelPhotoGallery extends HTMLElement {
   .cr-nav{display:flex;justify-content:center;gap:16px;margin-top:18px;}
   .cr-btn{
     position:relative;
-    width:34px;height:34px;border-radius:50%;cursor:pointer;
+    width:38px;height:38px;border-radius:50%;cursor:pointer;
     display:flex;align-items:center;justify-content:center;
-    border:none;outline:none;
+    outline:none;
     -webkit-tap-highlight-color:transparent;
-    /* esfera metálica dorada — igual que el pin */
-    background:radial-gradient(circle at 35% 32%, #fff8c0, ${rgb(c2,1)} 45%, #7a5800 80%, #3d2c00);
-    box-shadow:
-      0 6px 18px rgba(0,0,0,.70),
-      0 2px 6px rgba(0,0,0,.50),
-      inset 0 1px 0 rgba(255,255,255,.55),
-      inset 0 -2px 4px rgba(0,0,0,.30);
-    transition:transform .15s cubic-bezier(.34,1.56,.64,1), box-shadow .15s ease;
+    /* botón plano translúcido con aro dorado — coherente con lightbox/paginación */
+    background:rgba(255,255,255,.05);
+    border:1.5px solid ${rgb(c2,.45)};
+    box-shadow:0 2px 10px rgba(0,0,0,.35),inset 0 0 12px ${rgb(c2,.06)};
+    transition:transform .18s cubic-bezier(.34,1.56,.64,1), background .2s ease, border-color .2s ease;
   }
-  /* flecha SVG inline — color oscuro sobre el dorado */
+  .cr-btn:hover{background:${rgb(c2,.16)};border-color:${rgb(c2,.85)};}
+  /* flecha SVG inline — dorada */
   .cr-btn::after{
     content:'';
     display:block;
-    width:12px;height:12px;
-    background-color:#3d2800;
+    width:13px;height:13px;
+    background-color:${rgb(c2,1)};
     -webkit-mask-repeat:no-repeat;
     mask-repeat:no-repeat;
     -webkit-mask-position:center;
     mask-position:center;
     -webkit-mask-size:contain;
     mask-size:contain;
-    filter:drop-shadow(0 1px 0 rgba(255,255,255,.25));
   }
   #crPrev::after{
     -webkit-mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 19l-7-7 7-7' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
@@ -271,12 +268,8 @@ class PanelPhotoGallery extends HTMLElement {
     mask-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M8.5 5l7 7-7 7' stroke='%23000' stroke-width='2.8' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E");
   }
   .cr-btn:active{
-    transform:scale(.88) translateY(2px);
-    box-shadow:
-      0 2px 8px rgba(0,0,0,.65),
-      0 1px 3px rgba(0,0,0,.45),
-      inset 0 1px 0 rgba(255,255,255,.35),
-      inset 0 2px 6px rgba(0,0,0,.25);
+    transform:scale(.90);
+    background:${rgb(c2,.24)};
   }
   .cr-btn:disabled{opacity:.35;cursor:default;transform:none;}
 
