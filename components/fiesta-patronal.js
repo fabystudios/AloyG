@@ -58,7 +58,7 @@ class FiestaPatronal extends HTMLElement {
               </div>
             </div>
             <p class="fpat-lema">Vivamos juntos una noche de fe,<br>encuentro y fraternidad</p>
-            <p class="fpat-date"><span>Sábado</span> 20/6</p>
+            <p class="fpat-date"><span>Sábado</span> 20/JUN</p>
           </header>
 
           <div class="fpat-events">
