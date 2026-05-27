@@ -585,6 +585,13 @@ class FiestaPatronal extends HTMLElement {
           50%      { transform: translateX(-50%) translateY(-10px); }
         }
         .fpat-events { grid-template-columns: 1fr; }
+        /* Menos opacidad/desenfoque para no tapar la cara del santo */
+        .fpat-event {
+          background: rgba(245,234,208,0.02);
+          backdrop-filter: none;
+          -webkit-backdrop-filter: none;
+          border-color: rgba(240,215,154,0.18);
+        }
         .fpat-locations { flex-direction: column; }
         .fpat-cantina { flex-direction: column; }
         .fpat-cantina-info { width: 100%; }
