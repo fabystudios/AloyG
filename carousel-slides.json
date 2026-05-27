@@ -1,9 +1,9 @@
 [
             {
-    "id": "30",
+    "id": "aloy",
     "position": 1,
     "hasVideo": false,
-    "link": "",
+    "link": "#aloy",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
