@@ -3,7 +3,7 @@
 
 User-agent: *
 Allow: /
-Allow: /rifa.html
+Allow: /rifa-foto.html
 Allow: /noticias.html
 Allow: /avisos.html
 Allow: /homilias.html
@@ -13,11 +13,11 @@ Allow: /video/
 
 Disallow: /admin/
 Disallow: /panelAdminRifa.html
-Disallow: /admin-rifa-system.html
 Disallow: /setadmin.js
 Disallow: /backup.js
 Disallow: /restore.js
 Disallow: /backups/
+Disallow: /backup-rifa/
 Disallow: /serviceAccountKey.json
 
 # Sitemap location
