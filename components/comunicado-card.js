@@ -322,6 +322,9 @@ class ComunicadoCard extends HTMLElement {
         }
 
         /* ── Responsive ── */
+        @media (max-width: 768px) {
+          :host { width: 95vw !important; max-width: 95vw !important; margin-left: auto !important; margin-right: auto !important; }
+        }
         @media (max-width: 800px) {
           .cc-inner { grid-template-columns: 1fr; }
           .cc-foto { border-radius: 0; }

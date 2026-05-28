@@ -577,7 +577,7 @@ class FiestaPatronal extends HTMLElement {
 
       /* ════════ RESPONSIVE ════════ */
       @media (max-width: 720px) {
-        .fpat-card { padding: 2rem 1.1rem 1.8rem; border-radius: 24px; }
+        .fpat-card { width: 95%; padding: 2rem 1.1rem 1.8rem; border-radius: 24px; }
         .fpat-content { width: 100%; margin: 0; }
         /* Se quita el santo de fondo en mobile */
         .fpat-saint { display: none; }

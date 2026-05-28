@@ -206,6 +206,7 @@ class GlassmorphismYTPlayer extends HTMLElement {
 
         /* ── Responsive: recorte cuadrado en mobile ── */
         @media (max-width: 768px) {
+          ${S} .gyt-container  { width: 95% !important; max-width: 95% !important; box-sizing: border-box !important; }
           ${S} .gyt-video-box  { padding-bottom: 100% !important; }
           ${S} .gyt-iframe     { width: 177.78% !important; left: 50% !important; transform: translateX(-50%) !important; }
           ${S} .gyt-poster     { width: 177.78% !important; left: 50% !important; transform: translateX(-50%) !important; }

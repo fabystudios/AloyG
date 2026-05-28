@@ -2171,7 +2171,7 @@ for (let i = 0; i < 18; i++) {
 
 <script src="./components/comunicado-card.js"></script>
   <!-- badge-texto="HOY<br>JUEVES" -->
-<div style="display:flex;justify-content:center;align-items:center;min-height:60vh;padding:1rem;">
+<div style="display:flex;justify-content:center;align-items:center;min-height:60vh;padding:1rem 0;">
   <comunicado-card
     id="adoGFE"
     imagen="./img/santisimo.png"
@@ -2191,6 +2191,8 @@ for (let i = 0; i < 18; i++) {
   ></comunicado-card>
 </div>
 <br>
+
+
 <!-- paleta rifa:
   color-primario="#1a0a2e"
   color-secundario="#2d1b4e"
@@ -3178,6 +3180,13 @@ for (let i = 0; i < 18; i++) {
       }
       .ado-video-wrap {
         aspect-ratio: 16/9;
+      }
+    }
+    @media (max-width: 768px) {
+      .ado-section {
+        width: 95%;
+        max-width: 95%;
+        box-sizing: border-box;
       }
     }
     @media (max-width: 560px) {
