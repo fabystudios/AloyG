@@ -129,6 +129,67 @@
         background-image: url('./rifa/backRifa_mob.jpg') !important;
       }
     }
+
+    /* ═══════ Ritmo vertical entre publicaciones top-level ═══════
+       Aplica margen vertical consistente a cada web-component / sección
+       que actúa como "publicación". Los márgenes verticales adyacentes
+       colapsan, así que entre dos publicaciones queda un solo gap.
+       Reemplaza el uso de <br>/<br><br> como separadores.        */
+    :root { --pub-gap: clamp(2rem, 5vw, 4rem); }
+
+    fiesta-patronal,
+    glassmorphism-yt-player,
+    glassmorphism-video,
+    comunicado-card,
+    diario-parroquial,
+    panel-photo-gallery,
+    retro-tv-player,
+    showcase-card,
+    video-card-gold,
+    video-gold-special,
+    feria-poster,
+    cork-mural-carousel,
+    parroquia-nosotros,
+    cartelera-carousel,
+    .ado-section,
+    .video-card-gold-container,
+    .post-dia-nino,
+    .scene,
+    .section-header,
+    .section-padding,
+    .history-section,
+    .rifa-pausa-wrap,
+    #sabana {
+      display: block;
+      margin-block: var(--pub-gap);
+      margin-inline: auto;
+    }
+    /* Algunos section-headers tienen inline `margin: 0` para "pegarse" a su
+       contenido. Forzamos consistencia con un !important para que el ritmo
+       vertical sea uniforme en toda la página. */
+    section.section-header[style*="margin"] {
+      margin-block: var(--pub-gap) !important;
+    }
+    /* La .ado-section define `margin: 3rem auto` en su propio bloque de estilos
+       (más adelante en el documento) — ganaría por orden de cascada. Forzamos
+       el valor del pub-gap con !important. */
+    .ado-section {
+      margin-block: var(--pub-gap) !important;
+    }
+    /* glassmorphism-yt-player monta light-DOM con un `.gyt-container` que tiene
+       `margin: 40px auto` baked-in vía atributo. Anulamos su margen vertical
+       (el host ya tiene el pub-gap) para que el gap visual coincida. */
+    glassmorphism-yt-player > .gyt-container {
+      margin-block: 0 !important;
+    }
+
+    /* Excepciones: WCs dentro de contenedores grid/flex deben comportarse
+       como items de su contenedor (no agregar margin-block ni auto-centrarse) */
+    .usca-grid > video-card-gold,
+    .video-card-gold-container > video-card-gold {
+      margin-block: 0;
+      margin-inline: 0;
+    }
   </style>
 
 </head>
@@ -718,22 +779,39 @@
     /* -----------------------------
      1. Hacer el carrusel full‑width/full‑height
      ----------------------------- */
+    /* Altura del header — la fija el JS al final del bloque midiendo `.cabecera`.
+       Fallback 110px para el primer paint. */
+    :root { --header-h: 110px; }
+
     #mainCarousel,
     #mainCarousel .carousel-inner {
       width: 100%;
-      /* todo el ancho del viewport */
-      height: 100vh;
-      /* toda la altura del viewport */
+      /* Slides diseñados a 1920×960 (2:1).
+         La altura es la MENOR entre:
+           - 50vw  → mantiene 2:1 cuando el ancho es el factor limitante.
+           - 100dvh − header → garantiza que header + slide entren en la 1ª pantalla
+             sin que sobre un pedazo para la segunda. */
+      height: min(50vw, calc(100dvh - var(--header-h, 110px)));
       margin-left: 0;
-      /* centra si está dentro de un grid */
       overflow: hidden;
-      /* recorta lo que sobresalga */
+    }
+
+    /* Mobile (imagen portrait): no aplica el cap 2:1, ocupar todo el alto
+       disponible debajo del header. */
+    @media (max-width: 768px) {
+      #mainCarousel,
+      #mainCarousel .carousel-inner {
+        height: calc(100dvh - var(--header-h, 80px));
+      }
     }
 
     #mainCarousel .carousel-item {
       position: relative;
       width: 100%;
-      height: 100vh;
+      /* !important para vencer reglas globales de style.css/site*.css que
+         fuerzan `height: 100vh !important; min-height: 700px !important` */
+      height: 100% !important;
+      min-height: 0 !important;
       margin-left: 0;
       overflow: hidden;
     }
@@ -743,20 +821,15 @@
      ----------------------------- */
     #mainCarousel .carousel-item img {
       width: 100%;
-      height: auto;
-      object-fit: contain;
+      height: 100%;
+      object-fit: cover;
       object-position: center;
     }
 
-    /* Slides de imagen (flyers 16:9): mostrar completos sin recortar - solo desktop */
-    @media (min-width: 768px) {
-      #mainCarousel .carousel-item:not([data-has-video]) {
-        background: linear-gradient(135deg, #0d47a1, #1565c0, #1976d2);
-      }
-      #mainCarousel .carousel-item:not([data-has-video]) img {
-        object-fit: contain;
-      }
-    }
+    /* El contenedor ya tiene aspect-ratio matcheado con la imagen — no hace
+       falta el gradiente azul que antes llenaba la banda sobrante. Si una
+       imagen tuviera ratio distinto, el `object-fit: cover` la recorta antes
+       que mostrar fondo. */
 
     /* -----------------------------
      3. Videos del carrusel
@@ -790,11 +863,29 @@
     #mainCarousel .carousel-item .video-carousel-container {
       position: relative;
       width: 100%;
-      height: 100vh;
+      height: 100%;
       margin-left: 0;
       overflow: hidden;
     }
   </style>
+
+  <script>
+    (function () {
+      var header = document.querySelector('.cabecera');
+      if (!header) return;
+      function measure() {
+        var collapse = header.querySelector('#navbarNav');
+        if (collapse && collapse.classList.contains('show')) return;
+        var h = Math.round(header.getBoundingClientRect().height);
+        if (h > 0) document.documentElement.style.setProperty('--header-h', h + 'px');
+      }
+      measure();
+      window.addEventListener('load', measure);
+      window.addEventListener('resize', measure);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
+      if (window.ResizeObserver) new ResizeObserver(measure).observe(header);
+    })();
+  </script>
 
 
 
@@ -969,29 +1060,21 @@
   intensity="medium">
 </fiesta-patronal>
 
-<br>
-<br>
-
 
 <script src="./components/panel-photo-gallery.js"></script>
-<div style="display:flex; justify-content:center;">
- <panel-photo-gallery
+<panel-photo-gallery
   base-path="./actividades/30/"
   mascot-src="./actividades/30/ermita2.png"
   mascot-size="120px"
   particle-src="./actividades/30/bendicion.png, ./actividades/30/cafe.png"
   lightbox-particle-src=""
   theme="azul-dorado"
-  eyebrow="30 años de la" 
+  eyebrow="30 años de la"
   title="Ermita de"
   title-em="Shöenstatt"
   total="6"
   width="80%"></panel-photo-gallery>
-
-</div>
   <!-- captions='["El silencio que habla","El amor hasta el extremo","La entrega total","Contemplando la cruz","El Señor entre nosotros","La Pasión del Señor","Jesús camino al Calvario","El abrazo de la cruz","El sacrificio redentor","Viernes de entrega","La última mirada","Amor sin límites","En la cruz nos encontramos","El peso del amor","Hasta el extremo","Silencio que conmueve","La corona y la gloria","El Hijo entregado","Contemplación en comunidad","Unidos en la Pasión"]'> -->
-
-<br> <br> <br>
 
 <!-- <script src="./components/video-card-gold.js"></script>
 <script src="./components/showcase-card.js"></script>
@@ -1088,8 +1171,6 @@
 
 
   </div>
-
-<br><br><br>
 
 
 <style>
@@ -1477,10 +1558,6 @@ for (let i = 0; i < 18; i++) {
 
 
 
-<br><br>
-
-
-
 
 <style>
   @keyframes borderGlow {
@@ -1511,7 +1588,8 @@ for (let i = 0; i < 18; i++) {
   }
   .event-card {
     position: relative;
-    width: 520px;
+    width: 760px;
+    max-width: 95vw;
     margin: 2rem auto;
     border-radius: 20px;
     overflow: hidden;
@@ -1554,6 +1632,39 @@ for (let i = 0; i < 18; i++) {
     border: 1.5px solid rgba(255, 150, 30, 0.28);
     padding: 28px 28px 0 28px;
     box-shadow: inset 0 1px 0 rgba(255,180,60,0.12), 0 24px 60px rgba(0,0,0,0.6), 0 0 30px rgba(255,140,0,0.06);
+    /* Layout 2 columnas con grid: la altura de fila la define el contenido
+       (event-content), y la imagen llena su celda con object-fit: cover.
+       Así el alto de la card no se infla por la altura intrínseca de la imagen. */
+    display: grid;
+    grid-template-columns: 38% 1fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+  .event-img-left {
+    /* <picture> wrapper — propiedades visuales del bloque */
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* La imagen desktop es portrait extremo (736×1361). Aspect-ratio 3/4
+       evita que su altura intrínseca infle la fila del grid. */
+    aspect-ratio: 3 / 4;
+    border-radius: 14px;
+    margin: 0 0 28px 0;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,180,60,0.22);
+    background: rgba(0,0,0,0.4);
+    overflow: hidden;
+    min-height: 0;
+  }
+  .event-img-left img {
+    /* <img> dentro del picture — propiedades de imagen */
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .event-content {
+    min-width: 0;
   }
   .spark {
     position: absolute;
@@ -1724,6 +1835,20 @@ for (let i = 0; i < 18; i++) {
     }
     .card-glass {
       padding: 20px 18px 0 18px;
+      grid-template-columns: 1fr;   /* una sola columna: stack vertical */
+      gap: 14px;
+    }
+    .event-img-left {
+      width: 100%;
+      /* sabana_mob.png es 588×773 (ratio 1:1.31). Usamos ese ratio
+         para mostrar la imagen completa sin cropping en mobile. */
+      aspect-ratio: 588 / 773;
+      max-height: none;
+      margin: 0 0 4px 0;
+    }
+    .event-img-left img {
+      /* En mobile mostramos la imagen completa (no cropear) */
+      object-fit: contain;
     }
     .title-main {
       font-size: 20px;
@@ -1752,6 +1877,11 @@ for (let i = 0; i < 18; i++) {
     <div class="spark" id="sp5" style="top:70%; right:6%; width:6px; height:6px; animation: float-spark 3.4s ease-in-out infinite 2s;"></div>
 
     <div class="card-glass">
+      <picture class="event-img-left">
+        <source srcset="./img/sabana_mob.png" media="(max-width: 600px)">
+        <img src="./img/sabana.png" alt="Sábana Santa — el lienzo más famoso del mundo" loading="lazy">
+      </picture>
+      <div class="event-content">
       <p class="title-pre">Conferencia especial</p>
       <h1 class="title-main">El misterio de la<br><span class="title-accent">Sábana Santa</span></h1>
       <p class="title-sub">Historia, ciencia y fe — los estudios más impactantes sobre el lienzo más famoso del mundo.</p>
@@ -1817,8 +1947,9 @@ for (let i = 0; i < 18; i++) {
         <i class="ti ti-building-church" style="font-size:13px;" aria-hidden="true"></i>
         <span class="desktop-only">Parroquia San Luis Gonzaga · Villa Elisa</span>
         <span class="mobile-only" style="text-align:center;"> Parroquia San Luis Gonzaga<br>· Villa Elisa ·</span>
-       
+
       </div>
+      </div><!-- /.event-content -->
     </div>
 
     <div class="cta-wrapper">
@@ -1860,10 +1991,8 @@ for (let i = 0; i < 18; i++) {
   }
 </script>
 
-<br><br>
 
-
-<!-- 
+<!--
 <showcase-card
   bg="./img/sky.jpg"
   id="fran"
@@ -1960,7 +2089,6 @@ for (let i = 0; i < 18; i++) {
     >
   </feria-poster>
   <!-- ═══ / Publicación de Feria ═══ -->
-<br>
 
 
 
@@ -2164,33 +2292,26 @@ for (let i = 0; i < 18; i++) {
   </retro-tv-player>
   <!-- ═══ Fin Video Presentación ═══ -->
 
-<br>
-
-
-<!-- <br><br> -->
 
 <script src="./components/comunicado-card.js"></script>
   <!-- badge-texto="HOY<br>JUEVES" -->
-<div style="display:flex;justify-content:center;align-items:center;min-height:60vh;padding:1rem 0;">
-  <comunicado-card
-    id="adoGFE"
-    imagen="./img/santisimo.png"
-    imagen-flotante="./img/medalla.png"
-    badge-texto="ADORACIÓN<br>AL<br>SANTÍSIMO"
-    ribbon-texto="✨ &nbsp; Adoración al Santísimo &nbsp; ✨"
-    ribbon-tema="gold"
-    pildora="Todos los jueves"
-    titulo="Hora Santa"
-    subtitulo="&laquo;El Maestro está aquí y te llama&raquo;"
-    descripcion="&laquo;El Maestro está aquí y te llama&raquo; (Jn 11,28) — Te invitamos a un momento de oración y adoración ante el Santísimo Sacramento. Vení a encontrarte con Jesús Eucaristía."
-    boton-texto="Ver más..."
-    boton-link="#adoracion"
-    color-primario="#0a1e3d"
-    color-secundario="#1a5276"
-    color-acento="#4dd0e1"
-  ></comunicado-card>
-</div>
-<br>
+<comunicado-card
+  id="adoGFE"
+  imagen="./img/santisimo.png"
+  imagen-flotante="./img/medalla.png"
+  badge-texto="ADORACIÓN<br>AL<br>SANTÍSIMO"
+  ribbon-texto="✨ &nbsp; Adoración al Santísimo &nbsp; ✨"
+  ribbon-tema="gold"
+  pildora="Todos los jueves"
+  titulo="Hora Santa"
+  subtitulo="&laquo;El Maestro está aquí y te llama&raquo;"
+  descripcion="&laquo;El Maestro está aquí y te llama&raquo; (Jn 11,28) — Te invitamos a un momento de oración y adoración ante el Santísimo Sacramento. Vení a encontrarte con Jesús Eucaristía."
+  boton-texto="Ver más..."
+  boton-link="#adoracion"
+  color-primario="#0a1e3d"
+  color-secundario="#1a5276"
+  color-acento="#4dd0e1"
+></comunicado-card>
 
 
 <!-- paleta rifa:
@@ -2230,8 +2351,6 @@ for (let i = 0; i < 18; i++) {
   width="80%"
   captions='["El silencio que habla","El amor hasta el extremo","La entrega total","Contemplando la cruz","El Señor entre nosotros","La Pasión del Señor","Jesús camino al Calvario","El abrazo de la cruz","El sacrificio redentor","Viernes de entrega","La última mirada","Amor sin límites","En la cruz nos encontramos","El peso del amor","Hasta el extremo","Silencio que conmueve","La corona y la gloria","El Hijo entregado","Contemplación en comunidad","Unidos en la Pasión"]'>
 </panel-photo-gallery>
-
-<br> <br>
 
 <panel-photo-gallery
   base-path="./actividades/pies/"
@@ -2308,7 +2427,8 @@ for (let i = 0; i < 18; i++) {
     .rifa-pausa-wrap {
       width: 94%;
       max-width: 1100px;
-      margin: 40px auto;
+      /* margen vertical lo administra el pub-gap global; aquí solo horizontal */
+      margin-inline: auto;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     .rifa-pausa-card {
@@ -2697,8 +2817,7 @@ for (let i = 0; i < 18; i++) {
           }
         })();
     </script>
-    
- <br>
+
 <!-- ------- fin de rifa principal  -->
 <!-- ══════════════════════════════════════════════════════════
      / FIN RIFA · Venta Pausada
@@ -2719,7 +2838,6 @@ for (let i = 0; i < 18; i++) {
       control-color="#b8860b"
     margin="20px auto">
   </glassmorphism-yt-player>
-<br> <br>
 
 
   <!-- ═══ ADORACIÓN EUCARÍSTICA ═══ -->
@@ -2738,7 +2856,7 @@ for (let i = 0; i < 18; i++) {
           <button class="ado-play-btn" aria-label="Reproducir video" id="adoracionPlayBtn">
             <span class="material-icons">play_circle_filled</span>
           </button>
-          <video id="adoracionVideo" controls playsinline preload="metadata" poster="./img/ado_mob.jpg"
+          <video id="adoracionVideo" controls playsinline preload="none" poster="./img/ado_mob.jpg"
             onended="try{this.currentTime=0;this.pause();document.getElementById('adoracionPlayBtn')?.classList.remove('ado-hidden');}catch(e){}"
             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" data-src="./video/ado.mp4">
             <source data-src="./video/ado.mp4" type="video/mp4">
@@ -2806,7 +2924,7 @@ for (let i = 0; i < 18; i++) {
               <tr> <td>15:00 – 16:00</td> <td>Daniela S.</td><td>—</td> </tr>
               <tr> <td>16:00 – 17:00</td> <td>Diana, Celestino</td> <td>Gisela</td> </tr>
               <tr> <td>17:00 – 18:00</td> <td>Tato</td> <td>Glady</td>   </tr>
-              <tr> <td>17:30 – 18:00</td>—<td></td><td>Hernán</td></tr>
+              <tr> <td>17:30 – 18:00</td><td>—</td><td>Hernán</td></tr>
               <!-- <tr> <td>9:00 – 10:00</td>  <td class="ado-empty" colspan="2">Turno disponible</td> </tr> -->
 
             </tbody>
@@ -2814,9 +2932,10 @@ for (let i = 0; i < 18; i++) {
         </div>
 
         <!-- CTA -->
-          <a href="#contacto" class="btn-md3" style="min-width:220px; text-decoration:none;">
-              <i class="material-icons align-middle">favorite</i> Anotarme como adorador
-            </a>
+        <a href="#contacto" class="ado-cta">
+          <span class="material-icons">favorite</span>
+          <span>Anotarme como adorador</span>
+        </a>
         <!-- <a href="https://docs.google.com/spreadsheets/d/1ldk0j2CcK5GysLJayoTLyJNHUcRJkTHQ3txBFs7KORk/htmlview?sfnsn=scwspwa"
            target="_blank" rel="noopener noreferrer" class="ado-cta">
           <span class="material-icons">edit_note</span>
@@ -2824,10 +2943,13 @@ for (let i = 0; i < 18; i++) {
           <span class="ado-cta-arrow material-icons">arrow_forward</span>
         </a> -->
 
-        <div class="ado-promo-img">
-          <img src="./img/jueves.png" alt="Jueves de Adoración Eucarística" />
-        </div>
+      </div>
 
+      <!-- Imagen decorativa con íconos eucarísticos.
+           En desktop ocupa el área "promo" debajo del video (balancea la columna izquierda).
+           En mobile aparece naturalmente al final por orden DOM. -->
+      <div class="ado-promo-img">
+        <img src="./img/jueves.png" alt="Jueves de Adoración Eucarística" />
       </div>
     </div>
 
@@ -2836,10 +2958,29 @@ for (let i = 0; i < 18; i++) {
         const v   = document.getElementById('adoracionVideo');
         const btn = document.getElementById('adoracionPlayBtn');
         if (!v || !btn) return;
+
+        // Lazy-load: el video tiene data-src pero no src. Solo descargamos
+        // los bytes cuando el usuario realmente quiere reproducir.
+        let loaded = false;
+        const loadSrcIfNeeded = () => {
+          if (loaded) return;
+          // Copiar data-src → src en <source> y/o en el propio <video>
+          v.querySelectorAll('source[data-src]').forEach(s => {
+            if (!s.getAttribute('src')) s.src = s.dataset.src;
+          });
+          if (v.dataset.src && !v.getAttribute('src')) {
+            v.src = v.dataset.src;
+          }
+          v.load();
+          loaded = true;
+        };
+
         btn.addEventListener('click', () => {
+          loadSrcIfNeeded();
           v.play().then(() => btn.classList.add('ado-hidden')).catch(() => {});
         });
-        v.addEventListener('play',  () => btn.classList.add('ado-hidden'));
+        // Si el usuario apreta el play nativo del control en vez del overlay
+        v.addEventListener('play',  () => { loadSrcIfNeeded(); btn.classList.add('ado-hidden'); });
         v.addEventListener('pause', () => { if (v.currentTime < 0.2) btn.classList.remove('ado-hidden'); });
       })();
     </script>
@@ -2900,15 +3041,25 @@ for (let i = 0; i < 18; i++) {
       opacity: .08;
     }
 
-    /* ── Layout ── */
+    /* ── Layout ──
+       Desktop: dos columnas. La izquierda tiene dos filas (video+chips arriba,
+       promo abajo). La derecha (info) se extiende ocupando ambas filas.
+       Esto balancea la altura entre columnas. */
     .ado-shell {
       position: relative;
       z-index: 1;
       display: grid;
       grid-template-columns: 1fr 1.15fr;
+      grid-template-rows: auto 1fr;
+      grid-template-areas:
+        "video info"
+        "promo info";
       gap: clamp(1.5rem,3vw,3rem);
       align-items: start;
     }
+    .ado-video-col { grid-area: video; }
+    .ado-info-col  { grid-area: info; }
+    .ado-promo-img { grid-area: promo; }
 
     /* ── Video col ── */
     .ado-video-col {
@@ -2922,7 +3073,7 @@ for (let i = 0; i < 18; i++) {
       border-radius: 20px;
       overflow: hidden;
       background: #000;
-      aspect-ratio: 9/13;
+      aspect-ratio: 12/13;
       box-shadow:
         0 24px 60px rgba(0,0,0,0.6),
         0 0 0 1px rgba(255,255,255,0.1),
@@ -3099,13 +3250,20 @@ for (let i = 0; i < 18; i++) {
       text-transform: uppercase;
     }
     .ado-table tbody tr {
-      border-bottom: 1px solid rgba(255,255,255,0.07);
-      transition: background .2s;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: background .25s ease;
     }
     .ado-table tbody tr:last-child { border-bottom: none; }
-    .ado-table tbody tr:hover { background: rgba(255,255,255,0.06); }
+    /* Zebra striping: filas pares con tinte sutil dorado-violeta para legibilidad */
+    .ado-table tbody tr:nth-child(even) {
+      background: rgba(124,58,237,0.07);
+    }
+    .ado-table tbody tr:hover {
+      background: rgba(245,158,11,0.12);
+      box-shadow: inset 3px 0 0 var(--ado-gold);
+    }
     .ado-table tbody td {
-      padding: .58rem .7rem;
+      padding: .65rem .7rem;
       text-align: center;
       color: rgba(230,225,255,0.88);
       font-weight: 500;
@@ -3121,42 +3279,61 @@ for (let i = 0; i < 18; i++) {
       font-size: .82em;
     }
 
-    /* ── CTA ── */
+    /* ── CTA ── Botón "Anotarme como adorador" — gradiente dorado con glow */
     .ado-cta {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: .55rem;
+      gap: .6rem;
       text-decoration: none;
       padding: 1rem 1.8rem;
       border-radius: 999px;
       font-weight: 800;
       font-size: clamp(.88rem, 1.1vw, 1rem);
-      letter-spacing: .3px;
-      color: #fff;
-      background: linear-gradient(135deg, #7c3aed 0%, #4f46e5 60%, #2563eb 100%);
+      letter-spacing: .4px;
+      text-transform: uppercase;
+      color: #2a1500;
+      background: linear-gradient(135deg, var(--ado-gold2) 0%, var(--ado-gold) 55%, #d97706 100%);
       box-shadow:
-        0 5px 0 #1e1b4b,
-        0 10px 30px rgba(79,70,229,0.55),
-        inset 0 1px 0 rgba(255,255,255,0.28);
-      transition: transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s ease;
-      align-self: stretch;
+        0 5px 0 #92400e,
+        0 12px 32px rgba(245,158,11,0.55),
+        0 0 0 1px rgba(255,255,255,0.18) inset,
+        inset 0 1px 0 rgba(255,255,255,0.45);
+      transition: transform .2s cubic-bezier(.34,1.56,.64,1), box-shadow .2s ease, filter .2s ease;
+      align-self: center;
+      min-width: 240px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Brillo deslizante al hover */
+    .ado-cta::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -120%;
+      width: 60%; height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent);
+      transition: left .6s ease;
+      pointer-events: none;
     }
     .ado-cta:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
+      color: #2a1500;
+      filter: brightness(1.05);
       box-shadow:
-        0 8px 0 #1e1b4b,
-        0 18px 40px rgba(79,70,229,0.7),
-        inset 0 1px 0 rgba(255,255,255,0.3);
-      color: #fff;
+        0 8px 0 #92400e,
+        0 18px 44px rgba(245,158,11,0.75),
+        0 0 0 1px rgba(255,255,255,0.22) inset,
+        inset 0 1px 0 rgba(255,255,255,0.55);
     }
+    .ado-cta:hover::before { left: 120%; }
     .ado-cta:active {
-      transform: translateY(3px);
+      transform: translateY(2px);
       box-shadow:
-        0 2px 0 #1e1b4b,
-        0 4px 12px rgba(79,70,229,0.35);
+        0 2px 0 #92400e,
+        0 6px 16px rgba(245,158,11,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.3);
     }
-    .ado-cta .material-icons { font-size: 20px; }
+    .ado-cta .material-icons { font-size: 22px; }
     .ado-cta-arrow { margin-left: auto; opacity: .7; }
 
     .ado-promo-img {
@@ -3172,12 +3349,26 @@ for (let i = 0; i < 18; i++) {
       width: 100%;
       height: auto;
     }
+    /* En desktop la promo va en la columna izquierda balanceando con el video.
+       Capamos su altura para que ambas columnas terminen al mismo nivel. */
+    @media (min-width: 901px) {
+      .ado-promo-img img {
+        height: 147px;
+        object-fit: cover;
+        object-position: center;
+      }
+    }
 
     /* ── Responsive ── */
     @media (max-width: 900px) {
       .ado-shell {
         grid-template-columns: 1fr;
+        grid-template-rows: none;
+        grid-template-areas: none;     /* deshabilita áreas: items en orden DOM */
       }
+      .ado-video-col,
+      .ado-info-col,
+      .ado-promo-img { grid-area: auto; }
       .ado-video-wrap {
         aspect-ratio: 16/9;
       }
@@ -3192,11 +3383,24 @@ for (let i = 0; i < 18; i++) {
     @media (max-width: 560px) {
       .ado-section { border-radius: 20px; }
       .ado-title { font-size: 1.6rem; }
-      .ado-cta { font-size: .85rem; padding: .85rem 1.2rem; }
+      .ado-cta {
+        font-size: .82rem;
+        padding: .9rem 1.2rem;
+        min-width: 0;
+        width: 100%;
+      }
+      /* Chips compactos en mobile — caben los dos en una sola línea */
+      .ado-chips { gap: .4rem; justify-content: center; }
+      .ado-chip {
+        font-size: .68rem;
+        padding: .3rem .55rem;
+        gap: .28rem;
+        white-space: nowrap;
+      }
+      .ado-chip .material-icons { font-size: 12px; }
     }
   </style>
   <!-- ═══ / ADORACIÓN EUCARÍSTICA ═══ -->
-<br>
 
 
 
@@ -3268,7 +3472,6 @@ for (let i = 0; i < 18; i++) {
 
   <!-- ═══ Fin Horario Misa ═══ -->
 
-<br><br>
   <!-- Aviso en video — tonos dorados y marfil -->
   <glassmorphism-yt-player
     video-id="rSxyW4tMoEI"
@@ -3344,7 +3547,7 @@ for (let i = 0; i < 18; i++) {
     icon="photo_library">
   </cork-mural-carousel>
   <!-- ═══ / Arreglos y Mejoras ═══ -->
-<br>
+
   <!-- Sección Nosotros -->
 
 
@@ -3758,7 +3961,6 @@ for (let i = 0; i < 18; i++) {
   </section>
 <!-- inicio videos usca  -->
 
-<br><br>
  <!-- ═══ Mural de Actividades ═══ -->
   <cork-mural-carousel
     title="Pizarra Actividades"
@@ -3771,7 +3973,7 @@ for (let i = 0; i < 18; i++) {
     icon="photo_library">
   </cork-mural-carousel>
     <!-- ═══ Mural de Actividades ═══ -->
-<br><br>
+
 <!-- Card Video USCA - NUEVO -->
 
 <!--
@@ -3883,6 +4085,38 @@ for (let i = 0; i < 18; i++) {
   .usca-grid {
     grid-template-columns: 1fr;
     gap: 1rem;
+    justify-items: center;
+  }
+  /* Unifica el ancho visible de las cards en una sola columna mobile.
+     video-card-gold internamente ya limita su .card a min(260px, 95vw);
+     replicamos ese mismo tope en las glass-cards hermanas para armonía visual. */
+  .usca-grid > .glass-card {
+    width: min(260px, 95vw);
+    margin-inline: auto;
+  }
+}
+
+/* Las glass-cards dentro de .usca-grid tienen heredado `min-height: 96vh` y
+   `justify-content: space-between` de un bloque anterior, lo que estiraba
+   el contenido y dejaba espacios enormes alrededor del título. Que la card
+   se ajuste a su contenido. */
+.usca-grid > .glass-card {
+  min-height: 0;
+  justify-content: flex-start;
+}
+
+/* En desktop la grid estira las cards al alto del item más alto (align-items: stretch).
+   El `.card-title` tiene `flex: 1` y consume toda la altura disponible — por
+   eso el clip quedaba abajo. Lo dejamos en su tamaño natural y mandamos el
+   último elemento (badge/botón) al fondo con `margin-top:auto`. Resultado:
+   título arriba, clip justo debajo, y el botón al fondo con aire armónico
+   alrededor en lugar de pegado al video. */
+@media (min-width: 701px) {
+  .usca-grid > .glass-card > .card-title {
+    flex: 0 0 auto;
+  }
+  .usca-grid > .glass-card > :last-child {
+    margin-top: auto;
   }
 }
 
@@ -4191,7 +4425,6 @@ for (let i = 0; i < 18; i++) {
 </script>
 
 <!-- fin videos  usca -->
-  <br> 
   <!-- <br class="d-none d-lg-block"><br class="d-none d-lg-block"> -->
   <!-- <br> <br> -->
   <section class="post-dia-nino viewport-container">

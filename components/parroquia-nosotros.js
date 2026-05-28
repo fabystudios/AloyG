@@ -135,6 +135,14 @@ class ParroquiaNosotros extends HTMLElement {
 
         /* ── Responsive ── */
         @media (max-width: 768px) {
+          :host {
+            width: 95vw;
+            max-width: 95vw;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 24px;
+            overflow: hidden;
+          }
           .wrap {
             flex-direction: column;
             gap: 28px;

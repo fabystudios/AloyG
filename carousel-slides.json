@@ -7,7 +7,7 @@
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./actividades/cartelera/aloy_desk.jpg"
+      "src": "./slides/aloydesk2.png"
     },
     "mobile": {
       "type": "image",
@@ -52,7 +52,7 @@
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./actividades/cartelera/afligidos_desk.png"
+      "src": "./slides/misadesk2.png"
     },
     "mobile": {
       "type": "image",
@@ -67,7 +67,7 @@
    "time": { "desktop": 4, "mobile": 4 },
   "desktop": {
     "type": "image",
-    "src": "./actividades/cartelera/sabana_desk.png"
+    "src": "./slides/sabanadesk2.png"
   },
   "mobile": {
     "type": "image",
