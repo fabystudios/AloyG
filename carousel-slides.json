@@ -11,7 +11,7 @@
     },
     "mobile": {
       "type": "image",
-      "src": "./actividades/cartelera/aloy_mob.jpg"
+      "src": "./slides/aloymob2.png"
     }
   },
         {
@@ -56,7 +56,7 @@
     },
     "mobile": {
       "type": "image",
-      "src": "./actividades/cartelera/afligidos_mob.png"
+      "src": "./slides/misamob2.png"
     }
   },
         {
@@ -71,7 +71,7 @@
   },
   "mobile": {
     "type": "image",
-    "src": "./actividades/cartelera/sabana_mob.jpg"
+    "src": "./slides/sabanamob2.png"
   }
   },
           {
