@@ -137,29 +137,21 @@
   },
         {
     "id": "feria",
-    "position": -1,
+    "position": 6,
     "hasVideo": false,
     "link": "#feria",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./actividades/cartelera/feria_desk.png"
+      "src": "./feria/feria_desk-ut.jpg"
  
     },
     "mobile": {
       "type": "image",
-      "src": "./actividades/cartelera/feria_mob2.png"
+      "src": "./feria/feria_mob-ut.jpg"
  
     }
-    ,
-    "overlay": {
-      "src": "./img/eshoy.png",
-      "desktopPos": "center",
-      "mobilePos": "bottom-quarter",
-      "effect": "blink",
-      "desktopScale": 0.4,
-      "mobileScale": 0.5
-    }
+
   },
       {
     "id": "feria",
@@ -176,6 +168,15 @@
       "type": "video",
       "src": "./feria/feria_mob.mp4",
       "poster": "./feria/feria_mob.jpg"
+    }
+        ,
+    "overlay": {
+      "src": "./img/eshoy.png",
+      "desktopPos": "center",
+      "mobilePos": "bottom-quarter",
+      "effect": "blink",
+      "desktopScale": 0.4,
+      "mobileScale": 0.5
     }
   },
           {
