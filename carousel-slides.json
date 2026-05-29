@@ -1,7 +1,37 @@
 [
+              {
+    "id": "merienda",
+    "position": 1,
+    "hasVideo": false,
+    "link": "",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/merendero_desk.jpg"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/merendero_mob.jpg"
+    }
+  },
+              {
+    "id": "6jun",
+    "position": 2,
+    "hasVideo": false,
+    "link": "#aloy",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/6jun_desk.jpg"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/6jun_mob.jpg"
+    }
+  },
             {
     "id": "aloy",
-    "position": 1,
+    "position": 3,
     "hasVideo": false,
     "link": "#aloy",
     "time": { "desktop": 3, "mobile": 3 },
@@ -46,7 +76,7 @@
   },
           {
     "id": "afligidos",
-    "position": 3,
+    "position": 4,
     "hasVideo": false,
     "link": "#afligidos",
     "time": { "desktop": 3, "mobile": 3 },
@@ -61,7 +91,7 @@
   },
         {
     "id": "sabana",
-    "position": 2,
+    "position": 5,
     "hasVideo": false,
     "link": "#sabana",
    "time": { "desktop": 4, "mobile": 4 },
