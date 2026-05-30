@@ -56,7 +56,13 @@
     const st = document.createElement('style');
     st.setAttribute('data-section-title', '1');
     st.textContent = `
-      section-title { display: block; }
+      /* el host: !important para defender contra reglas externas tipo #nosotros
+         que pisan display/padding por especificidad de ID. */
+      section-title {
+        display: block !important;
+        padding: 0 !important;
+        background: transparent !important;
+      }
 
       section-title .st-fx-layer {
         position: absolute; inset: 0;
@@ -96,11 +102,14 @@
       }
 
       /* Restaurar centrado del .section-header — el "reacomodamiento gral" lo
-         dejó en display:block produciendo padding asimétrico. */
+         dejó en display:block produciendo padding asimétrico.
+         width:100% defiende contra reglas legacy como #nosotros { display:flex; }
+         que hacían que el flex container colapsara a content-width. */
       section-title > section.section-header {
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
+        width: 100% !important;
       }
 
       /* Refuerzo mobile: contrarresta inline styles que pisan el padding base */
