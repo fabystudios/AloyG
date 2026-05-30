@@ -32,7 +32,10 @@ Además ofrece efectos visuales reutilizables (estrellas mágicas, PNG flotantes
   - [Tamaño de PNG flotantes](#tamaño-de-png-flotantes)
   - [Apariencia](#apariencia)
 - [Efectos disponibles](#efectos-disponibles)
+  - [Canvas-based](#canvas-based-comparten-un-único-canvas)
+  - [DOM-based](#dom-based-no-usan-canvas)
 - [Cómo combinar efectos](#cómo-combinar-efectos)
+  - [Recomendaciones de combinación](#recomendaciones-de-combinación)
 - [Ejemplos completos](#ejemplos-completos)
 - [Arquitectura interna](#arquitectura-interna)
 - [Fix mobile incluido](#fix-mobile-incluido)
@@ -79,11 +82,37 @@ Renderiza un `<section class="section-header">` con un `<h2 class="md3-headline"
 
 ### Sistema de efectos
 
-| Atributo  | Tipo                                          | Default | Descripción                                                                 |
-|-----------|-----------------------------------------------|---------|-----------------------------------------------------------------------------|
-| `effect`  | `"none"`, `"stars"`, `"floating-png"`, o **combinaciones separadas por espacio** | `"none"` | Qué efecto(s) animar de fondo. |
-| `png-src` | URL                                           | `""`    | Imagen para `floating-png`. Si no se setea, no se dibujan PNGs.              |
-| `png-count` | número entero (1–20)                        | `6`     | Cuántas instancias del PNG flotan.                                          |
+| Atributo  | Tipo                                                                                                | Default | Descripción                                                                 |
+|-----------|-----------------------------------------------------------------------------------------------------|---------|-----------------------------------------------------------------------------|
+| `effect`  | `"none"` o uno o más de: `stars`, `bubbles`, `confetti`, `snow`, `rays`, `glow-pulse`, `aurora`, `floating-png`, `floating-svg` — **combinables separados por espacio** | `"none"` | Qué efecto(s) animar de fondo. |
+| `png-src` | URL                                                                                                 | `""`    | Imagen para `floating-png`. Si no se setea, no se dibujan PNGs.              |
+| `png-count` | número entero (1–20)                                                                              | `6`     | Cuántas instancias del PNG flotan.                                          |
+
+#### Atributos por efecto
+
+**`floating-svg`** (formas pre-armadas, sin necesidad de PNG):
+
+| Atributo     | Default | Valores                                                |
+|--------------|---------|--------------------------------------------------------|
+| `svg-shape`  | `cross` | `cross`, `heart`, `star`, `circle`, `triangle`, `dove` |
+| `svg-color`  | `#ffd700` | color CSS                                            |
+| `svg-count`  | `6`     | 1–20                                                   |
+| `svg-size`   | `28px`  | tamaño CSS                                             |
+
+**`glow-pulse`** (halo pulsante dentro del header):
+
+| Atributo     | Default     |
+|--------------|-------------|
+| `glow-color` | `#ffd700`   |
+
+**`rays`** (rayos divergentes desde el centro):
+
+| Atributo     | Default     |
+|--------------|-------------|
+| `rays-color` | `#ffd700`   |
+| `rays-count` | `8` (2–20)  |
+
+Los efectos `bubbles`, `confetti`, `snow`, `aurora` no requieren atributos extra (usan paleta y velocidad por defecto).
 
 ### Tamaño de PNG flotantes
 
@@ -108,25 +137,75 @@ Tres formas de controlar el tamaño, en orden de prioridad:
 
 ## Efectos disponibles
 
-### `stars` — Estrellas mágicas
+### Canvas-based (comparten un único canvas)
 
-Canvas con estrellas titilantes y chispas que explotan. Réplica del efecto original que estaba inline en línea 932 del `index.html` previo.
+#### `stars` — Estrellas mágicas
 
-- Cantidad de estrellas: 14 en mobile, 24 entre 600–900px, 36 en desktop.
-- Paleta: dorado, cian, rosa, violeta, blanco, naranja.
-- Chispas adicionales cada ~1% de frames con velocidad y caída por gravedad.
+Estrellas titilantes con chispas que explotan periódicamente. Réplica del efecto original que estaba inline en línea 932 del `index.html` previo.
+
+- Cantidad: 14 mobile / 24 tablet / 36 desktop.
+- Paleta multicolor (dorado, cian, rosa, violeta, blanco, naranja).
+- Chispas con caída por gravedad.
 
 ```html
 <section-title text="Avisos" effect="stars"></section-title>
 ```
 
-### `floating-png` — PNG flotando de fondo
+#### `bubbles` — Burbujas
 
-Coloca N copias del PNG en posiciones aleatorias del header, cada una con animación `translate3d` + ligera rotación en bucle.
+Burbujas que suben desde abajo con leve deriva horizontal. Estilo "alegre / lúdico".
 
-- Posición: `left` 0–90 %, `top` 5–75 %.
-- Opacidad: 0.5–1.0 (aleatoria por instancia).
-- Duración de la animación: 3–7 s (aleatoria) con `delay` negativo para que arranquen desfasadas.
+```html
+<section-title text="Día del Niño" effect="bubbles"></section-title>
+```
+
+#### `confetti` — Confeti
+
+Rectángulos coloridos cayendo con rotación. Para festividades, fiestas patronales, celebraciones.
+
+```html
+<section-title text="Fiesta Patronal" effect="confetti"></section-title>
+```
+
+#### `snow` — Nieve
+
+Copos blancos cayendo lento con sway lateral. Ideal para Adviento / Navidad / temática invernal.
+
+```html
+<section-title text="Navidad" effect="snow"></section-title>
+```
+
+#### `rays` — Rayos divergentes
+
+Rayos de luz semitransparentes saliendo del centro y rotando muy lentamente. Estética "gloria", "Espíritu Santo".
+
+```html
+<section-title text="Pentecostés" effect="rays"
+               rays-color="#ffd700" rays-count="10"></section-title>
+```
+
+### DOM-based (no usan canvas)
+
+#### `glow-pulse` — Halo pulsante
+
+Sombra interior dorada que pulsa entre opaca y brillante. Resalta el header sin agregar partículas.
+
+```html
+<section-title text="Solemnidad" effect="glow-pulse"
+               glow-color="#ffd700"></section-title>
+```
+
+#### `aurora` — Gradiente animado
+
+Capa con `linear-gradient` multicolor en `mix-blend-mode: overlay` que se mueve lentamente. Efecto "vivo" sin partículas.
+
+```html
+<section-title text="Anuncio Especial" effect="aurora"></section-title>
+```
+
+#### `floating-png` — PNG flotando
+
+N copias del PNG en posiciones aleatorias del header, con animación `translate3d` + ligera rotación.
 
 ```html
 <section-title text="Misas"
@@ -134,6 +213,19 @@ Coloca N copias del PNG en posiciones aleatorias del header, cada una con animac
                png-src="./img/caliz.png"
                png-count="5"
                png-height="34px"></section-title>
+```
+
+#### `floating-svg` — SVG flotando con formas pre-armadas
+
+Igual que `floating-png` pero usa formas SVG inline. Útil cuando no querés depender de un archivo PNG. Formas disponibles: `cross`, `heart`, `star`, `circle`, `triangle`, `dove`.
+
+```html
+<section-title text="Amor de Dios"
+               effect="floating-svg"
+               svg-shape="heart"
+               svg-color="#ff4081"
+               svg-count="6"
+               svg-size="22px"></section-title>
 ```
 
 ### `none` — Sin efectos
@@ -148,7 +240,7 @@ Solo título sobre el gradiente del `.section-header`. Es el default si no espec
 
 ## Cómo combinar efectos
 
-`effect` acepta valores separados por espacio. Ambos efectos se montan en la misma capa de FX:
+`effect` acepta cualquier cantidad de valores separados por espacio. Todos se montan sobre la misma capa FX:
 
 ```html
 <section-title text="Avisos"
@@ -159,7 +251,27 @@ Solo título sobre el gradiente del `.section-header`. Es el default si no espec
                png-size="40px"></section-title>
 ```
 
-Esto dibuja las estrellas mágicas **y** los megáfonos flotando al mismo tiempo.
+Combos más ambiciosos también funcionan — los canvas-based comparten un único `<canvas>` y un solo loop:
+
+```html
+<section-title text="Pascua"
+               effect="stars confetti glow-pulse aurora floating-svg"
+               svg-shape="cross" svg-color="#ffd700" svg-count="3"></section-title>
+```
+
+### Recomendaciones de combinación
+
+| Tema           | Efectos sugeridos                              |
+|----------------|------------------------------------------------|
+| Navidad        | `snow glow-pulse`                              |
+| Pentecostés    | `rays glow-pulse`                              |
+| Fiesta patronal| `confetti floating-png` (banderines)           |
+| Pascua         | `stars rays`                                   |
+| Día del Niño   | `bubbles confetti`                             |
+| Avisos urgentes| `aurora floating-png` (megáfono)               |
+| Solemnidad     | `glow-pulse rays`                              |
+
+Evitá combinar **más de 3 efectos canvas** al mismo tiempo en un mismo header — se ve sobrecargado.
 
 ---
 
@@ -334,21 +446,34 @@ También se agregó `section-title` a la lista de elementos con `--pub-gap` en `
 ## Referencia rápida
 
 ```text
-┌─────────────────┬──────────────────────────────────────┬────────────┐
-│ Atributo        │ Valores                              │ Default    │
-├─────────────────┼──────────────────────────────────────┼────────────┤
-│ text            │ string                               │ ""         │
-│ icon            │ emoji / material / fa-…              │ ""         │
-│ icon-type       │ auto / emoji / material / fa         │ "auto"     │
-│ effect          │ none / stars / floating-png /        │ "none"     │
-│                 │   combinaciones (space-separated)    │            │
-│ png-src         │ url                                  │ ""         │
-│ png-count       │ 1–20                                 │ 6          │
-│ png-width       │ valor CSS                            │ —          │
-│ png-height      │ valor CSS                            │ —          │
-│ png-size        │ valor CSS (atajo para width)         │ "48px"     │
-│ shadow          │ "" / "lg"                            │ ""         │
-│ extra-style     │ CSS inline                           │ ""         │
-│ id              │ string                               │ ""         │
-└─────────────────┴──────────────────────────────────────┴────────────┘
+┌─────────────────┬──────────────────────────────────────────────────────┐
+│ Atributo        │ Valores / default                                    │
+├─────────────────┼──────────────────────────────────────────────────────┤
+│ text            │ string · ""                                          │
+│ icon            │ emoji / material / fa-… · ""                         │
+│ icon-type       │ auto / emoji / material / fa · "auto"                │
+│ id              │ string · ""                                          │
+│ shadow          │ "" / "lg" · ""                                       │
+│ extra-style     │ CSS inline · ""                                      │
+├─────────────────┼──────────────────────────────────────────────────────┤
+│ effect          │ none / stars / bubbles / confetti / snow / rays /    │
+│                 │ glow-pulse / aurora / floating-png / floating-svg    │
+│                 │  → combinables separando con espacio · "none"        │
+├── floating-png ─┼──────────────────────────────────────────────────────┤
+│ png-src         │ url · ""                                             │
+│ png-count       │ 1–20 · 6                                             │
+│ png-width       │ CSS · —                                              │
+│ png-height      │ CSS · —                                              │
+│ png-size        │ CSS (atajo width) · "48px"                           │
+├── floating-svg ─┼──────────────────────────────────────────────────────┤
+│ svg-shape       │ cross / heart / star / circle / triangle / dove · cross│
+│ svg-color       │ color CSS · "#ffd700"                                │
+│ svg-count       │ 1–20 · 6                                             │
+│ svg-size        │ CSS · "28px"                                         │
+├── glow-pulse ───┼──────────────────────────────────────────────────────┤
+│ glow-color      │ color CSS · "#ffd700"                                │
+├── rays ─────────┼──────────────────────────────────────────────────────┤
+│ rays-color      │ color CSS · "#ffd700"                                │
+│ rays-count      │ 2–20 · 8                                             │
+└─────────────────┴──────────────────────────────────────────────────────┘
 ```
