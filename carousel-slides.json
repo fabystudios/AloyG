@@ -1,4 +1,22 @@
 [
+          {
+    "id": "feria",
+    "position": 5,
+    "hasVideo": false,
+    "link": "#feria",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./feria/feria_desk-ut.jpg"
+ 
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./feria/feria_mob-ut.jpg"
+ 
+    }
+
+  },
               {
     "id": "merienda",
     "position": 1,
@@ -91,7 +109,7 @@
   },
         {
     "id": "sabana",
-    "position": 5,
+    "position": -1,
     "hasVideo": false,
     "link": "#sabana",
    "time": { "desktop": 4, "mobile": 4 },
@@ -135,24 +153,7 @@
       "poster": "./video/cover_sec_mobile.png"
     }
   },
-        {
-    "id": "feria",
-    "position": 6,
-    "hasVideo": false,
-    "link": "#feria",
-    "time": { "desktop": 3, "mobile": 3 },
-    "desktop": {
-      "type": "image",
-      "src": "./feria/feria_desk-ut.jpg"
- 
-    },
-    "mobile": {
-      "type": "image",
-      "src": "./feria/feria_mob-ut.jpg"
- 
-    }
 
-  },
       {
     "id": "feria",
     "position": -1,
