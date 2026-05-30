@@ -29,6 +29,8 @@ class ParroquiaNosotros extends HTMLElement {
           gap: 64px;
           max-width: 1200px;
           margin: 0 auto;
+          padding: 56px 24px;
+          box-sizing: border-box;
         }
 
         /* ── Ala izquierda: gif ── */
@@ -97,7 +99,7 @@ class ParroquiaNosotros extends HTMLElement {
           color: #1a0a3c;
           font-size: 2.9rem;
           font-weight: 800;
-          margin: 0 0 20px 22px;
+          margin: 0 0 20px 26px;
           line-height: 1.12;
           position: relative;
           font-family: 'Montserrat', 'Roboto', sans-serif;
@@ -105,31 +107,42 @@ class ParroquiaNosotros extends HTMLElement {
         h2::before {
           content: '';
           position: absolute;
-          left: -22px;
-          top: 5px;
-          bottom: 5px;
-          width: 5px;
+          left: -26px;
+          top: 4px;
+          bottom: 4px;
+          width: 8px;
           background: linear-gradient(180deg,#7c3aed,#5c17d4);
-          border-radius: 4px;
+          border-radius: 6px;
         }
 
         /* Lead */
         .lead {
-          font-size: 1.32rem;
+          font-size: 1.28rem;
           font-weight: 600;
-          line-height: 1.7;
+          line-height: 1.5;
           color: #374151;
-          margin: 0 0 20px 0;
+          margin: 0 0 22px 0;
           font-family: 'Montserrat', 'Roboto', sans-serif;
         }
 
         /* Descripción */
         .desc {
-          font-size: 1.12rem;
-          line-height: 1.95;
+          font-size: 1.08rem;
+          line-height: 1.65;
           color: #4b5563;
           margin: 0;
-          text-align: justify;
+          text-align: left;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          font-family: 'Montserrat', 'Roboto', sans-serif;
+        }
+        .desc::first-letter {
+          font-size: 3.4rem;
+          font-weight: 800;
+          float: left;
+          line-height: .95;
+          margin: 6px 12px 0 0;
+          color: #5c17d4;
           font-family: 'Montserrat', 'Roboto', sans-serif;
         }
 
@@ -145,18 +158,24 @@ class ParroquiaNosotros extends HTMLElement {
           }
           .wrap {
             flex-direction: column;
-            gap: 28px;
+            gap: 22px;
+            padding: 40px 18px;
           }
           .ala-gif { flex: 0 0 auto; width: 100%; }
-          h2 { font-size: 2rem; margin-left: 12px; }
+          .ala-texto { padding: 0 4px; }
+          h2 {
+            font-size: 1.95rem;
+            margin: 0 0 14px 16px;
+            line-height: 1.18;
+          }
           h2::before {
             display: block;
-            left: -12px;
-            top: 4px;
-            bottom: 4px;
-            width: 3px;
-            border-radius: 3px;
-            opacity: .9;
+            left: -16px;
+            top: 3px;
+            bottom: 3px;
+            width: 6px;
+            border-radius: 4px;
+            opacity: .95;
           }
           .badge {
             align-self: center;
@@ -164,24 +183,59 @@ class ParroquiaNosotros extends HTMLElement {
             letter-spacing: .06em;
             white-space: nowrap;
             padding: 5px 14px;
+            margin-bottom: 14px;
           }
-          .header-img { height: 180px; }
+          .header-img { height: 180px; margin-bottom: 20px; }
+          .lead {
+            font-size: 1.05rem;
+            line-height: 1.45;
+            margin: 0 0 14px 0;
+          }
+          .desc {
+            font-size: .98rem;
+            line-height: 1.55;
+            text-align: left;
+            hyphens: auto;
+            -webkit-hyphens: auto;
+          }
+          .desc::first-letter {
+            font-size: 2.6rem;
+            font-weight: 800;
+            float: left;
+            line-height: 1;
+            margin: 4px 8px 0 0;
+            color: #5c17d4;
+            font-family: 'Montserrat', 'Roboto', sans-serif;
+          }
         }
 
         @media (max-width: 480px) {
-          :host { padding: 32px 16px; }
-          h2 { font-size: 1.7rem; margin-left: 8px; }
+          .wrap { padding: 28px 14px; }
+          .ala-texto { padding: 0 2px; }
+          h2 { font-size: 1.6rem; margin-left: 14px; }
           h2::before {
-            left: -8px;
-            width: 2px;
-            top: 6px;
-            bottom: 6px;
-            border-radius: 2px;
-            opacity: .75;
+            left: -14px;
+            width: 5px;
+            top: 4px;
+            bottom: 4px;
+            border-radius: 3px;
+            opacity: .9;
           }
-          .lead { font-size: 1.1rem; }
-          .desc { font-size: 1rem; }
-          .header-img { height: 140px; }
+          .header-img { height: 140px; margin-bottom: 16px; }
+          .badge { margin-bottom: 12px; }
+          .lead {
+            font-size: .98rem;
+            line-height: 1.4;
+            margin-bottom: 12px;
+          }
+          .desc {
+            font-size: .92rem;
+            line-height: 1.5;
+          }
+          .desc::first-letter {
+            font-size: 2.3rem;
+            margin: 3px 7px 0 0;
+          }
         }
 
         @media (max-width: 380px) {
@@ -189,6 +243,8 @@ class ParroquiaNosotros extends HTMLElement {
             background: #6b35d7;
             opacity: .68;
           }
+          .lead { font-size: .94rem; }
+          .desc { font-size: .9rem; line-height: 1.48; }
         }
       </style>
 
