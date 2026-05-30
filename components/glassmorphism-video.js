@@ -11,9 +11,11 @@ class GlassmorphismVideo extends HTMLElement {
     
     const [color1, color2] = gradientColors.split(',').map(c => c.trim());
     
-    // Generar HTML del poster si existe (igual que "Reflexiones del Evangelio" que funciona)
-    const posterHTML = poster ? `
-      <video
+    // Poster clickeable que aparece sobre el iframe de YouTube hasta el primer click
+    const posterHTML = (poster && videoId) ? `
+      <img
+        src="${poster}"
+        alt="${title}"
         style="
           position: absolute;
           top: 0;
@@ -22,32 +24,11 @@ class GlassmorphismVideo extends HTMLElement {
           height: 100%;
           border-radius: 20px;
           object-fit: cover;
-        "
-        data-src="${videoUrl}"
-        poster="${posterUrl}"
-        autoplay muted loop playsinline></video>
-        // Lazy loading para videos mp4 en glassmorphism-video
-        if (typeof window !== 'undefined' && 'IntersectionObserver' in window) {
-          window.addEventListener('DOMContentLoaded', function() {
-            const videos = document.querySelectorAll('video[data-src]');
-            const loadVideo = (video) => {
-              if (!video.src && video.dataset.src) video.src = video.dataset.src;
-              video.load();
-            };
-            const observer = new IntersectionObserver(entries => {
-              entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                  loadVideo(entry.target);
-                  observer.unobserve(entry.target);
-                }
-              });
-            }, { threshold: 0.2 });
-            videos.forEach(video => observer.observe(video));
-          });
-        }
+          cursor: pointer;
+          z-index: 1;
         "
         onclick="
-          this.style.display='none'; 
+          this.style.display='none';
           this.nextElementSibling.style.display='none';
           var iframe = this.parentElement.querySelector('iframe');
           iframe.src = iframe.src.replace('${videoId}?', '${videoId}?autoplay=1&');
@@ -70,7 +51,7 @@ class GlassmorphismVideo extends HTMLElement {
         z-index: 2;
         transition: all 0.3s ease;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-      " 
+      "
       onclick="this.previousElementSibling.click();"
       onmouseover="this.style.transform='translate(-50%, -50%) scale(1.1)';"
       onmouseout="this.style.transform='translate(-50%, -50%) scale(1)';">
@@ -108,8 +89,10 @@ class GlassmorphismVideo extends HTMLElement {
         ${muted}
         playsinline
         controls
+        preload="none"
+        data-src="${localSrc}"
       >
-        <source src="${localSrc}" type="video/mp4">
+        <!-- source se inyecta dinámicamente cuando el video entra en viewport -->
       </video>` : `
       ${posterHTML}
       <iframe 
@@ -378,6 +361,35 @@ class GlassmorphismVideo extends HTMLElement {
       const video = this.querySelector('video');
       const light = this.querySelector('.dial-light-gm');
       const knob = this.querySelector('.dial-knob-gm');
+
+      // ── Lazy loading: el video solo carga al entrar en viewport ──
+      if (video) {
+        const loadVideo = () => {
+          if (video.dataset.loaded) return;
+          video.dataset.loaded = '1';
+          // Inyecta el <source> recién ahora para gatillar la descarga
+          const source = document.createElement('source');
+          source.src = video.dataset.src;
+          source.type = 'video/mp4';
+          video.appendChild(source);
+          video.load();
+        };
+
+        if ('IntersectionObserver' in window) {
+          const io = new IntersectionObserver((entries, obs) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                loadVideo();
+                obs.unobserve(entry.target);
+              }
+            }
+          }, { rootMargin: '200px 0px', threshold: 0.01 });
+          io.observe(video);
+        } else {
+          // Fallback: navegadores sin IntersectionObserver cargan directo
+          loadVideo();
+        }
+      }
 
       if (dial && video) {
         dial.addEventListener('click', () => {
