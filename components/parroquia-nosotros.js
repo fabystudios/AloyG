@@ -13,10 +13,12 @@ class ParroquiaNosotros extends HTMLElement {
     const leadEl  = this.querySelector('[slot="lead"]');
     const descEl  = this.querySelector('[slot="desc"]');
     const quoteEl = this.querySelector('[slot="quote"]');
+    const outroEl = this.querySelector('[slot="outro"]');
 
     const lead  = leadEl  ? leadEl.innerHTML  : '';
     const body  = descEl  ? descEl.innerHTML  : '';
     const quote = quoteEl ? quoteEl.innerHTML : '';
+    const outro = outroEl ? outroEl.innerHTML : '';
 
     const shadow = this.shadowRoot || this.attachShadow({ mode: 'open' });
     shadow.innerHTML = `
@@ -188,12 +190,12 @@ class ParroquiaNosotros extends HTMLElement {
         }
 
         h2 {
-          font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
-          font-size: 2.3rem;
-          font-weight: 600;
+          font-family: 'Inter', 'DM Sans', system-ui, sans-serif;
+          font-size: 2.4rem;
+          font-weight: 800;
           color: var(--violet-deep);
-          line-height: 1.08;
-          letter-spacing: -0.01em;
+          line-height: 1.05;
+          letter-spacing: -0.025em;
           margin: 0;
         }
 
@@ -207,6 +209,9 @@ class ParroquiaNosotros extends HTMLElement {
           color: #3b3247;
           margin: 0 0 16px 0;
           letter-spacing: 0.005em;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          hyphenate-limit-chars: 7 4 3;
         }
 
         /* ── 5. Separador ornamental ── */
@@ -255,6 +260,20 @@ class ParroquiaNosotros extends HTMLElement {
           margin: 5px 10px -2px 0;
           padding: 0;
           text-shadow: 0 1px 0 rgba(91,33,182,0.06);
+        }
+
+        /* Cierre tras la cita — mismo cuerpo, sin drop cap */
+        .outro {
+          font-family: 'Cormorant Garamond', Georgia, serif;
+          font-size: 1.02rem;
+          font-weight: 400;
+          line-height: 1.7;
+          color: var(--ink);
+          margin: 16px 0 0;
+          text-align: justify;
+          hyphens: auto;
+          -webkit-hyphens: auto;
+          hyphenate-limit-chars: 7 4 3;
         }
 
         /* ── 7. Cita destacada ── */
@@ -326,7 +345,7 @@ class ParroquiaNosotros extends HTMLElement {
           }
           .title-row { gap: 14px; margin-bottom: 20px; }
           .capsule { flex: 0 0 9px; width: 9px; min-height: 48px; }
-          h2 { font-size: 1.78rem; line-height: 1.1; }
+          h2 { font-size: 1.85rem; line-height: 1.05; letter-spacing: -0.025em; }
           .lead {
             font-size: 1rem;
             line-height: 1.55;
@@ -343,6 +362,7 @@ class ParroquiaNosotros extends HTMLElement {
             font-size: 2.9rem;
             margin: 4px 9px -2px 0;
           }
+          .outro { font-size: .96rem; line-height: 1.65; text-align: left; margin-top: 14px; }
           .quote {
             margin: 24px 0 20px;
             padding: 20px 20px 18px 26px;
@@ -373,7 +393,7 @@ class ParroquiaNosotros extends HTMLElement {
           }
           .title-row { gap: 12px; margin-bottom: 16px; }
           .capsule { flex: 0 0 7px; width: 7px; min-height: 42px; }
-          h2 { font-size: 1.5rem; }
+          h2 { font-size: 1.55rem; line-height: 1.05; letter-spacing: -0.025em; }
           .lead {
             font-size: .94rem;
             line-height: 1.5;
@@ -390,6 +410,7 @@ class ParroquiaNosotros extends HTMLElement {
             font-size: 2.5rem;
             margin: 3px 8px -2px 0;
           }
+          .outro { font-size: .9rem; line-height: 1.6; margin-top: 12px; }
           .quote { padding: 16px 16px 14px 20px; }
           .quote::before { font-size: 2.6rem; }
           .quote p { font-size: .94rem; line-height: 1.45; }
@@ -406,7 +427,7 @@ class ParroquiaNosotros extends HTMLElement {
           </aside>
         ` : ''}
 
-        <article class="article" aria-labelledby="parroquia-title">
+        <article class="article" lang="es" aria-labelledby="parroquia-title">
           <figure class="hero">
             <img src="${headerSrc}" alt="${title}" loading="lazy">
           </figure>
@@ -436,6 +457,8 @@ class ParroquiaNosotros extends HTMLElement {
               <p>${quote}</p>
             </blockquote>
           ` : ''}
+
+          ${outro ? `<p class="outro">${outro}</p>` : ''}
         </article>
       </div>
     `;
