@@ -112,6 +112,13 @@ Renderiza un `<section class="section-header">` con un `<h2 class="md3-headline"
 | `rays-color` | `#ffd700`   |
 | `rays-count` | `8` (2–20)  |
 
+**`text-glow`** (resplandor multi-capa sobre el texto y el ícono — replica el look "neón" del AVISOS original):
+
+| Atributo            | Default       | Descripción                                |
+|---------------------|---------------|--------------------------------------------|
+| `text-glow-color`   | `#00e5ff`     | Color principal del halo (24px spread).    |
+| `text-glow-accent`  | `#ffd700`     | Color de la línea inferior 1px (sutil).    |
+
 Los efectos `bubbles`, `confetti`, `snow`, `aurora` no requieren atributos extra (usan paleta y velocidad por defecto).
 
 ### Tamaño de PNG flotantes
@@ -226,6 +233,33 @@ Igual que `floating-png` pero usa formas SVG inline. Útil cuando no querés dep
                svg-color="#ff4081"
                svg-count="6"
                svg-size="22px"></section-title>
+```
+
+### Text effect
+
+#### `text-glow` — Resplandor en el texto
+
+Aplica un `text-shadow` multi-capa al `<h2>` y al ícono. Recupera el look "neón azul" del AVISOS original (depth negro + glow blanco + línea dorada inferior + halo color principal).
+
+```html
+<section-title text="Avisos" icon="campaign"
+               effect="stars text-glow"
+               text-glow-color="#00e5ff"></section-title>
+```
+
+Las 4 capas que aplica al `<h2>`:
+
+```text
+0 2px 8px  rgba(0,0,0,0.65)      ← profundidad
+0 4px 16px rgba(255,255,255,0.5) ← halo blanco
+0 1px 0    {text-glow-accent}    ← línea inferior dorada
+0 0 24px   {text-glow-color}     ← halo color principal
+```
+
+Y al ícono Material/FA:
+```text
+0 0 12px #fff                    ← halo blanco interno
+0 0 24px {text-glow-color}       ← halo color externo
 ```
 
 ### `none` — Sin efectos
@@ -475,5 +509,10 @@ También se agregó `section-title` a la lista de elementos con `--pub-gap` en `
 ├── rays ─────────┼──────────────────────────────────────────────────────┤
 │ rays-color      │ color CSS · "#ffd700"                                │
 │ rays-count      │ 2–20 · 8                                             │
+├── text-glow ────┼──────────────────────────────────────────────────────┤
+│ text-glow-color │ color CSS · "#00e5ff"   (halo principal del texto)   │
+│ text-glow-accent│ color CSS · "#ffd700"   (línea inferior dorada)      │
 └─────────────────┴──────────────────────────────────────────────────────┘
 ```
+
+Catálogo completo de `effect`: `none`, `stars`, `bubbles`, `confetti`, `snow`, `rays`, `glow-pulse`, `aurora`, `floating-png`, `floating-svg`, `text-glow` — todos combinables.
