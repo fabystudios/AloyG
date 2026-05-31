@@ -423,7 +423,7 @@ class ParroquiaNosotros extends HTMLElement {
             <figure class="aside-frame">
               <img src="${gifSrc}" alt="Comunidad Parroquial San Luis Gonzaga" loading="lazy">
             </figure>
-            <figcaption class="aside-caption">Comunidad parroquial · Villa Elisa</figcaption>
+            <figcaption class="aside-caption">Padre párroco Marcelo Cerniato</figcaption>
           </aside>
         ` : ''}
 
