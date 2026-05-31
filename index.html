@@ -122,6 +122,9 @@
   <script src="./components/retro-tv-player.js" defer></script>
   <script src="./components/semana-santa-programa.js" defer></script>
   <script src="./components/parroquia-nosotros.js" defer></script>
+  <script src="./components/video-gold-special-flot.js" defer></script>
+  <script src="./components/video-card-gold.js" defer></script>
+  <script src="./components/video-gold-special.js" defer></script>
   <style>
     @media (max-width: 600px) {
       .rifa-bg-opacity {
@@ -941,7 +944,41 @@
                  png-count="4" png-size="40px"></section-title>
                  <!-- png-src="./img/megafono.png" -->
 
-  <script src="./components/video-card-gold.js"></script>
+
+<video-gold-special
+
+  video-desktop="https://youtu.be/-_u6L2S_8gk"
+  video-mobile="./asantos/31.mp4"
+  poster-mobile="./asantos/st.jpg"
+  ancho-desktop="860px"
+
+  etiqueta="31 de mayo"
+  badge="El Misterio Central de la Fe Cristiana"
+  titulo="La Santísima Trinidad"
+
+  logo="./img/medalla.png"
+  logo-duracion="4">
+</video-gold-special>
+
+<!-- <video-gold-special-flot
+  badge="El aporte de la iglesia a la educación"
+  titulo="Padre Marcelo"
+  video-desktop="./asantos/aporte.mp4"
+  video-mobile="./asantos/aporte.mp4"
+  ancho-desktop="860px"
+  etiqueta="12 de Mayo"
+  flotante1="./img/libro.png"
+  flotante2="./img/crucifijo.png"
+  logo="./img/aloy-marmol-piel.png"
+  logo-duracion="10"
+  poster-mobile="./asantos/padre.jpg"
+  poster-desktop="./asantos/padre.jpg"
+ 
+  fondo="rgba(10, 25, 10, 0.85)" 
+ >
+</video-gold-special-flot> -->
+
+
   <div class="video-card-gold-container">
 
     <video-card-gold
@@ -949,7 +986,7 @@
       titulo="Santa Juana de Arco"
       video="./asantos/30.mp4"
       style="width:auto; flex:0 0 auto;"
-
+      hide-mobile
     ></video-card-gold>
 
 
@@ -958,7 +995,7 @@
       titulo="Santa Juana de Arco"
       video="./asantos/30bis.mp4"
       style="width:auto; flex:0 0 auto;"
-
+      hide-mobile
     ></video-card-gold>
 
     <video-card-gold
@@ -1928,25 +1965,7 @@ for (let i = 0; i < 18; i++) {
 <br> -->
 
 
-<!-- <script src="./components/video-gold-special-flot.js"></script>
 
-<video-gold-special-flot
-  badge="El aporte de la iglesia a la educación"
-  titulo="Padre Marcelo"
-  video-desktop="./asantos/aporte.mp4"
-  video-mobile="./asantos/aporte.mp4"
-  ancho-desktop="860px"
-  etiqueta="12 de Mayo"
-  flotante1="./img/libro.png"
-  flotante2="./img/crucifijo.png"
-  logo="./img/aloy-marmol-piel.png"
-  logo-duracion="10"
-  poster-mobile="./asantos/padre.jpg"
-  poster-desktop="./asantos/padre.jpg"
- 
-  fondo="rgba(10, 25, 10, 0.85)" 
- >
-</video-gold-special-flot> -->
  
 
 
