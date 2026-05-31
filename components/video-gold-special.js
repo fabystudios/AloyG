@@ -186,6 +186,14 @@ _tplSpecial.innerHTML = `
     transition: opacity 1.2s ease;
   }
 
+  @media (max-width: 768px) {
+    .logo-wrap {
+      top: 8px;
+      right: 8px;
+      width: 54px;
+    }
+  }
+
   .logo-wrap.logo-oculto {
     opacity: 0;
     pointer-events: none;
