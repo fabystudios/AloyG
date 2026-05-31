@@ -1401,6 +1401,194 @@
     color: rgba(255, 255, 255, 0.612); text-align: center;
     margin-top: 0.7rem; font-style: italic; flex-shrink: 0;
   }
+
+  /* ═══════════════════════════════════════════════════════════
+     DESKTOP · LANDSCAPE 16:9 · todo dentro del viewport (≥1024)
+     Jerarquía: MISA → Cita → Foto → Fecha → CTA
+     ═══════════════════════════════════════════════════════════ */
+  @media (min-width: 1024px) {
+
+    .scene {
+      min-height: 100vh;
+      padding: 1rem 0;
+      align-items: center;
+    }
+    .layout {
+      width: 95vw;
+      max-width: 1240px;
+    }
+
+    /* Card: alto controlado al viewport, sin scroll */
+    .glass-card {
+      min-height: auto;
+      height: min(calc(100vh - 2rem), 720px);
+      padding: 1.6rem 2.4rem;
+      border-radius: 22px;
+    }
+
+    /* Layout vertical: header · body · footer */
+    .card-content {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 0.9rem;
+      height: 100%;
+      justify-content: stretch;
+    }
+
+    /* ── HEADER (full-width centrado) ── */
+    .flyer-header { text-align: center; }
+    .parish-name {
+      font-size: 0.82rem;
+      letter-spacing: 0.22em;
+      margin-bottom: 0.15rem;
+    }
+    .misa-title  {
+      font-size: 3.6rem;
+      line-height: 1;
+      margin: 0.1rem 0;
+      letter-spacing: 0.12em;
+    }
+    .subtitle    {
+      font-size: 1.2rem;
+      margin-bottom: 0.35rem;
+    }
+    .flyer-header .divider {
+      margin: 0.3rem auto 0;
+      max-width: 55%;
+    }
+
+    /* ── BODY · 40% foto / 60% texto ── */
+    .flyer-body {
+      display: grid;
+      grid-template-columns: 40% 1fr;
+      gap: 2.4rem;
+      align-items: center;
+      min-height: 0;
+    }
+
+    /* Columna izquierda · fotografía */
+    .flyer-photo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+      min-height: 0;
+    }
+    .photo-frame {
+      width: 100%;
+      max-width: 100%;
+      margin: 0;
+      height: 100%;
+      max-height: 410px;
+      border-radius: 12px;
+    }
+    .photo-frame img {
+      width: 100%;
+      height: 100%;
+      max-height: 410px;
+      object-fit: cover;
+    }
+
+    /* Columna derecha · cita + fecha */
+    .flyer-text {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 1.4rem;
+      height: 100%;
+      min-height: 0;
+    }
+
+    /* Cita bíblica · segundo elemento más importante */
+    .verse-block {
+      background: transparent;
+      border: none;
+      border-left: 2px solid rgba(255, 210, 80, 0.45);
+      border-radius: 0;
+      padding: 0.5rem 0 0.5rem 1.8rem;
+      margin: 0;
+    }
+    .verse-block::before {
+      font-size: 4.2rem;
+      left: -0.2rem;
+      top: -1rem;
+      color: rgba(255, 211, 80, 0.28);
+    }
+    .verse-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 2.1rem;
+      line-height: 1.18;
+      text-align: left;
+      padding-top: 0;
+      color: rgba(255, 255, 255, 0.92);
+    }
+    .verse-ref {
+      font-size: 1rem;
+      text-align: center;
+      margin-top: 0.7rem;
+      letter-spacing: 0.18em;
+      color: rgba(255, 210, 80, 0.78);
+    }
+
+    /* Bloque fecha · centrado bajo la cita */
+    .date-block {
+      margin: 0;
+      padding: 1rem 0 0;
+      border-top: 1px solid rgba(255, 210, 80, 0.2);
+      gap: 1.8rem;
+      justify-content: center;
+    }
+    .date-item { text-align: center; }
+    .date-label { font-size: 0.74rem; letter-spacing: 0.18em; }
+    .date-value { font-size: 1.6rem; }
+    .date-sub   { font-size: 0.82rem; }
+    .date-sep   { height: 40px; }
+
+    /* ── FOOTER (full-width) ── */
+    .flyer-footer { text-align: center; }
+    .cta-button {
+      margin: 0 auto;
+      padding: 0.85rem 1.2rem;
+      font-size: 0.82rem;
+      max-width: 560px;
+    }
+    .villa-elisa {
+      margin-top: 0.45rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  /* Refinamiento para 1366×768 (alto limitado) */
+  @media (min-width: 1024px) and (max-height: 820px) {
+    .glass-card {
+      height: min(calc(100vh - 1.5rem), 720px);
+      padding: 1.2rem 2.2rem;
+    }
+    .card-content { gap: 0.7rem; }
+    .parish-name  { font-size: 0.78rem; }
+    .misa-title   { font-size: 3rem; }
+    .subtitle     { font-size: 1.05rem; }
+    .photo-frame, .photo-frame img { max-height: 370px; }
+    .verse-text   { font-size: 1.85rem; }
+    .verse-ref    { font-size: 0.95rem; margin-top: 0.55rem; }
+    .date-value   { font-size: 1.45rem; }
+    .date-block   { padding-top: 0.85rem; gap: 1.5rem; }
+    .flyer-body   { gap: 2rem; }
+    .cta-button   { padding: 0.75rem 1rem; }
+  }
+
+  /* Pantallas anchas (≥1440) · respiración extra */
+  @media (min-width: 1440px) {
+    .layout      { max-width: 1280px; }
+    .misa-title  { font-size: 4rem; }
+    .verse-text  { font-size: 2.3rem; }
+  }
+
+  /* ── MOBILE · cita reducida para mejor equilibrio (≤768px) ── */
+  @media (max-width: 768px) {
+    .verse-text { font-size: 1.18rem; line-height: 1.2; }
+  }
 </style>
 
 <div id="afligidos" class="scene">
@@ -1421,19 +1609,9 @@
       <div class="card-shimmer"></div>
 
       <div class="card-content">
-        <!-- <div>
-          <div class="logo-area">
-            <div class="logo-circle">
-              <div class="logo-ring"></div>
-              <svg width="38" height="38" viewBox="0 0 44 44" fill="none">
-                <circle cx="22" cy="22" r="20" stroke="rgba(255,210,80,0.55)" stroke-width="1"/>
-                <path d="M22 9L22 35" stroke="rgba(255,210,80,0.9)" stroke-width="1.5" stroke-linecap="round"/>
-                <path d="M16 15L28 15" stroke="rgba(255,210,80,0.9)" stroke-width="1.5" stroke-linecap="round"/>
-                <circle cx="22" cy="28" r="3.5" stroke="rgba(255,210,80,0.65)" stroke-width="1"/>
-              </svg>
-            </div>
-          </div> -->
 
+        <!-- ── HEADER (full-width centrado) ── -->
+        <div class="flyer-header">
           <p class="parish-name">Parroquia San Luis Gonzaga · Villa Elisa</p>
           <h1 class="misa-title">MISA</h1>
           <p class="subtitle">Para orar por enfermos y afligidos</p>
@@ -1443,42 +1621,53 @@
             <span class="divider-star">✦</span>
             <div class="divider-line"></div>
           </div>
-
-          <div class="photo-frame">
-            <img src="/img-cards/misa-foto.jpg" alt="Misa de sanación" onerror="this.parentElement.style.display='none'"/>
-            <div class="photo-overlay"></div>
-          </div>
-
-          <div class="verse-block">
-            <p class="verse-text">Vengan a mí todos los que están cansados y agobiados, y yo los aliviaré.</p>
-            <p class="verse-ref">— Mateo 11, 28</p>
-          </div>
         </div>
 
-        <div>
-          <div class="date-block">
-            <div class="date-item">
-              <div class="date-label">Día</div>
-              <div class="date-value">07</div>
-              <div class="date-sub">Domingo</div>
-            </div>
-            <div class="date-sep"></div>
-            <div class="date-item">
-              <div class="date-label">Mes</div>
-              <div class="date-value">Jun</div>
-              <div class="date-sub">2026</div>
-            </div>
-            <div class="date-sep"></div>
-            <div class="date-item">
-              <div class="date-label">Hora</div>
-              <div class="date-value">19hs</div>
-              <div class="date-sub">En punto</div>
+        <!-- ── BODY (2 columnas en desktop · stack en mobile) ── -->
+        <div class="flyer-body">
+
+          <div class="flyer-photo">
+            <div class="photo-frame">
+              <img src="/img-cards/misa-foto.jpg" alt="Misa de sanación" onerror="this.parentElement.style.display='none'"/>
+              <div class="photo-overlay"></div>
             </div>
           </div>
 
+          <div class="flyer-text">
+            <div class="verse-block">
+              <p class="verse-text">Vengan a mí todos los que están cansados y agobiados, y yo los aliviaré.</p>
+              <p class="verse-ref">— Mateo 11, 28</p>
+            </div>
+
+            <div class="date-block">
+              <div class="date-item">
+                <div class="date-label">Día</div>
+                <div class="date-value">07</div>
+                <div class="date-sub">Domingo</div>
+              </div>
+              <div class="date-sep"></div>
+              <div class="date-item">
+                <div class="date-label">Mes</div>
+                <div class="date-value">Jun</div>
+                <div class="date-sub">2026</div>
+              </div>
+              <div class="date-sep"></div>
+              <div class="date-item">
+                <div class="date-label">Hora</div>
+                <div class="date-value">19hs</div>
+                <div class="date-sub">En punto</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ── FOOTER (full-width) ── -->
+        <div class="flyer-footer">
           <div class="cta-button">✦ Estás invitado · Ven a sanar ✦</div>
           <p class="villa-elisa">Parroquia San Luis Gonzaga — Villa Elisa, La Plata</p>
         </div>
+
       </div>
     </div>
 
