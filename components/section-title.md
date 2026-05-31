@@ -73,6 +73,7 @@ Renderiza un `<section class="section-header">` con un `<h2 class="md3-headline"
 | `text`      | string                              | `""`    | Texto principal del título.                                                  |
 | `icon`      | string                              | `""`    | Ícono que precede al texto. Emoji, nombre de Material Icon o `fa-...`.       |
 | `icon-type` | `"auto"`, `"emoji"`, `"material"`, `"fa"` | `"auto"` | Cómo interpretar `icon`. En `"auto"` el componente lo detecta heurísticamente. |
+| `icon-mobile` | `"on"`, `"off"`                   | `"on"`  | Si vale `"off"`, oculta el ícono solo en mobile (`max-width: 768px`). Útil cuando el título es largo y el espacio se complica. |
 | `id`        | string                              | `""`    | Se aplica al `<section>` interno para anclas (`#Anuncios`, etc.).            |
 
 **Detección automática de `icon-type`:**
@@ -486,6 +487,7 @@ También se agregó `section-title` a la lista de elementos con `--pub-gap` en `
 │ text            │ string · ""                                          │
 │ icon            │ emoji / material / fa-… · ""                         │
 │ icon-type       │ auto / emoji / material / fa · "auto"                │
+│ icon-mobile     │ on / off · "on"     (off → oculta ícono <768px)      │
 │ id              │ string · ""                                          │
 │ shadow          │ "" / "lg" · ""                                       │
 │ extra-style     │ CSS inline · ""                                      │

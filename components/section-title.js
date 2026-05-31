@@ -124,6 +124,8 @@
           font-size: 1.2rem !important;
           letter-spacing: 0.3px !important;
         }
+        /* icon-mobile="off" → oculta el ícono cuando viewport ≤ 768px */
+        section-title .st-icon-hide-mobile { display: none !important; }
       }
 
       @keyframes st-png-float {
@@ -174,7 +176,7 @@
 
   class SectionTitle extends HTMLElement {
     static get observedAttributes() {
-      return ['text', 'icon', 'icon-type', 'effect',
+      return ['text', 'icon', 'icon-type', 'icon-mobile', 'effect',
               'png-src', 'png-count', 'png-size', 'png-width', 'png-height',
               'svg-shape', 'svg-color', 'svg-count', 'svg-size',
               'glow-color', 'rays-color', 'rays-count',
@@ -255,10 +257,14 @@
         h2.dataset.textGlowAccent = accentColor;
       }
 
+      const iconMobile  = this._get('icon-mobile', 'on');
+      const hideOnMobile = iconMobile === 'off';
+
       if (icon) {
         if (iconType === 'material') {
           const i = document.createElement('i');
           i.className = 'material-icons align-middle';
+          if (hideOnMobile) i.classList.add('st-icon-hide-mobile');
           i.style.cssText = 'font-size: 1.4em; vertical-align: middle; margin-right: 0.3em;';
           i.textContent = icon;
           if (hasEffect('text-glow')) {
@@ -269,6 +275,7 @@
         } else if (iconType === 'fa') {
           const i = document.createElement('i');
           i.className = icon.startsWith('fa-') ? `fas ${icon}` : icon;
+          if (hideOnMobile) i.classList.add('st-icon-hide-mobile');
           i.style.cssText = 'margin-right: 0.4em;';
           if (hasEffect('text-glow')) {
             i.style.color = '#fff';
@@ -276,7 +283,15 @@
           }
           h2.appendChild(i);
         } else {
-          h2.appendChild(document.createTextNode(icon + ' '));
+          // emoji o texto: envolvemos en span para poder ocultarlo en mobile
+          if (hideOnMobile) {
+            const sp = document.createElement('span');
+            sp.className = 'st-icon-hide-mobile';
+            sp.textContent = icon + ' ';
+            h2.appendChild(sp);
+          } else {
+            h2.appendChild(document.createTextNode(icon + ' '));
+          }
         }
       }
       h2.appendChild(document.createTextNode(text));
