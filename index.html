@@ -1328,6 +1328,28 @@
     text-align: center; margin-bottom: 0.8rem;
   }
 
+  /* Logo en la cabecera (mobile · apilado arriba del texto) */
+  .flyer-header-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+  }
+  .flyer-title-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+  }
+  .header-logo {
+    height: 48px;
+    width: auto;
+    display: block;
+    filter: drop-shadow(0 4px 14px rgba(255,210,80,0.28));
+  }
+  .header-medal { display: none; }
+
   .divider { display: flex; align-items: center; gap: 0.7rem; margin: 0.6rem 0; }
   .divider-line { flex: 1; height: 1px; background: linear-gradient(to right, transparent, rgba(255,210,80,0.38), transparent); }
   .divider-star { color: rgba(255,210,80,0.837); font-size: 0.82rem; }
@@ -1441,6 +1463,20 @@
 
     /* ── HEADER (full-width centrado) ── */
     .flyer-header { text-align: center; }
+    .flyer-title-row {
+      gap: 1.2rem;
+    }
+    .header-logo {
+      height: 110px;
+      flex-shrink: 0;
+    }
+    .header-medal {
+      display: block;
+      height: 110px;
+      width: auto;
+      flex-shrink: 0;
+      filter: drop-shadow(0 4px 14px rgba(255,210,80,0.28));
+    }
     .parish-name {
       font-size: 0.82rem;
       letter-spacing: 0.22em;
@@ -1570,6 +1606,7 @@
       padding: 1.2rem 2.2rem;
     }
     .layout > .glass-card > .card-content { gap: 0.7rem; }
+    .header-logo, .header-medal { height: 90px; }
     .parish-name  { font-size: 0.78rem; }
     .misa-title   { font-size: 3rem; }
     .subtitle     { font-size: 1.35rem; }
@@ -1616,9 +1653,15 @@
 
         <!-- ── HEADER (full-width centrado) ── -->
         <div class="flyer-header">
-          <p class="parish-name">Parroquia San Luis Gonzaga · Villa Elisa</p>
-          <h1 class="misa-title">MISA</h1>
-          <p class="subtitle">Para orar por enfermos y afligidos</p>
+          <div class="flyer-header-main">
+            <p class="parish-name">Parroquia San Luis Gonzaga · Villa Elisa</p>
+            <div class="flyer-title-row">
+              <img class="header-logo" src="./img/misa.png" alt="" onerror="this.style.display='none'"/>
+              <h1 class="misa-title">MISA</h1>
+              <img class="header-medal" src="./img/medalla3.png" alt="" onerror="this.style.display='none'"/>
+            </div>
+            <p class="subtitle">Para orar por enfermos y afligidos</p>
+          </div>
 
           <div class="divider">
             <div class="divider-line"></div>
