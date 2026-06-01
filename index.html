@@ -945,7 +945,7 @@
                  <!-- png-src="./img/megafono.png" -->
 
 
-<video-gold-special
+<!-- <video-gold-special
 
   video-desktop="https://youtu.be/Eqd1dYq25hc"
   video-mobile="./asantos/31.mp4"
@@ -958,9 +958,9 @@
 
   logo="./img/medalla.png"
   logo-duracion="4">
-</video-gold-special>
+</video-gold-special> -->
 
-<video-gold-special
+<!-- <video-gold-special
 
   video-desktop="https://youtu.be/-_u6L2S_8gk"
   video-mobile="./asantos/st.mp4"
@@ -973,7 +973,7 @@
 
   logo="./img/medalla.png"
   logo-duracion="4">
-</video-gold-special>
+</video-gold-special> -->
 
 <!-- <video-gold-special-flot
   badge="El aporte de la iglesia a la educación"
@@ -994,7 +994,24 @@
 </video-gold-special-flot> -->
 
 <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
-  <!-- <div class="video-card-gold-container">
+  <div class="video-card-gold-container">
+
+    <video-card-gold
+      badge="31 de Mayo"
+      titulo="La Visitación"
+      video="./asantos/31.mp4"
+      style="width:auto; flex:0 0 auto;"
+      hide-mobile
+    ></video-card-gold>
+
+
+    <video-card-gold
+      badge="Domingo siguiente a Pentecostés"
+      titulo="La Santísima Trinidad"
+      video="./asantos/st.mp4"
+      style="width:auto; flex:0 0 auto;"
+      hide-mobile
+    ></video-card-gold>
 
     <video-card-gold
       badge="30 de Mayo"
@@ -1013,25 +1030,8 @@
       hide-mobile
     ></video-card-gold>
 
-    <video-card-gold
-      badge="29 de Mayo"
-      titulo="San Pablo VI"
-      video="./asantos/29.mp4"
-      style="width:auto; flex:0 0 auto;"
-      hide-mobile
-    ></video-card-gold>
 
-
-    <video-card-gold
-      badge="28 de Mayo"
-      titulo="San Germán de París"
-      video="./asantos/28.mp4"
-      style="width:auto; flex:0 0 auto;"
-      hide-mobile
-    ></video-card-gold>
-
-
-  </div> -->
+  </div>
 <!-- ═══════ Fiestas Patronales 2026 — San Luis Gonzaga ═══════ -->
 <script src="./components/fiesta-patronal.js"></script>
 <fiesta-patronal
@@ -1418,16 +1418,18 @@
       max-width: 1240px;
     }
 
-    /* Card: alto controlado al viewport, sin scroll */
-    .glass-card {
+    /* Card: alto controlado al viewport, sin scroll
+       (scopeado a .layout para no afectar otras .glass-card de la página) */
+    .layout > .glass-card {
       min-height: auto;
       height: min(calc(100vh - 2rem), 720px);
       padding: 1.6rem 2.4rem;
       border-radius: 22px;
     }
 
-    /* Layout vertical: header · body · footer */
-    .card-content {
+    /* Layout vertical: header · body · footer
+       (scopeado para no afectar .card-content de .actividad-card) */
+    .layout > .glass-card > .card-content {
       display: grid;
       grid-template-rows: auto 1fr auto;
       gap: 0.9rem;
@@ -1449,8 +1451,8 @@
       letter-spacing: 0.12em;
     }
     .subtitle    {
-      font-size: 1.2rem;
-      margin-bottom: 0.35rem;
+      font-size: 1.55rem;
+      margin-bottom: 0.45rem;
     }
     .flyer-header .divider {
       margin: 0.3rem auto 0;
@@ -1561,14 +1563,14 @@
 
   /* Refinamiento para 1366×768 (alto limitado) */
   @media (min-width: 1024px) and (max-height: 820px) {
-    .glass-card {
+    .layout > .glass-card {
       height: min(calc(100vh - 1.5rem), 720px);
       padding: 1.2rem 2.2rem;
     }
-    .card-content { gap: 0.7rem; }
+    .layout > .glass-card > .card-content { gap: 0.7rem; }
     .parish-name  { font-size: 0.78rem; }
     .misa-title   { font-size: 3rem; }
-    .subtitle     { font-size: 1.05rem; }
+    .subtitle     { font-size: 1.35rem; }
     .photo-frame, .photo-frame img { max-height: 370px; }
     .verse-text   { font-size: 1.85rem; }
     .verse-ref    { font-size: 0.95rem; margin-top: 0.55rem; }
