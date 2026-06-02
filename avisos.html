@@ -159,6 +159,19 @@
   </div>
 
   <style>
+    /* Permitir que Gio salga del titular cuando flota hacia arriba.
+       Anulamos el overflow:hidden del .section-header solo para #Avisos,
+       y usamos clip-path para que el shine en hover siga contenido horizontalmente. */
+    #Avisos {
+      overflow: visible !important;
+      clip-path: inset(-80px 0 -80px 0);
+    }
+    #Avisos .zig-wrap {
+      position: relative;
+      z-index: 3;
+      overflow: visible;
+    }
+
     .zig-target {
       will-change: transform;
       transform-origin: 50% 90%;  /* pivote en la "panza" para que parezca colgar y flotar */

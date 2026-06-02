@@ -106,7 +106,7 @@ class CorkMuralCarousel extends HTMLElement {
           border-radius:2px 2px 4px 4px;
           padding:20px 22px 16px;
           max-width:88%;
-          width:100%;
+          width:fit-content;
           box-shadow:
             2px 6px 18px rgba(0,0,0,0.38),
             -1px -1px 0 rgba(255,255,255,0.9) inset,
@@ -150,7 +150,7 @@ class CorkMuralCarousel extends HTMLElement {
     if (!document.getElementById('cmc-desc-style')) {
       const s = document.createElement('style');
       s.id = 'cmc-desc-style';
-      s.textContent = '.cmc-nav-btn{position:relative;overflow:hidden;width:50px;height:50px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(145deg,#ef5350,#c62828,#8e0000);color:#fff;font-size:2.2rem;line-height:1;box-shadow:0 6px 0 #5a0000,0 10px 22px rgba(183,28,28,0.55),inset 0 2px 0 rgba(255,255,255,0.45),inset 0 -2px 0 rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;padding:0;transform:translateY(0);transition:box-shadow 0.14s ease,transform 0.14s ease,background 0.18s ease;}.cmc-nav-btn::after{content:"";position:absolute;top:4px;left:7px;width:56%;height:36%;background:radial-gradient(ellipse at 35% 35%,rgba(255,255,255,0.62) 0%,rgba(255,255,255,0.18) 45%,transparent 70%);border-radius:50%;pointer-events:none;}.cmc-nav-btn:hover{background:linear-gradient(145deg,#ff6b68,#ef5350,#b71c1c);box-shadow:0 8px 0 #5a0000,0 14px 28px rgba(198,40,40,0.65),inset 0 2px 0 rgba(255,255,255,0.52),inset 0 -2px 0 rgba(0,0,0,0.3);transform:translateY(-3px);}.cmc-nav-btn:active{background:linear-gradient(145deg,#b71c1c,#8e0000);box-shadow:0 2px 0 #5a0000,0 4px 8px rgba(183,28,28,0.4),inset 0 3px 6px rgba(0,0,0,0.28),inset 0 -1px 0 rgba(255,255,255,0.1);transform:translateY(4px);}.cmc-desc{line-height:1.2 !important;}@media(min-width:768px){.cmc-subtitle{font-size:2.0rem !important;line-height:1.05 !important;margin-bottom:5px !important;}.cmc-desc{font-size:1.3rem !important;line-height:1.15 !important;}.cmc-paper{padding:12px 18px 10px !important;}.cmc-main-title{margin-bottom:8px !important;}.cmc-slide{flex:0 0 33.333% !important;}.cmc-wrapper{max-width:1200px !important;}}@media(max-width:767px){.cmc-wrapper{width:95vw !important;max-width:95vw !important;padding:0 !important;}.cmc-photo-frame{padding:4px 4px 28px 4px !important;}.cmc-slide{flex:0 0 88% !important;}.cmc-paper{padding:10px 12px 10px !important;margin:0 6px 10px !important;}.cmc-subtitle{font-size:1.0rem !important;}.cmc-desc{font-size:0.8rem !important;line-height:1.35 !important;}.cmc-main-title{font-size:1.05rem !important;}.cmc-modal-wrap{padding:0 !important;}.cmc-modal-img{max-width:100% !important;max-height:100dvh !important;padding:0 !important;background:transparent !important;border-radius:0 !important;box-shadow:none !important;}}'
+      s.textContent = '.cmc-nav-btn{position:relative;overflow:hidden;width:50px;height:50px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(145deg,#ef5350,#c62828,#8e0000);color:#fff;font-size:2.2rem;line-height:1;box-shadow:0 6px 0 #5a0000,0 10px 22px rgba(183,28,28,0.55),inset 0 2px 0 rgba(255,255,255,0.45),inset 0 -2px 0 rgba(0,0,0,0.3);display:flex;align-items:center;justify-content:center;padding:0;transform:translateY(0);transition:box-shadow 0.14s ease,transform 0.14s ease,background 0.18s ease;}.cmc-nav-btn::after{content:"";position:absolute;top:4px;left:7px;width:56%;height:36%;background:radial-gradient(ellipse at 35% 35%,rgba(255,255,255,0.62) 0%,rgba(255,255,255,0.18) 45%,transparent 70%);border-radius:50%;pointer-events:none;}.cmc-nav-btn:hover{background:linear-gradient(145deg,#ff6b68,#ef5350,#b71c1c);box-shadow:0 8px 0 #5a0000,0 14px 28px rgba(198,40,40,0.65),inset 0 2px 0 rgba(255,255,255,0.52),inset 0 -2px 0 rgba(0,0,0,0.3);transform:translateY(-3px);}.cmc-nav-btn:active{background:linear-gradient(145deg,#b71c1c,#8e0000);box-shadow:0 2px 0 #5a0000,0 4px 8px rgba(183,28,28,0.4),inset 0 3px 6px rgba(0,0,0,0.28),inset 0 -1px 0 rgba(255,255,255,0.1);transform:translateY(4px);}.cmc-desc{line-height:1.2 !important;}.cmc-zoom-hint{position:relative;display:flex;align-items:center;justify-content:center;gap:10px;margin:2px 0 8px;z-index:4;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;transition:transform 0.12s ease;}.cmc-zoom-hint:hover .cmc-lupa{filter:drop-shadow(0 6px 12px rgba(255,200,0,0.7));}.cmc-zoom-hint:active{transform:scale(0.94);}.cmc-lupa{width:58px;height:auto;display:block;filter:drop-shadow(0 5px 8px rgba(0,0,0,0.45));animation:cmc-lupa-search 2.6s ease-in-out infinite;transform-origin:65% 65%;will-change:transform;}.cmc-hint-bubble{position:relative;background:linear-gradient(170deg,#fffef5 0%,#fef9d7 100%);color:#c62828;font-family:\'Lilita One\',Georgia,sans-serif;font-size:0.95rem;letter-spacing:0.5px;padding:6px 14px;border-radius:18px;box-shadow:0 4px 12px rgba(0,0,0,0.35),inset 0 1px 0 rgba(255,255,255,0.7);animation:cmc-bubble-pulse 1.8s ease-in-out infinite;text-shadow:1px 1px 0 #ffe000;border:1px solid rgba(255,200,0,0.4);}.cmc-hint-bubble::before{content:"";position:absolute;left:-9px;top:50%;transform:translateY(-50%);width:0;height:0;border:8px solid transparent;border-right-color:#fffef5;filter:drop-shadow(-1px 0 0 rgba(255,200,0,0.4));}@keyframes cmc-lupa-search{0%,100%{transform:translate(0,0) rotate(-10deg);}25%{transform:translate(9px,-5px) rotate(7deg);}50%{transform:translate(-2px,-9px) rotate(-5deg);}75%{transform:translate(-9px,-4px) rotate(9deg);}}@keyframes cmc-bubble-pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.08);}}@media(min-width:768px){.cmc-subtitle{font-size:2.0rem !important;line-height:1.05 !important;margin-bottom:5px !important;}.cmc-desc{font-size:1.3rem !important;line-height:1.15 !important;}.cmc-paper{padding:12px 18px 10px !important;}.cmc-main-title{margin-bottom:8px !important;}.cmc-slide{flex:0 0 33.333% !important;}.cmc-wrapper{max-width:1200px !important;}.cmc-lupa{width:68px;}.cmc-hint-bubble{font-size:1.1rem;padding:7px 16px;}}@media(max-width:767px){.cmc-wrapper{width:95vw !important;max-width:95vw !important;padding:0 !important;}.cmc-photo-frame{padding:4px 4px 28px 4px !important;}.cmc-slide{flex:0 0 88% !important;}.cmc-paper{padding:10px 12px 10px !important;margin:0 6px 10px !important;}.cmc-subtitle{font-size:1.0rem !important;}.cmc-desc{font-size:0.8rem !important;line-height:1.35 !important;}.cmc-main-title{font-size:1.05rem !important;}.cmc-modal-wrap{padding:0 !important;}.cmc-modal-img{max-width:100% !important;max-height:100dvh !important;padding:0 !important;background:transparent !important;border-radius:0 !important;box-shadow:none !important;}.cmc-lupa{width:50px;}.cmc-hint-bubble{font-size:0.85rem;padding:5px 11px;}}@media(prefers-reduced-motion:reduce){.cmc-lupa,.cmc-hint-bubble{animation:none;}}'
       document.head.appendChild(s);
     }
     this.innerHTML = `
@@ -193,6 +193,12 @@ class CorkMuralCarousel extends HTMLElement {
 
             <!-- Papel pinchado (subtítulo + descripción) -->
             ${paperHTML}
+
+            <!-- Mascota lupa: indica que las fotos se pueden ampliar -->
+            <div id="${uid}-hint" class="cmc-zoom-hint" role="button" tabindex="0" aria-label="Ampliar foto actual">
+              <img src="./img/lupa.png" alt="" class="cmc-lupa" loading="lazy">
+              <span class="cmc-hint-bubble">¡Tocá para agrandar!</span>
+            </div>
 
             <!-- Carrusel -->
             <div id="${uid}-outer"
@@ -440,6 +446,20 @@ class CorkMuralCarousel extends HTMLElement {
       const idx = Array.from(track.querySelectorAll('[data-cmc-open]')).indexOf(card);
       openModal(idx >= 0 ? idx : 0);
     }, { passive: true });
+
+    // Hint con lupa: abre el modal en el slide actual
+    const hint = document.getElementById(uid + '-hint');
+    if (hint) {
+      const openCurrent = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        openModal(current);
+      };
+      hint.addEventListener('click', openCurrent);
+      hint.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') openCurrent(e);
+      });
+    }
 
     // Botones modal
     modalPrev.addEventListener('click', e => { e.stopPropagation(); if (modalIndex > 0) showModalImg(modalIndex - 1, -1); });
