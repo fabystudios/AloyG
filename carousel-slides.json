@@ -1,4 +1,22 @@
 [
+            {
+    "id": "jueves",
+    "position": 6,
+    "hasVideo": false,
+    "link": "#adoracion",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/jueves_desk.png"
+ 
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/jueves_mob.png"
+ 
+    }
+
+  },
           {
     "id": "feria",
     "position": 5,
