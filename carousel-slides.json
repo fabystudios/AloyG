@@ -19,7 +19,7 @@
   },
               {
     "id": "merienda",
-    "position": 1,
+    "position": 3,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -33,7 +33,7 @@
     }
   },
               {
-    "id": "6jun",
+    "id": "7jun",
     "position": 2,
     "hasVideo": false,
     "link": "#aloy",
@@ -49,7 +49,7 @@
   },
             {
     "id": "aloy",
-    "position": 3,
+    "position": 4,
     "hasVideo": false,
     "link": "#aloy",
     "time": { "desktop": 3, "mobile": 3 },
@@ -94,7 +94,7 @@
   },
           {
     "id": "afligidos",
-    "position": 4,
+    "position": 1,
     "hasVideo": false,
     "link": "#afligidos",
     "time": { "desktop": 3, "mobile": 3 },
