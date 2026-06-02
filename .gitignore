@@ -12,7 +12,6 @@ serviceAccountKey.json
 .env.development
 .env.production
 .env.*.local
-
 # Configuraciones sensibles
 config/secrets.js
 config/credentials.json
@@ -110,6 +109,25 @@ tmp/
 temp/
 *.tmp
 *.temp
+*.orig
+*~$*
+~$*
+.~lock.*
+
+
+# ============================================
+# CLAUDE CODE / AGENTES IA
+# ============================================
+# Toda la carpeta de configuración local de Claude Code (settings, launch,
+# tareas en background, snapshots, etc.). Nunca se sube al repo.
+.claude/
+.claude
+.claude-*
+.claudeignore
+# Otras IDEs/agentes IA con configuración local
+.cursor/
+.aider*
+.copilot/
 
 
 # ============================================
