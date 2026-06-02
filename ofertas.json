@@ -1,4 +1,10 @@
 [
+      {
+    "nombre": "Trabajos de Pintura",
+    "thumb": "../actividades/cartelera/pint_mob.jpg",
+    "flyer": "../actividades/cartelera/pint_mob.jpg",
+    "whatsapp": "+5492216014485"
+  },
     {
     "nombre": "Productos Artesanales",
     "thumb": "./cartelera/img/clarisas.jpg",
