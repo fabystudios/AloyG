@@ -2080,7 +2080,18 @@
         <!-- ── FOOTER (full-width) ── -->
         <div class="flyer-footer">
           <div class="cta-button">✦ Estás invitado · Ven a sanar ✦</div>
-          <p class="villa-elisa">Parroquia San Luis Gonzaga — Villa Elisa, La Plata</p>
+          <style>
+            .villa-elisa .mobile { display: none; }
+            .villa-elisa .desktop { display: inline; }
+            @media (max-width: 768px) {
+              .villa-elisa .mobile { display: inline; }
+              .villa-elisa .desktop { display: none; }
+            }
+          </style>
+          <p class="villa-elisa">
+            <span class="desktop">Parroquia San Luis Gonzaga — Villa Elisa, La Plata</span>
+            <span class="mobile">Parroquia San Luis Gonzaga <br>— Villa Elisa, La Plata —</span>
+          </p>
         </div>
 
       </div>
