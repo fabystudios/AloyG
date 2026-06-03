@@ -3388,7 +3388,8 @@ for (let i = 0; i < 18; i++) {
           <button class="ado-play-btn" aria-label="Reproducir video" id="adoracionPlayBtn">
             <span class="material-icons">play_circle_filled</span>
           </button>
-          <video id="adoracionVideo" controls playsinline preload="none" poster="./img/ado_mob.jpg"
+          <!-- poster="./img/ado_mob.jpg" -->
+          <video id="adoracionVideo" controls playsinline preload="none" poster="./img/jueves.jpg"
             onended="try{this.currentTime=0;this.pause();document.getElementById('adoracionPlayBtn')?.classList.remove('ado-hidden');}catch(e){}"
             style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;" data-src="./video/ado.mp4">
             <source data-src="./video/ado.mp4" type="video/mp4">
