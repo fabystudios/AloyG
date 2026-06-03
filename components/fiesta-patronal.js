@@ -58,7 +58,10 @@ class FiestaPatronal extends HTMLElement {
               </div>
             </div>
             <p class="fpat-lema">Vivamos juntos una noche de fe,<br>encuentro y fraternidad</p>
-            <p class="fpat-date"><span>Sábado</span> 20/JUN</p>
+            <div class="fpat-pills">
+              <p class="fpat-date"><span>Sábado</span> 20/JUN</p>
+              <p class="fpat-free">Entrada Libre y Gratuita</p>
+            </div>
           </header>
 
           <div class="fpat-events">
@@ -78,36 +81,39 @@ class FiestaPatronal extends HTMLElement {
                 <p class="fpat-place">📍 en el Colegio Parroquial</p>
               </div>
             </div>
+            <div class="fpat-event fpat-event--cantina">
+              <span class="fpat-badge" aria-hidden="true">🍲</span>
+              <div class="fpat-event-body">
+                <h3>Servicio de Cantina</h3>
+                <ul class="fpat-cantina-list">
+                  <li><span aria-hidden="true">🍲</span> Guiso de lentejas</li>
+                  <li><span aria-hidden="true">🌭</span> Panchos para los chicos</li>
+                  <li><span aria-hidden="true">🍷</span> Gaseosas y vino</li>
+                </ul>
+              </div>
+            </div>
           </div>
 
-          <div class="fpat-cantina">
-            <div class="fpat-cantina-info">
-              <h3 class="fpat-cantina-title">Servicio de Cantina</h3>
-              <ul>
-                <li><span aria-hidden="true">🍲</span> Guiso de lentejas</li>
-                <li><span aria-hidden="true">🌭</span> Panchos para los chicos</li>
-                <li><span aria-hidden="true">🍷</span> Gaseosas y vino</li>
-              </ul>
+          <div class="fpat-bottom">
+            <div class="fpat-locations">
+              <div class="fpat-loc">
+                <span aria-hidden="true">📍</span>
+                <div><strong>Colegio</strong><br>Calle 52 y 7</div>
+              </div>
+              <div class="fpat-loc">
+                <span aria-hidden="true">📍</span>
+                <div><strong>Templo</strong><br>8 entre 52 y 53</div>
+              </div>
             </div>
+
+            <footer class="fpat-foot">
+              <p class="fpat-invite">¡Los esperamos para compartir esta gran celebración!</p>
+              <p class="fpat-saintname">San Luis Gonzaga</p>
+              <p class="fpat-town">Villa Elisa</p>
+            </footer>
+
             <img class="fpat-cantina-img" src="${this.cantinaSrc}" alt="Servicio de cantina" draggable="false">
           </div>
-
-          <div class="fpat-locations">
-            <div class="fpat-loc">
-              <span aria-hidden="true">📍</span>
-              <div><strong>Colegio</strong><br>Calle 52 y 7</div>
-            </div>
-            <div class="fpat-loc">
-              <span aria-hidden="true">📍</span>
-              <div><strong>Templo</strong><br>8 entre 52 y 53</div>
-            </div>
-          </div>
-
-          <footer class="fpat-foot">
-            <p class="fpat-invite">¡Los esperamos para compartir esta gran celebración!</p>
-            <p class="fpat-saintname">San Luis Gonzaga</p>
-            <p class="fpat-town">Villa Elisa</p>
-          </footer>
 
         </div>
 
@@ -219,10 +225,10 @@ class FiestaPatronal extends HTMLElement {
 
       .fpat-card {
         position: relative;
-        width: 92%;
-        max-width: 960px;
-        margin: 2rem auto;
-        padding: 2.4rem 2rem 2.2rem;
+        width: 94%;
+        max-width: 1260px;
+        margin: 1.2rem auto;
+        padding: 1.6rem 1.8rem 1.4rem;
         border-radius: 30px;
         overflow: hidden;
         isolation: isolate;
@@ -304,7 +310,7 @@ class FiestaPatronal extends HTMLElement {
         animation: fpat-flag-sway 3.2s ease-in-out infinite alternate;
         animation-delay: calc(var(--n) * -0.18s);
       }
-      .fpat-flag--bordo { background: linear-gradient(160deg, #8a1a24, #5c0f16); }
+      .fpat-flag--bordo { background: linear-gradient(160deg, #e64254, #a02030); box-shadow: inset 0 -6px 8px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.18); }
       .fpat-flag--oro   { background: linear-gradient(160deg, var(--oro-claro), var(--oro)); }
       @keyframes fpat-flag-sway {
         0%   { transform: rotate(-5deg) translateY(0); }
@@ -314,16 +320,18 @@ class FiestaPatronal extends HTMLElement {
       /* ── Figura del santo ── */
       .fpat-saint {
         position: absolute;
+        top: 0;
         bottom: 0;
-        height: 97%;
+        height: 100%;
         width: auto;
         z-index: 1;
         pointer-events: none;
+        object-fit: contain;
         filter: drop-shadow(0 14px 30px rgba(0,0,0,0.5));
         animation: fpat-float 6s ease-in-out infinite;
       }
-      .fpat-saint-left  .fpat-saint { left: -6%; }
-      .fpat-saint-right .fpat-saint { right: -6%; }
+      .fpat-saint-left  .fpat-saint { left: -2%; }
+      .fpat-saint-right .fpat-saint { right: -2%; }
       .fpat-saint::selection { background: transparent; }
       @keyframes fpat-float {
         0%, 100% { transform: translateY(0); }
@@ -337,13 +345,13 @@ class FiestaPatronal extends HTMLElement {
       .fpat-content {
         position: relative;
         z-index: 3;
-        width: 64%;
+        width: 74%;
         margin-left: auto;
       }
       .fpat-saint-right .fpat-content { margin-left: 0; margin-right: auto; }
 
       /* Header */
-      .fpat-head { text-align: center; margin-bottom: 1.4rem; }
+      .fpat-head { text-align: center; margin-bottom: 0.9rem; }
       .fpat-saint-top { display: none; }  /* solo visible en mobile */
       .fpat-eyebrow {
         font-family: Georgia, "Times New Roman", serif;
@@ -375,8 +383,15 @@ class FiestaPatronal extends HTMLElement {
         font-style: italic;
         color: var(--crema);
         font-size: clamp(0.85rem, 2.4vw, 1.05rem);
-        margin: 0.6rem auto 0.9rem;
+        margin: 0.5rem auto 0.7rem;
         opacity: 0.92;
+      }
+      .fpat-pills {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 0.55rem;
       }
       .fpat-date {
         display: inline-block;
@@ -389,19 +404,33 @@ class FiestaPatronal extends HTMLElement {
         box-shadow: 0 6px 16px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.5);
       }
       .fpat-date span { font-weight: 600; }
+      .fpat-free {
+        display: inline-block;
+        font-weight: 800;
+        font-size: clamp(0.85rem, 2.4vw, 1.05rem);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        color: var(--oro-claro);
+        background: rgba(0,0,0,0.22);
+        padding: 0.55em 1.2em;
+        border-radius: 999px;
+        border: 1.5px solid var(--oro);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.08);
+      }
 
       /* ── Eventos (glass) ── */
       .fpat-events {
         display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.9rem;
-        margin-bottom: 1.1rem;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.7rem;
+        margin-bottom: 0.8rem;
+        align-items: stretch;
       }
       .fpat-event {
         display: flex;
-        gap: 0.75rem;
+        gap: 0.6rem;
         align-items: flex-start;
-        padding: 1rem;
+        padding: 0.85rem 0.9rem;
         border-radius: 18px;
         background: rgba(245,234,208,0.10);
         border: 1px solid rgba(240,215,154,0.25);
@@ -409,6 +438,7 @@ class FiestaPatronal extends HTMLElement {
         -webkit-backdrop-filter: blur(8px);
         box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
       }
+      .fpat-event-body { min-width: 0; flex: 1 1 auto; }
       /* Badge de icono — neumorfismo sobre crema */
       .fpat-badge {
         flex: 0 0 auto;
@@ -436,12 +466,12 @@ class FiestaPatronal extends HTMLElement {
       .fpat-time--big {
         display: flex;
         align-items: center;
-        gap: 0.5rem;
-        margin-top: 0.55rem;
+        gap: 0.4rem;
+        margin-top: 0.4rem;
       }
-      .fpat-time--big .fpat-clock { width: 2.4rem; height: 2.4rem; }
+      .fpat-time--big .fpat-clock { width: 1.9rem; height: 1.9rem; }
       .fpat-hour {
-        font-size: clamp(2.4rem, 8vw, 3.4rem);
+        font-size: clamp(2rem, 5.5vw, 2.6rem);
         line-height: 1;
         font-weight: 900;
         letter-spacing: 0.01em;
@@ -460,74 +490,84 @@ class FiestaPatronal extends HTMLElement {
       }
       .fpat-place { color: var(--crema); font-size: 0.82rem; opacity: 0.9; margin-top: 0.2rem; }
 
-      /* ── Cantina ── */
-      .fpat-cantina {
-        display: flex;
-        align-items: center;
-        gap: 1.1rem;
-        padding: 1rem 1.2rem;
-        border-radius: 18px;
-        background: rgba(0,0,0,0.18);
-        border: 1px solid rgba(240,215,154,0.2);
-        margin-bottom: 1.1rem;
+      /* ── Cantina (lista dentro del evento) ── */
+      .fpat-cantina-list {
+        list-style: none;
+        display: grid;
+        gap: 0.25rem;
+        margin-top: 0.35rem;
       }
-      .fpat-cantina-info { flex: 1 1 auto; min-width: 0; }
-      .fpat-cantina-img {
-        flex: 0 0 auto;
-        width: clamp(180px, 44%, 320px);
-        height: auto;
-        aspect-ratio: 4 / 3;
-        border-radius: 14px;
-        object-fit: cover;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-        border: 1px solid rgba(240,215,154,0.25);
-      }
-      .fpat-cantina-title {
-        color: var(--oro-claro);
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        font-size: 0.95rem;
-        margin-bottom: 0.6rem;
-        text-align: left;
-      }
-      .fpat-cantina ul { list-style: none; display: grid; gap: 0.45rem; }
-      .fpat-cantina li {
-        display: flex; align-items: center; gap: 0.6rem;
+      .fpat-cantina-list li {
+        display: flex; align-items: center; gap: 0.45rem;
         color: var(--crema);
         font-weight: 600;
-        font-size: 0.95rem;
+        font-size: 0.82rem;
+        line-height: 1.2;
       }
-      .fpat-cantina li span { font-size: 1.15rem; }
+      .fpat-cantina-list li span { font-size: 0.95rem; }
 
-      /* ── Ubicaciones ── */
+      /* ── Bottom: ubicaciones | footer texto | imagen ── */
+      .fpat-bottom {
+        display: flex;
+        gap: 0.8rem;
+        align-items: stretch;
+        margin-bottom: 0.6rem;
+      }
       .fpat-locations {
-        display: flex; gap: 0.8rem; margin-bottom: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        flex: 0 0 auto;
+        width: clamp(150px, 18%, 200px);
+        gap: 0.5rem;
+        min-width: 0;
       }
       .fpat-loc {
-        flex: 1;
-        display: flex; align-items: center; gap: 0.5rem;
-        padding: 0.7rem 0.9rem;
+        flex: 1 1 auto;
+        display: flex; align-items: center; gap: 0.45rem;
+        padding: 0.5rem 0.75rem;
         border-radius: 14px;
         background: rgba(245,234,208,0.08);
         border: 1px solid rgba(240,215,154,0.2);
         color: var(--crema);
-        font-size: 0.85rem;
-        line-height: 1.25;
+        font-size: 0.82rem;
+        line-height: 1.2;
       }
-      .fpat-loc span { font-size: 1.2rem; }
+      .fpat-loc span { font-size: 1.1rem; }
       .fpat-loc strong { color: var(--oro-claro); }
 
-      /* ── Footer ── */
-      .fpat-foot { text-align: center; }
+      /* Imagen de cantina al costado de las ubicaciones */
+      .fpat-cantina-img {
+        display: block;
+        flex: 0 0 auto;
+        width: clamp(180px, 22%, 260px);
+        height: auto;
+        object-fit: cover;
+        border-radius: 14px;
+        border: 1px solid rgba(240,215,154,0.25);
+        box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+      }
+
+      /* ── Footer (centro del row inferior en desktop) ── */
+      .fpat-foot {
+        text-align: center;
+        flex: 1 1 auto;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 0.3rem;
+        padding: 0 0.4rem;
+      }
       .fpat-invite {
         font-family: Georgia, serif; font-style: italic;
-        color: var(--crema); font-size: 0.95rem; margin-bottom: 0.5rem;
+        color: var(--crema); font-size: 0.95rem;
       }
       .fpat-saintname {
         font-family: Georgia, serif;
         font-weight: 700;
-        font-size: clamp(1.4rem, 5vw, 2.2rem);
+        font-size: clamp(1.3rem, 3vw, 1.9rem);
+        line-height: 1.1;
         background: linear-gradient(180deg, var(--oro-claro), var(--oro));
         -webkit-background-clip: text; background-clip: text; color: transparent;
         filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
@@ -577,7 +617,7 @@ class FiestaPatronal extends HTMLElement {
 
       /* ════════ RESPONSIVE ════════ */
       @media (max-width: 720px) {
-        .fpat-card { width: 95%; padding: 2rem 1.1rem 1.8rem; border-radius: 24px; }
+        .fpat-card { width: 95%; padding: 2rem 1.1rem 1.8rem; border-radius: 24px; margin: 2rem auto; }
         .fpat-content { width: 100%; margin: 0; }
         /* Se quita el santo de fondo en mobile */
         .fpat-saint { display: none; }
@@ -601,11 +641,20 @@ class FiestaPatronal extends HTMLElement {
         .fpat-head-text { flex: 1 1 auto; min-width: 0; text-align: center; }
         .fpat-head-text .fpat-title { font-size: clamp(1.4rem, 7vw, 2.1rem); letter-spacing: 0.01em; }
         .fpat-head-text .fpat-year  { font-size: clamp(1.7rem, 8vw, 2.6rem); }
-        .fpat-events { grid-template-columns: 1fr; }
-        .fpat-locations { flex-direction: column; }
-        .fpat-cantina { flex-direction: column; }
-        .fpat-cantina-info { width: 100%; }
-        .fpat-cantina-img { width: 100%; }
+        .fpat-events { grid-template-columns: 1fr; gap: 0.9rem; }
+        .fpat-event { padding: 1rem; gap: 0.75rem; }
+        .fpat-time--big { gap: 0.5rem; margin-top: 0.55rem; }
+        .fpat-time--big .fpat-clock { width: 2.4rem; height: 2.4rem; }
+        .fpat-hour { font-size: clamp(2.4rem, 8vw, 3.4rem); }
+        .fpat-cantina-list { gap: 0.45rem; margin-top: 0.5rem; }
+        .fpat-cantina-list li { font-size: 0.95rem; }
+        .fpat-cantina-list li span { font-size: 1.15rem; }
+        .fpat-bottom { flex-direction: column; gap: 0.7rem; }
+        .fpat-locations { width: 100%; gap: 0.6rem; }
+        .fpat-loc { padding: 0.7rem 0.9rem; font-size: 0.85rem; line-height: 1.25; }
+        .fpat-cantina-img { width: 100%; height: clamp(120px, 38vw, 180px); }
+        .fpat-invite { font-size: 0.95rem; margin-bottom: 0.5rem; }
+        .fpat-saintname { font-size: clamp(1.4rem, 5vw, 2.2rem); }
       }
       @media (prefers-reduced-motion: reduce) {
         .fpat-glow, .fpat-saint, .fpat-flag, .fpat-bulb, .fpat-particle { animation: none !important; }
