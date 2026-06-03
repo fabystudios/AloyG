@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo section-title — efectos</title>
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <style>
+    body { background: #1a1a2e; padding: 2rem 0; }
+    h3 { color: #ffd700; text-align: center; margin: 2rem 0 1rem; font-family: monospace; }
+  </style>
+</head>
+<body>
+  <script>
+    // Cache-bust: cargar el script con timestamp para forzar fetch fresco
+    const s = document.createElement('script');
+    s.src = './components/section-title.js?cb=' + Date.now();
+    document.head.appendChild(s);
+  </script>
+
+  <h3>1) none (sin efecto)</h3>
+  <section-title text="Sin efecto" icon="📜"></section-title>
+
+  <h3>2) stars</h3>
+  <section-title text="Stars" icon="campaign" effect="stars"></section-title>
+
+  <h3>3) bubbles</h3>
+  <section-title text="Bubbles" icon="🫧" effect="bubbles"></section-title>
+
+  <h3>3.1) popping-bubbles ← NUEVO</h3>
+  <section-title text="Popping Bubbles" icon="💥" effect="popping-bubbles"></section-title>
+
+  <h3>4) confetti</h3>
+  <section-title text="Confetti" icon="🎉" effect="confetti"></section-title>
+
+  <h3>5) snow</h3>
+  <section-title text="Snow" icon="❄️" effect="snow"></section-title>
+
+  <h3>6) rays</h3>
+  <section-title text="Rays" icon="✨" effect="rays" rays-color="#ffd700"></section-title>
+
+  <h3>7) glow-pulse</h3>
+  <section-title text="Glow Pulse" icon="🌟" effect="glow-pulse" glow-color="#ffd700"></section-title>
+
+  <h3>8) aurora</h3>
+  <section-title text="Aurora" icon="🌈" effect="aurora"></section-title>
+
+  <h3>9) floating-png (caliz)</h3>
+  <section-title text="Floating PNG" icon="🍷" effect="floating-png"
+                 png-src="./img/caliz.png" png-count="5" png-height="34px"></section-title>
+
+  <h3>10) floating-svg (heart)</h3>
+  <section-title text="Floating SVG" icon="💛" effect="floating-svg"
+                 svg-shape="heart" svg-color="#ff4081" svg-count="6" svg-size="24px"></section-title>
+
+  <h3>11) text-glow azul</h3>
+  <section-title text="Text Glow" icon="campaign" effect="text-glow" text-glow-color="#00e5ff"></section-title>
+
+  <h3>12) combo stars + glow-pulse + text-glow</h3>
+  <section-title text="Combo" icon="campaign"
+                 effect="stars glow-pulse text-glow"
+                 text-glow-color="#00e5ff"
+                 glow-color="#00e5ff"></section-title>
+
+  <h3>13) icon-mobile="off" (probá redimensionando a mobile)</h3>
+  <section-title text="Sin ícono en mobile" icon="🎓" icon-mobile="off"></section-title>
+</body>
+</html>

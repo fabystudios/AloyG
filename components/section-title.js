@@ -85,6 +85,8 @@
         position: absolute; inset: 0;
         border-radius: inherit;
         animation: st-glow-pulse 2.4s ease-in-out infinite;
+        mix-blend-mode: screen;
+        transform-origin: center;
       }
 
       section-title .st-fx-layer .st-aurora {
@@ -135,19 +137,14 @@
       }
 
       @keyframes st-glow-pulse {
-        0%, 100% {
-          box-shadow: inset 0 0 18px 2px var(--st-glow, rgba(255,215,0,0.35));
-          opacity: .55;
-        }
-        50% {
-          box-shadow: inset 0 0 32px 8px var(--st-glow, rgba(255,215,0,0.75));
-          opacity: 1;
-        }
+        0%, 100% { opacity: 0.25; transform: scale(0.94); }
+        50%      { opacity: 0.85; transform: scale(1.02); }
       }
 
       @keyframes st-aurora-shift {
-        0%, 100% { background-position:   0% 50%; }
-        50%      { background-position: 100% 50%; }
+        0%   { background-position:   0% 50%; }
+        50%  { background-position: 100% 50%; }
+        100% { background-position:   0% 50%; }
       }
     `;
     document.head.appendChild(st);
@@ -169,7 +166,7 @@
   const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 
   /* ───────── lista canónica de efectos ───────── */
-  const CANVAS_EFFECTS = ['stars', 'bubbles', 'confetti', 'snow', 'rays'];
+  const CANVAS_EFFECTS = ['stars', 'bubbles', 'popping-bubbles', 'confetti', 'snow', 'rays'];
   const DOM_EFFECTS    = ['floating-png', 'floating-svg', 'glow-pulse', 'aurora'];
   const TEXT_EFFECTS   = ['text-glow'];
   const ALL_EFFECTS    = [...CANVAS_EFFECTS, ...DOM_EFFECTS, ...TEXT_EFFECTS];
@@ -305,10 +302,15 @@
       if (hasEffect('floating-png')) this._startFloatingPng(fxLayer);
       if (hasEffect('floating-svg')) this._startFloatingSvg(fxLayer);
 
-      // ── efectos canvas ── (necesitan medidas, esperar un frame)
+      // ── efectos canvas ──
+      // Antes usábamos requestAnimationFrame para esperar el primer layout, pero
+      // rAF no se dispara en tabs en background ni en algunos contextos
+      // headless, lo que dejaba el canvas sin crear. La sección ya está en el
+      // DOM por appendChild, así que offsetWidth fuerza el layout sync y
+      // podemos arrancar el canvas directo.
       const canvasFx = effects.filter(e => CANVAS_EFFECTS.includes(e));
       if (canvasFx.length) {
-        requestAnimationFrame(() => this._startCanvasFx(fxLayer, section, canvasFx));
+        this._startCanvasFx(fxLayer, section, canvasFx);
       }
     }
 
@@ -349,6 +351,17 @@
           vy: -rand(0.3, 0.9), vx: rand(-0.4, 0.4),
           color: pick(PARTICLE_COLORS),
         }),
+        'popping-bubbles': () => ({
+          type: 'popping-bubbles',
+          x: rand(0, W), y: H + rand(5, 30),
+          r: rand(4, 11),
+          vy: -rand(0.4, 1.0), vx: rand(-0.4, 0.4),
+          color: pick(PARTICLE_COLORS),
+          // estado: 0 = subiendo, 1 = explotando, 2 = muerta
+          phase: 0,
+          popAt: rand(H * 0.15, H * 0.55),   // altura donde explota
+          popProgress: 0,
+        }),
         confetti: () => ({
           type: 'confetti',
           x: rand(0, W), y: -rand(5, 30),
@@ -368,10 +381,11 @@
       };
 
       const COUNTS = {
-        stars:    () => W < 600 ? 14 : W < 900 ? 24 : 36,
-        bubbles:  () => W < 600 ? 8  : 14,
-        confetti: () => W < 600 ? 16 : 28,
-        snow:     () => W < 600 ? 12 : 22,
+        stars:             () => W < 600 ? 14 : W < 900 ? 24 : 36,
+        bubbles:           () => W < 600 ? 8  : 14,
+        'popping-bubbles': () => W < 600 ? 6  : 12,
+        confetti:          () => W < 600 ? 16 : 28,
+        snow:              () => W < 600 ? 12 : 22,
       };
 
       const sparks = [];
@@ -409,6 +423,61 @@
           ctx.restore();
           p.y += p.vy; p.x += p.vx;
           if (p.y + p.r < 0) Object.assign(p, FACTORIES.bubbles());
+        },
+        'popping-bubbles': (p) => {
+          if (p.phase === 0) {
+            // Fase 1: subiendo como burbuja normal
+            ctx.save();
+            ctx.globalAlpha = 0.6;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.strokeStyle = p.color;
+            ctx.lineWidth = 1.8;
+            ctx.stroke();
+            // brillo interior leve
+            ctx.globalAlpha = 0.18;
+            ctx.fillStyle = p.color;
+            ctx.fill();
+            // reflejo blanco arriba-izquierda
+            ctx.globalAlpha = 0.7;
+            ctx.beginPath();
+            ctx.arc(p.x - p.r * 0.35, p.y - p.r * 0.35, p.r * 0.22, 0, Math.PI * 2);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+            ctx.restore();
+            p.y += p.vy; p.x += p.vx;
+            if (p.y <= p.popAt) p.phase = 1;
+            if (p.y + p.r < 0) Object.assign(p, FACTORIES['popping-bubbles']());
+          } else if (p.phase === 1) {
+            // Fase 2: EXPLOSIÓN — anillo que se expande y pierde alpha + chispas
+            p.popProgress += 0.07;
+            const expand = 1 + p.popProgress * 2.5;
+            const alpha = Math.max(0, 1 - p.popProgress);
+            ctx.save();
+            ctx.globalAlpha = alpha * 0.9;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r * expand, 0, Math.PI * 2);
+            ctx.strokeStyle = p.color;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            // gotitas/sparks radiales en el primer frame del pop
+            if (p.popProgress < 0.2) {
+              for (let k = 0; k < 6; k++) {
+                const a = (k / 6) * Math.PI * 2;
+                const d = p.r * (1 + p.popProgress * 4);
+                ctx.beginPath();
+                ctx.arc(p.x + Math.cos(a) * d, p.y + Math.sin(a) * d, 1.5, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = alpha;
+                ctx.fill();
+              }
+            }
+            ctx.restore();
+            if (p.popProgress >= 1) {
+              // Reset: nueva burbuja desde abajo
+              Object.assign(p, FACTORIES['popping-bubbles']());
+            }
+          }
         },
         confetti: (p) => {
           ctx.save();
@@ -485,8 +554,7 @@
         raysState.angle += 0.0025;
       };
 
-      const loop = () => {
-        if (!this.isConnected) { ro.disconnect(); return; }
+      const drawFrame = () => {
         ctx.clearRect(0, 0, W, H);
         drawRays();
         for (const p of particles) {
@@ -509,8 +577,15 @@
           s.alpha -= (s.r > 2 || s.alpha > 1) ? 0.012 : 0.018;
           if (s.alpha <= 0) sparks.splice(i, 1);
         }
+      };
+      const loop = () => {
+        if (!this.isConnected) { ro.disconnect(); return; }
+        drawFrame();
         this._rafs.push(requestAnimationFrame(loop));
       };
+      // Paint inicial síncrono para que el canvas no quede en blanco si rAF
+      // no dispara enseguida (tabs en background, contexto headless).
+      drawFrame();
       this._rafs.push(requestAnimationFrame(loop));
     }
 
@@ -575,25 +650,30 @@
       }
     }
 
-    /* Halo pulsante */
+    /* Halo pulsante — usamos un radial-gradient ancho con mix-blend-mode: screen
+       en lugar de inset box-shadow. Mucho más visible porque ilumina toda la
+       superficie del header en vez de solo los bordes. */
     _startGlowPulse(fxLayer) {
       const div = document.createElement('div');
       div.className = 'st-glow-pulse';
       const c = this._get('glow-color', '#ffd700');
-      // soporte hex/rgb: simplemente seteamos var de glow al color con alpha aprox
-      div.style.setProperty('--st-glow', c);
+      div.style.backgroundImage = `radial-gradient(ellipse at center, ${c} 0%, ${c} 25%, transparent 75%)`;
       fxLayer.appendChild(div);
     }
 
-    /* Aurora: gradiente animado */
+    /* Aurora: gradiente animado.
+       OJO: usar backgroundImage (no background) para no resetear background-size:
+       el shorthand "background:" pisa el "background-size: 400% 400%" del CSS
+       y deja la capa estática. */
     _startAurora(fxLayer) {
       const div = document.createElement('div');
       div.className = 'st-aurora';
-      div.style.background = `linear-gradient(120deg,
-        rgba(0,229,255,0.25),
-        rgba(179,136,255,0.35),
-        rgba(255,128,171,0.25),
-        rgba(255,215,0,0.25))`;
+      div.style.backgroundImage = `linear-gradient(120deg,
+        rgba(0,229,255,0.45),
+        rgba(179,136,255,0.55),
+        rgba(255,128,171,0.45),
+        rgba(255,215,0,0.45),
+        rgba(0,229,255,0.45))`;
       fxLayer.appendChild(div);
     }
   }

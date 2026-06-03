@@ -78,6 +78,18 @@
   <link rel="stylesheet" href="css/efemerides-especiales.css">
   <link rel="stylesheet" href="css/efemerides-santos.css">
 <!-- <link rel="stylesheet" href="css/site.css"> -->
+
+  <!-- Fix conflicto Tailwind vs Bootstrap: Tailwind define
+       `.collapse { visibility: collapse }` y oculta el navbar.
+       Forzamos el comportamiento de Bootstrap para .navbar-collapse. -->
+  <style>
+    .navbar-collapse.collapse,
+    .navbar-collapse.collapse * { visibility: visible !important; }
+    @media (max-width: 991.98px) {
+      .navbar-collapse.collapse:not(.show) { display: none !important; }
+      .navbar-collapse.collapsing { display: block !important; }
+    }
+  </style>
   <!-- ═══════════════════════════════════════════════
        JSON-LD Schema SEO
   ═══════════════════════════════════════════════ -->
@@ -2781,8 +2793,8 @@
                  effect="floating-png" png-src="./img/casita.png"
                  png-count="5" png-height="36px"></section-title> -->
 
-  <section-title id="RETIROS" text="Nuestras Casas de Retiro"
-                 effect="floating-png" png-src="./img/casita.png"
+  <section-title id="RETIROS" text="Nuestras Casas de Retiro" 
+                 effect="popping-bubbles" png-src="./img/casita.png"
                  png-count="5" png-height="36px" icon-mobile="off"></section-title>
 
   <section id="retiro" class="section-padding retiro-hero">
@@ -2801,9 +2813,17 @@
         <span class="retiro-3d-word">Espiritual</span>
       </h2>
 
-      <p class="retiro-lead text-center mb-5">
+      <p class="retiro-lead text-center">
         "Descubrí espacios de <strong>paz</strong>, <span class="d-block d-md-inline"><strong>encuentro</strong> y <strong>espiritualidad</strong>."</span>
       </p>
+
+      <div class="retiro-ornament" aria-hidden="true">
+        <span class="retiro-orn-line"></span>
+        <span class="retiro-orn-star">✦</span>
+        <span class="retiro-orn-dove">🕊</span>
+        <span class="retiro-orn-star">✦</span>
+        <span class="retiro-orn-line"></span>
+      </div>
 
       <div class="row g-4 retiro-cards-row">
         <!-- Casa de Retiro 1 -->
@@ -2908,7 +2928,8 @@
         font-family: 'Montserrat', 'Segoe UI', sans-serif;
         font-weight: 900;
         font-size: clamp(2.2rem, 5.2vw, 4.4rem);
-        line-height: 1.05;
+        line-height: 1.22;
+        padding-bottom: 0.4em;
         margin: 0 auto 18px;
         color: #5a3e00;
         letter-spacing: -1px;
@@ -2948,6 +2969,43 @@
         color: #8b6c00;
         font-style: normal;
         font-weight: 800;
+      }
+
+      /* Ornamento divisor */
+      #retiro .retiro-ornament {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        margin: 18px auto 36px;
+        max-width: 520px;
+        color: #b8860b;
+      }
+      #retiro .retiro-orn-line {
+        flex: 1;
+        height: 2px;
+        background: linear-gradient(90deg, transparent 0%, #c9a227 50%, transparent 100%);
+        border-radius: 2px;
+      }
+      #retiro .retiro-orn-star {
+        font-size: 1.1rem;
+        color: #c9a227;
+        text-shadow: 0 0 8px rgba(218,165,32,0.55);
+        animation: retiroSparkle 2.8s ease-in-out infinite;
+      }
+      #retiro .retiro-orn-star:nth-of-type(2) { animation-delay: 1.4s; }
+      #retiro .retiro-orn-dove {
+        font-size: 1.6rem;
+        filter: drop-shadow(0 2px 4px rgba(139,108,0,0.35));
+        animation: retiroFloat 3.2s ease-in-out infinite;
+      }
+      @keyframes retiroSparkle {
+        0%, 100% { opacity: 0.6; transform: scale(1); }
+        50% { opacity: 1; transform: scale(1.25); }
+      }
+      @keyframes retiroFloat {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-4px); }
       }
 
       /* Cards neomórficas */
@@ -3142,8 +3200,8 @@
         #retiro .retiro-promo-dot { width: 8px; height: 8px; flex-shrink: 0; }
 
         /* (3) Orden interno de la card */
-        #retiro .casa-retiro-neo { height: auto; min-height: 440px; }
-        #retiro .casa-retiro-neo .card-body { padding: 20px 18px; }
+        #retiro .casa-retiro-neo { height: auto; min-height: 460px; }
+        #retiro .casa-retiro-neo .card-body { padding: 64px 18px 22px; }
 
         #retiro .casa-retiro-badge {
           top: 14px; right: 14px;
@@ -5878,7 +5936,11 @@ for (let i = 0; i < 18; i++) {
 
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.min.js" defer></script>
-  <script defer> new WOW().init(); </script>
+  <script>
+    window.addEventListener('load', function () {
+      if (typeof WOW !== 'undefined') { try { new WOW().init(); } catch (e) {} }
+    });
+  </script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js" defer></script>
   
   <!-- Manejo de videos del carrusel -->
@@ -5932,30 +5994,54 @@ for (let i = 0; i < 18; i++) {
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-
       const menu = document.getElementById('navbarNav');
       const toggler = document.querySelector('.navbar-toggler');
-      if (!menu || !toggler || typeof bootstrap === 'undefined') return;
+      if (!menu || !toggler) return;
 
-      // Crear instancia única
-      const bsMenu = bootstrap.Collapse.getOrCreateInstance(menu, { toggle: false });
+      // Helpers que funcionan con o sin Bootstrap cargado
+      function getBs() {
+        return (typeof bootstrap !== 'undefined' && bootstrap.Collapse)
+          ? bootstrap.Collapse.getOrCreateInstance(menu, { toggle: false })
+          : null;
+      }
+      function isOpen() { return menu.classList.contains('show'); }
+      function show() {
+        const bs = getBs();
+        if (bs) { bs.show(); }
+        else {
+          menu.classList.remove('collapsing');
+          menu.classList.add('collapse', 'show');
+        }
+        toggler.setAttribute('aria-expanded', 'true');
+      }
+      function hide() {
+        const bs = getBs();
+        if (bs) { bs.hide(); }
+        else {
+          menu.classList.remove('show');
+          menu.classList.add('collapse');
+        }
+        toggler.setAttribute('aria-expanded', 'false');
+      }
+      function toggle() { isOpen() ? hide() : show(); }
 
-      // Toggle al tocar el botón (abre o cierra)
+      // Toggle al tocar el botón
       toggler.addEventListener('click', function (e) {
         e.preventDefault();
-        bsMenu.toggle();
+        e.stopPropagation();
+        toggle();
       });
 
       // Cerrar al tocar un link del menú
       document.querySelectorAll('#navbarNav .nav-link').forEach(link => {
-        link.addEventListener('click', () => bsMenu.hide());
+        link.addEventListener('click', hide);
       });
 
       // Cerrar al tocar fuera del menú
       document.addEventListener('click', (ev) => {
-        if (!menu.classList.contains('show')) return;
+        if (!isOpen()) return;
         if (menu.contains(ev.target) || toggler.contains(ev.target)) return;
-        bsMenu.hide();
+        hide();
       });
     });
 

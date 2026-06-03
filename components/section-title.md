@@ -1360,6 +1360,16 @@ Burbujas que suben desde abajo con leve deriva horizontal. Estilo "alegre / lúd
 <section-title text="Día del Niño" effect="bubbles"></section-title>
 ```
 
+#### `popping-bubbles` — Burbujas que explotan
+
+Variante de `bubbles`: cada burbuja sube con un reflejo blanco interior, y al alcanzar una altura aleatoria estalla con un anillo expansivo + 6 gotitas radiales (chispas). Luego una nueva burbuja arranca desde abajo.
+
+```html
+<section-title text="Niñ@s" effect="popping-bubbles"></section-title>
+```
+
+Sin atributos extra. La cantidad y velocidad escalan según viewport.
+
 #### `confetti` — Confeti
 
 Rectángulos coloridos cayendo con rotación. Para festividades, fiestas patronales, celebraciones.
@@ -1711,4 +1721,4 @@ También se agregó `section-title` a la lista de elementos con `--pub-gap` en `
 └─────────────────┴──────────────────────────────────────────────────────┘
 ```
 
-Catálogo completo de `effect`: `none`, `stars`, `bubbles`, `confetti`, `snow`, `rays`, `glow-pulse`, `aurora`, `floating-png`, `floating-svg`, `text-glow` — todos combinables.
+Catálogo completo de `effect`: `none`, `stars`, `bubbles`, `popping-bubbles`, `confetti`, `snow`, `rays`, `glow-pulse`, `aurora`, `floating-png`, `floating-svg`, `text-glow` — todos combinables.
