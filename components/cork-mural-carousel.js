@@ -8,7 +8,9 @@
  *   folder      — Ruta a la carpeta de imágenes   (ej: "./actividades/mural/")
  *   count       — Cantidad de fotos               (default: 4)
  *   ext         — Extensión de las imágenes       (default: "jpeg")
- *   icon        — Material Icon name              (default: "photo_library")
+ *   icon        — Material Icon name o ruta/URL a PNG/SVG/etc (default: "photo_library")
+ *                   Si parece imagen (contiene "/" o termina en .png/.jpg/.svg/...) se renderiza como <img>;
+ *                   en cualquier otro caso se trata como Material Icon name.
  *   board       — Fondo del tablero de corcho:
  *                   vacío        → corcho ocre con textura por defecto
  *                   color CSS    → ej: "#2e5a8a" | "darkgreen" | "rgb(80,40,20)"
@@ -186,7 +188,9 @@ class CorkMuralCarousel extends HTMLElement {
             <div style="text-align:center;margin-bottom:12px;padding:0 20px;">
               <h3 class="cmc-main-title" style="color:${titleColor};font-size:1.3rem;font-weight:700;margin:0;
                          text-shadow:0 2px 8px rgba(0,0,0,0.6);letter-spacing:0.5px;">
-                <i class="material-icons" style="vertical-align:middle;font-size:1.5rem;">${CorkMuralCarousel._esc(icon)}</i>
+                ${_isImgUrl(icon)
+                  ? `<img src="${CorkMuralCarousel._esc(icon).replace(/'/g,'%27')}" alt="" style="vertical-align:middle;height:1.5em;width:auto;display:inline-block;">`
+                  : `<i class="material-icons" style="vertical-align:middle;font-size:1.5rem;">${CorkMuralCarousel._esc(icon)}</i>`}
                 &nbsp;${CorkMuralCarousel._esc(title)}
               </h3>
             </div>
