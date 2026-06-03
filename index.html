@@ -961,57 +961,102 @@
 
 
 
-<!-- ═══════ Cáritas · Colecta Anual — Glassmorphic Card (Stitch · Translucent Grace) ═══════ -->
-<!-- Tailwind con preflight desactivado para no resetear los estilos del resto del index -->
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script>
-  tailwind.config = {
-    corePlugins: { preflight: false },
-    darkMode: 'class',
-    theme: {
-      extend: {
-        colors: {
-          'cg-primary': '#0a3161',
-          'cg-on-primary': '#ffffff',
-          'cg-secondary': '#b4233f',
-          'cg-on-secondary': '#ffffff',
-          'cg-surface': '#faf9fd',
-          'cg-on-surface': '#1a1c1f',
-          'cg-on-surface-variant': '#43474f',
-          'cg-surface-variant': '#e3e2e7',
-          'cg-outline': '#747780',
-          'cg-glass': 'rgba(255, 255, 255, 0.6)',
-          'cg-glass-strong': 'rgba(255, 255, 255, 0.78)',
-          'cg-glass-border': 'rgba(255, 255, 255, 0.4)',
-          'cg-brand-red-muted': '#d4586d'
-        },
-        fontFamily: {
-          'cg-headline': ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
-          'cg-body': ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
-          'cg-label': ['Manrope', 'Inter', 'sans-serif']
-        },
-        boxShadow: {
-          'cg-elev-card': '0 12px 32px rgba(180,35,63,0.32), 0 6px 18px rgba(10,49,97,0.22), 0 0 0 1px rgba(180,35,63,0.20), inset 1px 1px 0 rgba(255,255,255,0.75), inset -1px -1px 0 rgba(255,255,255,0.25)',
-          'cg-elev-pill': '0 12px 36px rgba(0,0,0,0.18), inset 1px 1px 0 rgba(255,255,255,0.7)',
-          'cg-elev-cta': '0 6px 18px rgba(180,35,63,0.45)',
-          'cg-elev-cta-hover': '0 10px 26px rgba(10,49,97,0.40)'
-        }
-      }
-    }
-  }
-</script>
+<!-- ═══════ Cáritas · Colecta Anual — Glassmorphic Card (CSS vanilla, sin Tailwind) ═══════ -->
 <!-- Plus Jakarta Sans + Manrope + Mulish Black (fuentes DESIGN.md Translucent Grace + título heavy) -->
 <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
 <style>
-  /* Solo lo que Tailwind no resuelve nativo: backdrop blur fallback, watermark, animación */
-  #caritas-colecta { isolation: isolate; padding-top: 0 !important; }
-  /* Tailwind sin preflight no fuerza border-style: solid (depende del browser default 'none').
-     Forzamos solid para que CUALQUIER utilidad border-* dentro de la sección renderice. */
-  #caritas-colecta [class*="border"] { border-style: solid; }
-  /* Branding mobile: pill horizontal compacto */
-  #caritas-colecta .cg-branding { flex-direction: row; justify-content: space-between; }
-  #caritas-colecta .cg-branding .cg-logo { height: 48px; width: auto; }
-  /* Tagline 70 años — estilos base mobile (en flujo, arriba del pill) */
+  /* ── Sección base (reemplaza: cg-bg-pattern relative flex items-center justify-center overflow-hidden py-12 px-0 md:px-6 font-cg-body) ── */
+  #caritas-colecta {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    overflow: visible;
+    /* margin-top negativo SOLO en desktop (se aplica abajo dentro de @media min-width: 768px).
+       Mobile queda con el margin natural del <section-title> de arriba — el usuario confirmó que ahí ya estaba bien. */
+    padding: 0 0 56px;
+    isolation: isolate;
+    font-family: 'Plus Jakarta Sans', Inter, system-ui, sans-serif;
+    background-color: #f4f3f8;
+    /* Saqué el radial azul (rgba(214,227,255,...) que dejaba un tono azul en la esquina superior.
+       Quedan solo el halo rosado abajo-derecha y los puntitos rojos del patrón. */
+    background-image:
+      radial-gradient(circle at 82% 78%, rgba(255,218,219,0.45) 0%, transparent 45%),
+      radial-gradient(rgba(180,35,63,0.18) 1px, transparent 1px);
+    background-size: auto, 22px 22px;
+    box-sizing: border-box;
+  }
+  #caritas-colecta *, #caritas-colecta *::before, #caritas-colecta *::after { box-sizing: border-box; }
+
+  /* ── Card (article) ── */
+  #caritas-colecta .cg-card {
+    position: relative;
+    z-index: 10;
+    margin: 0 auto;
+    width: 95%;
+    max-width: 1180px;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 8px solid #b4233f;
+    background-color: rgba(255, 255, 255, 0.6);
+    background-image: url('./caritas/cabecera.png');
+    background-size: cover;
+    background-position: center 30%;
+    backdrop-filter: blur(18px) saturate(1.4);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    color: #1a1c1f;
+    box-shadow:
+      0 12px 32px rgba(180,35,63,0.32),
+      0 6px 18px rgba(10,49,97,0.22),
+      0 0 0 1px rgba(180,35,63,0.20),
+      inset 1px 1px 0 rgba(255,255,255,0.75),
+      inset -1px -1px 0 rgba(255,255,255,0.25);
+  }
+
+  /* ── Watermark ── */
+  #caritas-colecta .cg-watermark {
+    position: absolute;
+    inset: auto -40px -60px auto;
+    width: 320px;
+    opacity: 0.08;
+    pointer-events: none;
+    transform: rotate(-8deg);
+    z-index: 0;
+  }
+
+  /* ── Hero (área con título + gradient overlay) ── */
+  #caritas-colecta .cg-hero {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+  }
+  #caritas-colecta .cg-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, rgba(10,49,97,0.55) 0%, rgba(10,49,97,0.10) 50%, rgba(0,0,0,0) 100%);
+    pointer-events: none;
+  }
+
+  /* ── Título ── */
+  #caritas-colecta .cg-title {
+    position: absolute;
+    left: 24px;
+    top: 24px;
+    margin: 0;
+    z-index: 10;
+    max-width: 60%;
+    color: #ffffff;
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    font-family: 'Mulish', 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+    font-weight: 900;
+    font-size: clamp(32px, 5.5vw, 56px);
+    text-transform: none;
+    text-shadow: 0 4px 18px rgba(0,0,0,0.45);
+  }
+
+  /* ── Tagline 70 años (mobile: en flujo) ── */
   #caritas-colecta .cg-tagline {
     margin: 8px 24px 6px;
     padding: 0;
@@ -1024,109 +1069,91 @@
     text-shadow: 0 2px 8px rgba(0,0,0,0.55), 0 0 2px rgba(0,0,0,0.4);
     letter-spacing: -0.01em;
   }
-  /* Mobile: grid 2-cols → logo centrado en su columna + botón a la derecha */
-  @media (max-width: 767px) {
-    #caritas-colecta .cg-branding {
-      display: grid !important;
-      grid-template-columns: 1fr auto !important;
-      align-items: center;
-    }
-    #caritas-colecta .cg-branding .cg-logo {
-      justify-self: center;
-    }
+
+  /* ── Branding pill (logo + CTA) ── mobile base ── */
+  #caritas-colecta .cg-branding {
+    position: relative;
+    z-index: 30;
+    margin: 8px auto 4px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 12px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: rgba(255,255,255,0.32);
+    backdrop-filter: blur(14px) saturate(1.3);
+    -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    box-shadow: 0 12px 36px rgba(0,0,0,0.18), inset 1px 1px 0 rgba(255,255,255,0.7);
   }
-  /* Botón en mobile: compacto y con clara holgura a la derecha del pill */
-  @media (max-width: 767px) {
-    #caritas-colecta .cg-branding a {
-      padding-left: 12px !important;
-      padding-right: 12px !important;
-      font-size: 13px !important;
-      letter-spacing: 0.03em !important;
-      flex-shrink: 0;
-    }
-  }
-  /* Mobile: card compacta — hero corto (frame en las caras), videos cerca */
-  @media (max-width: 767px) {
-    #caritas-colecta .cg-hero { height: 260px !important; aspect-ratio: auto !important; }
-    #caritas-colecta article { background-position: center 18% !important; }
-    #caritas-colecta .cg-videos-grid { margin-top: 0 !important; }
-    #caritas-colecta .cg-video-wrap { max-height: 260px !important; }
-    /* Pill: mismo inset lateral que los videos (24px = el px-6 del shelf) */
-    #caritas-colecta .cg-branding {
-      margin-top: 0 !important;
-      margin-bottom: 0 !important;
-      margin-left: 24px !important;
-      margin-right: 24px !important;
-      /* Más aire a la derecha del botón */
-      padding-left: 12px !important;
-      padding-right: 22px !important;
-    }
-    #caritas-colecta .cg-shelf { padding-bottom: 16px !important; padding-top: 8px !important; }
-  }
-  /* Desktop: tarjeta vertical pequeña en la esquina */
-  @media (min-width: 768px) {
-    #caritas-colecta .cg-branding {
-      display: flex !important;
-      width: clamp(160px, 22vw, 220px) !important;
-      flex-direction: column !important;
-      padding: 8px !important;
-    }
-    /* Tagline: absoluta sobre el hero, debajo del pill, en la MISMA columna
-       y CENTRADA horizontalmente dentro de ese ancho (simétrica con el pill). */
-    #caritas-colecta .cg-tagline {
-      position: absolute !important;
-      top: 210px !important;
-      right: 24px !important;
-      margin: 0 !important;
-      width: clamp(160px, 22vw, 220px);   /* mismo ancho que la pill */
-      text-align: center;                  /* centrada dentro de la columna */
-      font-size: clamp(15px, 1.4vw, 19px);
-      line-height: 1.15;
-      z-index: 25;
-    }
-    #caritas-colecta .cg-branding .cg-logo {
-      width: 100% !important;
-      height: auto !important;
-    }
-    /* Videos suben sobre la foto del hero (Tailwind CDN no genera md:-mt-44 confiable) */
-    #caritas-colecta .cg-videos-grid { margin-top: -140px !important; }
-  }
-  #caritas-colecta .cg-bg-pattern {
-    background-color: #f4f3f8;
-    background-image:
-      radial-gradient(circle at 18% 22%, rgba(214,227,255,0.55) 0%, transparent 42%),
-      radial-gradient(circle at 82% 78%, rgba(255,218,219,0.45) 0%, transparent 45%),
-      radial-gradient(rgba(180,35,63,0.18) 1px, transparent 1px);
-    background-size: auto, auto, 22px 22px;
-  }
-  #caritas-colecta .cg-watermark {
-    position: absolute;
-    inset: auto -40px -60px auto;
-    width: 320px;
-    opacity: 0.08;
-    pointer-events: none;
-    transform: rotate(-8deg);
-    z-index: 0;
-  }
-  #caritas-colecta .cg-hero-gradient::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, rgba(10,49,97,0.55) 0%, rgba(10,49,97,0.10) 50%, rgba(0,0,0,0) 100%);
-    pointer-events: none;
-  }
-  /* Wave divider — onda blanca al pie del hero, estilo Cáritas */
-  #caritas-colecta .cg-wave {
-    position: absolute;
-    left: 0; right: 0; bottom: -1px;
-    width: 100%;
-    height: 70px;
+  #caritas-colecta .cg-logo {
     display: block;
-    z-index: 5;          /* sobre la foto, debajo de título/branding/videos */
-    pointer-events: none;
+    height: 48px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 6px;
+    justify-self: center;
   }
-  @media (min-width: 768px) {
-    #caritas-colecta .cg-wave { height: 90px; }
+  #caritas-colecta .cg-cta {
+    position: relative;
+    display: inline-block;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background: #b4233f;
+    color: #ffffff;
+    font-family: Manrope, Inter, sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    /* drop-shadow en lugar de box-shadow: respeta la forma y no se ve "lavado"
+       contra el backdrop-filter translúcido del pill, evitando el corte abrupto */
+    filter: drop-shadow(0 6px 14px rgba(180,35,63,0.55));
+    transition: background 300ms ease, transform 300ms ease, filter 300ms ease;
+  }
+  #caritas-colecta .cg-cta:hover {
+    background: #0a3161;
+    transform: translateY(-2px);
+    filter: drop-shadow(0 10px 20px rgba(10,49,97,0.50));
+  }
+
+  /* ── Shelf (parte inferior con glass) ── */
+  #caritas-colecta .cg-shelf {
+    position: relative;
+    z-index: 10;
+    padding: 8px 24px 16px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 45%, rgba(255,255,255,0.25) 100%);
+    backdrop-filter: blur(6px) saturate(1.2);
+    -webkit-backdrop-filter: blur(6px) saturate(1.2);
+  }
+
+  /* ── Videos ── */
+  #caritas-colecta .cg-videos-grid {
+    position: relative;
+    z-index: 20;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  #caritas-colecta .cg-video-wrap {
+    position: relative;
+    aspect-ratio: 9 / 16;
+    max-height: 260px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: #000;
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+    transition: transform 300ms ease, box-shadow 300ms ease;
+  }
+  #caritas-colecta .cg-video-wrap:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
   }
   #caritas-colecta video.cg-video-el {
     width: 100%;
@@ -1135,27 +1162,99 @@
     display: block;
     background: #000;
   }
+
+  /* ── Canvas de corazones ── */
+  #caritas-colecta .cg-hearts {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  /* ── Mobile (≤767px): hero corto + card compacta ── */
+  @media (max-width: 767px) {
+    #caritas-colecta .cg-card { background-position: center 18% !important; }
+    #caritas-colecta .cg-hero { height: 260px; aspect-ratio: auto; }
+    #caritas-colecta .cg-branding {
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-left: 24px;
+      margin-right: 24px;
+      padding-left: 12px;
+      padding-right: 22px;
+    }
+    #caritas-colecta .cg-shelf { padding-bottom: 16px; padding-top: 8px; }
+    #caritas-colecta .cg-videos-grid { margin-top: 0; }
+  }
+
+  /* ── Desktop (≥768px): pill vertical absoluta + tagline absoluta + videos elevados ── */
+  @media (min-width: 768px) {
+    #caritas-colecta {
+      padding-left: 24px;
+      padding-right: 24px;
+      /* Colapsa el margin-block del <section-title> de arriba para pegar el card al título "Avisos".
+         Mobile se queda sin esta regla — el usuario confirmó que el espacio mobile estaba OK. */
+      margin-top: calc(var(--pub-gap, 2rem) * -1);
+    }
+    #caritas-colecta .cg-card { width: 100%; }
+    #caritas-colecta .cg-hero { aspect-ratio: auto; height: 440px; }
+    #caritas-colecta .cg-title { left: 32px; top: 32px; }
+    #caritas-colecta .cg-branding {
+      position: absolute;
+      top: 24px;
+      right: 24px;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      width: clamp(160px, 22vw, 220px);
+      padding: 8px;
+      gap: 12px;
+    }
+    #caritas-colecta .cg-logo {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    #caritas-colecta .cg-cta {
+      padding: 8px 20px;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+    }
+    #caritas-colecta .cg-tagline {
+      position: absolute;
+      top: 210px;
+      right: 24px;
+      margin: 0;
+      width: clamp(160px, 22vw, 220px);
+      text-align: center;
+      font-size: clamp(15px, 1.4vw, 19px);
+      line-height: 1.15;
+      z-index: 25;
+    }
+    #caritas-colecta .cg-shelf { padding-bottom: 32px; }
+    #caritas-colecta .cg-videos-grid { margin-top: -140px; }
+    #caritas-colecta .cg-video-wrap { max-height: 340px; }
+  }
+
+  /* ── Pantallas chicas (≤640px) ── */
   @media (max-width: 640px) {
-    #caritas-colecta .cg-hero { aspect-ratio: 4 / 5 !important; }
-    #caritas-colecta .cg-title { max-width: 80% !important; font-size: clamp(26px, 7vw, 34px) !important; }
+    #caritas-colecta .cg-hero { aspect-ratio: 4 / 5; }
+    #caritas-colecta .cg-title { max-width: 80%; font-size: clamp(26px, 7vw, 34px); }
   }
 </style>
 
-<section id="caritas-colecta" aria-label="Colecta Anual de Cáritas"
-         class="cg-bg-pattern relative flex items-center justify-center overflow-hidden py-12 px-0 md:px-6 font-cg-body">
+<section id="caritas-colecta" aria-label="Colecta Anual de Cáritas">
 
-  <article class="relative z-10 mx-auto w-[95%] md:w-full max-w-[1180px] rounded-3xl overflow-hidden border-solid border-[8px] border-cg-secondary bg-cg-glass shadow-cg-elev-card text-cg-on-surface bg-cover bg-center"
-           style="background-image: url('./caritas/cabecera.png'); background-position: center 30%; backdrop-filter: blur(18px) saturate(1.4); -webkit-backdrop-filter: blur(18px) saturate(1.4);">
+  <article class="cg-card">
 
     <!-- Watermark Pastoral-caritativa (DESIGN.md: 'used as a watermark in the background') -->
     <img src="./caritas/Pastoral-caritativa.svg" alt="" class="cg-watermark" aria-hidden="true">
 
-    <!-- Hero: ahora SIN bg propia (la foto está en el <article>). Solo provee espacio + gradient overlay. -->
-    <!-- En mobile aspect-video; en desktop altura fija para que la card NO crezca en alto al ensanchar. -->
-    <div class="cg-hero cg-hero-gradient relative w-full aspect-video md:aspect-auto md:h-[440px]">
-
-      <h2 class="cg-title absolute left-6 top-6 md:left-8 md:top-8 m-0 z-10 max-w-[60%] text-white leading-[1.02] tracking-tight"
-          style="font-family: 'Mulish', 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif; font-weight: 900; font-size: clamp(32px, 5.5vw, 56px); text-transform: none; text-shadow: 0 4px 18px rgba(0,0,0,0.45);">
+    <!-- Hero: SIN bg propia (la foto está en el <article>). Solo espacio + gradient overlay. -->
+    <div class="cg-hero">
+      <h2 class="cg-title">
         Colaborá con la<br>Colecta Anual<br>de Cáritas
       </h2>
     </div>
@@ -1166,38 +1265,28 @@
     <p class="cg-tagline">70 años alentando<br>la esperanza</p>
 
     <!-- Branding (logo 70 años + CTA).
-         Mobile: pill horizontal (logo + botón en la misma fila), bajo perfil, debajo del título.
-         Desktop: tarjeta vertical absoluta en top-right del article. -->
-    <div class="cg-branding mx-auto mt-2 mb-1 relative z-30
-                flex flex-row items-center justify-center gap-3 px-3 py-2 rounded-2xl
-                md:absolute md:top-6 md:right-6 md:my-0
-                md:flex-col md:gap-3 md:p-2
-                border border-cg-glass-border shadow-cg-elev-pill"
-         style="background: rgba(255,255,255,0.32); backdrop-filter: blur(14px) saturate(1.3); -webkit-backdrop-filter: blur(14px) saturate(1.3);">
-      <img class="cg-logo block h-12 w-auto object-contain rounded-md
-                  md:h-auto md:w-full md:rounded-lg"
+         Mobile: pill horizontal (logo + botón en la misma fila), debajo del título.
+         Desktop: tarjeta vertical absoluta en top-right. -->
+    <div class="cg-branding">
+      <img class="cg-logo"
            src="./caritas/70anos-1024x587.png"
            alt="Cáritas Argentina · 70 Aniversario">
-      <a href="https://caritas.org.ar/sumate/" target="_blank" rel="noopener"
-         class="inline-block px-5 py-2 rounded-lg bg-cg-secondary text-cg-on-secondary font-cg-label font-bold text-sm tracking-wider no-underline shadow-cg-elev-cta transition-all duration-300 hover:bg-cg-primary hover:-translate-y-0.5 hover:shadow-cg-elev-cta-hover whitespace-nowrap"
-         style="letter-spacing: 0.05em;">
+      <a class="cg-cta" href="https://caritas.org.ar/sumate/" target="_blank" rel="noopener">
         Saber más
       </a>
     </div>
 
-    <!-- Bottom: shelf de glass translúcido (deja ver la foto detrás). pb generoso => foto visible bajo los videos. -->
-    <div class="cg-shelf px-6 pb-6 md:pb-8 pt-0 relative z-10"
-         style="background: linear-gradient(to bottom, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 45%, rgba(255,255,255,0.25) 100%); backdrop-filter: blur(6px) saturate(1.2); -webkit-backdrop-filter: blur(6px) saturate(1.2);">
-      <!-- mt negativo => los videos suben sobre la imagen de fondo. max-h limita el alto vertical. -->
-      <div class="cg-videos-grid grid grid-cols-2 gap-4 max-w-[520px] mx-auto mt-2 md:-mt-[176px] relative z-20">
-        <div class="cg-video-wrap relative aspect-[9/16] max-h-[340px] rounded-xl overflow-hidden border border-cg-glass-border shadow-lg bg-black transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <!-- Bottom: shelf de glass translúcido. Los videos suben sobre la foto con mt negativo en desktop. -->
+    <div class="cg-shelf">
+      <div class="cg-videos-grid">
+        <div class="cg-video-wrap">
           <video class="cg-video-el"
                  src="./caritas/video1.mp4"
                  poster="./caritas/cover1.jpg"
                  controls preload="metadata" playsinline
                  aria-label="Video Cáritas — Pieza 1"></video>
         </div>
-        <div class="cg-video-wrap relative aspect-[9/16] max-h-[340px] rounded-xl overflow-hidden border border-cg-glass-border shadow-lg bg-black transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+        <div class="cg-video-wrap">
           <video class="cg-video-el"
                  src="./caritas/video2.mp4"
                  controls preload="metadata" playsinline
@@ -1207,8 +1296,8 @@
     </div>
   </article>
 
-  <!-- Corazones FLOTANDO POR ARRIBA de la card (z-20), no interceptan clicks -->
-  <canvas class="cg-hearts pointer-events-none absolute inset-0 w-full h-full z-20" aria-hidden="true"></canvas>
+  <!-- Corazones flotando sobre la card (z-20), no interceptan clicks -->
+  <canvas class="cg-hearts" aria-hidden="true"></canvas>
 
   <script>
     (function () {
@@ -1327,6 +1416,13 @@
       border-radius: 9999px !important;
       overflow: hidden;
       transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+      white-space: nowrap;
+      font-size: 15px;
+      padding: 12px 24px;
+    }
+    .retiro-cta-btn .material-icons {
+      font-size: 22px;
+      line-height: 1;
     }
     .retiro-cta-btn:hover {
       transform: translateY(-2px);
@@ -1337,11 +1433,27 @@
       transform: translateY(0);
       box-shadow: 0 8px 18px rgba(90, 90, 90, 0.3), 0 3px 10px rgba(35, 35, 35, 0.2) !important;
     }
+    @media (max-width: 480px) {
+      .retiro-cta-btn {
+        font-size: 12.5px;
+        padding: 9px 14px;
+        letter-spacing: 0;
+      }
+      .retiro-cta-btn .material-icons {
+        font-size: 18px;
+      }
+      .retiro-cta-btn .me-2 {
+        margin-right: 6px !important;
+      }
+      .retiro-cta-btn .ms-1 {
+        margin-left: 4px !important;
+      }
+    }
   </style>
-   <div style="text-align: center; margin-top: -30px; padding-top: 0%;">
+   <div style="text-align: center; margin-top: -30px; padding: 0 16px;">
         <a href="#RETIROS" class="btn-md3 retiro-cta-btn"
-          style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; width: auto; padding: 12px 24px; text-align: center; border-radius: 9999px; box-shadow: 0 10px 24px rgba(95, 95, 95, 0.34), 0 4px 12px rgba(38, 38, 38, 0.22);">
-          <i class="material-icons me-2" style="font-size: 28px; line-height: 1;" aria-hidden="true">house</i> Ver Nuestras Casas de Retiro <i class="material-icons align-middle ms-1" aria-hidden="true">arrow_forward</i>
+          style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; width: auto; max-width: 100%; text-align: center; border-radius: 9999px; box-shadow: 0 10px 24px rgba(95, 95, 95, 0.34), 0 4px 12px rgba(38, 38, 38, 0.22);">
+          <i class="material-icons me-2" aria-hidden="true">house</i> Ver Nuestras Casas de Retiro <i class="material-icons align-middle ms-1" aria-hidden="true">arrow_forward</i>
     </a>
    </div>
 
@@ -4934,6 +5046,7 @@ for (let i = 0; i < 18; i++) {
       </div>
     </div>
   </section>
+ 
 <!-- inicio videos usca  -->
 
  <!-- ═══ Mural de Actividades ═══ -->
