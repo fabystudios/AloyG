@@ -18,7 +18,7 @@ Por una sola línea:
 <section-title id="ID" icon="🎓" text="Texto del Título"></section-title>
 ```
 
-Además ofrece **12 efectos visuales combinables** (estrellas, burbujas, confeti, nieve, halos, etc.) y un fix de padding mobile que estaba roto por reglas globales del *"reacomodamiento general"*.
+Además ofrece **13 efectos visuales combinables** (estrellas, burbujas, confeti, nieve, fairy-dust, halos, etc.) y un fix de padding mobile que estaba roto por reglas globales del *"reacomodamiento general"*.
 
 ---
 
@@ -91,7 +91,7 @@ Renderiza un `<section class="section-header">` con un `<h2 class="md3-headline"
 
 | Atributo  | Tipo                                                                                                                                                                              | Default  |
 |-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------|
-| `effect`  | `"none"` o uno o más de: `stars`, `bubbles`, `popping-bubbles`, `confetti`, `snow`, `rays`, `glow-pulse`, `aurora`, `floating-png`, `floating-svg`, `text-glow` — **combinables separados por espacio** | `"none"` |
+| `effect`  | `"none"` o uno o más de: `stars`, `bubbles`, `popping-bubbles`, `confetti`, `snow`, `rays`, `fairy-dust`, `glow-pulse`, `aurora`, `floating-png`, `floating-svg`, `text-glow` — **combinables separados por espacio** | `"none"` |
 
 ### Atributos por efecto
 
@@ -218,6 +218,18 @@ Rayos de luz semitransparentes saliendo del centro y rotando muy lentamente. Est
                rays-color="#ffd700" rays-count="10"></section-title>
 ```
 
+#### `fairy-dust` — Polvo de hadas (estilo Tinkerbell)
+
+Estrellitas con forma de cruz de 4 puntas + 2 diagonales más finitas, en colores pastel suaves (rosita, lavanda, cian pálido, dorado). Cada una **nace, pulsa creciendo**, llega a su pico de brillo y ahí **estalla emitiendo polvo** que se dispersa como estela flotando (gravedad muy suave, como magia). Después se desvanece y nace otra en otro lugar.
+
+Estética: descanso, magia, ternura, recogimiento espiritual. Encaja con secciones tipo "Oración", "Adoración", "Día del Niño", "Hora Santa", o cualquier momento contemplativo.
+
+```html
+<section-title text="Adoración Eucarística" icon="🌙" effect="fairy-dust"></section-title>
+```
+
+Sin atributos extra. Paleta interna: `#ffd1ec`, `#c9b9ff`, `#a0e9ff`, `#fff6c2`, `#d4a3ff`, `#9ffff6`, `#ffb1e1`, `#ffe5a0`. Cantidad: 5 mobile / 10 desktop.
+
 ### DOM-based (no usan canvas)
 
 #### `glow-pulse` — Halo pulsante
@@ -336,6 +348,8 @@ Combos más ambiciosos también funcionan — los canvas-based comparten un úni
 | Pascua           | `stars rays`                               |
 | Día del Niño     | `popping-bubbles confetti`                 |
 | Bautismos        | `bubbles floating-svg` (svg-shape=heart)   |
+| Adoración / Descanso | `fairy-dust glow-pulse` con `glow-color="#c9b9ff"` |
+| Hora Santa       | `fairy-dust rays` con `rays-color="#fff6c2"` |
 | Avisos urgentes  | `aurora floating-png text-glow` (megáfono) |
 | Solemnidad       | `glow-pulse rays`                          |
 | AVISOS original  | `stars floating-png text-glow` con `text-glow-color="#00e5ff"` |
@@ -416,7 +430,7 @@ Tomados del `index.html` actual:
 <section-title id="X" ...>              ← host (display:block, hereda --pub-gap)
   └── <section class="section-header">  ← gradiente, padding, border-radius
         ├── <div class="st-fx-layer">    ← capa de efectos (z-index:1)
-        │     ├── <canvas>               ← stars/bubbles/popping-bubbles/confetti/snow/rays
+        │     ├── <canvas>               ← stars/bubbles/popping-bubbles/confetti/snow/rays/fairy-dust
         │     ├── <div class="st-aurora">  ← aurora
         │     ├── <div class="st-glow-pulse"> ← glow-pulse
         │     ├── <img class="st-png">      ← floating-png (×N)
@@ -572,8 +586,8 @@ Combinado con `width: 100% !important` sobre el `.section-header` interno, el co
 │ extra-style     │ CSS inline · ""                                      │
 ├─────────────────┼──────────────────────────────────────────────────────┤
 │ effect          │ none / stars / bubbles / popping-bubbles / confetti  │
-│                 │ snow / rays / glow-pulse / aurora / floating-png /   │
-│                 │ floating-svg / text-glow                             │
+│                 │ snow / rays / fairy-dust / glow-pulse / aurora /     │
+│                 │ floating-png / floating-svg / text-glow              │
 │                 │  → combinables separando con espacio · "none"        │
 ├── floating-png ─┼──────────────────────────────────────────────────────┤
 │ png-src         │ url · ""                                             │
@@ -597,4 +611,4 @@ Combinado con `width: 100% !important` sobre el `.section-header` interno, el co
 └─────────────────┴──────────────────────────────────────────────────────┘
 ```
 
-**Catálogo de efectos (12):** `none`, `stars`, `bubbles`, `popping-bubbles`, `confetti`, `snow`, `rays`, `glow-pulse`, `aurora`, `floating-png`, `floating-svg`, `text-glow` — todos combinables.
+**Catálogo de efectos (13):** `none`, `stars`, `bubbles`, `popping-bubbles`, `confetti`, `snow`, `rays`, `fairy-dust`, `glow-pulse`, `aurora`, `floating-png`, `floating-svg`, `text-glow` — todos combinables.

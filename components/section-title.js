@@ -166,7 +166,10 @@
   const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 
   /* ───────── lista canónica de efectos ───────── */
-  const CANVAS_EFFECTS = ['stars', 'bubbles', 'popping-bubbles', 'confetti', 'snow', 'rays'];
+  const CANVAS_EFFECTS = ['stars', 'bubbles', 'popping-bubbles', 'confetti', 'snow', 'rays', 'fairy-dust'];
+
+  /* paleta pastel suave específica para fairy-dust (rosita, lavanda, dorado pálido, celeste) */
+  const FAIRY_COLORS = ['#ffd1ec','#c9b9ff','#a0e9ff','#fff6c2','#d4a3ff','#9ffff6','#ffb1e1','#ffe5a0'];
   const DOM_EFFECTS    = ['floating-png', 'floating-svg', 'glow-pulse', 'aurora'];
   const TEXT_EFFECTS   = ['text-glow'];
   const ALL_EFFECTS    = [...CANVAS_EFFECTS, ...DOM_EFFECTS, ...TEXT_EFFECTS];
@@ -362,6 +365,17 @@
           popAt: rand(H * 0.15, H * 0.55),   // altura donde explota
           popProgress: 0,
         }),
+        'fairy-dust': () => ({
+          type: 'fairy-dust',
+          x: rand(W * 0.05, W * 0.95),
+          y: rand(H * 0.1, H * 0.85),
+          r: rand(2.5, 5.5),
+          life: 0,
+          lifeSpeed: rand(0.006, 0.014),  // qué tan rápido completa el ciclo nacer-brillar-explotar
+          rot: rand(0, Math.PI),
+          color: pick(FAIRY_COLORS),
+          dustEmitted: false,
+        }),
         confetti: () => ({
           type: 'confetti',
           x: rand(0, W), y: -rand(5, 30),
@@ -386,9 +400,11 @@
         'popping-bubbles': () => W < 600 ? 6  : 12,
         confetti:          () => W < 600 ? 16 : 28,
         snow:              () => W < 600 ? 12 : 22,
+        'fairy-dust':      () => W < 600 ? 5  : 10,
       };
 
       const sparks = [];
+      const fairyDust = []; // estela del efecto fairy-dust
 
       const DRAWERS = {
         stars: (p) => {
@@ -504,6 +520,67 @@
           p.y += p.vy; p.x += p.vx + Math.sin(p.sway) * 0.5;
           if (p.y > H + 10) Object.assign(p, FACTORIES.snow());
         },
+        'fairy-dust': (p) => {
+          p.life += p.lifeSpeed;
+          if (p.life >= 1) {
+            Object.assign(p, FACTORIES['fairy-dust']());
+            return;
+          }
+          // bell curve: 0 → 1 → 0 sobre el ciclo de vida (sin(life·π))
+          const bell  = Math.sin(p.life * Math.PI);
+          const scale = 0.35 + 1.15 * bell;       // pulsa de chiquito a grande
+          const alpha = Math.pow(bell, 0.7);       // visible la mayor parte del ciclo
+          const r     = p.r * scale;
+
+          ctx.save();
+          ctx.translate(p.x, p.y);
+          ctx.rotate(p.rot);
+          ctx.globalAlpha = alpha;
+          ctx.strokeStyle = p.color;
+          ctx.shadowColor = p.color;
+          ctx.shadowBlur = 18 * scale;
+          ctx.lineCap = 'round';
+          // cruz de 4 puntas (largo > grueso = aspecto de destello)
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          ctx.moveTo(0, -r * 2.5); ctx.lineTo(0, r * 2.5);
+          ctx.moveTo(-r * 2.5, 0); ctx.lineTo(r * 2.5, 0);
+          ctx.stroke();
+          // diagonales más cortitas y finas (efecto destello extra)
+          ctx.globalAlpha = alpha * 0.55;
+          ctx.lineWidth = 0.8;
+          ctx.beginPath();
+          ctx.moveTo(-r * 1.2, -r * 1.2); ctx.lineTo(r * 1.2, r * 1.2);
+          ctx.moveTo(-r * 1.2,  r * 1.2); ctx.lineTo(r * 1.2,-r * 1.2);
+          ctx.stroke();
+          // centro blanco súper brillante
+          ctx.globalAlpha = alpha * 0.95;
+          ctx.beginPath();
+          ctx.arc(0, 0, r * 0.6, 0, Math.PI * 2);
+          ctx.fillStyle = '#fff';
+          ctx.shadowBlur = 12;
+          ctx.fill();
+          ctx.restore();
+
+          // En el pico de brillo: ESTALLA y emite polvo de hadas (estela)
+          if (!p.dustEmitted && p.life >= 0.45 && p.life <= 0.55) {
+            p.dustEmitted = true;
+            const burst = 8;
+            for (let k = 0; k < burst; k++) {
+              const a = rand(0, Math.PI * 2);
+              const v = rand(0.3, 1.1);
+              fairyDust.push({
+                x: p.x, y: p.y,
+                vx: Math.cos(a) * v,
+                vy: Math.sin(a) * v - 0.25, // leve impulso hacia arriba (flota)
+                alpha: 0.95,
+                r: rand(0.7, 1.8),
+                color: p.color,
+                fade: rand(0.008, 0.018),
+              });
+            }
+          }
+        },
       };
 
       const particleFx = canvasFx.filter(e => FACTORIES[e]);
@@ -576,6 +653,24 @@
           s.x += s.vx; s.y += s.vy; s.vy += 0.045;
           s.alpha -= (s.r > 2 || s.alpha > 1) ? 0.012 : 0.018;
           if (s.alpha <= 0) sparks.splice(i, 1);
+        }
+        // polvo de hadas (estela de fairy-dust) — flota lento, gravedad muy leve
+        for (let i = fairyDust.length - 1; i >= 0; i--) {
+          const d = fairyDust[i];
+          ctx.save();
+          ctx.globalAlpha = d.alpha;
+          ctx.beginPath();
+          ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+          ctx.fillStyle = d.color;
+          ctx.shadowColor = d.color;
+          ctx.shadowBlur = 8;
+          ctx.fill();
+          ctx.restore();
+          d.x += d.vx;
+          d.y += d.vy;
+          d.vy += 0.005;   // gravedad mucho más suave que sparks (mágico, no físico)
+          d.alpha -= d.fade;
+          if (d.alpha <= 0) fairyDust.splice(i, 1);
         }
       };
       const loop = () => {
