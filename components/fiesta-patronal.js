@@ -652,7 +652,7 @@ class FiestaPatronal extends HTMLElement {
         .fpat-bottom { flex-direction: column; gap: 0.7rem; }
         .fpat-locations { width: 100%; flex-direction: row; gap: 0.6rem; }
         .fpat-loc { flex: 1 1 0; min-width: 0; padding: 0.7rem 0.8rem; font-size: 0.82rem; line-height: 1.25; }
-        .fpat-cantina-img { width: 100%; height: clamp(120px, 38vw, 180px); }
+        .fpat-cantina-img { width: 100%; height: auto; object-fit: contain; }
         .fpat-invite { font-size: 0.95rem; margin-bottom: 0.5rem; }
         .fpat-saintname { font-size: clamp(1.4rem, 5vw, 2.2rem); }
       }
