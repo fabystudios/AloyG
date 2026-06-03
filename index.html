@@ -126,6 +126,7 @@
   <script src="./components/video-card-gold.js" defer></script>
   <script src="./components/video-gold-special.js" defer></script>
   <script src="./components/panel-photo-gallery.js" defer></script>
+  <script src="./components/comunicado-card.js" defer></script>
   <style>
     @media (max-width: 600px) {
       .rifa-bg-opacity {
@@ -2810,7 +2811,7 @@ for (let i = 0; i < 18; i++) {
 
 
   <!-- ═══ Video Presentación (Retro TV) ═══ -->
-   <div id="encuentro"></div>
+   <!-- <div id="encuentro"></div>
   <retro-tv-player
     anchor-id="video-encuentro"
     src-desktop="./video/enc_desk_audio.mp4"
@@ -2818,13 +2819,13 @@ for (let i = 0; i < 18; i++) {
     title="✨ Encuentro en la Palabra"
     color="#c8a84b"
     autoplay>
-  </retro-tv-player>
+  </retro-tv-player> -->
   <!-- ═══ Fin Video Presentación ═══ -->
 
 
-<script src="./components/comunicado-card.js"></script>
+
   <!-- badge-texto="HOY<br>JUEVES" -->
-<comunicado-card
+<!-- <comunicado-card
   id="adoGFE"
   imagen="./img/santisimo.png"
   imagen-flotante="./img/medalla.png"
@@ -2840,7 +2841,7 @@ for (let i = 0; i < 18; i++) {
   color-primario="#0a1e3d"
   color-secundario="#1a5276"
   color-acento="#4dd0e1"
-></comunicado-card>
+></comunicado-card> -->
 
 
 <!-- paleta rifa:
@@ -4025,45 +4026,336 @@ for (let i = 0; i < 18; i++) {
                  effect="floating-png" png-src="./img/casita.png"
                  png-count="5" png-height="36px" icon-mobile="off"></section-title>
 
-  <section id="retiro" class="section-padding ">
-    <div class="container">
-      <p class="text-center text-muted mb-5 lead"
-        style="font-size: 1.5rem; font-style: italic; color: #6c757d; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1); line-height: 1.2;">
-        "Descubre espacios de paz, <span class="d-block d-md-inline">encuentro y espiritualidad."</span>
+  <section id="retiro" class="section-padding retiro-hero">
+    <div class="retiro-bg-deco" aria-hidden="true"></div>
+    <div class="container" style="max-width: 80vw; position: relative; z-index: 2;">
+
+      <div class="retiro-promo-banner">
+        <span class="retiro-promo-dot"></span>
+        <span class="retiro-promo-text">VIVÍ UNA EXPERIENCIA QUE TRANSFORMA</span>
+        <span class="retiro-promo-dot"></span>
+      </div>
+
+      <h2 class="retiro-3d-title">
+        <span class="retiro-3d-word">Encontrá</span>
+        <span class="retiro-3d-word retiro-3d-accent">tu Refugio</span>
+        <span class="retiro-3d-word">Espiritual</span>
+      </h2>
+
+      <p class="retiro-lead text-center mb-5">
+        "Descubrí espacios de <strong>paz</strong>, <span class="d-block d-md-inline"><strong>encuentro</strong> y <strong>espiritualidad</strong>."</span>
       </p>
 
-      <div class="row g-4">
+      <div class="row g-4 retiro-cards-row">
         <!-- Casa de Retiro 1 -->
         <div class="col-lg-6">
-          <div class="card casa-retiro-card shadow-lg" style="background-image: url('./img/lujan.jpg');">
+          <div class="card casa-retiro-card casa-retiro-neo shadow-lg" style="background-image: url('./img/lujan.jpg');">
+            <div class="casa-retiro-badge">★ Destacada</div>
+            <div class="casa-retiro-overlay"></div>
             <div class="card-body d-flex flex-column justify-content-end text-white">
-              <h3 class="card-title text-center">Casa de Retiros Nuestra Señora de Luján</h3>
-              <p class="card-text text-center" style="line-height: 1.2;">
+              <h3 class="card-title text-center casa-retiro-3d">
+                <span class="casa-retiro-prelabel">Casa de Retiros</span>
+                <span class="casa-retiro-name">Nuestra Señora de Luján</span>
+              </h3>
+              <p class="card-text text-center" style="line-height: 1.3;">
                 Un espacio espiritual con vistas espectaculares y actividades para el alma.
               </p>
-              <a href="lujan/lujan.html" target="_blank" class="btn-md3">
-                <i class="material-icons align-middle">arrow_forward</i> Conoce más
+              <a href="lujan/lujan.html" target="_blank" class="btn-md3 btn-retiro-cta">
+                <i class="material-icons align-middle">arrow_forward</i> Conocé más
               </a>
             </div>
           </div>
         </div>
         <!-- Casa de Retiro 2 -->
         <div class="col-lg-6" id="brochero">
-          <div class="card casa-retiro-card shadow-lg" style="background-image: url('./img/brochero.jpg');">
+          <div class="card casa-retiro-card casa-retiro-neo shadow-lg" style="background-image: url('./img/brochero.jpg');">
+            <div class="casa-retiro-badge casa-retiro-badge-alt">✦ Recomendada</div>
+            <div class="casa-retiro-overlay"></div>
             <div class="card-body d-flex flex-column justify-content-end text-white">
-              <h3 class="card-title text-center">Casa de Retiros Santo Cura Brochero</h3>
-              <p class="card-text text-center">
+              <h3 class="card-title text-center casa-retiro-3d">
+                <span class="casa-retiro-prelabel">Casa de Retiros</span>
+                <span class="casa-retiro-name">Santo Cura Brochero</span>
+              </h3>
+              <p class="card-text text-center" style="line-height: 1.3;">
                 Un lugar para reflexionar y renovar el espíritu.
               </p>
-              <a href="./Brochero/brochero.html" target="_blank" class="btn-md3">
-                <i class="material-icons align-middle">arrow_forward</i> Conoce más
+              <a href="./Brochero/brochero.html" target="_blank" class="btn-md3 btn-retiro-cta">
+                <i class="material-icons align-middle">arrow_forward</i> Conocé más
               </a>
             </div>
           </div>
         </div>
       </div>
+
+      <div class="retiro-call-action">
+        <p class="retiro-call-text">¿Listo para una pausa que renueva el alma?</p>
+        <p class="retiro-call-sub">Elegí tu casa de retiro y reservá tu lugar.</p>
+      </div>
     </div>
 
+    <style>
+      /* ═══ Retiro – Hero Promocional ═══ */
+      #retiro.retiro-hero {
+        position: relative;
+        overflow: hidden;
+        background: #f9f9f9;
+        padding-top: 0 !important;
+        margin-top: -2.5rem !important;
+      }
+      #retiro .retiro-bg-deco {
+        position: absolute; inset: 0;
+        background:
+          radial-gradient(circle at 15% 20%, rgba(218,165,32,0.06) 0%, transparent 50%),
+          radial-gradient(circle at 85% 80%, rgba(139,108,0,0.05) 0%, transparent 55%);
+        pointer-events: none;
+        z-index: 1;
+      }
+
+      /* Banner promo */
+      #retiro .retiro-promo-banner {
+        display: flex; align-items: center; justify-content: center; gap: 14px;
+        margin: 0 auto 28px;
+        padding: 10px 22px;
+        max-width: max-content;
+        background: linear-gradient(135deg, #fff8e1 0%, #f5e6a8 100%);
+        border-radius: 50px;
+        box-shadow:
+          6px 6px 14px rgba(139,108,0,0.18),
+          -6px -6px 14px rgba(255,255,255,0.85),
+          inset 1px 1px 2px rgba(255,255,255,0.6);
+        animation: retiroPulse 2.6s ease-in-out infinite;
+      }
+      #retiro .retiro-promo-text {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: clamp(0.78rem, 1.2vw, 0.95rem);
+        letter-spacing: 2.5px;
+        color: #6b4f00;
+        text-transform: uppercase;
+      }
+      #retiro .retiro-promo-dot {
+        width: 10px; height: 10px; border-radius: 50%;
+        background: radial-gradient(circle at 30% 30%, #ffd54f, #b8860b);
+        box-shadow: 0 0 8px rgba(218,165,32,0.7);
+      }
+      @keyframes retiroPulse {
+        0%, 100% { transform: translateY(0); box-shadow: 6px 6px 14px rgba(139,108,0,0.18), -6px -6px 14px rgba(255,255,255,0.85), inset 1px 1px 2px rgba(255,255,255,0.6); }
+        50% { transform: translateY(-3px); box-shadow: 8px 10px 22px rgba(139,108,0,0.28), -8px -8px 18px rgba(255,255,255,0.95), inset 1px 1px 2px rgba(255,255,255,0.6); }
+      }
+
+      /* Título 3D */
+      #retiro .retiro-3d-title {
+        text-align: center;
+        font-family: 'Montserrat', 'Segoe UI', sans-serif;
+        font-weight: 900;
+        font-size: clamp(2.2rem, 5.2vw, 4.4rem);
+        line-height: 1.05;
+        margin: 0 auto 18px;
+        color: #5a3e00;
+        letter-spacing: -1px;
+        text-transform: uppercase;
+      }
+      #retiro .retiro-3d-word {
+        display: inline-block;
+        margin: 0 8px;
+        text-shadow:
+          1px 1px 0 #c9a227,
+          2px 2px 0 #b89020,
+          3px 3px 0 #a67e1a,
+          4px 4px 0 #8b6c00,
+          5px 5px 0 #6b5300,
+          6px 6px 0 #4a3a00,
+          7px 7px 12px rgba(0,0,0,0.35);
+        transition: transform 0.35s ease;
+      }
+      #retiro .retiro-3d-word:hover { transform: translate(-2px,-2px); }
+      #retiro .retiro-3d-accent {
+        background: linear-gradient(180deg, #ffd54f 0%, #b8860b 60%, #6b4f00 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        filter: drop-shadow(3px 4px 0 rgba(74,58,0,0.55)) drop-shadow(6px 7px 10px rgba(0,0,0,0.3));
+      }
+
+      /* Lead */
+      #retiro .retiro-lead {
+        font-size: clamp(1.1rem, 1.8vw, 1.55rem);
+        font-style: italic;
+        color: #5d4a1a;
+        line-height: 1.35;
+        text-shadow: 1px 1px 2px rgba(255,255,255,0.6);
+      }
+      #retiro .retiro-lead strong {
+        color: #8b6c00;
+        font-style: normal;
+        font-weight: 800;
+      }
+
+      /* Cards neomórficas */
+      #retiro .retiro-cards-row { perspective: 1200px; }
+      #retiro .casa-retiro-neo {
+        position: relative;
+        height: 480px;
+        border: none;
+        border-radius: 28px;
+        overflow: hidden;
+        background-size: cover;
+        background-position: center;
+        box-shadow:
+          14px 14px 30px rgba(74,58,0,0.35),
+          -10px -10px 24px rgba(255,255,255,0.65),
+          inset 2px 2px 4px rgba(255,255,255,0.15),
+          inset -2px -2px 4px rgba(0,0,0,0.25);
+        transition: transform 0.45s cubic-bezier(.2,.8,.2,1), box-shadow 0.45s ease;
+        transform-style: preserve-3d;
+      }
+      #retiro .casa-retiro-neo:hover {
+        transform: translateY(-12px) scale(1.015);
+        box-shadow:
+          20px 22px 40px rgba(74,58,0,0.45),
+          -12px -12px 28px rgba(255,255,255,0.75),
+          inset 2px 2px 4px rgba(255,255,255,0.2),
+          inset -2px -2px 4px rgba(0,0,0,0.3);
+      }
+      #retiro .casa-retiro-overlay {
+        position: absolute; inset: 0;
+        background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.25) 40%, rgba(0,0,0,0.75) 100%);
+        z-index: 1;
+        transition: background 0.4s ease;
+      }
+      #retiro .casa-retiro-neo:hover .casa-retiro-overlay {
+        background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(74,58,0,0.35) 40%, rgba(0,0,0,0.85) 100%);
+      }
+      #retiro .casa-retiro-neo .card-body { position: relative; z-index: 2; padding: 28px; }
+
+      /* Badge promo */
+      #retiro .casa-retiro-badge {
+        position: absolute; top: 18px; right: 18px; z-index: 3;
+        padding: 8px 16px;
+        background: linear-gradient(135deg, #ffd54f 0%, #b8860b 100%);
+        color: #3a2c00;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: 0.78rem;
+        letter-spacing: 1.2px;
+        text-transform: uppercase;
+        border-radius: 30px;
+        box-shadow:
+          4px 4px 10px rgba(0,0,0,0.35),
+          inset 1px 1px 2px rgba(255,255,255,0.6);
+      }
+      #retiro .casa-retiro-badge-alt {
+        background: linear-gradient(135deg, #fff8e1 0%, #d4a942 100%);
+      }
+
+      /* Título card */
+      #retiro .casa-retiro-3d {
+        font-family: 'Montserrat', sans-serif;
+        text-align: center;
+        margin-bottom: 16px;
+        line-height: 1.15;
+      }
+      #retiro .casa-retiro-prelabel {
+        display: block;
+        font-size: clamp(0.78rem, 1vw, 0.92rem);
+        font-weight: 700;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #ffd54f;
+        margin-bottom: 6px;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.85);
+      }
+      #retiro .casa-retiro-name {
+        display: block;
+        font-size: clamp(1.6rem, 2.8vw, 2.3rem);
+        font-weight: 900;
+        color: #ffffff;
+        letter-spacing: 0.5px;
+        line-height: 1.1;
+        text-shadow:
+          -1px -1px 0 #000,
+           1px -1px 0 #000,
+          -1px  1px 0 #000,
+           1px  1px 0 #000,
+           0    2px 6px rgba(0,0,0,0.85);
+      }
+      #retiro .casa-retiro-neo .card-text {
+        font-size: clamp(1rem, 1.3vw, 1.15rem);
+        font-weight: 500;
+        margin-bottom: 22px;
+        text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+      }
+
+      /* Botón CTA */
+      #retiro .btn-retiro-cta {
+        align-self: center !important;
+        padding: 12px 28px;
+        background: linear-gradient(135deg, #ffd54f 0%, #b8860b 100%) !important;
+        color: #3a2c00 !important;
+        font-weight: 800;
+        font-size: 1.05rem;
+        letter-spacing: 0.8px;
+        border-radius: 50px;
+        box-shadow:
+          6px 6px 14px rgba(0,0,0,0.35),
+          -3px -3px 8px rgba(255,255,255,0.15),
+          inset 1px 1px 2px rgba(255,255,255,0.55);
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+      }
+      #retiro .btn-retiro-cta:hover {
+        transform: translateY(-3px) scale(1.04);
+        box-shadow:
+          8px 10px 20px rgba(0,0,0,0.45),
+          -3px -3px 8px rgba(255,255,255,0.2),
+          inset 1px 1px 2px rgba(255,255,255,0.65);
+      }
+      #retiro .btn-retiro-cta i { color: #3a2c00; }
+
+      /* Llamado final */
+      #retiro .retiro-call-action {
+        margin-top: 50px;
+        text-align: center;
+        padding: 28px;
+        background: linear-gradient(135deg, rgba(255,248,225,0.7) 0%, rgba(245,230,168,0.6) 100%);
+        border-radius: 24px;
+        box-shadow:
+          inset 4px 4px 10px rgba(139,108,0,0.15),
+          inset -4px -4px 10px rgba(255,255,255,0.7);
+        backdrop-filter: blur(8px);
+      }
+      #retiro .retiro-call-text {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: clamp(1.3rem, 2.4vw, 1.9rem);
+        color: #5a3e00;
+        text-shadow:
+          1px 1px 0 #c9a227,
+          2px 2px 0 #a67e1a,
+          3px 3px 6px rgba(0,0,0,0.2);
+        margin-bottom: 6px;
+      }
+      #retiro .retiro-call-sub {
+        font-size: clamp(1rem, 1.5vw, 1.25rem);
+        font-style: italic;
+        color: #6b4f00;
+        margin: 0;
+      }
+
+      @media (max-width: 768px) {
+        #retiro .retiro-3d-word { margin: 0 4px; }
+        #retiro .casa-retiro-neo { height: 380px; }
+        #retiro .retiro-3d-title {
+          text-shadow: none;
+        }
+        #retiro .retiro-3d-word {
+          text-shadow:
+            1px 1px 0 #c9a227,
+            2px 2px 0 #a67e1a,
+            3px 3px 0 #8b6c00,
+            4px 4px 8px rgba(0,0,0,0.4);
+        }
+      }
+    </style>
   </section>
   <!-- ═══ / Arreglos y Mejorass ═══ -->
   <cork-mural-carousel
