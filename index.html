@@ -3101,17 +3101,76 @@
       }
 
       @media (max-width: 768px) {
-        #retiro .retiro-3d-word { margin: 0 4px; }
-        #retiro .casa-retiro-neo { height: 380px; }
-        #retiro .retiro-3d-title {
-          text-shadow: none;
+        /* (1) Contenedor a 95vw — las cards aprovechan casi todo el ancho */
+        #retiro .container {
+          max-width: 95vw !important;
+          padding-left: 0 !important;
+          padding-right: 0 !important;
         }
+        #retiro .retiro-cards-row { --bs-gutter-x: 0.75rem; }
+        #retiro .retiro-cards-row > [class*="col-"] {
+          padding-left: 0 !important;
+          padding-right: 0 !important;
+          margin-bottom: 1rem;
+        }
+
+        /* Título 3D */
+        #retiro .retiro-3d-word { margin: 0 4px; }
+        #retiro .retiro-3d-title { text-shadow: none; }
         #retiro .retiro-3d-word {
           text-shadow:
             1px 1px 0 #c9a227,
             2px 2px 0 #a67e1a,
             3px 3px 0 #8b6c00,
             4px 4px 8px rgba(0,0,0,0.4);
+        }
+
+        /* (2) Pill promocional ordenada */
+        #retiro .retiro-promo-banner {
+          gap: 10px;
+          padding: 8px 16px;
+          max-width: 92vw;
+          flex-wrap: nowrap;
+        }
+        #retiro .retiro-promo-text {
+          font-size: 0.72rem;
+          letter-spacing: 1.4px;
+          line-height: 1.25;
+          text-align: center;
+          white-space: normal;
+        }
+        #retiro .retiro-promo-dot { width: 8px; height: 8px; flex-shrink: 0; }
+
+        /* (3) Orden interno de la card */
+        #retiro .casa-retiro-neo { height: auto; min-height: 420px; }
+        #retiro .casa-retiro-neo .card-body { padding: 18px 16px; }
+
+        #retiro .casa-retiro-badge {
+          top: 14px; right: 14px;
+          padding: 6px 12px;
+          font-size: 0.7rem;
+          letter-spacing: 0.8px;
+        }
+        #retiro .casa-retiro-prelabel {
+          font-size: 0.72rem;
+          letter-spacing: 2px;
+          margin-bottom: 4px;
+        }
+        #retiro .casa-retiro-name {
+          font-size: 1.5rem;
+          line-height: 1.15;
+          letter-spacing: 0.3px;
+        }
+        #retiro .casa-retiro-neo .card-text {
+          font-size: 0.95rem;
+          margin-bottom: 16px;
+          padding: 0 6px;
+        }
+        #retiro .btn-retiro-cta {
+          padding: 10px 22px;
+          font-size: 0.95rem;
+          letter-spacing: 0.5px;
+          white-space: nowrap;
         }
       }
     </style>
