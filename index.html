@@ -54,7 +54,7 @@
   ═══════════════════════════════════════════════ -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inter:wght@400;600;800;900&family=Playfair+Display:wght@600&family=Dancing+Script&family=Lilita+One&family=Material+Symbols+Rounded:opsz,wght@24,400;24,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Inter:wght@400;600;800;900&family=Playfair+Display:wght@600&family=Dancing+Script&family=Lilita+One&family=Oswald:wght@500;600;700&family=Material+Symbols+Rounded:opsz,wght@24,400;24,700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
   <link href="https://fonts.cdnfonts.com/css/amarillo" rel="stylesheet">
 
@@ -4733,11 +4733,394 @@ for (let i = 0; i < 18; i++) {
                  png-count="5" png-size="36px" icon-mobile="off"></section-title>
 
 
-  <section id="portfolio" class="history-section">
+  <style>
+    /* =========================================================
+       MÁS HISTORIA · Tarjetas modernas (glass + neomorfismo)
+       Scoped a `.modern-history` para no chocar con estilos globales.
+       ========================================================= */
+    .modern-history {
+      position: relative;
+      isolation: isolate;
+      padding: clamp(8px, 1.2vw, 18px) 0 clamp(16px, 2vw, 28px) !important;
+      /* margen negativo para "comer" parte del --pub-gap del separador
+         previo y del siguiente section-title */
+      margin-top: clamp(-56px, -5vw, -32px) !important;
+      margin-bottom: clamp(-56px, -5vw, -32px) !important;
+      background: transparent !important;
+      overflow: hidden;
+      display: block !important;
+    }
+    /* Blobs decorativos MUY sutiles para no parchar contra el sitio */
+    .modern-history::before,
+    .modern-history::after {
+      content: "";
+      position: absolute;
+      width: 360px; height: 360px;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: .35;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .modern-history::before {
+      top: -140px; left: -140px;
+      background: radial-gradient(circle, rgba(196,181,253,.55) 0%, transparent 70%);
+      animation: mh-float 14s ease-in-out infinite;
+    }
+    .modern-history::after {
+      bottom: -160px; right: -140px;
+      background: radial-gradient(circle, rgba(254,215,170,.55) 0%, transparent 70%);
+      animation: mh-float 18s ease-in-out infinite reverse;
+    }
+    @keyframes mh-float {
+      0%,100% { transform: translate(0,0) scale(1); }
+      50%     { transform: translate(30px,-20px) scale(1.08); }
+    }
+    .modern-history > .container {
+      position: relative;
+      z-index: 1;
+      max-width: 1320px !important;
+    }
+
+    /* Subtítulo — kicker editorial con reglas decorativas a los lados */
+    .modern-history .section-subheading {
+      display: inline-flex !important;
+      align-items: center;
+      justify-content: center;
+      gap: clamp(12px, 1.6vw, 22px);
+      max-width: min(820px, 92%);
+      font-family: 'Playfair Display', Georgia, 'Times New Roman', serif !important;
+      font-size: clamp(1.05rem, 1vw + .65rem, 1.35rem) !important;
+      font-style: italic !important;
+      font-weight: 600 !important;
+      line-height: 1.4;
+      color: transparent !important;
+      background: linear-gradient(90deg, #6d28d9 0%, #a21caf 50%, #be185d 100%);
+      -webkit-background-clip: text;
+              background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: .1px;
+      margin-top: 0 !important;
+      margin-bottom: clamp(18px, 2.4vw, 30px) !important;
+      text-align: center;
+      filter: drop-shadow(0 1px 0 rgba(255,255,255,.55));
+    }
+    /* Reglas decorativas (líneas + diamante) a ambos lados del kicker */
+    .modern-history .section-subheading::before,
+    .modern-history .section-subheading::after {
+      content: "";
+      flex: 0 1 clamp(40px, 8vw, 110px);
+      height: 1px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(124, 58, 237, .55) 50%,
+        transparent 100%);
+      position: relative;
+    }
+    /* Diamantito brillante centrado sobre cada línea */
+    .modern-history .row.text-center {
+      position: relative;
+    }
+    .modern-history .section-subheading::before {
+      box-shadow: 0 0 0 0 transparent;
+    }
+    /* Pequeño glow detrás del texto, sutil */
+    .modern-history .col-lg-12:has(> .section-subheading) {
+      position: relative;
+    }
+
+    /* Tamaños extra-chicos: apilar (sin reglas a los lados) */
+    @media (max-width: 480px) {
+      .modern-history .section-subheading {
+        display: block !important;
+        max-width: 100%;
+      }
+      .modern-history .section-subheading::before,
+      .modern-history .section-subheading::after { display: none; }
+    }
+
+    /* Grid wrapper — todas las tarjetas a la misma altura */
+    .modern-history .row { row-gap: 28px; align-items: stretch; }
+    .modern-history .portfolio-item {
+      margin-bottom: 0 !important;
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+    }
+
+    /* === Tarjeta === */
+    .modern-history .portfolio-card {
+      --c1: #7c3aed;
+      --c2: #ec4899;
+      --c3: #06b6d4;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      max-width: 480px;
+      display: flex;
+      flex-direction: column;
+      padding: 0 !important;
+      border-radius: 22px !important;
+      overflow: hidden;
+      background: rgba(255, 255, 255, .55) !important;
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+      border: 1px solid rgba(255, 255, 255, .65);
+      box-shadow:
+        0 1px 0 rgba(255,255,255,.9) inset,
+        0 -1px 0 rgba(124,58,237,.06) inset,
+        10px 14px 30px rgba(76, 29, 149, .12),
+        -8px -8px 22px rgba(255, 255, 255, .85),
+        0 30px 60px -25px rgba(76, 29, 149, .25);
+      transition:
+        transform .55s cubic-bezier(.2,.8,.2,1),
+        box-shadow .55s cubic-bezier(.2,.8,.2,1);
+    }
+    /* Borde con gradiente animado (técnica conic-gradient + mask) */
+    .modern-history .portfolio-card::before {
+      content: "";
+      position: absolute; inset: 0;
+      border-radius: inherit;
+      padding: 1.5px;
+      background: conic-gradient(from var(--ang, 0deg),
+        var(--c1), var(--c2), var(--c3), var(--c1));
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      opacity: 0;
+      transition: opacity .5s ease;
+      pointer-events: none;
+      animation: mh-rotate 8s linear infinite;
+    }
+    @property --ang { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+    @keyframes mh-rotate { to { --ang: 360deg; } }
+    /* Brillo diagonal que cruza la tarjeta al hover */
+    .modern-history .portfolio-card::after {
+      content: "";
+      position: absolute;
+      top: 0; left: -60%;
+      width: 50%; height: 100%;
+      background: linear-gradient(115deg,
+        transparent 0%, rgba(255,255,255,.55) 50%, transparent 100%);
+      transform: skewX(-18deg);
+      transition: left .9s cubic-bezier(.2,.8,.2,1);
+      pointer-events: none;
+      z-index: 3;
+    }
+    .modern-history .portfolio-card:hover {
+      transform: translateY(-10px);
+      box-shadow:
+        0 1px 0 rgba(255,255,255,.95) inset,
+        14px 18px 40px rgba(76, 29, 149, .22),
+        -10px -10px 26px rgba(255, 255, 255, .95),
+        0 40px 80px -30px rgba(76, 29, 149, .45);
+    }
+    .modern-history .portfolio-card:hover::before { opacity: 1; }
+    .modern-history .portfolio-card:hover::after  { left: 130%; }
+
+    /* === Imagen === */
+    .modern-history .portfolio-img {
+      position: relative;
+      border-radius: 18px 18px 0 0;
+      overflow: hidden;
+      aspect-ratio: 16 / 9;
+      background: linear-gradient(135deg, #ede9fe, #fce7f3);
+    }
+    .modern-history .portfolio-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      border-radius: 0 !important;
+      transition: transform .8s cubic-bezier(.2,.8,.2,1), filter .5s ease;
+      filter: saturate(.95);
+    }
+    .modern-history .portfolio-card:hover .portfolio-img img {
+      transform: scale(1.08);
+      filter: saturate(1.1);
+    }
+    /* Etiqueta / badge sobre la imagen — naranja con dot incandescente */
+    .modern-history .portfolio-img::before {
+      content: "" attr(data-tag);
+      position: absolute;
+      top: 14px; left: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px 7px 12px;
+      font-size: .74rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: #fff;
+      background: linear-gradient(135deg, #fb923c 0%, #f97316 50%, #ea580c 100%);
+      border: 1px solid rgba(255,255,255,.55);
+      border-radius: 999px;
+      box-shadow:
+        0 0 0 3px rgba(249,115,22,.18),
+        0 8px 22px rgba(234,88,12,.45),
+        0 1px 0 rgba(255,255,255,.55) inset;
+      text-shadow: 0 1px 2px rgba(124,45,18,.45);
+      z-index: 2;
+    }
+    /* Dot incandescente delante del texto */
+    .modern-history .portfolio-img::after {
+      content: "";
+      position: absolute;
+      top: 19px; left: 22px;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: radial-gradient(circle at 35% 35%, #fff7ed 0%, #fde68a 30%, #fbbf24 65%, #f59e0b 100%);
+      box-shadow:
+        0 0 6px #fde68a,
+        0 0 12px #fbbf24,
+        0 0 20px rgba(251,191,36,.7);
+      z-index: 3;
+      animation: mh-glow 1.6s ease-in-out infinite;
+    }
+    @keyframes mh-glow {
+      0%,100% {
+        transform: scale(1);
+        box-shadow: 0 0 6px #fde68a, 0 0 12px #fbbf24, 0 0 20px rgba(251,191,36,.7);
+      }
+      50% {
+        transform: scale(1.25);
+        box-shadow: 0 0 8px #fff7ed, 0 0 18px #fcd34d, 0 0 32px rgba(251,191,36,.95);
+      }
+    }
+
+    /* Overlay con icono (lupa) — más sutil y moderno */
+    .modern-history .overlay {
+      background: linear-gradient(135deg,
+        rgba(124,58,237,.55), rgba(236,72,153,.45)) !important;
+      backdrop-filter: blur(2px);
+      z-index: 2;
+    }
+    .modern-history .overlay i {
+      transform: scale(.7);
+      transition: transform .45s cubic-bezier(.2,.8,.2,1);
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,.35));
+    }
+    .modern-history .portfolio-card:hover .overlay i {
+      transform: scale(1);
+    }
+
+    /* === Contenido === */
+    .modern-history .portfolio-card > a { display: block; flex: 0 0 auto; }
+    .modern-history .portfolio-content {
+      padding: 22px 22px 24px !important;
+      text-align: left !important;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      align-items: flex-start;
+    }
+    /* Titular tipo periódico: Oswald, alto, condensado y firme */
+    .modern-history .portfolio-content h4 {
+      font-family: 'Oswald', 'Roboto Condensed', 'Impact', 'Arial Narrow', sans-serif !important;
+      font-size: 1.5rem !important;
+      line-height: 1.12;
+      font-weight: 700 !important;
+      color: #6d28d9 !important;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      margin-bottom: 12px !important;
+      -webkit-text-fill-color: #6d28d9;
+      text-shadow: 0 1px 0 rgba(255,255,255,.65);
+    }
+    /* Línea decorativa fina debajo del titular, evoca la regla de un diario */
+    .modern-history .portfolio-content h4::after {
+      content: "";
+      display: block;
+      width: 42px;
+      height: 3px;
+      margin-top: 8px;
+      background: linear-gradient(90deg, #6d28d9, #ec4899);
+      border-radius: 2px;
+    }
+    .modern-history .portfolio-content p {
+      font-size: .95rem !important;
+      line-height: 1.55;
+      color: #475569 !important;
+      margin-bottom: 16px;
+    }
+    /* CTA "leer artículo →" — siempre visible, anclado al fondo
+       Efecto: gradient sweep (el fondo es 300% ancho y la posición
+       se desplaza en hover, creando un barrido cromático).            */
+    .modern-history .portfolio-content::after {
+      content: "Leer artículo  →";
+      display: inline-flex;
+      align-items: center;
+      margin-top: auto;
+      font-size: .82rem;
+      font-weight: 700;
+      letter-spacing: .3px;
+      color: #fff;
+      padding: 9px 16px;
+      border-radius: 999px;
+      background-image: linear-gradient(90deg,
+        #7c3aed 0%,
+        #a855f7 25%,
+        #ec4899 50%,
+        #a855f7 75%,
+        #7c3aed 100%);
+      background-size: 300% 100%;
+      background-position: 0% 50%;
+      border: 1px solid rgba(255,255,255,.45);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,.35) inset,
+        0 10px 22px -10px rgba(124,58,237,.55);
+      transition:
+        background-position 1.1s cubic-bezier(.2,.8,.2,1),
+        transform .35s ease,
+        box-shadow .35s ease,
+        filter .35s ease;
+    }
+    /* Hover sobre la tarjeta o directo sobre el botón → barrido del gradiente */
+    .modern-history .portfolio-card:hover .portfolio-content::after,
+    .modern-history .portfolio-content:hover::after {
+      background-position: 100% 50%;
+      transform: translateX(4px);
+      filter: brightness(1.08);
+      box-shadow:
+        0 2px 0 rgba(255,255,255,.45) inset,
+        0 14px 28px -10px rgba(236,72,153,.6);
+    }
+
+    /* Foco accesible al tabular */
+    .modern-history .portfolio-card a:focus-visible {
+      outline: 3px solid #7c3aed;
+      outline-offset: 4px;
+      border-radius: 14px;
+    }
+
+    /* Responsive ajustes */
+    @media (max-width: 575px) {
+      .modern-history .portfolio-content h4 { font-size: 1.35rem !important; }
+      .modern-history .portfolio-card {
+        border-radius: 18px !important;
+        max-width: 95vw !important;
+        width: 95vw !important;
+      }
+      .modern-history .portfolio-img { border-radius: 14px 14px 0 0; }
+    }
+
+    /* Respeto a usuarios con motion reducido */
+    @media (prefers-reduced-motion: reduce) {
+      .modern-history::before,
+      .modern-history::after,
+      .modern-history .portfolio-card::before { animation: none; }
+      .modern-history .portfolio-card,
+      .modern-history .portfolio-img img,
+      .modern-history .portfolio-card::after { transition: none; }
+    }
+  </style>
+
+  <section id="portfolio" class="history-section modern-history">
     <div class="container">
       <div class="row text-center">
         <div class="col-lg-12">
-          <!-- <h2 class="section-heading wow fadeInDown" data-wow-delay="0.2s">🌟 Un Poco Más de Historia</h2> -->
           <h3 class="section-subheading text-muted wow fadeIn" data-wow-delay="0.4s">
             🌟 Descubre los momentos que marcaron el legado de nuestra parroquia y fortalecieron nuestra fe. 🌟
           </h3>
@@ -4745,31 +5128,30 @@ for (let i = 0; i < 18; i++) {
       </div>
 
       <div class="row">
-        <!-- Tarjeta 1 -->
-        <div class="col-md-6 col-sm-12 portfolio-item wow fadeInLeft" data-wow-delay="0.3s">
+        <!-- 1. Ermita -->
+        <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item wow fadeInLeft" data-wow-delay="0.3s">
           <div class="portfolio-card">
-            <a href="https://www.eldia.com/nota/2008-3-28-un-poco-de-historia" target="_blank">
-              <div class="portfolio-img">
-                <img src="img/ElDiario.png" alt="Historia Parroquial" class="img-fluid">
+            <a href="https://www.schoenstatt.org/es/vida/2024/11/esta-ermita-tiene-historia-y-vida/" target="_blank" rel="noopener">
+              <div class="portfolio-img" data-tag="Devoción">
+                <img src="img/ermita.png" alt="Ermita de Schoenstatt" class="img-fluid">
                 <div class="overlay">
                   <i class="fa fa-search-plus fa-3x"></i>
                 </div>
               </div>
             </a>
             <div class="portfolio-content">
-              <h4>Descubre la historia detrás de nuestra comunidad parroquial</h4>
-              <p class="text-muted">Cada rincón de nuestra parroquia tiene un legado especial. Explora sus orígenes y
-                momentos clave.</p>
+              <h4>La Ermita: Historia y fe viva</h4>
+              <p class="text-muted">Descubre la devoción que rodea a la Ermita de Nuestra Señora de Schoenstatt.</p>
             </div>
           </div>
         </div>
 
-        <!-- Tarjeta 2 -->
-        <div class="col-md-6 col-sm-12 portfolio-item wow fadeInRight" data-wow-delay="0.3s">
+        <!-- 2. Capuchinos -->
+        <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item wow fadeInUp" data-wow-delay="0.3s">
           <div class="portfolio-card">
             <a href="https://1894radioonline.com.ar/los-capuchinos-franciscanos-una-historia-arraigada-en-villa-elisa/"
-              target="_blank">
-              <div class="portfolio-img">
+              target="_blank" rel="noopener">
+              <div class="portfolio-img" data-tag="Comunidad">
                 <img src="img/capuchinos.png" alt="Capuchinos Franciscanos" class="img-fluid">
                 <div class="overlay">
                   <i class="fa fa-search-plus fa-3x"></i>
@@ -4783,27 +5165,28 @@ for (let i = 0; i < 18; i++) {
           </div>
         </div>
 
-        <!-- Tarjeta 3 -->
-        <div class="col-md-6 col-sm-12 portfolio-item wow fadeInUp" data-wow-delay="0.3s">
+        <!-- 3. El Día -->
+        <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item wow fadeInRight" data-wow-delay="0.3s">
           <div class="portfolio-card">
-            <a href="https://www.schoenstatt.org/es/vida/2024/11/esta-ermita-tiene-historia-y-vida/" target="_blank">
-              <div class="portfolio-img">
-                <img src="img/ermita.png" alt="Ermita de Schoenstatt" class="img-fluid">
+            <a href="https://www.eldia.com/nota/2008-3-28-un-poco-de-historia" target="_blank" rel="noopener">
+              <div class="portfolio-img" data-tag="Historia">
+                <img src="img/ElDiario.png" alt="Historia Parroquial" class="img-fluid">
                 <div class="overlay">
                   <i class="fa fa-search-plus fa-3x"></i>
                 </div>
               </div>
             </a>
             <div class="portfolio-content">
-              <h4>La Ermita: Historia y fe viva</h4>
-              <p class="text-muted">Descubre la devoción que rodea a la Ermita de Nuestra Señora de Schoenstatt.</p>
+              <h4>Descubre la historia detrás de nuestra comunidad parroquial</h4>
+              <p class="text-muted">Cada rincón de nuestra parroquia tiene un legado especial. Explora sus orígenes y
+                momentos clave.</p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </section>
-
+<br><br>
 
 
   <!-- <section id="misas" class="section-padding">
