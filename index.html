@@ -960,7 +960,37 @@
                  <!-- png-src="./img/megafono.png" -->
 
 
-<br><b>
+
+
+
+
+<video-gold-special
+
+  video-desktop="https://youtu.be/r7lLTNim75k"
+  video-mobile="./asantos/4bis.mp4"
+  poster-mobile="./asantos/4bis.jpg"
+  ancho-desktop="860px"
+
+  etiqueta="4 de Junio"
+  badge="La Santa que Vio una Luna Incompleta"
+  titulo="Corpus Christi"
+
+  logo="./img/medalla.png"
+  logo-duracion="4">
+</video-gold-special>
+<span class="desktop-only" aria-hidden="true"><br><br><br></span>
+
+
+<!-- ═══════ Cáritas · Colecta Anual — Glassmorphic Card (CSS vanilla, sin Tailwind) ═══════ -->
+
+
+
+<style>
+  /* Mostrar los <br> adicionales solo en desktop (>=768px). En mobile queda solo el <br> simple arriba). */
+  .desktop-only{display:none!important}
+  @media (min-width:768px){ .desktop-only{display:inline!important} }
+</style>
+
 <!-- ═══════ Cáritas · Colecta Anual — Glassmorphic Card (CSS vanilla, sin Tailwind) ═══════ -->
 <!-- Plus Jakarta Sans + Manrope + Mulish Black (fuentes DESIGN.md Translucent Grace + título heavy) -->
 <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@800;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
@@ -1462,22 +1492,7 @@
   <!-- ═══ / Arreglos y Mejoras ═══ -->
 
                  
-<!-- <video-gold-special
 
-  video-desktop="https://youtu.be/Eqd1dYq25hc"
-  video-mobile="./asantos/31.mp4"
-  poster-mobile="./asantos/31.jpg"
-  ancho-desktop="860px"
-
-  etiqueta="31 de Mayo"
-  badge="Cuando María Llevó a Jesús a Isabel"
-  titulo="La Visitación"
-
-  logo="./img/medalla.png"
-  logo-duracion="4">
-</video-gold-special> -->
-
-<!-- <video-gold-special
 
   video-desktop="https://youtu.be/-_u6L2S_8gk"
   video-mobile="./asantos/st.mp4"
@@ -5006,7 +5021,16 @@ for (let i = 0; i < 18; i++) {
     }
 
     /* === Contenido === */
-    .modern-history .portfolio-card > a { display: block; flex: 0 0 auto; }
+    /* La propia card ES un <a>, así toda el área (imagen + título + botón)
+       lleva al mismo destino que la lupa. */
+    a.portfolio-card,
+    a.portfolio-card:hover,
+    a.portfolio-card:focus,
+    a.portfolio-card:visited {
+      text-decoration: none !important;
+      color: inherit !important;
+    }
+    .modern-history .portfolio-content::after { cursor: pointer; }
     .modern-history .portfolio-content {
       padding: 22px 22px 24px !important;
       text-align: left !important;
@@ -5130,58 +5154,54 @@ for (let i = 0; i < 18; i++) {
       <div class="row">
         <!-- 1. Ermita -->
         <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item wow fadeInLeft" data-wow-delay="0.3s">
-          <div class="portfolio-card">
-            <a href="https://www.schoenstatt.org/es/vida/2024/11/esta-ermita-tiene-historia-y-vida/" target="_blank" rel="noopener">
-              <div class="portfolio-img" data-tag="Devoción">
-                <img src="img/ermita.png" alt="Ermita de Schoenstatt" class="img-fluid">
-                <div class="overlay">
-                  <i class="fa fa-search-plus fa-3x"></i>
-                </div>
+          <a href="https://www.schoenstatt.org/es/vida/2024/11/esta-ermita-tiene-historia-y-vida/"
+             target="_blank" rel="noopener" class="portfolio-card">
+            <div class="portfolio-img" data-tag="Devoción">
+              <img src="img/ermita.png" alt="Ermita de Schoenstatt" class="img-fluid">
+              <div class="overlay">
+                <i class="fa fa-search-plus fa-3x"></i>
               </div>
-            </a>
+            </div>
             <div class="portfolio-content">
               <h4>La Ermita: Historia y fe viva</h4>
               <p class="text-muted">Descubre la devoción que rodea a la Ermita de Nuestra Señora de Schoenstatt.</p>
             </div>
-          </div>
+          </a>
         </div>
 
         <!-- 2. Capuchinos -->
         <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item wow fadeInUp" data-wow-delay="0.3s">
-          <div class="portfolio-card">
-            <a href="https://1894radioonline.com.ar/los-capuchinos-franciscanos-una-historia-arraigada-en-villa-elisa/"
-              target="_blank" rel="noopener">
-              <div class="portfolio-img" data-tag="Comunidad">
-                <img src="img/capuchinos.png" alt="Capuchinos Franciscanos" class="img-fluid">
-                <div class="overlay">
-                  <i class="fa fa-search-plus fa-3x"></i>
-                </div>
+          <a href="https://1894radioonline.com.ar/los-capuchinos-franciscanos-una-historia-arraigada-en-villa-elisa/"
+             target="_blank" rel="noopener" class="portfolio-card">
+            <div class="portfolio-img" data-tag="Comunidad">
+              <img src="img/capuchinos.png" alt="Capuchinos Franciscanos" class="img-fluid">
+              <div class="overlay">
+                <i class="fa fa-search-plus fa-3x"></i>
               </div>
-            </a>
+            </div>
             <div class="portfolio-content">
               <h4>Los Capuchinos Franciscanos: Un legado en Villa Elisa</h4>
               <p class="text-muted">Conoce la historia de esta congregación y su impacto en nuestra comunidad.</p>
             </div>
-          </div>
+          </a>
         </div>
 
         <!-- 3. El Día -->
         <div class="col-lg-4 col-md-6 col-sm-12 portfolio-item wow fadeInRight" data-wow-delay="0.3s">
-          <div class="portfolio-card">
-            <a href="https://www.eldia.com/nota/2008-3-28-un-poco-de-historia" target="_blank" rel="noopener">
-              <div class="portfolio-img" data-tag="Historia">
-                <img src="img/ElDiario.png" alt="Historia Parroquial" class="img-fluid">
-                <div class="overlay">
-                  <i class="fa fa-search-plus fa-3x"></i>
-                </div>
+          <a href="https://www.eldia.com/nota/2008-3-28-un-poco-de-historia"
+             target="_blank" rel="noopener" class="portfolio-card">
+            <div class="portfolio-img" data-tag="Historia">
+              <img src="img/ElDiario.png" alt="Historia Parroquial" class="img-fluid">
+              <div class="overlay">
+                <i class="fa fa-search-plus fa-3x"></i>
               </div>
-            </a>
+            </div>
             <div class="portfolio-content">
               <h4>Descubre la historia detrás de nuestra comunidad parroquial</h4>
               <p class="text-muted">Cada rincón de nuestra parroquia tiene un legado especial. Explora sus orígenes y
                 momentos clave.</p>
             </div>
-          </div>
+          </a>
         </div>
       </div>
     </div>
