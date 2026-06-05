@@ -1,4 +1,22 @@
 [
+              {
+    "id": "caritas",
+    "position": 1,
+    "hasVideo": false,
+    "link": "",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/caritas_desk.png"
+ 
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/caritas_mob.png"
+ 
+    }
+
+  },
             {
     "id": "jueves",
     "position": -1,
@@ -19,7 +37,7 @@
   },
           {
     "id": "feria",
-    "position": 4,
+    "position": 5,
     "hasVideo": false,
     "link": "#feria",
     "time": { "desktop": 3, "mobile": 3 },
@@ -37,7 +55,7 @@
   },
               {
     "id": "merienda",
-    "position": 2,
+    "position": 3,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -52,7 +70,7 @@
   },
               {
     "id": "7jun",
-    "position": 1,
+    "position": 2,
     "hasVideo": false,
     "link": "#aloy",
     "time": { "desktop": 3, "mobile": 3 },
@@ -67,7 +85,7 @@
   },
             {
     "id": "aloy",
-    "position": 3,
+    "position": 4,
     "hasVideo": false,
     "link": "#aloy",
     "time": { "desktop": 3, "mobile": 3 },
@@ -112,7 +130,7 @@
   },
           {
     "id": "afligidos",
-    "position": 6,
+    "position": 7,
     "hasVideo": false,
     "link": "#afligidos",
     "time": { "desktop": 3, "mobile": 3 },
