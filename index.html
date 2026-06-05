@@ -4825,7 +4825,7 @@ for (let i = 0; i < 18; i++) {
       font-weight: 600 !important;
       line-height: 1.4;
       color: transparent !important;
-      background: linear-gradient(90deg, #6d28d9 0%, #a21caf 50%, #be185d 100%);
+      background: linear-gradient(90deg, #7c3aed 0%, #6d28d9 50%, #4c1d95 100%);
       -webkit-background-clip: text;
               background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -5019,17 +5019,19 @@ for (let i = 0; i < 18; i++) {
       }
     }
 
-    /* Overlay con icono (lupa) — más sutil y moderno */
+    /* Overlay con icono (lupa) — celeste tonal */
     .modern-history .overlay {
       background: linear-gradient(135deg,
-        rgba(124,58,237,.55), rgba(236,72,153,.45)) !important;
+        rgba(56, 189, 248, .55),
+        rgba(2, 132, 199, .55)) !important;
       backdrop-filter: blur(2px);
       z-index: 2;
     }
     .modern-history .overlay i {
       transform: scale(.7);
       transition: transform .45s cubic-bezier(.2,.8,.2,1);
-      filter: drop-shadow(0 4px 12px rgba(0,0,0,.35));
+      filter: drop-shadow(0 4px 14px rgba(2, 132, 199, .55));
+      color: #f0f9ff;
     }
     .modern-history .portfolio-card:hover .overlay i {
       transform: scale(1);
@@ -5075,7 +5077,7 @@ for (let i = 0; i < 18; i++) {
       width: 42px;
       height: 3px;
       margin-top: 8px;
-      background: linear-gradient(90deg, #6d28d9, #ec4899);
+      background: linear-gradient(90deg, #7c3aed 0%, #4c1d95 100%);
       border-radius: 2px;
     }
     .modern-history .portfolio-content p {
@@ -5084,47 +5086,109 @@ for (let i = 0; i < 18; i++) {
       color: #475569 !important;
       margin-bottom: 16px;
     }
-    /* CTA "leer artículo →" — siempre visible, anclado al fondo
-       Efecto: gradient sweep (el fondo es 300% ancho y la posición
-       se desplaza en hover, creando un barrido cromático).            */
-    .modern-history .portfolio-content::after {
-      content: "Leer artículo  →";
-      display: inline-flex;
-      align-items: center;
+    /* CTA "Leer artículo" — botón real con estilo Material 3 / retiro-cta-btn.
+       Vive dentro del <a> que envuelve toda la card, así el clic en cualquier
+       parte (incluido el botón) lleva al destino. */
+    .modern-history .retiro-cta-btn {
       margin-top: auto;
-      font-size: .82rem;
-      font-weight: 700;
-      letter-spacing: .3px;
-      color: #fff;
-      padding: 9px 16px;
-      border-radius: 999px;
-      background-image: linear-gradient(90deg,
-        #7c3aed 0%,
-        #a855f7 25%,
-        #ec4899 50%,
-        #a855f7 75%,
-        #7c3aed 100%);
-      background-size: 300% 100%;
-      background-position: 0% 50%;
-      border: 1px solid rgba(255,255,255,.45);
-      box-shadow:
-        0 2px 0 rgba(255,255,255,.35) inset,
-        0 10px 22px -10px rgba(124,58,237,.55);
+      align-self: stretch !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 0 !important;
+      width: 100% !important;
+      max-width: 100%;
+      border-radius: 9999px !important;
+      overflow: hidden;
       transition:
-        background-position 1.1s cubic-bezier(.2,.8,.2,1),
-        transform .35s ease,
-        box-shadow .35s ease,
-        filter .35s ease;
-    }
-    /* Hover sobre la tarjeta o directo sobre el botón → barrido del gradiente */
-    .modern-history .portfolio-card:hover .portfolio-content::after,
-    .modern-history .portfolio-content:hover::after {
-      background-position: 100% 50%;
-      transform: translateX(4px);
-      filter: brightness(1.08);
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        filter 0.25s ease,
+        background-color 0.35s ease,
+        background-image 0.35s ease;
+      white-space: nowrap;
+      font-size: 14.5px;
+      font-weight: 600;
+      line-height: 1;
+      padding: 10px 20px;
+      text-decoration: none;
+      color: #fff !important;
       box-shadow:
-        0 2px 0 rgba(255,255,255,.45) inset,
-        0 14px 28px -10px rgba(236,72,153,.6);
+        0 10px 24px rgba(95, 95, 95, 0.34),
+        0 4px 12px rgba(38, 38, 38, 0.22);
+    }
+    .modern-history .retiro-cta-btn .me-2 { margin-right: 8px; }
+    .modern-history .retiro-cta-btn .ms-1 { margin-left: 6px; }
+    .modern-history .retiro-cta-btn .material-icons {
+      font-size: 20px;
+      line-height: 1;
+    }
+    /* Hover: fondo violeta se queda; el TEXTO y los iconos pasan a naranja
+       incandescente. Además: escalado + pulse continuo para darle vida. */
+    .modern-history a.portfolio-card:hover .retiro-cta-btn,
+    .modern-history a.portfolio-card .retiro-cta-btn:hover,
+    .modern-history a.portfolio-card:hover span.retiro-cta-btn,
+    .modern-history a.portfolio-card span.retiro-cta-btn:hover {
+      color: #fb923c !important;
+      text-shadow: 0 0 14px rgba(251, 146, 60, .55);
+      box-shadow:
+        0 14px 30px rgba(60, 30, 110, 0.42),
+        0 7px 16px rgba(40, 20, 80, 0.28) !important;
+      filter: saturate(1.08) brightness(1.05) !important;
+      animation: mh-btn-pulse 1s ease-in-out infinite !important;
+    }
+    .modern-history a.portfolio-card:hover .retiro-cta-btn .material-icons,
+    .modern-history a.portfolio-card .retiro-cta-btn:hover .material-icons {
+      color: #fb923c !important;
+      filter: drop-shadow(0 0 6px rgba(251,146,60,.6));
+    }
+    /* Latido marcado: amplio y rápido para que se note al instante. */
+    @keyframes mh-btn-pulse {
+      0% {
+        transform: translateY(-3px) scale(1.04);
+        box-shadow:
+          0 14px 30px rgba(60, 30, 110, 0.42),
+          0 7px 16px rgba(40, 20, 80, 0.28),
+          0 0 0 0 rgba(251, 146, 60, 0.65);
+      }
+      50% {
+        transform: translateY(-6px) scale(1.085);
+        box-shadow:
+          0 22px 44px rgba(60, 30, 110, 0.55),
+          0 12px 22px rgba(40, 20, 80, 0.35),
+          0 0 0 14px rgba(251, 146, 60, 0);
+      }
+      100% {
+        transform: translateY(-3px) scale(1.04);
+        box-shadow:
+          0 14px 30px rgba(60, 30, 110, 0.42),
+          0 7px 16px rgba(40, 20, 80, 0.28),
+          0 0 0 0 rgba(251, 146, 60, 0);
+      }
+    }
+    /* Respeta usuarios con motion reducido */
+    @media (prefers-reduced-motion: reduce) {
+      .modern-history a.portfolio-card:hover .retiro-cta-btn,
+      .modern-history a.portfolio-card .retiro-cta-btn:hover {
+        animation: none !important;
+        transform: translateY(-3px) scale(1.04) !important;
+      }
+    }
+    .modern-history .retiro-cta-btn:active {
+      transform: translateY(0);
+      box-shadow:
+        0 8px 18px rgba(90, 90, 90, 0.3),
+        0 3px 10px rgba(35, 35, 35, 0.2) !important;
+    }
+    @media (max-width: 480px) {
+      .modern-history .retiro-cta-btn {
+        font-size: 12.5px;
+        padding: 8px 14px;
+        letter-spacing: 0;
+      }
+      .modern-history .retiro-cta-btn .material-icons { font-size: 18px; }
+      .modern-history .retiro-cta-btn .me-2 { margin-right: 6px !important; }
+      .modern-history .retiro-cta-btn .ms-1 { margin-left: 4px !important; }
     }
 
     /* Foco accesible al tabular */
@@ -5160,9 +5224,7 @@ for (let i = 0; i < 18; i++) {
     <div class="container">
       <div class="row text-center">
         <div class="col-lg-12">
-          <h3 class="section-subheading text-muted wow fadeIn" data-wow-delay="0.4s">
-            🌟 Descubre los momentos que marcaron el legado de nuestra parroquia y fortalecieron nuestra fe. 🌟
-          </h3>
+                <br>
         </div>
       </div>
 
@@ -5180,6 +5242,11 @@ for (let i = 0; i < 18; i++) {
             <div class="portfolio-content">
               <h4>La Ermita: Historia y fe viva</h4>
               <p class="text-muted">Descubre la devoción que rodea a la Ermita de Nuestra Señora de Schoenstatt.</p>
+              <span class="btn-md3 retiro-cta-btn" aria-hidden="true">
+                <i class="material-icons me-2" aria-hidden="true">auto_stories</i>
+                Leer artículo
+                <i class="material-icons align-middle ms-1" aria-hidden="true">arrow_forward</i>
+              </span>
             </div>
           </a>
         </div>
@@ -5197,6 +5264,11 @@ for (let i = 0; i < 18; i++) {
             <div class="portfolio-content">
               <h4>Los Capuchinos Franciscanos: Un legado en Villa Elisa</h4>
               <p class="text-muted">Conoce la historia de esta congregación y su impacto en nuestra comunidad.</p>
+              <span class="btn-md3 retiro-cta-btn" aria-hidden="true">
+                <i class="material-icons me-2" aria-hidden="true">auto_stories</i>
+                Leer artículo
+                <i class="material-icons align-middle ms-1" aria-hidden="true">arrow_forward</i>
+              </span>
             </div>
           </a>
         </div>
@@ -5215,6 +5287,11 @@ for (let i = 0; i < 18; i++) {
               <h4>Descubre la historia detrás de nuestra comunidad parroquial</h4>
               <p class="text-muted">Cada rincón de nuestra parroquia tiene un legado especial. Explora sus orígenes y
                 momentos clave.</p>
+              <span class="btn-md3 retiro-cta-btn" aria-hidden="true">
+                <i class="material-icons me-2" aria-hidden="true">auto_stories</i>
+                Leer artículo
+                <i class="material-icons align-middle ms-1" aria-hidden="true">arrow_forward</i>
+              </span>
             </div>
           </a>
         </div>
@@ -5256,124 +5333,487 @@ for (let i = 0; i < 18; i++) {
                  effect="floating-png" png-src="./img/caliz.png"
                  png-count="5" png-size="34px"></section-title>
 
-  <section id="misas" class="section-padding">
+  <section id="misas" class="misas-neo section-padding">
     <div class="container">
-      <h2 class="text-center mb-5 fw-bold">
-        ⏰ Días y Horarios
-      </h2>
-      <div class="card shadow-lg border-0">
-        <div class="row g-0">
-          <div class="col-md-4 d-none d-md-block">
-            <img src="./img/misa.jpg" class="img-fluid h-100 object-fit-cover rounded-start" alt="Iglesia">
+
+
+
+      <!-- Card principal neomórfica -->
+      <div class="misas-card">
+
+        <!-- Imagen lateral con marco neomórfico -->
+        <div class="misas-img-wrap d-none d-md-block">
+          <div class="misas-img-frame">
+            <img src="./img/misa.jpg" alt="Iglesia San Luis Gonzaga">
+            <div class="misas-img-glow"></div>
           </div>
-          <div class="col-md-8">
-            <div class="card-body">
+        </div>
 
-              <div class="d-flex justify-content-center">
-                <div> <img src="./img/padre.png" alt="Padre Marcelo" class="rounded-circle me-3 img-autor"
-                    style="width: 50px; height: 50px;">
-                </div>
-                <div class="biografia">
-                  <h6 class="mb-0 text-center"><strong>Padre Marcelo Cerniato</h6>
-                  <p class="text-muted mb-0 text-center">párroco Iglesia San Luis Gonzaga</p>
-                </div>
+        <!-- Contenido -->
+        <div class="misas-body">
 
-              </div>
-
-              <div class="row misa-horarios">
-
-                <div class="row justify-content-center">
-                  <div class="col-lg-6 col-md-10 col-12">
-                    <ul class="list-group list-group-flush">
-                      <li class="list-group-item d-flex align-items-center">
-                        <i class="material-icons text-danger me-2">calendar_today</i>
-                        <strong class="me-2">Lunes a Viernes:</strong>
-                        <span>18:00 hs</span>
-                      </li>
-
-                      <li class="list-group-item d-flex align-items-center">
-                        <i class="material-icons text-danger me-2">event</i>
-                        <strong class="me-2">Sábados:</strong>
-                        <span>17:00 hs</span>
-                      </li>
-                      <li class="list-group-item d-flex align-items-center">
-                        <i class="material-icons text-danger me-2">schedule</i>
-                        <strong class="me-2">Domingos:</strong>
-                        <span>11:00hs y 19:00hs</span>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div class="col-lg-6 col-md-10 col-12">
-                    <div class="alert alert-light border p-3 fatima-box" style="background: rgba(138, 43, 226, 0.1);">
-                      <div class="text-center">
-                        <h6 class="fw-bold mb-2">Capilla Nuestra Señora de Fátima</h6>
-                      </div>
-                      <p class="mb-2 d-flex align-items-center">
-                        <i class="material-icons text-info me-2">schedule</i>
-                        <strong class="me-2">Domingos:</strong>
-                        <span>09:30 hs</span>
-                      </p>
-                      <p class="text-muted mb-0 d-flex align-items-center">
-                        <i class="material-icons text-info me-2">place</i>
-                        <span>Calle 408 entre Camino Gral Belgrano y 26</span>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="text-center mt-4 contacto-btn-wrapper">
-                <a href="#contacto" class="btn btn-md3 btn-danger">
-                  <i class="material-icons align-middle">phone</i> Contactar para más información
-                </a>
-              </div>
-
-              <style>
-                @media (max-width: 576px) {
-                  .misa-horarios .list-group-item {
-                    padding: .45rem .65rem;
-                    font-size: .9rem;
-                  }
-
-                  .misa-horarios .list-group-item i {
-                    font-size: 1.05rem;
-                    margin-right: .35rem !important;
-                  }
-
-                  .misa-horarios strong {
-                    font-weight: 600;
-                  }
-
-                  .misa-horarios .fatima-box {
-                    padding: .75rem .85rem !important;
-                  }
-
-                  .misa-horarios .fatima-box h6 {
-                    font-size: .92rem;
-                  }
-
-                  .misa-horarios .fatima-box p {
-                    font-size: .82rem;
-                    line-height: 1.15;
-                    margin-bottom: .45rem !important;
-                  }
-
-                  .contacto-btn-wrapper {
-                    margin-top: 1.2rem !important;
-                  }
-
-                  .contacto-btn-wrapper .btn {
-                    padding: .55rem .9rem;
-                    font-size: .9rem;
-                  }
-                }
-              </style>
+          <!-- Tarjeta del párroco -->
+          <div class="misas-priest">
+            <div class="misas-priest-avatar">
+              <img src="./img/padre.png" alt="Padre Marcelo Cerniato">
+            </div>
+            <div class="misas-priest-info">
+              <span class="misas-priest-label">Párroco</span>
+              <h6 class="misas-priest-name">Padre Marcelo Cerniato</h6>
+              <p class="misas-priest-role">Iglesia San Luis Gonzaga</p>
             </div>
           </div>
+
+          <!-- Grid de horarios -->
+          <div class="misas-grid">
+
+            <!-- Columna 1: Horarios principales -->
+            <div class="misas-schedule">
+              <div class="misas-schedule-title">
+                <i class="fas fa-church"></i>
+                <span>Iglesia Parroquial</span>
+              </div>
+
+              <div class="misas-row">
+                <div class="misas-row-icon"><i class="material-icons">calendar_today</i></div>
+                <div class="misas-row-text">
+                  <span class="misas-row-day">Lunes a Viernes</span>
+                  <span class="misas-row-time">18:00 hs</span>
+                </div>
+              </div>
+
+              <div class="misas-row">
+                <div class="misas-row-icon"><i class="material-icons">event</i></div>
+                <div class="misas-row-text">
+                  <span class="misas-row-day">Sábados</span>
+                  <span class="misas-row-time">17:00 hs</span>
+                </div>
+              </div>
+
+              <div class="misas-row">
+                <div class="misas-row-icon"><i class="material-icons">schedule</i></div>
+                <div class="misas-row-text">
+                  <span class="misas-row-day">Domingos</span>
+                  <span class="misas-row-time">11:00 y 19:00 hs</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Columna 2: Capilla Fátima -->
+            <div class="misas-chapel">
+              <div class="misas-chapel-badge">
+                <i class="fas fa-dove"></i>
+              </div>
+              <h6 class="misas-chapel-title">Capilla Nuestra Señora de Fátima</h6>
+
+              <div class="misas-row misas-row--chapel">
+                <div class="misas-row-icon"><i class="material-icons">schedule</i></div>
+                <div class="misas-row-text">
+                  <span class="misas-row-day">Domingos</span>
+                  <span class="misas-row-time">09:30 hs</span>
+                </div>
+              </div>
+
+              <div class="misas-chapel-address">
+                <i class="material-icons">place</i>
+                <span>Calle 408 e/ Camino Gral. Belgrano y 26</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="misas-cta-wrap">
+            <a href="#contacto" class="misas-cta">
+              <i class="material-icons">phone</i>
+              <span>Contactar para más información</span>
+            </a>
+          </div>
+
         </div>
       </div>
     </div>
+
+    <style>
+      /* =========================================================
+         MISAS · Neomorfismo cálido (cream + oro)
+         Scoped a `.misas-neo` para no afectar al resto.
+         ========================================================= */
+      .misas-neo {
+        --m-bg: #f1ead8;
+        --m-bg-2: #f7f1e1;
+        --m-shadow-dark: rgba(139, 108, 0, 0.22);
+        --m-shadow-light: rgba(255, 255, 255, 0.95);
+        --m-gold: #b8860b;
+        --m-gold-2: #ffd54f;
+        --m-text: #3a2c00;
+        --m-text-soft: #6b4f00;
+        --m-accent: #6d28d9;
+        --m-accent-2: #a21caf;
+
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+      }
+      /* Blobs decorativos */
+      .misas-neo::before,
+      .misas-neo::after {
+        content: "";
+        position: absolute;
+        width: 340px; height: 340px;
+        border-radius: 50%;
+        filter: blur(90px);
+        opacity: .35;
+        z-index: 0;
+        pointer-events: none;
+      }
+      .misas-neo::before {
+        top: -120px; left: -120px;
+        background: radial-gradient(circle, rgba(255,213,79,.7) 0%, transparent 70%);
+        animation: misas-float 16s ease-in-out infinite;
+      }
+      .misas-neo::after {
+        bottom: -140px; right: -120px;
+        background: radial-gradient(circle, rgba(196,181,253,.55) 0%, transparent 70%);
+        animation: misas-float 20s ease-in-out infinite reverse;
+      }
+      @keyframes misas-float {
+        0%,100% { transform: translate(0,0) scale(1); }
+        50%     { transform: translate(30px,-20px) scale(1.08); }
+      }
+      .misas-neo > .container { position: relative; z-index: 1; }
+
+      /* Kicker */
+      .misas-kicker {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(14px, 2vw, 26px);
+        margin: 0 auto clamp(28px, 4vw, 44px);
+        max-width: 640px;
+      }
+      .misas-kicker-line {
+        flex: 1;
+        height: 2px;
+        background: linear-gradient(90deg, transparent 0%, var(--m-gold) 50%, transparent 100%);
+        border-radius: 2px;
+      }
+      .misas-kicker-text {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: clamp(1.4rem, 2.4vw, 2rem);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        background: linear-gradient(135deg, var(--m-gold) 0%, #8b6c00 50%, var(--m-gold) 100%);
+        -webkit-background-clip: text;
+                background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 1px 0 rgba(255,255,255,.6);
+        white-space: nowrap;
+      }
+
+      /* Card principal neomórfica */
+      .misas-card {
+        display: grid;
+        grid-template-columns: 5fr 7fr;
+        gap: clamp(20px, 3vw, 36px);
+        padding: clamp(20px, 2.6vw, 32px);
+        border-radius: 32px;
+        background: var(--m-bg);
+        box-shadow:
+          14px 14px 32px var(--m-shadow-dark),
+          -12px -12px 28px var(--m-shadow-light),
+          inset 1px 1px 2px rgba(255,255,255,.6),
+          inset -1px -1px 2px rgba(139,108,0,.08);
+      }
+
+      /* Imagen lateral */
+      .misas-img-wrap { position: relative; }
+      .misas-img-frame {
+        position: relative;
+        height: 100%;
+        min-height: 380px;
+        border-radius: 24px;
+        overflow: hidden;
+        box-shadow:
+          inset 6px 6px 14px rgba(139,108,0,.25),
+          inset -6px -6px 14px rgba(255,255,255,.7),
+          8px 8px 20px rgba(139,108,0,.15);
+      }
+      .misas-img-frame img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform .8s cubic-bezier(.2,.8,.2,1);
+      }
+      .misas-img-frame:hover img { transform: scale(1.05); }
+      .misas-img-glow {
+        position: absolute; inset: 0;
+        background: linear-gradient(180deg, transparent 0%, rgba(58,44,0,.15) 60%, rgba(58,44,0,.55) 100%);
+        pointer-events: none;
+      }
+
+      /* Body */
+      .misas-body {
+        display: flex;
+        flex-direction: column;
+        gap: clamp(18px, 2.4vw, 26px);
+      }
+
+      /* Párroco — pill neomórfica */
+      .misas-priest {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        padding: 14px 22px 14px 14px;
+        border-radius: 60px;
+        background: var(--m-bg);
+        box-shadow:
+          inset 5px 5px 12px rgba(139,108,0,.18),
+          inset -5px -5px 12px rgba(255,255,255,.85);
+      }
+      .misas-priest-avatar {
+        flex-shrink: 0;
+        width: 64px; height: 64px;
+        border-radius: 50%;
+        padding: 4px;
+        background: linear-gradient(135deg, var(--m-gold-2), var(--m-gold));
+        box-shadow:
+          4px 4px 10px rgba(139,108,0,.3),
+          -3px -3px 8px rgba(255,255,255,.9);
+      }
+      .misas-priest-avatar img {
+        width: 100%; height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        background: #fff;
+      }
+      .misas-priest-info { display: flex; flex-direction: column; line-height: 1.2; }
+      .misas-priest-label {
+        font-size: .7rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: var(--m-gold);
+      }
+      .misas-priest-name {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: 1.05rem;
+        color: var(--m-text);
+        margin: 2px 0;
+      }
+      .misas-priest-role {
+        font-size: .85rem;
+        color: var(--m-text-soft);
+        margin: 0;
+        font-style: italic;
+      }
+
+      /* Grid de horarios */
+      .misas-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(16px, 2vw, 22px);
+      }
+
+      /* Columna horarios principales */
+      .misas-schedule,
+      .misas-chapel {
+        position: relative;
+        padding: 22px 20px;
+        border-radius: 22px;
+        background: var(--m-bg);
+        box-shadow:
+          8px 8px 20px var(--m-shadow-dark),
+          -6px -6px 16px var(--m-shadow-light),
+          inset 1px 1px 2px rgba(255,255,255,.5);
+      }
+      .misas-schedule-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding-bottom: 14px;
+        margin-bottom: 14px;
+        border-bottom: 1px dashed rgba(139,108,0,.25);
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: .95rem;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        color: var(--m-text);
+      }
+      .misas-schedule-title i { color: var(--m-gold); font-size: 1.1rem; }
+
+      /* Filas de horarios */
+      .misas-row {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        padding: 10px 12px;
+        margin-bottom: 10px;
+        border-radius: 14px;
+        background: var(--m-bg);
+        box-shadow:
+          inset 3px 3px 8px rgba(139,108,0,.13),
+          inset -3px -3px 8px rgba(255,255,255,.85);
+        transition: transform .25s ease;
+      }
+      .misas-row:last-child { margin-bottom: 0; }
+      .misas-row:hover { transform: translateX(4px); }
+      .misas-row-icon {
+        flex-shrink: 0;
+        width: 38px; height: 38px;
+        display: grid; place-items: center;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--m-gold-2), var(--m-gold));
+        color: var(--m-text);
+        box-shadow:
+          3px 3px 7px rgba(139,108,0,.3),
+          -2px -2px 6px rgba(255,255,255,.85),
+          inset 1px 1px 2px rgba(255,255,255,.5);
+      }
+      .misas-row-icon i { font-size: 1.1rem; }
+      .misas-row-text { display: flex; flex-direction: column; line-height: 1.2; }
+      .misas-row-day {
+        font-weight: 700;
+        font-size: .92rem;
+        color: var(--m-text);
+      }
+      .misas-row-time {
+        font-weight: 800;
+        font-size: 1.05rem;
+        color: var(--m-gold);
+        font-family: 'Montserrat', sans-serif;
+      }
+
+      /* Capilla Fátima — acento violeta */
+      .misas-chapel {
+        background: linear-gradient(160deg, #f3edf7 0%, #f1ead8 100%);
+      }
+      .misas-chapel-badge {
+        position: absolute;
+        top: -16px;
+        right: 18px;
+        width: 44px; height: 44px;
+        display: grid; place-items: center;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--m-accent) 0%, var(--m-accent-2) 100%);
+        color: #fff;
+        font-size: 1.1rem;
+        box-shadow:
+          5px 5px 14px rgba(109,40,217,.35),
+          -3px -3px 8px rgba(255,255,255,.85),
+          inset 1px 1px 2px rgba(255,255,255,.5);
+      }
+      .misas-chapel-title {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: .98rem;
+        color: var(--m-accent);
+        margin: 0 0 14px;
+        padding-right: 50px;
+        line-height: 1.3;
+      }
+      .misas-row--chapel .misas-row-icon {
+        background: linear-gradient(135deg, #c4b5fd, var(--m-accent));
+        color: #fff;
+      }
+      .misas-row--chapel .misas-row-time { color: var(--m-accent); }
+      .misas-chapel-address {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 14px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: rgba(255,255,255,.45);
+        font-size: .82rem;
+        color: var(--m-text-soft);
+        box-shadow: inset 2px 2px 5px rgba(109,40,217,.1);
+      }
+      .misas-chapel-address i {
+        color: var(--m-accent);
+        font-size: 1rem;
+      }
+
+      /* CTA */
+      .misas-cta-wrap {
+        display: flex;
+        justify-content: center;
+        margin-top: clamp(8px, 1.5vw, 14px);
+      }
+      .misas-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 32px;
+        border-radius: 60px;
+        background: linear-gradient(135deg, var(--m-gold-2) 0%, var(--m-gold) 100%);
+        color: var(--m-text) !important;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: 1rem;
+        letter-spacing: 0.6px;
+        text-decoration: none !important;
+        box-shadow:
+          7px 7px 16px rgba(139,108,0,.35),
+          -4px -4px 12px rgba(255,255,255,.9),
+          inset 1px 1px 2px rgba(255,255,255,.6);
+        transition: transform .25s ease, box-shadow .25s ease;
+      }
+      .misas-cta:hover {
+        transform: translateY(-3px);
+        box-shadow:
+          10px 12px 22px rgba(139,108,0,.45),
+          -4px -4px 12px rgba(255,255,255,.95),
+          inset 1px 1px 2px rgba(255,255,255,.7);
+      }
+      .misas-cta:active {
+        transform: translateY(1px);
+        box-shadow:
+          inset 4px 4px 10px rgba(139,108,0,.35),
+          inset -3px -3px 8px rgba(255,255,255,.6);
+      }
+      .misas-cta i { font-size: 1.2rem; }
+
+      /* ====== Responsive ====== */
+      @media (max-width: 991.98px) {
+        .misas-card { grid-template-columns: 1fr; }
+        .misas-img-frame { min-height: 280px; }
+      }
+      @media (max-width: 575.98px) {
+        .misas-card {
+          padding: 18px;
+          border-radius: 24px;
+        }
+        .misas-grid { grid-template-columns: 1fr; }
+        .misas-kicker-text {
+          font-size: 1.2rem;
+          letter-spacing: 1.4px;
+          white-space: normal;
+          text-align: center;
+        }
+        .misas-priest {
+          padding: 12px 16px 12px 12px;
+          gap: 12px;
+        }
+        .misas-priest-avatar { width: 54px; height: 54px; }
+        .misas-priest-name { font-size: .98rem; }
+        .misas-priest-role { font-size: .78rem; }
+        .misas-schedule,
+        .misas-chapel { padding: 18px 16px; }
+        .misas-row { padding: 9px 10px; gap: 12px; }
+        .misas-row-icon { width: 34px; height: 34px; }
+        .misas-row-day { font-size: .85rem; }
+        .misas-row-time { font-size: .98rem; }
+        .misas-chapel-title { font-size: .92rem; padding-right: 44px; }
+        .misas-cta {
+          padding: 12px 24px;
+          font-size: .92rem;
+        }
+      }
+    </style>
   </section>
 
   <!-- <section id="horarios-misa" class="section-padding">
