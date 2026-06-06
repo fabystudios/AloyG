@@ -12,7 +12,7 @@
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/dulce_mob.png"
+      "src": "./slides/dulce2_mob.png"
  
     }
 
@@ -30,7 +30,7 @@
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/caritas_mob.png"
+      "src": "./slides/caritas2_mob.png"
  
     }
 
