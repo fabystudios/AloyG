@@ -73,7 +73,7 @@
   },
               {
     "id": "merienda",
-    "position": 4,
+    "position": 3,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -88,7 +88,7 @@
   },
               {
     "id": "7jun",
-    "position": 3,
+    "position": -1,
     "hasVideo": false,
     "link": "#aloy",
     "time": { "desktop": 3, "mobile": 3 },
