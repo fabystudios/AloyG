@@ -19,7 +19,7 @@
   },
               {
     "id": "caritas",
-    "position": 2,
+    "position": -1,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -55,7 +55,7 @@
   },
           {
     "id": "feria",
-    "position": -1,
+    "position": 2,
     "hasVideo": false,
     "link": "#feria",
     "time": { "desktop": 3, "mobile": 3 },
