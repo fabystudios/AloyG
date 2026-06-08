@@ -2,7 +2,7 @@
 
 Web Component standalone con estética **glassmorphism** para mostrar un video de YouTube acompañado de un título y un texto.
 
-- **Desktop:** card landscape — video a la izquierda, título y texto en columna a la derecha (el texto scrollea dentro de su columna si excede la altura del video).
+- **Desktop:** columna izquierda con título arriba + video debajo; columna derecha con el texto, que cubre la altura completa de (título + video). El texto scrollea internamente si excede.
 - **Mobile:** card vertical 95vw con aspect-ratio 9:16 — título arriba, video con *crop central* (se ve grande), texto debajo con botón **"más…"** que aparece sólo cuando el texto no entra.
 - **Aislado** del CSS del sitio gracias a Shadow DOM — ningún estilo global puede deformarlo.
 
@@ -44,8 +44,10 @@ No requiere build, framework ni dependencias.
 |-------------|----------|---------------|-------------|
 | `url`       | string   | —             | URL de YouTube. Acepta cualquier formato (ver abajo). |
 | `title`     | string   | `''`          | Título visible en el header de la card. |
+| `subtitle`  | string   | `''`          | Subtítulo opcional debajo del título (ej. autor, fecha). En tipografía sans, MAYÚSCULAS y color de acento. |
 | `text`      | string   | `''`          | Descripción / cuerpo del texto. Soporta saltos de línea. |
 | `accent`    | string   | `"#c8a84b"`   | Color de acento en hex (badges, bordes, glow, scrollbar). |
+| `bg-image`  | string   | —             | URL o path a una imagen (PNG con transparencia ideal) que flota de fondo. **No se deforma** — mantiene su aspect ratio, queda centrada y con opacidad reducida (`0.14`). Suma una sutil animación de levitación. |
 | `anchor-id` | string   | auto-generado | ID HTML para anclas URL (`#mi-id`). |
 
 ### Formatos de URL aceptados
@@ -95,6 +97,28 @@ En este caso la línea `"Jesús Eucaristía, hacé de nosotros instrumentos de t
 
 ---
 
+## Imagen flotante de fondo
+
+```html
+<youtube-glass-card
+  url="https://youtu.be/XXXX"
+  title="..."
+  text="..."
+  bg-image="./img/cc.png">
+</youtube-glass-card>
+```
+
+- Se renderiza como `<img>` real con `object-fit: contain` → **nunca se deforma**.
+- Queda centrada, con `max-width: 75%` y `max-height: 80%` del wrap.
+- Opacidad `0.14` (decorativa, no compite con el contenido).
+- `z-index: 0` (detrás del header, video y texto).
+- `pointer-events: none` — no bloquea clicks.
+- Animación de levitación de 7s. Se desactiva con `prefers-reduced-motion`.
+
+Ideal: PNG con fondo transparente (logos, iconos, ilustraciones).
+
+---
+
 ## Cambiar el color de acento
 
 ```html
@@ -122,18 +146,19 @@ El color de acento afecta:
 ### Desktop (≥768px)
 
 ```
-+---------------------------+--------------------+
-|                           | ▶ Título           |
-|                           |--------------------|
-|        VIDEO 16:9         | Texto              |
-|        (58% width)        | (con scroll si     |
-|                           |  excede la altura) |
-|                           |                    |
-+---------------------------+--------------------+
++---------------------------+----------------------+
+| ▶ Título                  |                      |
++---------------------------+      Texto           |
+|                           |  (paralelo a título  |
+|        VIDEO 16:9         |   + video, con       |
+|        (58% width)        |   scroll si excede)  |
+|                           |                      |
++---------------------------+----------------------+
 ```
 
 - Max-width 1080px, centrada con `margin: 2rem auto`.
-- La altura de la card la define el video — la columna derecha se ajusta y el texto scrollea internamente si supera la altura.
+- Columna izquierda: título arriba, video 16:9 debajo.
+- Columna derecha: el texto cubre la altura completa (header + video) y scrollea internamente si el contenido la supera.
 
 ### Mobile (≤767px)
 

@@ -4,15 +4,19 @@
  * Atributos:
  *   url        URL de YouTube (admite watch?v=, youtu.be/, shorts/, embed/, live/)
  *   title      Título de la tarjeta
+ *   subtitle   Subtítulo opcional (ej. autor, fecha) debajo del título
  *   text       Texto/descripción (\n\n → párrafos; cita entre comillas → blockquote)
  *   accent     Color de acento hex (default: "#c8a84b")
+ *   bg-image   URL/path a una imagen PNG decorativa que flota de fondo
+ *              (no se deforma — mantiene su aspect, opacidad reducida)
  *   anchor-id  ID HTML para anclas URL (default: auto)
  *
  * Layout:
- *   - Desktop:  card landscape, video a la izquierda (~58%) + columna a la
- *               derecha con título arriba y texto debajo (scrollea si excede).
- *   - Mobile:   card 95vw, aspect-ratio 9:16, vertical:
- *               header arriba, video con crop central, texto con "más…".
+ *   - Desktop:  columna izquierda con título arriba + video debajo;
+ *               columna derecha con el texto, paralelo a (título + video).
+ *               El texto scrollea si excede esa altura.
+ *   - Mobile:   card 95vw, aspect 9:16, vertical:
+ *               header → video (crop central) → texto + botón "más…".
  *
  * Usa Shadow DOM para aislar estilos de CSS global del sitio.
  */
@@ -21,8 +25,10 @@ class YoutubeGlassCard extends HTMLElement {
   connectedCallback() {
     const rawUrl      = this.getAttribute('url')       || '';
     const titleText   = this.getAttribute('title')     || '';
+    const subtitleTxt = this.getAttribute('subtitle')  || '';
     const bodyText    = this.getAttribute('text')      || '';
     const accentColor = this.getAttribute('accent')    || '#c8a84b';
+    const bgImage     = this.getAttribute('bg-image')  || '';
     const anchorId    = this.getAttribute('anchor-id')
                        || ('yt-glass-' + Math.random().toString(36).slice(2, 8));
 
@@ -92,7 +98,7 @@ class YoutubeGlassCard extends HTMLElement {
 }
 
 /* ══════════════════════════════════════════════════════════
-   WRAP — DESKTOP landscape (video izq + columna der)
+   WRAP — DESKTOP: izquierda (título + video) | derecha (texto)
 ══════════════════════════════════════════════════════════ */
 .wrap {
   position: relative;
@@ -116,8 +122,18 @@ class YoutubeGlassCard extends HTMLElement {
   isolation: isolate;
   display: flex;
   flex-direction: row;
-  align-items: stretch;
+  align-items: flex-start;
   gap: 1.1rem;
+}
+
+/* ─── Columna izquierda: header + video apilados ─── */
+.left-col {
+  flex: 0 0 58%;
+  width: 58%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-width: 0;
 }
 
 .wrap::before {
@@ -146,17 +162,138 @@ class YoutubeGlassCard extends HTMLElement {
   z-index: 0;
 }
 
-/* ─── Video (columna izquierda) ─── */
+/* ─── Imagen flotante decorativa (prop bg-image) ─── */
+/* Múltiples copias chicas que "pululan" por la card por detrás del
+   contenido. object-fit: contain → no se deforman. */
+.bg-floater {
+  position: absolute;
+  width: 22%;
+  max-width: 160px;
+  min-width: 70px;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.20;
+  mix-blend-mode: screen;
+  pointer-events: none;
+  user-select: none;
+  z-index: 4;
+  filter: drop-shadow(0 8px 20px rgba(0,0,0,0.5));
+  will-change: transform;
+}
+.bg-floater.f1 {
+  top: 8%;
+  left: 4%;
+  width: 18%;
+  animation: ygc-pull-1 16s ease-in-out infinite;
+}
+.bg-floater.f2 {
+  top: 55%;
+  right: 6%;
+  width: 25%;
+  opacity: 0.16;
+  animation: ygc-pull-2 22s ease-in-out infinite;
+  animation-delay: -3s;
+}
+.bg-floater.f3 {
+  bottom: 6%;
+  left: 38%;
+  width: 15%;
+  opacity: 0.24;
+  animation: ygc-pull-3 19s ease-in-out infinite;
+  animation-delay: -7s;
+}
+
+@keyframes ygc-pull-1 {
+  0%   { transform: translate(0, 0)        rotate(0deg) scale(1); }
+  25%  { transform: translate(40px, -20px) rotate(8deg) scale(1.08); }
+  50%  { transform: translate(70px, 30px)  rotate(-4deg) scale(0.95); }
+  75%  { transform: translate(20px, 50px)  rotate(5deg) scale(1.05); }
+  100% { transform: translate(0, 0)        rotate(0deg) scale(1); }
+}
+@keyframes ygc-pull-2 {
+  0%   { transform: translate(0, 0)         rotate(0deg) scale(1); }
+  33%  { transform: translate(-50px, -30px) rotate(-10deg) scale(0.9); }
+  66%  { transform: translate(-30px, 40px)  rotate(6deg) scale(1.1); }
+  100% { transform: translate(0, 0)         rotate(0deg) scale(1); }
+}
+@keyframes ygc-pull-3 {
+  0%   { transform: translate(0, 0)        rotate(0deg) scale(1); }
+  20%  { transform: translate(-40px, -50px) rotate(7deg) scale(1.1); }
+  45%  { transform: translate(30px, -25px)  rotate(-6deg) scale(0.95); }
+  70%  { transform: translate(50px, 20px)   rotate(4deg) scale(1.05); }
+  100% { transform: translate(0, 0)         rotate(0deg) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-floater { animation: none; }
+}
+
+/* ─── Header (título sobre el video, en la columna izquierda) ─── */
+.header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0 0.2rem 0.9rem 0.2rem;
+  border-bottom: 1px solid rgba(${cr},${cg},${cb},0.22);
+  flex-shrink: 0;
+}
+.badge {
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, ${mid} 0%, ${dark} 100%);
+  color: #fff;
+  box-shadow:
+    0 6px 18px rgba(${cr},${cg},${cb},0.45),
+    inset 0 1px 0 rgba(255,255,255,0.30);
+}
+.badge i { font-size: 24px; }
+
+.heading {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+.title {
+  font-family: 'Playfair Display', 'Georgia', serif;
+  font-size: clamp(1.25rem, 2vw, 1.85rem);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.2;
+  color: ${lite};
+  text-shadow:
+    0 2px 6px rgba(0,0,0,0.55),
+    0 0 24px rgba(${cr},${cg},${cb},0.25);
+}
+.subtitle {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  color: rgba(255, 245, 220, 0.95);
+  text-transform: uppercase;
+  text-shadow:
+    0 1px 3px rgba(0,0,0,0.7),
+    0 0 18px rgba(${cr},${cg},${cb},0.45);
+}
+
+/* ─── Video (dentro de la columna izquierda) ─── */
 .video-frame {
   position: relative;
   z-index: 1;
-  flex: 0 0 58%;
-  width: 58%;
+  width: 100%;
   border-radius: 16px;
   overflow: hidden;
   background: #000;
   aspect-ratio: 16 / 9;
-  align-self: center;
   box-shadow:
     0 18px 40px rgba(0,0,0,0.65),
     0 0 0 1px rgba(${cr},${cg},${cb},0.30),
@@ -180,63 +317,15 @@ class YoutubeGlassCard extends HTMLElement {
   padding: 1rem;
 }
 
-/* ─── Columna derecha (header + body) ─── */
-/* En desktop la sacamos del flow para que la altura del wrap la
-   defina el video — así el body scrollea si el texto excede. */
-.right-col {
+/* ─── Body (texto, derecha — paralelo a título+video) ─── */
+/* Position absolute para que su altura sea la del wrap (= título +
+   video + paddings) sin importar cuánto texto contenga. */
+.body {
   position: absolute;
-  z-index: 1;
   top: 1.2rem;
   right: 1.2rem;
   bottom: 1.2rem;
   width: calc(42% - 1.7rem);
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  min-height: 0;
-}
-
-/* ─── Header ─── */
-.header {
-  display: flex;
-  align-items: center;
-  gap: 0.7rem;
-  padding: 0 0 0.8rem 0;
-  border-bottom: 1px solid rgba(${cr},${cg},${cb},0.22);
-  flex-shrink: 0;
-}
-.badge {
-  flex-shrink: 0;
-  width: 38px;
-  height: 38px;
-  border-radius: 11px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: linear-gradient(135deg, ${mid} 0%, ${dark} 100%);
-  color: #fff;
-  box-shadow:
-    0 6px 18px rgba(${cr},${cg},${cb},0.45),
-    inset 0 1px 0 rgba(255,255,255,0.30);
-}
-.badge i { font-size: 22px; }
-
-.title {
-  font-family: 'Playfair Display', 'Georgia', serif;
-  font-size: clamp(1.15rem, 1.7vw, 1.55rem);
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  line-height: 1.2;
-  color: ${lite};
-  text-shadow:
-    0 2px 6px rgba(0,0,0,0.55),
-    0 0 24px rgba(${cr},${cg},${cb},0.25);
-}
-
-/* ─── Body (texto) ─── */
-.body {
-  flex: 1 1 auto;
-  min-height: 0;
   overflow-y: auto;
   padding: 1rem 1.1rem;
   border-radius: 14px;
@@ -295,17 +384,23 @@ class YoutubeGlassCard extends HTMLElement {
     padding: 0.8rem 0.9rem 0.9rem;
     border-radius: 20px;
     aspect-ratio: 9 / 16;
-    flex-direction: column;
     gap: 0;
   }
 
-  /* La columna derecha "se disuelve" — header y body pasan a ser hijos
-     directos del wrap para el layout vertical */
-  .right-col {
+  /* La columna izquierda "se disuelve" — header y video pasan a ser
+     hijos directos del wrap para el layout vertical */
+  .left-col {
     display: contents;
-    position: static;
-    width: auto;
   }
+  .wrap {
+    flex-direction: column;
+  }
+
+  /* Orden vertical: header → video → body → botón */
+  .header      { order: 1; }
+  .video-frame { order: 2; }
+  .body        { order: 3; }
+  .more        { order: 4; }
 
   .header {
     gap: 0.5rem;
@@ -321,14 +416,11 @@ class YoutubeGlassCard extends HTMLElement {
   .title {
     font-size: 0.95rem;
     line-height: 1.18;
-    /* Evita 4-5 líneas de palabras chiquitas: deja respirar */
   }
-
-  /* Orden vertical: header → video → body → botón más */
-  .header      { order: 1; }
-  .video-frame { order: 2; }
-  .body        { order: 3; }
-  .more        { order: 4; }
+  .subtitle {
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+  }
 
   /* Video con CROP central */
   .video-frame {
@@ -352,6 +444,8 @@ class YoutubeGlassCard extends HTMLElement {
 
   /* Texto con fade + botón más */
   .body {
+    position: static;
+    width: auto;
     flex: 1 1 50%;
     min-height: 0;
     margin: 0.7rem 0 0 0;
@@ -429,33 +523,42 @@ class YoutubeGlassCard extends HTMLElement {
 
 <div class="wrap" role="region" aria-label="${escapeHtml(titleText) || 'Video'}">
 
-  <div class="video-frame">
-    ${embedUrl ? `
-      <iframe
-        src="${embedUrl}"
-        title="${escapeHtml(titleText) || 'Video de YouTube'}"
-        loading="lazy"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        referrerpolicy="strict-origin-when-cross-origin"
-        allowfullscreen></iframe>
-    ` : `
-      <div class="video-fallback">
-        <span>No se pudo cargar el video. Verificá la URL de YouTube.</span>
-      </div>
-    `}
-  </div>
+  ${bgImage ? `
+    <img class="bg-floater f1" src="${escapeHtml(bgImage)}" alt="" aria-hidden="true">
+    <img class="bg-floater f2" src="${escapeHtml(bgImage)}" alt="" aria-hidden="true">
+    <img class="bg-floater f3" src="${escapeHtml(bgImage)}" alt="" aria-hidden="true">
+  ` : ''}
 
-  <div class="right-col">
+  <div class="left-col">
     <div class="header">
       <span class="badge" aria-hidden="true">
         <i class="material-icons">play_circle</i>
       </span>
-      <div class="title" role="heading" aria-level="2">${escapeHtml(titleText)}</div>
+      <div class="heading">
+        <div class="title" role="heading" aria-level="2">${escapeHtml(titleText)}</div>
+        ${subtitleTxt ? `<div class="subtitle">${escapeHtml(subtitleTxt)}</div>` : ''}
+      </div>
     </div>
 
-    <div class="body">
-      ${paragraphsHtml || `<p>${escapeHtml(bodyText)}</p>`}
+    <div class="video-frame">
+      ${embedUrl ? `
+        <iframe
+          src="${embedUrl}"
+          title="${escapeHtml(titleText) || 'Video de YouTube'}"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      ` : `
+        <div class="video-fallback">
+          <span>No se pudo cargar el video. Verificá la URL de YouTube.</span>
+        </div>
+      `}
     </div>
+  </div>
+
+  <div class="body">
+    ${paragraphsHtml || `<p>${escapeHtml(bodyText)}</p>`}
   </div>
 
   <button class="more" type="button" aria-expanded="false">
