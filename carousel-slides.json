@@ -75,7 +75,7 @@
     "id": "merienda",
     "position": 3,
     "hasVideo": false,
-    "link": "",
+    "link": "#merendero",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
