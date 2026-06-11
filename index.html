@@ -1473,6 +1473,730 @@
                  <!-- png-src="./img/megafono.png" -->
 
 
+
+<!-- =================== MISIONERO SCHOENSTATT (WC) =================== -->
+<section id="SCHOENSTATT" class="wc-misionero" aria-label="Querés ser misionero - Campaña del Santo Rosario">
+  <canvas class="wc-canvas" aria-hidden="true"></canvas>
+
+  <div class="wc-bg" aria-hidden="true"></div>
+  <div class="wc-vignette" aria-hidden="true"></div>
+
+  <div class="wc-stage">
+
+    <div class="wc-rays" aria-hidden="true">
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <!-- PANEL IZQUIERDO: identidad + título + CTA -->
+    <article class="wc-card wc-panel-izq" tabindex="0">
+      <div class="wc-card-glow" aria-hidden="true"></div>
+
+      <div class="wc-head">
+        <div class="wc-logo-wrap">
+          <div class="wc-logo-ring" aria-hidden="true"></div>
+          <img class="wc-logo" src="./st/logo-ST.png" alt="Campaña del Santo Rosario de la Virgen Peregrina de Schoenstatt" loading="lazy">
+        </div>
+        <div class="wc-eyebrow">Campaña del Santo Rosario<br>Virgen Peregrina de Schoenstatt</div>
+      </div>
+
+      <h2 class="wc-title">
+        <span class="wc-title-pre">¿Querés ser</span>
+        <span class="wc-title-main">misionero?</span>
+      </h2>
+
+      <div class="wc-divider" aria-hidden="true"><span></span></div>
+
+      <div class="wc-cta">
+        <span class="wc-cta-text">¡Te esperamos!</span>
+        <span class="wc-cta-shine" aria-hidden="true"></span>
+      </div>
+    </article>
+
+    <!-- PANEL DERECHO: info + contactos -->
+    <article class="wc-card wc-panel-der" tabindex="0">
+      <div class="wc-card-glow" aria-hidden="true"></div>
+
+      <div class="wc-info">
+        <div class="wc-info-item">
+          <span class="wc-info-icon material-symbols-rounded">place</span>
+          <div>
+            <div class="wc-info-label">Lugar</div>
+            <div class="wc-info-value">Ermita de Schoenstatt<br>City Bell y Villa Elisa</div>
+          </div>
+        </div>
+        <div class="wc-info-item">
+          <span class="wc-info-icon material-symbols-rounded">schedule</span>
+          <div>
+            <div class="wc-info-label">Hora</div>
+            <div class="wc-info-value">16:30 hs</div>
+          </div>
+        </div>
+        <div class="wc-info-item wc-info-meet">
+          <span class="wc-info-icon material-symbols-rounded">event</span>
+          <div>
+            <div class="wc-info-label">Encuentros de Preparación</div>
+            <div class="wc-info-value">
+              <span class="wc-chip">3 de Julio</span>
+              <span class="wc-chip">17 de Julio</span>
+              <span class="wc-chip">7 de Agosto</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="wc-contacts">
+        <div class="wc-info-label wc-contacts-label">
+          <span class="material-symbols-rounded">call</span> Contactos
+        </div>
+        <div class="wc-contacts-grid">
+          <a class="wc-contact" href="tel:+5492215422071">
+            <span class="wc-contact-name">Mariana</span>
+            <span class="wc-contact-num">221 542-2071</span>
+          </a>
+          <a class="wc-contact" href="tel:+5492215758838">
+            <span class="wc-contact-name">Susana</span>
+            <span class="wc-contact-num">221 575-8838</span>
+          </a>
+          <a class="wc-contact" href="tel:+5492215936564">
+            <span class="wc-contact-name">Fernanda</span>
+            <span class="wc-contact-num">221 593-6564</span>
+          </a>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <style>
+    .wc-misionero{
+      position: relative;
+      width: 95vw;
+      max-width: 1800px;
+      margin: 2.5rem auto;
+      padding: 0; /* anula el padding global de section (110px 0) */
+      border-radius: 32px;
+      overflow: hidden;
+      isolation: isolate;
+      box-shadow:
+        0 30px 80px -30px rgba(0,0,0,0.55),
+        0 10px 30px -15px rgba(20,40,30,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+      background: #0c1410;
+      font-family: 'Montserrat', 'Segoe UI', sans-serif;
+    }
+    .wc-misionero::before{
+      content:"";
+      position:absolute; inset:0;
+      border-radius:32px;
+      padding:1.5px;
+      background: linear-gradient(135deg,
+        rgba(255,225,160,0.55),
+        rgba(255,255,255,0.05) 30%,
+        rgba(120,220,180,0.35) 60%,
+        rgba(255,210,120,0.5));
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+              mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      pointer-events:none;
+      z-index: 4;
+      opacity: 0.85;
+    }
+
+    .wc-bg{
+      position:absolute; inset:0;
+      background-image: url("./st/st_desk.png");
+      background-size: cover;
+      background-position: center;
+      filter: saturate(1.05) brightness(0.85);
+      transform: scale(1.06);
+      animation: wcBgFloat 18s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+    .wc-vignette{
+      position:absolute; inset:0;
+      background:
+        radial-gradient(ellipse at 30% 35%, rgba(255,225,160,0.18), transparent 55%),
+        radial-gradient(ellipse at 75% 75%, rgba(60,180,140,0.12), transparent 60%),
+        linear-gradient(120deg, rgba(8,18,15,0.55) 0%, rgba(8,18,15,0.15) 45%, rgba(8,18,15,0.75) 100%);
+      z-index: 1;
+    }
+    .wc-canvas{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      z-index: 2;
+      pointer-events:none;
+      mix-blend-mode: screen;
+      opacity: 0.85;
+    }
+
+    .wc-stage{
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: 1fr;
+      align-items: center;
+      justify-items: end;
+      gap: 0.9rem;
+      min-height: 560px;
+      padding: clamp(1.5rem, 3.5vw, 3rem);
+    }
+
+    /* El panel derecho entra con un pequeño retraso (entrada + flotación) */
+    .wc-panel-der{ animation-delay: .25s, 1.45s; }
+
+    .wc-rays{
+      position:absolute; inset:0; pointer-events:none; overflow:hidden;
+    }
+    .wc-rays span{
+      position:absolute;
+      top:-20%; left:50%;
+      width: 2px; height: 140%;
+      background: linear-gradient(to bottom, rgba(255,235,180,0.0), rgba(255,235,180,0.45), rgba(255,235,180,0.0));
+      transform-origin: top center;
+      filter: blur(1.2px);
+      opacity: 0.55;
+      animation: wcRaySweep 9s ease-in-out infinite;
+    }
+    .wc-rays span:nth-child(1){ transform: rotate(-22deg) translateX(-180px); animation-delay: 0s; }
+    .wc-rays span:nth-child(2){ transform: rotate(-10deg) translateX(-80px);  animation-delay: 1.6s; }
+    .wc-rays span:nth-child(3){ transform: rotate( 4deg)  translateX( 40px);  animation-delay: 3.2s; }
+    .wc-rays span:nth-child(4){ transform: rotate( 18deg) translateX(140px);  animation-delay: 4.8s; }
+    .wc-rays span:nth-child(5){ transform: rotate( 30deg) translateX(220px);  animation-delay: 6.4s; }
+
+    /* ---- GLASS CARD ---- */
+    .wc-card{
+      position: relative;
+      width: min(100%, 460px);
+      margin: 0; /* blinda contra estilos globales de article */
+      padding: clamp(1.4rem, 2.4vw, 2.1rem) clamp(1.3rem, 2.2vw, 2rem);
+      border-radius: 26px;
+      background:
+        linear-gradient(160deg, rgba(255,255,255,0.16), rgba(255,255,255,0.04) 50%, rgba(255,255,255,0.10));
+      backdrop-filter: blur(22px) saturate(1.25);
+      -webkit-backdrop-filter: blur(22px) saturate(1.25);
+      border: 1px solid rgba(255,255,255,0.22);
+      box-shadow:
+        0 25px 60px -25px rgba(0,0,0,0.6),
+        inset 0 1px 0 rgba(255,255,255,0.4),
+        inset 0 -1px 0 rgba(0,0,0,0.18),
+        /* neumorph subtle */
+        8px 8px 24px rgba(0,0,0,0.25),
+        -8px -8px 24px rgba(255,255,255,0.04);
+      color: #fff;
+      transform: translateY(0);
+      animation: wcCardIn 1.2s cubic-bezier(.2,.8,.2,1) both, wcCardFloat 7s ease-in-out 1.2s infinite alternate;
+      transition: transform .4s ease, box-shadow .4s ease;
+      outline: none;
+    }
+    .wc-card:hover, .wc-card:focus-visible{
+      transform: translateY(-4px) scale(1.005);
+      box-shadow:
+        0 35px 80px -25px rgba(0,0,0,0.7),
+        inset 0 1px 0 rgba(255,255,255,0.55),
+        inset 0 -1px 0 rgba(0,0,0,0.2),
+        12px 12px 30px rgba(0,0,0,0.3),
+        -12px -12px 30px rgba(255,255,255,0.05);
+    }
+    .wc-card-glow{
+      position:absolute; inset:-2px;
+      border-radius: 28px;
+      background: conic-gradient(from 90deg at 50% 50%,
+        rgba(255,225,160,0.0),
+        rgba(255,225,160,0.55),
+        rgba(120,220,180,0.0),
+        rgba(255,225,160,0.0));
+      filter: blur(22px);
+      opacity: 0.55;
+      z-index: -1;
+      animation: wcGlowSpin 14s linear infinite;
+    }
+
+    .wc-head{
+      display:flex; align-items:center; gap: 14px;
+      margin-bottom: 14px;
+    }
+    .wc-logo-wrap{
+      position: relative;
+      width: 64px; height: 64px;
+      flex: 0 0 64px;
+    }
+    .wc-logo-ring{
+      position:absolute; inset:-4px;
+      border-radius:50%;
+      background: conic-gradient(from 0deg, #ffe19a, #76d6b2, #ffd07a, #ffe19a);
+      filter: blur(6px);
+      opacity: 0.7;
+      animation: wcGlowSpin 9s linear infinite;
+    }
+    .wc-logo{
+      position:relative; z-index:1;
+      width:100%; height:100%;
+      border-radius: 50%;
+      background: #fff;
+      padding: 3px;
+      box-shadow:
+        0 6px 18px rgba(0,0,0,0.35),
+        inset 0 0 0 1px rgba(255,255,255,0.6);
+      object-fit: contain;
+    }
+    .wc-eyebrow{
+      flex: 1;
+      min-width: 0;
+      font-size: 0.72rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: rgba(255,255,255,0.85);
+      line-height: 1.3;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.4);
+    }
+
+    .wc-title{
+      margin: 0.1rem 0 0.4rem;
+      font-family: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+      font-weight: 600;
+      line-height: 1;
+      letter-spacing: -0.5px;
+      display:flex; flex-direction:column; gap: 0.05em;
+    }
+    .wc-title-pre{
+      font-size: clamp(1.4rem, 2.6vw, 1.9rem);
+      font-style: italic;
+      color: rgba(255,255,255,0.92);
+      text-shadow: 0 2px 14px rgba(0,0,0,0.5);
+    }
+    .wc-title-main{
+      font-size: clamp(2.4rem, 5.2vw, 3.6rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff7d6 0%, #ffd98a 45%, #f6b04a 100%);
+      -webkit-background-clip: text;
+              background-clip: text;
+      color: transparent;
+      text-shadow: 0 2px 30px rgba(255,200,100,0.25);
+      animation: wcTitleShimmer 6s ease-in-out infinite;
+      background-size: 200% 200%;
+    }
+
+    .wc-divider{
+      display:flex; align-items:center; gap:8px;
+      margin: 0.6rem 0 1rem;
+    }
+    .wc-divider span{
+      flex:1; height: 1px;
+      background: linear-gradient(to right, transparent, rgba(255,225,160,0.55), transparent);
+    }
+
+    .wc-info{
+      display: grid;
+      gap: 0.9rem;
+      margin-bottom: 1.1rem;
+    }
+    .wc-info-item{
+      display:flex; align-items:flex-start; gap: 12px;
+    }
+    .wc-info-icon{
+      flex: 0 0 36px;
+      width:36px; height:36px;
+      display:grid; place-items:center;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow:
+        inset 2px 2px 5px rgba(255,255,255,0.18),
+        inset -2px -2px 5px rgba(0,0,0,0.25);
+      color: #ffe19a;
+      font-size: 20px !important;
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .wc-info-label{
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(255,225,160,0.85);
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+    .wc-info-value{
+      font-size: 0.98rem;
+      color: #fff;
+      line-height: 1.35;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.5);
+    }
+
+    .wc-chip{
+      display:inline-block;
+      padding: 4px 10px;
+      margin: 3px 4px 0 0;
+      font-size: 0.82rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.25);
+      backdrop-filter: blur(6px);
+      box-shadow:
+        inset 1px 1px 2px rgba(255,255,255,0.25),
+        inset -1px -1px 2px rgba(0,0,0,0.2);
+      color: #fff;
+      white-space: nowrap;
+    }
+
+    .wc-contacts{
+      padding: 0.9rem;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.16);
+      box-shadow:
+        inset 2px 2px 6px rgba(255,255,255,0.12),
+        inset -2px -2px 6px rgba(0,0,0,0.25);
+      margin-bottom: 0;
+    }
+    .wc-contacts-label{
+      display:flex; align-items:center; gap:6px;
+      margin-bottom: 0.6rem;
+    }
+    .wc-contacts-label .material-symbols-rounded{
+      font-size: 16px !important;
+      color: #ffe19a;
+    }
+    .wc-contacts-grid{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+    .wc-contact{
+      display:flex; justify-content:space-between; align-items:center;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: rgba(0,0,0,0.18);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #fff;
+      text-decoration: none;
+      transition: all .3s ease;
+    }
+    .wc-contact:hover{
+      background: rgba(255,225,160,0.18);
+      border-color: rgba(255,225,160,0.5);
+      transform: translateX(3px);
+    }
+    .wc-contact-name{ font-weight: 600; font-size: 0.92rem; }
+    .wc-contact-num{
+      font-family: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
+      font-size: 0.92rem;
+      letter-spacing: 0.06em;
+      color: #ffe19a;
+    }
+
+    .wc-cta{
+      position: relative;
+      display:block;
+      text-align:center;
+      padding: 14px 18px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: linear-gradient(135deg, rgba(255,225,160,0.95), rgba(246,176,74,0.95));
+      color: #2a1d05;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.05em;
+      box-shadow:
+        0 12px 28px -10px rgba(246,176,74,0.55),
+        inset 0 1px 0 rgba(255,255,255,0.7),
+        inset 0 -1px 0 rgba(0,0,0,0.15);
+      transform: translateZ(0);
+      animation: wcCtaPulse 3.4s ease-in-out infinite;
+    }
+    .wc-cta-text{
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+    .wc-cta-shine{
+      position:absolute; top:0; left:-60%;
+      width: 50%; height: 100%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.55), transparent);
+      transform: skewX(-20deg);
+      animation: wcCtaShine 3.8s ease-in-out infinite;
+    }
+
+    /* ---- KEYFRAMES ---- */
+    @keyframes wcBgFloat{
+      0%   { transform: scale(1.06) translate(0, 0); }
+      100% { transform: scale(1.1) translate(-1.5%, -1.5%); }
+    }
+    @keyframes wcCardIn{
+      from { opacity: 0; transform: translateY(40px) scale(0.96); filter: blur(8px); }
+      to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+    }
+    @keyframes wcCardFloat{
+      from { transform: translateY(0); }
+      to   { transform: translateY(-7px); }
+    }
+    @keyframes wcGlowSpin{
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+    @keyframes wcTitleShimmer{
+      0%, 100% { background-position: 0% 50%; }
+      50%      { background-position: 100% 50%; }
+    }
+    @keyframes wcRaySweep{
+      0%, 100% { opacity: 0.15; transform-origin: top center; }
+      50%      { opacity: 0.7; }
+    }
+    @keyframes wcCtaPulse{
+      0%, 100% { box-shadow: 0 12px 28px -10px rgba(246,176,74,0.55), inset 0 1px 0 rgba(255,255,255,0.7), inset 0 -1px 0 rgba(0,0,0,0.15); }
+      50%      { box-shadow: 0 18px 40px -10px rgba(246,176,74,0.75), inset 0 1px 0 rgba(255,255,255,0.9), inset 0 -1px 0 rgba(0,0,0,0.18); }
+    }
+    @keyframes wcCtaShine{
+      0%   { left: -60%; }
+      60%  { left: 120%; }
+      100% { left: 120%; }
+    }
+
+    /* ---- DESKTOP: dos paneles laterales, la foto respira al centro ---- */
+    @media (min-width: 820px){
+      .wc-misionero{
+        margin: 1.8rem auto;
+      }
+      .wc-bg{
+        /* encuadre: muestra cruz arriba y cartel SERENIDAD abajo */
+        background-position: center 48%;
+      }
+      /* Oscurece los costados, deja el centro luminoso */
+      .wc-vignette{
+        background:
+          radial-gradient(ellipse at 50% 42%, rgba(255,225,160,0.10), transparent 55%),
+          linear-gradient(90deg,
+            rgba(8,18,15,0.72) 0%, rgba(8,18,15,0.30) 26%,
+            rgba(8,18,15,0.05) 44%, rgba(8,18,15,0.05) 56%,
+            rgba(8,18,15,0.32) 74%, rgba(8,18,15,0.78) 100%);
+      }
+      .wc-stage{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: clamp(1.5rem, 4vw, 4rem);
+        min-height: min(86vh, 800px);
+        padding: clamp(1.2rem, 2vw, 2rem) clamp(1.2rem, 2.2vw, 2.4rem);
+      }
+      .wc-card{
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background:
+          linear-gradient(160deg, rgba(255,255,255,0.13), rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.08));
+        backdrop-filter: blur(14px) saturate(1.2);
+        -webkit-backdrop-filter: blur(14px) saturate(1.2);
+      }
+      .wc-panel-izq{
+        width: clamp(370px, 31%, 480px);
+        padding: clamp(1.4rem, 2vw, 2rem) clamp(1.3rem, 1.9vw, 1.9rem);
+        gap: 0.3rem;
+      }
+      .wc-panel-der{
+        width: clamp(390px, 33%, 530px);
+        padding: clamp(1.3rem, 1.9vw, 1.9rem);
+        gap: 1.1rem;
+      }
+
+      /* Identidad y título más grandes */
+      .wc-head{ margin-bottom: 14px; gap: 14px; }
+      .wc-logo-wrap{ width: 84px; height: 84px; flex: 0 0 84px; }
+      .wc-eyebrow{ font-size: 0.82rem; letter-spacing: 0.13em; }
+      .wc-title{ margin: 0; }
+      .wc-title-pre{ font-size: clamp(1.5rem, 1.9vw, 2rem); }
+      .wc-title-main{ font-size: clamp(2.8rem, 4.4vw, 4.4rem); }
+      .wc-divider{ margin: 0.8rem 0 1.1rem; }
+
+      .wc-info{ gap: 1rem; margin: 0; }
+      .wc-info-icon{
+        flex: 0 0 42px; width: 42px; height: 42px;
+        border-radius: 13px;
+        font-size: 24px !important;
+      }
+      .wc-info-label{ font-size: 0.78rem; }
+      .wc-info-value{ font-size: 1.08rem; }
+      .wc-chip{ font-size: 0.92rem; padding: 5px 12px; margin: 4px 5px 0 0; }
+
+      .wc-contacts{ margin: 0; padding: 1rem 1.1rem; }
+      .wc-contacts-label{ margin-bottom: 0.55rem; }
+      .wc-contacts-grid{ gap: 0.45rem; }
+      .wc-contact{ padding: 9px 14px; }
+      .wc-contact-name{ font-size: 1rem; }
+      .wc-contact-num{ font-size: 1rem; }
+
+      .wc-cta{ margin-top: 0.4rem; padding: 13px 18px; }
+      .wc-cta-text{ font-size: 1.45rem; }
+    }
+
+    /* Pantallas bajas: compactar para que entre sin scroll */
+    @media (min-width: 820px) and (max-height: 760px){
+      .wc-misionero{ margin: 1.2rem auto; }
+      .wc-stage{ min-height: min(82vh, 500px); }
+      .wc-logo-wrap{ width: 64px; height: 64px; flex: 0 0 64px; }
+      .wc-eyebrow{ font-size: 0.7rem; }
+      .wc-title-main{ font-size: clamp(2.2rem, 3.4vw, 3.2rem); }
+      .wc-title-pre{ font-size: clamp(1.2rem, 1.5vw, 1.5rem); }
+      .wc-info{ gap: 0.7rem; }
+      .wc-info-value{ font-size: 0.95rem; }
+      .wc-contacts{ padding: 0.7rem 0.8rem; }
+      .wc-cta-text{ font-size: 1.2rem; }
+    }
+
+    /* ---- MOBILE ---- */
+    @media (max-width: 819px){
+      .wc-misionero{
+        width: 95vw;
+        margin: 2rem auto;
+        border-radius: 24px;
+      }
+      .wc-bg{
+        background-image: url("./st/st_mob.png");
+        background-position: center top;
+      }
+      .wc-stage{
+        /* tarjeta 1 arriba del todo y tarjeta 2 abajo:
+           la Virgen del fondo queda visible en el hueco central */
+        min-height: 235vw;
+        padding: 4vw 1.1rem 1.1rem;
+        align-items: start;
+        align-content: space-between;
+      }
+      .wc-card{
+        width: 100%;
+        padding: 1.2rem 1.1rem;
+        border-radius: 22px;
+      }
+      .wc-title-main{ font-size: clamp(2rem, 9vw, 2.8rem); }
+      .wc-title-pre{ font-size: clamp(1.1rem, 4.6vw, 1.5rem); }
+      .wc-cta-text{ font-size: 1.2rem; }
+      .wc-contacts-grid{ gap: 0.35rem; }
+    }
+    @media (max-width: 380px){
+      .wc-eyebrow{ font-size: 0.65rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      .wc-bg, .wc-card, .wc-card-glow, .wc-logo-ring,
+      .wc-title-main, .wc-rays span, .wc-cta, .wc-cta-shine{
+        animation: none !important;
+      }
+    }
+  </style>
+
+  <script>
+    (function(){
+      const section = document.currentScript.closest('.wc-misionero');
+      if(!section) return;
+      const canvas = section.querySelector('.wc-canvas');
+      const ctx = canvas.getContext('2d');
+      let W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      let particles = [];
+      let raf = null;
+      let running = false;
+
+      function resize(){
+        const r = section.getBoundingClientRect();
+        W = Math.max(1, r.width);
+        H = Math.max(1, r.height);
+        canvas.width  = Math.floor(W * dpr);
+        canvas.height = Math.floor(H * dpr);
+        canvas.style.width  = W + 'px';
+        canvas.style.height = H + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        initParticles();
+      }
+
+      function initParticles(){
+        const count = Math.round(Math.min(110, (W * H) / 14000));
+        particles = new Array(count).fill(0).map(makeParticle);
+      }
+      function makeParticle(){
+        return {
+          x: Math.random() * W,
+          y: H + Math.random() * H * 0.4,
+          r: 0.6 + Math.random() * 2.2,
+          vx: (Math.random() - 0.5) * 0.15,
+          vy: -(0.15 + Math.random() * 0.55),
+          life: 0,
+          maxLife: 200 + Math.random() * 400,
+          hue: 38 + Math.random() * 18, // warm gold tones
+          a: 0.0
+        };
+      }
+
+      function step(){
+        if(!running) return;
+        ctx.clearRect(0, 0, W, H);
+
+        // soft warm glow drifting
+        const g = ctx.createRadialGradient(W*0.25, H*0.35, 0, W*0.25, H*0.35, Math.max(W,H)*0.55);
+        g.addColorStop(0, 'rgba(255,220,150,0.10)');
+        g.addColorStop(1, 'rgba(255,220,150,0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(0,0,W,H);
+
+        for(let i = 0; i < particles.length; i++){
+          const p = particles[i];
+          p.x += p.vx;
+          p.y += p.vy;
+          p.life++;
+          // fade in then out
+          const t = p.life / p.maxLife;
+          p.a = t < 0.2 ? (t/0.2) * 0.85 : (1 - (t-0.2)/0.8) * 0.85;
+          // gentle horizontal sway
+          p.vx += Math.sin((p.life + i) * 0.02) * 0.002;
+
+          if(p.life > p.maxLife || p.y < -10 || p.x < -10 || p.x > W + 10){
+            particles[i] = makeParticle();
+            particles[i].y = H + 5;
+            continue;
+          }
+
+          ctx.beginPath();
+          ctx.fillStyle = 'hsla(' + p.hue + ', 95%, 75%, ' + p.a.toFixed(3) + ')';
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+
+          // soft halo
+          ctx.beginPath();
+          ctx.fillStyle = 'hsla(' + p.hue + ', 95%, 75%, ' + (p.a*0.12).toFixed(3) + ')';
+          ctx.arc(p.x, p.y, p.r*4, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        raf = requestAnimationFrame(step);
+      }
+
+      function start(){
+        if(running) return;
+        running = true;
+        raf = requestAnimationFrame(step);
+      }
+      function stop(){
+        running = false;
+        if(raf) cancelAnimationFrame(raf);
+      }
+
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(reduce) return;
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => { e.isIntersecting ? start() : stop(); });
+      }, { threshold: 0.05 });
+
+      window.addEventListener('resize', () => { resize(); }, { passive: true });
+      resize();
+      io.observe(section);
+    })();
+  </script>
+</section>
+<!-- =================== /MISIONERO SCHOENSTATT =================== -->
+
+
+
 <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
 <div class="video-card-gold-container">
 
