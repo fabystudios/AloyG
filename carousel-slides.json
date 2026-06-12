@@ -1,7 +1,7 @@
 [
                     {
     "id": "SCHOENSTATT",
-    "position": 1,
+    "position": 2,
     "hasVideo": false,
     "link": "#SCHOENSTATT",
     "time": { "desktop": 3, "mobile": 3 },
@@ -19,7 +19,7 @@
   },
                   {
     "id": "sagrado",
-    "position": 2,
+    "position": 1,
     "hasVideo": false,
     "link": "#sagrado-corazon",
     "time": { "desktop": 3, "mobile": 3 },
