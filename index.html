@@ -1477,6 +1477,7 @@
 <!-- =================== MISIONERO SCHOENSTATT (WC) =================== -->
 <section id="SCHOENSTATT" class="wc-misionero" aria-label="Querés ser misionero - Campaña del Santo Rosario">
   <canvas class="wc-canvas" aria-hidden="true"></canvas>
+  <canvas class="wc-sparkles" aria-hidden="true"></canvas>
 
   <div class="wc-bg" aria-hidden="true"></div>
   <div class="wc-vignette" aria-hidden="true"></div>
@@ -1536,9 +1537,9 @@
           <div>
             <div class="wc-info-label">Encuentros de Preparación</div>
             <div class="wc-info-value">
-              <span class="wc-chip">3 de Julio</span>
-              <span class="wc-chip">17 de Julio</span>
-              <span class="wc-chip">7 de Agosto</span>
+              <span class="wc-chip"><span class="wc-chip-full">3 de Julio</span><span class="wc-chip-min">3 JUL</span></span>
+              <span class="wc-chip"><span class="wc-chip-full">17 de Julio</span><span class="wc-chip-min">17 JUL</span></span>
+              <span class="wc-chip"><span class="wc-chip-full">7 de Agosto</span><span class="wc-chip-min">7 AGO</span></span>
             </div>
           </div>
         </div>
@@ -1546,19 +1547,20 @@
 
       <div class="wc-contacts">
         <div class="wc-info-label wc-contacts-label">
-          <span class="material-symbols-rounded">call</span> Contactos
+          <span class="wc-wa" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.1-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>
+          Contactos · WhatsApp
         </div>
         <div class="wc-contacts-grid">
-          <a class="wc-contact" href="tel:+5492215422071">
-            <span class="wc-contact-name">Mariana</span>
+          <a class="wc-contact" href="https://wa.me/5492215422071?text=%C2%A1Hola%20Mariana!%20Quiero%20sumarme%20como%20misionero%2Fa%20de%20la%20Virgen%20Peregrina." target="_blank" rel="noopener">
+            <span class="wc-contact-name"><span class="wc-wa" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.1-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>Mariana</span>
             <span class="wc-contact-num">221 542-2071</span>
           </a>
-          <a class="wc-contact" href="tel:+5492215758838">
-            <span class="wc-contact-name">Susana</span>
+          <a class="wc-contact" href="https://wa.me/5492215758838?text=%C2%A1Hola%20Susana!%20Quiero%20sumarme%20como%20misionero%2Fa%20de%20la%20Virgen%20Peregrina." target="_blank" rel="noopener">
+            <span class="wc-contact-name"><span class="wc-wa" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.1-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>Susana</span>
             <span class="wc-contact-num">221 575-8838</span>
           </a>
-          <a class="wc-contact" href="tel:+5492215936564">
-            <span class="wc-contact-name">Fernanda</span>
+          <a class="wc-contact" href="https://wa.me/5492215936564?text=%C2%A1Hola%20Fernanda!%20Quiero%20sumarme%20como%20misionero%2Fa%20de%20la%20Virgen%20Peregrina." target="_blank" rel="noopener">
+            <span class="wc-contact-name"><span class="wc-wa" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.1-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></span>Fernanda</span>
             <span class="wc-contact-num">221 593-6564</span>
           </a>
         </div>
@@ -1627,6 +1629,14 @@
       pointer-events:none;
       mix-blend-mode: screen;
       opacity: 0.85;
+    }
+    /* destellos mágicos: por encima de las cards
+       (composición normal: visibles también sobre zonas claras de la foto) */
+    .wc-sparkles{
+      position:absolute; inset:0;
+      width:100%; height:100%;
+      z-index: 6;
+      pointer-events:none;
     }
 
     .wc-stage{
@@ -1838,6 +1848,7 @@
       color: #fff;
       white-space: nowrap;
     }
+    .wc-chip-min{ display:none; } /* versión corta solo en mobile */
 
     .wc-contacts{
       padding: 0.9rem;
@@ -1873,11 +1884,29 @@
       transition: all .3s ease;
     }
     .wc-contact:hover{
-      background: rgba(255,225,160,0.18);
-      border-color: rgba(255,225,160,0.5);
+      background: rgba(37,211,102,0.16);
+      border-color: rgba(92,226,142,0.55);
       transform: translateX(3px);
     }
-    .wc-contact-name{ font-weight: 600; font-size: 0.92rem; }
+    .wc-contact:active{
+      transform: translateX(3px) scale(0.94);
+      transition: transform .08s ease;
+      background: rgba(37,211,102,0.3);
+    }
+    .wc-contact-name{
+      font-weight: 600; font-size: 0.92rem;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    /* ícono WhatsApp */
+    .wc-wa{
+      display: inline-flex;
+      width: 17px; height: 17px;
+      flex: 0 0 17px;
+      color: #4ad97f;
+      filter: drop-shadow(0 0 6px rgba(37,211,102,0.45));
+    }
+    .wc-wa svg{ width: 100%; height: 100%; fill: currentColor; display: block; }
+    .wc-contacts-label .wc-wa{ width: 15px; height: 15px; flex-basis: 15px; }
     .wc-contact-num{
       font-family: 'Cinzel', 'Cormorant Garamond', Georgia, serif;
       font-size: 0.92rem;
@@ -2073,6 +2102,8 @@
       .wc-title-pre{ font-size: clamp(1.1rem, 4.6vw, 1.5rem); }
       .wc-cta-text{ font-size: 1.2rem; }
       .wc-contacts-grid{ gap: 0.35rem; }
+      .wc-chip-full{ display:none; }
+      .wc-chip-min{ display:inline; }
     }
     @media (max-width: 380px){
       .wc-eyebrow{ font-size: 0.65rem; }
@@ -2090,25 +2121,37 @@
     (function(){
       const section = document.currentScript.closest('.wc-misionero');
       if(!section) return;
-      const canvas = section.querySelector('.wc-canvas');
-      const ctx = canvas.getContext('2d');
+      const dustCv = section.querySelector('.wc-canvas');
+      const spkCv  = section.querySelector('.wc-sparkles');
+      const dust = dustCv.getContext('2d');
+      const spk  = spkCv.getContext('2d');
       let W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
-      let particles = [];
-      let raf = null;
-      let running = false;
+      let particles = [], sparkles = [], bursts = [], rings = [];
+      let cardRects = [];
+      let raf = null, running = false;
 
+      function sizeCanvas(cv, c){
+        cv.width  = Math.floor(W * dpr);
+        cv.height = Math.floor(H * dpr);
+        cv.style.width  = W + 'px';
+        cv.style.height = H + 'px';
+        c.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
       function resize(){
         const r = section.getBoundingClientRect();
         W = Math.max(1, r.width);
         H = Math.max(1, r.height);
-        canvas.width  = Math.floor(W * dpr);
-        canvas.height = Math.floor(H * dpr);
-        canvas.style.width  = W + 'px';
-        canvas.style.height = H + 'px';
-        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        sizeCanvas(dustCv, dust);
+        sizeCanvas(spkCv, spk);
+        cardRects = [...section.querySelectorAll('.wc-card')].map(el => {
+          const c = el.getBoundingClientRect();
+          return { x: c.left - r.left, y: c.top - r.top, w: c.width, h: c.height };
+        });
         initParticles();
+        initSparkles();
       }
 
+      /* ---------- polvo dorado ascendente (fondo) ---------- */
       function initParticles(){
         const count = Math.round(Math.min(110, (W * H) / 14000));
         particles = new Array(count).fill(0).map(makeParticle);
@@ -2122,31 +2165,128 @@
           vy: -(0.15 + Math.random() * 0.55),
           life: 0,
           maxLife: 200 + Math.random() * 400,
-          hue: 38 + Math.random() * 18, // warm gold tones
+          hue: 38 + Math.random() * 18,
           a: 0.0
         };
       }
 
+      /* ---------- destellos mágicos sobre las cards ---------- */
+      function initSparkles(){
+        const count = Math.round(Math.min(34, Math.max(18, W / 55)));
+        sparkles = new Array(count).fill(0).map(() => makeSparkle());
+        bursts = [];
+        rings = [];
+      }
+      function spawnPoint(){
+        /* la mayoría en todo el contenedor, el resto sobre las sub-cards */
+        if(!cardRects.length || Math.random() < 0.6){
+          return { x: Math.random() * W, y: Math.random() * H };
+        }
+        const r = cardRects[Math.floor(Math.random() * cardRects.length)];
+        return { x: r.x + Math.random() * r.w, y: r.y + Math.random() * r.h };
+      }
+      function makeSparkle(){
+        const p = spawnPoint();
+        return {
+          x: p.x, y: p.y,
+          t: -Math.random() * 140,         // espera aleatoria antes de nacer
+          grow: 26 + Math.random() * 30,   // frames creciendo
+          hold: 18 + Math.random() * 26,   // frames brillando
+          r: 3.5 + Math.random() * 6.5,
+          rot: Math.random() * Math.PI,
+          vrot: (Math.random() - 0.5) * 0.05,
+          hue: 42 + Math.random() * 16
+        };
+      }
+      function explode(s){
+        const n = 7 + (Math.random() * 6 | 0);
+        for(let i = 0; i < n; i++){
+          const a = Math.random() * Math.PI * 2;
+          const v = 0.7 + Math.random() * 2.1;
+          bursts.push({
+            x: s.x, y: s.y,
+            vx: Math.cos(a) * v, vy: Math.sin(a) * v - 0.3,
+            r: 0.6 + Math.random() * 1.3,
+            t: 0, max: 28 + Math.random() * 30,
+            hue: s.hue
+          });
+        }
+      }
+      /* gran explosión al disparar un enlace: ráfaga + ondas expansivas */
+      function bigBang(x, y){
+        const n = 30 + (Math.random() * 12 | 0);
+        for(let i = 0; i < n; i++){
+          const a = Math.random() * Math.PI * 2;
+          const v = 1.4 + Math.random() * 4.2;
+          bursts.push({
+            x: x, y: y,
+            vx: Math.cos(a) * v, vy: Math.sin(a) * v - 0.4,
+            r: 0.8 + Math.random() * 1.6,
+            t: 0, max: 34 + Math.random() * 30,
+            hue: Math.random() < 0.3 ? 140 : 42 + Math.random() * 16
+          });
+        }
+        rings.push({ x: x, y: y, t: 0,  max: 26, R: 70 });
+        rings.push({ x: x, y: y, t: -6, max: 30, R: 105 });
+      }
+      function star(c, x, y, r, rot, alpha, hue){
+        if(alpha <= 0 || r <= 0) return;
+        c.save();
+        c.translate(x, y);
+        c.rotate(rot);
+        c.globalAlpha = Math.min(1, alpha);
+        /* sombra cálida de contraste: hace visible el destello sobre zonas claras */
+        const dark = c.createRadialGradient(0, 0, 0, 0, 0, r * 3);
+        dark.addColorStop(0, 'rgba(60,35,5,0.38)');
+        dark.addColorStop(1, 'rgba(60,35,5,0)');
+        c.fillStyle = dark;
+        c.beginPath(); c.arc(0, 0, r * 3, 0, Math.PI * 2); c.fill();
+        const halo = c.createRadialGradient(0, 0, 0, 0, 0, r * 2.2);
+        halo.addColorStop(0, 'hsla(' + hue + ', 100%, 88%, 0.55)');
+        halo.addColorStop(1, 'hsla(' + hue + ', 100%, 70%, 0)');
+        c.fillStyle = halo;
+        c.beginPath(); c.arc(0, 0, r * 2.2, 0, Math.PI * 2); c.fill();
+        const k = r * 0.22;
+        c.fillStyle = 'hsla(' + hue + ', 100%, 92%, 1)';
+        c.beginPath();
+        c.moveTo(0, -r);
+        c.quadraticCurveTo(k, -k, r, 0);
+        c.quadraticCurveTo(k, k, 0, r);
+        c.quadraticCurveTo(-k, k, -r, 0);
+        c.quadraticCurveTo(-k, -k, 0, -r);
+        c.closePath(); c.fill();
+        if(r > 6){ /* púas extra en 45° para los destellos grandes */
+          c.rotate(Math.PI / 4);
+          const r2 = r * 0.55, k2 = r2 * 0.22;
+          c.beginPath();
+          c.moveTo(0, -r2);
+          c.quadraticCurveTo(k2, -k2, r2, 0);
+          c.quadraticCurveTo(k2, k2, 0, r2);
+          c.quadraticCurveTo(-k2, k2, -r2, 0);
+          c.quadraticCurveTo(-k2, -k2, 0, -r2);
+          c.closePath(); c.fill();
+        }
+        c.restore();
+      }
+
       function step(){
         if(!running) return;
-        ctx.clearRect(0, 0, W, H);
 
-        // soft warm glow drifting
-        const g = ctx.createRadialGradient(W*0.25, H*0.35, 0, W*0.25, H*0.35, Math.max(W,H)*0.55);
+        /* fondo: polvo ascendente */
+        dust.clearRect(0, 0, W, H);
+        const g = dust.createRadialGradient(W*0.25, H*0.35, 0, W*0.25, H*0.35, Math.max(W,H)*0.55);
         g.addColorStop(0, 'rgba(255,220,150,0.10)');
         g.addColorStop(1, 'rgba(255,220,150,0)');
-        ctx.fillStyle = g;
-        ctx.fillRect(0,0,W,H);
+        dust.fillStyle = g;
+        dust.fillRect(0,0,W,H);
 
         for(let i = 0; i < particles.length; i++){
           const p = particles[i];
           p.x += p.vx;
           p.y += p.vy;
           p.life++;
-          // fade in then out
           const t = p.life / p.maxLife;
           p.a = t < 0.2 ? (t/0.2) * 0.85 : (1 - (t-0.2)/0.8) * 0.85;
-          // gentle horizontal sway
           p.vx += Math.sin((p.life + i) * 0.02) * 0.002;
 
           if(p.life > p.maxLife || p.y < -10 || p.x < -10 || p.x > W + 10){
@@ -2154,18 +2294,76 @@
             particles[i].y = H + 5;
             continue;
           }
-
-          ctx.beginPath();
-          ctx.fillStyle = 'hsla(' + p.hue + ', 95%, 75%, ' + p.a.toFixed(3) + ')';
-          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-          ctx.fill();
-
-          // soft halo
-          ctx.beginPath();
-          ctx.fillStyle = 'hsla(' + p.hue + ', 95%, 75%, ' + (p.a*0.12).toFixed(3) + ')';
-          ctx.arc(p.x, p.y, p.r*4, 0, Math.PI * 2);
-          ctx.fill();
+          dust.beginPath();
+          dust.fillStyle = 'hsla(' + p.hue + ', 95%, 75%, ' + p.a.toFixed(3) + ')';
+          dust.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          dust.fill();
+          dust.beginPath();
+          dust.fillStyle = 'hsla(' + p.hue + ', 95%, 75%, ' + (p.a*0.12).toFixed(3) + ')';
+          dust.arc(p.x, p.y, p.r*4, 0, Math.PI * 2);
+          dust.fill();
         }
+
+        /* frente: destellos que titilan y explotan */
+        spk.clearRect(0, 0, W, H);
+        for(let i = 0; i < sparkles.length; i++){
+          const s = sparkles[i];
+          s.t++;
+          if(s.t < 0) continue;
+          s.rot += s.vrot;
+          const total = s.grow + s.hold;
+          if(s.t >= total){
+            explode(s);
+            sparkles[i] = makeSparkle();
+            continue;
+          }
+          let scale, alpha;
+          if(s.t < s.grow){
+            const p = s.t / s.grow;
+            scale = p;
+            alpha = p;
+          } else {
+            const p = (s.t - s.grow) / s.hold;
+            scale = 1 + p * 0.25;
+            alpha = 1 - p * 0.25;
+          }
+          const tw = 0.75 + 0.25 * Math.sin(s.t * 0.45); /* titileo */
+          star(spk, s.x, s.y, s.r * scale, s.rot, alpha * tw, s.hue);
+        }
+        for(let i = bursts.length - 1; i >= 0; i--){
+          const b = bursts[i];
+          b.t++;
+          if(b.t > b.max){ bursts.splice(i, 1); continue; }
+          b.x += b.vx; b.y += b.vy;
+          b.vx *= 0.96; b.vy = b.vy * 0.96 + 0.015;
+          const a = 1 - b.t / b.max;
+          spk.globalAlpha = a * 0.3;
+          spk.fillStyle = 'rgba(60,35,5,1)';
+          spk.beginPath(); spk.arc(b.x, b.y, b.r * 2.2, 0, Math.PI * 2); spk.fill();
+          spk.globalAlpha = a;
+          spk.fillStyle = 'hsla(' + b.hue + ', 100%, 85%, 1)';
+          spk.beginPath(); spk.arc(b.x, b.y, b.r, 0, Math.PI * 2); spk.fill();
+          spk.globalAlpha = a * 0.25;
+          spk.beginPath(); spk.arc(b.x, b.y, b.r * 3, 0, Math.PI * 2); spk.fill();
+        }
+        /* ondas expansivas de los disparos */
+        for(let i = rings.length - 1; i >= 0; i--){
+          const o = rings[i];
+          o.t++;
+          if(o.t < 0) continue;
+          if(o.t > o.max){ rings.splice(i, 1); continue; }
+          const p = o.t / o.max;
+          const rr = o.R * (1 - Math.pow(1 - p, 2));
+          const a = (1 - p) * 0.7;
+          spk.globalAlpha = a;
+          spk.strokeStyle = 'hsla(48, 100%, 85%, 1)';
+          spk.lineWidth = 2.5 * (1 - p) + 0.5;
+          spk.beginPath(); spk.arc(o.x, o.y, rr, 0, Math.PI * 2); spk.stroke();
+          spk.globalAlpha = a * 0.35;
+          spk.lineWidth = 7 * (1 - p) + 1;
+          spk.beginPath(); spk.arc(o.x, o.y, rr, 0, Math.PI * 2); spk.stroke();
+        }
+        spk.globalAlpha = 1;
 
         raf = requestAnimationFrame(step);
       }
@@ -2190,6 +2388,16 @@
       window.addEventListener('resize', () => { resize(); }, { passive: true });
       resize();
       io.observe(section);
+      /* las cards entran animadas: recapturar su posición real al terminar */
+      setTimeout(resize, 1900);
+
+      /* explosión al disparar un contacto (click o touch) */
+      section.querySelectorAll('.wc-contact').forEach(a => {
+        a.addEventListener('pointerdown', (e) => {
+          const r = section.getBoundingClientRect();
+          bigBang(e.clientX - r.left, e.clientY - r.top);
+        });
+      });
     })();
   </script>
 </section>
