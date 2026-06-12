@@ -21,7 +21,7 @@
     "id": "sagrado",
     "position": 2,
     "hasVideo": false,
-    "link": "",
+    "link": "#sagrado-corazon",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
