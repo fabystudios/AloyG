@@ -19,18 +19,18 @@
   },
                   {
     "id": "sagrado",
-    "position": -1,
+    "position": 1,
     "hasVideo": false,
     "link": "#sagrado-corazon",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/sagrado_desk.png"
+      "src": "./slides/13jun_desk.png"
  
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/sagrado_mob.png"
+      "src": "./slides/13jun_mob.png"
  
     }
 
@@ -91,7 +91,7 @@
   },
           {
     "id": "feria",
-    "position": 1,
+    "position": -1,
     "hasVideo": false,
     "link": "#feria",
     "time": { "desktop": 3, "mobile": 3 },
