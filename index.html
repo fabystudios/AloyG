@@ -933,6 +933,7 @@
   <cartelera-carousel
     base-path="./actividades/cartelera/"
     slides='[
+    {"mob":"aloy3.jpg","desk":"aloy3_desk.png","title":"Novena Dia 3"},     
     {"mob":"aloy2.jpg","desk":"aloy2_desk.png","title":"Novena Dia 2"},     
     {"mob":"aloy1.jpg","desk":"aloy1_desk.jpg","title":"Novena Dia 1"},     
     {"mob":"20jun_ori.jpg","desk":"aloy_desk.jpg","title":"Fiestas Patronales", "anchor":"#aloy"},     
@@ -1478,7 +1479,7 @@
 <!-- <div style="display: none;"> -->
    <!-- <div class="desktop-only" style="display: block;"> -->
  
-    <video-gold-special
+    <!-- <video-gold-special
       id =  "sagrado-corazon"
       video-desktop="https://youtu.be/UBNLJtWllSc"
       video-mobile="./asantos/13g.mp4"
@@ -1491,13 +1492,13 @@
 
       logo="./img/medalla.png"
       logo-duracion="4">
-    </video-gold-special>
+    </video-gold-special> -->
   <!-- </div> -->
 <!-- </div> -->
 
 
   <!-- bg="./img/sky.jpg" -->
-
+<!-- 
 <script src="./components/video-card-gold.js"></script>
 <script src="./components/showcase-card.js"></script>
 <showcase-card
@@ -1520,49 +1521,40 @@
 
   effects="ember,dust,stars"
   intensity="1"
-></showcase-card>
+></showcase-card> -->
 
 
 
 <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
 <div class="video-card-gold-container">
 
-    <!-- <video-card-gold
+    <video-card-gold
+      badge="Milagros"
+      titulo="San Antonio de Padua"
+      video="./asantos/13e.mp4"
+      style="width:auto; flex:0 0 auto;"
+
+    ></video-card-gold>
+    <video-card-gold
+      badge="Milagros"
+      titulo="San Antonio de Padua"
+      video="./asantos/13g.mp4"
+      style="width:auto; flex:0 0 auto;"
+      hide-mobile
+    ></video-card-gold>
+
+    <video-card-gold
       badge="el santo de Lisboa"
       titulo="San Antonio de Padua"
       video="./asantos/13f.mp4"
       style="width:auto; flex:0 0 auto;"
-
-    ></video-card-gold> -->
+      hide-mobile
+    ></video-card-gold>
 
     <video-card-gold
       badge="13 de Junio"
       titulo="San Antonio de Padua"
       video="./asantos/13d.mp4"
-      style="width:auto; flex:0 0 auto;"
-      hide-mobile
-    ></video-card-gold>
-
-    <video-card-gold
-      badge="13 de Junio"
-      titulo="Inmaculado Corazón de María"
-      video="./asantos/corazon-maria.mp4"
-      style="width:auto; flex:0 0 auto;"
-      hide-mobile
-    ></video-card-gold>
-
-        <video-card-gold
-      badge="12 de Junio"
-      titulo="Sagrado Corazón de Jesús"
-      video="./asantos/12.mp4"
-      style="width:auto; flex:0 0 auto;"
-      hide-mobile
-    ></video-card-gold>
-
-    <video-card-gold
-      badge="Buenos Aires, 1996"
-      titulo="Milagro Eucaristíco"
-      video="./asantos/11.mp4"
       style="width:auto; flex:0 0 auto;"
       hide-mobile
     ></video-card-gold>
