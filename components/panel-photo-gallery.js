@@ -1,5 +1,5 @@
 /**
- * <panel-photo-gallery>  — v7
+ * <panel-photo-gallery>  — v8 (soporta gif animado, mp4/webm y atributo `sources`)
  * Shadow DOM · totalmente aislado del CSS de la plataforma.
  *
  * ══════════════════════════════════════════════════════════
@@ -14,6 +14,12 @@
  *  width                 ancho desktop                (default: '80%')
  *  total                 total de fotos               (default: 9)
  *  page-size             fotos por página desktop     (default: 9)
+ *  sources               (opcional) JSON array con los nombres de archivo EN ORDEN.
+ *                        Acepta jpg/png/gif (gif animado funciona) y video mp4/webm/mov.
+ *                        sources='["1.jpg","6.gif","clip.mp4","3.jpg"]'
+ *                        También tolera lista separada por comas: sources="1.jpg, 6.gif, clip.mp4"
+ *                        Si NO se pasa (o faltan items), cae al comportamiento histórico: (i+1).jpg
+ *                        Se siguen tomando 'total' elementos; los nombres faltantes usan N.jpg.
  *
  *  ── TEXTOS ──────────────────────────────────────────────
  *  eyebrow               texto pequeño sobre el título
@@ -93,6 +99,32 @@ class PanelPhotoGallery extends HTMLElement {
     try { captions = JSON.parse(this.getAttribute('captions') || '[]'); } catch(e){}
     const cap = i => (captions[i] || '');
 
+    // ── Sources: nombres de archivo en orden ─────────
+    // sources='["1.jpg","6.gif","clip.mp4"]'  → usa esos nombres tal cual
+    // Si NO se pasa (o faltan items), cae al comportamiento histórico: (i+1).jpg
+    let sources = [];
+    const srcRaw = this.getAttribute('sources');
+    if (srcRaw && srcRaw.trim()) {
+      try { sources = JSON.parse(srcRaw); }
+      catch(e){ sources = srcRaw.split(',').map(s=>s.trim()).filter(Boolean); } // tolera lista separada por comas
+    }
+    const fileName = i => (sources[i] || `${i+1}.jpg`);
+    const isVideo  = name => /\.(mp4|webm|ogv|ogg|mov|m4v)$/i.test(name);
+    // Genera el tag de media (img o video) para la foto i.
+    // GIF animado funciona solo con <img>. MP4/webm → <video>.
+    const mediaTag = (i, lightbox=false) => {
+      const name = fileName(i);
+      const src  = `${basePath}${name}`;
+      const alt  = (cap(i) || `Foto ${i+1}`).replace(/"/g,'&quot;');
+      if (isVideo(name)) {
+        const attrs = lightbox
+          ? 'autoplay muted loop playsinline controls'
+          : 'autoplay muted loop playsinline preload="metadata"';
+        return `<video src="${src}" ${attrs} aria-label="${alt}"></video>`;
+      }
+      return `<img src="${src}" alt="${alt}" loading="lazy"/>`;
+    };
+
     // ── Paleta ───────────────────────────────────────
     let pal = THEMES[themeName] || THEMES['violeta-dorado'];
     if(customC1||customC2){
@@ -111,7 +143,7 @@ class PanelPhotoGallery extends HTMLElement {
         const idx=start+i, caption=cap(idx);
         return `<div class="photo-item pi${i+1}" data-idx="${idx}">
           <div class="photo-frame">
-            <div class="photo-img-wrap"><img src="${basePath}${idx+1}.jpg" alt="Foto ${idx+1}" loading="lazy"/></div>
+            <div class="photo-img-wrap">${mediaTag(idx)}</div>
             ${caption?`<div class="photo-caption">${caption}</div>`:'<div class="photo-caption-empty"></div>'}
           </div></div>`;
       }).join('');
@@ -121,7 +153,7 @@ class PanelPhotoGallery extends HTMLElement {
       const caption=cap(i);
       return `<div class="cr-slide" data-idx="${i}">
         <div class="cr-frame">
-          <div class="cr-img-wrap"><img src="${basePath}${i+1}.jpg" alt="Foto ${i+1}" loading="lazy"/></div>
+          <div class="cr-img-wrap">${mediaTag(i)}</div>
           ${caption?`<div class="cr-caption">${caption}</div>`:''}
         </div></div>`;
     }).join('');
@@ -194,8 +226,8 @@ class PanelPhotoGallery extends HTMLElement {
   .photo-frame{width:100%;height:100%;background:linear-gradient(165deg,#fefaf3 0%,#f8edd8 100%);border-radius:3px;padding:8px 8px 32px;box-shadow:0 20px 55px rgba(0,0,0,.80),0 5px 18px rgba(0,0,0,.55),0 1px 4px rgba(0,0,0,.40),inset 0 0 0 1px rgba(255,255,255,.95),0 0 0 1px ${rgb(c1,.10)};display:flex;flex-direction:column;position:relative;overflow:visible;}
   .photo-frame::before{content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:15px;height:15px;background:radial-gradient(circle at 32% 32%,#fff8c0,#d4a017,#7a5800);border-radius:50%;box-shadow:0 3px 8px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.45);z-index:50;}
   .photo-img-wrap{flex:1;overflow:hidden;border-radius:2px;}
-  .photo-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease;}
-  .photo-item:hover .photo-img-wrap img{transform:scale(1.06);}
+  .photo-img-wrap img,.photo-img-wrap video{width:100%;height:100%;object-fit:cover;display:block;transition:transform .45s ease;}
+  .photo-item:hover .photo-img-wrap img,.photo-item:hover .photo-img-wrap video{transform:scale(1.06);}
   .photo-caption{text-align:center;padding-top:6px;font-size:.62rem;color:rgba(80,50,15,.65);letter-spacing:.16em;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .photo-caption-empty{height:22px;}
 
@@ -227,7 +259,7 @@ class PanelPhotoGallery extends HTMLElement {
   .cr-slide.active .cr-frame{--cr-rot:0deg;transform:rotate(0deg) scale(1);box-shadow:0 24px 64px rgba(0,0,0,.75),0 6px 20px rgba(0,0,0,.5),inset 0 0 0 1px rgba(255,255,255,.97);}
   .cr-frame::before{content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:15px;height:15px;background:radial-gradient(circle at 32% 32%,#fff8c0,#d4a017,#7a5800);border-radius:50%;box-shadow:0 3px 8px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.45);z-index:40;}
   .cr-img-wrap{width:100%;padding-top:72%;position:relative;overflow:hidden;border-radius:2px;}
-  .cr-img-wrap img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .cr-img-wrap img,.cr-img-wrap video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
   .cr-caption{text-align:center;padding-top:8px;font-size:.75rem;color:rgba(80,50,15,.65);letter-spacing:.15em;font-style:italic;}
   .cr-dots{display:flex;justify-content:center;gap:7px;margin-top:20px;padding:0 16px;flex-wrap:wrap;}
   .cr-dot{width:7px;height:7px;border-radius:50%;background:${rgb(c1,.20)};border:1px solid ${rgb(c1,.45)};cursor:pointer;transition:background .25s,transform .25s;flex-shrink:0;}
@@ -306,7 +338,7 @@ class PanelPhotoGallery extends HTMLElement {
   }
   .lb-frame::before{content:'';position:absolute;top:-10px;left:50%;transform:translateX(-50%);width:18px;height:18px;background:radial-gradient(circle at 32% 32%,#fff8c0,#d4a017,#7a5800);border-radius:50%;box-shadow:0 3px 10px rgba(0,0,0,.65),inset 0 1px 0 rgba(255,255,255,.5);z-index:60;}
   .lb-img-wrap{position:relative;border-radius:2px;overflow:hidden;line-height:0;}
-  .lb-frame img{display:block;max-width:82vw;max-height:66vh;object-fit:contain;border-radius:2px;}
+  .lb-frame img,.lb-frame video{display:block;max-width:82vw;max-height:66vh;object-fit:contain;border-radius:2px;}
   .lb-frame-footer{position:absolute;bottom:0;left:0;right:0;height:56px;display:flex;align-items:center;justify-content:center;border-top:1px solid rgba(180,150,100,.15);}
   .lb-frame-caption{font-size:.78rem;color:rgba(80,50,15,.60);letter-spacing:.18em;font-style:italic;}
 
@@ -331,7 +363,7 @@ class PanelPhotoGallery extends HTMLElement {
       max-width:96vw;
     }
     .lb-frame{padding:10px 10px 42px;}
-    .lb-frame img{max-width:90vw;max-height:52vh;}
+    .lb-frame img,.lb-frame video{max-width:90vw;max-height:52vh;}
     .lb-close{top:-12px;right:-12px;width:32px;height:32px;font-size:.85rem;}
     .lb-btn{width:40px;height:40px;font-size:1.2rem;}
     .lb-counter{font-size:.7rem;}
@@ -374,7 +406,7 @@ class PanelPhotoGallery extends HTMLElement {
   <div class="lb-content">
     <div class="lb-frame">
       <button class="lb-close" id="lbClose">✕</button>
-      <div class="lb-img-wrap"><img id="lbImg" src="" alt=""/></div>
+      <div class="lb-img-wrap" id="lbMedia"></div>
       <div class="lb-frame-footer"><span class="lb-frame-caption" id="lbCaption"></span></div>
     </div>
     <div class="lb-counter" id="lbCtr">1 / ${total}</div>
@@ -440,22 +472,21 @@ class PanelPhotoGallery extends HTMLElement {
        LIGHTBOX
     ═══════════════════════════════════════ */
     const lb       = shadow.getElementById('lightbox');
-    const lbImg    = shadow.getElementById('lbImg');
+    const lbMedia  = shadow.getElementById('lbMedia');
     const lbLabel  = shadow.getElementById('lbLabel');
     const lbCtrEl  = shadow.getElementById('lbCtr');
     const lbCapEl  = shadow.getElementById('lbCaption');
     let cur=0;
 
     const setLB=()=>{
-      lbImg.src=`${basePath}${cur+1}.jpg`;
-      lbImg.alt=cap(cur)||`Foto ${cur+1}`;
+      lbMedia.innerHTML=mediaTag(cur,true);
       const txt=cap(cur)||`Foto ${cur+1}`;
       lbLabel.textContent=txt;
       lbCapEl.textContent=txt;
       lbCtrEl.textContent=`${cur+1} / ${total}`;
     };
     const openLB=idx=>{cur=idx;setLB();lb.classList.add('active');startLB();};
-    const closeLB=()=>{lb.classList.remove('active');stopLB();};
+    const closeLB=()=>{lb.classList.remove('active');stopLB();lbMedia.innerHTML='';};
     const navLB=dir=>{cur=(cur+dir+total)%total;setLB();};
 
     shadow.getElementById('lbClose').addEventListener('click',closeLB);
