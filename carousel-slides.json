@@ -1,7 +1,7 @@
 [
                     {
     "id": "SCHOENSTATT",
-    "position": 2,
+    "position": 1,
     "hasVideo": false,
     "link": "#SCHOENSTATT",
     "time": { "desktop": 3, "mobile": 3 },
@@ -19,7 +19,7 @@
   },
                   {
     "id": "sagrado",
-    "position": 1,
+    "position": -1,
     "hasVideo": false,
     "link": "#sagrado-corazon",
     "time": { "desktop": 3, "mobile": 3 },
@@ -37,7 +37,7 @@
   },
                 {
     "id": "dulce",
-    "position": 4,
+    "position": 3,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -109,7 +109,7 @@
   },
               {
     "id": "merienda",
-    "position": 5,
+    "position": 4,
     "hasVideo": false,
     "link": "#merendero",
     "time": { "desktop": 3, "mobile": 3 },
@@ -139,7 +139,7 @@
   },
             {
     "id": "aloy",
-    "position": 3,
+    "position": 2,
     "hasVideo": false,
     "link": "#aloy",
     "time": { "desktop": 3, "mobile": 3 },
