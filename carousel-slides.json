@@ -145,11 +145,11 @@
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/aloydesk2.png"
+      "src": "./slides/20jun_desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/aloymob2.png"
+      "src": "./slides/20jun_mob.png"
     }
   },
         {
