@@ -92,12 +92,14 @@ class PreparativosPena extends HTMLElement {
               <video class="pp-video" src="${this.video1}"${poster1}
                 muted loop autoplay playsinline preload="metadata"></video>
               <span class="pp-frame" aria-hidden="true"></span>
+              <button type="button" class="pp-sound" aria-label="Activar sonido">${this._soundIcon()}</button>
               ${cap1}
             </figure>
             <figure class="pp-vidwrap">
               <video class="pp-video" src="${this.video2}"${poster2}
                 muted loop autoplay playsinline preload="metadata"></video>
               <span class="pp-frame" aria-hidden="true"></span>
+              <button type="button" class="pp-sound" aria-label="Activar sonido">${this._soundIcon()}</button>
               ${cap2}
             </figure>
           </div>
@@ -109,13 +111,45 @@ class PreparativosPena extends HTMLElement {
     `;
 
     // Garantiza autoplay en navegadores estrictos
-    this.shadowRoot.querySelectorAll('video').forEach(v => {
+    const videos = [...this.shadowRoot.querySelectorAll('video')];
+    videos.forEach(v => {
       v.muted = true;
       const p = v.play();
       if (p && p.catch) p.catch(() => {});
     });
 
+    // Botones de sonido: al activar uno, se silencian los demás
+    this.shadowRoot.querySelectorAll('.pp-sound').forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        const v = videos[i];
+        const turnOn = v.muted;          // estado destino
+        videos.forEach((other, j) => {
+          other.muted = !(turnOn && j === i);
+          if (turnOn && j === i) { other.volume = 1; const pl = other.play(); if (pl && pl.catch) pl.catch(() => {}); }
+        });
+        this._syncSoundButtons(videos);
+      });
+    });
+
     this._startFx();
+  }
+
+  _syncSoundButtons(videos) {
+    this.shadowRoot.querySelectorAll('.pp-sound').forEach((btn, i) => {
+      const on = !videos[i].muted;
+      btn.classList.toggle('is-on', on);
+      btn.setAttribute('aria-label', on ? 'Silenciar' : 'Activar sonido');
+      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      btn.innerHTML = on ? this._soundOnIcon() : this._soundIcon();
+    });
+  }
+
+  _soundIcon() {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 9l4 6M20 9l-4 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
+  }
+
+  _soundOnIcon() {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`;
   }
 
   _bulbs() {
@@ -463,6 +497,29 @@ class PreparativosPena extends HTMLElement {
           inset 0 0 0 1px rgba(255,255,255,.10),
           inset 0 0 26px rgba(240,215,154,.18);
       }
+      /* Botón de sonido */
+      .pp-sound {
+        position: absolute; top: 10px; right: 10px; z-index: 3;
+        width: 42px; height: 42px; border-radius: 50%;
+        display: grid; place-items: center; cursor: pointer;
+        color: #1f0608;
+        background: linear-gradient(145deg, var(--oro-claro), var(--oro));
+        border: 1.5px solid rgba(255,255,255,.55);
+        box-shadow: 0 6px 16px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.6);
+        transition: transform .2s ease, box-shadow .25s ease, background .25s ease;
+        -webkit-tap-highlight-color: transparent;
+      }
+      .pp-sound svg { width: 22px; height: 22px; display: block; }
+      .pp-sound:hover { transform: scale(1.08); }
+      .pp-sound:active { transform: scale(.94); }
+      .pp-sound.is-on {
+        color: #fff;
+        background: linear-gradient(145deg, #8a1a24, var(--bordo-2));
+        border-color: rgba(240,215,154,.7);
+        box-shadow: 0 0 16px rgba(240,215,154,.5), 0 6px 16px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.2);
+      }
+      .pp-sound:focus-visible { outline: 2px solid var(--oro-claro); outline-offset: 2px; }
+
       .pp-cap {
         position: absolute; left: 0; right: 0; bottom: 0;
         padding: .85rem .9rem .5rem;
