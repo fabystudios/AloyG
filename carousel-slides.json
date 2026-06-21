@@ -138,10 +138,10 @@
     }
   },
             {
-    "id": "dia-padre",
+    "id": "padre",
     "position": 1,
     "hasVideo": false,
-    "link": "",
+    "link": "#padre",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
