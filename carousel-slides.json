@@ -138,18 +138,18 @@
     }
   },
             {
-    "id": "aloy",
+    "id": "dia-padre",
     "position": 1,
     "hasVideo": false,
-    "link": "#aloy",
+    "link": "",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/20jun_desk.png"
+      "src": "./slides/dia-padre_desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/20jun_mob.png"
+      "src": "./slides/dia-padre_mob.png"
     }
   },
         {
