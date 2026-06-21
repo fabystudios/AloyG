@@ -257,11 +257,12 @@ class PreparativosPena extends HTMLElement {
         + `width:${s}px;height:${s}px;--sc:${cols[i % cols.length]};`
         + `--dur:${rnd(1.6,3.6).toFixed(2)}s;--delay:${rnd(0,3).toFixed(2)}s"></span>`;
     }
-    return `<div class="pp-db-spots" aria-hidden="true">${spots}</div>
-      <div class="pp-discoball" aria-hidden="true">
+    const ball = side => `<div class="pp-discoball pp-discoball--${side}" aria-hidden="true">
         <span class="pp-db-cord"></span>
         <span class="pp-db-ball"></span>
       </div>`;
+    // Dos bolas, una en cada corner superior — dejan libre el título.
+    return `<div class="pp-db-spots" aria-hidden="true">${spots}</div>${ball('left')}${ball('right')}`;
   }
 
   /* ════════ EFECTOS CANVAS (fireworks / confetti / snow / petals / embers) ════════ */
@@ -596,9 +597,11 @@ class PreparativosPena extends HTMLElement {
         45%,55% { opacity: .9; transform: scale(1); }
       }
       .pp-discoball {
-        position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-        z-index: 6; pointer-events: none; display: flex; flex-direction: column; align-items: center;
+        position: absolute; top: 0; z-index: 6; pointer-events: none;
+        display: flex; flex-direction: column; align-items: center;
       }
+      .pp-discoball--left  { left:  clamp(8px, 4vw, 52px); }
+      .pp-discoball--right { right: clamp(8px, 4vw, 52px); }
       .pp-db-cord { width: 2px; height: 22px; background: linear-gradient(#cbd3e6, #6b7388); opacity: .7; }
       .pp-db-ball {
         width: clamp(46px, 7vw, 70px); aspect-ratio: 1; border-radius: 50%;
