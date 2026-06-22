@@ -1,7 +1,7 @@
 [
                     {
     "id": "SCHOENSTATT",
-    "position": 3,
+    "position": 1,
     "hasVideo": false,
     "link": "#SCHOENSTATT",
     "time": { "desktop": 3, "mobile": 3 },
@@ -139,7 +139,7 @@
   },
             {
     "id": "padre",
-    "position": 1,
+    "position": -1,
     "hasVideo": false,
     "link": "#padre",
     "time": { "desktop": 3, "mobile": 3 },
