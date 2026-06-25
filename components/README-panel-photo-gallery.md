@@ -48,23 +48,23 @@ Usa todos los valores por defecto: fotos en `./actividades/ramos/`, tema violeta
 
 ## Parámetros
 
-| Atributo | Tipo | Default | Descripción |
-|---|---|---|---|
-| `base-path` | string | `./actividades/ramos/` | Ruta a la carpeta de fotos. Las imágenes deben llamarse `1.jpg`, `2.jpg` … `N.jpg` |
-| `mascot-src` | string | `./actividades/photo.png` | Imagen de la mascota que aparece sobre el título con animación de bounce |
-| `mascot-size` | string | `84px` | Tamaño de la mascota. Aceptar cualquier valor CSS válido: `84px`, `120px`, `6rem` |
-| `particle-src` | string | _(vacío)_ | PNG(s) que flotan dentro de la card como hojas al viento. Acepta varios separados por coma. Si se omite, usa estrellitas doradas como fallback. El ratio del PNG se respeta automáticamente |
-| `lightbox-particle-src` | string | _(vacío)_ | PNG(s) que suben desde abajo al abrir el lightbox. Misma sintaxis que `particle-src`. Si se omite, usa estrellas animadas multicolor |
-| `width` | string | `80%` | Ancho del componente **solo en desktop**. En mobile siempre es `95%` del viewport |
-| `total` | número | `9` | Cantidad total de fotos |
-| `page-size` | número | `9` | Fotos por página en desktop (se pagina automáticamente) |
-| `eyebrow` | string | `✦ Parroquia · Semana Santa ✦` | Texto pequeño sobre el título |
-| `title` | string | `Misa de` | Título principal |
-| `title-em` | string | `Ramos` | Parte del título con efecto shimmer |
-| `captions` | JSON array | `[]` | Pie de foto por imagen, en orden. Si hay menos items que fotos, el resto queda vacío |
-| `theme` | string | `violeta-dorado` | Tema de color predefinido (ver tabla abajo) |
-| `color1` | hex | _(del tema)_ | Color primario custom. Tiene prioridad sobre `theme` |
-| `color2` | hex | _(del tema)_ | Color secundario custom. Tiene prioridad sobre `theme` |
+| Atributo                  | Tipo       | Default                             | Descripción                                                                                                                                                                                 |
+| ------------------------- | ---------- | ----------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `base-path`             | string     | `./actividades/ramos/`            | Ruta a la carpeta de fotos. Las imágenes deben llamarse`1.jpg`, `2.jpg` … `N.jpg`                                                                                                    |
+| `mascot-src`            | string     | `./actividades/photo.png`         | Imagen de la mascota que aparece sobre el título con animación de bounce                                                                                                                   |
+| `mascot-size`           | string     | `84px`                            | Tamaño de la mascota. Aceptar cualquier valor CSS válido:`84px`, `120px`, `6rem`                                                                                                     |
+| `particle-src`          | string     | _(vacío)_                        | PNG(s) que flotan dentro de la card como hojas al viento. Acepta varios separados por coma. Si se omite, usa estrellitas doradas como fallback. El ratio del PNG se respeta automáticamente |
+| `lightbox-particle-src` | string     | _(vacío)_                        | PNG(s) que suben desde abajo al abrir el lightbox. Misma sintaxis que`particle-src`. Si se omite, usa estrellas animadas multicolor                                                        |
+| `width`                 | string     | `80%`                             | Ancho del componente**solo en desktop**. En mobile siempre es `95%` del viewport                                                                                                     |
+| `total`                 | número    | `9`                               | Cantidad total de fotos                                                                                                                                                                      |
+| `page-size`             | número    | `9`                               | Fotos por página en desktop (se pagina automáticamente)                                                                                                                                    |
+| `eyebrow`               | string     | `✦ Parroquia · Semana Santa ✦` | Texto pequeño sobre el título                                                                                                                                                              |
+| `title`                 | string     | `Misa de`                         | Título principal                                                                                                                                                                            |
+| `title-em`              | string     | `Ramos`                           | Parte del título con efecto shimmer                                                                                                                                                         |
+| `captions`              | JSON array | `[]`                              | Pie de foto por imagen, en orden. Si hay menos items que fotos, el resto queda vacío                                                                                                        |
+| `theme`                 | string     | `violeta-dorado`                  | Tema de color predefinido (ver tabla abajo)                                                                                                                                                  |
+| `color1`                | hex        | _(del tema)_                      | Color primario custom. Tiene prioridad sobre`theme`                                                                                                                                        |
+| `color2`                | hex        | _(del tema)_                      | Color secundario custom. Tiene prioridad sobre`theme`                                                                                                                                      |
 
 > **Prioridad de color:** `color1` / `color2` > `theme` > default `violeta-dorado`
 
@@ -74,14 +74,14 @@ Usa todos los valores por defecto: fotos en `./actividades/ramos/`, tema violeta
 
 Pasarlos con el atributo `theme="nombre"`:
 
-| Nombre | Colores | Ocasión sugerida |
-|---|---|---|
-| `violeta-dorado` | 🟣 violeta + 🟡 dorado | **Default** — Semana Santa, Ramos |
-| `azul-dorado` | 🔵 azul marino + 🟡 dorado | Jueves Santo, Eucaristía, Lavado de Pies |
-| `verde-dorado` | 🟢 esmeralda + 🟡 dorado | Navidad, naturaleza, corpus |
-| `rojo-dorado` | 🔴 rojo + 🟡 dorado | Pascua, Pentecostés, confirmación |
-| `azul-plateado` | 🔵 celeste + ⚪ plateado | Adviento, fiestas de la Virgen |
-| `blanco-dorado` | ⚪ crema + 🟡 dorado | Primera Comunión, bodas, bautismos |
+| Nombre             | Colores                    | Ocasión sugerida                         |
+| ------------------ | -------------------------- | ----------------------------------------- |
+| `violeta-dorado` | 🟣 violeta + 🟡 dorado     | **Default** — Semana Santa, Ramos  |
+| `azul-dorado`    | 🔵 azul marino + 🟡 dorado | Jueves Santo, Eucaristía, Lavado de Pies |
+| `verde-dorado`   | 🟢 esmeralda + 🟡 dorado   | Navidad, naturaleza, corpus               |
+| `rojo-dorado`    | 🔴 rojo + 🟡 dorado        | Pascua, Pentecostés, confirmación       |
+| `azul-plateado`  | 🔵 celeste + ⚪ plateado   | Adviento, fiestas de la Virgen            |
+| `blanco-dorado`  | ⚪ crema + 🟡 dorado       | Primera Comunión, bodas, bautismos       |
 
 ```html
 <!-- Ejemplos -->
@@ -165,10 +165,10 @@ Si la carpeta tiene otro nombre o ruta, pasarla con `base-path`:
 
 ## Comportamiento responsive
 
-| Pantalla | Comportamiento |
-|---|---|
+| Pantalla                    | Comportamiento                                                                      |
+| --------------------------- | ----------------------------------------------------------------------------------- |
 | **Desktop** (> 640px) | Grid de exposición asimétrico — fotos inclinadas con efecto polaroid y tachuelas |
-| **Mobile** (≤ 640px) | Carrusel horizontal con swipe táctil, dots indicadores y botones ‹ › |
+| **Mobile** (≤ 640px) | Carrusel horizontal con swipe táctil, dots indicadores y botones ‹ ›             |
 
 - El ancho en mobile es siempre `95%` del viewport, ignorando el atributo `width`
 - Hacer click en cualquier foto (en ambos modos) abre el **lightbox** con navegación
@@ -179,11 +179,11 @@ Si la carpeta tiene otro nombre o ruta, pasarla con `base-path`:
 
 Se activa haciendo click en cualquier foto. Controles disponibles:
 
-| Acción | Desktop | Mobile |
-|---|---|---|
-| Siguiente foto | Click `›` o tecla `→` | Click `›` |
-| Foto anterior | Click `‹` o tecla `←` | Click `‹` |
-| Cerrar | Click `✕`, tecla `Esc`, o click en el fondo | Click `✕` o click en el fondo |
+| Acción        | Desktop                                         | Mobile                          |
+| -------------- | ----------------------------------------------- | ------------------------------- |
+| Siguiente foto | Click`›` o tecla `→`                      | Click`›`                     |
+| Foto anterior  | Click`‹` o tecla `←`                      | Click`‹`                     |
+| Cerrar         | Click`✕`, tecla `Esc`, o click en el fondo | Click`✕` o click en el fondo |
 
 ---
 
