@@ -1,4 +1,4 @@
- /**
+/**
  * <panel-photo-gallery>  — v8 (soporta gif animado, mp4/webm y atributo `sources`)
  * Shadow DOM · totalmente aislado del CSS de la plataforma.
  *
@@ -71,12 +71,12 @@ const THEMES = {
   'azul-plateado':  { bg1:[8,20,55],   bg2:[4,10,30],   bg3:[6,16,44],   c1:[99,179,237],  c2:[203,213,225], titleLight:'#f0f8ff', shimmer:['#e2e8f0','#93c5fd','#e2e8f0'] },
   'blanco-dorado':  { bg1:[30,26,18],  bg2:[18,15,10],  bg3:[24,20,14],  c1:[245,237,210], c2:[201,168,76],  titleLight:'#fffdf5', shimmer:['#f0d080','#fdf8e8','#f0d080'] },
 };
- 
+
 const rgb  = (c,a=1)=>`rgba(${c[0]},${c[1]},${c[2]},${a})`;
 const hex2rgb = h=>{ const r=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h.trim()); return r?[parseInt(r[1],16),parseInt(r[2],16),parseInt(r[3],16)]:null; };
 const darken  = (c,f=.15)=>[Math.round(c[0]*f),Math.round(c[1]*f),Math.round(c[2]*f)];
 const loadImgs = s=>{ if(!s||!s.trim())return[]; return s.split(',').map(v=>v.trim()).filter(Boolean).map(src=>{ const i=new Image();i.src=src;return i;}); };
- 
+
 class PanelPhotoGallery extends HTMLElement {
   connectedCallback(){
     // ── Atributos ────────────────────────────────────
@@ -93,12 +93,12 @@ class PanelPhotoGallery extends HTMLElement {
     const eyebrow       = this.getAttribute('eyebrow')   || '✦ Parroquia · Semana Santa ✦';
     const titleMain     = this.getAttribute('title')     || 'Misa de';
     const titleEm       = this.getAttribute('title-em')  || 'Ramos';
- 
+
     // Captions: JSON array o vacío
     let captions = [];
     try { captions = JSON.parse(this.getAttribute('captions') || '[]'); } catch(e){}
     const cap = i => (captions[i] || '');
- 
+
     // ── Sources: nombres de archivo en orden ─────────
     // sources='["1.jpg","6.gif","clip.mp4"]'  → usa esos nombres tal cual
     // Si NO se pasa (o faltan items), cae al comportamiento histórico: (i+1).jpg
@@ -108,51 +108,12 @@ class PanelPhotoGallery extends HTMLElement {
       try { sources = JSON.parse(srcRaw); }
       catch(e){ sources = srcRaw.split(',').map(s=>s.trim()).filter(Boolean); } // tolera lista separada por comas
     }
- 
-    // ── Sources mobile: fotos alternativas solo en mobile ────────────────
-    // sources-mobile='["1bis.jpg","","3bis.jpg"]'
-    // Celda vacía ("") → usa la foto de sources (desktop) para ese índice.
-    let sourcesMobile = [];
-    const srcMobRaw = this.getAttribute('sources-mobile');
-    if (srcMobRaw && srcMobRaw.trim()) {
-      try { sourcesMobile = JSON.parse(srcMobRaw); }
-      catch(e){ sourcesMobile = srcMobRaw.split(',').map(s=>s.trim()); } // tolera lista separada por comas; no filtra vacíos
-    }
- 
-    // ── Orientacion mobile: "portrait" | "landscape" | "" por foto ───────
-    // orientacion-mobile='["portrait","","landscape"]'
-    // Vacío → comportamiento CSS por defecto (el .cr-img-wrap usa padding-top:72% → ~landscape)
-    let orientacionMobile = [];
-    const orMobRaw = this.getAttribute('orientacion-mobile');
-    if (orMobRaw && orMobRaw.trim()) {
-      try { orientacionMobile = JSON.parse(orMobRaw); }
-      catch(e){ orientacionMobile = orMobRaw.split(',').map(s=>s.trim()); }
-    }
- 
-    // ── Helpers de nombre/media ───────────────────────────────────────────
     const fileName = i => (sources[i] || `${i+1}.jpg`);
-    // Para mobile: usa la foto alternativa si existe y no está vacía
-    const fileNameMobile = i => {
-      const alt = sourcesMobile[i];
-      return (alt !== undefined && alt !== '') ? alt : fileName(i);
-    };
-    // Orientación CSS para el wrap del carrusel mobile
-    // portrait  → aspect-ratio vertical  (padding-top: 133%)  ≈ 3:4
-    // landscape → aspect-ratio horizontal (padding-top: 56%)  ≈ 16:9
-    // '' / default → mantiene el CSS original (padding-top: 72%)
-    const crWrapStyle = i => {
-      const ori = (orientacionMobile[i] || '').toLowerCase();
-      if (ori === 'portrait')  return 'padding-top:133%;';
-      if (ori === 'landscape') return 'padding-top:56%;';
-      return ''; // CSS del stylesheet prevalece
-    };
- 
     const isVideo  = name => /\.(mp4|webm|ogv|ogg|mov|m4v)$/i.test(name);
     // Genera el tag de media (img o video) para la foto i.
     // GIF animado funciona solo con <img>. MP4/webm → <video>.
-    // context: 'desktop' | 'mobile' | 'lightbox'
-    const mediaTag = (i, lightbox=false, mobile=false) => {
-      const name = mobile ? fileNameMobile(i) : fileName(i);
+    const mediaTag = (i, lightbox=false) => {
+      const name = fileName(i);
       const src  = `${basePath}${name}`;
       const alt  = (cap(i) || `Foto ${i+1}`).replace(/"/g,'&quot;');
       if (isVideo(name)) {
@@ -163,7 +124,7 @@ class PanelPhotoGallery extends HTMLElement {
       }
       return `<img src="${src}" alt="${alt}" loading="lazy"/>`;
     };
- 
+
     // ── Paleta ───────────────────────────────────────
     let pal = THEMES[themeName] || THEMES['violeta-dorado'];
     if(customC1||customC2){
@@ -172,10 +133,10 @@ class PanelPhotoGallery extends HTMLElement {
       pal={bg1:darken(c1,.18),bg2:darken(c1,.09),bg3:darken(c1,.14),c1,c2,titleLight:'#fdf6e3',shimmer:[`rgb(${c2})`,`rgb(${c1})`,`rgb(${c2})`]};
     }
     const{bg1,bg2,bg3,c1,c2,titleLight,shimmer}=pal;
- 
+
     // ── Paginación ───────────────────────────────────
     const totalPages = Math.ceil(total/pageSize);
- 
+
     const makeGridPage = page=>{
       const start=page*pageSize, end=Math.min(start+pageSize,total);
       return Array.from({length:end-start},(_,i)=>{
@@ -187,28 +148,27 @@ class PanelPhotoGallery extends HTMLElement {
           </div></div>`;
       }).join('');
     };
- 
+
     const carouselItems = Array.from({length:total},(_,i)=>{
       const caption=cap(i);
-      const wrapStyle = crWrapStyle(i);
       return `<div class="cr-slide" data-idx="${i}">
         <div class="cr-frame">
-          <div class="cr-img-wrap"${wrapStyle ? ` style="${wrapStyle}"` : ''}>${mediaTag(i,false,true)}</div>
+          <div class="cr-img-wrap">${mediaTag(i)}</div>
           ${caption?`<div class="cr-caption">${caption}</div>`:''}
         </div></div>`;
     }).join('');
- 
+
     // ── Shadow DOM ───────────────────────────────────
     const shadow = this.attachShadow({mode:'open'});
- 
+
     shadow.innerHTML=`
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
- 
+
   :host{display:block;width:${widthVal};max-width:1280px;margin:36px auto;font-family:'Playfair Display',Georgia,serif;position:relative;}
   @media(max-width:768px){:host{width:95%!important;max-width:95%!important;}}
- 
+
   /* ══ CARD ══ */
   .ramos-card{
     position:relative;border-radius:32px;overflow:hidden;
@@ -230,7 +190,7 @@ class PanelPhotoGallery extends HTMLElement {
     pointer-events:none;z-index:1;
   }
   #particleCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;border-radius:32px;opacity:.60;}
- 
+
   /* ══ HEADER ══ */
   .card-header{position:relative;z-index:10;text-align:center;padding:36px 28px 24px;border-bottom:1px solid ${rgb(c2,.18)};}
   .card-header::before{content:'';display:block;width:120px;height:2px;margin:0 auto 22px;background:linear-gradient(90deg,${rgb(c1,0)} 0%,${rgb(c1,1)} 30%,${rgb(c2,1)} 50%,${rgb(c2,1)} 70%,${rgb(c2,0)} 100%);border-radius:2px;}
@@ -244,10 +204,10 @@ class PanelPhotoGallery extends HTMLElement {
   @keyframes shimmer{0%{background-position:200% center;}100%{background-position:-200% center;}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
   .card-rule{width:80px;height:1px;background:linear-gradient(90deg,transparent,${rgb(c1,.8)},${rgb(c2,1)},${rgb(c1,.8)},transparent);margin:16px auto 0;animation:fadeUp .7s .6s ease both;}
- 
+
   /* ══ BODY ══ */
   .card-body{position:relative;z-index:10;padding:38px 30px;}
- 
+
   /* ══ GRID desktop ══ */
   .photo-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:72px;gap:14px;}
   .pi1{grid-column:1/5;grid-row:1/5;--rot:-2.5deg;} .pi2{grid-column:5/9;grid-row:1/4;--rot:1.8deg;}
@@ -261,7 +221,7 @@ class PanelPhotoGallery extends HTMLElement {
   .pi7{animation-delay:.58s}.pi8{animation-delay:.66s}.pi9{animation-delay:.74s}
   @keyframes cardIn{from{opacity:0;transform:translateY(28px) rotate(var(--rot,0deg));}to{opacity:1;transform:translateY(0) rotate(var(--rot,0deg));}}
   .photo-item:hover{transform:rotate(0deg) scale(1.08)!important;z-index:30;}
- 
+
   /* Marco polaroid */
   .photo-frame{width:100%;height:100%;background:linear-gradient(165deg,#fefaf3 0%,#f8edd8 100%);border-radius:3px;padding:8px 8px 32px;box-shadow:0 20px 55px rgba(0,0,0,.80),0 5px 18px rgba(0,0,0,.55),0 1px 4px rgba(0,0,0,.40),inset 0 0 0 1px rgba(255,255,255,.95),0 0 0 1px ${rgb(c1,.10)};display:flex;flex-direction:column;position:relative;overflow:visible;}
   .photo-frame::before{content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:15px;height:15px;background:radial-gradient(circle at 32% 32%,#fff8c0,#d4a017,#7a5800);border-radius:50%;box-shadow:0 3px 8px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.45);z-index:50;}
@@ -270,7 +230,7 @@ class PanelPhotoGallery extends HTMLElement {
   .photo-item:hover .photo-img-wrap img,.photo-item:hover .photo-img-wrap video{transform:scale(1.06);}
   .photo-caption{text-align:center;padding-top:6px;font-size:.62rem;color:rgba(80,50,15,.65);letter-spacing:.16em;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .photo-caption-empty{height:22px;}
- 
+
   /* ══ PAGINACIÓN ══ */
   .pagination{display:flex;align-items:center;justify-content:center;gap:10px;padding:28px 0 10px;}
   .pg-btn{background:rgba(255,255,255,.06);border:1px solid ${rgb(c2,.35)};color:${rgb(c2,1)};font-size:1.2rem;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .15s;font-family:inherit;}
@@ -279,7 +239,7 @@ class PanelPhotoGallery extends HTMLElement {
   .pg-dots{display:flex;gap:8px;align-items:center;}
   .pg-dot{width:9px;height:9px;border-radius:50%;background:${rgb(c1,.25)};border:1px solid ${rgb(c1,.50)};cursor:pointer;transition:background .25s,transform .25s;}
   .pg-dot.active{background:linear-gradient(135deg,${rgb(c1,1)},${rgb(c2,1)});transform:scale(1.45);border-color:transparent;}
- 
+
   /* ══ CARRUSEL mobile ══ */
   .carousel-wrap{display:none;}
   @media(max-width:640px){
@@ -344,10 +304,10 @@ class PanelPhotoGallery extends HTMLElement {
     background:${rgb(c2,.24)};
   }
   .cr-btn:disabled{opacity:.35;cursor:default;transform:none;}
- 
+
   /* ══ FOOTER ══ */
   .card-footer{position:relative;z-index:10;text-align:center;padding:14px 0 24px;border-top:1px solid ${rgb(c1,.15)};font-size:1.1rem;letter-spacing:.7em;background:linear-gradient(90deg,${rgb(c1,0)} 0%,${rgb(c1,.8)} 30%,${rgb(c2,1)} 50%,${rgb(c1,.8)} 70%,${rgb(c1,0)} 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
- 
+
   /* ══ LIGHTBOX ══ */
   .lb-overlay{
     position:fixed;inset:0;z-index:99999;
@@ -357,17 +317,17 @@ class PanelPhotoGallery extends HTMLElement {
   }
   .lb-overlay.active{opacity:1;pointer-events:all;}
   .lb-backdrop{position:absolute;inset:0;background:rgba(8,2,18,.88);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);}
- 
+
   /* Canvas pirotecnia — DENTRO del overlay, cubre toda la pantalla fija */
   #lbCanvas{
     position:absolute;inset:0;
     width:100%;height:100%;
     pointer-events:none;z-index:1;
   }
- 
+
   .lb-content{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;gap:14px;transform:scale(.86);transition:transform .38s cubic-bezier(.23,1,.32,1);}
   .lb-overlay.active .lb-content{transform:scale(1);}
- 
+
   /* Marco polaroid lightbox */
   .lb-frame{
     position:relative;
@@ -381,7 +341,7 @@ class PanelPhotoGallery extends HTMLElement {
   .lb-frame img,.lb-frame video{display:block;max-width:82vw;max-height:66vh;object-fit:contain;border-radius:2px;}
   .lb-frame-footer{position:absolute;bottom:0;left:0;right:0;height:56px;display:flex;align-items:center;justify-content:center;border-top:1px solid rgba(180,150,100,.15);}
   .lb-frame-caption{font-size:.78rem;color:rgba(80,50,15,.60);letter-spacing:.18em;font-style:italic;}
- 
+
   .lb-close{position:absolute;top:-16px;right:-16px;background:${rgb(c1,.70)};border:1px solid ${rgb(c1,.50)};color:#fff;font-size:1rem;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .25s;z-index:70;}
   .lb-close:hover{background:${rgb(c1,.95)};transform:scale(1.15) rotate(90deg);}
   .lb-counter{font-size:.78rem;color:${rgb(c2,.55)};letter-spacing:.22em;font-style:italic;}
@@ -389,7 +349,7 @@ class PanelPhotoGallery extends HTMLElement {
   .lb-btn{background:rgba(255,255,255,.06);border:1px solid ${rgb(c1,.35)};color:${rgb(c1,1)};font-size:1.5rem;width:46px;height:46px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s;padding-bottom:2px;}
   .lb-btn:hover{background:${rgb(c1,.20)};transform:scale(1.1);}
   .lb-label{font-size:.92rem;color:${rgb(c2,.80)};letter-spacing:.14em;font-style:italic;min-width:90px;text-align:center;}
- 
+
   /* ══ LIGHTBOX MOBILE FIX ══ */
   @media(max-width:640px){
     .lb-overlay{
@@ -409,7 +369,7 @@ class PanelPhotoGallery extends HTMLElement {
     .lb-counter{font-size:.7rem;}
   }
 </style>
- 
+
 <div class="ramos-card" id="ramosCard">
   <canvas id="particleCanvas"></canvas>
   <div class="card-header">
@@ -438,7 +398,7 @@ class PanelPhotoGallery extends HTMLElement {
   </div>
   <div class="card-footer">✦ ✦ ✦</div>
 </div>
- 
+
 <!-- LIGHTBOX — canvas DENTRO del overlay para que funcione en Shadow DOM -->
 <div class="lb-overlay" id="lightbox">
   <div class="lb-backdrop" id="lbBackdrop"></div>
@@ -458,7 +418,7 @@ class PanelPhotoGallery extends HTMLElement {
   </div>
 </div>
 `;
- 
+
     /* ═══════════════════════════════════════
        PARTÍCULAS CARD (caen desde arriba)
     ═══════════════════════════════════════ */
@@ -468,7 +428,7 @@ class PanelPhotoGallery extends HTMLElement {
     const pImgs   = loadImgs(particleRaw);
     let particles=[], rafId=null;
     const DPR = window.devicePixelRatio||1;
- 
+
     function resizeCanvas(){
       const w=card.offsetWidth,h=card.offsetHeight;
       canvas.width=Math.round(w*DPR); canvas.height=Math.round(h*DPR);
@@ -503,11 +463,11 @@ class PanelPhotoGallery extends HTMLElement {
       rafId=requestAnimationFrame(animateP);
     }
     function startP(){resizeCanvas();initP();if(rafId)cancelAnimationFrame(rafId);animateP();}
- 
+
     if(pImgs.length){let n=0;pImgs.forEach(img=>{const d=()=>{if(++n===1)startP();};img.onload=d;img.onerror=d;if(img.complete)d();});}
     else startP();
     new ResizeObserver(()=>{resizeCanvas();initP();}).observe(card);
- 
+
     /* ═══════════════════════════════════════
        LIGHTBOX
     ═══════════════════════════════════════ */
@@ -517,10 +477,9 @@ class PanelPhotoGallery extends HTMLElement {
     const lbCtrEl  = shadow.getElementById('lbCtr');
     const lbCapEl  = shadow.getElementById('lbCaption');
     let cur=0;
- 
-    const isMobileView = () => window.matchMedia('(max-width:640px)').matches;
+
     const setLB=()=>{
-      lbMedia.innerHTML=mediaTag(cur,true,isMobileView());
+      lbMedia.innerHTML=mediaTag(cur,true);
       const txt=cap(cur)||`Foto ${cur+1}`;
       lbLabel.textContent=txt;
       lbCapEl.textContent=txt;
@@ -529,7 +488,7 @@ class PanelPhotoGallery extends HTMLElement {
     const openLB=idx=>{cur=idx;setLB();lb.classList.add('active');startLB();};
     const closeLB=()=>{lb.classList.remove('active');stopLB();lbMedia.innerHTML='';};
     const navLB=dir=>{cur=(cur+dir+total)%total;setLB();};
- 
+
     shadow.getElementById('lbClose').addEventListener('click',closeLB);
     shadow.getElementById('lbBackdrop').addEventListener('click',closeLB);
     shadow.getElementById('lbPrev').addEventListener('click',()=>navLB(-1));
@@ -540,7 +499,7 @@ class PanelPhotoGallery extends HTMLElement {
       if(e.key==='ArrowRight')navLB(1);
       if(e.key==='ArrowLeft')navLB(-1);
     });
- 
+
     /* ═══════════════════════════════════════
        PIROTECNIA LIGHTBOX (sube desde abajo)
        Canvas está DENTRO del .lb-overlay
@@ -551,7 +510,7 @@ class PanelPhotoGallery extends HTMLElement {
     const lbPImgs  = loadImgs(lbParticleRaw);
     let lbPs=[], lbRaf=null;
     const LB_COUNT=35;
- 
+
     function resizeLB(){
       // El canvas está inside el overlay (position:fixed inset:0)
       // usamos el overlay como referencia de tamaño
@@ -562,13 +521,13 @@ class PanelPhotoGallery extends HTMLElement {
       lbCtx.setTransform(DPR,0,0,DPR,0,0);
       lbCtx.imageSmoothingEnabled=true;lbCtx.imageSmoothingQuality='high';
     }
- 
+
     // Colores para pirotecnia CSS — brillantes y variados
     const STAR_COLORS=[
       rgb(c1,1), rgb(c2,1),
       '#ffffff','#ffe066','#ff6fff','#66ffee','#ff8844','#88ffaa',
     ];
- 
+
     function makeLBP(){
       const W=lb.clientWidth||window.innerWidth;
       const H=lb.clientHeight||window.innerHeight;
@@ -589,7 +548,7 @@ class PanelPhotoGallery extends HTMLElement {
         pts: [4,5,6,6][Math.floor(Math.random()*4)],
       };
     }
- 
+
     function drawLBStar(p){
       lbCtx.save();
       lbCtx.globalAlpha=p.alpha;
@@ -611,15 +570,15 @@ class PanelPhotoGallery extends HTMLElement {
       lbCtx.shadowBlur=0;
       lbCtx.restore();
     }
- 
+
     function animateLB(){
       const W=lb.clientWidth||window.innerWidth;
       const H=lb.clientHeight||window.innerHeight;
       lbCtx.clearRect(0,0,W,H);
- 
+
       // Emitir nuevas partículas escalonadas
       if(lbPs.length<LB_COUNT) lbPs.push(makeLBP());
- 
+
       lbPs=lbPs.filter(p=>{
         p.life++;
         p.swayT+=p.swayS;
@@ -630,7 +589,7 @@ class PanelPhotoGallery extends HTMLElement {
         const t=p.life/p.maxLife;
         p.alpha=t<.12?t/.12:t>.70?(1-t)/.30:1.0;
         p.alpha*=0.92;
- 
+
         lbCtx.save();
         lbCtx.translate(p.x,p.y);
         lbCtx.rotate(p.rot);
@@ -646,7 +605,7 @@ class PanelPhotoGallery extends HTMLElement {
       });
       lbRaf=requestAnimationFrame(animateLB);
     }
- 
+
     function startLB(){
       lbPs=[];
       resizeLB();
@@ -657,10 +616,10 @@ class PanelPhotoGallery extends HTMLElement {
       if(lbRaf){cancelAnimationFrame(lbRaf);lbRaf=null;}
       lbCtx.clearRect(0,0,lbCanvas.width,lbCanvas.height);
     }
- 
+
     // Pre-cargar imágenes lb si las hay
     if(lbPImgs.length) lbPImgs.forEach(img=>{if(!img.complete)img.src=img.src;});
- 
+
     /* ═══════════════════════════════════════
        PAGINACIÓN DESKTOP
     ═══════════════════════════════════════ */
@@ -669,7 +628,7 @@ class PanelPhotoGallery extends HTMLElement {
     const pgPrev = shadow.getElementById('pgPrev');
     const pgNext = shadow.getElementById('pgNext');
     let curPage=0;
- 
+
     for(let i=0;i<totalPages;i++){
       const d=document.createElement('div');
       d.className='pg-dot'+(i===0?' active':'');
@@ -677,7 +636,7 @@ class PanelPhotoGallery extends HTMLElement {
       pgDots.appendChild(d);
     }
     if(totalPages<=1)shadow.getElementById('pagination').style.display='none';
- 
+
     function goPage(p){
       curPage=Math.max(0,Math.min(totalPages-1,p));
       grid.innerHTML=makeGridPage(curPage);
@@ -692,7 +651,7 @@ class PanelPhotoGallery extends HTMLElement {
     goPage(0);
     pgPrev.addEventListener('click',()=>goPage(curPage-1));
     pgNext.addEventListener('click',()=>goPage(curPage+1));
- 
+
     /* ═══════════════════════════════════════
        CARRUSEL MOBILE
     ═══════════════════════════════════════ */
@@ -701,7 +660,7 @@ class PanelPhotoGallery extends HTMLElement {
     const dotsEl = shadow.getElementById('crDots');
     const slides = shadow.querySelectorAll('.cr-slide');
     let crCur=0;
- 
+
     slides.forEach((_,i)=>{
       const d=document.createElement('div');
       d.className='cr-dot'+(i===0?' active':'');
@@ -727,6 +686,5 @@ class PanelPhotoGallery extends HTMLElement {
     outer.addEventListener('mouseleave',()=>{drag=false;});
   }
 }
- 
+
 customElements.define('panel-photo-gallery', PanelPhotoGallery);
- 
