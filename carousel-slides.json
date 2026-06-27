@@ -1,7 +1,7 @@
 [
                     {
     "id": "SCHOENSTATT",
-    "position": 1,
+    "position": 2,
     "hasVideo": false,
     "link": "#SCHOENSTATT",
     "time": { "desktop": 3, "mobile": 3 },
@@ -18,19 +18,19 @@
 
   },
                   {
-    "id": "coro",
-    "position": -1,
+    "id": "joao",
+    "position": 1,
     "hasVideo": false,
-    "link": "#coro",
+    "link": "#joao",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/coro_desk.png"
+      "src": "./slides/joao_desk.png"
  
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/coro_mob.png"
+      "src": "./slides/joao_mob.png"
  
     }
 
@@ -109,9 +109,9 @@
   },
               {
     "id": "merienda",
-    "position": 2,
+    "position": 3,
     "hasVideo": false,
-    "link": "#merendero",
+    "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
