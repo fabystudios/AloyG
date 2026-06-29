@@ -77,9 +77,10 @@ class PreparativosPena extends HTMLElement {
     super();
     this.attachShadow({ mode: 'open' });
     this._raf = 0;
-    this._fx = null;          // estado del canvas
-    this._io = null;          // IntersectionObserver (pausa fuera de pantalla)
-    this._ro = null;          // ResizeObserver del canvas
+    this._fx = null;
+    this._io = null;
+    this._ro = null;
+    this._renderScheduled = false;
     this._onResize = this._onResize.bind(this);
     this._tick = this._tick.bind(this);
   }
@@ -92,7 +93,6 @@ class PreparativosPena extends HTMLElement {
   }
 
   connectedCallback() {
-    // Defer first render so all attributes are already set in the DOM
     if (!this._renderScheduled) {
       this._renderScheduled = true;
       Promise.resolve().then(() => { this._renderScheduled = false; this.render(); });
@@ -116,7 +116,6 @@ class PreparativosPena extends HTMLElement {
   get _videoList() {
     const arr = this._parseJsonAttr('videos');
     if (arr && arr.length) return arr;
-    // retrocompatibilidad: video1 / video2
     const v1 = this.getAttribute('video1') || './video/prep1.mp4';
     const v2 = this.getAttribute('video2') || './video/prep2.mp4';
     return [v1, v2];
@@ -134,7 +133,6 @@ class PreparativosPena extends HTMLElement {
   get _posters() {
     const arr = this._parseJsonAttr('posters') || [];
     const videos = this._videoList;
-    // fallback a poster1/poster2 para retrocompatibilidad
     const legacy = [this.getAttribute('poster1') || '', this.getAttribute('poster2') || ''];
     return videos.map((_, i) => arr[i] ?? legacy[i] ?? '');
   }
@@ -159,16 +157,15 @@ class PreparativosPena extends HTMLElement {
   render() {
     this._stopFx();
 
-    const videos      = this._videoList;
+    const videos       = this._videoList;
     const orientations = this._orientations;
-    const posters     = this._posters;
-    const captions    = this._captions;
+    const posters      = this._posters;
+    const captions     = this._captions;
 
-    // Genera el HTML de cada video
     const videosHtml = videos.map((src, i) => {
-      const orient  = orientations[i];               // 'portrait' | 'landscape'
-      const poster  = posters[i]   ? ` poster="${posters[i]}"` : '';
-      const capHtml = captions[i]  ? `<figcaption class="pp-cap">${captions[i]}</figcaption>` : '';
+      const orient  = orientations[i];
+      const poster  = posters[i]  ? ` poster="${posters[i]}"` : '';
+      const capHtml = captions[i] ? `<figcaption class="pp-cap">${captions[i]}</figcaption>` : '';
       return `
         <figure class="pp-vidwrap pp-vidwrap--${orient}">
           <video class="pp-video pp-video--${orient}" src="${src}"${poster}
@@ -179,14 +176,12 @@ class PreparativosPena extends HTMLElement {
         </figure>`;
     }).join('');
 
-    // Clases de grid según cantidad y orientaciones
     const count       = videos.length;
     const hasPortrait = orientations.includes('portrait');
     const gridClass   = `pp-videos pp-videos--count-${Math.min(count, 4)}${hasPortrait ? ' pp-videos--mixed' : ''}`;
 
     this.shadowRoot.innerHTML = `
       <style>${this._styles()}</style>
-
       <article class="pp-card pp-theme-${this.theme}"
         style="--bg:url('${this.bg}'); --bg-mobile:url('${this.bgMobile}')"
         aria-label="${this.eyebrow} — ${this.titulo}">
@@ -195,10 +190,8 @@ class PreparativosPena extends HTMLElement {
         <div class="pp-glow" aria-hidden="true"></div>
         <div class="pp-sheen" aria-hidden="true"></div>
         ${this.effects.includes('spotlights') ? this._spotlightsHtml() : ''}
-
         <div class="pp-lights" aria-hidden="true">${this._bulbs()}</div>
         ${this.effects.includes('discoball') ? this._discoballHtml() : ''}
-
         <div class="pp-stage">
           <header class="pp-head">
             <p class="pp-eyebrow">${this.eyebrow}</p>
@@ -206,25 +199,21 @@ class PreparativosPena extends HTMLElement {
             <p class="pp-sub">${this.subtitulo}</p>
             <span class="pp-rule" aria-hidden="true"></span>
           </header>
-
           <div class="${gridClass}">
             ${videosHtml}
           </div>
         </div>
-
         <div class="pp-overlay" aria-hidden="true">${this._overlaySpans()}</div>
         <canvas class="pp-canvas" aria-hidden="true"></canvas>
       </article>
     `;
 
-    // Aplica columnas proporcionales si hay mix portrait/landscape (desktop)
     const mixedCols = this._buildMixedGridColumns(orientations);
     if (mixedCols) {
       const gridEl = this.shadowRoot.querySelector('.pp-videos');
       if (gridEl) gridEl.style.gridTemplateColumns = mixedCols;
     }
 
-    // Autoplay en navegadores estrictos
     const videoEls = [...this.shadowRoot.querySelectorAll('video')];
     videoEls.forEach(v => {
       v.muted = true;
@@ -232,10 +221,9 @@ class PreparativosPena extends HTMLElement {
       if (p && p.catch) p.catch(() => {});
     });
 
-    // Botones de sonido: al activar uno, se silencian los demás
     this.shadowRoot.querySelectorAll('.pp-sound').forEach((btn, i) => {
       btn.addEventListener('click', () => {
-        const turnOn = videoEls[i].muted;       // estado destino del clickeado
+        const turnOn = videoEls[i].muted;
         videoEls.forEach((other, j) => {
           other.muted = !(turnOn && j === i);
           if (turnOn && j === i) { other.volume = 1; const pl = other.play(); if (pl && pl.catch) pl.catch(() => {}); }
@@ -257,12 +245,10 @@ class PreparativosPena extends HTMLElement {
     });
   }
 
-  /* Genera el valor de grid-template-columns para mixed portrait/landscape.
-     Portrait ocupa ~0.57 fr respecto a landscape (proporción 9:16 vs 16:9). */
   _buildMixedGridColumns(orientations) {
-    if (orientations.length <= 1) return null;   // no hay grid que ajustar
+    if (orientations.length <= 1) return null;
     const allSame = orientations.every(o => o === orientations[0]);
-    if (allSame) return null;                     // todas iguales: CSS estático
+    if (allSame) return null;
     return orientations.map(o => o === 'portrait' ? '0.57fr' : '1fr').join(' ');
   }
 
@@ -279,13 +265,11 @@ class PreparativosPena extends HTMLElement {
     return html;
   }
 
-  /* ════════ EFECTOS DOM (sparkles / bokeh / hearts) ════════ */
   _overlaySpans() {
     const fx = this.effects;
     const mult = this._mult;
     const rnd = (a, b) => a + Math.random() * (b - a);
     let html = '';
-
     if (fx.includes('sparkles')) {
       const n = Math.round(34 * mult);
       for (let i = 0; i < n; i++) {
@@ -311,9 +295,7 @@ class PreparativosPena extends HTMLElement {
     return html;
   }
 
-  /* ════════ SHOW: reflectores (spotlights) ════════ */
   _spotlightsHtml() {
-    // Haces que barren cruzándose, anclados en la base de la card.
     const beams = [
       { pos: 14, dur: 5.6, del: 0,    bc: 'rgba(255,255,255,.32)' },
       { pos: 38, dur: 6.9, del: -1.6, bc: 'rgba(255,210,120,.30)' },
@@ -326,7 +308,6 @@ class PreparativosPena extends HTMLElement {
     return `<div class="pp-spotlights" aria-hidden="true">${spans}</div>`;
   }
 
-  /* ════════ SHOW: bola de espejos (discoball) ════════ */
   _discoballHtml() {
     const cols = ['rgba(255,255,255,.95)', 'rgba(255,215,140,.95)', 'rgba(120,224,255,.95)',
                   'rgba(255,90,210,.95)', 'rgba(160,140,255,.95)', 'rgba(61,220,132,.9)'];
@@ -343,14 +324,11 @@ class PreparativosPena extends HTMLElement {
         <span class="pp-db-cord"></span>
         <span class="pp-db-ball"></span>
       </div>`;
-    // Dos bolas, una en cada corner superior — dejan libre el título.
     return `<div class="pp-db-spots" aria-hidden="true">${spots}</div>${ball('left')}${ball('right')}`;
   }
 
-  /* ════════ EFECTOS CANVAS (fireworks / confetti / snow / petals / embers) ════════ */
   _startFx() {
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
     const fx = this.effects;
     const en = {
       fireworks: fx.includes('fireworks'),
@@ -359,12 +337,10 @@ class PreparativosPena extends HTMLElement {
       petals:    fx.includes('petals'),
       embers:    fx.includes('embers'),
     };
-    if (!Object.values(en).some(Boolean)) return;   // nada que dibujar en canvas
-
+    if (!Object.values(en).some(Boolean)) return;
     const canvas = this.shadowRoot.querySelector('.pp-canvas');
     const card = this.shadowRoot.querySelector('.pp-card');
     if (!canvas || !card) return;
-
     const pal = PP_THEMES[this.theme];
     this._fx = {
       canvas, card, ctx: canvas.getContext('2d'),
@@ -375,12 +351,10 @@ class PreparativosPena extends HTMLElement {
       spawnEvery: 820 / this._mult,
       running: true, visible: true, last: performance.now(),
     };
-
     this._resizeCanvas();
     this._ro = new ResizeObserver(this._onResize);
     this._ro.observe(card);
     window.addEventListener('resize', this._onResize);
-
     this._io = new IntersectionObserver((entries) => {
       if (!this._fx) return;
       this._fx.visible = entries[0].isIntersecting;
@@ -390,7 +364,6 @@ class PreparativosPena extends HTMLElement {
       }
     }, { threshold: 0.04 });
     this._io.observe(card);
-
     this._raf = requestAnimationFrame(this._tick);
   }
 
@@ -429,7 +402,6 @@ class PreparativosPena extends HTMLElement {
                rot: Math.random() * 6.28, vr: (Math.random() - 0.5) * 0.22, phase: Math.random() * 6.28,
                color: s.pal.confetti[(Math.random() * s.pal.confetti.length) | 0] };
     }
-    // petal
     return { type, x, y, size: 5 + Math.random() * 6, vy: 0.8 + Math.random() * 1.4, sway: 0.5 + Math.random() * 1.1,
              rot: Math.random() * 6.28, vr: (Math.random() - 0.5) * 0.05, phase: Math.random() * 6.28,
              color: s.pal.petal[(Math.random() * s.pal.petal.length) | 0] };
@@ -469,13 +441,11 @@ class PreparativosPena extends HTMLElement {
   _tick(now) {
     const s = this._fx;
     if (!s || !s.running || !s.visible) { this._raf = 0; return; }
-
     const dt = Math.min(2.4, (now - s.last) / 16.67);
     s.last = now;
     const ctx = s.ctx;
     ctx.clearRect(0, 0, s.w, s.h);
 
-    /* ── Caída: confetti / snow / petals (alpha normal) ── */
     if (s.fall.length) {
       ctx.globalCompositeOperation = 'source-over';
       for (const p of s.fall) {
@@ -489,7 +459,7 @@ class PreparativosPena extends HTMLElement {
           if (p.y > s.h + 14) { p.y = -14; p.x = Math.random() * s.w; }
           ctx.globalAlpha = 1; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
           ctx.fillStyle = p.color; ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h); ctx.restore();
-        } else { // petal
+        } else {
           p.phase += 0.03 * dt; p.x += Math.sin(p.phase) * p.sway * dt; p.y += p.vy * dt; p.rot += p.vr * dt;
           if (p.y > s.h + 14) { p.y = -14; p.x = Math.random() * s.w; }
           ctx.globalAlpha = 1; ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.rot);
@@ -500,7 +470,6 @@ class PreparativosPena extends HTMLElement {
       ctx.globalAlpha = 1;
     }
 
-    /* ── Brasas (aditivo, suben) ── */
     if (s.en.embers) {
       ctx.globalCompositeOperation = 'lighter';
       const max = Math.max(8, Math.round(s.w / 40 * s.mult));
@@ -516,7 +485,6 @@ class PreparativosPena extends HTMLElement {
       ctx.globalAlpha = 1; ctx.shadowBlur = 0;
     }
 
-    /* ── Fuegos artificiales (aditivo) ── */
     if (s.en.fireworks) {
       ctx.globalCompositeOperation = 'lighter';
       if (now - s.lastSpawn > s.spawnEvery) {
@@ -557,19 +525,18 @@ class PreparativosPena extends HTMLElement {
   _styles() {
     return `
       :host {
-        --c1: #6e1620;            /* base profunda (degradé) */
+        --c1: #6e1620;
         --c2: #4a0e15;
-        --oro: #d9b25a;           /* metálico (rutilancia, común a todos los temas) */
+        --oro: #d9b25a;
         --oro-claro: #f0d79a;
         --crema: #f5ead0;
-        --halo: 240,215,154;      /* rgb del halo dorado */
+        --halo: 240,215,154;
         display: block;
         width: 100%;
         font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
       }
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-      /* ── TEMAS: solo cambian la base profunda; el oro queda como rutilancia común ── */
       .pp-theme-navidad  { --c1:#0f5132; --c2:#07351f; }
       .pp-theme-pascua   { --c1:#7a5a2a; --c2:#4a3415; }
       .pp-theme-mariano  { --c1:#14346e; --c2:#0a1c45; }
@@ -579,7 +546,7 @@ class PreparativosPena extends HTMLElement {
 
       .pp-card {
         position: relative;
-        width: min(1720px, 96vw);     /* desktop: aprovecha el ancho */
+        width: min(1720px, 96vw);
         margin: 1.4rem auto;
         padding: clamp(1rem, 2.2vw, 2rem);
         border-radius: 28px;
@@ -589,7 +556,6 @@ class PreparativosPena extends HTMLElement {
         box-shadow: 0 28px 70px rgba(0,0,0,0.5), 0 8px 22px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.10);
         background: linear-gradient(160deg, var(--c1) 0%, var(--c2) 100%);
       }
-
       .pp-bg {
         position: absolute; inset: 0; z-index: 0;
         background-image: var(--bg); background-size: cover; background-position: center;
@@ -607,7 +573,6 @@ class PreparativosPena extends HTMLElement {
         animation: pp-breathe 7s ease-in-out infinite;
       }
       @keyframes pp-breathe { 0%,100%{opacity:.55;transform:scale(1);} 50%{opacity:1;transform:scale(1.07);} }
-
       .pp-sheen {
         position: absolute; inset: 0; z-index: 2; pointer-events: none; mix-blend-mode: screen;
         background: linear-gradient(115deg, transparent 38%, rgba(255,245,210,0.16) 48%, rgba(255,255,255,0.30) 50%, rgba(255,245,210,0.16) 52%, transparent 62%);
@@ -618,7 +583,6 @@ class PreparativosPena extends HTMLElement {
         0%{background-position:160% 0;opacity:0;} 18%{opacity:1;}
         55%{background-position:-60% 0;opacity:1;} 70%,100%{background-position:-60% 0;opacity:0;}
       }
-
       .pp-lights {
         position: absolute; top: 9px; left: -1%; width: 102%; height: 12px; z-index: 6; pointer-events: none;
         display: flex; justify-content: space-between; padding: 0 14px;
@@ -636,8 +600,6 @@ class PreparativosPena extends HTMLElement {
         0%,100%{opacity:.4;box-shadow:0 0 4px 1px rgba(255,190,90,.5);}
         50%{opacity:1;box-shadow:0 0 11px 3px rgba(255,200,100,.95);}
       }
-
-      /* ── SHOW: reflectores que barren ── */
       .pp-spotlights {
         position: absolute; inset: 0; z-index: 2; pointer-events: none;
         overflow: hidden; mix-blend-mode: screen;
@@ -651,7 +613,7 @@ class PreparativosPena extends HTMLElement {
         filter: blur(7px); opacity: .9; will-change: transform;
         animation: pp-beam var(--dur) ease-in-out var(--delay) infinite alternate;
       }
-      .pp-beam::after {           /* foco/reflector en la base */
+      .pp-beam::after {
         content: ''; position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%);
         width: 14px; height: 14px; border-radius: 50%;
         background: radial-gradient(circle, #fff, var(--bc) 70%, transparent);
@@ -661,8 +623,6 @@ class PreparativosPena extends HTMLElement {
         0%   { transform: translateX(-50%) rotate(-30deg); }
         100% { transform: translateX(-50%) rotate(30deg); }
       }
-
-      /* ── SHOW: bola de espejos giratoria + destellos reflejados ── */
       .pp-db-spots {
         position: absolute; inset: 0; z-index: 5; pointer-events: none;
         overflow: hidden; mix-blend-mode: screen;
@@ -721,51 +681,24 @@ class PreparativosPena extends HTMLElement {
         box-shadow: 0 0 12px rgba(var(--halo),.6);
       }
 
-      /* ════════ GRID DE VIDEOS ════════
-         Layout según cantidad y orientación.
-         portrait  → columna más angosta (aspect 9/16)
-         landscape → columna más ancha   (aspect 16/9)
-      ════════════════════════════════ */
       .pp-videos {
         display: grid;
         gap: clamp(.8rem, 1.8vw, 1.6rem);
         align-items: start;
-        /* default (2 landscape): dos columnas iguales */
         grid-template-columns: 1fr 1fr;
       }
-
-      /* 1 video: centrado, ocupa hasta 860px */
       .pp-videos--count-1 {
         grid-template-columns: minmax(0, 860px);
         justify-content: center;
       }
-
-      /* 3 videos */
       .pp-videos--count-3 { grid-template-columns: repeat(3, 1fr); }
-
-      /* 4 videos */
       .pp-videos--count-4 { grid-template-columns: repeat(4, 1fr); }
-
-      /* Mix landscape + portrait: portrait usa fracción más angosta (~0.57 de landscape) */
-      /* Las columnas se asignan por orden de aparición de cada video en el DOM.
-         Usamos subgrid-aware column-span: portrait ocupa 1 "col angosta", landscape 1 "col ancha".
-         Truco: redefinimos el grid con columnas de dos tamaños y dejamos que cada
-         figura se ubique en la siguiente disponible automáticamente. */
       .pp-videos--mixed {
         grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
-        /* Será sobreescrito inline si hay mix, pero el fallback es igualado */
       }
 
-      /* Video landscape */
-      .pp-video--landscape {
-        aspect-ratio: 16 / 9;
-        max-height: 62vh;
-      }
-      /* Video portrait */
-      .pp-video--portrait {
-        aspect-ratio: 9 / 16;
-        max-height: 70vh;
-      }
+      .pp-video--landscape { aspect-ratio: 16 / 9; max-height: 62vh; }
+      .pp-video--portrait  { aspect-ratio: 9 / 16; max-height: 70vh; }
 
       .pp-vidwrap {
         position: relative; border-radius: 18px; overflow: hidden;
@@ -778,18 +711,13 @@ class PreparativosPena extends HTMLElement {
         transform: translateY(-4px);
         box-shadow: 0 0 30px rgba(var(--halo),.25), 0 20px 50px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.18);
       }
-      /* portrait: columna más angosta en grids multi-columna */
       .pp-vidwrap--portrait { align-self: start; }
-
-      .pp-video {
-        display: block; width: 100%; object-fit: cover; background: #0d0710;
-      }
+      .pp-video { display: block; width: 100%; object-fit: cover; background: #0d0710; }
       .pp-frame {
         position: absolute; inset: 0; border-radius: 18px; pointer-events: none;
         border: 1.5px solid rgba(var(--halo),.55);
         box-shadow: inset 0 0 0 1px rgba(255,255,255,.10), inset 0 0 26px rgba(var(--halo),.18);
       }
-
       .pp-sound {
         position: absolute; top: 10px; right: 10px; z-index: 3;
         width: 42px; height: 42px; border-radius: 50%; display: grid; place-items: center; cursor: pointer;
@@ -807,14 +735,11 @@ class PreparativosPena extends HTMLElement {
         box-shadow: 0 0 16px rgba(var(--halo),.5), 0 6px 16px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.2);
       }
       .pp-sound:focus-visible { outline: 2px solid var(--oro-claro); outline-offset: 2px; }
-
       .pp-cap {
         position: absolute; left: 0; right: 0; bottom: 0; padding: .85rem .9rem .5rem;
         font-size: clamp(.82rem, 1.8vw, 1rem); font-weight: 700; color: #fff; text-align: left;
         text-shadow: 0 2px 6px rgba(0,0,0,.7); background: linear-gradient(180deg, transparent, rgba(0,0,0,.78));
       }
-
-      /* ── Capa de efectos DOM ── */
       .pp-overlay { position: absolute; inset: 0; z-index: 7; pointer-events: none; overflow: hidden; }
       .pp-spark {
         position: absolute; color: var(--oro-claro); text-shadow: 0 0 6px rgba(var(--halo),.95);
@@ -836,15 +761,11 @@ class PreparativosPena extends HTMLElement {
         0%{opacity:0;transform:translateY(0) scale(.6);} 12%{opacity:1;}
         100%{opacity:0;transform:translateY(calc(-1 * (var(--rise, 320px)))) translateX(var(--drift)) scale(1);}
       }
-
-      /* ── Canvas (fireworks/confetti/snow/petals/embers) por encima de todo ── */
       .pp-canvas { position: absolute; inset: 0; z-index: 8; pointer-events: none; width: 100%; height: 100%; }
 
-      /* ════════ MOBILE ════════ */
       @media (max-width: 760px) {
         .pp-card { width: 95vw; border-radius: 22px; margin: 1.6rem auto; padding: 1.1rem .9rem 1.2rem; }
-        .pp-bg { background-image: var(--bg-mobile); opacity: .6; }   /* fondo 9:16 */
-        /* En mobile todos los videos se apilan en una sola columna */
+        .pp-bg { background-image: var(--bg-mobile); opacity: .6; }
         .pp-videos,
         .pp-videos--count-1,
         .pp-videos--count-2,
