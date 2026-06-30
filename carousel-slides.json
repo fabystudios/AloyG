@@ -18,19 +18,19 @@
 
   },
                   {
-    "id": "pp",
+    "id": "venezuela",
     "position": -1,
     "hasVideo": false,
-    "link": "#pp",
+    "link": "https://www.instagram.com/p/DaEKbqDlYHw",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/pp_desk.png"
+      "src": "./slides/vene_desk.png"
  
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/pp_mob.png"
+      "src": "./slides/vene_mob.png"
 
     }
 
