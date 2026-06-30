@@ -1,4 +1,33 @@
 [
+  
+    {
+    "id": "feria",
+    "position": 1,
+    "hasVideo": false,
+    "link": "#feria",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./feria/feria-jul_desk.png"
+ 
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./feria/feria-jul_mob.png"
+ 
+    },
+    
+    "overlay": {
+      "src": "",
+      "desktopPos": "center",
+      "mobilePos": "bottom-quarter",
+      "effect": "blink",
+      "desktopScale": 0.4,
+      "mobileScale": 0.5
+    }
+  },
+
+
                     {
     "id": "SCHOENSTATT",
     "position": 2,
@@ -73,7 +102,7 @@
   },
             {
     "id": "jueves",
-    "position": 1,
+    "position": 4,
     "hasVideo": false,
     "link": "#adoracion",
     "time": { "desktop": 3, "mobile": 3 },
@@ -89,24 +118,7 @@
     }
 
   },
-          {
-    "id": "feria",
-    "position": -1,
-    "hasVideo": false,
-    "link": "#feria",
-    "time": { "desktop": 3, "mobile": 3 },
-    "desktop": {
-      "type": "image",
-      "src": "./feria/feria_desk-ut.jpg"
- 
-    },
-    "mobile": {
-      "type": "image",
-      "src": "./feria/feria_mob-ut.jpg"
- 
-    }
-
-  },
+      
               {
     "id": "merienda",
     "position": 3,
@@ -244,32 +256,8 @@
     }
   },
 
-      {
-    "id": "feria",
-    "position": -1,
-    "hasVideo": true,
-    "link": "#feria",
-    "time": { "desktop": 6, "mobile": 7 },
-    "desktop": {
-      "type": "video",
-      "src": "./feria/feria_desk.mp4",
-      "poster": "./feria/feria_desk.jpg"
-    },
-    "mobile": {
-      "type": "video",
-      "src": "./feria/feria_mob.mp4",
-      "poster": "./feria/feria_mob.jpg"
-    }
-        ,
-    "overlay": {
-      "src": "./img/eshoy.png",
-      "desktopPos": "center",
-      "mobilePos": "bottom-quarter",
-      "effect": "blink",
-      "desktopScale": 0.4,
-      "mobileScale": 0.5
-    }
-  },
+
+
           {
   "id": "Misa",
   "position": -1,
