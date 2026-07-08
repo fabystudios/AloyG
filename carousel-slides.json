@@ -1,0 +1,608 @@
+[
+            {
+    "id": "afligidos",
+    "position": -1,
+    "hasVideo": false,
+    "link": "#afligidos",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/afli_desk.jpg"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/afli_mob.jpg"
+    }
+  },
+     {
+    "id": "sabana",
+    "position": 1,
+    "hasVideo": false,
+    "link": "#sabana",
+   "time": { "desktop": 4, "mobile": 4 },
+  "desktop": {
+    "type": "image",
+    "src": "./slides/sabana_desk_julio.jpg"
+  },
+  "mobile": {
+    "type": "image",
+    "src": "./slides/sabana_mob_julio.jpg"
+  }
+  },
+    {
+    "id": "feria",
+    "position": 2,
+    "hasVideo": false,
+    "link": "#feria",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./feria/feria-jul_desk.png"
+ 
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./feria/feria-jul_mob.png"
+ 
+    },
+    
+    "overlay": {
+      "src": "",
+      "desktopPos": "center",
+      "mobilePos": "bottom-quarter",
+      "effect": "blink",
+      "desktopScale": 0.4,
+      "mobileScale": 0.5
+    }
+  },
+
+
+                    {
+    "id": "SCHOENSTATT",
+    "position": 3,
+    "hasVideo": false,
+    "link": "#SCHOENSTATT",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/st_desk.png"
+ 
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/st_mob.png"
+ 
+    }
+
+  },
+                  {
+    "id": "venezuela",
+    "position": -1,
+    "hasVideo": false,
+    "link": "https://www.instagram.com/p/DaEKbqDlYHw",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/vene_desk.png"
+ 
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/vene_mob.png"
+
+    }
+
+  },
+                {
+    "id": "dulce",
+    "position": -1,
+    "hasVideo": false,
+    "link": "",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/dulce_desk.png"
+ 
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/dulce2_mob.png"
+ 
+    }
+
+  },
+              {
+    "id": "caritas",
+    "position": -1,
+    "hasVideo": false,
+    "link": "",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/caritas_desk.png"
+ 
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/caritas2_mob.png"
+ 
+    }
+
+  },
+            {
+    "id": "corpusChristi",
+    "position": -1,
+    "hasVideo": false,
+    "link": "#adoracion",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/jueves_desk.png"
+ 
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/jueves_mob.png"
+ 
+    }
+
+  },
+      
+              {
+    "id": "merienda",
+    "position": 4,
+    "hasVideo": false,
+    "link": "#merendero2",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/merendero_desk.jpg"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/merendero_mob.jpg"
+    }
+  },
+              {
+    "id": "7jun",
+    "position": -1,
+    "hasVideo": false,
+    "link": "#aloy",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/6jun_desk.jpg"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/6jun_mob.jpg"
+    }
+  },
+            {
+    "id": "padre",
+    "position": -1,
+    "hasVideo": false,
+    "link": "#padre",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/dia-padre_desk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/dia-padre_mob.png"
+    }
+  },
+        {
+    "id": "8M",
+    "position": -1,
+    "hasVideo": false,
+    "link": "",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/8M_desk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/8M_mob.png"
+    }
+  },
+        {
+    "id": "fatima",
+    "position": -1,
+    "hasVideo": false,
+    "link": "",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/fatima-mie_desk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/fatima-mie_mob.png"
+    }
+  },
+
+     
+          {
+    "id": "pentecostes",
+    "position": -1,
+    "hasVideo": false,
+    "link": "#pentecostes",
+   "time": { "desktop": 4, "mobile": 4 },
+  "desktop": {
+    "type": "image",
+    "src": "./actividades/cartelera/pentecostes_desk.png"
+  },
+  "mobile": {
+    "type": "image",
+    "src": "./actividades/cartelera/pentecostes_mob.png"
+  }
+  },
+         {
+    "id": "secretaria",
+    "position": -1,
+    "hasVideo": true,
+    "link": "",
+    "desktop": {
+      "type": "video",
+      "src": "./video/sec_desktop.mp4",
+      "poster": "./video/cover_sec_desktop.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/sec_mobile.mp4",
+      "poster": "./video/cover_sec_mobile.png"
+    }
+  },
+
+
+
+          {
+  "id": "Misa",
+  "position": -1,
+  "hasVideo": false,
+  "link": "#seccion",
+  "time": { "desktop": 5, "mobile": 5 },
+  "desktop": {
+    "type": "image",
+    "src": "./slides/aflijidos_desk.jpg"
+  },
+  "mobile": {
+    "type": "image",
+    "src": "./slides/aflijidos_mob.jpg"
+  }
+  },
+  {
+  "id": "Aurelia",
+  "position": -1,
+  "hasVideo": false,
+  "link": "./avisos.html",
+  "time": { "desktop": 5, "mobile": 5 },
+  "desktop": {
+    "type": "image",
+    "src": "./slides/aure_desk.jpg"
+  },
+  "mobile": {
+    "type": "image",
+    "src": "./slides/aure_mob.jpg"
+  }
+},
+        {
+    "id": "",
+    "position": -1,
+    "hasVideo": true,
+    "link": "#cartel",
+     "time": { "desktop": 15, "mobile": 15 },
+    "desktop": {
+      "type": "video",
+      "src": "./video/domingo_desk.mp4",
+      "poster": "./slides/domingo_desk.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/domingo_mob.mp4",
+      "poster": "./slides/domingo_mob.png"
+    }
+  },
+      {
+    "id": "",
+    "position": -1,
+    "hasVideo": true,
+    "link": "#cartel",
+     "time": { "desktop": 10, "mobile": 10 },
+    "desktop": {
+      "type": "video",
+      "src": "./video/resu2_desk.mp4",
+      "poster": "./slides/domingo_desk.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/resu2.mp4",
+      "poster": "./slides/domingo_mob.png"
+    }
+  },
+    {
+    "id": "",
+    "position": -1,
+    "hasVideo": true,
+    "link": "",
+    "desktop": {
+      "type": "video",
+      "src": "./video/docat_desk.mp4",
+      "poster": "./video/docat_desk.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/docat_mob.mp4",
+      "poster": "./video/docat_mob.jpg"
+    }
+  },
+     {
+    "id": "",
+    "position": -1,
+    "hasVideo": true,
+    "link": "#semsant",
+    "desktop": {
+      "type": "video",
+      "src": "./video/.mp4",
+      "poster": "./video/ramos_desk.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/mp4",
+      "poster": "./video/ramos_mob.png"
+    }
+  },
+       {
+    "id": "cursillos",
+    "position": -1,
+    "hasVideo": true,
+    "link": "",
+    "desktop": {
+      "type": "video",
+      "src": "./video/cursillos_desk.mp4",
+      "poster": "./video/cursillos_desk.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/cursillos_mob.mp4",
+      "poster": "./video/cursillos_mob.png"
+    }
+
+    
+  },
+         {
+    "id": "",
+    "position": -1,
+    "hasVideo": true,
+    "link": "#volvimos",
+    "desktop": {
+      "type": "video",
+      "src": "./video/scout_desk.mp4",
+      "poster": "./video/scout_desk.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/scout_mob.mp4",
+      "poster": "./video/scout_mob.jpg"
+    }
+
+    
+  },
+
+         {
+    "id": "",
+    "position": -1,
+    "hasVideo": true,
+    "link": "",
+    "desktop": {
+      "type": "video",
+      "src": "./video/capilla_desk.mp4",
+      "poster": "./video/capilla_desk.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/capilla_mob.mp4",
+      "poster": "./video/capilla_mob.png"
+    },
+    "overlay": {
+      "src": "./img/eshoy.png",
+      "desktopPos": "center",
+      "mobilePos": "bottom-quarter",
+      "effect": "blink",
+      "desktopScale": 0.4,
+      "mobileScale": 0.5
+    }
+  },
+    
+         {
+    "id": "",
+    "position": -1,
+    "hasVideo": true,
+    "link": "#semsant",
+    "desktop": {
+      "type": "video",
+      "src": "./video/viacrusis_desktop.mp4",
+      "poster": "./video/viacrusis_desktop.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/viacrusis.mp4",
+      "poster": "./video/viacrusis.png"
+    }
+  },
+      {
+    "id": "",
+    "position": -1,
+    "hasVideo": true,
+    "link": "#ceniza",
+    "desktop": {
+      "type": "video",
+      "src": "./video/ceniza_desktop.mp4",
+      "poster": "./video/cover_ceniza_desktop.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/ceniza_mobile.mp4",
+      "poster": "./video/cover_ceniza_mobile.png"
+    }
+  },
+    {
+    "id": "",
+    "position": -1,
+    "hasVideo": true,
+    "link": "#encuentro",
+    "desktop": {
+      "type": "video",
+      "src": "./video/enc_desktop.mp4",
+      "poster": "./video/cover_encuentro_desktop.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/gfe.mp4",
+      "poster": "./video/encuentro.jpg"
+    }
+  },
+  {
+    "id": "rifa2",
+    "position": -1,
+    "hasVideo": true,
+    "link": "#rifa",
+    "desktop": {
+      "type": "video",
+      "src": "./video/rifisdesk.mp4",
+      "poster": "./slides/rifa2-desktop.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/rifismob.mp4",
+      "poster": "./slides/rifa2-mobile.png"
+    },
+        "overlay": {
+      "src": "./img/sale.png",
+      "desktopPos": "bottom.quarter",
+      "mobilePos": "bottom-quarter",
+      "effect": "blink",
+      "desktopScale": 0.4,
+      "mobileScale": 0.5
+    }
+  },
+  {
+    "id": "misas",
+    "position": -1,
+    "hasVideo": true,
+    "link": "#MISAS",
+    "desktop": {
+      "type": "video",
+      "src": "./video/misas-mov-desktop.mp4",
+      "poster": "./slides/misas_desktop.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/misas-mov-mobile.mp4",
+      "poster": "./slides/misas_mobile.jpg"
+    }
+  },
+  {
+    "id": "adoracion",
+    "position": -1,
+    "hasVideo": true,
+    "link": "#adoracion",
+    "time": { "desktop": 4, "mobile": 4 },
+    "desktop": {
+      "type": "video",
+      "src": "./video/ado-mov-desktop.mp4",
+      "poster": "./slides/adoracion_desktop.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/ado-mov-mobile.mp4",
+      "poster": "./slides/adoracion_mobile.png"
+    }
+
+  },
+  {
+    "id": "actividades",
+    "position": -1,
+    "hasVideo": true,
+    "link": "#actividades",
+    "desktop": {
+      "type": "video",
+      "src": "./video/car-mov-desktop.mp4",
+      "poster": "./slides/aviso2_DESKTOP.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/car-mov-mobile.mp4",
+      "poster": "./slides/aviso2_MOBILE.jpg"
+    }
+  },
+  {
+    "id": "asistencia",
+    "position": -1,
+    "hasVideo": true,
+    "link": "#asistencia",
+    "desktop": {
+      "type": "video",
+      "src": "./video/asis-mov-desktop.mp4",
+      "poster": "./slides/asistencia-DESKTOP.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/asis-mov-mobile.mp4",
+      "poster": "./slides/asistencia-MOB.jpg"
+    }
+  },
+  {
+    "id": "banner1",
+    "position": -1,
+    "hasVideo": true,
+    "link": "#banner1",
+    "desktop": {
+      "type": "video",
+      "src": "./video/1-mov-desktop.mp4",
+      "poster": "./slides/banner1-desktop.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/1-mov-mobile.mp4",
+      "poster": "./slides/banner1-mobile.jpg"
+    }
+  },
+  {
+    "id": "banner2",
+    "position": -1,
+    "hasVideo": true,
+    "link": "#banner2",
+    "desktop": {
+      "type": "video",
+      "src": "./video/2-mov-desktop.mp4",
+      "poster": "./slides/banner2-desktop.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/2-mov-mobile.mp4",
+      "poster": "./slides/banner2-mobile.jpg"
+    }
+  },
+  
+  {
+    "id": "luz",
+    "position": -1,
+    "hasVideo": true,
+    "link": "#luz",
+    "desktop": {
+      "type": "video",
+      "src": "./video/luz-mov-desktop.mp4",
+      "poster": "./slides/luz.jpg"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./video/luz-mov-mobile.mp4",
+      "poster": "./slides/luz-MOBILE.jpg"
+    }
+  }
+ 
+]

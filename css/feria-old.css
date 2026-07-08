@@ -1,0 +1,415 @@
+/* Estilos para el componente de Feria Americana - CSS Original Completo */
+
+.pizarra-board {
+  width: 100%;
+  max-width: 680px;
+  height: 420px;
+  margin: 0 auto 1rem;
+  border-radius: 12px;
+  background-image: url('../feria/poster_desktop.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+}
+
+@media (max-width: 768px) {
+  .pizarra-board {
+    background-image: url('../feria/poster_mobile.png');
+    height: 450px;
+  }
+}
+
+.pizarra-cta {
+  color: #fff;
+  margin: 0;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (min-width: 992px) {
+  .pizarra-cta {
+    color: #ff0000;
+  }
+}
+
+@media (max-width: 600px) {
+  .feria-title {
+    font-size: 2.5em !important;
+  }
+
+  .feria-info.texto3d {
+    font-size: 1.6em !important;
+  }
+
+  .pizarra-board {
+    background-size: contain !important;
+  }
+}
+
+.blinking-llamador {
+  animation: blinking-llamador 1s steps(2, start) infinite;
+}
+
+@keyframes blinking-llamador {
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.15;
+  }
+}
+
+@media (max-width: 600px) {
+  .blinking-llamador {
+    font-size: 1.7em !important;
+  }
+}
+
+.mujer-1 {
+  top: 10%;
+  left: 0%;
+  animation-delay: 0.5s;
+}
+
+.mujer4-animada {
+  max-width: 35vw;
+  z-index: 10;
+  animation: mujer4-move 2.5s ease-in-out infinite alternate;
+}
+
+.mujer-2 {
+  position: absolute;
+  max-width: 250px;
+  z-index: 20;
+  animation: floatIn 2s ease forwards, floating 3s ease-in-out infinite;
+  opacity: 0;
+  top: 43%;
+  left: 12%;
+  animation-delay: 1s;
+  scale: 1.5;
+}
+
+@keyframes mujer4-move {
+  0% {
+    transform: translateY(0) scale(1) rotate(-2deg);
+  }
+
+  50% {
+    transform: translateY(-18px) scale(1.04) rotate(2deg);
+  }
+
+  100% {
+    transform: translateY(0) scale(1) rotate(-2deg);
+  }
+}
+
+@media (max-width: 323px) {
+  .mujer4-animada {
+    max-width: 60vw !important;
+    position: absolute;
+    left: 48% !important;
+    top: 79% !important;
+    transform: translateX(-50%);
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  .mujer-3 {
+    display: none;
+  }
+
+  .mujer-2 {
+    top: 75%;
+    left: 5%;
+    animation-delay: 1s;
+    scale: 1;
+    max-width: 140px;
+  }
+}
+
+@media (min-width: 324px) and (max-width: 800px) {
+  .feria-section {
+    width: 95% !important;
+  }
+
+  .mujer4-animada {
+    max-width: 55vw !important;
+    position: absolute;
+    left: 48% !important;
+    top: 65% !important;
+    transform: translateX(-50%);
+    z-index: 20;
+    pointer-events: none;
+  }
+
+  .mujer-3 {
+    display: none;
+  }
+
+  .mujer-2 {
+    top: 58%;
+    left: 0%;
+    animation-delay: 1s;
+    scale: 1;
+    max-width: 180px;
+  }
+
+  .mujer-1 {
+    z-index: 2;
+    opacity: 0.5;
+    top: 1%;
+    transform: scale(0.7) !important;
+    transform-origin: top left;
+  }
+
+  .card-body p,
+  .card-body h2 {
+    margin-bottom: 0.4em;
+  }
+}
+
+
+/* ========== Call to Action ========== */
+.pizarra-cta {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+}
+
+.pizarra-cta:hover {
+  background: rgba(0, 0, 0, 0.85);
+  transform: translateX(-50%) scale(1.05);
+}
+
+@media (min-width: 768px) {
+  .pizarra-cta {
+    background: rgba(255, 0, 0, 0.85);
+    bottom: 20px;
+  }
+  
+  .pizarra-cta:hover {
+    background: rgba(255, 0, 0, 0.95);
+  }
+}
+
+.blinking-llamador {
+  animation: blinking-llamador 1.5s ease-in-out infinite;
+}
+
+@keyframes blinking-llamador {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateX(-50%) scale(1.02);
+  }
+}
+
+/* ========== Banderines Decorativos ========== */
+.banderin-decoracion {
+  position: absolute;
+  top: -20px;
+  right: -20px;
+  max-width: 150px;
+  z-index: 15;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
+  animation: swing 3s ease-in-out infinite;
+}
+
+@keyframes swing {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(2deg);
+  }
+  75% {
+    transform: rotate(-2deg);
+  }
+}
+
+/* ========== Personaje Animado (Mujer-2) ========== */
+.mujer-2 {
+  position: absolute;
+  max-width: 200px;
+  z-index: 20;
+  animation: floatIn 2s ease forwards, floating 3.5s ease-in-out infinite;
+  opacity: 0;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+  pointer-events: none;
+}
+
+@keyframes floatIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes floating {
+  0%, 100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(2deg);
+  }
+}
+
+/* ========== Modal Mejorado ========== */
+.modal-image {
+  transition: transform 0.3s ease;
+}
+
+.modal-image:hover {
+  transform: scale(1.02);
+}
+
+/* ========== Responsive Design ========== */
+
+/* Desktop */
+@media (min-width: 769px) {
+  .mujer-2 {
+    top: 50%;
+    left: -180px;
+    transform: translateY(-50%);
+    animation-delay: 0.8s;
+  }
+  
+  .feria-section {
+    max-width: 800px;
+  }
+  
+  .pizarra-board {
+    max-width: 650px;
+    height: 450px;
+  }
+}
+
+/* Tablet */
+@media (min-width: 600px) and (max-width: 768px) {
+  .feria-container {
+    padding: 2rem 0 3rem;
+  }
+  
+  .pizarra-board {
+    max-width: 550px;
+    height: 380px;
+  }
+  
+  .mujer-2 {
+    max-width: 160px;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: auto;
+  }
+  
+  .banderin-decoracion {
+    max-width: 120px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 599px) {
+  .feria-container {
+    padding: 1.5rem 0 2.5rem;
+    min-height: 450px;
+  }
+  
+  .feria-section {
+    width: 95%;
+    max-width: 100%;
+  }
+  
+  .pizarra-board {
+    max-width: 100%;
+    height: 360px;
+    border-radius: 16px;
+    background-image: url('../feria/poster_mobile.png');
+  }
+  
+  .pizarra-cta {
+    font-size: 0.85rem;
+    padding: 6px 16px;
+    bottom: 12px;
+  }
+  
+  .mujer-2 {
+    max-width: 140px;
+    bottom: -80px;
+    left: 50%;
+    transform: translateX(-50%);
+    top: auto;
+    animation-delay: 1s;
+  }
+  
+  .banderin-decoracion {
+    max-width: 100px;
+    top: -15px;
+    right: -15px;
+  }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 380px) {
+  .pizarra-board {
+    height: 320px;
+  }
+  
+  .mujer-2 {
+    max-width: 110px;
+    bottom: -60px;
+  }
+  
+  .pizarra-cta {
+    font-size: 0.75rem;
+    padding: 5px 12px;
+    bottom: 10px;
+  }
+  
+  .banderin-decoracion {
+    max-width: 80px;
+  }
+}
+
+/* Animaciones de entrada al viewport */
+@media (prefers-reduced-motion: no-preference) {
+  .feria-container {
+    animation: fadeInUp 0.8s ease forwards;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

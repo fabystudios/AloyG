@@ -1,0 +1,74 @@
+[
+   {
+    "id": "post-1",
+    "position": 1,
+    "type": "facebook",
+    "source": "facebook",
+    "layout": "full-row",
+    "orientation": "landscape",
+    "url": "https://www.facebook.com/photo/?fbid=10232916181627166&set=a.4104997663646",
+    "poster": "",
+    "title": "Nos preparamos para celebrar san Valentín con la unión nupcial de Jona y Ludmi, mañana 20 hs",
+    "description": "",
+    "autoplay": true,
+    "loop": false,
+    "muted": true,
+    "controls": true,
+    "playsinline": true,
+     "enableZoom": false 
+  },
+  {
+    "id": "post-1",
+    "position": 1,
+    "type": "video",
+    "source": "tiktok",
+    "layout": "full-row",
+    "orientation": "landscape",
+    "url": "./video/jubi_final.mp4",
+    "poster": "./img/jubi-poster.jpg",
+    "title": "Año jubilar franciscano",
+    "description": "",
+    "autoplay": true,
+    "loop": false,
+    "muted": true,
+    "controls": true,
+    "playsinline": true
+  },
+  {
+    "id": "post-2",
+    "position": 2,
+    "type": "video",
+    "url": "./video/consejo.mp4",
+    "poster": "./img/consejo-poster.jpg",
+    "title": "...en brazos de su madre",
+    "description": "",
+    "autoplay": false,
+    "loop": false,
+    "muted": false,
+    "controls": true,
+    "playsinline": true
+  },
+  {
+    "id": "post-3",
+    "position": 3,
+    "type": "video",
+    "url": "./video/catolico.mp4",
+    "title": "¡Soy Católico!",
+    "description": "",
+    "autoplay": true,
+    "loop": true,
+    "muted": true,
+    "controls": true,
+    "playsinline": true
+  },
+  {
+    "id": "post-4",
+    "position": 4,
+    "type": "facebook",
+    "url": "https://www.facebook.com/photo/?fbid=10232533295375249&set=a.1655316943159",
+    "title": "GRACIAS SEÑOR!",
+    "description": "por tu fidelidad🥹",
+    "enableZoom": false
+  }
+
+]

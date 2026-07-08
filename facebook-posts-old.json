@@ -1,0 +1,21 @@
+[
+   {
+    "id": "post-1",
+    "position": 1,
+    "type": "facebook",
+    "source": "facebook",
+    "layout": "full-row",
+    "orientation": "landscape",
+    
+    "url": "https://www.facebook.com/photo/?fbid=10233619374366545&set=pcb.10233619375806581",
+    "title": "En retiro del clero... Recen por nosotros 🙏",
+    "description": "",
+    "autoplay": true,
+    "loop": false,
+    "muted": true,
+    "controls": true,
+    "playsinline": true,
+    "enableZoom": false,
+    "width":1000
+  }
+]

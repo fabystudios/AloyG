@@ -1,0 +1,39 @@
+[   
+                                 {
+    "id": 1,
+    "fecha": "Sábado Santo",
+    "santo": "La guardia en el sepulcro",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/guardia.mp4",
+    "icono": "./img/cruz-cuaresma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": true,
+    "showOnDesktop": true
+  }, 
+                               {
+    "id": 2,
+    "fecha": "Viernes Santo",
+    "santo": "La Crucifixión",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/viernes.mp4",
+    "icono": "./img/cruz-cuaresma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": false,
+    "showOnDesktop": true
+  }, 
+                             {
+    "id": 2,
+    "fecha": "Jueves Santo",
+    "santo": "La Última Cena",
+    "santoFontSize": "1.2em",
+    "poster": "./asantos/santos.jpg",
+    "video": "./asantos/jueves.mp4",
+    "icono": "./img/cruz-cuaresma.png",
+    "iconoWidth": "35px",
+    "showOnMobile": false,
+    "showOnDesktop": true
+  }
+       
+]

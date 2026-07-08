@@ -1,0 +1,22 @@
+[
+    {
+     "id": "post-1",
+    "position": 1,
+    "type": "facebook",
+    "source": "facebook",
+    "layout": "full-row",
+    "orientation": "vertical",
+    
+    "url": "https://www.facebook.com/photo/?fbid=10233793553280909&set=a.1655316943159",
+    "title": "Oremos por intercesión de san José obrero",
+    "description": "Dando gracias por los que tienen trabajo y pidiendo un trabajo digno para el resto y poder volver a una 'cultura del trabajo'.",
+    "autoplay": true,
+    "loop": false,
+    "muted": true,
+    "controls": true,
+    "playsinline": true,
+    "enableZoom": false,
+    "width":350
+  }
+
+]

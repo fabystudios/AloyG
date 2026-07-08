@@ -1,0 +1,157 @@
+/* INICIO */
+
+header{
+  padding: 8em;
+}
+
+.navbar-custom .navbar-nav>.active>a:focus, .navbar-custom .navbar-nav>.active>a:hover{
+    color: #fff;
+    background-color: #fec503; /* barra amarilla de selección del menu */
+
+}
+
+.navbar-custom .nav li a, .navbar-custom .navbar-toggle {
+ color: #b3b3ff !important; /*  opciones del menú */
+ 
+}
+
+.navbar-custom .nav li a:focus, .navbar-custom .nav li a:hover {
+  color: #00abe6;
+}
+
+@media (min-width: 768px)
+header .intro-text {
+    padding-top: 311px !important;
+    padding-bottom: 300px !important;
+}
+
+.btn-sumate{
+  background-color: #b48221;
+  border-color: #a89459;
+}
+
+.btn-sumate:hover {
+    color: #fff;
+    background-color: #3b93cf;
+    border-color: #8bb0d5;
+}
+
+section {
+ padding: 110px 0;
+}
+
+/* navbar*/
+ 
+ 
+.navbar-custom.affix  {
+  background: #b48221;  /*  For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left, #b48221 , #00aae5); /*  For Safari 5.1 to 6.0  */
+  background: -o-linear-gradient(right, #b48221 , #00aae5); /*  For Opera 11.1 to 12.0  */
+  background: -moz-linear-gradient(right, #b48221 , #00aae5);  /* For Firefox 3.6 to 15  */
+  background: linear-gradient(to right, #b48221 , #00aae5);   /* Standard syntax  */
+}
+ 
+.active{
+  background-color: none;
+  color: white;
+}
+
+
+/* involucrados*/
+ ul.social-buttons li a:hover, ul.social-buttons li a:focus  {
+    background-color: #00aae5;
+}
+
+img.img-responsive.img-circle.resize {
+    width: 260px;
+    height: 280px;
+}
+
+section h2.section-heading {
+    font-size: 35px;
+}
+
+/*proximos eventos*/
+.img-event{
+  width: 172px;  
+  height: 157px;
+}
+
+.timeline>li .timeline-image{
+  background-color: #00aae5;
+}
+
+@media (min-width: 768px)
+.timeline>li .timeline-image {
+    width: 120px;
+    height: 120px;
+    left: 50%;
+    margin-left: -50px;
+}
+.timeline-image h4{
+  font-size: 3em;
+}
+
+/* últimas noticias*/
+
+.btn-primary, .btn-primary:hover, .btn-primary:focus {
+  color: #fff;
+  background-color: #00aae5;
+  border-color: #00aae5;
+}
+
+#portfolio .portfolio-item .portfolio-link .portfolio-hover {
+  background: rgba(1, 170, 227, 0.52);
+}
+
+.portfolio-modal .modal-content {
+  padding: 100px 0;
+}
+
+.portfolio-modal .modal-content h2 {
+    font-size: 2.5em;
+}
+
+/* contactanos */
+
+.btn-send-msg{
+  margin: 2em;
+}
+
+section#contactanos {
+  background-color: #222;
+  background-image: url(../img/contactanos/pista.png);
+  background-position: center;
+  background-repeat: no-repeat;
+
+}
+
+textarea{
+  height:  100px !important;
+}
+
+.contact-box{
+  padding: 2em;
+  background-color: white;
+}
+
+.contact-data{
+  text-transform: none;
+  font-weight: normal;
+}
+
+.glyphicon {
+  padding: 1em;
+  color: #02a9e2;
+}
+
+/* generales */
+a.active, a:active, a:focus, a:hover {
+  color: #00aae5;
+}
+
+.text-primary, a {
+    color: #337ab7;
+}
+
+::selection { background: #cfe9f2; }

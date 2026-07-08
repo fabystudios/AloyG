@@ -1,0 +1,464 @@
+// ========================================
+// SISTEMA DE EXPORTACIÓN PDF - RIFA OPTIMIZADO
+// Versión corregida: compatible con carga asíncrona
+// ========================================
+
+// ✅ ENVOLVER TODO EN UNA FUNCIÓN QUE SE EJECUTA CUANDO TODO ESTÁ LISTO
+(function() {
+  'use strict';
+
+  // ========================================
+  // FUNCIÓN PARA GENERAR PDF
+  // ========================================
+  async function generarPDF(preview = false) {
+    const { jsPDF } = window.jspdf;
+    
+    if (!jsPDF) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error de Librería',
+        html: '<p style="font-size: 15px; margin: 12px 0;">No se pudo cargar la librería jsPDF.<br>Verifica tu conexión a internet.</p>',
+        confirmButtonText: 'Entendido',
+        confirmButtonColor: '#B3261E'
+      });
+      return;
+    }
+
+    // Mostrar loading
+    Swal.fire({
+      title: 'Generando PDF...',
+      html: '<div class="spinner"></div><p style="margin-top: 16px;">Procesando datos...</p>',
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      }
+    });
+
+    try {
+      // ✅ Verificar que rifaData existe
+      if (!window.rifaData) {
+        throw new Error('No hay datos de rifa disponibles');
+      }
+
+      // Filtrar y ordenar por número
+      const participantes = window.rifaData
+        .filter(item => item.state === 2 || item.state === 3)
+        .sort((a, b) => {
+          const numA = parseInt(a.numero) || 0;
+          const numB = parseInt(b.numero) || 0;
+          return numA - numB;
+        });
+
+      if (participantes.length === 0) {
+        Swal.close();
+        Swal.fire({
+          icon: 'info',
+          title: 'Sin Datos para Exportar',
+          html: '<p style="font-size: 15px; margin: 12px 0;">No hay rifas reservadas o pagadas para exportar al PDF.</p>',
+          confirmButtonText: 'Entendido',
+          confirmButtonColor: '#6750A4'
+        });
+        return;
+      }
+
+      const doc = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = doc.internal.pageSize.getWidth();
+      const pageHeight = doc.internal.pageSize.getHeight();
+
+      // Encabezado
+      doc.setFillColor(103, 80, 164);
+      doc.rect(0, 0, pageWidth, 25, 'F');
+
+      // Logo
+      try {
+        const logo = new Image();
+        logo.crossOrigin = 'anonymous';
+        const logoPath = window.location.origin + '/img/IsoTipo-2-SanLuisGonzaga-Amarillo.png';
+        
+        await new Promise((resolve) => {
+          logo.onload = () => {
+            try {
+              const imgRatio = logo.width / logo.height;
+              let logoWidth = 100;
+              let logoHeight = logoWidth / imgRatio;
+              
+              if (logoHeight > 18) {
+                logoHeight = 18;
+                logoWidth = logoHeight * imgRatio;
+              }
+              
+              const logoX = (pageWidth - logoWidth) / 2;
+              const logoY = 3.5;
+              
+              doc.addImage(logo, 'PNG', logoX, logoY, logoWidth, logoHeight);
+            } catch (e) {
+              console.warn('Error al agregar logo:', e);
+            }
+            resolve();
+          };
+          logo.onerror = () => {
+            console.warn('No se pudo cargar el logo');
+            resolve();
+          };
+          logo.src = logoPath;
+          setTimeout(() => resolve(), 3000);
+        });
+      } catch (e) {
+        console.warn('Error cargando logo:', e);
+      }
+
+      // Info y fecha
+      const fecha = new Date().toLocaleString('es-AR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+      
+      doc.setFontSize(7);
+      doc.setTextColor(100, 100, 100);
+      doc.text(`Generado: ${fecha}`, 14, 29);
+
+      // Estadísticas
+      const totalReservados = participantes.filter(p => p.state === 2).length;
+      const totalPagados = participantes.filter(p => p.state === 3).length;
+      const totalRecaudado = totalPagados * 20000;
+
+      doc.setFontSize(8);
+      doc.setTextColor(255, 255, 255);
+      doc.setFont('helvetica', 'bold');
+      doc.text('RIFA SOLIDARIA 2025', pageWidth / 2, 29, { align: 'center' });
+      
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(7);
+      doc.text(`Res: ${totalReservados} | Pag: ${totalPagados} | Recaudado: $${totalRecaudado.toLocaleString('es-AR')}`, 
+        pageWidth - 14, 29, { align: 'right' });
+
+      // Tabla
+      const tableData = participantes.map(item => {
+        let nombre = item.nombre || 'Sin nombre';
+        if (nombre.length > 25) {
+          nombre = nombre.substring(0, 22) + '...';
+        }
+
+        let email = item.email || '-';
+        if (email.length > 28) {
+          email = email.substring(0, 25) + '...';
+        }
+
+        return [
+          item.numero.toString().padStart(3, '0'),
+          nombre,
+          item.dni || '-',
+          email,
+          item.state === 3 ? 'Pagado' : 'Reserv.',
+          item.time ? new Date(item.time.seconds * 1000).toLocaleDateString('es-AR', {
+            day: '2-digit',
+            month: '2-digit',
+            year: '2-digit'
+          }) : '-'
+        ];
+      });
+
+      doc.autoTable({
+        startY: 34,
+        head: [['#', 'Nombre', 'DNI', 'Email', 'Estado', 'Fecha']],
+        body: tableData,
+        theme: 'grid',
+        styles: {
+          fontSize: 8,
+          cellPadding: 1.5,
+          lineColor: [200, 200, 200],
+          lineWidth: 0.1
+        },
+        headStyles: {
+          fillColor: [103, 80, 164],
+          textColor: [255, 255, 255],
+          fontStyle: 'bold',
+          fontSize: 9,
+          halign: 'center',
+          cellPadding: 2
+        },
+        bodyStyles: {
+          fontSize: 8,
+          cellPadding: 1.5,
+          valign: 'middle'
+        },
+        columnStyles: {
+          0: { halign: 'center', cellWidth: 12, fontStyle: 'bold' },
+          1: { cellWidth: 50 },
+          2: { halign: 'center', cellWidth: 22 },
+          3: { cellWidth: 55, fontSize: 7 },
+          4: { halign: 'center', cellWidth: 20, fontStyle: 'bold' },
+          5: { halign: 'center', cellWidth: 22, fontSize: 7 }
+        },
+        alternateRowStyles: {
+          fillColor: [248, 248, 248]
+        },
+        didParseCell: function(data) {
+          if (data.section === 'body') {
+            const rowData = participantes[data.row.index];
+            
+            if (data.column.index === 4) {
+              if (rowData.state === 3) {
+                data.cell.styles.fillColor = [200, 230, 201];
+                data.cell.styles.textColor = [27, 94, 32];
+              } else {
+                data.cell.styles.fillColor = [255, 224, 178];
+                data.cell.styles.textColor = [230, 81, 0];
+              }
+            }
+
+            if (data.column.index === 0) {
+              data.cell.styles.textColor = [103, 80, 164];
+            }
+
+            if (data.column.index === 5 && data.cell.text[0] && data.cell.text[0].includes('(')) {
+              data.cell.styles.textColor = [100, 100, 100];
+            }
+          }
+        },
+        didDrawPage: function(data) {
+          const pageCount = doc.internal.getNumberOfPages();
+          const currentPage = doc.internal.getCurrentPageInfo().pageNumber;
+          
+          doc.setDrawColor(103, 80, 164);
+          doc.setLineWidth(0.3);
+          doc.line(14, pageHeight - 15, pageWidth - 14, pageHeight - 15);
+          
+          doc.setFontSize(8);
+          doc.setTextColor(120, 120, 120);
+          doc.text(
+            `Página ${currentPage} de ${pageCount}`,
+            pageWidth / 2,
+            pageHeight - 10,
+            { align: 'center' }
+          );
+          
+          doc.setFontSize(7);
+          doc.setTextColor(150, 150, 150);
+          doc.text('Parroquia San Luis Gonzaga - Villa Elisa', 14, pageHeight - 10);
+          doc.text('www.sanluisgonzaga.ar', pageWidth - 14, pageHeight - 10, { align: 'right' });
+        }
+      });
+
+      // Resumen final
+      let finalY = doc.lastAutoTable.finalY + 8;
+      
+      if (finalY > pageHeight - 35) {
+        doc.addPage();
+        finalY = 20;
+      }
+      
+      doc.setFillColor(234, 221, 255);
+      doc.roundedRect(14, finalY, pageWidth - 28, 20, 2, 2, 'F');
+
+      doc.setFontSize(10);
+      doc.setTextColor(103, 80, 164);
+      doc.setFont('helvetica', 'bold');
+      doc.text('RESUMEN FINAL', 20, finalY + 6);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(8);
+      doc.text(`Total Participantes: ${participantes.length}`, 20, finalY + 12);
+      doc.text(`Reservados: ${totalReservados}`, 70, finalY + 12);
+      doc.text(`Pagados: ${totalPagados}`, 120, finalY + 12);
+      
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(9);
+      doc.text(`Total Recaudado: $${totalRecaudado.toLocaleString('es-AR')}`, 20, finalY + 17);
+
+      // Finalizar
+      Swal.close();
+
+      const pdfBlob = doc.output('blob');
+      const pdfUrl = URL.createObjectURL(pdfBlob);
+
+      if (preview) {
+        window.open(pdfUrl, '_blank');
+      } else {
+        const filename = `Rifa_SanLuisGonzaga_${new Date().toISOString().split('T')[0]}.pdf`;
+        
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        const isMobile = /Mobi|Android|iPhone|iPad|iPod|webOS|BlackBerry|BB10|Opera Mini/i.test(navigator.userAgent);
+        if (!isMobile) {
+          setTimeout(() => {
+            window.open(pdfUrl, '_blank');
+          }, 500);
+        }
+        
+        Swal.fire({
+          icon: 'success',
+          title: 'PDF Generado Exitosamente',
+          html: `
+            <p style="font-size: 18px; margin: 16px 0;">
+              <strong>Archivo descargado:</strong><br>
+              <span style="color: #6750A4; font-size: 16px; font-weight: bold;">${filename}</span>
+            </p>
+            <p style="font-size: 14px; color: #666; margin-top: 12px;">
+              ✔ ${participantes.length} participantes exportados<br>
+              ✔ El PDF se abrirá automáticamente si están habilitados los pop-ups.
+            </p>
+          `,
+          confirmButtonText: 'Entendido',
+          confirmButtonColor: '#6750A4',
+          timer: 5000,
+          timerProgressBar: true
+        });
+      }
+
+    } catch (error) {
+      console.error('Error al generar PDF:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al Generar PDF',
+        html: `
+          <p style="font-size: 15px; margin: 12px 0;">
+            Ocurrió un error al generar el PDF.
+          </p>
+          <p style="font-size: 13px; color: #666; margin-top: 8px;">
+            <strong>Detalle:</strong> ${error.message}
+          </p>
+        `,
+        confirmButtonText: 'Reintentar',
+        confirmButtonColor: '#B3261E',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar'
+      });
+    }
+  }
+
+  // ========================================
+  // TABLA EN PANTALLA
+  // ========================================
+  function mostrarTablaParticipantes() {
+    if (!window.rifaData) {
+      console.warn('rifaData no disponible aún');
+      return;
+    }
+
+    const participantes = window.rifaData
+      .filter(item => item.state === 2 || item.state === 3)
+      .sort((a, b) => {
+        const numA = parseInt(a.numero) || 0;
+        const numB = parseInt(b.numero) || 0;
+        return numA - numB;
+      });
+
+    if (participantes.length === 0) {
+      const tabla = document.getElementById('tabla-participantes');
+      if (tabla) tabla.style.display = 'none';
+      return;
+    }
+
+    let html = `
+      <table style="width: 100%; border-collapse: collapse; box-shadow: 0 2px 8px rgba(0,0,0,0.1); font-size: 13px;">
+        <thead style="background: #6750A4; color: white;">
+          <tr>
+            <th style="padding: 8px; text-align: center;">#</th>
+            <th style="padding: 8px;">Nombre</th>
+            <th style="padding: 8px; text-align: center;">DNI</th>
+            <th style="padding: 8px;">Email</th>
+            <th style="padding: 8px; text-align: center;">Estado</th>
+            <th style="padding: 8px; text-align: center;">Nº Op</th>
+            <th style="padding: 8px; text-align: center;">Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    participantes.forEach((item, index) => {
+      const bgColor = item.state === 3 
+        ? (index % 2 === 0 ? '#e8f5e9' : '#d4edda')
+        : (index % 2 === 0 ? '#fff8e1' : '#ffecb3');
+      
+      const estadoText = item.state === 3 ? '✔ Pagado' : '⏰ Reservado';
+      const estadoColor = item.state === 3 ? '#1b5e20' : '#e65100';
+      const fecha = item.time ? new Date(item.time.seconds * 1000).toLocaleDateString('es-AR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: '2-digit'
+      }) : '-';
+
+
+      html += `
+        <tr style="background: ${bgColor}; transition: all 0.2s;" 
+            onmouseover="this.style.transform='scale(1.005)'; this.style.boxShadow='0 4px 8px rgba(0,0,0,0.15)';"
+            onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+          <td style="padding: 6px; text-align: center; font-weight: bold; color: #6750A4;">${item.numero.toString().padStart(3, '0')}</td>
+          <td style="padding: 6px;">${item.nombre || 'Sin nombre'}</td>
+          <td style="padding: 6px; text-align: center;">${item.dni || '-'}</td>
+          <td style="padding: 6px; font-size: 11px;">${item.email || '-'}</td>
+          <td style="padding: 6px; text-align: center; font-weight: bold; color: ${estadoColor};">${estadoText}</td>
+          <td style="padding: 6px; text-align: center; font-size: 11px;">${fecha}</td>
+        </tr>
+      `;
+    });
+
+    html += '</tbody></table>';
+
+    const tablaLista = document.getElementById('tabla-lista');
+    const tablaParticipantes = document.getElementById('tabla-participantes');
+    
+    if (tablaLista) tablaLista.innerHTML = html;
+    if (tablaParticipantes) tablaParticipantes.style.display = 'block';
+  }
+
+  // ========================================
+  // BÚSQUEDA EN TIEMPO REAL
+  // ========================================
+  function setupBuscador() {
+    const searchInput = document.getElementById('search-participantes');
+    if (!searchInput) return;
+
+    searchInput.addEventListener('input', function(e) {
+      const query = e.target.value.toLowerCase().trim();
+      const rows = document.querySelectorAll('#tabla-lista tbody tr');
+
+      rows.forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(query) ? '' : 'none';
+      });
+    });
+  }
+
+  // ========================================
+  // INICIALIZACIÓN
+  // ========================================
+  
+  // Exportar funciones globalmente
+  window.generarPDF = generarPDF;
+  window.mostrarTablaParticipantes = mostrarTablaParticipantes;
+  window.setupBuscador = setupBuscador;
+
+  // Event listeners cuando el DOM esté listo
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', inicializarEventos);
+  } else {
+    inicializarEventos();
+  }
+
+  function inicializarEventos() {
+    const btnExportPdf = document.getElementById('btn-export-pdf');
+    const btnPreviewPdf = document.getElementById('btn-preview-pdf');
+    
+    if (btnExportPdf) {
+      btnExportPdf.addEventListener('click', () => generarPDF(false));
+    }
+    
+    if (btnPreviewPdf) {
+      btnPreviewPdf.addEventListener('click', () => generarPDF(true));
+    }
+  }
+
+  console.log('✅ Sistema de exportación PDF optimizado cargado');
+
+})();

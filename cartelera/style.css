@@ -1,0 +1,655 @@
+:root {
+    --primary-color: #2a7fe0;
+    --secundary-color: #6200ea;
+    --acento-color: #ff6f00;
+    --acento-color-ligth: #ff6f0073;
+}
+
+
+.containerHeader {
+    padding: 20px;
+    margin: 0 auto;
+    /* max-width: 1200px; */
+}
+
+@media (max-width: 768px) {
+    .containerHeader {
+        padding: 0px;
+    }
+}
+/* Estilo de la sección */
+#ubicacion {
+    padding: 50px 20px;
+    background-color: #f9f9f9; /* Fondo claro */
+}
+
+#ubicacion h2 {
+    color: #6200ea; /* Color primario MD3 */
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+/* Contenedor del iframe */
+.iframe-container {
+    border: 2px solid #6200ea; /* Borde primario */
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+/* Botón de cómo llegar */
+#btn-como-llegar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background-color: #6200ea;
+    color: white;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+#btn-como-llegar i {
+    margin-right: 10px;
+    font-size: 1.5rem;
+}
+
+#btn-como-llegar:hover {
+    background-color: #3700b3;
+    transform: translateY(-2px);
+    color: #ff6f00;
+    /* #d32f2f ; */
+}
+/* styles.css */
+
+.contacto-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .titulo-principal {
+    font-size: 2.25rem;
+    font-weight: bold;
+    text-align: center;
+    color: #7c3aed; /* púrpura */
+    margin-bottom: 3rem;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .grid-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  .tarjeta {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+  
+  .titulo-seccion {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #000;
+ 
+  }
+
+ 
+
+@media (max-width: 768px) {
+    .grid-container {
+      grid-template-columns: 1fr; /* Una sola columna */
+    }
+  
+    .tarjeta {
+      padding: 1.5rem; /* Reducir el padding */
+    }
+  
+    .titulo-seccion {
+      font-size: 1.25rem; /* Reducir el tamaño del título */
+      text-align: center; /* Centrado para dispositivos móviles */
+    }
+  }
+
+  .lista-contacto {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .item-contacto {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .icono {
+    color: #ef4444; /* rojo */
+    margin-top: 0.25rem;
+  }
+  
+  .texto-contacto {
+    color: #374151; /* gris oscuro */
+  }
+  
+  .texto-contacto a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .texto-contacto a:hover {
+    color: #7c3aed; /* púrpura */
+  }
+  
+  .formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .campo-formulario {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+  }
+  
+  .campo-formulario:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #7c3aed;
+    border-color: #7c3aed;
+  }
+  
+  .boton-enviar {
+    width: 100%;
+    background-color: #7c3aed;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+  }
+  
+  .boton-enviar:hover {
+    background-color: #6d28d9;
+  }
+  
+  .seccion-instagram {
+    margin-top: 3rem;
+    text-align: center;
+  }
+  
+  .boton-instagram {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #f97316; /* naranja */
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    transition: background-color 0.2s;
+  }
+  
+  .boton-instagram:hover {
+    background-color: #ea580c;
+  }
+  
+  .seccion-ubicacion {
+    margin-top: 4rem;
+  }
+  
+  .contenedor-mapa {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .mapa {
+    width: 100%;
+    height: 400px;
+    border: 0;
+  }
+  
+  .boton-como-llegar {
+    background-color: #7c3aed;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1.5rem auto 0;
+    transition: background-color 0.2s;
+  }
+  
+  .boton-como-llegar:hover {
+    background-color: #6d28d9;
+  }
+
+.contacto-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+  }
+  
+  .titulo-principal {
+    font-size: 2.25rem;
+    font-weight: bold;
+    text-align: center;
+    color: #7c3aed; /* púrpura */
+    margin-bottom: 3rem;
+  }
+  
+  .grid-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .grid-container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  .tarjeta {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+  }
+  
+  .titulo-seccion {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    color: #000;
+  }
+  
+  .lista-contacto {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .item-contacto {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  
+  .icono {
+    color: #ef4444; /* rojo */
+    margin-top: 0.25rem;
+  }
+  
+  .texto-contacto {
+    color: #374151; /* gris oscuro */
+  }
+  
+  .texto-contacto a {
+    color: inherit;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .texto-contacto a:hover {
+    color: #7c3aed; /* púrpura */
+  }
+  
+  .formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .campo-formulario {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+  }
+  
+  .campo-formulario:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #7c3aed;
+    border-color: #7c3aed;
+  }
+  
+  /* Estilos actualizados para los botones */
+  .boton-md3 {
+    width: 100%;
+    background-color: #7c3aed;
+    color: white;
+    padding: 0.75rem 1rem;
+    border-radius: 9999px; /* Botón completamente redondeado */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background-color 0.2s;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+  
+  .boton-md3:hover {
+    background-color: #3700b3;
+    transform: translateY(-2px);
+    color: var(--acento-color);
+  }
+ 
+  
+.boton-instagram {
+    background-color: #f97316; /* naranja */
+    margin-top: 1.5rem;
+    text-decoration: none; /* Sin ornamentos */
+    color: white; /* Texto blanco */
+}
+  
+  .boton-instagram:hover {
+    background-color: #ea580c;
+    color: var(--primary-color)
+  }
+  
+  .seccion-ubicacion {
+    margin-top: 4rem;
+  }
+  
+  .contenedor-mapa {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+  }
+  
+  .mapa {
+    width: 100%;
+    height: 400px;
+    border: 0;
+  }
+  
+  /* Contenedor específico para el botón de cómo llegar */
+  .contenedor-boton-como-llegar {
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+/* styles.css */
+
+/* ... (estilos anteriores sin cambios hasta .tarjeta) ... */
+
+.tarjeta {
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Esto ayudará a alinear los botones */
+    min-height: 200px; /* Altura mínima para ambas cards */
+  }
+  
+  .lista-contacto {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  /* ... (resto de estilos de lista-contacto sin cambios) ... */
+  
+  .formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    height: 100%; /* Ocupa todo el espacio disponible */
+  }
+  
+  .campo-formulario {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+  }
+  
+  .campo-formulario:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px #7c3aed;
+    border-color: #7c3aed;
+  }
+  
+  /* Ajuste específico para el textarea */
+  textarea.campo-formulario {
+    flex-grow: 1;
+     /* Permite que el textarea crezca para ocupar el espacio disponible */
+    min-height: 70px; /* Altura mínima para el textarea */
+    resize: vertical; /* Permite redimensionar solo verticalmente */
+  }
+  
+  .seccion-instagram {
+    margin-top: auto; /* Empuja la sección de Instagram hacia abajo */
+  }
+  
+  /* Contenedor para el botón de Instagram */
+  .contenedor-boton-instagram {
+    margin-top: auto; /* Empuja el botón hacia abajo */
+  }
+  
+  .footer {
+    background: linear-gradient(135deg, #808080, #000000);
+    margin-top: 20px;
+    color: white;
+    padding: 40px 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.footer-title {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    font-weight: bold;
+}
+
+.footer-text {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    line-height: 1.6;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-link {
+    color: #ffcc00;
+    text-decoration: none;
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 8px;
+    transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+    color: #ffc107;
+    text-decoration: underline;
+}
+
+.footer-social-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-size: 1.2rem;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px;
+    border-radius: 8px;
+    transition: background 0.3s ease, transform 0.3s ease;
+    text-decoration: none;
+}
+
+.social-link:hover {
+    background: rgba(255, 255, 255, 0.4);
+    color: var(--acento-color-ligth);
+    transform: scale(1.1);
+}
+
+.footer-copyright {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-top: 20px;
+}
+
+/* Ajustes para pantallas pequeñas */
+@media (max-width: 768px) {
+    .footer {
+        text-align: center;
+    }
+    .footer-social-icons {
+        align-items: center;
+    }
+}
+
+/* ----- */
+:root {
+    /* --primary-color: #2a7fe0;
+    --acento-color: #ff6f00;
+    --acento-color-light: #ff6f0073; */
+    --header-gradient: linear-gradient(135deg, #8d8c8c, #000);
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0px;
+    padding: 0px;
+}
+
+.bg-gradient-dark {
+    background: var(--header-gradient);
+}
+
+.text-light {
+    color: white;
+}
+
+.btn-md3 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--secundary-color);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra más leve */
+
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 30px;
+    text-transform: uppercase;
+    font-size: .8rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-md3:hover {
+    background-color: var(--acento-color);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.8);
+    transform: translateY(-2px);
+}
+
+.material-icons {
+    font-size: 1.2rem;
+}
+
+/* Ajustes del contenedor */
+.containerHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/* Título */
+.titulo-ppal h1,
+.titulo-ppal h2 {
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* Ajustes Responsivos */
+@media (max-width: 768px) {
+    .containerHeader {
+        flex-direction: column;
+        align-items: center; /* Centra todo el contenido en móviles */
+        text-align: center;
+    }
+
+    .titulo-ppal {
+        text-align: center; /* Centra el título */
+    }
+
+    .btn-md3 {
+        flex: 1 1 calc(33.33% - 10px);
+        text-align: center;
+        padding: 8px 10px;
+        font-size: 0.6rem;
+    }
+
+    .d-flex {
+        gap: 5px;
+    }
+}
+/* Utility classes */
+
+ 
+.navbar {
+    padding: 0 20px; /* Espacio interno para todo el navbar */
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 10px 20px; /* Espacio reducido para móviles */
+    }
+}
+.footer-icon {
+  text-align: center;
+  margin-top: 10px;
+}
+.footer-logo {
+  width: 60px; /* Ajusta el tamaño según prefieras */
+  height: auto;
+  opacity: 0.8; /* Suaviza la presencia del icono */
+  transition: opacity 0.3s ease-in-out;
+}
+.footer-logo:hover {
+  opacity: 1; /* Hace que se destaque al pasar el cursor */
+}
