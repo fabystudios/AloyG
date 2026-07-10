@@ -47,7 +47,7 @@
     },
     
     "overlay": {
-      "src": "",
+      "src": "./img/cartel.png",
       "desktopPos": "center",
       "mobilePos": "bottom-quarter",
       "effect": "blink",
