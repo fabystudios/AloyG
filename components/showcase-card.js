@@ -5,28 +5,44 @@
  *   bg             — URL imagen de fondo
  *   cover          — URL poster desktop (columna izquierda)
  *   medallion      — URL foto circular flotante mobile
- *   video          — URL video principal (mp4)
- *   video2         — URL segundo video opcional (mp4)
+ *   video          — URL video principal (mp4)              [legacy, 1 video]
+ *   video2         — URL segundo video opcional (mp4)        [legacy, 2do video]
  *   titulo         — Título del video principal
  *   titulo2        — Título del segundo video (default: igual que titulo)
  *   badge          — Badge video principal (default: "Premium")
  *   badge2         — Badge segundo video  (default: igual que badge)
+ *   videos         — JSON array con N videos (reemplaza a video/video2 si está presente)
+ *                    Formato: [{"video":"a.mp4","titulo":"...","badge":"...","poster":"..."}, ...]
  *   overlay        — 0.0–1.0 oscurecimiento del fondo (default: 0)
  *   overlay-preset — "light" | "medium" | "dark"
  *   effects        — "dust,bubbles,stars,rain,comets,ember" (combinables)
  *   intensity      — 0.0–1.0 intensidad de partículas (default: 0.6)
  *
  * LAYOUT:
- *   Desktop: cover izq | video1 centro | video2 der  (video2 opcional)
- *   Mobile:  carousel swipeable entre video1 y video2 + dots
+ *   Desktop: cover izq | video1 | video2 | ... videoN  (uno o varios, en fila con wrap)
+ *   Mobile:  carousel swipeable entre todos los videos + dots
  *
- * EJEMPLO:
+ * EJEMPLO (legacy, 2 videos):
  *   <showcase-card
  *     bg="./img/sky.jpg"
  *     cover="./img/poster.webp"
  *     medallion="./img/avatar.jpeg"
  *     video="./video/v1.mp4"   titulo="Homilía del domingo"  badge="Padre Juan"
  *     video2="./video/v2.mp4"  titulo2="Reflexión especial"  badge2="Padre Pedro"
+ *     effects="ember,dust,stars"
+ *     intensity="0.7"
+ *   ></showcase-card>
+ *
+ * EJEMPLO (nuevo, N videos):
+ *   <showcase-card
+ *     bg="./img/sky.jpg"
+ *     cover="./img/poster.webp"
+ *     medallion="./img/avatar.jpeg"
+ *     videos='[
+ *       {"video":"./video/v1.mp4","titulo":"Homilía","badge":"Padre Juan"},
+ *       {"video":"./video/v2.mp4","titulo":"Reflexión","badge":"Padre Pedro"},
+ *       {"video":"./video/v3.mp4","titulo":"Testimonio","badge":"Padre Luis"}
+ *     ]'
  *     effects="ember,dust,stars"
  *     intensity="0.7"
  *   ></showcase-card>
@@ -146,7 +162,7 @@ _scTpl.innerHTML = `
   .sc-cover img{display:block;width:100%;height:auto;border-radius:16px;}
 
   /* contenedor de los video cards en desktop */
-  .sc-videos-desktop{flex:0 0 auto;display:flex;gap:1rem;align-items:center;}
+  .sc-videos-desktop{flex:0 0 auto;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:center;}
 
   /* ── Mobile carousel ── */
   .sc-carousel-wrap{display:none;flex:1 1 100%;max-width:100%;flex-direction:column;align-items:center;gap:0.5rem;}
@@ -333,6 +349,7 @@ class ShowcaseCard extends HTMLElement {
     return ['bg','cover','medallion','medallion-modal','medallion-full',
             'video','titulo','badge','poster',
             'video2','titulo2','badge2','poster2',
+            'videos',
             'overlay-preset','overlay','effects','intensity'];
   }
 
@@ -374,6 +391,7 @@ class ShowcaseCard extends HTMLElement {
     ['bg','cover','medallion','medallion-modal','medallion-full',
      'video','titulo','badge','poster',
      'video2','titulo2','badge2','poster2',
+     'videos',
      'overlay-preset','overlay','effects','intensity']
       .forEach(a => this._applyAttr(a, this.getAttribute(a)));
   }
@@ -412,7 +430,7 @@ class ShowcaseCard extends HTMLElement {
       const it    = parseFloat(this.getAttribute('intensity')||'0.6');
       this._engine.setEffects(names, it);
 
-    } else if (['video','titulo','badge','poster','video2','titulo2','badge2','poster2'].includes(name)) {
+    } else if (['video','titulo','badge','poster','video2','titulo2','badge2','poster2','videos'].includes(name)) {
       this._rebuildVideos();
     }
   }
@@ -428,9 +446,31 @@ class ShowcaseCard extends HTMLElement {
     return card;
   }
 
-  _rebuildVideos() {
-    if (!this._videosDesktop) return;
+  /* Resuelve la lista de videos: prioriza el atributo `videos` (JSON),
+     si no está presente o es inválido cae a los atributos legacy video/video2 */
+  _getVideosData() {
+    const raw = this.getAttribute('videos');
 
+    if (raw) {
+      try {
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length) {
+          const list = parsed
+            .map((item, i) => ({
+              video:  (item && (item.video || item.url))    || '',
+              titulo: (item && (item.titulo || item.title)) || `Video ${i + 1}`,
+              badge:  (item && item.badge)                  || 'Premium',
+              poster: (item && item.poster)                 || ''
+            }))
+            .filter(item => item.video);
+          if (list.length) return list;
+        }
+      } catch (e) {
+        console.warn('<showcase-card>: el atributo "videos" no es JSON válido, usando video/video2 legacy.', e);
+      }
+    }
+
+    /* ── Legacy: video / video2 ── */
     const v1 = this.getAttribute('video')   || '';
     const t1 = this.getAttribute('titulo')  || 'Sin título';
     const b1 = this.getAttribute('badge')   || 'Premium';
@@ -440,31 +480,38 @@ class ShowcaseCard extends HTMLElement {
     const b2 = this.getAttribute('badge2')  || b1;
     const p2 = this.getAttribute('poster2') || '';
 
-    const hasV2 = !!v2;
+    const list = [];
+    if (v1) list.push({video:v1, titulo:t1, badge:b1, poster:p1});
+    if (v2) list.push({video:v2, titulo:t2, badge:b2, poster:p2});
+    return list;
+  }
+
+  _rebuildVideos() {
+    if (!this._videosDesktop) return;
+
+    const list = this._getVideosData();
 
     /* ── Desktop: limpiar y reconstruir ── */
     this._videosDesktop.innerHTML = '';
-    this._videosDesktop.appendChild(this._makeCard(v1, t1, b1, p1));
-    if (hasV2) this._videosDesktop.appendChild(this._makeCard(v2, t2, b2, p2));
+    list.forEach(({video, titulo, badge, poster}) => {
+      this._videosDesktop.appendChild(this._makeCard(video, titulo, badge, poster));
+    });
 
     /* ── Mobile carousel: limpiar y reconstruir ── */
     this._carouselTrack.innerHTML = '';
     this._carouselDots.innerHTML  = '';
 
-    const slides = [[v1,t1,b1,p1]];
-    if (hasV2) slides.push([v2,t2,b2,p2]);
-
-    slides.forEach(([v,t,b,p], idx) => {
+    list.forEach(({video, titulo, badge, poster}, idx) => {
       /* slide */
       const slide = document.createElement('div');
       slide.style.cssText = 'flex:0 0 100%;max-width:100%;display:flex;align-items:center;justify-content:center;padding:0 2px;';
-      const card = this._makeCard(v, t, b, p);
+      const card = this._makeCard(video, titulo, badge, poster);
       card.style.width = '100%';
       slide.appendChild(card);
       this._carouselTrack.appendChild(slide);
 
       /* dot */
-      if (slides.length > 1) {
+      if (list.length > 1) {
         const dot = document.createElement('div');
         dot.className = 'sc-dot' + (idx === 0 ? ' active' : '');
         dot.addEventListener('click', () => this._goTo(idx));
