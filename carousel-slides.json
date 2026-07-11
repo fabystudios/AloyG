@@ -47,7 +47,7 @@
     },
     
     "overlay": {
-      "src": "./img/cartel.png",
+      "src": "./img/hoy2.png",
       "desktopPos": "center",
       "mobilePos": "bottom-quarter",
       "effect": "blink",
