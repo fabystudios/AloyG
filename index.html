@@ -1086,426 +1086,7 @@ hide-mobile
 
 
 
-<!-- Sabana  santa -->
- <!-- ------------------------------------------------------
- ------------------------------------------------------ -->
-<style>
-  @keyframes borderGlow {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 1; }
-  }
-  @keyframes shimmer {
-    0% { transform: translateX(-100%) skewX(-15deg); }
-    100% { transform: translateX(300%) skewX(-15deg); }
-  }
-  @keyframes pulse-ring {
-    0% { transform: scale(1); opacity: 0.6; }
-    100% { transform: scale(1.18); opacity: 0; }
-  }
-  @keyframes float-spark {
-    0% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.8; }
-    33% { transform: translateY(-18px) translateX(6px) scale(1.2); opacity: 1; }
-    66% { transform: translateY(-10px) translateX(-4px) scale(0.9); opacity: 0.6; }
-    100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.8; }
-  }
-  @keyframes ripple-out {
-    0% { transform: scale(0); opacity: 0.5; }
-    100% { transform: scale(4); opacity: 0; }
-  }
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  .event-card {
-    position: relative;
-    width: 760px;
-    max-width: 95vw;
-    margin: 2rem auto;
-    border-radius: 20px;
-    overflow: hidden;
-    animation: fadeInUp 0.7s ease both;
-    box-shadow: 0 30px 80px rgba(0,0,0,0.65), 0 10px 30px rgba(0,0,0,0.45), 0 0 40px rgba(255,140,0,0.04);
-    transition: transform 0.28s ease, box-shadow 0.28s ease;
-  }
-  .event-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 42px 110px rgba(0,0,0,0.72), 0 14px 40px rgba(0,0,0,0.5), 0 0 60px rgba(255,140,0,0.06);
-  }
-  .card-bg {
-    position: absolute; inset: 0;
-    background-color: #120a07;
-    background-image: url('/mnt/user-data/uploads/sabana_16-9.png');
-    background-size: cover;
-    background-position: center top;
-    filter: brightness(0.6) saturate(1.2);
-    z-index: 0;
-  }
-  .card-border {
-    position: absolute; inset: 0;
-    border-radius: 20px;
-    padding: 2px;
-    background: linear-gradient(135deg, #ff8c00, #cc6a00, #ff4500, #cc6a00, #ff8c00);
-    background-size: 300% 300%;
-    animation: borderGlow 2.5s ease-in-out infinite;
-    z-index: 1;
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-  }
-  .card-glass {
-    position: relative;
-    z-index: 2;
-    background: rgba(15, 8, 4, 0.56);
-    backdrop-filter: blur(18px) saturate(1.6);
-    -webkit-backdrop-filter: blur(18px) saturate(1.6);
-    border-radius: 20px;
-    border: 1.5px solid rgba(255, 150, 30, 0.28);
-    padding: 28px 28px 0 28px;
-    box-shadow: inset 0 1px 0 rgba(255,180,60,0.12), 0 24px 60px rgba(0,0,0,0.6), 0 0 30px rgba(255,140,0,0.06);
-    /* Layout 2 columnas con grid: la altura de fila la define el contenido
-       (event-content), y la imagen llena su celda con object-fit: cover.
-       Así el alto de la card no se infla por la altura intrínseca de la imagen. */
-    display: grid;
-    grid-template-columns: 38% 1fr;
-    gap: 24px;
-    align-items: stretch;
-  }
-  .event-img-left {
-    /* <picture> wrapper — propiedades visuales del bloque */
-    display: block;
-    width: 100%;
-    height: 100%;
-    /* La imagen desktop es portrait extremo (736×1361). Aspect-ratio 3/4
-       evita que su altura intrínseca infle la fila del grid. */
-    aspect-ratio: 3 / 4;
-    border-radius: 14px;
-    margin: 0 0 28px 0;
-    box-shadow: 0 12px 28px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,180,60,0.22);
-    background: rgba(0,0,0,0.4);
-    overflow: hidden;
-    min-height: 0;
-  }
-  .event-img-left img {
-    /* <img> dentro del picture — propiedades de imagen */
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center top;
-  }
-  .event-content {
-    min-width: 0;
-  }
-  .spark {
-    position: absolute;
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: #ff8c00;
-    box-shadow: 0 0 6px 2px rgba(255,140,0,0.8);
-    z-index: 3;
-    pointer-events: none;
-  }
-  .title-pre {
-    font-size: 11px;
-    letter-spacing: 3px;
-    color: rgba(255,160,50,0.75);
-    text-transform: uppercase;
-    margin: 0 0 4px;
-    font-family: Georgia, serif;
-  }
-  .title-main {
-    font-size: 26px;
-    font-weight: 700;
-    color: #fff;
-    margin: 0 0 4px;
-    line-height: 1.1;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.8);
-  }
-  .title-accent {
-    color: #ff9020;
-  }
-  .title-sub {
-    font-size: 12px;
-    color: rgba(255,200,120,0.7);
-    margin: 0 0 22px;
-    line-height: 1.4;
-    max-width: 340px;
-  }
-  .divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,140,0,0.4), transparent);
-    margin: 16px 0;
-  }
-  .info-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-bottom: 20px;
-  }
-  .info-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(255,120,0,0.08);
-    border: 1px solid rgba(255,120,0,0.15);
-    border-radius: 10px;
-    padding: 10px 12px;
-    backdrop-filter: blur(4px);
-  }
-  .info-icon {
-    width: 32px; height: 32px;
-    border-radius: 8px;
-    background: linear-gradient(180deg, rgba(255,140,0,0.14), rgba(255,120,0,0.06));
-    display: flex; align-items: center; justify-content: center;
-    color: #ff9020;
-    font-size: 16px;
-    flex-shrink: 0;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,200,120,0.04);
-  }
-  .info-label {
-    font-size: 10px;
-    color: rgba(255,180,80,0.6);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin: 0 0 1px;
-  }
-  .info-value {
-    font-size: 13px;
-    font-weight: 600;
-    color: rgba(255,240,210,0.95);
-    margin: 0;
-    line-height: 1.2;
-  }
-  .badge-free {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: rgba(255,140,0,0.15);
-    border: 1px solid rgba(255,140,0,0.35);
-    border-radius: 20px;
-    padding: 4px 10px;
-    font-size: 11px;
-    color: #ffb040;
-    margin-bottom: 20px;
-  }
-  .cta-wrapper {
-    position: relative;
-    margin: 0 -28px;
-    z-index: 4;
-  }
-  .cta-btn {
-    position: relative;
-    width: 100%;
-    padding: 18px 24px;
-    border: none;
-    cursor: pointer;
-    overflow: hidden;
-    background: linear-gradient(90deg, #b84500, #e06010, #ff8c00, #e06010, #b84500);
-    background-size: 200% 100%;
-    color: #fff;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    border-radius: 0 0 18px 18px;
-    transition: background-position 0.4s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    z-index: 5;
-  }
-  .cta-btn:hover {
-    background-position: 100% 0;
-  }
-  .cta-shimmer {
-    position: absolute;
-    top: 0; left: 0;
-    width: 40%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-    animation: shimmer 2.2s ease-in-out infinite;
-    pointer-events: none;
-  }
-  .cta-pulse {
-    position: absolute;
-    inset: 0;
-    border-radius: 0 0 18px 18px;
-    border: 2px solid rgba(255,140,0,0.7);
-    animation: pulse-ring 1.8s ease-out infinite;
-    pointer-events: none;
-  }
-  .ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.35);
-    width: 10px; height: 10px;
-    transform: scale(0);
-    animation: ripple-out 0.6s linear;
-    pointer-events: none;
-  }
-  .org-footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    padding: 10px 28px 14px;
-    font-size: 11px;
-    color: rgba(255,180,80,0.5);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  /* Mobile: make event card occupy 95% of viewport */
-  @media (max-width: 767px) {
-    .event-card {
-      width: 95vw;
-      max-width: 95vw;
-      margin: 1rem auto;
-      border-radius: 14px;
-    }
-    .card-glass {
-      padding: 20px 18px 0 18px;
-      grid-template-columns: 1fr;   /* una sola columna: stack vertical */
-      gap: 14px;
-    }
-    .event-img-left {
-      width: 100%;
-      /* sabana_mob.png es 588×773 (ratio 1:1.31). Usamos ese ratio
-         para mostrar la imagen completa sin cropping en mobile. */
-      aspect-ratio: 588 / 773;
-      max-height: none;
-      margin: 0 0 4px 0;
-    }
-    .event-img-left img {
-      /* En mobile mostramos la imagen completa (no cropear) */
-      object-fit: contain;
-    }
-    .title-main {
-      font-size: 20px;
-    }
-    .title-sub {
-      max-width: 100%;
-      font-size: 12px;
-    }
-    .info-grid {
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-    }
-    .cta-wrapper { margin: 0 -18px; }
-  }
-</style>  
 
- <div id="sabana" style="display:flex; justify-content:center; padding: 1px 0; min-height: 340px;">
-  <div class="event-card" id="eventCard">
-    <div class="card-bg" id="cardBg"></div>
-    <div class="card-border"></div>
-
-    <div class="spark" id="sp1" style="top:18%; left:8%; animation: float-spark 3.1s ease-in-out infinite;"></div>
-    <div class="spark" id="sp2" style="top:30%; right:9%; width:4px; height:4px; animation: float-spark 4.2s ease-in-out infinite 0.8s; background:#ffb040; box-shadow: 0 0 5px 2px rgba(255,176,64,0.8);"></div>
-    <div class="spark" id="sp3" style="top:55%; left:14%; width:3px; height:3px; animation: float-spark 3.7s ease-in-out infinite 1.5s;"></div>
-    <div class="spark" id="sp4" style="top:22%; right:22%; width:4px; height:4px; animation: float-spark 5s ease-in-out infinite 0.3s; background:#ff6010;"></div>
-    <div class="spark" id="sp5" style="top:70%; right:6%; width:6px; height:6px; animation: float-spark 3.4s ease-in-out infinite 2s;"></div>
-
-    <div class="card-glass">
-      <picture class="event-img-left">
-        <source srcset="./img/sabana_mob.png" media="(max-width: 600px)">
-        <img src="./img/sabana.png" alt="Sábana Santa — el lienzo más famoso del mundo" loading="lazy">
-      </picture>
-      <div class="event-content">
-      <p class="title-pre">Conferencia especial</p>
-      <h1 class="title-main">El misterio de la<br><span class="title-accent">Sábana Santa</span></h1>
-      <p class="title-sub">Historia, ciencia y fe — los estudios más impactantes sobre el lienzo más famoso del mundo.</p>
-
-      <div class="divider"></div>
-
-      <div class="info-grid">
-        <div class="info-item">
-          <div class="info-icon"><i class="ti ti-calendar-event" aria-hidden="true"></i></div>
-          <div>
-            <p class="info-label">Fecha</p>
-            <p class="info-value">Sábado 18 de julio</p>
-          </div>
-        </div>
-        <div class="info-item">
-          <div class="info-icon"><i class="ti ti-clock" aria-hidden="true"></i></div>
-          <div>
-            <p class="info-label">Horario</p>
-            <p class="info-value">18:00 hs</p>
-          </div>
-        </div>
-        <div class="info-item">
-          <div class="info-icon"><i class="ti ti-user" aria-hidden="true"></i></div>
-          <div>
-            <p class="info-label">Disertante</p>
-            <p class="info-value">Prof. Manuel Macías</p>
-          </div>
-        </div>
-
-        <div class="info-item">
-          <div class="info-icon"><i class="ti ti-map-pin" aria-hidden="true"></i></div>
-          <div>
-            <p class="info-label">Lugar</p>
-            <p class="info-value">Casa de Retiro Ntra. Sra de Luján<br>
-              <span class="desktop-only">Villa Elisa,</span>
-              <span class="mobile-only" style="text-align:center;">La Plata</span>
-            </p>
-          </div>
-        </div>
-      </div>
-
-      <div class="badge-free">
-        <i class="ti ti-ticket" style="font-size:13px;" aria-hidden="true"></i>
-        Inscripción gratuita · cupos limitados
-      </div>
-
-
-      <div class="org-footer">
-        <i class="ti ti-building-church" style="font-size:13px;" aria-hidden="true"></i>
-        <span class="desktop-only">Parroquia San Luis Gonzaga · Villa Elisa</span>
-        <span class="mobile-only" style="text-align:center;"> Parroquia San Luis Gonzaga<br>· Villa Elisa ·</span>
-
-      </div>
-      </div>
-    </div>
-
-    <div class="cta-wrapper">
-      <button class="cta-btn" id="ctaBtn" onclick="handleCta(event)">
-        <div class="cta-shimmer"></div>
-        <div class="cta-pulse"></div>
-        <i class="ti ti-arrow-right" style="font-size:18px;" aria-hidden="true"></i>
-        Reservá tu lugar haciendo click aquí
-      </button>
-    </div>
-  </div>
-</div>
-
-<script>
-  const bgImg = '/mnt/user-data/uploads/sabana_16-9.png';
-  document.getElementById('cardBg').style.backgroundImage = `url('${bgImg}')`;
-
-  function handleCta(e) {
-    const btn = document.getElementById('ctaBtn');
-    const rect = btn.getBoundingClientRect();
-    const btnRect = btn.getBoundingClientRect();
-    const ripple = document.createElement('div');
-    ripple.className = 'ripple';
-    const x = e.clientX - btnRect.left - 5;
-    const y = e.clientY - btnRect.top - 5;
-    ripple.style.left = x + 'px';
-    ripple.style.top = y + 'px';
-    btn.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 650);
-    // Open the form in a new tab safely (noopener noreferrer)
-    const a = document.createElement('a');
-    a.href = 'https://docs.google.com/forms/d/e/1FAIpQLSd_xpnMWU6otU1fzwvC32mbe5dsFJ2ay64yz0g54WkhRjgx-Q/viewform';
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  }
-</script>   
 
 
 
@@ -2106,7 +1687,426 @@ hide-mobile
                  <!-- png-src="./img/megafono.png" -->
 
 
+<!-- Sabana  santa -->
+ <!-- ------------------------------------------------------
+ ------------------------------------------------------ -->
+<style>
+  @keyframes borderGlow {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+  }
+  @keyframes shimmer {
+    0% { transform: translateX(-100%) skewX(-15deg); }
+    100% { transform: translateX(300%) skewX(-15deg); }
+  }
+  @keyframes pulse-ring {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.18); opacity: 0; }
+  }
+  @keyframes float-spark {
+    0% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.8; }
+    33% { transform: translateY(-18px) translateX(6px) scale(1.2); opacity: 1; }
+    66% { transform: translateY(-10px) translateX(-4px) scale(0.9); opacity: 0.6; }
+    100% { transform: translateY(0px) translateX(0px) scale(1); opacity: 0.8; }
+  }
+  @keyframes ripple-out {
+    0% { transform: scale(0); opacity: 0.5; }
+    100% { transform: scale(4); opacity: 0; }
+  }
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .event-card {
+    position: relative;
+    width: 760px;
+    max-width: 95vw;
+    margin: 2rem auto;
+    border-radius: 20px;
+    overflow: hidden;
+    animation: fadeInUp 0.7s ease both;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.65), 0 10px 30px rgba(0,0,0,0.45), 0 0 40px rgba(255,140,0,0.04);
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+  }
+  .event-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 42px 110px rgba(0,0,0,0.72), 0 14px 40px rgba(0,0,0,0.5), 0 0 60px rgba(255,140,0,0.06);
+  }
+  .card-bg {
+    position: absolute; inset: 0;
+    background-color: #120a07;
+    background-image: url('/mnt/user-data/uploads/sabana_16-9.png');
+    background-size: cover;
+    background-position: center top;
+    filter: brightness(0.6) saturate(1.2);
+    z-index: 0;
+  }
+  .card-border {
+    position: absolute; inset: 0;
+    border-radius: 20px;
+    padding: 2px;
+    background: linear-gradient(135deg, #ff8c00, #cc6a00, #ff4500, #cc6a00, #ff8c00);
+    background-size: 300% 300%;
+    animation: borderGlow 2.5s ease-in-out infinite;
+    z-index: 1;
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+  .card-glass {
+    position: relative;
+    z-index: 2;
+    background: rgba(15, 8, 4, 0.56);
+    backdrop-filter: blur(18px) saturate(1.6);
+    -webkit-backdrop-filter: blur(18px) saturate(1.6);
+    border-radius: 20px;
+    border: 1.5px solid rgba(255, 150, 30, 0.28);
+    padding: 28px 28px 0 28px;
+    box-shadow: inset 0 1px 0 rgba(255,180,60,0.12), 0 24px 60px rgba(0,0,0,0.6), 0 0 30px rgba(255,140,0,0.06);
+    /* Layout 2 columnas con grid: la altura de fila la define el contenido
+       (event-content), y la imagen llena su celda con object-fit: cover.
+       Así el alto de la card no se infla por la altura intrínseca de la imagen. */
+    display: grid;
+    grid-template-columns: 38% 1fr;
+    gap: 24px;
+    align-items: stretch;
+  }
+  .event-img-left {
+    /* <picture> wrapper — propiedades visuales del bloque */
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* La imagen desktop es portrait extremo (736×1361). Aspect-ratio 3/4
+       evita que su altura intrínseca infle la fila del grid. */
+    aspect-ratio: 3 / 4;
+    border-radius: 14px;
+    margin: 0 0 28px 0;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,180,60,0.22);
+    background: rgba(0,0,0,0.4);
+    overflow: hidden;
+    min-height: 0;
+  }
+  .event-img-left img {
+    /* <img> dentro del picture — propiedades de imagen */
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+  .event-content {
+    min-width: 0;
+  }
+  .spark {
+    position: absolute;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: #ff8c00;
+    box-shadow: 0 0 6px 2px rgba(255,140,0,0.8);
+    z-index: 3;
+    pointer-events: none;
+  }
+  .title-pre {
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: rgba(255,160,50,0.75);
+    text-transform: uppercase;
+    margin: 0 0 4px;
+    font-family: Georgia, serif;
+  }
+  .title-main {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 4px;
+    line-height: 1.1;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.8);
+  }
+  .title-accent {
+    color: #ff9020;
+  }
+  .title-sub {
+    font-size: 12px;
+    color: rgba(255,200,120,0.7);
+    margin: 0 0 22px;
+    line-height: 1.4;
+    max-width: 340px;
+  }
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,140,0,0.4), transparent);
+    margin: 16px 0;
+  }
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 20px;
+  }
+  .info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(255,120,0,0.08);
+    border: 1px solid rgba(255,120,0,0.15);
+    border-radius: 10px;
+    padding: 10px 12px;
+    backdrop-filter: blur(4px);
+  }
+  .info-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(180deg, rgba(255,140,0,0.14), rgba(255,120,0,0.06));
+    display: flex; align-items: center; justify-content: center;
+    color: #ff9020;
+    font-size: 16px;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,200,120,0.04);
+  }
+  .info-label {
+    font-size: 10px;
+    color: rgba(255,180,80,0.6);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 1px;
+  }
+  .info-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: rgba(255,240,210,0.95);
+    margin: 0;
+    line-height: 1.2;
+  }
+  .badge-free {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: rgba(255,140,0,0.15);
+    border: 1px solid rgba(255,140,0,0.35);
+    border-radius: 20px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: #ffb040;
+    margin-bottom: 20px;
+  }
+  .cta-wrapper {
+    position: relative;
+    margin: 0 -28px;
+    z-index: 4;
+  }
+  .cta-btn {
+    position: relative;
+    width: 100%;
+    padding: 18px 24px;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    background: linear-gradient(90deg, #b84500, #e06010, #ff8c00, #e06010, #b84500);
+    background-size: 200% 100%;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    border-radius: 0 0 18px 18px;
+    transition: background-position 0.4s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    z-index: 5;
+  }
+  .cta-btn:hover {
+    background-position: 100% 0;
+  }
+  .cta-shimmer {
+    position: absolute;
+    top: 0; left: 0;
+    width: 40%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+    animation: shimmer 2.2s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .cta-pulse {
+    position: absolute;
+    inset: 0;
+    border-radius: 0 0 18px 18px;
+    border: 2px solid rgba(255,140,0,0.7);
+    animation: pulse-ring 1.8s ease-out infinite;
+    pointer-events: none;
+  }
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.35);
+    width: 10px; height: 10px;
+    transform: scale(0);
+    animation: ripple-out 0.6s linear;
+    pointer-events: none;
+  }
+  .org-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 28px 14px;
+    font-size: 11px;
+    color: rgba(255,180,80,0.5);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  /* Mobile: make event card occupy 95% of viewport */
+  @media (max-width: 767px) {
+    .event-card {
+      width: 95vw;
+      max-width: 95vw;
+      margin: 1rem auto;
+      border-radius: 14px;
+    }
+    .card-glass {
+      padding: 20px 18px 0 18px;
+      grid-template-columns: 1fr;   /* una sola columna: stack vertical */
+      gap: 14px;
+    }
+    .event-img-left {
+      width: 100%;
+      /* sabana_mob.png es 588×773 (ratio 1:1.31). Usamos ese ratio
+         para mostrar la imagen completa sin cropping en mobile. */
+      aspect-ratio: 588 / 773;
+      max-height: none;
+      margin: 0 0 4px 0;
+    }
+    .event-img-left img {
+      /* En mobile mostramos la imagen completa (no cropear) */
+      object-fit: contain;
+    }
+    .title-main {
+      font-size: 20px;
+    }
+    .title-sub {
+      max-width: 100%;
+      font-size: 12px;
+    }
+    .info-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .cta-wrapper { margin: 0 -18px; }
+  }
+</style>  
 
+ <div id="sabana" style="display:flex; justify-content:center; padding: 1px 0; min-height: 340px;">
+  <div class="event-card" id="eventCard">
+    <div class="card-bg" id="cardBg"></div>
+    <div class="card-border"></div>
+
+    <div class="spark" id="sp1" style="top:18%; left:8%; animation: float-spark 3.1s ease-in-out infinite;"></div>
+    <div class="spark" id="sp2" style="top:30%; right:9%; width:4px; height:4px; animation: float-spark 4.2s ease-in-out infinite 0.8s; background:#ffb040; box-shadow: 0 0 5px 2px rgba(255,176,64,0.8);"></div>
+    <div class="spark" id="sp3" style="top:55%; left:14%; width:3px; height:3px; animation: float-spark 3.7s ease-in-out infinite 1.5s;"></div>
+    <div class="spark" id="sp4" style="top:22%; right:22%; width:4px; height:4px; animation: float-spark 5s ease-in-out infinite 0.3s; background:#ff6010;"></div>
+    <div class="spark" id="sp5" style="top:70%; right:6%; width:6px; height:6px; animation: float-spark 3.4s ease-in-out infinite 2s;"></div>
+
+    <div class="card-glass">
+      <picture class="event-img-left">
+        <source srcset="./img/sabana_mob.png" media="(max-width: 600px)">
+        <img src="./img/sabana.png" alt="Sábana Santa — el lienzo más famoso del mundo" loading="lazy">
+      </picture>
+      <div class="event-content">
+      <p class="title-pre">Conferencia especial</p>
+      <h1 class="title-main">El misterio de la<br><span class="title-accent">Sábana Santa</span></h1>
+      <p class="title-sub">Historia, ciencia y fe — los estudios más impactantes sobre el lienzo más famoso del mundo.</p>
+
+      <div class="divider"></div>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="info-icon"><i class="ti ti-calendar-event" aria-hidden="true"></i></div>
+          <div>
+            <p class="info-label">Fecha</p>
+            <p class="info-value">Sábado 18 de julio</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon"><i class="ti ti-clock" aria-hidden="true"></i></div>
+          <div>
+            <p class="info-label">Horario</p>
+            <p class="info-value">18:00 hs</p>
+          </div>
+        </div>
+        <div class="info-item">
+          <div class="info-icon"><i class="ti ti-user" aria-hidden="true"></i></div>
+          <div>
+            <p class="info-label">Disertante</p>
+            <p class="info-value">Prof. Manuel Macías</p>
+          </div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-icon"><i class="ti ti-map-pin" aria-hidden="true"></i></div>
+          <div>
+            <p class="info-label">Lugar</p>
+            <p class="info-value">Casa de Retiro Ntra. Sra de Luján<br>
+              <span class="desktop-only">Villa Elisa,</span>
+              <span class="mobile-only" style="text-align:center;">La Plata</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="badge-free">
+        <i class="ti ti-ticket" style="font-size:13px;" aria-hidden="true"></i>
+        Inscripción gratuita · cupos limitados
+      </div>
+
+
+      <div class="org-footer">
+        <i class="ti ti-building-church" style="font-size:13px;" aria-hidden="true"></i>
+        <span class="desktop-only">Parroquia San Luis Gonzaga · Villa Elisa</span>
+        <span class="mobile-only" style="text-align:center;"> Parroquia San Luis Gonzaga<br>· Villa Elisa ·</span>
+
+      </div>
+      </div>
+    </div>
+
+    <div class="cta-wrapper">
+      <button class="cta-btn" id="ctaBtn" onclick="handleCta(event)">
+        <div class="cta-shimmer"></div>
+        <div class="cta-pulse"></div>
+        <i class="ti ti-arrow-right" style="font-size:18px;" aria-hidden="true"></i>
+        Reservá tu lugar haciendo click aquí
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const bgImg = '/mnt/user-data/uploads/sabana_16-9.png';
+  document.getElementById('cardBg').style.backgroundImage = `url('${bgImg}')`;
+
+  function handleCta(e) {
+    const btn = document.getElementById('ctaBtn');
+    const rect = btn.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    const ripple = document.createElement('div');
+    ripple.className = 'ripple';
+    const x = e.clientX - btnRect.left - 5;
+    const y = e.clientY - btnRect.top - 5;
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 650);
+    // Open the form in a new tab safely (noopener noreferrer)
+    const a = document.createElement('a');
+    a.href = 'https://docs.google.com/forms/d/e/1FAIpQLSd_xpnMWU6otU1fzwvC32mbe5dsFJ2ay64yz0g54WkhRjgx-Q/viewform';
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+</script>   
 
 
   <!-- <panel-photo-gallery
