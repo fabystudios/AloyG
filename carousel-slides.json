@@ -1,4 +1,34 @@
 [
+              {
+    "id": "18jul",
+    "position": 2,
+    "hasVideo": false,
+    "link": "",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/18jul_desk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/18jul_mob.jpg"
+    }
+  },
+                {
+    "id": "18jul2",
+    "position": 3,
+    "hasVideo": false,
+    "link": "",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/18jul2_desk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/18jul2_mob.jpg"
+    }
+  },
             {
     "id": "afligidos",
     "position": -1,
@@ -59,7 +89,7 @@
 
                     {
     "id": "SCHOENSTATT",
-    "position": 2,
+    "position": 4,
     "hasVideo": false,
     "link": "#SCHOENSTATT",
     "time": { "desktop": 3, "mobile": 3 },
@@ -150,7 +180,7 @@
       
               {
     "id": "merienda",
-    "position": 3,
+    "position": -1,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
