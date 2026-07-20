@@ -22,7 +22,7 @@
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/vacaciones_desk-fall.png"
+      "src": "./slides/vacaciones_desk-fall2.png"
     },
     "mobile": {
       "type": "image",
