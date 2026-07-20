@@ -22,11 +22,11 @@
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/vacaciones_desk.png"
+      "src": "./slides/vacaciones_desk-fall.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/vacaciones_mob.png"
+      "src": "./slides/vacaciones_mob-fall.png"
     }
   },
             {
