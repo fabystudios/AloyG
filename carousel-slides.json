@@ -1,5 +1,23 @@
 [
               {
+    "id": "jueves",
+    "position": 1,
+    "hasVideo": false,
+    "link": "#adoracion",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/jueves_desk.png"
+ 
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/jueves_mob.png"
+ 
+    }
+
+  },
+              {
     "id": "marcelo",
     "position": -1,
     "hasVideo": false,
@@ -16,7 +34,7 @@
   },
                 {
     "id": "vacaciones",
-    "position": 1,
+    "position": 2,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -89,7 +107,7 @@
 
                     {
     "id": "SCHOENSTATT",
-    "position": 2,
+    "position": 3,
     "hasVideo": false,
     "link": "#SCHOENSTATT",
     "time": { "desktop": 3, "mobile": 3 },
@@ -159,28 +177,11 @@
     }
 
   },
-            {
-    "id": "corpusChristi",
-    "position": -1,
-    "hasVideo": false,
-    "link": "#adoracion",
-    "time": { "desktop": 3, "mobile": 3 },
-    "desktop": {
-      "type": "image",
-      "src": "./slides/jueves_desk.png"
- 
-    },
-    "mobile": {
-      "type": "image",
-      "src": "./slides/jueves_mob.png"
- 
-    }
 
-  },
       
               {
     "id": "merienda",
-    "position": 3,
+    "position": 4,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
