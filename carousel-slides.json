@@ -1,7 +1,7 @@
 [
               {
     "id": "jueves",
-    "position": 1,
+    "position": -1,
     "hasVideo": false,
     "link": "#adoracion",
     "time": { "desktop": 3, "mobile": 3 },
@@ -181,17 +181,17 @@
       
               {
     "id": "merienda",
-    "position": 4,
+    "position": 1,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/merendero_desk.jpg"
+      "src": "./slides/merendero_desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/merendero_mob.jpg"
+      "src": "./slides/merendero_mob.png"
     }
   },
               {
