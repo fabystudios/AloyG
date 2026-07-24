@@ -1,0 +1,479 @@
+class NoticiaCard extends HTMLElement {
+
+  static FONTS_ID = 'noticia-card-fonts';
+
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+    this._expanded = false;
+  }
+
+  static get observedAttributes() { return ['ancho']; }
+
+  connectedCallback() {
+    this._ensureFonts();
+    this._render();
+    this._setupClamp();
+    this._setupMedia();
+    this._applyAncho();
+  }
+
+  attributeChangedCallback(name) {
+    if (name === 'ancho') this._applyAncho();
+  }
+
+  // Ancho en desktop, configurable por atributo (ej: ancho="60vw" o ancho="900px").
+  // Default: 80vw. En mobile siempre es 95vw (ver CSS, no configurable).
+  _applyAncho() {
+    const ancho = this.getAttribute('ancho');
+    this.style.setProperty('--nc-ancho', ancho || '80vw');
+  }
+
+  // Carga Playfair Display + Inter una sola vez por documento, aunque haya
+  // varias <noticia-card> en la página.
+  _ensureFonts() {
+    if (document.getElementById(NoticiaCard.FONTS_ID)) return;
+    const link = document.createElement('link');
+    link.id = NoticiaCard.FONTS_ID;
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=Inter:wght@400;500;600;700&display=swap';
+    document.head.appendChild(link);
+  }
+
+  _attr(name, fallback = '') {
+    return this.getAttribute(name) || fallback;
+  }
+
+  _render() {
+    const fecha        = this._attr('fecha');
+    const categoria     = this._attr('categoria', 'Noticias');
+    const titular       = this._attr('titular');
+    const autorNombre   = this._attr('autor-nombre');
+    const autorDesc     = this._attr('autor-desc');
+    const autorImg      = this._attr('autor-img');
+    const imagen        = this._attr('imagen');
+    const imagenAlt     = this._attr('imagen-alt', titular);
+    const texto         = this._attr('texto');
+    const fuenteNombre  = this._attr('fuente-nombre', 'Leer más');
+    const fuenteUrl     = this._attr('fuente-url', '#');
+    const fuenteLogo    = this._attr('fuente-logo', '');
+
+    this.shadowRoot.innerHTML = `
+      <style>${this._css()}</style>
+
+      <article class="card" part="card">
+        <figure class="media">
+          <div class="media__bg" aria-hidden="true" style="background-image:url('${imagen.replace(/'/g, "\\'")}')"></div>
+          <img class="media__img" src="${imagen}" alt="${imagenAlt}" loading="lazy">
+          <span class="seal" aria-hidden="true">
+            <span class="seal__day">${(fecha || '').split(' ')[0]}</span>
+            <span class="seal__month">${(fecha || '').split(' ').slice(1).join(' ')}</span>
+          </span>
+        </figure>
+
+        <div class="content">
+          <p class="eyebrow">${categoria}</p>
+
+          <h2 class="headline">${titular}</h2>
+
+          <div class="author">
+            ${autorImg ? `<img class="author__img" src="${autorImg}" alt="${autorNombre}">` : ''}
+            <div class="author__info">
+              <span class="author__name">${autorNombre}</span>
+              ${autorDesc ? `<span class="author__desc">${autorDesc}</span>` : ''}
+            </div>
+          </div>
+
+          <div class="body-wrap">
+            <p class="body-text">${texto}</p>
+            <div class="fade" aria-hidden="true"></div>
+          </div>
+
+          <button class="toggle" type="button" hidden>Ver más</button>
+
+          <a class="cta" href="${fuenteUrl}" target="_blank" rel="noopener">
+            <span>Leer más en</span>
+            ${fuenteLogo
+              ? `<img class="cta__logo" src="${fuenteLogo}" alt="${fuenteNombre}">`
+              : `<strong>${fuenteNombre}</strong>`}
+          </a>
+        </div>
+      </article>
+    `;
+
+    this.shadowRoot.querySelector('.toggle')
+      .addEventListener('click', () => this._toggleExpand());
+  }
+
+  _toggleExpand() {
+    this._expanded = !this._expanded;
+    const card = this.shadowRoot.querySelector('.card');
+    const btn  = this.shadowRoot.querySelector('.toggle');
+    card.classList.toggle('is-expanded', this._expanded);
+    btn.textContent = this._expanded ? 'Ver menos' : 'Ver más';
+    if (!this._expanded && this._recompute) this._recompute();
+  }
+
+  // Calcula cuántas líneas entran REALMENTE en el espacio disponible del
+  // recuadro de texto (no un número fijo de líneas), para que nunca queden
+  // puntos suspensivos con lugar en blanco debajo, ni al revés.
+  // "Ver más" solo aparece si el texto completo no entra en ese espacio.
+  _setupClamp() {
+    const p    = this.shadowRoot.querySelector('.body-text');
+    const wrap = this.shadowRoot.querySelector('.body-wrap');
+    const btn  = this.shadowRoot.querySelector('.toggle');
+    const fade = this.shadowRoot.querySelector('.fade');
+    if (!p || !wrap) return;
+
+    const recompute = () => {
+      if (this._expanded) return;
+
+      // Medir sin clamp para saber cuánto ocupa el texto completo.
+      p.style.webkitLineClamp = 'unset';
+
+      const cs = getComputedStyle(p);
+      let lineHeight = parseFloat(cs.lineHeight);
+      if (!lineHeight || Number.isNaN(lineHeight)) {
+        lineHeight = parseFloat(cs.fontSize) * 1.4;
+      }
+
+      const availableHeight = wrap.clientHeight;
+      const fullTextHeight  = p.scrollHeight;
+      const maxLines  = Math.max(1, Math.floor(availableHeight / lineHeight));
+      const fullLines = Math.ceil(fullTextHeight / lineHeight);
+
+      if (fullLines > maxLines) {
+        p.style.webkitLineClamp = String(maxLines);
+        btn.hidden = false;
+        fade.style.display = '';
+      } else {
+        p.style.webkitLineClamp = 'unset';
+        btn.hidden = true;
+        fade.style.display = 'none';
+      }
+    };
+
+    this._recompute = recompute;
+
+    // Reacciona a CUALQUIER cambio de tamaño del componente: resize de
+    // ventana, cambio de breakpoint, o cambio del atributo "ancho".
+    const ro = new ResizeObserver(() => requestAnimationFrame(recompute));
+    ro.observe(this);
+    this._ro = ro;
+
+    requestAnimationFrame(() => requestAnimationFrame(recompute));
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(recompute);
+    }
+  }
+
+  disconnectedCallback() {
+    if (this._ro) this._ro.disconnect();
+  }
+
+  // Detecta si la foto es vertical/alargada (retrato) y, en ese caso,
+  // en vez de recortarla con "cover" (que corta cabezas o texto quemado
+  // en la imagen), la muestra completa ("contain") sobre un fondo
+  // desenfocado de la misma imagen, para que no se vea recortada ni
+  // se deforme el encuadre original.
+  // Se puede forzar a mano con el atributo imagen-ajuste="cover" o "contain".
+  _setupMedia() {
+    const media = this.shadowRoot.querySelector('.media');
+    const img   = this.shadowRoot.querySelector('.media__img');
+    if (!media || !img) return;
+
+    const apply = () => {
+      const forzado = this.getAttribute('imagen-ajuste');
+      if (forzado === 'cover')   { media.classList.remove('is-vertical'); return; }
+      if (forzado === 'contain') { media.classList.add('is-vertical'); return; }
+      if (!img.naturalWidth || !img.naturalHeight) return;
+      const esVertical = (img.naturalHeight / img.naturalWidth) > 1.05;
+      media.classList.toggle('is-vertical', esVertical);
+    };
+
+    if (img.complete) apply();
+    else img.addEventListener('load', apply);
+  }
+
+  _css() {
+    return `
+      /* ---------- Tokens ---------- */
+      :host{
+        --ink:        #1c2338;   /* azul tinta, tapa de misal */
+        --paper:      #faf4e6;   /* pergamino */
+        --gold:       #b8862f;   /* pan de oro */
+        --gold-soft:  #e9d3a0;
+        --wine:       #7a2e2e;   /* sello de lacre */
+        --wine-dark:  #5c2020;
+        --text:       #2a2417;
+        --text-muted: #746650;
+        --display: 'Playfair Display', Georgia, serif;
+        --sans:    'Inter', system-ui, sans-serif;
+
+        display:block;
+        width: var(--nc-ancho, 80vw);
+        max-width: 100%;
+        margin-inline: auto;
+        /* refuerzo por si el padre es flex o grid */
+        align-self: center;
+        justify-self: center;
+      }
+
+      *{ box-sizing:border-box; }
+
+      .card{
+        position:relative;
+        display:flex;
+        flex-direction:row;
+        background: var(--paper);
+        border-radius: 18px;
+        overflow:hidden;
+        box-shadow: 0 1px 2px rgba(28,35,56,.06), 0 12px 28px -12px rgba(28,35,56,.28);
+        border: 1px solid #00000010;
+        transition: box-shadow .35s ease, transform .35s ease;
+      }
+      .card:hover{
+        box-shadow: 0 2px 4px rgba(28,35,56,.08), 0 20px 40px -14px rgba(28,35,56,.34);
+        transform: translateY(-2px);
+      }
+
+      /* ---------- Media ---------- */
+      .media{
+        position:relative;
+        margin:0;
+        flex: 0 0 38%;
+        min-height: 100%;
+        overflow:hidden;
+        background: var(--ink);
+      }
+      .media__bg{
+        position:absolute;
+        inset: -10%;
+        background-size:cover;
+        background-position:center;
+        filter: blur(24px) brightness(.55) saturate(1.15);
+        transform: scale(1.1);
+        opacity:0;
+        transition: opacity .3s ease;
+      }
+      .media__img{
+        position:relative;
+        z-index:1;
+        width:100%;
+        height:100%;
+        object-fit:cover;
+        object-position: center 25%; /* prioriza rostros, suelen estar arriba */
+        display:block;
+      }
+      /* En desktop el recuadro es angosto y alto, así que "cover" no
+         recorta tanto una foto vertical — se deja siempre cover acá.
+         El tratamiento contain + fondo desenfocado para verticales se
+         aplica solo en mobile (ver media query más abajo). */
+      .seal{
+        position:absolute;
+        top:14px;
+        left:14px;
+        width:56px;
+        height:56px;
+        border-radius:50%;
+        background: radial-gradient(circle at 35% 30%, var(--wine) 0%, var(--wine-dark) 78%);
+        border: 2px solid var(--gold-soft);
+        box-shadow: 0 4px 10px rgba(0,0,0,.35);
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        justify-content:center;
+        color: var(--gold-soft);
+        font-family: var(--display);
+        line-height:1;
+      }
+      .seal__day{ font-size:1.15rem; font-weight:700; }
+      .seal__month{ font-size:.55rem; letter-spacing:.06em; text-transform:uppercase; margin-top:2px; }
+
+      /* ---------- Content ---------- */
+      .content{
+        flex:1;
+        min-width:0;
+        padding: 22px 26px 20px;
+        display:flex;
+        flex-direction:column;
+      }
+
+      .eyebrow{
+        margin:0 0 8px;
+        font-family: var(--sans);
+        font-size:.72rem;
+        font-weight:700;
+        letter-spacing:.12em;
+        text-transform:uppercase;
+        color: var(--wine);
+      }
+      .eyebrow::before{
+        content:'';
+        display:inline-block;
+        width:16px;
+        height:2px;
+        background: var(--gold);
+        margin-right:8px;
+        vertical-align:middle;
+      }
+
+      .headline{
+        margin:0 0 14px;
+        font-family: var(--display);
+        font-weight:700;
+        font-size: 1.5rem;
+        line-height:1.22;
+        color: var(--ink);
+        letter-spacing:-.01em;
+      }
+      .headline::first-letter{
+        font-size: 2.5em;
+        font-weight:700;
+        color: var(--gold);
+        float:left;
+        line-height:.82;
+        padding-right:.06em;
+        margin-top:.03em;
+      }
+
+      .author{
+        display:flex;
+        align-items:center;
+        gap:10px;
+        margin-bottom:14px;
+        padding-bottom:14px;
+        border-bottom: 1px solid #00000014;
+      }
+      .author__img{
+        width:34px; height:34px;
+        border-radius:50%;
+        object-fit:cover;
+        border: 1px solid var(--gold-soft);
+      }
+      .author__info{ display:flex; flex-direction:column; line-height:1.25; min-width:0; }
+      .author__name{ font-family: var(--sans); font-weight:600; font-size:.82rem; color: var(--text); }
+      .author__desc{
+        font-family: var(--sans);
+        font-size:.72rem;
+        color: var(--text-muted);
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
+
+      .body-wrap{ position:relative; flex:1; min-height:0; }
+      .body-text{
+        margin:0;
+        font-family: var(--sans);
+        font-size:.92rem;
+
+        line-height:1.58;
+        color: var(--text);
+        text-align:left;
+
+        display:-webkit-box;
+        -webkit-line-clamp: unset;
+        -webkit-box-orient: vertical;
+        overflow:hidden;
+      }
+      .card.is-expanded .body-text{
+        -webkit-line-clamp: unset;
+        overflow:visible;
+      }
+      .fade{
+        position:absolute;
+        left:0; right:0; bottom:0;
+        height:2.4em;
+        background: linear-gradient(to bottom, transparent, var(--paper) 82%);
+        pointer-events:none;
+      }
+      .card.is-expanded .fade{ display:none; }
+
+      .toggle{
+        align-self:flex-start;
+        margin: 6px 0 14px;
+        padding:0;
+        background:none;
+        border:none;
+        font-family: var(--sans);
+        font-weight:600;
+        font-size:.82rem;
+        color: var(--wine);
+        cursor:pointer;
+        text-decoration: underline;
+        text-underline-offset:3px;
+        text-decoration-color: var(--gold-soft);
+      }
+      .toggle:hover{ color: var(--wine-dark); }
+
+      /* ---------- CTA (conserva el efecto hover/active original) ---------- */
+      .cta{
+        margin-top:auto;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        gap:8px;
+        text-decoration:none;
+        background: linear-gradient(180deg, var(--wine) 0%, var(--wine-dark) 100%);
+        color:#fbf3e6;
+        font-family: var(--sans);
+        font-size:.9rem;
+        font-weight:600;
+        padding:11px 18px;
+        border-radius:999px;
+        box-shadow: 0 4px 10px rgba(90,32,32,.28);
+        transition: transform .25s ease, box-shadow .25s ease, background .25s ease;
+      }
+      .cta:hover{
+        transform: translateY(-2px);
+        box-shadow: 0 8px 18px rgba(90,32,32,.36);
+        background: linear-gradient(180deg, var(--wine-dark) 0%, #431717 100%);
+      }
+      .cta:active{
+        transform: translateY(0);
+        box-shadow: 0 2px 6px rgba(90,32,32,.3);
+      }
+      .cta__logo{ height:1.3em; width:auto; display:block; filter: brightness(0) invert(1); }
+
+      /* ---------- Mobile: formato 9:16 ---------- */
+      @media (max-width: 560px){
+        :host{ width: 95vw; max-width: 95vw; }
+
+        .card{
+          flex-direction:column;
+          aspect-ratio: 9 / 16;
+        }
+        .card.is-expanded{
+          aspect-ratio: auto;
+        }
+
+        .media{
+          flex: 0 0 44%;
+          min-height:0;
+        }
+
+        /* Foto vertical/alargada detectada, SOLO en mobile: se muestra
+           completa (sin recortar cabezas ni texto quemado en la imagen)
+           sobre un fondo desenfocado de sí misma, en vez de "cover". */
+        .media.is-vertical .media__bg{ opacity:1; }
+        .media.is-vertical .media__img{
+          object-fit: contain;
+          object-position: center;
+        }
+
+        .content{
+          flex:1;
+          min-height:0;
+          padding: 18px 18px 16px;
+        }
+
+        .headline{ font-size:1.22rem; }
+        .body-text{ font-size:.88rem; }
+        .author__desc{ display:none; }
+      }
+    `;
+  }
+}
+
+customElements.define('noticia-card', NoticiaCard);
