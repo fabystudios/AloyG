@@ -1,3 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&lt;noticia-card&gt; — demo</title>
+<style>
+  /* Estilos SOLO de esta página de demo (para que se vea el fondo).
+     El componente en sí NO depende de nada de aquí: vive en Shadow DOM. */
+  body{
+    margin:0;
+    padding:48px 16px;
+    background:#e9e4d8;
+    font-family: system-ui, sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:32px;
+  }
+  .demo-label{
+    max-width:640px;
+    color:#54493a;
+    font-size:14px;
+    line-height:1.5;
+  }
+  .demo-label code{
+    background:#00000010;
+    padding:2px 6px;
+    border-radius:4px;
+  }
+</style>
+</head>
+<body>
+
+<p class="demo-label">
+  Componente <code>&lt;noticia-card&gt;</code> encapsulado con Shadow DOM: podés pegarlo entre otras noticias de tu página
+  sin que su CSS choque con nada. Redimensioná la ventana (o abrí en el celular) para ver el formato 9:16 y el botón
+  "ver más".
+</p>
+
+<noticia-card
+  fecha="23 de Julio"
+  categoria="Iglesia y Santos"
+  titular="Avanza en Roma la causa del Padre Mario, recordado en Argentina por su entrega a pobres y enfermos"
+  autor-nombre="Julieta Villar"
+  autor-desc="Periodista, licenciada en comunicación por la Universidad Nacional de La Matanza en Argentina"
+  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
+  imagen="https://res.cloudinary.com/ewtn/image/upload/v1784826240/ewtn-news/es/P-Mario-Pantaleo-23072026_a7hixn.png?w=672&h=448"
+  imagen-alt="Padre Mario Pantaleo"
+  texto="El Dicasterio para las Causas de los Santos del Vaticano confirmó la validez jurídica de la investigación diocesana sobre la vida y virtudes del P. Mario Pantaleo, un sacerdote de gran popularidad en Argentina, recordado por su entrega a los más necesitados. La noticia fue dada por el dicasterio al P. Daniel Medina, OAR, postulador de la causa de canonización del P. Mario, detallando que el pasado 25 de junio, durante un congreso ordinario celebrado en el Vaticano, se aprobó la validez jurídica de la investigación diocesana sobre la vida, las virtudes y la fama de santidad del sacerdote de la Diócesis de Gregorio de Laferrere."
+  fuente-nombre="ACI Prensa"
+  fuente-url="https://www.aciprensa.com/noticias/127095/avanza-en-roma-causa-padre-mario-recordado-argentina"
+  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
+></noticia-card>
+
+<p class="demo-label">
+  Esta segunda card usa el atributo <code>ancho="60vw"</code> para probar el parámetro de ancho en desktop
+  (la de arriba usa el default: 80vw).
+</p>
+
+<noticia-card
+  ancho="60vw"
+  fecha="23 de Julio"
+  categoria="Iglesia y Santos"
+  titular="Avanza en Roma la causa del Padre Mario, recordado en Argentina por su entrega a pobres y enfermos"
+  autor-nombre="Julieta Villar"
+  autor-desc="Periodista, licenciada en comunicación por la Universidad Nacional de La Matanza en Argentina"
+  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
+  imagen="https://res.cloudinary.com/ewtn/image/upload/v1784826240/ewtn-news/es/P-Mario-Pantaleo-23072026_a7hixn.png?w=672&h=448"
+  imagen-alt="Padre Mario Pantaleo"
+  texto="El Dicasterio para las Causas de los Santos del Vaticano confirmó la validez jurídica de la investigación diocesana sobre la vida y virtudes del P. Mario Pantaleo, un sacerdote de gran popularidad en Argentina, recordado por su entrega a los más necesitados."
+  fuente-nombre="ACI Prensa"
+  fuente-url="https://www.aciprensa.com/noticias/127095/avanza-en-roma-causa-padre-mario-recordado-argentina"
+  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
+></noticia-card>
+
+<p class="demo-label">
+  Tercera card: misma noticia pero con una <strong>foto vertical/alargada</strong> de prueba, para ver la
+  detección automática en acción (fondo desenfocado + foto completa, sin recortar cabezas).
+  Podés forzar el comportamiento viejo con <code>imagen-ajuste="cover"</code>.
+</p>
+
+<noticia-card
+  fecha="23 de Julio"
+  categoria="Iglesia y Santos"
+  titular="Avanza en Roma la causa del Padre Mario, recordado en Argentina por su entrega a pobres y enfermos"
+  autor-nombre="Julieta Villar"
+  autor-desc="Periodista, licenciada en comunicación por la Universidad Nacional de La Matanza en Argentina"
+  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
+  imagen="https://picsum.photos/id/1005/500/900"
+  imagen-alt="Foto vertical de prueba"
+  texto="El Dicasterio para las Causas de los Santos del Vaticano confirmó la validez jurídica de la investigación diocesana sobre la vida y virtudes del P. Mario Pantaleo, un sacerdote de gran popularidad en Argentina, recordado por su entrega a los más necesitados."
+  fuente-nombre="ACI Prensa"
+  fuente-url="https://www.aciprensa.com/noticias/127095/avanza-en-roma-causa-padre-mario-recordado-argentina"
+  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
+></noticia-card>
+
+<script>
 class NoticiaCard extends HTMLElement {
 
   static FONTS_ID = 'noticia-card-fonts';
@@ -15,7 +113,6 @@ class NoticiaCard extends HTMLElement {
     this._render();
     this._setupClamp();
     this._setupMedia();
-    this._setupTextoMobile();
     this._applyAncho();
   }
 
@@ -55,11 +152,6 @@ class NoticiaCard extends HTMLElement {
     const imagen        = this._attr('imagen');
     const imagenAlt     = this._attr('imagen-alt', titular);
     const texto         = this._attr('texto');
-    const textoMobile   = this._attr('texto-mobile', '');
-    const esMobileAhora = window.matchMedia('(max-width: 560px)').matches;
-    const textoElegido  = (esMobileAhora && textoMobile) ? textoMobile : texto;
-    this._texto = texto;
-    this._textoMobile = textoMobile;
     const fuenteNombre  = this._attr('fuente-nombre', 'Leer más');
     const fuenteUrl     = this._attr('fuente-url', '#');
     const fuenteLogo    = this._attr('fuente-logo', '');
@@ -91,7 +183,7 @@ class NoticiaCard extends HTMLElement {
           </div>
 
           <div class="body-wrap">
-            <p class="body-text">${textoElegido}</p>
+            <p class="body-text">${texto}</p>
             <div class="fade" aria-hidden="true"></div>
           </div>
 
@@ -112,10 +204,6 @@ class NoticiaCard extends HTMLElement {
   }
 
   _toggleExpand() {
-    // En mobile el "Ver más" está deshabilitado a propósito (ver _setupClamp):
-    // el texto se corta con el degradé de la última línea, sin expandir.
-    if (window.matchMedia('(max-width: 560px)').matches) return;
-
     this._expanded = !this._expanded;
     const card = this.shadowRoot.querySelector('.card');
     const btn  = this.shadowRoot.querySelector('.toggle');
@@ -127,14 +215,7 @@ class NoticiaCard extends HTMLElement {
   // Calcula cuántas líneas entran REALMENTE en el espacio disponible del
   // recuadro de texto (no un número fijo de líneas), para que nunca queden
   // puntos suspensivos con lugar en blanco debajo, ni al revés.
-  //
-  // En DESKTOP: si el texto completo no entra, aparece "Ver más" (expande).
-  // En MOBILE: el botón "Ver más" está deshabilitado a propósito (fue fuente
-  // de un bug de interacción difícil de reproducir/depurar a distancia). En
-  // mobile el texto se corta con el degradé de la última línea y listo — sin
-  // botón, sin expandir, sin nada que se pueda quedar "trabado". Si hace
-  // falta mostrar más texto en mobile, se maneja con el atributo
-  // `texto-mobile` (un texto más corto pensado para que entre solo).
+  // "Ver más" solo aparece si el texto completo no entra en ese espacio.
   _setupClamp() {
     const p    = this.shadowRoot.querySelector('.body-text');
     const wrap = this.shadowRoot.querySelector('.body-wrap');
@@ -144,8 +225,6 @@ class NoticiaCard extends HTMLElement {
 
     const recompute = () => {
       if (this._expanded) return;
-
-      const esMobile = window.matchMedia('(max-width: 560px)').matches;
 
       // Medir sin clamp para saber cuánto ocupa el texto completo.
       p.style.webkitLineClamp = 'unset';
@@ -163,7 +242,7 @@ class NoticiaCard extends HTMLElement {
 
       if (fullLines > maxLines) {
         p.style.webkitLineClamp = String(maxLines);
-        btn.hidden = esMobile ? true : false; // en mobile nunca se muestra
+        btn.hidden = false;
         fade.style.display = '';
       } else {
         p.style.webkitLineClamp = 'unset';
@@ -186,32 +265,8 @@ class NoticiaCard extends HTMLElement {
     }
   }
 
-  // Si hay texto-mobile, cambia el contenido del párrafo al cruzar el
-  // breakpoint mobile/desktop (ej: al rotar el celular o redimensionar
-  // la ventana), y recalcula el clamp con el texto nuevo.
-  _setupTextoMobile() {
-    if (!this._textoMobile) return;
-
-    const mq = window.matchMedia('(max-width: 560px)');
-    const p = this.shadowRoot.querySelector('.body-text');
-
-    const aplicar = (esMobile) => {
-      if (this._expanded) return; // no pisar el texto mientras está expandido
-      p.textContent = esMobile ? this._textoMobile : this._texto;
-      if (this._recompute) requestAnimationFrame(() => requestAnimationFrame(this._recompute));
-    };
-
-    const handler = (e) => aplicar(e.matches);
-    mq.addEventListener('change', handler);
-    this._mqTextoMobile = mq;
-    this._mqTextoMobileHandler = handler;
-  }
-
   disconnectedCallback() {
     if (this._ro) this._ro.disconnect();
-    if (this._mqTextoMobile && this._mqTextoMobileHandler) {
-      this._mqTextoMobile.removeEventListener('change', this._mqTextoMobileHandler);
-    }
   }
 
   // Detecta si la foto es vertical/alargada (retrato) y, en ese caso,
@@ -521,13 +576,13 @@ class NoticiaCard extends HTMLElement {
         .headline{ font-size:1.22rem; }
         .body-text{ font-size:.88rem; }
         .author__desc{ display:none; }
-
-        /* "Ver más" deshabilitado en mobile a propósito (ver _setupClamp).
-           Refuerzo por CSS puro, independiente de lo que haga el JS. */
-        .toggle{ display:none !important; }
       }
     `;
   }
 }
 
 customElements.define('noticia-card', NoticiaCard);
+</script>
+
+</body>
+</html>
