@@ -1,3 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&lt;noticia-card&gt; — demo</title>
+<style>
+  /* Estilos SOLO de esta página de demo (para que se vea el fondo).
+     El componente en sí NO depende de nada de aquí: vive en Shadow DOM. */
+  body{
+    margin:0;
+    padding:48px 16px;
+    background:#e9e4d8;
+    font-family: system-ui, sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:32px;
+  }
+  .demo-label{
+    max-width:640px;
+    color:#54493a;
+    font-size:14px;
+    line-height:1.5;
+  }
+  .demo-label code{
+    background:#00000010;
+    padding:2px 6px;
+    border-radius:4px;
+  }
+</style>
+</head>
+<body>
+
+<p class="demo-label">
+  Componente <code>&lt;noticia-card&gt;</code> encapsulado con Shadow DOM: podés pegarlo entre otras noticias de tu página
+  sin que su CSS choque con nada. Redimensioná la ventana (o abrí en el celular) para ver el formato 9:16 y el botón
+  "ver más".
+</p>
+
+<noticia-card
+  fecha="23 de Julio"
+  categoria="Iglesia y Santos"
+  titular="Avanza en Roma la causa del Padre Mario, recordado en Argentina por su entrega a pobres y enfermos"
+  autor-nombre="Julieta Villar"
+  autor-desc="Periodista, licenciada en comunicación por la Universidad Nacional de La Matanza en Argentina"
+  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
+  imagen="https://res.cloudinary.com/ewtn/image/upload/v1784826240/ewtn-news/es/P-Mario-Pantaleo-23072026_a7hixn.png?w=672&h=448"
+  imagen-alt="Padre Mario Pantaleo"
+  texto="El Dicasterio para las Causas de los Santos del Vaticano confirmó la validez jurídica de la investigación diocesana sobre la vida y virtudes del P. Mario Pantaleo, un sacerdote de gran popularidad en Argentina, recordado por su entrega a los más necesitados. La noticia fue dada por el dicasterio al P. Daniel Medina, OAR, postulador de la causa de canonización del P. Mario, detallando que el pasado 25 de junio, durante un congreso ordinario celebrado en el Vaticano, se aprobó la validez jurídica de la investigación diocesana sobre la vida, las virtudes y la fama de santidad del sacerdote de la Diócesis de Gregorio de Laferrere."
+  fuente-nombre="ACI Prensa"
+  fuente-url="https://www.aciprensa.com/noticias/127095/avanza-en-roma-causa-padre-mario-recordado-argentina"
+  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
+></noticia-card>
+
+<p class="demo-label">
+  Esta segunda card usa el atributo <code>ancho="60vw"</code> para probar el parámetro de ancho en desktop
+  (la de arriba usa el default: 80vw).
+</p>
+
+<noticia-card
+  ancho="60vw"
+  fecha="23 de Julio"
+  categoria="Iglesia y Santos"
+  titular="Avanza en Roma la causa del Padre Mario, recordado en Argentina por su entrega a pobres y enfermos"
+  autor-nombre="Julieta Villar"
+  autor-desc="Periodista, licenciada en comunicación por la Universidad Nacional de La Matanza en Argentina"
+  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
+  imagen="https://res.cloudinary.com/ewtn/image/upload/v1784826240/ewtn-news/es/P-Mario-Pantaleo-23072026_a7hixn.png?w=672&h=448"
+  imagen-alt="Padre Mario Pantaleo"
+  texto="El Dicasterio para las Causas de los Santos del Vaticano confirmó la validez jurídica de la investigación diocesana sobre la vida y virtudes del P. Mario Pantaleo, un sacerdote de gran popularidad en Argentina, recordado por su entrega a los más necesitados."
+  fuente-nombre="ACI Prensa"
+  fuente-url="https://www.aciprensa.com/noticias/127095/avanza-en-roma-causa-padre-mario-recordado-argentina"
+  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
+></noticia-card>
+
+<p class="demo-label">
+  Tercera card: misma noticia pero con una <strong>foto vertical/alargada</strong> de prueba, para ver la
+  detección automática en acción (fondo desenfocado + foto completa, sin recortar cabezas).
+  Podés forzar el comportamiento viejo con <code>imagen-ajuste="cover"</code>.
+</p>
+
+<noticia-card
+  fecha="23 de Julio"
+  categoria="Iglesia y Santos"
+  titular="Avanza en Roma la causa del Padre Mario, recordado en Argentina por su entrega a pobres y enfermos"
+  autor-nombre="Julieta Villar"
+  autor-desc="Periodista, licenciada en comunicación por la Universidad Nacional de La Matanza en Argentina"
+  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
+  imagen="https://picsum.photos/id/1005/500/900"
+  imagen-alt="Foto vertical de prueba"
+  texto="El Dicasterio para las Causas de los Santos del Vaticano confirmó la validez jurídica de la investigación diocesana sobre la vida y virtudes del P. Mario Pantaleo, un sacerdote de gran popularidad en Argentina, recordado por su entrega a los más necesitados."
+  fuente-nombre="ACI Prensa"
+  fuente-url="https://www.aciprensa.com/noticias/127095/avanza-en-roma-causa-padre-mario-recordado-argentina"
+  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
+></noticia-card>
+
+<script>
 class NoticiaCard extends HTMLElement {
 
   static FONTS_ID = 'noticia-card-fonts';
@@ -484,3 +582,7 @@ class NoticiaCard extends HTMLElement {
 }
 
 customElements.define('noticia-card', NoticiaCard);
+</script>
+
+</body>
+</html>

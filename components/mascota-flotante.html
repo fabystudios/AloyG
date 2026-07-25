@@ -1,3 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>&lt;mascota-flotante&gt; — demo</title>
+<style>
+  body{
+    margin:0;
+    min-height:250vh; /* para poder scrollear y ver que sigue "fija" */
+    background:#e9e4d8;
+    font-family: system-ui, sans-serif;
+    padding:40px 20px;
+  }
+  .demo-label{ max-width:640px; color:#54493a; font-size:14px; line-height:1.6; margin-bottom:24px; }
+  .demo-label code{ background:#00000010; padding:2px 6px; border-radius:4px; }
+</style>
+</head>
+<body>
+
+<p class="demo-label">
+  <strong>&lt;mascota-flotante&gt;</strong>: personaje que camina de derecha a izquierda, pero
+  <strong>solo sobre el ancho de la card indicada</strong> (vía <code>target="id-de-la-card"</code>) — no
+  sobre el resto del <code>index</code>. Si hacés scroll, la mascota se mueve junto con la card
+  (no queda flotando en toda la pantalla).
+</p>
+
+<div style="max-width:640px;margin:0 auto 16px;padding:14px 18px;background:#fff;border-radius:10px;color:#999;font-size:13px;">
+  Contenido de prueba ARRIBA de la card — la mascota NO debería pasar por acá.
+</div>
+
+<noticia-card
+  id="noticia-principal"
+  fecha="23 de Julio"
+  categoria="Iglesia y Santos"
+  titular="Avanza en Roma la causa del Padre Mario, recordado en Argentina por su entrega a pobres y enfermos"
+  autor-nombre="Julieta Villar"
+  autor-desc="Periodista, licenciada en comunicación por la Universidad Nacional de La Matanza en Argentina"
+  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
+  imagen="https://res.cloudinary.com/ewtn/image/upload/v1784826240/ewtn-news/es/P-Mario-Pantaleo-23072026_a7hixn.png?w=672&h=448"
+  imagen-alt="Padre Mario Pantaleo"
+  texto="El Dicasterio para las Causas de los Santos del Vaticano confirmó la validez jurídica de la investigación diocesana sobre la vida y virtudes del P. Mario Pantaleo, un sacerdote de gran popularidad en Argentina, recordado por su entrega a los más necesitados."
+  fuente-nombre="ACI Prensa"
+  fuente-url="https://www.aciprensa.com/noticias/127095/avanza-en-roma-causa-padre-mario-recordado-argentina"
+  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
+></noticia-card>
+
+<div style="max-width:640px;margin:16px auto;padding:14px 18px;background:#fff;border-radius:10px;color:#999;font-size:13px;">
+  Contenido de prueba DEBAJO de la card — la mascota tampoco debería pasar por acá.
+</div>
+
+<!-- ====== 1) noticia-card (opcional en esta demo, solo para ver que la mascota pasa por arriba) ====== -->
+<script>
 class NoticiaCard extends HTMLElement {
 
   static FONTS_ID = 'noticia-card-fonts';
@@ -484,3 +537,155 @@ class NoticiaCard extends HTMLElement {
 }
 
 customElements.define('noticia-card', NoticiaCard);
+</script>
+
+<!-- ====== 2) mascota-flotante ====== -->
+<mascota-flotante
+  target="noticia-principal"
+  src="./news/gio.png"
+  href="./noticias.html"
+  alt="Ver más noticias"
+  offset-bottom="-120"
+  duracion="7s"
+></mascota-flotante>
+
+<script>
+class MascotaFlotante extends HTMLElement {
+  connectedCallback() {
+    if (this.shadowRoot) return; // evita re-render si se reconecta
+    this.attachShadow({ mode: 'open' });
+
+    const src        = this.getAttribute('src')        || './news/gio.png';
+    const href       = this.getAttribute('href')        || '#';
+    const alt        = this.getAttribute('alt')         || 'Más noticias';
+    const duracion   = this.getAttribute('duracion')    || '16s';
+    const ancho      = this.getAttribute('ancho')       || 'clamp(90px, 16vw, 150px)';
+    const offsetTop    = this.hasAttribute('offset-top')    ? parseFloat(this.getAttribute('offset-top'))    : null; // px, relativo al borde SUPERIOR
+    const offsetBottom = this.hasAttribute('offset-bottom') ? parseFloat(this.getAttribute('offset-bottom')) : null; // px, relativo al borde INFERIOR
+
+    this.shadowRoot.innerHTML = `
+      <style>
+        :host{ display:contents; }
+
+        .wrap{
+          position: absolute; /* NO fixed: no debe aparecer en todo el index */
+          top: 0;
+          left: 0;
+          width: 0;
+          height: 0;
+          overflow: visible;
+          pointer-events: none;
+          z-index: 999;
+        }
+
+        .mascota{
+          position: absolute;
+          top: 0;
+          left: 105%;
+          width: ${ancho};
+          display: block;
+          pointer-events: auto;
+          text-decoration: none;
+          animation: caminar ${duracion} linear infinite;
+          filter: drop-shadow(0 8px 12px rgba(0,0,0,.28));
+        }
+        .mascota img{
+          width: 100%;
+          height: auto;
+          display: block;
+          animation: rebote .55s ease-in-out infinite;
+          transform-origin: bottom center;
+        }
+
+        @keyframes caminar{
+          from{ left: 105%; }
+          to{ left: -22%; }
+        }
+        @keyframes rebote{
+          0%, 100%{ transform: translateY(0); }
+          50%{ transform: translateY(-5%); }
+        }
+
+        @media (prefers-reduced-motion: reduce){
+          .mascota{ animation: none; left: -22%; }
+          .mascota img{ animation: none; }
+        }
+      </style>
+
+      <div class="wrap">
+        <a class="mascota" href="${href}" aria-label="${alt}">
+          <img src="${src}" alt="${alt}" loading="lazy">
+        </a>
+      </div>
+    `;
+
+    this._offsetTop = offsetTop;
+    this._offsetBottom = offsetBottom;
+    this._wrap = this.shadowRoot.querySelector('.wrap');
+    this._findTarget();
+  }
+
+  // Busca la card a la que hay que "seguir": por atributo target="id-de-la-card",
+  // o si no se especifica, la primera <noticia-card> del documento.
+  _findTarget() {
+    const targetId = this.getAttribute('target');
+    const target = targetId
+      ? document.getElementById(targetId)
+      : document.querySelector('noticia-card');
+
+    if (!target) {
+      // El target puede no existir todavía si este script corre antes.
+      // Reintenta un par de veces (por si el navegador aún está parseando el resto del HTML).
+      if (!this._retries) this._retries = 0;
+      if (this._retries < 20) {
+        this._retries++;
+        requestAnimationFrame(() => this._findTarget());
+      }
+      return;
+    }
+
+    this._target = target;
+    this._track();
+  }
+
+  // Posiciona el carril de la mascota exactamente sobre el ancho/posición
+  // real (en coordenadas de documento, no de viewport) de la card destino.
+  // Como es position:absolute (y no fixed), se mueve con el scroll de forma
+  // nativa: solo hace falta recalcular cuando cambia el LAYOUT, no en cada scroll.
+  _track() {
+    const update = () => {
+      const rect = this._target.getBoundingClientRect();
+      const top = (this._offsetBottom !== null)
+        ? rect.bottom + window.scrollY + this._offsetBottom   // ancla al borde INFERIOR
+        : rect.top    + window.scrollY + (this._offsetTop || 0); // ancla al borde SUPERIOR (default)
+      const left = rect.left + window.scrollX;
+      this._wrap.style.top = `${top}px`;
+      this._wrap.style.left = `${left}px`;
+      this._wrap.style.width = `${rect.width}px`;
+    };
+
+    update();
+
+    const ro = new ResizeObserver(update);
+    ro.observe(this._target);
+    this._ro = ro;
+
+    window.addEventListener('resize', update);
+    window.addEventListener('load', update);
+    this._onResize = update;
+  }
+
+  disconnectedCallback() {
+    if (this._ro) this._ro.disconnect();
+    if (this._onResize) {
+      window.removeEventListener('resize', this._onResize);
+      window.removeEventListener('load', this._onResize);
+    }
+  }
+}
+
+customElements.define('mascota-flotante', MascotaFlotante);
+</script>
+
+</body>
+</html>
