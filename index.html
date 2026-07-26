@@ -151,6 +151,7 @@
   <script src="./components/youtube-glass-card.js" defer></script>
   <script type="module" src="./components/ramos-expo.js"></script>
   <script src="./components/noticia-card.js" defer></script>
+  <script src="./components/section-title.js" defer></script>
   <style>
     @media (max-width: 600px) {
       .rifa-bg-opacity {
@@ -966,16 +967,55 @@
 
 
  <!-- Super GFE -->
-  <script src="./components/section-title.js"></script>
+
   <section-title id="Anuncios"  text="Últimas Novedades"
                  effect="confetti stars floating-png" 
                  png-count="3" png-width="80px"
 
 ></section-title>
 
- 
+ <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
+<div class="video-card-gold-container">
 
-<script src="./components/video-card-gold.js"></script>
+      <video-card-gold
+      badge="27 de Julio"
+      titulo="Santa Natalia y San Aurelio de Córdoba"
+      video="./asantos/27.mp4"
+      style="width:auto; flex:0 0 auto;"
+ 
+    ></video-card-gold>
+
+      <video-card-gold
+      badge="26 de Julio"
+      titulo="Abuelos de Jesús"
+      video="./asantos/26.mp4"
+      style="width:auto; flex:0 0 auto;"
+     hide-mobile 
+    ></video-card-gold>
+
+      <video-card-gold
+      badge="25 de Julio"
+      titulo="Santiago el mayor"
+      video="./asantos/24.mp4"
+      style="width:auto; flex:0 0 auto;"
+    hide-mobile 
+    ></video-card-gold>
+
+        <video-card-gold
+      badge="24 de Julio"
+      titulo="San Chárbel"
+      video="./asantos/24d.mp4"
+      style="width:auto; flex:0 0 auto;"
+   hide-mobile 
+    ></video-card-gold>
+
+
+  </div>      
+
+
+
+
+<!-- <script src="./components/video-card-gold.js"></script>
 <script src="./components/showcase-card.js"></script>
 <showcase-card
   id="padre"
@@ -997,27 +1037,10 @@
 
   effects="ember,dust,stars"
   intensity="1"
-></showcase-card>
+></showcase-card> -->
 
 
-<noticia-card
-  id="noticia-principal"
-  fecha="25 Julio"
-  categoria="Iglesia y Santos"
-  titular="Avanza en Roma la causa del Padre Mario, recordado en Argentina por su entrega a pobres y enfermos"
-  autor-nombre="Julieta Villar"
-  autor-link="https://www.aciprensa.com/autor/56/julieta-villar"
-  autor-desc="Periodista, Lic. en comunicación, Corresponsal de ACI Prensa"
-  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
-  imagen="https://res.cloudinary.com/ewtn/image/upload/v1784826240/ewtn-news/es/P-Mario-Pantaleo-23072026_a7hixn.png?w=672&h=448"
-  imagen-alt="Padre Mario Pantaleo"
-texto="El Dicasterio para las Causas de los Santos del Vaticano confirmó la validez jurídica de la investigación diocesana sobre la vida y virtudes del P. Mario Pantaleo, un sacerdote de gran popularidad en Argentina, recordado por su entrega a los más necesitados.
 
-La noticia fue dada por el dicasterio al P. Daniel Medina, OAR, postulador de la causa de canonización del P. Mario, detallando que el pasado 25 de junio, durante un congreso ordinario celebrado en el Vaticano, se aprobó la validez jurídica de la investigación diocesana sobre la vida, las virtudes y la fama de santidad del sacerdote de la Diócesis de Gregorio de Laferrere.""
-  fuente-nombre="ACI Prensa"
-  fuente-url="https://www.aciprensa.com/noticias/127095/avanza-en-roma-causa-padre-mario-recordado-argentina"
-  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
-></noticia-card>
 
 <script src="./components/mascota-flotante.js"></script>
 <mascota-flotante
@@ -1027,11 +1050,11 @@ La noticia fue dada por el dicasterio al P. Daniel Medina, OAR, postulador de la
   offset-bottom="-150"
 ></mascota-flotante>
 
-<br><br><br>>
+
 <noticia-card
   id="noticia-principal"
   fecha="24 Julio"
-  categoria="León XIII"
+  categoria="Clero"
   titular="Argentina es un país “de puertas abiertas”, afirma sacerdote ante acusaciones de racismo"
   autor-nombre="Julieta Villar"
   autor-link="https://www.aciprensa.com/autor/56/julieta-villar"
@@ -1049,6 +1072,26 @@ Ante este escenario, el Instituto de Diálogo Interreligioso (IDI), organizació
   fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
 ></noticia-card>
 
+<br><br><br>>
+
+<noticia-card
+  id="noticia-principal"
+  fecha="23 Julio"
+  categoria="Iglesia y Santos"
+  titular="Avanza en Roma la causa del Padre Mario, recordado en Argentina por su entrega a pobres y enfermos"
+  autor-nombre="Julieta Villar"
+  autor-link="https://www.aciprensa.com/autor/56/julieta-villar"
+  autor-desc="Periodista, Lic. en comunicación, Corresponsal de ACI Prensa"
+  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
+  imagen="https://res.cloudinary.com/ewtn/image/upload/v1784826240/ewtn-news/es/P-Mario-Pantaleo-23072026_a7hixn.png?w=672&h=448"
+  imagen-alt="Padre Mario Pantaleo"
+texto="El Dicasterio para las Causas de los Santos del Vaticano confirmó la validez jurídica de la investigación diocesana sobre la vida y virtudes del P. Mario Pantaleo, un sacerdote de gran popularidad en Argentina, recordado por su entrega a los más necesitados.
+
+La noticia fue dada por el dicasterio al P. Daniel Medina, OAR, postulador de la causa de canonización del P. Mario, detallando que el pasado 25 de junio, durante un congreso ordinario celebrado en el Vaticano, se aprobó la validez jurídica de la investigación diocesana sobre la vida, las virtudes y la fama de santidad del sacerdote de la Diócesis de Gregorio de Laferrere.""
+  fuente-nombre="ACI Prensa"
+  fuente-url="https://www.aciprensa.com/noticias/127095/avanza-en-roma-causa-padre-mario-recordado-argentina"
+  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
+></noticia-card>
 
 
 <!-- icon="celebration" -->
@@ -1113,50 +1156,7 @@ version standard con dos  videos -->
     </video-gold-special> -->
 
     
- <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
-<!-- <div class="video-card-gold-container">
 
-      <video-card-gold
-      badge="25 de Julio"
-      titulo="Santiago el mayor"
-      video="./asantos/24.mp4"
-      style="width:auto; flex:0 0 auto;"
- 
-    ></video-card-gold>
-
-        <video-card-gold
-      badge="24 de Julio"
-      titulo="San Chárbel"
-      video="./asantos/24d.mp4"
-      style="width:auto; flex:0 0 auto;"
-   hide-mobile 
-    ></video-card-gold>
-
-          <video-card-gold
-      badge="24 de Julio"
-      titulo="San Chárbel"
-      video="./asantos/24c.mp4"
-      style="width:auto; flex:0 0 auto;"
-   hide-mobile 
-    ></video-card-gold>
-
-          <video-card-gold
-      badge="24 de Julio"
-      titulo="San Chárbel"
-      video="./asantos/24b.mp4"
-      style="width:auto; flex:0 0 auto;"
-   hide-mobile 
-    ></video-card-gold>
-
-  
-
-
-
-
-   
-
-
-  </div>      -->
 
 
 
