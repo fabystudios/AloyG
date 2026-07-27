@@ -1,15 +1,38 @@
 /**
- * <video-card-gold> — Web Component
- * Glassmorfismo moderno con bordes dorados y efectos premium.
- * Se centra solo y se adapta a cualquier pantalla sin parámetro de modo.
+ * <video-card-frame> — Web Component
+ * Tarjeta de video enmarcada con una imagen decorativa (marco tipo pergamino
+ * dorado por defecto) que se superpone al video. El marco es 100% reemplazable
+ * por prop, y el "hueco" donde se ve el video también es configurable por si
+ * el nuevo marco tiene proporciones distintas.
  *
  * ATRIBUTOS:
- *   titulo  — texto del título
- *   video   — URL del video (mp4 recomendado)
+ *   titulo        — texto del título
+ *   video         — URL del video (mp4 recomendado)
+ *   frame         — URL de la imagen del marco (default: "./frame.png")
+ *   badge         — texto del badge superior (default: "Premium")
+ *   poster        — imagen poster del video (opcional)
+ *   frame-ratio   — proporción ancho/alto de la imagen de marco, ej "695/1266"
+ *                   (default calculado para frame.png)
+ *   inset-top     — % desde arriba donde empieza el hueco del video (default 20.6)
+ *   inset-right   — % desde la derecha (default 16.7)
+ *   inset-bottom  — % desde abajo (default 22.75)
+ *   inset-left    — % desde la izquierda (default 16.55)
  *
- * USO (una sola línea, funciona en desktop y mobile):
- *   <script src="video-card-gold.js"></script>
- *   <video-card-gold titulo="Mi Película" video="./mi-video.mp4"></video-card-gold>
+ * USO:
+ *   <script src="video-card-frame.js"></script>
+ *   <video-card-frame
+ *     titulo="Mi Película"
+ *     video="./27.mp4"
+ *     frame="./frame.png"
+ *   ></video-card-frame>
+ *
+ *   Con un marco distinto (otras proporciones), ajustá los insets:
+ *   <video-card-frame
+ *     video="./clip.mp4"
+ *     frame="./otro-marco.png"
+ *     frame-ratio="800/1400"
+ *     inset-top="18" inset-right="14" inset-bottom="20" inset-left="14"
+ *   ></video-card-frame>
  */
 
 (() => {
@@ -20,13 +43,16 @@ _tpl.innerHTML = `
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  /* El host ocupa todo el ancho disponible */
   :host {
     display: block;
     width: 100%;
+    --frame-ratio: 695 / 1266;
+    --inset-top: 20.6%;
+    --inset-right: 16.7%;
+    --inset-bottom: 22.75%;
+    --inset-left: 16.55%;
   }
 
-  /* Ocultar en mobile si tiene atributo hide-mobile */
   @media (max-width: 767px) {
     :host([hide-mobile]) {
       display: none !important;
@@ -35,26 +61,14 @@ _tpl.innerHTML = `
 
   /* ─── Card shell ─────────────────────────────────────────────────── */
   .card {
-    /* Ancho: máximo 260px pero nunca más del 95% del viewport */
-    width: min(260px, 95vw);
-    /* Centrado automático sin importar el contenedor */
+    width: min(280px, 92vw);
     margin-left: auto;
     margin-right: auto;
-
     position: relative;
-    border-radius: 20px;
-    overflow: hidden;
-    background: rgba(15, 10, 30, 0.55);
-    backdrop-filter: blur(22px) saturate(1.4);
-    -webkit-backdrop-filter: blur(22px) saturate(1.4);
-    box-shadow:
-      0 0 0 1.5px rgba(197, 162, 39, 0.6),
-      0 0 0 3px rgba(197, 162, 39, 0.12),
-      0 8px 40px rgba(0, 0, 0, 0.55),
-      inset 0 1px 0 rgba(245, 208, 107, 0.25),
-      inset 0 -1px 0 rgba(197, 162, 39, 0.1);
+    aspect-ratio: var(--frame-ratio);
     animation: cardEntrance 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-    transition: box-shadow 0.35s ease, transform 0.35s ease;
+    filter: drop-shadow(0 10px 34px rgba(0, 0, 0, 0.45));
+    transition: transform 0.35s ease, filter 0.35s ease;
   }
 
   @keyframes cardEntrance {
@@ -63,51 +77,21 @@ _tpl.innerHTML = `
   }
 
   .card:hover {
-    box-shadow:
-      0 0 0 1.5px rgba(245, 208, 107, 0.9),
-      0 0 0 3px rgba(197, 162, 39, 0.25),
-      0 0 40px rgba(197, 162, 39, 0.2),
-      0 16px 60px rgba(0, 0, 0, 0.6),
-      inset 0 1px 0 rgba(245, 208, 107, 0.4),
-      inset 0 -1px 0 rgba(197, 162, 39, 0.15);
     transform: translateY(-4px);
+    filter: drop-shadow(0 16px 46px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 22px rgba(197, 162, 39, 0.25));
   }
 
-  /* Reflejo glass interno */
-  .card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 20px;
-    background: linear-gradient(135deg,
-      rgba(245, 208, 107, 0.12) 0%,
-      transparent 40%,
-      transparent 60%,
-      rgba(197, 162, 39, 0.06) 100%);
-    pointer-events: none;
-    z-index: 3;
-  }
-
-  /* ─── Esquinas doradas decorativas ───────────────────────────────── */
-  .gold-corner {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    pointer-events: none;
-    z-index: 4;
-  }
-  .gc-tl { top: 0; left: 0; }
-  .gc-tr { top: 0; right: 0; transform: scaleX(-1); }
-  .gc-bl { bottom: 0; left: 0; transform: scaleY(-1); }
-  .gc-br { bottom: 0; right: 0; transform: scale(-1, -1); }
-
-  /* ─── Video ──────────────────────────────────────────────────────── */
+  /* ─── Hueco del video, recortado según los insets del marco ─────── */
   .video-wrap {
-    position: relative;
-    width: 100%;
-    /* Ratio 9:16 nativo — no requiere altura fija */
-    aspect-ratio: 9 / 16;
+    position: absolute;
+    top: var(--inset-top);
+    right: var(--inset-right);
+    bottom: var(--inset-bottom);
+    left: var(--inset-left);
     overflow: hidden;
+    background: #0f0a1e;
+    border-radius: 4px;
+    z-index: 1;
   }
 
   video {
@@ -118,24 +102,39 @@ _tpl.innerHTML = `
     transition: transform 0.5s ease;
   }
 
-  .card:hover video { transform: scale(1.03); }
+  .card:hover video { transform: scale(1.04); }
 
   .overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to bottom,
-      rgba(0, 0, 0, 0) 40%,
-      rgba(8, 4, 20, 0.7) 75%,
-      rgba(8, 4, 20, 0.92) 100%
+      rgba(0, 0, 0, 0) 45%,
+      rgba(8, 4, 20, 0.55) 78%,
+      rgba(8, 4, 20, 0.82) 100%
     );
     z-index: 2;
+  }
+
+  /* ─── Marco (imagen), siempre encima, no bloquea clicks ─────────── */
+  .frame-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+    pointer-events: none;
+    z-index: 4;
+    user-select: none;
+    -webkit-user-drag: none;
   }
 
   /* ─── Botón Play / Pause ─────────────────────────────────────────── */
   .play-btn {
     position: absolute;
-    width: 56px; height: 56px;
+    width: 15%; height: auto;
+    aspect-ratio: 1;
+    max-width: 56px;
     border-radius: 50%;
     border: 2px solid rgba(245, 208, 107, 0.85);
     background: rgba(15, 10, 30, 0.55);
@@ -152,21 +151,18 @@ _tpl.innerHTML = `
                 right 0.4s cubic-bezier(0.22,1,0.36,1),
                 transform 0.4s cubic-bezier(0.22,1,0.36,1),
                 width 0.4s cubic-bezier(0.22,1,0.36,1),
-                height 0.4s cubic-bezier(0.22,1,0.36,1),
                 background 0.25s ease, border-color 0.25s, box-shadow 0.25s;
-    /* Estado inicial: centrado (play) */
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     box-shadow: 0 0 18px rgba(197, 162, 39, 0.3), inset 0 1px 0 rgba(255, 245, 192, 0.3);
     animation: pulsePlay 2.5s ease-in-out infinite;
   }
 
-  /* Cuando está en modo pausa: esquina inferior derecha, más pequeño */
   .play-btn.is-playing {
     top: auto; left: auto;
-    bottom: 1.15rem; right: 1.2rem;
+    bottom: 6%; right: 6%;
     transform: none;
-    width: 32px; height: 32px;
+    width: 9%;
     animation: none;
     box-shadow: 0 0 10px rgba(197, 162, 39, 0.25);
   }
@@ -194,25 +190,25 @@ _tpl.innerHTML = `
   .play-icon {
     width: 0; height: 0;
     border-style: solid;
-    border-width: 10px 0 10px 18px;
+    border-width: 8px 0 8px 14px;
     border-color: transparent transparent transparent rgba(245, 208, 107, 0.95);
-    margin-left: 4px;
+    margin-left: 3px;
     filter: drop-shadow(0 0 4px rgba(245, 208, 107, 0.7));
   }
 
   .pause-icon { display: flex; gap: 3px; }
   .pause-bar {
-    width: 3px; height: 12px;
+    width: 3px; height: 11px;
     background: rgba(245, 208, 107, 0.95);
     border-radius: 2px;
     filter: drop-shadow(0 0 3px rgba(245, 208, 107, 0.7));
   }
 
-  /* ─── Info (título, badge, meta) ─────────────────────────────────── */
+  /* ─── Info (título, badge, meta) dentro del hueco, pie del video ──── */
   .info {
     position: absolute;
     bottom: 0; left: 0; right: 0;
-    padding: 1.1rem 1.2rem;
+    padding: 0.85rem 0.9rem 0.75rem;
     z-index: 5;
   }
 
@@ -223,14 +219,14 @@ _tpl.innerHTML = `
     background: rgba(197, 162, 39, 0.18);
     border: 1px solid rgba(245, 208, 107, 0.45);
     border-radius: 20px;
-    padding: 3px 10px;
+    padding: 2px 8px;
     font-family: 'Raleway', sans-serif;
-    font-size: 10px;
+    font-size: 9px;
     font-weight: 500;
-    letter-spacing: 2px;
+    letter-spacing: 1.6px;
     text-transform: uppercase;
     color: rgba(245, 208, 107, 0.9);
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
   }
 
   .badge-dot {
@@ -247,17 +243,17 @@ _tpl.innerHTML = `
 
   .titulo {
     font-family: 'Cinzel', serif;
-    font-size: 1.05rem;
+    font-size: 0.92rem;
     font-weight: 600;
     color: #f5d06b;
-    letter-spacing: 0.04em;
-    line-height: 1.3;
+    letter-spacing: 0.03em;
+    line-height: 1.25;
     text-shadow: 0 0 20px rgba(197, 162, 39, 0.5), 0 1px 0 rgba(0, 0, 0, 0.8);
   }
 
   .gold-line {
     height: 1px;
-    margin: 0.55rem 0 0.5rem;
+    margin: 0.45rem 0 0.4rem;
     background: linear-gradient(to right, rgba(197, 162, 39, 0.9), rgba(245, 208, 107, 0.4), transparent);
   }
 
@@ -269,7 +265,7 @@ _tpl.innerHTML = `
 
   .meta-time {
     font-family: 'Raleway', sans-serif;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 300;
     color: rgba(197, 162, 39, 0.65);
     letter-spacing: 1px;
@@ -283,106 +279,71 @@ _tpl.innerHTML = `
     transition: background 0.3s;
   }
   .meta-dot.active { background: rgba(245, 208, 107, 0.9); }
-
-  /* ─── Shimmer sweep ──────────────────────────────────────────────── */
-  .shimmer-bar {
-    position: absolute;
-    top: 0; left: -100%;
-    width: 60%; height: 100%;
-    background: linear-gradient(105deg,
-      transparent 30%,
-      rgba(245, 208, 107, 0.07) 50%,
-      transparent 70%);
-    pointer-events: none;
-    z-index: 6;
-    animation: shimmerMove 5s ease-in-out infinite 1s;
-  }
-
-  @keyframes shimmerMove {
-    0%   { left: -60%; }
-    50%  { left: 120%; }
-    100% { left: 120%; }
-  }
 </style>
 
 <div class="card">
-  <div class="shimmer-bar"></div>
-
-  <!-- Esquinas decorativas -->
-  <svg class="gold-corner gc-tl" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <defs>
-      <linearGradient id="gc-grad" x1="0" y1="0" x2="20" y2="20" gradientUnits="userSpaceOnUse">
-        <stop offset="0%" stop-color="#f5d06b"/>
-        <stop offset="100%" stop-color="rgba(197,162,39,0.3)"/>
-      </linearGradient>
-    </defs>
-    <path d="M2 20 L2 4 Q2 2 4 2 L20 2" stroke="url(#gc-grad)" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <path d="M2 20 L2 4 Q2 2 4 2 L20 2" stroke="rgba(245,208,107,0.3)" stroke-width="4" fill="none" stroke-linecap="round"/>
-    <circle cx="2" cy="2" r="2" fill="rgba(245,208,107,0.7)"/>
-  </svg>
-  <svg class="gold-corner gc-tr" viewBox="0 0 40 40" fill="none">
-    <path d="M2 20 L2 4 Q2 2 4 2 L20 2" stroke="#f5d06b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <path d="M2 20 L2 4 Q2 2 4 2 L20 2" stroke="rgba(245,208,107,0.25)" stroke-width="4" fill="none" stroke-linecap="round"/>
-    <circle cx="2" cy="2" r="2" fill="rgba(245,208,107,0.6)"/>
-  </svg>
-  <svg class="gold-corner gc-bl" viewBox="0 0 40 40" fill="none">
-    <path d="M2 20 L2 4 Q2 2 4 2 L20 2" stroke="#f5d06b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <circle cx="2" cy="2" r="2" fill="rgba(245,208,107,0.6)"/>
-  </svg>
-  <svg class="gold-corner gc-br" viewBox="0 0 40 40" fill="none">
-    <path d="M2 20 L2 4 Q2 2 4 2 L20 2" stroke="#f5d06b" stroke-width="1.5" fill="none" stroke-linecap="round"/>
-    <circle cx="2" cy="2" r="2" fill="rgba(245,208,107,0.6)"/>
-  </svg>
-
-  <!-- Video -->
   <div class="video-wrap">
     <video id="vid" src="" playsinline></video>
     <div class="overlay"></div>
-    <button class="play-btn" id="playBtn" aria-label="Reproducir / Pausar">
-      <span class="play-icon" id="playIcon"></span>
-    </button>
-  </div>
-
-  <!-- Info -->
-  <div class="info">
-    <div class="badge"><span class="badge-dot"></span><span id="badgeEl">Premium</span></div>
-    <div class="titulo" id="titleEl">Título</div>
-    <div class="gold-line"></div>
-    <div class="meta">
-      <span class="meta-time" id="timeEl">0:00</span>
-      <div class="meta-dots">
-        <div class="meta-dot active"></div>
-        <div class="meta-dot"></div>
-        <div class="meta-dot"></div>
+    <div class="info">
+      <div class="badge"><span class="badge-dot"></span><span id="badgeEl">Premium</span></div>
+      <div class="titulo" id="titleEl">Título</div>
+      <div class="gold-line"></div>
+      <div class="meta">
+        <span class="meta-time" id="timeEl">0:00</span>
+        <div class="meta-dots">
+          <div class="meta-dot active"></div>
+          <div class="meta-dot"></div>
+          <div class="meta-dot"></div>
+        </div>
       </div>
     </div>
   </div>
+
+  <button class="play-btn" id="playBtn" aria-label="Reproducir / Pausar">
+    <span class="play-icon" id="playIcon"></span>
+  </button>
+
+  <img class="frame-img" id="frameImg" alt="" />
 </div>
 `;
 
-class VideoCardGold extends HTMLElement {
-  static get observedAttributes() { return ['titulo', 'video', 'badge', 'poster']; }
+class VideoCardFrame extends HTMLElement {
+  static get observedAttributes() {
+    return [
+      'titulo', 'video', 'badge', 'poster', 'frame',
+      'frame-ratio', 'inset-top', 'inset-right', 'inset-bottom', 'inset-left'
+    ];
+  }
 
   connectedCallback() {
     this._shadow = this.attachShadow({ mode: 'open' });
     this._shadow.appendChild(_tpl.content.cloneNode(true));
 
+    this._card    = this._shadow.querySelector('.card');
     this._vid     = this._shadow.getElementById('vid');
     this._btn     = this._shadow.getElementById('playBtn');
     this._icon    = this._shadow.getElementById('playIcon');
     this._titleEl = this._shadow.getElementById('titleEl');
     this._timeEl  = this._shadow.getElementById('timeEl');
     this._dots    = this._shadow.querySelectorAll('.meta-dot');
+    this._frameEl = this._shadow.getElementById('frameImg');
+    this._badgeEl = this._shadow.getElementById('badgeEl');
     this._playing = false;
 
     this._titleEl.textContent = this.getAttribute('titulo') || 'Sin título';
-    this._badgeEl = this._shadow.getElementById('badgeEl');
     this._badgeEl.textContent = this.getAttribute('badge') || 'Premium';
+
+    // Marco: por defecto ./frame.png, reemplazable por prop
+    this._frameEl.src = this.getAttribute('frame') || './frame.png';
 
     this._posterSrc = this.getAttribute('poster') || '';
     if (this._posterSrc) this._vid.poster = this._posterSrc;
 
-    // Lazy loading para video
+    // Proporciones e insets configurables (para marcos distintos)
+    this._applyGeometry();
+
+    // Lazy loading del video
     this._vid.removeAttribute('src');
     this._vid.setAttribute('data-src', this.getAttribute('video') || '');
     this._setupLazyVideo();
@@ -392,6 +353,20 @@ class VideoCardGold extends HTMLElement {
     this._vid.addEventListener('ended', () => this._onEnded());
 
     this._initDotAnim();
+  }
+
+  _applyGeometry() {
+    const ratio  = this.getAttribute('frame-ratio');
+    const top    = this.getAttribute('inset-top');
+    const right  = this.getAttribute('inset-right');
+    const bottom = this.getAttribute('inset-bottom');
+    const left   = this.getAttribute('inset-left');
+
+    if (ratio)  this._card.style.setProperty('--frame-ratio', ratio.replace(':', '/'));
+    if (top)    this._card.style.setProperty('--inset-top', `${top}%`);
+    if (right)  this._card.style.setProperty('--inset-right', `${right}%`);
+    if (bottom) this._card.style.setProperty('--inset-bottom', `${bottom}%`);
+    if (left)   this._card.style.setProperty('--inset-left', `${left}%`);
   }
 
   _setupLazyVideo() {
@@ -408,7 +383,6 @@ class VideoCardGold extends HTMLElement {
       }, { threshold: 0.2 });
       observer.observe(this._vid);
     } else {
-      // Fallback: cargar de inmediato
       this._vid.src = this._vid.dataset.src;
       this._vid.load();
     }
@@ -424,6 +398,10 @@ class VideoCardGold extends HTMLElement {
     }
     if (name === 'badge')  this._badgeEl.textContent = val || 'Premium';
     if (name === 'poster') { this._posterSrc = val || ''; this._vid.poster = this._posterSrc; }
+    if (name === 'frame')  this._frameEl.src = val || './frame.png';
+    if (['frame-ratio', 'inset-top', 'inset-right', 'inset-bottom', 'inset-left'].includes(name)) {
+      this._applyGeometry();
+    }
   }
 
   _toggle() {
@@ -434,10 +412,8 @@ class VideoCardGold extends HTMLElement {
       this._icon.className = 'play-icon';
       this._icon.innerHTML = '';
       this._btn.style.animation = '';
-      /* restaurar poster al pausar */
       if (this._posterSrc) this._vid.poster = this._posterSrc;
     } else {
-      /* limpiar poster para que se vean los frames del video */
       this._vid.poster = '';
       this._vid.play().catch(() => {});
       this._playing = true;
@@ -466,7 +442,6 @@ class VideoCardGold extends HTMLElement {
     this._icon.className = 'play-icon';
     this._icon.innerHTML = '';
     this._btn.style.animation = '';
-    /* restaurar poster al terminar */
     if (this._posterSrc) this._vid.poster = this._posterSrc;
   }
 
@@ -484,7 +459,7 @@ class VideoCardGold extends HTMLElement {
   }
 }
 
-if (!customElements.get('video-card-gold')) {
-  customElements.define('video-card-gold', VideoCardGold);
+if (!customElements.get('video-card-frame')) {
+  customElements.define('video-card-frame', VideoCardFrame);
 }
 })();
