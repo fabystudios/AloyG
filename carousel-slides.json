@@ -2,7 +2,7 @@
        
               {
     "id": "merienda",
-    "position": 2,
+    "position": 3,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
@@ -50,7 +50,7 @@
   },
                 {
     "id": "vacaciones",
-    "position": 1,
+    "position": 2,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -65,17 +65,17 @@
   },
             {
     "id": "afligidos",
-    "position": -1,
+    "position": 1,
     "hasVideo": false,
     "link": "#afligidos",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/afli_desk.jpg"
+      "src": "./slides/afli_desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/afli_mob.jpg"
+      "src": "./slides/afli_mob.png"
     }
   },
      {
@@ -123,7 +123,7 @@
 
                     {
     "id": "SCHOENSTATT",
-    "position": 3,
+    "position": 4,
     "hasVideo": false,
     "link": "#SCHOENSTATT",
     "time": { "desktop": 3, "mobile": 3 },
