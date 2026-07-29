@@ -160,6 +160,7 @@
         box-shadow: 0 28px 58px rgba(0,0,0,0.58), 0 0 44px var(--ac-card-glow, rgba(140,80,255,0.28)), inset 0 1px 0 rgba(255,255,255,0.15);
       }
       .ac-card img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.5s ease; user-select: none; pointer-events: none; }
+      .ac-card-landscape { aspect-ratio: 16/9 !important; }
       .ac-card:hover img, .ac-card:focus-visible img { transform: scale(1.07); }
       .ac-card-overlay {
         position: absolute; inset: 0; opacity: 0; transition: opacity 0.35s ease; display: flex; align-items: center; justify-content: center;
@@ -416,9 +417,9 @@
       const infoIcon = `<img src="${bp}info.png" alt="Información" class="ac-info-img" />`;
 
       const slidesHTML = slides.map((s, i) => `
-        <div class="ac-slide" data-i="${i}">
+        <div class="ac-slide" data-i="${i}" data-landscape="0">
           <div class="ac-card" role="button" tabindex="0" aria-label="Ver afiche${s.title ? ': ' + s.title : ''}">
-            <img src="${bp}${s.mob}" alt="${s.title || 'Anuncio'}" loading="lazy" />
+            <img src="${bp}${s.mob}" data-current-src="${s.mob}" alt="${s.title || 'Anuncio'}" loading="lazy" />
             <div class="ac-card-overlay">
               <div class="ac-zoom-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -543,12 +544,22 @@
     /* El ancho de TODO el widget (título incluido, no solo el viewport)
        es proporcional a la cantidad de slides visibles en desktop:
        3 → ancho total, 2 → 2/3 del ancho, 1 → 1/3 del ancho, centrado.
-       En mobile siempre ocupa el 100% (deja que la hoja de estilos
-       maneje márgenes y padding responsivos como siempre). */
+       Si hay algún slide landscape, en desktop el widget pasa a ocupar
+       el 95% del viewport (deja un margen a los costados) sin importar
+       el valor de "visible". En mobile siempre ocupa el 100% y el modo
+       landscape queda desactivado (se ve el vertical de siempre). */
     _applyCarouselWidth() {
       const wrap = this.querySelector('.ac-wrap');
       if (!wrap) return;
-      if (this._isMobile() || this._visibleDesktop >= 3) {
+      const hasLandscape = this._slides.some(s => s.landscape);
+
+      if (this._isMobile()) {
+        wrap.style.width = '';
+        wrap.style.margin = '';
+      } else if (hasLandscape) {
+        wrap.style.width = '95%';
+        wrap.style.margin = '1.5rem auto';
+      } else if (this._visibleDesktop >= 3) {
         wrap.style.width = '';
         wrap.style.margin = '';
       } else {
@@ -558,15 +569,43 @@
       }
     }
 
+    /* Decide, según el breakpoint actual, si cada slide se muestra en
+       su formato landscape (desk) o siempre vertical (mob). En mobile
+       jamás se activa el landscape, aunque el slide lo tenga marcado. */
+    _applyLandscapeMode() {
+      const mobile = this._isMobile();
+      this._slides.forEach((s, i) => {
+        const el = this.querySelector(`.ac-slide[data-i="${i}"]`);
+        if (!el) return;
+        const card = el.querySelector('.ac-card');
+        const img = el.querySelector('img');
+        const isLs = !!s.landscape && !mobile;
+
+        card.classList.toggle('ac-card-landscape', isLs);
+        el.dataset.landscape = isLs ? '1' : '0';
+
+        const desired = isLs ? (s.desk || s.mob) : s.mob;
+        if (img.dataset.currentSrc !== desired) {
+          img.src = this._basePath + desired;
+          img.dataset.currentSrc = desired;
+        }
+      });
+    }
+
     _updateTrack(animate = true) {
       this._applyCarouselWidth();
+      this._applyLandscapeMode();
       const track = this.querySelector('.ac-track');
       const vc = this._visibleCount();
       const sw = 100 / vc;
 
-      this.querySelectorAll('.ac-slide').forEach(s => { s.style.width = sw + '%'; });
+      const slideEls = Array.from(this.querySelectorAll('.ac-slide'));
+      const widths = slideEls.map(s => (s.dataset.landscape === '1' ? 100 : sw));
+      slideEls.forEach((s, i) => { s.style.width = widths[i] + '%'; });
+
       track.style.transition = animate ? 'transform 0.5s cubic-bezier(0.25,0.46,0.45,0.94)' : 'none';
-      track.style.transform = `translateX(-${this._current * sw}%)`;
+      const offset = widths.slice(0, this._current).reduce((a, b) => a + b, 0);
+      track.style.transform = `translateX(-${offset}%)`;
 
       this.querySelectorAll('.ac-dot').forEach((d, i) => d.classList.toggle('active', i === this._current));
 
