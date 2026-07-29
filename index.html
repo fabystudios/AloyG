@@ -939,7 +939,21 @@
     </div>
 </section> -->
 
+<script src="./components/anuncios-carousel.js"></script>
 
+<anuncios-carousel
+  titulo="Cadena de Oración"
+  subtitulo="Elevemos juntos esta intención"
+  icono="🙏"
+  base-path="./anuncios/"
+  visible="1"
+  visible-mobile="1"
+  tema="dorado"
+  efecto="luz"
+  slides='[
+    {"mob":"jazmin_mob.png","desk":"jazmin_desk.png","title":"Por la salud de Jazmín","landscape": true}
+  ]'>
+</anuncios-carousel>
 
 <div id="cartel"></div>
   <!-- ═══ Cartelera de Novedades ═══ -->
@@ -1000,8 +1014,38 @@
 
 
 
+<!-- 
+version standard con dos  videos -->
+
+<script src="./components/video-card-gold.js"></script>
+<script src="./components/showcase-card.js"></script>
+<showcase-card
+  id="padre"
+ 
+  bg="./img/sky.jpg"  
+  id="SanAntonio"
+  cover="./asantos/29a.png"
+  medallion="./asantos/29b.png"
+  medallion-modal="./asantos/29a.png"
+  medallion-full
+
+  video="./asantos/29.mp4"
+  titulo="Los grandes amigos de Jesús"
+  badge="29 de julio"
+
+  video2="./asantos/29bis.mp4"
+  titulo2="Santos Marta, María y Lázaro"
+  badge2="29 de julio"
+
+
+  
+  effects="ember,dust,stars"
+  intensity="1"
+></showcase-card>
+  
+
  <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
-<div class="video-card-gold-container">
+<!-- <div class="video-card-gold-container">
 
 
     <video-card-gold
@@ -1038,7 +1082,7 @@
     ></video-card-gold>
 
 
-  </div>      
+  </div>       -->
 
 
 
@@ -1106,27 +1150,7 @@ Así lo han informado personas que se encuentran peregrinando en el lugar a trav
 
 
 
-<!-- 
-<br><br><br>
 
-<noticia-card
-  id="noticia-principal"
-  fecha="23 Julio"
-  categoria="Iglesia y Santos"
-  titular="Avanza en Roma la causa del Padre Mario, recordado en Argentina por su entrega a pobres y enfermos"
-  autor-nombre="Julieta Villar"
-  autor-link="https://www.aciprensa.com/autor/56/julieta-villar"
-  autor-desc="Periodista, Lic. en comunicación, Corresponsal de ACI Prensa"
-  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
-  imagen="https://res.cloudinary.com/ewtn/image/upload/v1784826240/ewtn-news/es/P-Mario-Pantaleo-23072026_a7hixn.png?w=672&h=448"
-  imagen-alt="Padre Mario Pantaleo"
-texto="El Dicasterio para las Causas de los Santos del Vaticano confirmó la validez jurídica de la investigación diocesana sobre la vida y virtudes del P. Mario Pantaleo, un sacerdote de gran popularidad en Argentina, recordado por su entrega a los más necesitados.
-
-La noticia fue dada por el dicasterio al P. Daniel Medina, OAR, postulador de la causa de canonización del P. Mario, detallando que el pasado 25 de junio, durante un congreso ordinario celebrado en el Vaticano, se aprobó la validez jurídica de la investigación diocesana sobre la vida, las virtudes y la fama de santidad del sacerdote de la Diócesis de Gregorio de Laferrere.""
-  fuente-nombre="ACI Prensa"
-  fuente-url="https://www.aciprensa.com/noticias/127095/avanza-en-roma-causa-padre-mario-recordado-argentina"
-  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
-></noticia-card> -->
 
 
 <!-- icon="celebration" -->
@@ -1144,34 +1168,7 @@ La noticia fue dada por el dicasterio al P. Daniel Medina, OAR, postulador de la
 
 
 
-<!-- 
-version standard con dos  videos -->
 
-<!-- <script src="./components/video-card-gold.js"></script>
-<script src="./components/showcase-card.js"></script>
-<showcase-card
-  id="padre"
- 
-  bg="./img/sky.jpg"  
-  id="SanAntonio"
-  cover="./asantos/santi.png"
-  medallion="./asantos/santi.png"
-  medallion-modal="./asantos/santi-full.jpg"
-  medallion-full
-
-  video="./asantos/24.mp4"
-  titulo="Apostol Santiago"
-  badge="25 de julio"
-
-  video2="./asantos/25.mp4"
-  titulo2="Santiago el mayor'"
-  badge2="25 de julio"
-
-
-  
-  effects="ember,dust,stars"
-  intensity="1"
-></showcase-card> -->
 
 
 
