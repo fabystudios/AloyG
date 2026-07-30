@@ -988,7 +988,29 @@
 
 ></section-title>
 
+  <!-- El componente: todo el contenido se pasa por atributos -->
+  <misa-card
+    id="card"
+    logo-src="./img-cards/es.png"
+    medal-src="./img-cards/aloy.png"
+    theme="luz-calida"
+    parish-name="Parroquia San Luis Gonzaga · Villa Elisa"
+    title="MISA"
+    subtitle="Para orar por enfermos y afligidos"
+    verse-text="El Señor sostiene a los que caen y levanta a los que están agobiados"
+    verse-ref="Salmo 145,14"
+    day="02"
+    day-name="Domingo"
+    month="Ago"
+    year="2026"
+    hour="19hs"
+    hour-sub="En punto"
+    cta-text="✦ Estás invitado, Ven a sanar ✦"
+    footer-text="Parroquia San Luis Gonzaga — Villa Elisa, La Plata"
+    photo-src="/img-cards/misa.png"
+  ></misa-card>
 
+  <script src="./components/misa-card.js"></script>
 
  <!-- evangelio !!!!!!!!!!!!!!!!!!!!!!! -->
 <div class="video-card-gold-container">
@@ -1001,7 +1023,7 @@
     badge="Santo Evangelio"
     titulo="miércoles 29 de julio"
     style="width:auto; flex:0 0 auto;"
-
+    hide-mobile 
   ></video-card-frame>
 
   <video-card-frame
@@ -1056,8 +1078,15 @@ version standard con dos  videos -->
   
 
  <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
-<!-- <div class="video-card-gold-container">
+<div class="video-card-gold-container">
 
+      <video-card-gold
+      badge="30 de Julio"
+      titulo="Santa María de Jesús Sacramentado"
+      video="./asantos/30.mp4"
+      style="width:auto; flex:0 0 auto;"
+ 
+    ></video-card-gold>
 
     <video-card-gold
       badge="29 de Julio"
@@ -1082,15 +1111,6 @@ version standard con dos  videos -->
       style="width:auto; flex:0 0 auto;"
      hide-mobile 
     ></video-card-gold>
-
-
-      <video-card-gold
-      badge="27 de Julio"
-      titulo="Santa Natalia y San Aurelio de Córdoba"
-      video="./asantos/27.mp4"
-      style="width:auto; flex:0 0 auto;"
-    hide-mobile 
-    ></video-card-gold> -->
 
 
 
@@ -1163,29 +1183,7 @@ El encuentro, organizado por la Comisión Episcopal de la Comunicación Social d
 <br> <br> 
 
 
-  <!-- El componente: todo el contenido se pasa por atributos -->
-  <misa-card
-    id="card"
-    logo-src="./img-cards/es.png"
-    medal-src="./img-cards/aloy.png"
-    theme="luz-calida"
-    parish-name="Parroquia San Luis Gonzaga · Villa Elisa"
-    title="MISA"
-    subtitle="Para orar por enfermos y afligidos"
-    verse-text="El Señor sostiene a los que caen y levanta a los que están agobiados"
-    verse-ref="Salmo 145,14"
-    day="02"
-    day-name="Domingo"
-    month="Ago"
-    year="2026"
-    hour="19hs"
-    hour-sub="En punto"
-    cta-text="✦ Estás invitado, Ven a sanar ✦"
-    footer-text="Parroquia San Luis Gonzaga — Villa Elisa, La Plata"
-    photo-src="/img-cards/misa.png"
-  ></misa-card>
 
-  <script src="./components/misa-card.js"></script>
 
 <!-- https://images.unsplash.com/photo-1438032005730-c779502df39b?w=800&q=80" -->
 
