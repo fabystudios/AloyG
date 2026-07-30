@@ -41,7 +41,7 @@
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/jorge_desk.png"
+      "src": "./slides/jorge_desk2.png"
     },
     "mobile": {
       "type": "image",
