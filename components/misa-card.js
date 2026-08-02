@@ -31,14 +31,21 @@
  *   el.verseText = 'Otro versículo...';
  *   el.theme = 'esperanza';
  *
- * OCULTAMIENTO AUTOMÁTICO POR FECHA/HORA
+ * OCULTAMIENTO / LANZAMIENTO AUTOMÁTICO POR FECHA-HORA
  * ─────────────────────────────────────────────────────────────
- * <misa-card hide-after="2026-08-03T19:00:00" ...></misa-card>
+ * <misa-card
+ *   show-after="2026-07-28T00:00:00"
+ *   hide-after="2026-08-03T19:00:00"
+ *   ...
+ * ></misa-card>
  *
- * Si se pasa `hide-after`, la card deja de mostrarse (mobile y
- * desktop) apenas se cumple esa fecha/hora — sin necesidad de
- * recargar la página. Formato: "YYYY-MM-DDTHH:mm" (hora local).
- * Si no se pasa, la card se muestra siempre.
+ * `show-after` → la card permanece oculta hasta esa fecha/hora
+ *                (útil como "fecha de lanzamiento"), y aparece
+ *                sola en el momento justo, sin recargar la página.
+ * `hide-after` → la card deja de mostrarse apenas se cumple esa
+ *                fecha/hora.
+ * Se pueden usar juntos (ventana de vigencia), por separado, o
+ * ninguno (siempre visible). Formato: "YYYY-MM-DDTHH:mm" (hora local).
  *
  * TEMAS DISPONIBLES
  * ─────────────────────────────────────────────────────────────
@@ -104,7 +111,7 @@ function escapeHtml(str) {
 
 class MisaCard extends HTMLElement {
   static get observedAttributes() {
-    return [...Object.keys(ATTR_MAP), 'hide-after'];
+    return [...Object.keys(ATTR_MAP), 'hide-after', 'show-after'];
   }
 
   constructor() {
@@ -144,7 +151,7 @@ class MisaCard extends HTMLElement {
 
   attributeChangedCallback(name, oldVal, newVal) {
     if (oldVal === newVal) return;
-    if (name === 'hide-after') {
+    if (name === 'hide-after' || name === 'show-after') {
       const visible = this._checkVisibility();
       if (visible && !this._rendered) this._render();
       return;
@@ -157,40 +164,45 @@ class MisaCard extends HTMLElement {
   }
 
   /**
-   * Revisa el atributo hide-after. Si ya se cumplió, oculta el
-   * host y devuelve false. Si todavía no se cumplió, programa un
-   * timeout para ocultarse justo en ese momento (por si la
-   * página queda abierta) y devuelve true.
+   * Revisa show-after / hide-after. Oculta el host si todavía no
+   * llegó la fecha de lanzamiento o si ya pasó la de vencimiento,
+   * y programa un único timeout para volver a chequear justo en
+   * el próximo momento relevante (sin necesidad de recargar).
    */
   _checkVisibility() {
     if (this._hideTimeout) {
       clearTimeout(this._hideTimeout);
       this._hideTimeout = null;
     }
-    const hideAfter = this.getAttribute('hide-after');
-    if (!hideAfter) {
-      this.style.display = '';
-      return true;
+
+    const now = Date.now();
+    const showAttr = this.getAttribute('show-after');
+    const hideAttr = this.getAttribute('hide-after');
+    const showDate = showAttr ? new Date(showAttr) : null;
+    const hideDate = hideAttr ? new Date(hideAttr) : null;
+    const showValid = showDate && !isNaN(showDate.getTime());
+    const hideValid = hideDate && !isNaN(hideDate.getTime());
+
+    let visible = true;
+    let nextCheckMs = null;
+
+    if (showValid && now < showDate.getTime()) {
+      visible = false;
+      nextCheckMs = showDate.getTime() - now;
+    } else if (hideValid && now >= hideDate.getTime()) {
+      visible = false;
+    } else if (hideValid) {
+      nextCheckMs = hideDate.getTime() - now;
     }
-    const target = new Date(hideAfter);
-    if (isNaN(target.getTime())) {
-      // Valor inválido: se ignora y se muestra igual.
-      this.style.display = '';
-      return true;
+
+    this.style.display = visible ? '' : 'none';
+
+    if (nextCheckMs !== null) {
+      const MAX_DELAY = 2147483647; // límite de setTimeout (~24.8 días)
+      this._hideTimeout = setTimeout(() => this._checkVisibility(), Math.min(nextCheckMs, MAX_DELAY));
     }
-    const msUntil = target.getTime() - Date.now();
-    if (msUntil <= 0) {
-      this.style.display = 'none';
-      return false;
-    }
-    this.style.display = '';
-    // setTimeout tiene un máximo (~24.8 días); si falta más que
-    // eso, se revisa más adelante en vez de programar un timeout gigante.
-    const MAX_DELAY = 2147483647;
-    this._hideTimeout = setTimeout(() => {
-      this._checkVisibility();
-    }, Math.min(msUntil, MAX_DELAY));
-    return true;
+
+    return visible;
   }
 
   _val(prop) {
