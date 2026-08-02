@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>misa-card · demo</title>
+<style>
+  body {
+    margin: 0;
+    background: #05060f;
+    font-family: system-ui, sans-serif;
+  }
+  .selector-bar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0.8rem;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(10px);
+  }
+  .selector-bar button {
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255,255,255,0.25);
+    background: rgba(255,255,255,0.06);
+    color: #fff;
+    font-size: 0.8rem;
+    cursor: pointer;
+  }
+  .selector-bar button.active {
+    background: rgba(255,210,80,0.25);
+    border-color: rgba(255,210,80,0.6);
+  }
+</style>
+</head>
+<body>
+
+  <div class="selector-bar" id="themeBar">
+    <button data-theme="dorado" class="active">Dorado</button>
+    <button data-theme="esperanza">Esperanza</button>
+    <button data-theme="pasion">Pasión</button>
+    <button data-theme="adviento">Adviento</button>
+    <button data-theme="pureza">Pureza</button>
+    <button data-theme="luz-calida">Luz Cálida</button>
+  </div>
+
+  <!-- El componente: todo el contenido se pasa por atributos -->
+  <!-- Para que se oculte sola después de cierta fecha/hora, agregá: hide-after="2026-08-03T19:00:00" -->
+  <misa-card
+    id="card"
+    theme="dorado"
+    parish-name="Parroquia San Luis Gonzaga · Villa Elisa"
+    title="MISA"
+    subtitle="Para orar por enfermos y afligidos"
+    verse-text="El Señor sostiene a los que caen y levanta a los que están agobiados"
+    verse-ref="Salmo 145,14"
+    day="02"
+    day-name="Domingo"
+    month="Ago"
+    year="2026"
+    hour="19hs"
+    hour-sub="En punto"
+    cta-text="✦ Estás invitado · Ven a sanar ✦"
+    footer-text="Parroquia San Luis Gonzaga — Villa Elisa, La Plata"
+    photo-src="https://images.unsplash.com/photo-1438032005730-c779502df39b?w=800&q=80"
+  ></misa-card>
+
+  <script src="./misa-card.js"></script>
+  <script>
+    const card = document.getElementById('card');
+    document.getElementById('themeBar').addEventListener('click', (e) => {
+      const btn = e.target.closest('button[data-theme]');
+      if (!btn) return;
+      card.setAttribute('theme', btn.dataset.theme);
+      document.querySelectorAll('.selector-bar button').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  </script>
+</body>
+</html>

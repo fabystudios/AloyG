@@ -31,6 +31,15 @@
  *   el.verseText = 'Otro versículo...';
  *   el.theme = 'esperanza';
  *
+ * OCULTAMIENTO AUTOMÁTICO POR FECHA/HORA
+ * ─────────────────────────────────────────────────────────────
+ * <misa-card hide-after="2026-08-03T19:00:00" ...></misa-card>
+ *
+ * Si se pasa `hide-after`, la card deja de mostrarse (mobile y
+ * desktop) apenas se cumple esa fecha/hora — sin necesidad de
+ * recargar la página. Formato: "YYYY-MM-DDTHH:mm" (hora local).
+ * Si no se pasa, la card se muestra siempre.
+ *
  * TEMAS DISPONIBLES
  * ─────────────────────────────────────────────────────────────
  *   dorado      → azul marino + dorado (original / Virgen-Santísimo), fondo oscuro
@@ -95,7 +104,7 @@ function escapeHtml(str) {
 
 class MisaCard extends HTMLElement {
   static get observedAttributes() {
-    return Object.keys(ATTR_MAP);
+    return [...Object.keys(ATTR_MAP), 'hide-after'];
   }
 
   constructor() {
@@ -128,16 +137,60 @@ class MisaCard extends HTMLElement {
     if (!this.hasAttribute('theme') || !THEMES.has(this.getAttribute('theme'))) {
       this.setAttribute('theme', DEFAULTS.theme);
     }
-    this._render();
+    if (this._checkVisibility()) {
+      this._render();
+    }
   }
 
   attributeChangedCallback(name, oldVal, newVal) {
     if (oldVal === newVal) return;
+    if (name === 'hide-after') {
+      const visible = this._checkVisibility();
+      if (visible && !this._rendered) this._render();
+      return;
+    }
     if (name === 'theme' && !THEMES.has(newVal)) {
       this.setAttribute('theme', DEFAULTS.theme);
       return;
     }
     if (this._rendered) this._render();
+  }
+
+  /**
+   * Revisa el atributo hide-after. Si ya se cumplió, oculta el
+   * host y devuelve false. Si todavía no se cumplió, programa un
+   * timeout para ocultarse justo en ese momento (por si la
+   * página queda abierta) y devuelve true.
+   */
+  _checkVisibility() {
+    if (this._hideTimeout) {
+      clearTimeout(this._hideTimeout);
+      this._hideTimeout = null;
+    }
+    const hideAfter = this.getAttribute('hide-after');
+    if (!hideAfter) {
+      this.style.display = '';
+      return true;
+    }
+    const target = new Date(hideAfter);
+    if (isNaN(target.getTime())) {
+      // Valor inválido: se ignora y se muestra igual.
+      this.style.display = '';
+      return true;
+    }
+    const msUntil = target.getTime() - Date.now();
+    if (msUntil <= 0) {
+      this.style.display = 'none';
+      return false;
+    }
+    this.style.display = '';
+    // setTimeout tiene un máximo (~24.8 días); si falta más que
+    // eso, se revisa más adelante en vez de programar un timeout gigante.
+    const MAX_DELAY = 2147483647;
+    this._hideTimeout = setTimeout(() => {
+      this._checkVisibility();
+    }, Math.min(msUntil, MAX_DELAY));
+    return true;
   }
 
   _val(prop) {
@@ -287,6 +340,7 @@ class MisaCard extends HTMLElement {
 
   disconnectedCallback() {
     if (this._tiltCleanup) this._tiltCleanup();
+    if (this._hideTimeout) clearTimeout(this._hideTimeout);
   }
 
   _spawnStarsAndParticles() {
