@@ -1,7 +1,7 @@
 [
           {
     "id": "coro",
-    "position": 5,
+    "position": 4,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -17,7 +17,7 @@
        
               {
     "id": "merienda",
-    "position": 4,
+    "position": 3,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
@@ -50,7 +50,7 @@
   },
               {
     "id": "marcelo",
-    "position": 1,
+    "position": -1,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -80,7 +80,7 @@
   },
             {
     "id": "afligidos",
-    "position": 2,
+    "position": 1,
     "hasVideo": false,
     "link": "#afligidos",
     "time": { "desktop": 3, "mobile": 3 },
@@ -138,7 +138,7 @@
 
                     {
     "id": "SCHOENSTATT",
-    "position": 3,
+    "position": 2,
     "hasVideo": false,
     "link": "#SCHOENSTATT",
     "time": { "desktop": 3, "mobile": 3 },
