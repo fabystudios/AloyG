@@ -1,4 +1,4 @@
-/**
+ /**
  * <panel-photo-gallery>  — v8 (soporta gif animado, mp4/webm y atributo `sources`)
  * Shadow DOM · totalmente aislado del CSS de la plataforma.
  *
@@ -729,3 +729,4 @@ class PanelPhotoGallery extends HTMLElement {
 }
  
 customElements.define('panel-photo-gallery', PanelPhotoGallery);
+ 
