@@ -403,7 +403,7 @@ class PanelPhotoGallery extends HTMLElement {
       max-width:96vw;
     }
     .lb-frame{padding:10px 10px 42px;}
-    .lb-frame img,.lb-frame video{max-width:90vw;max-height:52vh;}
+    .lb-frame img,.lb-frame video{max-width:90vw;max-height:calc(100dvh - 180px);}
     .lb-close{top:-12px;right:-12px;width:32px;height:32px;font-size:.85rem;}
     .lb-btn{width:40px;height:40px;font-size:1.2rem;}
     .lb-counter{font-size:.7rem;}
