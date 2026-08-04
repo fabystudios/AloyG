@@ -11,6 +11,17 @@
  *                        Acepta varios separados por coma:
  *                        particle-src="./gota.png, ./hostia.png, ./pan.png"
  *  lightbox-particle-src PNG(s) que suben en lightbox (default: '' → estrellas animadas)
+ *  particle-motion        tipo de movimiento/rotación de TODOS los flotantes PNG
+ *                        (los del canvas que cae en la card Y los que suben en el lightbox)
+ *                        spin  (default) → giro libre 360°, puede quedar "de cabeza"
+ *                                          (sirve para pétalos, hojas, estrellas, etc.)
+ *                        sway  → se balancea/tambalea suave dentro de un rango acotado,
+ *                                NUNCA se invierte ni queda boca abajo
+ *                                (ideal para imágenes con arriba/abajo definido:
+ *                                una Virgen, una capilla, una cruz, una paloma, etc.)
+ *                        drift → sin rotación alguna, solo flota/se traslada derecho
+ *                                (ideal para logos, textos o íconos muy simétricos)
+ *                        particle-motion="sway"
  *  width                 ancho desktop                (default: '80%')
  *  total                 total de fotos               (default: 9)
  *  page-size             fotos por página desktop     (default: 9)
@@ -84,6 +95,7 @@ class PanelPhotoGallery extends HTMLElement {
     const mascotSrc     = this.getAttribute('mascot-src')            || './actividades/photo.png';
     const particleRaw   = this.getAttribute('particle-src')          || '';
     const lbParticleRaw = this.getAttribute('lightbox-particle-src') || '';
+    const particleMotion = (this.getAttribute('particle-motion') || 'spin').toLowerCase();
     const widthVal      = this.getAttribute('width')                 || '80%';
     const total         = parseInt(this.getAttribute('total')     ||'9', 10);
     const pageSize      = parseInt(this.getAttribute('page-size') ||'9', 10);
@@ -469,6 +481,13 @@ class PanelPhotoGallery extends HTMLElement {
     let particles=[], rafId=null;
     const DPR = window.devicePixelRatio||1;
  
+    // Estado de rotación inicial según particle-motion (spin / sway / drift)
+    function rotStateCard(){
+      if(particleMotion==='drift') return {rot:0,rotV:0,rotT:0,rotS:0,rotMax:0};
+      if(particleMotion==='sway')  return {rot:0,rotV:0,rotT:Math.random()*Math.PI*2,rotS:.014+Math.random()*.018,rotMax:.26+Math.random()*.18};
+      return {rot:Math.random()*Math.PI*2,rotV:-.009+Math.random()*.018,rotT:0,rotS:0,rotMax:0}; // spin (default)
+    }
+ 
     function resizeCanvas(){
       const w=card.offsetWidth,h=card.offsetHeight;
       canvas.width=Math.round(w*DPR); canvas.height=Math.round(h*DPR);
@@ -479,7 +498,7 @@ class PanelPhotoGallery extends HTMLElement {
     function makeP(){
       const w=card.offsetWidth;
       const imgIdx=pImgs.length?Math.floor(Math.random()*pImgs.length):-1;
-      return{x:Math.random()*w,y:-70-Math.random()*280,size:50+Math.random()*54,speedY:.38+Math.random()*.70,speedX:-.5+Math.random()*1.0,rot:Math.random()*Math.PI*2,rotV:-.009+Math.random()*.018,sway:.5+Math.random()*.9,swayS:.006+Math.random()*.010,swayT:Math.random()*Math.PI*2,alpha:.60+Math.random()*.38,imgIdx};
+      return{x:Math.random()*w,y:-70-Math.random()*280,size:50+Math.random()*54,speedY:.38+Math.random()*.70,speedX:-.5+Math.random()*1.0,...rotStateCard(),sway:.5+Math.random()*.9,swayS:.006+Math.random()*.010,swayT:Math.random()*Math.PI*2,alpha:.60+Math.random()*.38,imgIdx};
     }
     function drawStar6(cx,cy,size,alpha,color){
       ctx.save();ctx.globalAlpha=alpha;ctx.fillStyle=color;ctx.beginPath();
@@ -492,7 +511,9 @@ class PanelPhotoGallery extends HTMLElement {
       const lw=card.offsetWidth,lh=card.offsetHeight;
       ctx.clearRect(0,0,lw,lh);
       particles.forEach(p=>{
-        p.swayT+=p.swayS;p.x+=p.speedX+Math.sin(p.swayT)*p.sway;p.y+=p.speedY;p.rot+=p.rotV;
+        p.swayT+=p.swayS;p.x+=p.speedX+Math.sin(p.swayT)*p.sway;p.y+=p.speedY;
+        if(particleMotion==='sway'){p.rotT+=p.rotS;p.rot=Math.sin(p.rotT)*p.rotMax;}
+        else if(particleMotion!=='drift'){p.rot+=p.rotV;}
         if(p.y>lh+60)Object.assign(p,makeP());
         ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);
         const img=p.imgIdx>=0?pImgs[p.imgIdx]:null;
@@ -568,6 +589,12 @@ class PanelPhotoGallery extends HTMLElement {
       rgb(c1,1), rgb(c2,1),
       '#ffffff','#ffe066','#ff6fff','#66ffee','#ff8844','#88ffaa',
     ];
+
+    function rotStateLB(){
+      if(particleMotion==='drift') return {rot:0,rotV:0,rotT:0,rotS:0,rotMax:0};
+      if(particleMotion==='sway')  return {rot:0,rotV:0,rotT:Math.random()*Math.PI*2,rotS:.022+Math.random()*.028,rotMax:.30+Math.random()*.22};
+      return {rot:Math.random()*Math.PI*2,rotV:(.020+Math.random()*.040)*(Math.random()<.5?1:-1),rotT:0,rotS:0,rotMax:0}; // spin (default)
+    }
  
     function makeLBP(){
       const W=lb.clientWidth||window.innerWidth;
@@ -578,8 +605,7 @@ class PanelPhotoGallery extends HTMLElement {
         size:22+Math.random()*32,
         speedY:-(1.1+Math.random()*1.8),
         speedX:-0.8+Math.random()*1.6,
-        rot:Math.random()*Math.PI*2,
-        rotV:(.020+Math.random()*.040)*(Math.random()<.5?1:-1),
+        ...rotStateLB(),
         sway:.5+Math.random()*1.0, swayS:.009+Math.random()*.014,
         swayT:Math.random()*Math.PI*2,
         alpha:0, life:0, maxLife:120+Math.random()*80,
@@ -625,7 +651,8 @@ class PanelPhotoGallery extends HTMLElement {
         p.swayT+=p.swayS;
         p.x+=p.speedX+Math.sin(p.swayT)*p.sway;
         p.y+=p.speedY;
-        p.rot+=p.rotV;
+        if(particleMotion==='sway'){p.rotT+=p.rotS;p.rot=Math.sin(p.rotT)*p.rotMax;}
+        else if(particleMotion!=='drift'){p.rot+=p.rotV;}
         // Fade in rápido, plateau, fade out
         const t=p.life/p.maxLife;
         p.alpha=t<.12?t/.12:t>.70?(1-t)/.30:1.0;
