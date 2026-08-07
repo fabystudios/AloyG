@@ -1,7 +1,7 @@
 [
             {
     "id": "niños",
-    "position": 1,
+    "position": 2,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -65,7 +65,7 @@
   },
               {
     "id": "auxiliar",
-    "position": 2,
+    "position": 1,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
