@@ -125,23 +125,23 @@
   },
     {
     "id": "feria",
-    "position": -1,
+    "position": 4,
     "hasVideo": false,
     "link": "#feria",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./feria/feria-jul_desk.png"
+      "src": "./feria/slide_desk.png"
  
     },
     "mobile": {
       "type": "image",
-      "src": "./feria/feria-jul_mob.png"
+      "src": "./feria/slide_mob.png"
  
     },
     
     "overlay": {
-      "src": "./img/hoy2.png",
+      "src": "",
       "desktopPos": "center",
       "mobilePos": "bottom-quarter",
       "effect": "blink",
