@@ -1109,6 +1109,16 @@
     </video-gold-special> -->
 
 
+<script src="./components/mascota-flotante.js"></script>
+<mascota-flotante
+  target="noticia-principal"
+  src="./news/gio.png"
+  href="./noticias.html"
+  offset-bottom="-150"
+></mascota-flotante>
+
+
+
 <noticia-card
   id="noticia-principal"
   fecha="7 Agosto"
@@ -1129,11 +1139,13 @@ La medida se produce en un contexto de creciente debate político en Francia sob
 ></noticia-card>
 
 
+<div class="d-none d-md-block" style="text-align: justify;">
 
 
 <br><br><br>
 
 <noticia-card
+ 
   id="noticia-principal"
   fecha="5 Agosto"
   categoria="Viajes"
@@ -1160,6 +1172,7 @@ Tal y como informó la Oficina de Prensa del Vaticano, el Pontífice aceptó la 
 
 
 <noticia-card
+ 
   id="noticia-principal"
   fecha="5 Agosto"
   categoria="misión evangelizadora"
@@ -1181,6 +1194,7 @@ Gliot forma parte de las Hijas de San Pablo, una congregación religiosa cuya mi
 
 <script src="./components/panel-photo-gallery.js"></script>
 <panel-photo-gallery
+  hide-mobile
   style="display: none;"
   base-path="./actividades/mons/"
   mascot-src="./actividades/mons/logo-fatima.png"
@@ -1199,6 +1213,8 @@ Gliot forma parte de las Hijas de San Pablo, una congregación religiosa cuya mi
       orientacion-mobile='["portrait","portrait","portrait","portrait","portrait","portrait","","portrait","portrait"]' 
   width="100%"></panel-photo-gallery>
 
+
+</div>
 
   <!-- orientacion-mobile='["portrait","","","","",""]' -->
 
@@ -1327,13 +1343,7 @@ El encuentro, organizado por la Comisión Episcopal de la Comunicación Social d
 ></noticia-card> -->
 
 
-<script src="./components/mascota-flotante.js"></script>
-<mascota-flotante
-  target="noticia-principal"
-  src="./news/gio.png"
-  href="./noticias.html"
-  offset-bottom="-150"
-></mascota-flotante>
+
 
 <!-- 
 <br> <br>  -->
