@@ -7,11 +7,11 @@
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/ninos_desk.png"
+      "src": "./slides/ninos3_desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/ninos_mob.png"
+      "src": "./slides/ninos2_mob.png"
     }
   },
           {
