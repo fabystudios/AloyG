@@ -45,9 +45,53 @@
   autor-nombre="Julieta Villar"
   autor-desc="Periodista, licenciada en comunicación por la Universidad Nacional de La Matanza en Argentina"
   autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
+  autor-link="https://www.aciprensa.com/autor/julieta-villar"
   imagen="https://res.cloudinary.com/ewtn/image/upload/v1784826240/ewtn-news/es/P-Mario-Pantaleo-23072026_a7hixn.png?w=672&h=448"
   imagen-alt="Padre Mario Pantaleo"
   texto="El Dicasterio para las Causas de los Santos del Vaticano confirmó la validez jurídica de la investigación diocesana sobre la vida y virtudes del P. Mario Pantaleo, un sacerdote de gran popularidad en Argentina, recordado por su entrega a los más necesitados. La noticia fue dada por el dicasterio al P. Daniel Medina, OAR, postulador de la causa de canonización del P. Mario, detallando que el pasado 25 de junio, durante un congreso ordinario celebrado en el Vaticano, se aprobó la validez jurídica de la investigación diocesana sobre la vida, las virtudes y la fama de santidad del sacerdote de la Diócesis de Gregorio de Laferrere."
+  texto-mobile="El Dicasterio para las Causas de los Santos del Vaticano confirmó la validez jurídica de la investigación sobre la vida y virtudes del P. Mario Pantaleo, sacerdote muy recordado en Argentina."
+  fuente-nombre="ACI Prensa"
+  fuente-url="https://www.aciprensa.com/noticias/127095/avanza-en-roma-causa-padre-mario-recordado-argentina"
+  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
+></noticia-card>
+
+<p class="demo-label">
+  Esta segunda card usa el atributo <code>ancho="60vw"</code> para probar el parámetro de ancho en desktop
+  (la de arriba usa el default: 80vw).
+</p>
+
+<noticia-card
+  ancho="60vw"
+  fecha="23 de Julio"
+  categoria="Iglesia y Santos"
+  titular="Avanza en Roma la causa del Padre Mario, recordado en Argentina por su entrega a pobres y enfermos"
+  autor-nombre="Julieta Villar"
+  autor-desc="Periodista, licenciada en comunicación por la Universidad Nacional de La Matanza en Argentina"
+  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
+  imagen="https://res.cloudinary.com/ewtn/image/upload/v1784826240/ewtn-news/es/P-Mario-Pantaleo-23072026_a7hixn.png?w=672&h=448"
+  imagen-alt="Padre Mario Pantaleo"
+  texto="El Dicasterio para las Causas de los Santos del Vaticano confirmó la validez jurídica de la investigación diocesana sobre la vida y virtudes del P. Mario Pantaleo, un sacerdote de gran popularidad en Argentina, recordado por su entrega a los más necesitados."
+  fuente-nombre="ACI Prensa"
+  fuente-url="https://www.aciprensa.com/noticias/127095/avanza-en-roma-causa-padre-mario-recordado-argentina"
+  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
+></noticia-card>
+
+<p class="demo-label">
+  Tercera card: misma noticia pero con una <strong>foto vertical/alargada</strong> de prueba, para ver la
+  detección automática en acción (fondo desenfocado + foto completa, sin recortar cabezas).
+  Podés forzar el comportamiento viejo con <code>imagen-ajuste="cover"</code>.
+</p>
+
+<noticia-card
+  fecha="23 de Julio"
+  categoria="Iglesia y Santos"
+  titular="Avanza en Roma la causa del Padre Mario, recordado en Argentina por su entrega a pobres y enfermos"
+  autor-nombre="Julieta Villar"
+  autor-desc="Periodista, licenciada en comunicación por la Universidad Nacional de La Matanza en Argentina"
+  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
+  imagen="https://picsum.photos/id/1005/500/900"
+  imagen-alt="Foto vertical de prueba"
+  texto="El Dicasterio para las Causas de los Santos del Vaticano confirmó la validez jurídica de la investigación diocesana sobre la vida y virtudes del P. Mario Pantaleo, un sacerdote de gran popularidad en Argentina, recordado por su entrega a los más necesitados."
   fuente-nombre="ACI Prensa"
   fuente-url="https://www.aciprensa.com/noticias/127095/avanza-en-roma-causa-padre-mario-recordado-argentina"
   fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
@@ -64,10 +108,26 @@ class NoticiaCard extends HTMLElement {
     this._expanded = false;
   }
 
+  static get observedAttributes() { return ['ancho']; }
+
   connectedCallback() {
     this._ensureFonts();
     this._render();
     this._setupClamp();
+    this._setupMedia();
+    this._setupTextoMobile();
+    this._applyAncho();
+  }
+
+  attributeChangedCallback(name) {
+    if (name === 'ancho') this._applyAncho();
+  }
+
+  // Ancho en desktop, configurable por atributo (ej: ancho="60vw" o ancho="900px").
+  // Default: 80vw. En mobile siempre es 95vw (ver CSS, no configurable).
+  _applyAncho() {
+    const ancho = this.getAttribute('ancho');
+    this.style.setProperty('--nc-ancho', ancho || '80vw');
   }
 
   // Carga Playfair Display + Inter una sola vez por documento, aunque haya
@@ -92,9 +152,15 @@ class NoticiaCard extends HTMLElement {
     const autorNombre   = this._attr('autor-nombre');
     const autorDesc     = this._attr('autor-desc');
     const autorImg      = this._attr('autor-img');
+    const autorLink     = this._attr('autor-link', '');
     const imagen        = this._attr('imagen');
     const imagenAlt     = this._attr('imagen-alt', titular);
     const texto         = this._attr('texto');
+    const textoMobile   = this._attr('texto-mobile', '');
+    const esMobileAhora = window.matchMedia('(max-width: 560px)').matches;
+    const textoElegido  = (esMobileAhora && textoMobile) ? textoMobile : texto;
+    this._texto = texto;
+    this._textoMobile = textoMobile;
     const fuenteNombre  = this._attr('fuente-nombre', 'Leer más');
     const fuenteUrl     = this._attr('fuente-url', '#');
     const fuenteLogo    = this._attr('fuente-logo', '');
@@ -102,9 +168,10 @@ class NoticiaCard extends HTMLElement {
     this.shadowRoot.innerHTML = `
       <style>${this._css()}</style>
 
-      <article class="card" part="card">
+      <article class="card" lang="es" part="card">
         <figure class="media">
-          <img src="${imagen}" alt="${imagenAlt}" loading="lazy">
+          <div class="media__bg" aria-hidden="true" style="background-image:url('${imagen.replace(/'/g, "\\'")}')"></div>
+          <img class="media__img" src="${imagen}" alt="${imagenAlt}" loading="lazy">
           <span class="seal" aria-hidden="true">
             <span class="seal__day">${(fecha || '').split(' ')[0]}</span>
             <span class="seal__month">${(fecha || '').split(' ').slice(1).join(' ')}</span>
@@ -117,15 +184,21 @@ class NoticiaCard extends HTMLElement {
           <h2 class="headline">${titular}</h2>
 
           <div class="author">
-            ${autorImg ? `<img class="author__img" src="${autorImg}" alt="${autorNombre}">` : ''}
+            ${autorImg ? (
+              autorLink
+                ? `<a class="author__img-link" href="${autorLink}" target="_blank" rel="noopener" aria-label="${autorNombre}"><img class="author__img" src="${autorImg}" alt="${autorNombre}"></a>`
+                : `<img class="author__img" src="${autorImg}" alt="${autorNombre}">`
+            ) : ''}
             <div class="author__info">
-              <span class="author__name">${autorNombre}</span>
+              ${autorLink
+                ? `<a class="author__name author__name--link" href="${autorLink}" target="_blank" rel="noopener">${autorNombre}</a>`
+                : `<span class="author__name">${autorNombre}</span>`}
               ${autorDesc ? `<span class="author__desc">${autorDesc}</span>` : ''}
             </div>
           </div>
 
           <div class="body-wrap">
-            <p class="body-text">${texto}</p>
+            <p class="body-text">${textoElegido}</p>
             <div class="fade" aria-hidden="true"></div>
           </div>
 
@@ -146,32 +219,137 @@ class NoticiaCard extends HTMLElement {
   }
 
   _toggleExpand() {
-    this._expanded = !this._expanded;
-    const card = this.shadowRoot.querySelector('.card');
-    const btn  = this.shadowRoot.querySelector('.toggle');
-    card.classList.toggle('is-expanded', this._expanded);
-    btn.textContent = this._expanded ? 'Ver menos' : 'Ver más';
+    // "Ver más" deshabilitado por completo (mobile y desktop): el texto se
+    // corta con el degradé de la última línea, sin expandir. Fue fuente de
+    // bugs de interacción difíciles de reproducir/depurar a distancia, y
+    // según el largo del texto fallaba también en desktop.
+    return;
   }
 
-  // Muestra el botón "Ver más" solo si el texto realmente se corta.
+  // Calcula cuántas líneas entran REALMENTE en el espacio disponible del
+  // recuadro de texto (no un número fijo de líneas), para que nunca queden
+  // puntos suspensivos con lugar en blanco debajo, ni al revés.
+  //
+  // En DESKTOP: si el texto completo no entra, aparece "Ver más" (expande).
+  // En MOBILE: el botón "Ver más" está deshabilitado a propósito (fue fuente
+  // de un bug de interacción difícil de reproducir/depurar a distancia). En
+  // mobile el texto se corta con el degradé de la última línea y listo — sin
+  // botón, sin expandir, sin nada que se pueda quedar "trabado". Si hace
+  // falta mostrar más texto en mobile, se maneja con el atributo
+  // `texto-mobile` (un texto más corto pensado para que entre solo).
   _setupClamp() {
-    const check = () => {
-      const p = this.shadowRoot.querySelector('.body-text');
-      const btn = this.shadowRoot.querySelector('.toggle');
-      const fade = this.shadowRoot.querySelector('.fade');
-      if (!p || this._expanded) return;
-      const overflowing = p.scrollHeight - p.clientHeight > 2;
-      btn.hidden = !overflowing;
-      fade.style.display = overflowing ? '' : 'none';
+    const p    = this.shadowRoot.querySelector('.body-text');
+    const wrap = this.shadowRoot.querySelector('.body-wrap');
+    const btn  = this.shadowRoot.querySelector('.toggle');
+    const fade = this.shadowRoot.querySelector('.fade');
+    if (!p || !wrap) return;
+
+    const recompute = () => {
+      if (this._expanded) return;
+
+      // Medir sin clamp para saber cuánto ocupa el texto completo.
+      p.style.webkitLineClamp = 'unset';
+
+      const cs = getComputedStyle(p);
+      let lineHeight = parseFloat(cs.lineHeight);
+      if (!lineHeight || Number.isNaN(lineHeight)) {
+        lineHeight = parseFloat(cs.fontSize) * 1.4;
+      }
+
+      const availableHeight = wrap.clientHeight;
+      const fullTextHeight  = p.scrollHeight;
+      const maxLines  = Math.max(1, Math.floor(availableHeight / lineHeight));
+      const fullLines = Math.ceil(fullTextHeight / lineHeight);
+
+      // El botón "Ver más" está deshabilitado siempre (ver _toggleExpand):
+      // acá solo se decide si hace falta clampear + mostrar el degradé.
+      btn.hidden = true;
+      if (fullLines > maxLines) {
+        p.style.webkitLineClamp = String(maxLines);
+        fade.style.display = '';
+      } else {
+        p.style.webkitLineClamp = 'unset';
+        fade.style.display = 'none';
+      }
     };
-    // Esperar a que la imagen/fuentes carguen y el layout se estabilice.
-    requestAnimationFrame(() => requestAnimationFrame(check));
-    window.addEventListener('resize', check);
-    this._resizeHandler = check;
+
+    this._recompute = recompute;
+
+    // Reacciona a CUALQUIER cambio de tamaño del componente: resize de
+    // ventana, cambio de breakpoint, o cambio del atributo "ancho".
+    // Ojo: como la card tiene alto fijo (aspect-ratio) y el ancho no
+    // cambia por un reflow interno, esto NO dispara solo cuando cambian
+    // las métricas de fuente (ver recálculos de respaldo más abajo).
+    const ro = new ResizeObserver(() => requestAnimationFrame(recompute));
+    ro.observe(this);
+    this._ro = ro;
+
+    requestAnimationFrame(() => requestAnimationFrame(recompute));
+
+    // Recálculos de respaldo: el swap de Playfair Display / Inter (Google
+    // Fonts) puede cambiar el alto de línea real después de la primera
+    // medición, corriendo headline/autor/texto un poco. document.fonts.ready
+    // no siempre alcanza a cubrirlo (algunos navegadores lo resuelven antes
+    // de que el repintado final esté aplicado), así que se refuerza con
+    // varios recálculos escalonados. Es barato: solo mide y, si hace falta,
+    // reduce el clamp — nunca empeora nada. El overflow:hidden de .body-wrap
+    // además actúa como tope duro por si alguna medición quedara desfasada.
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => requestAnimationFrame(recompute));
+    }
+    [150, 400, 900, 1800].forEach(ms => setTimeout(recompute, ms));
+  }
+
+  // Si hay texto-mobile, cambia el contenido del párrafo al cruzar el
+  // breakpoint mobile/desktop (ej: al rotar el celular o redimensionar
+  // la ventana), y recalcula el clamp con el texto nuevo.
+  _setupTextoMobile() {
+    if (!this._textoMobile) return;
+
+    const mq = window.matchMedia('(max-width: 560px)');
+    const p = this.shadowRoot.querySelector('.body-text');
+
+    const aplicar = (esMobile) => {
+      if (this._expanded) return; // no pisar el texto mientras está expandido
+      p.textContent = esMobile ? this._textoMobile : this._texto;
+      if (this._recompute) requestAnimationFrame(() => requestAnimationFrame(this._recompute));
+    };
+
+    const handler = (e) => aplicar(e.matches);
+    mq.addEventListener('change', handler);
+    this._mqTextoMobile = mq;
+    this._mqTextoMobileHandler = handler;
   }
 
   disconnectedCallback() {
-    if (this._resizeHandler) window.removeEventListener('resize', this._resizeHandler);
+    if (this._ro) this._ro.disconnect();
+    if (this._mqTextoMobile && this._mqTextoMobileHandler) {
+      this._mqTextoMobile.removeEventListener('change', this._mqTextoMobileHandler);
+    }
+  }
+
+  // Detecta si la foto es vertical/alargada (retrato) y, en ese caso,
+  // en vez de recortarla con "cover" (que corta cabezas o texto quemado
+  // en la imagen), la muestra completa ("contain") sobre un fondo
+  // desenfocado de la misma imagen, para que no se vea recortada ni
+  // se deforme el encuadre original.
+  // Se puede forzar a mano con el atributo imagen-ajuste="cover" o "contain".
+  _setupMedia() {
+    const media = this.shadowRoot.querySelector('.media');
+    const img   = this.shadowRoot.querySelector('.media__img');
+    if (!media || !img) return;
+
+    const apply = () => {
+      const forzado = this.getAttribute('imagen-ajuste');
+      if (forzado === 'cover')   { media.classList.remove('is-vertical'); return; }
+      if (forzado === 'contain') { media.classList.add('is-vertical'); return; }
+      if (!img.naturalWidth || !img.naturalHeight) return;
+      const esVertical = (img.naturalHeight / img.naturalWidth) > 1.05;
+      media.classList.toggle('is-vertical', esVertical);
+    };
+
+    if (img.complete) apply();
+    else img.addEventListener('load', apply);
   }
 
   _css() {
@@ -190,8 +368,12 @@ class NoticiaCard extends HTMLElement {
         --sans:    'Inter', system-ui, sans-serif;
 
         display:block;
-        max-width: 720px;
-        margin: 0 auto;
+        width: var(--nc-ancho, 80vw);
+        max-width: 100%;
+        margin-inline: auto;
+        /* refuerzo por si el padre es flex o grid */
+        align-self: center;
+        justify-self: center;
       }
 
       *{ box-sizing:border-box; }
@@ -218,20 +400,39 @@ class NoticiaCard extends HTMLElement {
         margin:0;
         flex: 0 0 38%;
         min-height: 100%;
+        overflow:hidden;
         background: var(--ink);
       }
-      .media img{
+      .media__bg{
+        position:absolute;
+        inset: -10%;
+        background-size:cover;
+        background-position:center;
+        filter: blur(24px) brightness(.55) saturate(1.15);
+        transform: scale(1.1);
+        opacity:0;
+        transition: opacity .3s ease;
+      }
+      .media__img{
+        position:relative;
+        z-index:1;
         width:100%;
         height:100%;
         object-fit:cover;
+        object-position: center 25%; /* prioriza rostros, suelen estar arriba */
         display:block;
       }
+      /* En desktop el recuadro es angosto y alto, así que "cover" no
+         recorta tanto una foto vertical — se deja siempre cover acá.
+         El tratamiento contain + fondo desenfocado para verticales se
+         aplica solo en mobile (ver media query más abajo). */
       .seal{
         position:absolute;
         top:14px;
         left:14px;
-        width:56px;
-        height:56px;
+        z-index:2;
+        width:60px;
+        height:60px;
         border-radius:50%;
         background: radial-gradient(circle at 35% 30%, var(--wine) 0%, var(--wine-dark) 78%);
         border: 2px solid var(--gold-soft);
@@ -244,8 +445,8 @@ class NoticiaCard extends HTMLElement {
         font-family: var(--display);
         line-height:1;
       }
-      .seal__day{ font-size:1.15rem; font-weight:700; }
-      .seal__month{ font-size:.55rem; letter-spacing:.06em; text-transform:uppercase; margin-top:2px; }
+      .seal__day{ font-size:1.65rem; font-weight:700; }
+      .seal__month{ font-size:.5rem; letter-spacing:.05em; text-transform:uppercase; margin-top:3px; opacity:.85; }
 
       /* ---------- Content ---------- */
       .content{
@@ -283,6 +484,11 @@ class NoticiaCard extends HTMLElement {
         line-height:1.22;
         color: var(--ink);
         letter-spacing:-.01em;
+        text-align: justify;
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
+        overflow-wrap: break-word;
       }
       .headline::first-letter{
         font-size: 2.5em;
@@ -308,8 +514,27 @@ class NoticiaCard extends HTMLElement {
         object-fit:cover;
         border: 1px solid var(--gold-soft);
       }
+      .author__img-link{
+        display:block;
+        width:34px; height:34px;
+        border-radius:50%;
+        flex-shrink:0;
+      }
+      .author__img-link .author__img{ display:block; }
       .author__info{ display:flex; flex-direction:column; line-height:1.25; min-width:0; }
-      .author__name{ font-family: var(--sans); font-weight:600; font-size:.82rem; color: var(--text); }
+      .author__name{
+        font-family: var(--sans);
+        font-weight:600;
+        font-size:.82rem;
+        color: var(--text);
+        text-decoration:none;
+      }
+      .author__name--link{
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        text-decoration-color: var(--gold-soft);
+      }
+      .author__name--link:hover{ color: var(--wine); }
       .author__desc{
         font-family: var(--sans);
         font-size:.72rem;
@@ -319,23 +544,34 @@ class NoticiaCard extends HTMLElement {
         text-overflow:ellipsis;
       }
 
-      .body-wrap{ position:relative; flex:1; min-height:0; }
+      .body-wrap{ position:relative; flex:1; min-height:0; overflow:hidden; }
       .body-text{
         margin:0;
         font-family: var(--sans);
         font-size:.92rem;
         line-height:1.58;
         color: var(--text);
-        text-align:left;
+        text-align: justify;
+        -webkit-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
+        overflow-wrap: break-word;
 
         display:-webkit-box;
-        -webkit-line-clamp: 5;
+        -webkit-line-clamp: unset;
         -webkit-box-orient: vertical;
         overflow:hidden;
       }
       .card.is-expanded .body-text{
         -webkit-line-clamp: unset;
         overflow:visible;
+      }
+      /* Sin esto, body-wrap conserva el alto "fijo" que tenía en la card
+         colapsada (por su flex:1) y el párrafo, al crecer, se desborda
+         visualmente por encima de "Ver menos" y el botón, en vez de
+         empujarlos hacia abajo. */
+      .card.is-expanded .body-wrap{
+        flex: none;
       }
       .fade{
         position:absolute;
@@ -347,21 +583,9 @@ class NoticiaCard extends HTMLElement {
       .card.is-expanded .fade{ display:none; }
 
       .toggle{
-        align-self:flex-start;
-        margin: 6px 0 14px;
-        padding:0;
-        background:none;
-        border:none;
-        font-family: var(--sans);
-        font-weight:600;
-        font-size:.82rem;
-        color: var(--wine);
-        cursor:pointer;
-        text-decoration: underline;
-        text-underline-offset:3px;
-        text-decoration-color: var(--gold-soft);
+        /* Deshabilitado por completo (mobile y desktop) — ver _toggleExpand. */
+        display:none !important;
       }
-      .toggle:hover{ color: var(--wine-dark); }
 
       /* ---------- CTA (conserva el efecto hover/active original) ---------- */
       .cta{
@@ -394,7 +618,7 @@ class NoticiaCard extends HTMLElement {
 
       /* ---------- Mobile: formato 9:16 ---------- */
       @media (max-width: 560px){
-        :host{ max-width: 380px; }
+        :host{ width: 95vw; max-width: 95vw; }
 
         .card{
           flex-direction:column;
@@ -409,6 +633,15 @@ class NoticiaCard extends HTMLElement {
           min-height:0;
         }
 
+        /* Foto vertical/alargada detectada, SOLO en mobile: se muestra
+           completa (sin recortar cabezas ni texto quemado en la imagen)
+           sobre un fondo desenfocado de sí misma, en vez de "cover". */
+        .media.is-vertical .media__bg{ opacity:1; }
+        .media.is-vertical .media__img{
+          object-fit: contain;
+          object-position: center;
+        }
+
         .content{
           flex:1;
           min-height:0;
@@ -416,7 +649,7 @@ class NoticiaCard extends HTMLElement {
         }
 
         .headline{ font-size:1.22rem; }
-        .body-text{ -webkit-line-clamp:4; font-size:.88rem; }
+        .body-text{ font-size:.88rem; }
         .author__desc{ display:none; }
       }
     `;
