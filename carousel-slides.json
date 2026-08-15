@@ -1,22 +1,38 @@
 [
                   {
-    "id": "maria",
+    "id": "dia delniño",
     "position": 1,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/maria_desk.png"
+      "src": "./slides/dia_desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/maria_mob.png"
+      "src": "./slides/dia_mob.png"
+    }
+  },
+           {
+    "id": "videos",
+    "position": 2,
+    "hasVideo": true,
+    "link": "",
+    "desktop": {
+      "type": "video",
+      "src": "./slides/dia_desk.mp4",
+      "poster": "./slides/dia_desk.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./slides/dia_mob.mp4",
+      "poster": "./slides/dia_mob.png"
     }
   },
                 {
     "id": "auxiliar",
-    "position": 2,
+    "position": -1,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
