@@ -479,6 +479,31 @@ class RetroTvPlayer extends HTMLElement {
   margin-top: 10px;
 }
 
+/* ─── TV vertical: cuando el video es portrait, todo el chassis
+       se angosta y el panel lateral pasa a ser una franja inferior,
+       sea en mobile o en desktop ─── */
+.${uid}-outer.orient-portrait {
+  max-width: 380px;
+}
+.${uid}-outer.orient-portrait .${uid}-inner {
+  flex-direction: column;
+  gap: 0;
+}
+.${uid}-outer.orient-portrait .${uid}-side {
+  flex-direction: row;
+  width: 100%;
+  min-width: unset;
+  border-radius: 0 0 14px 14px;
+  padding: 10px 20px;
+  justify-content: center;
+  gap: 26px;
+}
+.${uid}-outer.orient-portrait .${uid}-knob-group {
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
 /* ─── Mobile: side panel becomes bottom strip ─── */
 @media (max-width: 767px) {
   .${uid}-outer {
@@ -504,7 +529,7 @@ class RetroTvPlayer extends HTMLElement {
 }
 </style>
 
-<div class="${uid}-outer">
+<div class="${uid}-outer${initAR === 'portrait' ? ' orient-portrait' : ''}" id="${uid}-outer">
 
   <!-- 3D Title -->
   <span class="${uid}-title">${titleText}</span>
@@ -605,9 +630,31 @@ class RetroTvPlayer extends HTMLElement {
     const knobGrp  = document.getElementById(`${uid}-knob-grp`);
     const led      = document.getElementById(`${uid}-led`);
     const screen   = document.getElementById(`${uid}-screen`);
+    const outer    = document.getElementById(`${uid}-outer`);
     const fsBtn    = document.getElementById(`${uid}-fsbtn`);
 
     if (!video) return;
+
+    /* ── Orientación real: se decide por las dimensiones del video, no por
+       el ancho de pantalla. Aplica tanto a la pantalla (aspect-ratio) como
+       al chassis completo (ancho del "televisor"). ── */
+    let orientationRetries = 0;
+    const applyOrientation = () => {
+      if (!video.videoWidth || !video.videoHeight) {
+        /* metadata todavía no disponible: reintentar unos frames más
+           (algunos navegadores móviles demoran en exponer videoWidth) */
+        if (orientationRetries++ < 60) requestAnimationFrame(applyOrientation);
+        return;
+      }
+      const isLandscape = video.videoWidth >= video.videoHeight;
+      screen.classList.remove('landscape', 'portrait');
+      screen.classList.add(isLandscape ? 'landscape' : 'portrait');
+      if (outer) outer.classList.toggle('orient-portrait', !isLandscape);
+    };
+    video.addEventListener('loadedmetadata', applyOrientation);
+    video.addEventListener('loadeddata', applyOrientation);
+    /* por si el metadata ya estaba disponible (video cacheado) */
+    applyOrientation();
 
     /* ── Helpers ── */
     const fmt = s =>
@@ -693,9 +740,8 @@ class RetroTvPlayer extends HTMLElement {
       video.addEventListener('loadedmetadata', () => {
         if (video.duration) video.currentTime = Math.min(ct, video.duration);
         if (wasPlaying) video.play().catch(() => {});
+        applyOrientation();
       }, { once: true });
-      screen.classList.remove('landscape', 'portrait');
-      screen.classList.add(isMob ? 'portrait' : 'landscape');
     };
     mql.addEventListener('change', (e) => swapSrc(e.matches));
 
