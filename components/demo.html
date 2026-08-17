@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>video-showcase — demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+  rel="stylesheet"
+/>
+<style>
+  :root {
+    --bg: #0b0b0e;
+    --bg-raised: #17161c;
+    --text: #f5f1e8;
+    --muted: #9c98a3;
+    --gold: #f4c542;
+    --red: #e8483c;
+    --teal: #4ecdc4;
+    --border: rgba(245, 241, 232, 0.1);
+  }
+  * { box-sizing: border-box; }
+  html { color-scheme: dark; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', system-ui, sans-serif;
+    line-height: 1.55;
+  }
+  ::selection { background: var(--gold); color: #14120a; }
+  a { color: var(--gold); }
+  :focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+  .ticker {
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-raised);
+    white-space: nowrap;
+  }
+  .ticker-track {
+    display: inline-block;
+    padding: 9px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+    animation: ticker-scroll 24s linear infinite;
+  }
+  @keyframes ticker-scroll { to { transform: translateX(-50%); } }
+
+  .hero { max-width: 720px; margin: 0 auto; padding: 64px 24px 36px; text-align: center; }
+  .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 0 0 18px;
+  }
+  h1 {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    font-size: clamp(2.6rem, 8vw, 4.6rem);
+    letter-spacing: 0.01em;
+    margin: 0 0 18px;
+    color: var(--gold);
+  }
+  @supports (background-clip: text) or (-webkit-background-clip: text) {
+    h1 {
+      background: linear-gradient(180deg, var(--text), var(--gold));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+  .lead { color: var(--muted); font-size: 16px; max-width: 52ch; margin: 0 auto 28px; }
+  .codebox {
+    text-align: left;
+    background: var(--bg-raised);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #d8d4e0;
+    overflow-x: auto;
+  }
+  .codebox code { white-space: pre; }
+
+  main { max-width: 900px; margin: 0 auto; padding: 0 24px 40px; }
+  .exhibit {
+    padding: 48px 0;
+    border-top: 1px solid var(--border);
+    display: grid;
+    justify-items: center;
+    gap: 20px;
+  }
+  .exhibit-label {
+    justify-self: start;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+  button {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--bg-raised);
+    color: var(--text);
+    cursor: pointer;
+  }
+  button:hover { border-color: var(--gold); color: var(--gold); }
+  .caption { color: var(--muted); font-size: 14px; max-width: 60ch; text-align: center; margin: 0; }
+  .caption code { font-family: 'JetBrains Mono', monospace; color: var(--teal); font-size: 13px; }
+
+  .extend { padding: 48px 0 0; border-top: 1px solid var(--border); }
+  .extend .exhibit-label { margin-bottom: 16px; }
+
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 24px 60px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  footer code { font-family: 'JetBrains Mono', monospace; color: var(--gold); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ticker-track { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    ✦&nbsp;&nbsp;VIDEO-SHOWCASE&nbsp;&nbsp;✦&nbsp;&nbsp;WEB COMPONENT&nbsp;&nbsp;✦&nbsp;&nbsp;SHADOW DOM&nbsp;&nbsp;✦&nbsp;&nbsp;MARQUESINA ANIMADA&nbsp;&nbsp;✦&nbsp;&nbsp;CONFETTI&nbsp;&nbsp;✦&nbsp;&nbsp;EFECTOS EXTENSIBLES&nbsp;&nbsp;
+    ✦&nbsp;&nbsp;VIDEO-SHOWCASE&nbsp;&nbsp;✦&nbsp;&nbsp;WEB COMPONENT&nbsp;&nbsp;✦&nbsp;&nbsp;SHADOW DOM&nbsp;&nbsp;✦&nbsp;&nbsp;MARQUESINA ANIMADA&nbsp;&nbsp;✦&nbsp;&nbsp;CONFETTI&nbsp;&nbsp;✦&nbsp;&nbsp;EFECTOS EXTENSIBLES&nbsp;&nbsp;
+  </div>
+</div>
+
+<header class="hero">
+  <p class="eyebrow">Custom Element · Shadow DOM · cero dependencias</p>
+  <h1>video&#8209;showcase</h1>
+  <p class="lead">
+    Visor de video reutilizable con marco tipo marquesina animado, efectos internos
+    extensibles (lluvia, estallido…) y confetti independiente. Esta página es autocontenida:
+    abrila tal cual, sin servidor ni build, para ver el componente andando.
+  </p>
+  <pre class="codebox"><code>&lt;script src="./video-showcase.js"&gt;&lt;/script&gt;
+
+&lt;video-showcase
+  video="clip.mp4"
+  effect-mode="rain"
+  width="480px"&gt;
+&lt;/video-showcase&gt;</code></pre>
+</header>
+
+<main>
+
+  <section class="exhibit">
+    <div class="exhibit-label">01 — Video único adaptable · efecto lluvia</div>
+    <video-showcase
+      id="demo1"
+      video="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+      effect-mode="rain"
+      effect-intensity="35"
+      width="480px"
+    ></video-showcase>
+    <div class="controls">
+      <button type="button" data-target="demo1" data-confetti>Disparar confetti 🎉</button>
+      <button type="button" data-target="demo1" data-effect="burst">Probar "burst"</button>
+      <button type="button" data-target="demo1" data-effect="rain">Volver a "rain"</button>
+    </div>
+    <p class="caption">
+      Con un solo <code>video</code>, el chassis toma la relación de aspecto real del clip
+      apenas carga (sin deformarlo). Sin pasar <code>frame-image</code>, el marco usa el
+      destello dorado que trae el componente por defecto.
+    </p>
+  </section>
+
+  <section class="exhibit">
+    <div class="exhibit-label">02 — Ancho fijo · marco rápido antihorario · burst</div>
+    <video-showcase
+      id="demo2"
+      video="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4"
+      effect-mode="burst"
+      effect-intensity="55"
+      frame-speed="140"
+      frame-direction="counterclockwise"
+      width="360px"
+    ></video-showcase>
+    <div class="controls">
+      <button type="button" data-target="demo2" data-confetti>Disparar confetti 🎉</button>
+    </div>
+    <p class="caption">
+      <code>width="360px"</code> + <code>frame-speed="140"</code> +
+      <code>frame-direction="counterclockwise"</code>. En mobile el ancho igual queda
+      acotado a 95vw, sin importar este valor.
+    </p>
+  </section>
+
+  <section class="exhibit">
+    <div class="exhibit-label">03 — video-desktop / video-mobile · confetti con config propia</div>
+    <video-showcase
+      id="demo3"
+      video-desktop="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+      video-mobile="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+      width="560px"
+    ></video-showcase>
+    <div class="controls">
+      <button type="button" data-target="demo3" data-confetti-custom>Confetti con colores propios</button>
+    </div>
+    <p class="caption">
+      Con <code>video-desktop</code> y <code>video-mobile</code> el componente cambia de
+      fuente al cruzar el <code>breakpoint</code> (achicá la ventana para verlo). Acá se
+      usan dos clips distintos solo para probar el mecanismo — en producción el de mobile
+      sería vertical.
+    </p>
+  </section>
+
+  <section class="extend">
+    <div class="exhibit-label">Agregar un efecto nuevo, sin tocar video-showcase.js</div>
+    <pre class="codebox"><code>customElements.get('video-showcase').registerEffect('miEfecto', class {
+  init(engine) { this.particles = []; }       // engine: count, baseSize, baseSpeed
+  update(dt, w, h) { /* mover partículas */ }
+  draw(ctx, image) { /* dibujar; image puede ser null */ }
+});
+
+document.querySelector('video-showcase').effectMode = 'miEfecto';</code></pre>
+  </section>
+
+</main>
+
+<footer>
+  <p>
+    Sin librerías externas · Shadow DOM <code>mode: 'open'</code> · observers, RAF y el
+    &lt;video&gt; se limpian por completo en <code>disconnectedCallback</code>.
+  </p>
+</footer>
+
+<script src="./video-showcase.js"></script>
+<script>
+  document.querySelectorAll('[data-confetti]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.dataset.target);
+      if (el) el.fireConfetti();
+    });
+  });
+  document.querySelectorAll('[data-confetti-custom]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.dataset.target);
+      if (el) el.fireConfetti({ colors: ['#4ecdc4', '#f5f1e8', '#2e86ab'], count: 220, size: 12 });
+    });
+  });
+  document.querySelectorAll('[data-effect]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.dataset.target);
+      if (el) el.effectMode = btn.dataset.effect;
+    });
+  });
+</script>
+</body>
+</html>
