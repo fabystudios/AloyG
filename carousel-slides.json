@@ -7,16 +7,16 @@
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/dia_desk.png"
+      "src": "./slides/day_desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/dia_mob.png"
+      "src": "./slides/day_mob.png"
     }
   },
            {
     "id": "videos niño day",
-    "position": 2,
+    "position": -1,
     "hasVideo": true,
     "link": "",
     "desktop": {
@@ -47,7 +47,7 @@
   },
             {
     "id": "niños",
-    "position": 3,
+    "position": 2,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -78,7 +78,7 @@
        
               {
     "id": "merienda",
-    "position": 4,
+    "position": 3,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
