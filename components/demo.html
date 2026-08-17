@@ -175,16 +175,21 @@
       effect-mode="rain"
       effect-intensity="35"
       width="480px"
+      sound-control
+      confetti-button
+      confetti-button-label="🎉 Festejar"
     ></video-showcase>
     <div class="controls">
-      <button type="button" data-target="demo1" data-confetti>Disparar confetti 🎉</button>
       <button type="button" data-target="demo1" data-effect="burst">Probar "burst"</button>
       <button type="button" data-target="demo1" data-effect="rain">Volver a "rain"</button>
     </div>
     <p class="caption">
       Con un solo <code>video</code>, el chassis toma la relación de aspecto real del clip
       apenas carga (sin deformarlo). Sin pasar <code>frame-image</code>, el marco usa el
-      destello dorado que trae el componente por defecto.
+      destello dorado que trae el componente por defecto. <code>sound-control</code> agrega
+      el ícono de audio (y tocar el video), <code>confetti-button</code> agrega el botón
+      dorado de abajo — ese ya no hace falta probarlo con el botón externo, es el propio
+      componente el que lo dispara.
     </p>
   </section>
 

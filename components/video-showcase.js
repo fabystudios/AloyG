@@ -39,6 +39,14 @@
  *   width              (width)            ancho en desktop, ej. "900px" (default 100%)
  *   breakpoint         (breakpoint)       viewport (px) donde pasa a modo mobile (default 768)
  *   controls           (controls)         boolean; muestra controles nativos del <video>
+ *   sound-control      (soundControl)     boolean; muestra un ícono de sonido (esquina
+ *                                         inferior derecha) y habilita tocar el video
+ *                                         para silenciar/activar el audio
+ *   confetti-button    (confettiButton)   boolean; muestra un botón (centrado, abajo)
+ *                                         que el usuario final puede tocar para lanzar
+ *                                         confetti — usa la confettiConfig actual
+ *   confetti-button-label (confettiButtonLabel) texto del botón anterior
+ *                                         (default: emoji 🎉)
  *
  * Nota: en mobile el ancho SIEMPRE queda acotado a 95vw, sin importar el
  * valor de `width` (ver CSS: width: min(var(--vs-width), 95vw)).
@@ -92,6 +100,16 @@
     '-1.6 1.6-3.1 5-4 8-.9-4.6-2.4-8-4-9.6C4.8 14.4 1.4 12.9 0 12c4.6-.9 8-2.4 9.6-4' +
     '1.6-1.6 3.1-5 4-8z"/></svg>';
   const DEFAULT_FRAME_SPRITE = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(DEFAULT_FRAME_SVG);
+
+  // Iconos del botón de sonido (SVG inline, sin dependencias externas).
+  const ICON_SOUND_ON =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+    'stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 5V4L8 9H4z"/>' +
+    '<path d="M16.5 8.5a5 5 0 0 1 0 7"/><path d="M19 6a9 9 0 0 1 0 12"/></svg>';
+  const ICON_SOUND_OFF =
+    '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" ' +
+    'stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 5V4L8 9H4z"/>' +
+    '<path d="M16 9l6 6"/><path d="M22 9l-6 6"/></svg>';
 
   /* =========================================================
      1. Registro de efectos internos (extensible)
@@ -289,6 +307,7 @@
       this.timeLeft = 0;
       this.w = 0;
       this.h = 0;
+      this._pendingFire = null;
     }
     resize(w, h, dpr) {
       this.w = w;
@@ -298,10 +317,24 @@
       this.canvas.style.width = w + 'px';
       this.canvas.style.height = h + 'px';
       this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      if (this._pendingFire) {
+        const cfg = this._pendingFire;
+        this._pendingFire = null;
+        this._spawn(cfg);
+      }
     }
     fire(cfg) {
+      // Si todavía no tenemos tamaño (ej. atributo `confetti` presente desde
+      // el HTML inicial, antes de connectedCallback), encolamos y disparamos
+      // apenas resize() nos dé dimensiones reales — así no se pierde en silencio.
+      if (!this.w) {
+        this._pendingFire = cfg || {};
+        return;
+      }
+      this._spawn(cfg);
+    }
+    _spawn(cfg) {
       cfg = cfg || {};
-      if (!this.w) return;
       const count = Math.min(400, Math.max(1, Math.round(Number(cfg.count) || 150)));
       const duration = Math.max(300, Number(cfg.duration) || 3000);
       const speed = Number(cfg.speed) || 5;
@@ -507,7 +540,31 @@
     '.stage::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:4;' +
     'background:linear-gradient(180deg,rgba(0,0,0,.28) 0%,transparent 22%,transparent 68%,rgba(0,0,0,.4) 100%);}' +
     '::slotted(*){position:relative;z-index:5;}' +
-    '@media (prefers-reduced-motion:reduce){.frame-track{animation-duration:0s!important;}}' +
+    '.sound-btn{display:none;position:absolute;right:12px;bottom:12px;width:38px;height:38px;' +
+    'border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(10,10,12,.55);' +
+    'backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#f5f1e8;align-items:center;' +
+    'justify-content:center;cursor:pointer;z-index:6;padding:0;' +
+    'transition:transform .15s ease,border-color .15s ease;}' +
+    '.sound-btn:hover{border-color:var(--vs-glow);transform:scale(1.06);}' +
+    '.sound-btn:active{transform:scale(.96);}' +
+    '.sound-btn svg{width:18px;height:18px;}' +
+    ':host([sound-control]) .sound-btn{display:flex;}' +
+    ':host([sound-control]) .video{cursor:pointer;}' +
+    '.confetti-btn{display:none;position:absolute;left:50%;bottom:14px;transform:translateX(-50%);' +
+    'align-items:center;gap:6px;padding:10px 18px;border-radius:999px;' +
+    'border:1px solid rgba(244,197,66,.55);background:rgba(244,197,66,.16);' +
+    'backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#F4C542;' +
+    'font:600 13px/1 system-ui,-apple-system,"Segoe UI",sans-serif;letter-spacing:.02em;' +
+    'cursor:pointer;z-index:6;white-space:nowrap;' +
+    'animation:vs-cta-pulse 2.6s ease-in-out infinite;' +
+    'transition:transform .15s ease,background .15s ease,border-color .15s ease;}' +
+    '.confetti-btn:hover{background:rgba(244,197,66,.28);transform:translateX(-50%) scale(1.05);}' +
+    '.confetti-btn:active{transform:translateX(-50%) scale(.96);}' +
+    ':host([confetti-button]) .confetti-btn{display:inline-flex;}' +
+    '@keyframes vs-cta-pulse{0%,100%{box-shadow:0 0 0 0 rgba(244,197,66,.35);}' +
+    '50%{box-shadow:0 0 0 8px rgba(244,197,66,0);}}' +
+    '@media (prefers-reduced-motion:reduce){.frame-track{animation-duration:0s!important;}' +
+    '.confetti-btn{animation:none!important;}}' +
     '</style>' +
     '<div class="showcase" part="root">' +
     '<div class="frame-border" part="frame" aria-hidden="true">' +
@@ -520,6 +577,8 @@
     '<video class="video" part="video" muted autoplay loop playsinline></video>' +
     '<canvas class="fx-canvas" part="fx-canvas"></canvas>' +
     '<canvas class="confetti-canvas" part="confetti-canvas"></canvas>' +
+    '<button class="sound-btn" part="sound-btn" type="button" aria-label="Activar sonido"></button>' +
+    '<button class="confetti-btn" part="confetti-btn" type="button"></button>' +
     '<slot></slot>' +
     '</div>' +
     '</div>';
@@ -534,7 +593,7 @@
         'frame-image', 'frame-speed', 'frame-size', 'frame-direction',
         'effect-image', 'effect-mode', 'effect-intensity',
         'confetti', 'confetti-config',
-        'width', 'breakpoint', 'controls',
+        'width', 'breakpoint', 'controls', 'confetti-button-label',
       ];
     }
 
@@ -553,6 +612,8 @@
         video: this.shadowRoot.querySelector('.video'),
         fxCanvas: this.shadowRoot.querySelector('.fx-canvas'),
         confettiCanvas: this.shadowRoot.querySelector('.confetti-canvas'),
+        soundBtn: this.shadowRoot.querySelector('.sound-btn'),
+        confettiBtn: this.shadowRoot.querySelector('.confetti-btn'),
       };
 
       this._marquee = new MarqueeFrame(this.shadowRoot, this);
@@ -568,11 +629,16 @@
       this._lastT = 0;
       this._resizeScheduled = false;
       this._mq = null;
+      this._soundMuted = true; // preferencia del usuario; persiste entre cambios de fuente
 
       this._boundLoop = this._loop.bind(this);
       this._onMqChange = () => this._updateVideoSource();
       this._onVideoMeta = () => this._applyAspectFromVideo();
       this._onVideoData = () => this._els.stage.removeAttribute('data-loading');
+      this._onSoundBtnClick = () => this._toggleSound();
+      this._onVideoTap = () => { if (this.soundControl) this._toggleSound(); };
+      this._onConfettiBtnClick = () => this.fireConfetti();
+      this._updateConfettiButtonLabel(); // fija el emoji por defecto o el label ya presente
     }
 
     connectedCallback() {
@@ -601,6 +667,10 @@
 
       this._els.video.addEventListener('loadedmetadata', this._onVideoMeta);
       this._els.video.addEventListener('loadeddata', this._onVideoData);
+      this._els.video.addEventListener('click', this._onVideoTap);
+      this._els.soundBtn.addEventListener('click', this._onSoundBtnClick);
+      this._els.confettiBtn.addEventListener('click', this._onConfettiBtnClick);
+      this._updateSoundIcon();
 
       this._marquee.sync();
       this._updateVideoSource();
@@ -619,6 +689,9 @@
       const v = this._els.video;
       v.removeEventListener('loadedmetadata', this._onVideoMeta);
       v.removeEventListener('loadeddata', this._onVideoData);
+      v.removeEventListener('click', this._onVideoTap);
+      this._els.soundBtn.removeEventListener('click', this._onSoundBtnClick);
+      this._els.confettiBtn.removeEventListener('click', this._onConfettiBtnClick);
       v.pause();
       v.removeAttribute('src');
       v.load();
@@ -682,6 +755,9 @@
         case 'controls':
           this._els.video.controls = newVal !== null;
           break;
+        case 'confetti-button-label':
+          this._updateConfettiButtonLabel();
+          break;
       }
     }
 
@@ -718,6 +794,7 @@
       }
       this._els.stage.setAttribute('data-loading', '');
       v.src = src;
+      v.muted = this._soundMuted; // load() puede resetear el estado; reaplicamos la preferencia
       v.load();
       this._maybePlayVideo();
     }
@@ -739,8 +816,40 @@
       const p = v.play();
       if (p && typeof p.catch === 'function') {
         p.catch(() => {
-          /* autoplay bloqueado por el navegador: se ignora */
+          // El navegador puede bloquear el autoplay con sonido tras un
+          // cambio de fuente (breakpoint, nuevo src) si no hay un gesto
+          // reciente del usuario. Para no cortar la reproducción, se
+          // reintenta silenciado; el ícono reflejará el estado real.
+          if (!v.muted) {
+            v.muted = true;
+            this._updateSoundIcon();
+            v.play().catch(() => {});
+          }
         });
+      }
+    }
+
+    _toggleSound() {
+      this._soundMuted = !this._soundMuted;
+      this._els.video.muted = this._soundMuted;
+      if (!this._soundMuted) this._maybePlayVideo(); // un gesto real: reintenta con sonido
+      this._updateSoundIcon();
+    }
+
+    _updateSoundIcon() {
+      const on = !this._els.video.muted;
+      this._els.soundBtn.setAttribute('aria-label', on ? 'Silenciar video' : 'Activar sonido');
+      this._els.soundBtn.innerHTML = on ? ICON_SOUND_ON : ICON_SOUND_OFF;
+    }
+
+    _updateConfettiButtonLabel() {
+      const label = this.getAttribute('confetti-button-label');
+      if (label) {
+        this._els.confettiBtn.textContent = label;
+        this._els.confettiBtn.removeAttribute('aria-label'); // el texto visible ya es accesible
+      } else {
+        this._els.confettiBtn.textContent = '🎉';
+        this._els.confettiBtn.setAttribute('aria-label', 'Lanzar confetti');
       }
     }
 
@@ -761,6 +870,7 @@
         this._confettiSys.resize(rect.width, rect.height, dpr);
       }
       this._marquee.sync();
+      this._syncLoop();
     }
 
     _syncLoop() {
@@ -798,6 +908,7 @@
     effectIntensity: { attr: 'effect-intensity', type: 'number', default: DEFAULTS.effectIntensity },
     width: { attr: 'width', type: 'string', default: DEFAULTS.width },
     breakpoint: { attr: 'breakpoint', type: 'number', default: DEFAULTS.breakpoint },
+    confettiButtonLabel: { attr: 'confetti-button-label', type: 'string' },
   };
 
   Object.keys(REFLECTED_ATTRS).forEach((prop) => {
@@ -830,6 +941,18 @@
 
   Object.defineProperty(VideoShowcase.prototype, 'isMobile', {
     get() { return this._isMobile; },
+    configurable: true,
+  });
+
+  Object.defineProperty(VideoShowcase.prototype, 'soundControl', {
+    get() { return this.hasAttribute('sound-control'); },
+    set(v) { this.toggleAttribute('sound-control', !!v); },
+    configurable: true,
+  });
+
+  Object.defineProperty(VideoShowcase.prototype, 'confettiButton', {
+    get() { return this.hasAttribute('confetti-button'); },
+    set(v) { this.toggleAttribute('confetti-button', !!v); },
     configurable: true,
   });
 
