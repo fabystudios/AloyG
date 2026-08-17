@@ -42,6 +42,9 @@
  *   sound-control      (soundControl)     boolean; muestra un ícono de sonido (esquina
  *                                         inferior derecha) y habilita tocar el video
  *                                         para silenciar/activar el audio
+ *   sound-position     (soundPosition)    'right' (default) | 'left' — a qué lado va el
+ *                                         ícono de sonido (útil si algo de tu página, ej.
+ *                                         un botón "ir arriba" en mobile, tapa ese rincón)
  *   confetti-button    (confettiButton)   boolean; muestra un botón (centrado, abajo)
  *                                         que el usuario final puede tocar para lanzar
  *                                         confetti — usa la confettiConfig actual
@@ -549,6 +552,7 @@
     '.sound-btn:active{transform:scale(.96);}' +
     '.sound-btn svg{width:18px;height:18px;}' +
     ':host([sound-control]) .sound-btn{display:flex;}' +
+    ':host([sound-position="left"]) .sound-btn{right:auto;left:12px;}' +
     ':host([sound-control]) .video{cursor:pointer;}' +
     '.confetti-btn{display:none;position:absolute;left:50%;bottom:14px;transform:translateX(-50%);' +
     'align-items:center;gap:6px;padding:10px 18px;border-radius:999px;' +
@@ -909,6 +913,7 @@
     width: { attr: 'width', type: 'string', default: DEFAULTS.width },
     breakpoint: { attr: 'breakpoint', type: 'number', default: DEFAULTS.breakpoint },
     confettiButtonLabel: { attr: 'confetti-button-label', type: 'string' },
+    soundPosition: { attr: 'sound-position', type: 'string', default: 'right' },
   };
 
   Object.keys(REFLECTED_ATTRS).forEach((prop) => {
