@@ -62,7 +62,7 @@
   },
           {
     "id": "coro",
-    "position": -1,
+    "position": 4,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -84,11 +84,11 @@
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/merendero_desk.png"
+      "src": "./slides/angelitos_desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/merendero_mob.png"
+      "src": "./slides/angelitos_mob.png"
     }
   },
               {
