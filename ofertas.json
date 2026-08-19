@@ -1,4 +1,10 @@
 [
+        {
+    "nombre": "Fletes Carrera",
+    "thumb": "./cartelera/img/flete.jpg",
+    "flyer": "./cartelera/img/flete.jpg",
+    "whatsapp": "+549223549963"
+  },
       {
     "nombre": "Trabajos de Pintura",
     "thumb": "../actividades/cartelera/pint_mob.jpg",
