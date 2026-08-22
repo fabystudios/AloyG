@@ -152,6 +152,7 @@
   <script type="module" src="./components/ramos-expo.js"></script>
   <script src="./components/noticia-card.js" defer></script>
   <script src="./components/section-title.js" defer></script>
+  <script src="./components/video-showcase.js" defer></script>
   <style>
     @media (max-width: 600px) {
       .rifa-bg-opacity {
@@ -989,13 +990,48 @@
 ></section-title>
 
 
+<div style="display:flex;justify-content:center">
+ <video-showcase
+  id="fiesta"
+  video-desktop="/video/fiesta_desk.mp4"
+  video-mobile="/video/fiesta.mp4"
+  frame-image="/video/star.png"
+  frame-speed="30"
+  frame-size="10"
+  effect-image="./video/candy2.png"
+  effect-mode="none"
+  sound-control
+  sound-position="left"
+  confetti-button
+  confetti-button-label="🎉 confeti"
+  effect-intensity="45"
+  width="1080px">
+</video-showcase>
+</div>
+
+
+ <video-gold-special
+
+      video-desktop="https://youtu.be/3mV4_ldN_ic"
+      video-mobile="./asantos/22.mp4"
+      poster-mobile="./eva/22.jpg"
+      ancho-desktop="860px"
+
+      etiqueta="22 de Agosto"
+      badge="Santa María"
+      titulo="Reina de los cielos y la tierra"
+
+      logo="./img/medalla.png"
+      logo-duracion="4">
+    </video-gold-special>
+
   <!-- ═══ Video Presentación (Retro TV) ═══ -->
    <!-- <div id="encuentro"></div> -->
   <retro-tv-player
     anchor-id="video-encuentro"
     src-desktop="./video/mar.mp4"
     src-mobile="./video/mar.mp4"
-    title="✨ Mañana sábado a las 18 ✨"
+    title="✨ Hoy sábado a las 18 ✨"
     color="#c8a84b"
     autoplay>
   </retro-tv-player>
@@ -1011,7 +1047,7 @@
   </glassmorphism-yt-player>
 
  <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
-<div class="video-card-gold-container">
+<div class="video-card-gold-container" style="display: none;">
 
       <video-card-gold
       badge="21 de Agosto"
@@ -1050,7 +1086,7 @@
 
 
 
-<script src="./components/video-showcase.js"></script>
+
 <div style="display:flex;justify-content:center">
  <video-showcase
   id="hero"
@@ -1123,7 +1159,7 @@
 <script src="./components/panel-photo-gallery.js"></script>
 <panel-photo-gallery
   hide-mobile
-
+  style="display: none;"
   base-path="./actividades/mons/"
   mascot-src="./actividades/mons/logo-fatima.png"
   mascot-size="200px"
@@ -1154,20 +1190,7 @@
 
 
 
- <!-- <video-gold-special
 
-      video-desktop="https://youtu.be/K2xxX-42_uI"
-      video-mobile="./asantos/15.mp4"
-      poster-mobile="./eva/v2.jpg"
-      ancho-desktop="860px"
-
-      etiqueta="15 de Agosto"
-      badge="La Asunción"
-      titulo="Virgen María"
-
-      logo="./img/medalla.png"
-      logo-duracion="4">
-    </video-gold-special> -->
    
 
 <!-- <script src="./components/video-card-gold.js"></script>

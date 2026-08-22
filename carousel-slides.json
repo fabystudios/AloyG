@@ -1,7 +1,7 @@
 [
                     {
     "id": "papa",
-    "position": 1,
+    "position": 3,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -62,17 +62,17 @@
   },
             {
     "id": "niños",
-    "position": 3,
+    "position": 1,
     "hasVideo": false,
-    "link": "",
+    "link": "#fiesta",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/ninos3_desk.png"
+      "src": "./slides/fiesta_desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/ninos2_mob.png"
+      "src": "./slides/fiesta_mob.png"
     }
   },
           {
