@@ -152,7 +152,7 @@
   <script type="module" src="./components/ramos-expo.js"></script>
   <script src="./components/noticia-card.js" defer></script>
   <script src="./components/section-title.js" defer></script>
-  <script src="./components/video-showcase.js" defer></script>
+  <!-- <script src="./components/video-showcase.js" defer></script> -->
   <style>
     @media (max-width: 600px) {
       .rifa-bg-opacity {
@@ -980,7 +980,7 @@
   <!-- ═══ Fin Cartelera ═══ -->
 
 
-cambiar v por teddy bear
+
 
  <!-- Super GFE -->
 
@@ -990,18 +990,59 @@ cambiar v por teddy bear
 
 ></section-title>
 
+<div style="display:flex;justify-content:center;">
+<script src="./wc-draft/video-showcase-yt.js"></script>
+
+<video-showcase-yt
+  video="https://www.youtube.com/embed/UkMyJW8_HHw"
+  sound-control
+  sound-position="left"
+  frame-image="/video/star.png"
+  frame-speed="30"
+  frame-size="10"
+  effect-image="./video/candy2.png"
+  effect-mode="none"
+  confetti-button
+  confetti-button-label="🎉 Festejar"
+  effect-intensity="45"
+  width="1080px">
+</video-showcase-yt>
+</div>
+ <!-- <video-showcase
+  id="fiesta"
+  video-desktop="/video/fiesta_desk.mp4"
+  video-mobile="/video/fiesta.mp4"
+  frame-image="/video/star.png"
+  frame-speed="30"
+  frame-size="10"
+  effect-image="./video/candy2.png"
+  effect-mode="none"
+  sound-control
+  sound-position="left"
+  confetti-button
+  confetti-button-label="🎉 confeti"
+  effect-intensity="45"
+  width="1080px">
+</video-showcase> -->
 
 
 <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
   <!-- style="display: none;" -->
 <div class="video-card-gold-container" >
+      <video-card-gold
+      badge="27 de Agosto"
+      titulo="Santa Mónica"
+      video="./asantos/27.mp4"
+      style="width:auto; flex:0 0 auto;"
+ 
+    ></video-card-gold>
 
       <video-card-gold
       badge="26 de Agosto"
       titulo="Santa Teresa de Jesús Jornet"
       video="./asantos/26.mp4"
       style="width:auto; flex:0 0 auto;"
- 
+      hide-mobile
     ></video-card-gold>
 
       <video-card-gold
@@ -1020,13 +1061,6 @@ cambiar v por teddy bear
        hide-mobile
     ></video-card-gold>
 
-      <video-card-gold
-      badge="24 de Agosto"
-      titulo="San Bartolomé"
-      video="./asantos/24.mp4"
-      style="width:auto; flex:0 0 auto;"
-      hide-mobile
-    ></video-card-gold>
 
 
   </div>  
@@ -1034,7 +1068,7 @@ cambiar v por teddy bear
 
 
 
- <section class="post-dia-nino viewport-container">
+ <section class="post-dia-nino viewport-container" style="display: none">
     <div class="md3-card festiva" >
       <!-- Canvas para el confetti -->
       <canvas id="confetti-canvas" class="d-none d-md-block"></canvas>
