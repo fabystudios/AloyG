@@ -93,7 +93,7 @@
 (function () {
   'use strict';
 
-  const TAG_NAME = 'video-showcase-yt'; // cambiar acá alcanza para renombrar el componente entero
+  const TAG_NAME = 'video-showcase'; // cambiar acá alcanza para renombrar el componente entero
 
   /* =========================================================
      0. Valores por defecto
