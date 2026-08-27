@@ -51,8 +51,8 @@
  *   confetti-button-label (confettiButtonLabel) texto del botón anterior
  *                                         (default: emoji 🎉)
  *
- * Nota: en mobile el ancho SIEMPRE queda acotado a 95vw, sin importar el
- * valor de `width` (ver CSS: width: min(var(--vs-width), 95vw)).
+ * Nota: en mobile el ancho SIEMPRE queda acotado a 100vw, sin importar el
+ * valor de `width` (ver CSS: width: min(var(--vs-width), 100vw)).
  *
  * MÉTODOS PÚBLICOS:
  *   el.fireConfetti(overrides?)   dispara confetti una vez
@@ -576,7 +576,7 @@
     '<style>' +
     ':host{display:block;box-sizing:border-box;--vs-width:' + DEFAULTS.width + ';' +
     '--vs-frame-size:' + DEFAULTS.frameSize + 'px;--vs-radius:20px;--vs-glow:rgba(244,197,66,.35);' +
-    'width:min(var(--vs-width),95vw);margin-inline:auto;}' +
+    'width:min(var(--vs-width),100vw);margin-inline:auto;}' +
     '*,*::before,*::after{box-sizing:border-box;}' +
     '.showcase{position:relative;width:100%;aspect-ratio:16/9;isolation:isolate;}' +
     '.showcase::before{content:"";position:absolute;inset:-8%;background:radial-gradient(closest-side,var(--vs-glow),transparent 72%);' +
@@ -618,6 +618,10 @@
     '.sound-btn svg{width:18px;height:18px;}' +
     ':host([sound-control]) .sound-btn{display:flex;}' +
     ':host([sound-position="left"]) .sound-btn{right:auto;left:12px;}' +
+    // En mobile el ícono se fuerza a la esquina superior izquierda (pisa la
+    // esquina inferior menos que la superior donde suele ir el logo del
+    // video). Esta regla va después de las anteriores para tener prioridad.
+    ':host([data-mobile]) .sound-btn{top:12px;bottom:auto;left:12px;right:auto;}' +
     ':host([sound-control]) .video{cursor:pointer;}' +
     '.confetti-btn{display:none;position:absolute;left:50%;bottom:14px;transform:translateX(-50%);' +
     'align-items:center;gap:6px;padding:10px 18px;border-radius:999px;' +
@@ -860,6 +864,7 @@
     _updateVideoSource() {
       const isMobile = window.matchMedia('(max-width: ' + (this.breakpoint - 1) + 'px)').matches;
       this._isMobile = isMobile;
+      this.toggleAttribute('data-mobile', isMobile); // refleja el modo mobile para poder usarlo en CSS (:host([data-mobile]))
       const src = this._resolveSrc(isMobile);
       const ytId = extractYouTubeId(src);
       this._applyDefaultAspect(ytId);
@@ -985,8 +990,16 @@
     _toggleSound() {
       this._soundMuted = !this._soundMuted;
       if (this._ytPlayer) {
-        if (this._soundMuted) this._ytPlayer.mute();
-        else this._ytPlayer.unMute();
+        if (this._soundMuted) {
+          this._ytPlayer.mute();
+        } else {
+          this._ytPlayer.unMute();
+          // Algunos navegadores (sobre todo mobile) pausan el iframe de YouTube
+          // al activar el audio, porque el click ocurrió en el documento host
+          // y no "dentro" del iframe cross-origin — no lo reconocen como gesto
+          // válido para ese frame. Forzamos que siga reproduciendo.
+          this._maybePlayVideo();
+        }
       } else {
         this._els.video.muted = this._soundMuted;
         if (!this._soundMuted) this._maybePlayVideo(); // un gesto real: reintenta con sonido
