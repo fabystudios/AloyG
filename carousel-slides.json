@@ -148,11 +148,11 @@
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/afli_desk2.png"
+      "src": "./slides/afli_desk3.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/afli_mob2.png"
+      "src": "./slides/afli_mob3.png"
     }
   },
      {
