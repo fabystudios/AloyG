@@ -2,19 +2,12 @@
  * <retro-tv-player> — Reproductor MP4 estilo Televisor Retro + Glassmorphism + 3D
  *
  * Atributos:
- *   src-desktop    Ruta al video landscape para escritorio
- *   src-mobile     Ruta al video portrait/vertical para móvil
- *   title          Título en 3D sobre el televisor
- *   color          Color de acento en hex  (default: "#c8a84b")
- *   bg-color       Color de fondo del panel de vidrio exterior en hex (default: "#0a0703")
- *   device-color   Color del gabinete/chasis del televisor en hex (default: "#3c2e18")
- *   screen-effect  Efecto visual de la pantalla: "tubo-retro" (default, líneas + sombreado
- *                  tipo tubo CRT), "led" (pantalla LED plana, grilla de píxeles, colores
- *                  vívidos), "vhs" (barra de tracking, scanlines de cinta, colores lavados)
- *                  o "moderno" (panel plano tipo LCD/OLED actual, sin viñeta ni scanlines,
- *                  biseles casi rectos y brillo de vidrio sutil)
- *   autoplay       Si está presente (o = "true"), reproduce automáticamente muteado
- *   anchor-id      ID del elemento para anclas URL (default: auto-generado)
+ *   src-desktop   Ruta al video landscape para escritorio
+ *   src-mobile    Ruta al video portrait/vertical para móvil
+ *   title         Título en 3D sobre el televisor
+ *   color         Color de acento en hex  (default: "#c8a84b")
+ *   autoplay      Si está presente (o = "true"), reproduce automáticamente muteado
+ *   anchor-id     ID del elemento para anclas URL (default: auto-generado)
  *
  * Ejemplo:
  *   <retro-tv-player
@@ -22,9 +15,6 @@
  *     src-mobile="./actividades/presentacion/enc_mob.mp4"
  *     title="✨ Encuentro Parroquial"
  *     color="#c8a84b"
- *     bg-color="#0a0703"
- *     device-color="#3c2e18"
- *     screen-effect="led"
  *     autoplay
  *     anchor-id="encuentro-video">
  *   </retro-tv-player>
@@ -36,11 +26,6 @@ class RetroTvPlayer extends HTMLElement {
     const srcMobile    = this.getAttribute('src-mobile')   || '';
     const titleText    = this.getAttribute('title')        || 'Video';
     const accentColor  = this.getAttribute('color')        || '#c8a84b';
-    const bgColor      = this.getAttribute('bg-color')     || '#0a0703';
-    const deviceColor  = this.getAttribute('device-color') || '#3c2e18';
-    const ALLOWED_FX   = ['tubo-retro', 'led', 'vhs', 'moderno'];
-    const rawFx        = (this.getAttribute('screen-effect') || 'tubo-retro').toLowerCase().trim();
-    const screenEffect = ALLOWED_FX.includes(rawFx) ? rawFx : 'tubo-retro';
     const autoplayAttr = this.getAttribute('autoplay');
     const doAutoplay   = autoplayAttr !== null && autoplayAttr !== 'false';
     const anchorId     = this.getAttribute('anchor-id')
@@ -66,31 +51,6 @@ class RetroTvPlayer extends HTMLElement {
     const gMed  = `rgba(${cr},${cg},${cb},0.30)`;
     const gLow  = `rgba(${cr},${cg},${cb},0.12)`;
 
-    /* ── Fondo del panel exterior ── */
-    const [bgR, bgG, bgB] = hexToRgb(bgColor);
-
-    /* ── Paleta del gabinete/chasis a partir de device-color ──
-       Se generan variantes claras/oscuras manteniendo las mismas
-       proporciones relativas del diseño original (base = #3c2e18). */
-    const shade = (factor) => {
-      const c = (v) => Math.max(0, Math.min(255, Math.round(v * factor)));
-      return `rgb(${c(dr)},${c(dg)},${c(db)})`;
-    };
-    const [dr, dg, db] = hexToRgb(deviceColor);
-    const chassisA = shade(1.00);  // cara superior del gabinete
-    const chassisB = shade(0.56);
-    const chassisC = shade(0.24);  // panel lateral (extremo) / sombra profunda
-    const chassisD = shade(0.59);
-    const rimA     = shade(1.87);  // filos 3D iluminados
-    const rimB     = shade(1.30);
-    const rimC     = shade(0.80);
-    const rimD     = shade(0.47);
-    const sideA    = shade(0.50);  // panel lateral (inicio)
-    const pedA     = shade(0.70);  // pedestal
-    const pedB     = shade(0.27);
-    const bezelA   = shade(1.23);  // marco de la pantalla
-    const bezelB   = shade(0.18);
-
     /* ── Detect mobile for first render ── */
     const mql      = window.matchMedia('(max-width: 767px)');
     const isMob0   = mql.matches;
@@ -112,7 +72,7 @@ class RetroTvPlayer extends HTMLElement {
   max-width: 880px;
   margin: 2.5rem auto;
   padding: 2rem 2rem 2.8rem;
-  background: rgba(${bgR}, ${bgG}, ${bgB}, 0.62);
+  background: rgba(10, 7, 3, 0.62);
   backdrop-filter: blur(22px) saturate(160%);
   -webkit-backdrop-filter: blur(22px) saturate(160%);
   border: 1px solid rgba(${cr},${cg},${cb}, 0.22);
@@ -166,15 +126,15 @@ class RetroTvPlayer extends HTMLElement {
 .${uid}-chassis {
   position: relative;
   background: linear-gradient(155deg,
-    ${chassisA} 0%, ${chassisB} 40%, ${chassisC} 70%, ${chassisD} 100%);
+    #3c2e18 0%, #201a0e 40%, #0e0c07 70%, #231c0e 100%);
   border-radius: 22px 22px 28px 28px;
   padding: 20px 18px 14px 18px;
   /* Multi-layer 3D depth effect */
   box-shadow:
-    0  3px 0 ${rimA},
-    0  6px 0 ${rimB},
-    0  9px 0 ${rimC},
-    0 12px 0 ${rimD},
+    0  3px 0 #705e36,
+    0  6px 0 #4e4022,
+    0  9px 0 #302814,
+    0 12px 0 #1c1409,
     0 16px 30px rgba(0,0,0,0.88),
     inset 0  2px  7px rgba(255,255,255,0.07),
     inset 0 -4px 12px rgba(0,0,0,0.55);
@@ -200,7 +160,7 @@ class RetroTvPlayer extends HTMLElement {
   transform: translateX(-50%);
   width: 52%;
   height: 14px;
-  background: linear-gradient(to bottom, ${pedA}, ${pedB});
+  background: linear-gradient(to bottom, #2a2010, #100c06);
   border-radius: 0 0 14px 14px;
   box-shadow: 0 8px 22px rgba(0,0,0,0.70);
 }
@@ -226,8 +186,8 @@ class RetroTvPlayer extends HTMLElement {
   border-radius: 14px;
   padding: 9px;
   box-shadow:
-    inset 0 0 0 2px ${bezelA},
-    inset 0 0 0 5px ${bezelB},
+    inset 0 0 0 2px #4a3e26,
+    inset 0 0 0 5px #0b0906,
     inset 0 8px 22px rgba(0,0,0,0.98);
 }
 /* Phosphor glow ring around bezel */
@@ -330,117 +290,6 @@ class RetroTvPlayer extends HTMLElement {
   animation: ${uid}-flicker 14s 2s infinite;
 }
 
-/* ══════════════════════════════════════════════════════════
-   EFECTOS DE PANTALLA  ·  screen-effect="tubo-retro|led|vhs|moderno"
-   Default = tubo-retro (estilos base ya definidos arriba).
-══════════════════════════════════════════════════════════ */
-
-/* Overlays extra, ocultos salvo que su efecto esté activo */
-.${uid}-ledgrid,
-.${uid}-vhsbar {
-  display: none;
-  pointer-events: none;
-  position: absolute;
-}
-
-/* ─── Efecto LED: pantalla plana, grilla de píxeles, colores vívidos ─── */
-.${uid}-screen.effect-led {
-  box-shadow:
-    inset 0 0 0 1px rgba(${cr},${cg},${cb},0.30),
-    inset 0  0 90px rgba(0,0,0,0.92);
-}
-.${uid}-screen.effect-led::after {
-  background: radial-gradient(ellipse at center,
-    transparent 72%, rgba(0,0,0,0.32) 100%);
-}
-.${uid}-screen.effect-led .${uid}-scanlines { display: none; }
-.${uid}-screen.effect-led .${uid}-glare { opacity: 0.35; }
-.${uid}-screen.effect-led .${uid}-ledgrid {
-  display: block;
-  inset: 0;
-  border-radius: 8px;
-  background-image:
-    repeating-linear-gradient(90deg,
-      rgba(0,0,0,0.30) 0px, rgba(0,0,0,0.30) 1px,
-      transparent 1px, transparent 3px),
-    repeating-linear-gradient(0deg,
-      rgba(0,0,0,0.30) 0px, rgba(0,0,0,0.30) 1px,
-      transparent 1px, transparent 3px);
-  mix-blend-mode: multiply;
-  z-index: 6;
-}
-.${uid}-screen.effect-led .${uid}-video {
-  filter: brightness(1.08) contrast(1.18) saturate(1.4);
-}
-.${uid}-screen.effect-led .${uid}-video.playing {
-  animation: none; /* un panel LED no titila como un tubo CRT */
-}
-
-/* ─── Efecto Moderno: panel plano tipo LCD/OLED actual, biseles casi
-       rectos, sin textura de tubo, brillo de vidrio limpio y sutil ─── */
-.${uid}-screen.effect-moderno {
-  border-radius: 5px;
-  box-shadow:
-    inset 0 0 0 1px rgba(255,255,255,0.07),
-    inset 0 0 2px 1px rgba(0,0,0,0.6),
-    inset 0 0 40px rgba(0,0,0,0.55);
-}
-.${uid}-screen.effect-moderno::after {
-  border-radius: 5px;
-  background: linear-gradient(160deg,
-    rgba(255,255,255,0.05) 0%, transparent 22%,
-    transparent 78%, rgba(0,0,0,0.22) 100%);
-}
-.${uid}-screen.effect-moderno .${uid}-scanlines { display: none; }
-.${uid}-screen.effect-moderno .${uid}-glare {
-  top: 0; left: 0;
-  width: 65%;
-  height: 50%;
-  background: linear-gradient(115deg,
-    rgba(255,255,255,0.10) 0%, transparent 55%);
-  transform: rotate(-6deg);
-}
-.${uid}-screen.effect-moderno .${uid}-video {
-  border-radius: 3px;
-  filter: brightness(1.03) contrast(1.09) saturate(1.05);
-}
-.${uid}-screen.effect-moderno .${uid}-video.playing {
-  animation: none; /* pantallas planas actuales no titilan */
-}
-
-/* ─── Efecto VHS: barra de tracking, cinta desgastada, colores lavados ─── */
-.${uid}-screen.effect-vhs .${uid}-scanlines {
-  background: repeating-linear-gradient(
-    180deg,
-    transparent      0px,
-    transparent      1px,
-    rgba(0,0,0,0.16) 1px,
-    rgba(0,0,0,0.16) 3px
-  );
-}
-.${uid}-screen.effect-vhs .${uid}-video {
-  filter: contrast(0.95) saturate(0.78) brightness(0.94);
-}
-.${uid}-screen.effect-vhs .${uid}-vhsbar {
-  display: block;
-  left: 0;
-  right: 0;
-  height: 12px;
-  top: -20%;
-  background: linear-gradient(180deg,
-    transparent, rgba(255,255,255,0.30), rgba(${cr},${cg},${cb},0.18), transparent);
-  filter: blur(1px);
-  z-index: 8;
-  opacity: 0;
-  animation: ${uid}-vhstrack 6.5s linear infinite;
-}
-@keyframes ${uid}-vhstrack {
-  0%   { top: -15%; opacity: 0;   }
-  3%   { opacity: 0.85; }
-  9%   { opacity: 0;    }
-  100% { top: 115%; opacity: 0;  }
-}
-
 /* ─── Controls bar ─── */
 .${uid}-controls {
   display: flex;
@@ -507,7 +356,7 @@ class RetroTvPlayer extends HTMLElement {
   gap: 16px;
   width: 70px;
   min-width: 70px;
-  background: linear-gradient(180deg, ${sideA} 0%, ${chassisC} 100%);
+  background: linear-gradient(180deg, #1e1a0e 0%, #0e0c07 100%);
   border-radius: 0 12px 12px 0;
   padding: 18px 8px;
   box-shadow: inset 2px 0 8px rgba(0,0,0,0.5);
@@ -694,7 +543,7 @@ class RetroTvPlayer extends HTMLElement {
 
         <!-- Bezel + CRT screen -->
         <div class="${uid}-screen-wrap">
-          <div class="${uid}-screen ${initAR} effect-${screenEffect}" id="${uid}-screen">
+          <div class="${uid}-screen ${initAR}" id="${uid}-screen">
             <video
               class="${uid}-video"
               id="${uid}-video"
@@ -707,8 +556,6 @@ class RetroTvPlayer extends HTMLElement {
             ></video>
             <div class="${uid}-scanlines"></div>
             <div class="${uid}-glare"></div>
-            <div class="${uid}-ledgrid"></div>
-            <div class="${uid}-vhsbar"></div>
           </div>
         </div>
 
