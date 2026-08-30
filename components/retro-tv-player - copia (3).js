@@ -13,10 +13,6 @@
  *                  vívidos), "vhs" (barra de tracking, scanlines de cinta, colores lavados)
  *                  o "moderno" (panel plano tipo LCD/OLED actual, sin viñeta ni scanlines,
  *                  biseles casi rectos y brillo de vidrio sutil)
- *   chassis        Tipo de gabinete: "tv" (default, televisor retro con pedestal) o
- *                  "ipod" (reproductor tipo MP4/iPod vertical, pantalla más grande y
- *                  presente, con un 2do visor tipo display MP3 donde el título corre
- *                  en marquesina: fondo oscuro, texto blanco pixelado)
  *   autoplay       Si está presente (o = "true"), reproduce automáticamente muteado
  *   anchor-id      ID del elemento para anclas URL (default: auto-generado)
  *
@@ -29,7 +25,6 @@
  *     bg-color="#0a0703"
  *     device-color="#3c2e18"
  *     screen-effect="led"
- *     chassis="ipod"
  *     autoplay
  *     anchor-id="encuentro-video">
  *   </retro-tv-player>
@@ -48,11 +43,6 @@ class RetroTvPlayer extends HTMLElement {
     const screenEffect = ALLOWED_FX.includes(rawFx) ? rawFx : 'tubo-retro';
     const autoplayAttr = this.getAttribute('autoplay');
     const doAutoplay   = autoplayAttr !== null && autoplayAttr !== 'false';
-    const ALLOWED_CHASSIS = ['tv', 'ipod'];
-    const rawChassis   = (this.getAttribute('chassis') || 'tv').toLowerCase().trim();
-    const chassisType  = ALLOWED_CHASSIS.includes(rawChassis) ? rawChassis : 'tv';
-    /* velocidad de la marquesina proporcional al largo del título */
-    const marqueeDur   = Math.max(6, titleText.length * 0.4).toFixed(1);
     const anchorId     = this.getAttribute('anchor-id')
                          || ('retro-tv-' + Math.random().toString(36).slice(2, 8));
 
@@ -665,144 +655,6 @@ class RetroTvPlayer extends HTMLElement {
   gap: 12px;
 }
 
-/* ══════════════════════════════════════════════════════════
-   CHASIS "IPOD"  ·  chassis="ipod"
-   Cuerpo vertical, pantalla protagonista (sin franjas muertas
-   con video vertical) + 2do visor tipo display MP3 en marquesina.
-══════════════════════════════════════════════════════════ */
-
-/* Mini-visor: display oscuro con el título corriendo tipo marquesina */
-.${uid}-minidisplay {
-  display: none; /* solo visible con chassis="ipod" */
-  position: relative;
-  margin-top: 10px;
-  background: #050705;
-  border-radius: 7px;
-  padding: 7px 4px;
-  overflow: hidden;
-  box-shadow:
-    inset 0 2px 6px rgba(0,0,0,0.85),
-    inset 0 0 0 1px rgba(255,255,255,0.05),
-    inset 0 0 10px 1px rgba(${cr},${cg},${cb},0.10);
-}
-/* Trama de puntos para look "pixelado" tipo LCD */
-.${uid}-minidisplay::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(90deg,
-    rgba(0,0,0,0.38) 0px, rgba(0,0,0,0.38) 1px,
-    transparent 1px, transparent 2px);
-  mix-blend-mode: multiply;
-  pointer-events: none;
-}
-.${uid}-marquee-track {
-  display: flex;
-  width: max-content;
-  animation: ${uid}-marquee ${marqueeDur}s linear infinite;
-}
-.${uid}-marquee-text {
-  flex-shrink: 0;
-  padding-right: 3em;
-  font-family: 'Courier New', monospace;
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #f2fff2;
-  text-shadow:
-    0 0 2px rgba(255,255,255,0.85),
-    1px 0 0 rgba(255,255,255,0.35),
-    -1px 0 0 rgba(255,255,255,0.35);
-  white-space: nowrap;
-}
-@keyframes ${uid}-marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-/* Activación del chasis iPod: pantalla más grande y presente,
-   sin pedestal, cuerpo vertical, mini-visor visible. */
-.${uid}-outer.chassis-ipod {
-  max-width: 380px;
-}
-.${uid}-outer.chassis-ipod .${uid}-title {
-  display: none; /* el título vive en el mini-visor marquesina */
-}
-.${uid}-outer.chassis-ipod .${uid}-minidisplay {
-  display: block;
-}
-.${uid}-outer.chassis-ipod .${uid}-chassis {
-  border-radius: 34px;
-  padding: 14px 14px 16px;
-}
-.${uid}-outer.chassis-ipod .${uid}-chassis::before {
-  border-radius: 34px;
-}
-.${uid}-outer.chassis-ipod .${uid}-chassis::after {
-  display: none; /* sin pedestal: un iPod no tiene pie de TV */
-}
-.${uid}-outer.chassis-ipod .${uid}-inner {
-  flex-direction: column;
-  gap: 0;
-}
-.${uid}-outer.chassis-ipod .${uid}-screen-wrap {
-  padding: 6px;
-  border-radius: 20px;
-}
-.${uid}-outer.chassis-ipod .${uid}-screen-wrap::before {
-  border-radius: 19px;
-}
-.${uid}-outer.chassis-ipod .${uid}-screen {
-  border-radius: 16px;
-}
-.${uid}-outer.chassis-ipod .${uid}-screen::after {
-  border-radius: 16px;
-}
-.${uid}-outer.chassis-ipod .${uid}-video {
-  border-radius: 14px;
-}
-/* La pantalla ocupa casi todo el ancho del cuerpo: sin límites
-   angostos de "TV con video vertical incrustado" */
-.${uid}-outer.chassis-ipod .${uid}-screen.portrait {
-  max-width: none;
-  width: 100%;
-  margin: 0;
-}
-.${uid}-outer.chassis-ipod .${uid}-screen.landscape {
-  aspect-ratio: 3 / 4; /* si el video es horizontal, se acomoda al cuerpo vertical */
-}
-.${uid}-outer.chassis-ipod .${uid}-controls {
-  border-radius: 0 0 14px 14px;
-}
-.${uid}-outer.chassis-ipod .${uid}-side {
-  flex-direction: row;
-  width: 100%;
-  min-width: unset;
-  border-radius: 16px;
-  margin-top: 10px;
-  padding: 10px 20px;
-  justify-content: center;
-  gap: 26px;
-  box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
-}
-.${uid}-outer.chassis-ipod .${uid}-knob-group {
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
-}
-.${uid}-outer.chassis-ipod .${uid}-knob-ring {
-  width: 40px;
-  height: 40px;
-}
-
-@media (max-width: 767px) {
-  .${uid}-outer.chassis-ipod {
-    max-width: 420px;
-    margin: 1rem auto;
-  }
-}
-
 /* ─── Mobile: side panel becomes bottom strip ─── */
 @media (max-width: 767px) {
   .${uid}-outer {
@@ -828,7 +680,7 @@ class RetroTvPlayer extends HTMLElement {
 }
 </style>
 
-<div class="${uid}-outer${initAR === 'portrait' ? ' orient-portrait' : ''}${chassisType === 'ipod' ? ' chassis-ipod' : ''}" id="${uid}-outer">
+<div class="${uid}-outer${initAR === 'portrait' ? ' orient-portrait' : ''}" id="${uid}-outer">
 
   <!-- 3D Title -->
   <span class="${uid}-title">${titleText}</span>
@@ -857,14 +709,6 @@ class RetroTvPlayer extends HTMLElement {
             <div class="${uid}-glare"></div>
             <div class="${uid}-ledgrid"></div>
             <div class="${uid}-vhsbar"></div>
-          </div>
-        </div>
-
-        <!-- 2do visor: display tipo MP3 con el título en marquesina (solo chassis="ipod") -->
-        <div class="${uid}-minidisplay">
-          <div class="${uid}-marquee-track">
-            <span class="${uid}-marquee-text">${titleText}</span>
-            <span class="${uid}-marquee-text">${titleText}</span>
           </div>
         </div>
 
