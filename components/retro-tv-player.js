@@ -727,7 +727,7 @@ class RetroTvPlayer extends HTMLElement {
   max-width: 380px;
 }
 .${uid}-outer.chassis-ipod .${uid}-title {
-  display: none; /* el título vive en el mini-visor marquesina */
+  display: none !important; /* el título vive en el mini-visor marquesina */
 }
 .${uid}-outer.chassis-ipod .${uid}-minidisplay {
   display: block;
