@@ -17,6 +17,12 @@
  *                  "ipod" (reproductor tipo MP4/iPod vertical, pantalla más grande y
  *                  presente, con un 2do visor tipo display MP3 donde el título corre
  *                  en marquesina: fondo oscuro, texto blanco pixelado)
+ *   link-href      URL de destino. Si se define, el player agrega un botón y/o hace
+ *                  clickeable la pantalla (ver link-mode). Si no se define, no cambia nada.
+ *   link-target    Target del link: "_self" (default, misma pestaña) o "_blank" (nueva)
+ *   link-mode      Dónde se activa el link: "button" (default, botón debajo del chasis),
+ *                  "screen" (toda la pantalla/visor es clickeable) o "both" (ambas)
+ *   link-label     Texto del botón (default: "Ver más")
  *   autoplay       Si está presente (o = "true"), reproduce automáticamente muteado
  *   anchor-id      ID del elemento para anclas URL (default: auto-generado)
  *
@@ -30,6 +36,9 @@
  *     device-color="#3c2e18"
  *     screen-effect="led"
  *     chassis="ipod"
+ *     link-href="https://miparroquia.org/encuentro"
+ *     link-mode="both"
+ *     link-label="Ver galería completa"
  *     autoplay
  *     anchor-id="encuentro-video">
  *   </retro-tv-player>
@@ -53,6 +62,16 @@ class RetroTvPlayer extends HTMLElement {
     const chassisType  = ALLOWED_CHASSIS.includes(rawChassis) ? rawChassis : 'tv';
     /* velocidad de la marquesina proporcional al largo del título */
     const marqueeDur   = Math.max(6, titleText.length * 0.4).toFixed(1);
+    const linkHref     = this.getAttribute('link-href')   || '';
+    const linkTarget   = this.getAttribute('link-target') || '_self';
+    const linkLabel    = this.getAttribute('link-label')  || 'Ver más';
+    const ALLOWED_LINKMODE = ['button', 'screen', 'both'];
+    const rawLinkMode  = (this.getAttribute('link-mode') || 'button').toLowerCase().trim();
+    const linkMode     = ALLOWED_LINKMODE.includes(rawLinkMode) ? rawLinkMode : 'button';
+    const hasLink      = linkHref.length > 0;
+    const showBtn      = hasLink && (linkMode === 'button' || linkMode === 'both');
+    const showScreenLnk= hasLink && (linkMode === 'screen' || linkMode === 'both');
+    const linkRel      = linkTarget === '_blank' ? 'rel="noopener noreferrer"' : '';
     const anchorId     = this.getAttribute('anchor-id')
                          || ('retro-tv-' + Math.random().toString(36).slice(2, 8));
 
@@ -640,6 +659,58 @@ class RetroTvPlayer extends HTMLElement {
   margin-top: 10px;
 }
 
+/* ─── Link: overlay clickeable sobre la pantalla (link-mode="screen"|"both") ─── */
+.${uid}-screen-link {
+  position: absolute;
+  inset: 0;
+  z-index: 9;
+  display: block;
+  cursor: pointer;
+  border-radius: inherit;
+  transition: box-shadow 0.2s;
+}
+.${uid}-screen-link:hover,
+.${uid}-screen-link:focus-visible {
+  box-shadow: inset 0 0 0 2px rgba(${cr},${cg},${cb},0.55);
+  outline: none;
+}
+
+/* ─── Link: botón CTA debajo del dispositivo (link-mode="button"|"both") ─── */
+.${uid}-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: fit-content;
+  margin: 1.1rem auto 0;
+  padding: 11px 26px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, ${mid}, ${dark});
+  color: #fff;
+  font-family: system-ui, -apple-system, sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow:
+    0 8px 20px rgba(0,0,0,0.55),
+    0 0 22px ${gMed},
+    inset 0 1px 0 rgba(255,255,255,0.18);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.${uid}-cta:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 26px rgba(0,0,0,0.6),
+    0 0 30px ${gHigh},
+    inset 0 1px 0 rgba(255,255,255,0.22);
+}
+.${uid}-cta:active { transform: translateY(0); }
+.${uid}-cta:focus-visible { outline: 2px solid ${lite}; outline-offset: 3px; }
+.${uid}-cta i { font-size: 16px; transition: transform 0.15s ease; }
+.${uid}-cta:hover i { transform: translateX(3px); }
+
 /* ─── TV vertical: cuando el video es portrait, todo el chassis
        se angosta y el panel lateral pasa a ser una franja inferior,
        sea en mobile o en desktop ─── */
@@ -857,6 +928,7 @@ class RetroTvPlayer extends HTMLElement {
             <div class="${uid}-glare"></div>
             <div class="${uid}-ledgrid"></div>
             <div class="${uid}-vhsbar"></div>
+            ${showScreenLnk ? `<a class="${uid}-screen-link" href="${linkHref}" target="${linkTarget}" ${linkRel} aria-label="${linkLabel}"></a>` : ''}
           </div>
         </div>
 
@@ -918,6 +990,13 @@ class RetroTvPlayer extends HTMLElement {
 
     <div class="${uid}-brand">◈ RetroVision ◈</div>
   </div><!-- /.chassis -->
+
+  ${showBtn ? `
+  <!-- CTA: link-mode="button"|"both" -->
+  <a class="${uid}-cta" href="${linkHref}" target="${linkTarget}" ${linkRel}>
+    <span>${linkLabel}</span>
+    <i class="material-icons">arrow_forward</i>
+  </a>` : ''}
 
 </div><!-- /.outer -->
 `;
