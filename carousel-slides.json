@@ -1,4 +1,46 @@
 [
+              {
+    "id": "afligidos",
+    "position": 1,
+    "hasVideo": false,
+    "link": "#afligidos",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/afli_desk3.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/afli_mob4.png"
+    }
+  },
+      {
+    "id": "feria",
+    "position": 4,
+    "hasVideo": false,
+    "link": "#feria",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./feria/slide_desk.png"
+ 
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./feria/slide_mob.png"
+ 
+    },
+    
+    "overlay": {
+      "src": "",
+      "desktopPos": "center",
+      "mobilePos": "bottom-quarter",
+      "effect": "blink",
+      "desktopScale": 0.4,
+      "mobileScale": 0.5
+    }
+  },
+
                     {
     "id": "papa",
     "position": -1,
@@ -16,7 +58,7 @@
   },
                   {
     "id": "SF",
-    "position": 2,
+    "position": -1,
     "hasVideo": false,
     "link": "https://colegiosanfranciscodeasis.edu.ar/",
     "time": { "desktop": 3, "mobile": 3 },
@@ -77,7 +119,7 @@
   },
           {
     "id": "coro",
-    "position": 3,
+    "position": 2,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -93,7 +135,7 @@
        
               {
     "id": "merienda",
-    "position": 4,
+    "position": 3,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
@@ -140,21 +182,7 @@
       "src": "./slides/vacaciones_mob-fall.png"
     }
   },
-            {
-    "id": "afligidos",
-    "position": 1,
-    "hasVideo": false,
-    "link": "#afligidos",
-    "time": { "desktop": 3, "mobile": 3 },
-    "desktop": {
-      "type": "image",
-      "src": "./slides/afli_desk3.png"
-    },
-    "mobile": {
-      "type": "image",
-      "src": "./slides/afli_mob4.png"
-    }
-  },
+
      {
     "id": "sabana",
     "position": -1,
@@ -169,32 +197,6 @@
     "type": "image",
     "src": "./slides/sabana_mob_julio.jpg"
   }
-  },
-    {
-    "id": "feria",
-    "position": 5,
-    "hasVideo": false,
-    "link": "#feria",
-    "time": { "desktop": 3, "mobile": 3 },
-    "desktop": {
-      "type": "image",
-      "src": "./feria/slide_desk.png"
- 
-    },
-    "mobile": {
-      "type": "image",
-      "src": "./feria/slide_mob.png"
- 
-    },
-    
-    "overlay": {
-      "src": "",
-      "desktopPos": "center",
-      "mobilePos": "bottom-quarter",
-      "effect": "blink",
-      "desktopScale": 0.4,
-      "mobileScale": 0.5
-    }
   },
 
 
