@@ -876,7 +876,7 @@ class RetroTvPlayer extends HTMLElement {
 
 @media (max-width: 767px) {
   .${uid}-outer.chassis-ipod {
-    max-width: min(420px, 95vw); /* nunca más ancho que el 95% del viewport real */
+    max-width: 420px;
     margin: 1rem auto;
   }
 }

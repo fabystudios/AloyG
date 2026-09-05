@@ -1160,26 +1160,33 @@ Por estos días y en el marco de una nueva misión de avanzada, una delegación 
 <!-- <div style="display:flex;justify-content:center;"> -->
 <!-- </retro-tv-player> -->
 <style>
-  /* El componente le pone "margin: 2.5rem auto" y "padding: 2rem" a
-     su panel de vidrio interno (pensado para cuando se usa uno solo,
-     suelto, centrado en la página). Los anulamos/reducimos acá para
-     que sea el "gap" del flex el que controle la separación real
-     entre los tres, y no el padding interno de cada tarjeta. */
-  .fila-videos [class*="-outer"] {
-    margin: 0 !important;
-    padding-left: 0.9rem !important;
-    padding-right: 0.9rem !important;
-  }
-  /* El bloque global de "ritmo vertical entre publicaciones" (arriba en el
-     <head>) le pone margin-inline:auto al TAG <retro-tv-player> en sí.
-     Ese margin:auto en un item de flexbox se come todo el espacio libre
-     de la fila y anula el "gap" del contenedor. Lo anulamos acá. */
-  .fila-videos > retro-tv-player {
-    margin: 0 !important;
+  /* Estos overrides son SOLO para el layout en fila de escritorio/tablet.
+     En mobile, cada dispositivo ya ocupa ~95% del viewport por su cuenta
+     (lógica propia del componente) y se apilan uno debajo del otro, así
+     que acá no tocamos nada: dejamos que el componente use su margin y
+     padding originales, que ya están pensados para esos anchos chicos. */
+  @media (min-width: 768px) {
+    /* El componente le pone "margin: 2.5rem auto" y "padding: 2rem" a
+       su panel de vidrio interno (pensado para cuando se usa uno solo,
+       suelto, centrado en la página). Los anulamos/reducimos acá para
+       que sea el "gap" del flex el que controle la separación real
+       entre los tres, y no el padding interno de cada tarjeta. */
+    .fila-videos [class*="-outer"] {
+      margin: 0 !important;
+      padding-left: 0.9rem !important;
+      padding-right: 0.9rem !important;
+    }
+    /* El bloque global de "ritmo vertical entre publicaciones" (arriba en
+       el <head>) le pone margin-inline:auto al TAG <retro-tv-player> en
+       sí. Ese margin:auto en un item de flexbox se come todo el espacio
+       libre de la fila y anula el "gap" del contenedor. Lo anulamos acá. */
+    .fila-videos > retro-tv-player {
+      margin: 0 !important;
+    }
   }
 </style>
 
-<div class="fila-videos" style="display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:2rem;">
+<div class="fila-videos" style="display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:0.5rem;">
 
   <retro-tv-player
     link-href="https://programafe.org"
@@ -1212,7 +1219,8 @@ Por estos días y en el marco de una nueva misión de avanzada, una delegación 
     bg-color="#EAD7D8"
     device-color="#f5e6d3"
     screen-effect="moderno"
-    autoplay>
+    autoplay
+    hide-mobile>
   </retro-tv-player>
 
   <retro-tv-player
@@ -1229,7 +1237,8 @@ Por estos días y en el marco de una nueva misión de avanzada, una delegación 
     bg-color="#EAD7D8"
     device-color="#f5e6d3"
     screen-effect="moderno"
-    autoplay>
+    autoplay
+    hide-mobile>
   </retro-tv-player>
 
 </div>
