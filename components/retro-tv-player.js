@@ -13,17 +13,6 @@
  *                  vívidos), "vhs" (barra de tracking, scanlines de cinta, colores lavados)
  *                  o "moderno" (panel plano tipo LCD/OLED actual, sin viñeta ni scanlines,
  *                  biseles casi rectos y brillo de vidrio sutil)
- *   chassis        Tipo de gabinete: "tv" (default, televisor retro con pedestal) o
- *                  "ipod" (reproductor tipo MP4/iPod vertical, pantalla más grande y
- *                  presente, con un 2do visor tipo display MP3 donde el título corre
- *                  en marquesina: fondo oscuro, texto blanco pixelado)
- *   link-href      URL de destino. Si se define, el player agrega un botón y/o hace
- *                  clickeable la pantalla (ver link-mode). Si no se define, no cambia nada.
- *   link-target    Target del link: "_self" (default, misma pestaña) o "_blank" (nueva)
- *   link-mode      Dónde se activa el link: "button" (default, botón debajo del chasis),
- *                  "screen" (toda la pantalla/visor es clickeable) o "both" (ambas)
- *   link-label     Texto del botón (default: "Ver más")
- *   hide-mobile    Si está presente, oculta el botón CTA en pantallas móviles (≤767px)
  *   autoplay       Si está presente (o = "true"), reproduce automáticamente muteado
  *   anchor-id      ID del elemento para anclas URL (default: auto-generado)
  *
@@ -36,10 +25,6 @@
  *     bg-color="#0a0703"
  *     device-color="#3c2e18"
  *     screen-effect="led"
- *     chassis="ipod"
- *     link-href="https://miparroquia.org/encuentro"
- *     link-mode="both"
- *     link-label="Ver galería completa"
  *     autoplay
  *     anchor-id="encuentro-video">
  *   </retro-tv-player>
@@ -58,23 +43,6 @@ class RetroTvPlayer extends HTMLElement {
     const screenEffect = ALLOWED_FX.includes(rawFx) ? rawFx : 'tubo-retro';
     const autoplayAttr = this.getAttribute('autoplay');
     const doAutoplay   = autoplayAttr !== null && autoplayAttr !== 'false';
-    const ALLOWED_CHASSIS = ['tv', 'ipod'];
-    const rawChassis   = (this.getAttribute('chassis') || 'tv').toLowerCase().trim();
-    const chassisType  = ALLOWED_CHASSIS.includes(rawChassis) ? rawChassis : 'tv';
-    /* velocidad de la marquesina proporcional al largo del título */
-    const marqueeDur   = Math.max(6, titleText.length * 0.4).toFixed(1);
-    const linkHref     = this.getAttribute('link-href')   || '';
-    const linkTarget   = this.getAttribute('link-target') || '_self';
-    const linkLabel    = this.getAttribute('link-label')  || 'Ver más';
-    const ALLOWED_LINKMODE = ['button', 'screen', 'both'];
-    const rawLinkMode  = (this.getAttribute('link-mode') || 'button').toLowerCase().trim();
-    const linkMode     = ALLOWED_LINKMODE.includes(rawLinkMode) ? rawLinkMode : 'button';
-    const hasLink      = linkHref.length > 0;
-    const showBtn      = hasLink && (linkMode === 'button' || linkMode === 'both');
-    const showScreenLnk= hasLink && (linkMode === 'screen' || linkMode === 'both');
-    const linkRel      = linkTarget === '_blank' ? 'rel="noopener noreferrer"' : '';
-    const hideMobileAttr = this.getAttribute('hide-mobile');
-    const ctaHideMobile  = hideMobileAttr !== null && hideMobileAttr !== 'false';
     const anchorId     = this.getAttribute('anchor-id')
                          || ('retro-tv-' + Math.random().toString(36).slice(2, 8));
 
@@ -167,10 +135,6 @@ class RetroTvPlayer extends HTMLElement {
 @media (max-width: 767px) {
   .${uid}-outer::before {
     inset: -60px 0;  /* evita desbordamiento horizontal en móvil */
-  }
-  .${uid}-cta-hidemobile {
-    display: none !important; /* la regla .${uid}-cta (más abajo en la hoja) fija
-      display:flex con la misma especificidad; sin !important, gana por orden */
   }
 }
 
@@ -666,58 +630,6 @@ class RetroTvPlayer extends HTMLElement {
   margin-top: 10px;
 }
 
-/* ─── Link: overlay clickeable sobre la pantalla (link-mode="screen"|"both") ─── */
-.${uid}-screen-link {
-  position: absolute;
-  inset: 0;
-  z-index: 9;
-  display: block;
-  cursor: pointer;
-  border-radius: inherit;
-  transition: box-shadow 0.2s;
-}
-.${uid}-screen-link:hover,
-.${uid}-screen-link:focus-visible {
-  box-shadow: inset 0 0 0 2px rgba(${cr},${cg},${cb},0.55);
-  outline: none;
-}
-
-/* ─── Link: botón CTA debajo del dispositivo (link-mode="button"|"both") ─── */
-.${uid}-cta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: fit-content;
-  margin: 1.1rem auto 0;
-  padding: 11px 26px;
-  border-radius: 999px;
-  background: linear-gradient(135deg, ${mid}, ${dark});
-  color: #fff;
-  font-family: system-ui, -apple-system, sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.02em;
-  text-decoration: none;
-  white-space: nowrap;
-  box-shadow:
-    0 8px 20px rgba(0,0,0,0.55),
-    0 0 22px ${gMed},
-    inset 0 1px 0 rgba(255,255,255,0.18);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-.${uid}-cta:hover {
-  transform: translateY(-2px);
-  box-shadow:
-    0 12px 26px rgba(0,0,0,0.6),
-    0 0 30px ${gHigh},
-    inset 0 1px 0 rgba(255,255,255,0.22);
-}
-.${uid}-cta:active { transform: translateY(0); }
-.${uid}-cta:focus-visible { outline: 2px solid ${lite}; outline-offset: 3px; }
-.${uid}-cta i { font-size: 16px; transition: transform 0.15s ease; }
-.${uid}-cta:hover i { transform: translateX(3px); }
-
 /* ─── TV vertical: cuando el video es portrait, todo el chassis
        se angosta y el panel lateral pasa a ser una franja inferior,
        sea en mobile o en desktop ─── */
@@ -741,144 +653,6 @@ class RetroTvPlayer extends HTMLElement {
   flex-direction: row;
   align-items: center;
   gap: 12px;
-}
-
-/* ══════════════════════════════════════════════════════════
-   CHASIS "IPOD"  ·  chassis="ipod"
-   Cuerpo vertical, pantalla protagonista (sin franjas muertas
-   con video vertical) + 2do visor tipo display MP3 en marquesina.
-══════════════════════════════════════════════════════════ */
-
-/* Mini-visor: display oscuro con el título corriendo tipo marquesina */
-.${uid}-minidisplay {
-  display: none; /* solo visible con chassis="ipod" */
-  position: relative;
-  margin-top: 10px;
-  background: #050705;
-  border-radius: 7px;
-  padding: 7px 4px;
-  overflow: hidden;
-  box-shadow:
-    inset 0 2px 6px rgba(0,0,0,0.85),
-    inset 0 0 0 1px rgba(255,255,255,0.05),
-    inset 0 0 10px 1px rgba(${cr},${cg},${cb},0.10);
-}
-/* Trama de puntos para look "pixelado" tipo LCD */
-.${uid}-minidisplay::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(90deg,
-    rgba(0,0,0,0.38) 0px, rgba(0,0,0,0.38) 1px,
-    transparent 1px, transparent 2px);
-  mix-blend-mode: multiply;
-  pointer-events: none;
-}
-.${uid}-marquee-track {
-  display: flex;
-  width: max-content;
-  animation: ${uid}-marquee ${marqueeDur}s linear infinite;
-}
-.${uid}-marquee-text {
-  flex-shrink: 0;
-  padding-right: 3em;
-  font-family: 'Courier New', monospace;
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #f2fff2;
-  text-shadow:
-    0 0 2px rgba(255,255,255,0.85),
-    1px 0 0 rgba(255,255,255,0.35),
-    -1px 0 0 rgba(255,255,255,0.35);
-  white-space: nowrap;
-}
-@keyframes ${uid}-marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-/* Activación del chasis iPod: pantalla más grande y presente,
-   sin pedestal, cuerpo vertical, mini-visor visible. */
-.${uid}-outer.chassis-ipod {
-  max-width: 380px;
-}
-.${uid}-outer.chassis-ipod .${uid}-title {
-  display: none !important; /* el título vive en el mini-visor marquesina */
-}
-.${uid}-outer.chassis-ipod .${uid}-minidisplay {
-  display: block;
-}
-.${uid}-outer.chassis-ipod .${uid}-chassis {
-  border-radius: 34px;
-  padding: 14px 14px 16px;
-}
-.${uid}-outer.chassis-ipod .${uid}-chassis::before {
-  border-radius: 34px;
-}
-.${uid}-outer.chassis-ipod .${uid}-chassis::after {
-  display: none; /* sin pedestal: un iPod no tiene pie de TV */
-}
-.${uid}-outer.chassis-ipod .${uid}-inner {
-  flex-direction: column;
-  gap: 0;
-}
-.${uid}-outer.chassis-ipod .${uid}-screen-wrap {
-  padding: 6px;
-  border-radius: 20px;
-}
-.${uid}-outer.chassis-ipod .${uid}-screen-wrap::before {
-  border-radius: 19px;
-}
-.${uid}-outer.chassis-ipod .${uid}-screen {
-  border-radius: 16px;
-}
-.${uid}-outer.chassis-ipod .${uid}-screen::after {
-  border-radius: 16px;
-}
-.${uid}-outer.chassis-ipod .${uid}-video {
-  border-radius: 14px;
-}
-/* La pantalla ocupa casi todo el ancho del cuerpo: sin límites
-   angostos de "TV con video vertical incrustado" */
-.${uid}-outer.chassis-ipod .${uid}-screen.portrait {
-  max-width: none;
-  width: 100%;
-  margin: 0;
-}
-.${uid}-outer.chassis-ipod .${uid}-screen.landscape {
-  aspect-ratio: 3 / 4; /* si el video es horizontal, se acomoda al cuerpo vertical */
-}
-.${uid}-outer.chassis-ipod .${uid}-controls {
-  border-radius: 0 0 14px 14px;
-}
-.${uid}-outer.chassis-ipod .${uid}-side {
-  flex-direction: row;
-  width: 100%;
-  min-width: unset;
-  border-radius: 16px;
-  margin-top: 10px;
-  padding: 10px 20px;
-  justify-content: center;
-  gap: 26px;
-  box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
-}
-.${uid}-outer.chassis-ipod .${uid}-knob-group {
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
-}
-.${uid}-outer.chassis-ipod .${uid}-knob-ring {
-  width: 40px;
-  height: 40px;
-}
-
-@media (max-width: 767px) {
-  .${uid}-outer.chassis-ipod {
-    max-width: 420px;
-    margin: 1rem auto;
-  }
 }
 
 /* ─── Mobile: side panel becomes bottom strip ─── */
@@ -906,7 +680,7 @@ class RetroTvPlayer extends HTMLElement {
 }
 </style>
 
-<div class="${uid}-outer${initAR === 'portrait' ? ' orient-portrait' : ''}${chassisType === 'ipod' ? ' chassis-ipod' : ''}" id="${uid}-outer">
+<div class="${uid}-outer${initAR === 'portrait' ? ' orient-portrait' : ''}" id="${uid}-outer">
 
   <!-- 3D Title -->
   <span class="${uid}-title">${titleText}</span>
@@ -935,15 +709,6 @@ class RetroTvPlayer extends HTMLElement {
             <div class="${uid}-glare"></div>
             <div class="${uid}-ledgrid"></div>
             <div class="${uid}-vhsbar"></div>
-            ${showScreenLnk ? `<a class="${uid}-screen-link" href="${linkHref}" target="${linkTarget}" ${linkRel} aria-label="${linkLabel}"></a>` : ''}
-          </div>
-        </div>
-
-        <!-- 2do visor: display tipo MP3 con el título en marquesina (solo chassis="ipod") -->
-        <div class="${uid}-minidisplay">
-          <div class="${uid}-marquee-track">
-            <span class="${uid}-marquee-text">${titleText}</span>
-            <span class="${uid}-marquee-text">${titleText}</span>
           </div>
         </div>
 
@@ -997,13 +762,6 @@ class RetroTvPlayer extends HTMLElement {
 
     <div class="${uid}-brand">◈ RetroVision ◈</div>
   </div><!-- /.chassis -->
-
-  ${showBtn ? `
-  <!-- CTA: link-mode="button"|"both" -->
-  <a class="${uid}-cta${ctaHideMobile ? ` ${uid}-cta-hidemobile` : ''}" href="${linkHref}" target="${linkTarget}" ${linkRel}>
-    <span>${linkLabel}</span>
-    <i class="material-icons">arrow_forward</i>
-  </a>` : ''}
 
 </div><!-- /.outer -->
 `;
