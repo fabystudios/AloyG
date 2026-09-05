@@ -16,7 +16,7 @@
   },
       {
     "id": "feria",
-    "position": 4,
+    "position": 3,
     "hasVideo": false,
     "link": "#feria",
     "time": { "desktop": 3, "mobile": 3 },
@@ -135,7 +135,7 @@
        
               {
     "id": "merienda",
-    "position": 3,
+    "position": 4,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
