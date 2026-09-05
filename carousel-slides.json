@@ -1,4 +1,34 @@
 [
+                {
+    "id": "asis1",
+    "position": 2,
+    "hasVideo": false,
+    "link": "#asis1",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/asis_desk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/asis_mob.png"
+    }
+  },
+                  {
+    "id": "asis2",
+    "position": 3,
+    "hasVideo": false,
+    "link": "#asis2",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/asis2_desk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/asis2_mob.png"
+    }
+  },
               {
     "id": "afligidos",
     "position": 1,
@@ -16,7 +46,7 @@
   },
       {
     "id": "feria",
-    "position": 3,
+    "position": 4,
     "hasVideo": false,
     "link": "#feria",
     "time": { "desktop": 3, "mobile": 3 },
@@ -119,7 +149,7 @@
   },
           {
     "id": "coro",
-    "position": 2,
+    "position": -1,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -135,7 +165,7 @@
        
               {
     "id": "merienda",
-    "position": 4,
+    "position": 5,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
