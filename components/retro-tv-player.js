@@ -23,6 +23,7 @@
  *   link-mode      Dónde se activa el link: "button" (default, botón debajo del chasis),
  *                  "screen" (toda la pantalla/visor es clickeable) o "both" (ambas)
  *   link-label     Texto del botón (default: "Ver más")
+ *   hide-mobile    Si está presente, oculta el botón CTA en pantallas móviles (≤767px)
  *   autoplay       Si está presente (o = "true"), reproduce automáticamente muteado
  *   anchor-id      ID del elemento para anclas URL (default: auto-generado)
  *
@@ -72,6 +73,8 @@ class RetroTvPlayer extends HTMLElement {
     const showBtn      = hasLink && (linkMode === 'button' || linkMode === 'both');
     const showScreenLnk= hasLink && (linkMode === 'screen' || linkMode === 'both');
     const linkRel      = linkTarget === '_blank' ? 'rel="noopener noreferrer"' : '';
+    const hideMobileAttr = this.getAttribute('hide-mobile');
+    const ctaHideMobile  = hideMobileAttr !== null && hideMobileAttr !== 'false';
     const anchorId     = this.getAttribute('anchor-id')
                          || ('retro-tv-' + Math.random().toString(36).slice(2, 8));
 
@@ -164,6 +167,10 @@ class RetroTvPlayer extends HTMLElement {
 @media (max-width: 767px) {
   .${uid}-outer::before {
     inset: -60px 0;  /* evita desbordamiento horizontal en móvil */
+  }
+  .${uid}-cta-hidemobile {
+    display: none !important; /* la regla .${uid}-cta (más abajo en la hoja) fija
+      display:flex con la misma especificidad; sin !important, gana por orden */
   }
 }
 
@@ -993,7 +1000,7 @@ class RetroTvPlayer extends HTMLElement {
 
   ${showBtn ? `
   <!-- CTA: link-mode="button"|"both" -->
-  <a class="${uid}-cta" href="${linkHref}" target="${linkTarget}" ${linkRel}>
+  <a class="${uid}-cta${ctaHideMobile ? ` ${uid}-cta-hidemobile` : ''}" href="${linkHref}" target="${linkTarget}" ${linkRel}>
     <span>${linkLabel}</span>
     <i class="material-icons">arrow_forward</i>
   </a>` : ''}

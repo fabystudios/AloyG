@@ -1,5 +1,10 @@
 [
-
+        {
+    "nombre": "Clases de Canto",
+    "thumb": "./cartelera/img/canto.png",
+    "flyer": "./cartelera/img/canto.png",
+    "whatsapp": "+5492215559320"
+  },
         {
     "nombre": "Fletes Carrera",
     "thumb": "./cartelera/img/flete.jpg",

@@ -1159,23 +1159,86 @@ Por estos días y en el marco de una nueva misión de avanzada, una delegación 
              <!-- color="#c8a84b" -->
 <!-- <div style="display:flex;justify-content:center;"> -->
 <!-- </retro-tv-player> -->
+<style>
+  /* El componente le pone "margin: 2.5rem auto" y "padding: 2rem" a
+     su panel de vidrio interno (pensado para cuando se usa uno solo,
+     suelto, centrado en la página). Los anulamos/reducimos acá para
+     que sea el "gap" del flex el que controle la separación real
+     entre los tres, y no el padding interno de cada tarjeta. */
+  .fila-videos [class*="-outer"] {
+    margin: 0 !important;
+    padding-left: 0.9rem !important;
+    padding-right: 0.9rem !important;
+  }
+  /* El bloque global de "ritmo vertical entre publicaciones" (arriba en el
+     <head>) le pone margin-inline:auto al TAG <retro-tv-player> en sí.
+     Ese margin:auto en un item de flexbox se come todo el espacio libre
+     de la fila y anula el "gap" del contenedor. Lo anulamos acá. */
+  .fila-videos > retro-tv-player {
+    margin: 0 !important;
+  }
+</style>
+
+<div class="fila-videos" style="display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:2rem;">
+
   <retro-tv-player
-  link-href="https://programafe.org"
-  link-mode="button"
-  link-target="_blank"
-  link-label="PROGRAMA FE"
-chassis="ipod"
-    anchor-id="video-encuentro"
+    link-href="https://programafe.org"
+    link-mode="button"
+    link-target="_blank"
+    link-label="PROGRAMA FE"
+    chassis="ipod"
+    anchor-id="video-colecta"
     src-desktop="./video/colecta.mp4"
     src-mobile="./video/colecta.mp4"
-    title= "EL PAPA LEÓN IV VISITA LA ARGENTINA!"
-  color="#00a2ff"
-  bg-color="#EAD7D8"
-  device-color="#f5e6d3"
-  screen-effect="moderno"
+    title="EL PAPA LEÓN IV VISITA LA ARGENTINA!"
+    color="#00a2ff"
+    bg-color="#EAD7D8"
+    device-color="#f5e6d3"
+    screen-effect="moderno"
     autoplay>
   </retro-tv-player>
-}
+
+  <retro-tv-player
+    link-href="https://programafe.org"
+    link-mode="button"
+    link-target="_blank"
+    link-label="PROGRAMA FE"
+    chassis="ipod"
+    anchor-id="video-argentina"
+    src-desktop="./video/argentina.mp4"
+    src-mobile="./video/argentina.mp4"
+    title="ARGENTINA CANTA Y CAMINA!"
+    color="#00a2ff"
+    bg-color="#EAD7D8"
+    device-color="#f5e6d3"
+    screen-effect="moderno"
+    autoplay
+    hide-mobile>
+  </retro-tv-player>
+
+  <retro-tv-player
+    link-href="https://programafe.org"
+    link-mode="button"
+    link-target="_blank"
+    link-label="PROGRAMA FE"
+    chassis="ipod"
+    anchor-id="video-resumen"
+    src-desktop="./video/resumen.mp4"
+    src-mobile="./video/resumen.mp4"
+    title="RESUMEN SEMANAL DEL PAPA LEÓN IV"
+    color="#00a2ff"
+    bg-color="#EAD7D8"
+    device-color="#f5e6d3"
+    screen-effect="moderno"
+    autoplay
+    hide-mobile>
+  </retro-tv-player>
+
+</div>
+
+
+
+
      <script src="./components/misa-card.js"></script>
   
   <misa-card
