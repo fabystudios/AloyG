@@ -23,7 +23,9 @@
  *   link-mode      Dónde se activa el link: "button" (default, botón debajo del chasis),
  *                  "screen" (toda la pantalla/visor es clickeable) o "both" (ambas)
  *   link-label     Texto del botón (default: "Ver más")
- *   hide-mobile    Si está presente, oculta el botón CTA en pantallas móviles (≤767px)
+ *   hide-mobile    "button" (default, si el atributo está presente sin valor u otro
+ *                  valor): oculta solo el botón CTA en mobile (≤767px).
+ *                  "all": oculta la publicación COMPLETA (todo el reproductor) en mobile.
  *   autoplay       Si está presente (o = "true"), reproduce automáticamente muteado
  *   anchor-id      ID del elemento para anclas URL (default: auto-generado)
  *
@@ -74,7 +76,15 @@ class RetroTvPlayer extends HTMLElement {
     const showScreenLnk= hasLink && (linkMode === 'screen' || linkMode === 'both');
     const linkRel      = linkTarget === '_blank' ? 'rel="noopener noreferrer"' : '';
     const hideMobileAttr = this.getAttribute('hide-mobile');
-    const ctaHideMobile  = hideMobileAttr !== null && hideMobileAttr !== 'false';
+    const hideMobileMode = hideMobileAttr === null ? 'none'
+      : hideMobileAttr.toLowerCase().trim() === 'all' ? 'all'
+      : hideMobileAttr.toLowerCase().trim() === 'false' ? 'none'
+      : 'button';
+    const ctaHideMobile  = hideMobileMode === 'button';
+    const hostHideAllMobile = hideMobileMode === 'all';
+    if (hostHideAllMobile) {
+      this.setAttribute('data-hide-all-mobile', '');
+    }
     const anchorId     = this.getAttribute('anchor-id')
                          || ('retro-tv-' + Math.random().toString(36).slice(2, 8));
 
@@ -171,6 +181,9 @@ class RetroTvPlayer extends HTMLElement {
   .${uid}-cta-hidemobile {
     display: none !important; /* la regla .${uid}-cta (más abajo en la hoja) fija
       display:flex con la misma especificidad; sin !important, gana por orden */
+  }
+  retro-tv-player[data-hide-all-mobile] {
+    display: none !important; /* hide-mobile="all": oculta la publicación completa */
   }
 }
 
