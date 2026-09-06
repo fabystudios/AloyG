@@ -336,32 +336,26 @@
     backdrop-filter: blur(18px) saturate(160%);
     -webkit-backdrop-filter: blur(18px) saturate(160%);
     border-radius: 22px;
-    overflow: visible;
+    overflow: hidden;
     border: 1px solid rgba(255, 255, 255, 0.55);
     box-shadow:
       0 10px 30px rgba(13, 42, 82, 0.12),
       0 4px 10px rgba(13, 42, 82, 0.06),
       inset 0 1px 0 rgba(255, 255, 255, 0.6);
-    transition: box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
+                box-shadow 0.4s cubic-bezier(0.2, 0.8, 0.2, 1),
                 border-color 0.4s ease;
     position: relative;
     height: 100%;
-    will-change: transform;
   }
 
-  /* La rotación/tilt 3D la controla JS vía transform inline; el translateY de hover
-     queda como valor por defecto para navegadores sin JS o con "prefers-reduced-motion" */
   .aviso-card:hover {
+    transform: translateY(-6px);
     border-color: rgba(255, 255, 255, 0.8);
     box-shadow:
       0 22px 50px rgba(13, 110, 253, 0.22),
       0 8px 18px rgba(13, 42, 82, 0.10),
       inset 0 1px 0 rgba(255, 255, 255, 0.8);
-  }
-
-  /* El contenido interno sí recorta esquinas (la card ya no recorta para dejar salir el anillo) */
-  .aviso-card > .aviso-thumb {
-    border-radius: 22px 22px 0 0;
   }
 
   /* Brillo diagonal sutil sobre el glass */
@@ -377,33 +371,6 @@
     pointer-events: none;
     z-index: 4;
     border-radius: 22px;
-  }
-
-  /* ====== Borde gradiente animado (aura rotante) ====== */
-  .aviso-card::after {
-    content: "";
-    position: absolute;
-    inset: -3px;
-    border-radius: 25px;
-    padding: 2.5px;
-    background: conic-gradient(from 0deg, #0d6efd, #25d366, #ffd700, #ff5e8f, #0d6efd);
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-            mask-composite: exclude;
-    z-index: 6;
-    pointer-events: none;
-    opacity: 0.45;
-    animation: rotateAuraGradient 6s linear infinite;
-    transition: opacity 0.35s ease;
-  }
-  .aviso-card:hover::after {
-    opacity: 1;
-  }
-  @keyframes rotateAuraGradient {
-    to { transform: rotate(1turn); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .aviso-card::after { animation: none; }
   }
 
   /* Contenedor del flyer: alto fijo idéntico para todas */
@@ -440,27 +407,6 @@
       rgba(0,0,0,0.30) 100%);
     z-index: 2;
     pointer-events: none;
-  }
-
-  /* Brillo reluciente: franja de luz diagonal que atraviesa el flyer al hacer hover */
-  .aviso-thumb::before {
-    content: "";
-    position: absolute;
-    top: -60%;
-    left: -60%;
-    width: 40%;
-    height: 220%;
-    background: linear-gradient(120deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.65) 50%,
-      rgba(255, 255, 255, 0) 100%);
-    transform: rotate(20deg) translateX(-120%);
-    z-index: 3;
-    pointer-events: none;
-    transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
-  }
-  .aviso-card:hover .aviso-thumb::before {
-    transform: rotate(20deg) translateX(320%);
   }
 
   /* El flyer en primer plano: completo, centrado, sin recorte */
@@ -516,7 +462,6 @@
     flex: 1 1 auto;
     gap: 0.9rem;
     border-top: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 0 0 22px 22px;
   }
 
   /* Título: Permanent Marker — trazo de rotulador con mucho carácter */
@@ -577,34 +522,10 @@
     transition: transform 0.25s ease, box-shadow 0.25s ease, filter 0.25s ease, background 0.25s ease;
     text-decoration: none;
     border: 1px solid rgba(255, 255, 255, 0.45);
-    /* Relieve neomórfico: luz simulada arriba-izq, sombra abajo-der */
-    box-shadow:
-      3px 4px 10px rgba(0, 0, 0, 0.20),
-      -2px -2px 6px rgba(255, 255, 255, 0.25),
-      inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.18), inset 0 1px 0 rgba(255, 255, 255, 0.35);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    position: relative;
-    overflow: hidden;
   }
-
-  /* Brillo deslizante propio de cada botón */
-  .aviso-btn::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: -75%;
-    width: 45%;
-    height: 100%;
-    background: linear-gradient(120deg,
-      rgba(255, 255, 255, 0) 0%,
-      rgba(255, 255, 255, 0.55) 50%,
-      rgba(255, 255, 255, 0) 100%);
-    transform: skewX(-20deg);
-    transition: left 0.55s ease;
-    pointer-events: none;
-  }
-  .aviso-btn:hover::before { left: 130%; }
 
   .aviso-btn-wa {
     background: linear-gradient(145deg, rgba(37, 211, 102, 0.92) 0%, rgba(18, 140, 126, 0.92) 100%);
@@ -616,21 +537,11 @@
   .aviso-btn:hover {
     transform: translateY(-2px);
     filter: brightness(1.06);
-    box-shadow:
-      4px 6px 16px rgba(0, 0, 0, 0.26),
-      -2px -2px 8px rgba(255, 255, 255, 0.3),
-      inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.45);
     color: #fff;
   }
 
-  /* Efecto "hundido" neomórfico al presionar */
-  .aviso-btn:active {
-    transform: translateY(1px);
-    box-shadow:
-      inset 3px 3px 8px rgba(0, 0, 0, 0.30),
-      inset -2px -2px 6px rgba(255, 255, 255, 0.15);
-    filter: brightness(0.96);
-  }
+  .aviso-btn:active { transform: translateY(0); }
 
   /* Animación de entrada escalonada */
   @keyframes avisoFadeUp {
@@ -681,144 +592,21 @@
   .avisos-footer .social-link:hover {
     background: rgba(255, 255, 255, 0.22);
   }
-
-  /* ====== Modal de flyer: vidrio + neomorfismo ====== */
-  .flyer-modal {
-    background: rgba(8, 20, 40, 0.78);
-    backdrop-filter: blur(10px) saturate(140%);
-    -webkit-backdrop-filter: blur(10px) saturate(140%);
-  }
-
-  .flyer-modal-panel {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.20) 0%, rgba(255, 255, 255, 0.06) 100%);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.35);
-    border-radius: 24px;
-    padding: 14px;
-    max-width: 92vw;
-    max-height: 92vh;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-    animation: modalPopIn 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-  }
-
-  @keyframes modalPopIn {
-    from { opacity: 0; transform: scale(0.88) translateY(10px); }
-    to   { opacity: 1; transform: scale(1) translateY(0); }
-  }
-
-  .flyer-modal-img {
-    display: block;
-    max-width: 88vw;
-    max-height: 86vh;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-  }
-
-  .flyer-modal-close {
-    position: absolute;
-    top: -14px;
-    right: -14px;
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    border: none;
-    background: rgba(255, 255, 255, 0.92);
-    color: #0d6efd;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    cursor: pointer;
-    z-index: 5;
-    /* Relieve neomórfico */
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.28), -2px -2px 6px rgba(255, 255, 255, 0.6);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-  .flyer-modal-close:hover {
-    transform: scale(1.08) rotate(90deg);
-    box-shadow: 6px 6px 14px rgba(0, 0, 0, 0.32), -2px -2px 6px rgba(255, 255, 255, 0.7);
-  }
-  .flyer-modal-close:active {
-    transform: scale(0.95) rotate(90deg);
-    box-shadow: inset 3px 3px 8px rgba(0, 0, 0, 0.3);
-  }
-
-  /* ====== Estrellas chispeantes flotando en el fondo del modal ====== */
-  .modal-starfield {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    pointer-events: none;
-    z-index: 1;
-  }
-  .modal-star {
-    position: absolute;
-    border-radius: 50%;
-    background: #ffffff;
-    box-shadow: 0 0 6px 1px rgba(255, 255, 255, 0.85);
-    animation-name: modalStarTwinkle, modalStarDrift;
-    animation-timing-function: ease-in-out, ease-in-out;
-    animation-iteration-count: infinite, infinite;
-    animation-direction: alternate, alternate;
-  }
-  @keyframes modalStarTwinkle {
-    0%   { opacity: 0.15; transform: scale(0.7); }
-    100% { opacity: 1;    transform: scale(1.3); }
-  }
-  @keyframes modalStarDrift {
-    0%   { translate: 0 6px; }
-    100% { translate: 0 -6px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .modal-star { animation: none; opacity: 0.6; }
-  }
-
-  /* ====== Ícono opcional (tomado del JSON) flotando sobre el modal ====== */
-  .flyer-modal-icon-badge {
-    position: absolute;
-    top: -16px;
-    left: -16px;
-    width: 54px;
-    height: 54px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.95);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.28), -2px -2px 6px rgba(255, 255, 255, 0.6);
-    z-index: 5;
-    overflow: hidden;
-    animation: iconBadgeFloat 3s ease-in-out infinite;
-  }
-  .flyer-modal-icon-badge img {
-    width: 72%;
-    height: 72%;
-    object-fit: contain;
-  }
-  @keyframes iconBadgeFloat {
-    0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(-5px); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .flyer-modal-icon-badge { animation: none; }
-  }
 </style>
 
 <!-- Modal -->
 <div id="flyerModal" 
-  class="position-fixed top-0 start-0 w-100 h-100 d-none align-items-center justify-content-center flyer-modal" 
-  style="z-index: 1050;"
+  class="position-fixed top-0 start-0 w-100 h-100 d-none align-items-center justify-content-center" 
+  style="background: rgba(0,0,0,0.8); z-index: 1050;"
   onclick="closeModal()">
-  <div id="modalStarfield" class="modal-starfield"></div>
-  <div class="position-relative flyer-modal-panel" onclick="event.stopPropagation()">
-    <button onclick="closeModal()" class="flyer-modal-close" aria-label="Cerrar">
-      <i class="fas fa-times"></i>
+  <div class="position-relative w-100 h-100 d-flex align-items-center justify-content-center">
+    <button onclick="closeModal()"
+      class="position-absolute top-0 end-0 m-3 btn btn-light rounded-circle">
+   ✕
     </button>
-    <div id="flyerIconBadge" class="flyer-modal-icon-badge d-none">
-      <img id="flyerIconImg" src="" alt="">
-    </div>
-    <img id="flyerImage" src="" alt="Flyer" class="flyer-modal-img">
+    <img id="flyerImage" src="" alt="Flyer" 
+      class="img-fluid rounded shadow-lg" style="max-height: 90vh; max-width: 90vw;"
+      onclick="event.stopPropagation()">
   </div>
 </div>
 
@@ -849,7 +637,6 @@
               </a>
               <button type="button" class="aviso-btn aviso-btn-ver btn-ver"
                       data-flyer-desk="${c.flyer_desk}" data-flyer-mob="${c.flyer_mob}"
-                      data-icono="${c.icono || ''}"
                       aria-label="Ver flyer de ${c.nombre}">
                 <i class="fas fa-search"></i><span>Ver más</span>
               </button>
@@ -860,11 +647,8 @@
 
         // Click sobre la miniatura/pill abre en zoom el poster acorde al dispositivo
         card.querySelector(".aviso-thumb").addEventListener("click", () => {
-          openModal(getFlyerParaDispositivo(c), c.icono);
+          openModal(getFlyerParaDispositivo(c));
         });
-
-        // Tilt 3D al mover el mouse (solo en dispositivos con puntero preciso)
-        attachTilt3D(card);
       });
 
       // Vincular eventos después de renderizar
@@ -872,8 +656,7 @@
         btn.addEventListener("click", () => {
           const flyerDesk = btn.getAttribute("data-flyer-desk");
           const flyerMob = btn.getAttribute("data-flyer-mob");
-          const icono = btn.getAttribute("data-icono");
-          openModal(getFlyerParaDispositivo({ flyer_desk: flyerDesk, flyer_mob: flyerMob }), icono);
+          openModal(getFlyerParaDispositivo({ flyer_desk: flyerDesk, flyer_mob: flyerMob }));
         });
       });
     })
@@ -887,73 +670,10 @@
     return esMobile ? (c.flyer_mob || c.flyer_desk) : (c.flyer_desk || c.flyer_mob);
   }
 
-  // Efecto tilt 3D: la card rota levemente según la posición del mouse,
-  // simulando profundidad. Se desactiva en touch/dispositivos sin puntero preciso
-  // y respeta la preferencia de reducir movimiento.
-  const prefiereReducirMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const tienePunteroPreciso = window.matchMedia("(pointer: fine)").matches;
-
-  function attachTilt3D(card) {
-    if (prefiereReducirMovimiento || !tienePunteroPreciso) return;
-
-    const MAX_TILT = 9; // grados máximos de inclinación
-
-    card.addEventListener("mousemove", (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-      const porcentajeX = (x / rect.width) - 0.5;
-      const porcentajeY = (y / rect.height) - 0.5;
-      const rotateY = porcentajeX * MAX_TILT * 2;
-      const rotateX = porcentajeY * -MAX_TILT * 2;
-
-      card.style.transition = "transform 0.08s linear";
-      card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale(1.015)`;
-    });
-
-    card.addEventListener("mouseleave", () => {
-      card.style.transition = "transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)";
-      card.style.transform = "";
-    });
-  }
-
-  // Genera un puñado de estrellas chispeantes con posición, tamaño y ritmo aleatorios
-  (function crearStarfieldModal() {
-    const contenedor = document.getElementById("modalStarfield");
-    if (!contenedor) return;
-    const CANTIDAD = 35;
-    for (let i = 0; i < CANTIDAD; i++) {
-      const estrella = document.createElement("span");
-      estrella.className = "modal-star";
-      const tam = (Math.random() * 2.5 + 1).toFixed(1); // 1px a 3.5px
-      estrella.style.width = tam + "px";
-      estrella.style.height = tam + "px";
-      estrella.style.top = (Math.random() * 100) + "%";
-      estrella.style.left = (Math.random() * 100) + "%";
-      const duracionTwinkle = (Math.random() * 2 + 1.5).toFixed(2) + "s";
-      const duracionDrift = (Math.random() * 4 + 3).toFixed(2) + "s";
-      const delay = (Math.random() * 3).toFixed(2) + "s";
-      estrella.style.animationDuration = `${duracionTwinkle}, ${duracionDrift}`;
-      estrella.style.animationDelay = `${delay}, ${delay}`;
-      contenedor.appendChild(estrella);
-    }
-  })();
-
   // Funciones modal
-  function openModal(imgSrc, iconoSrc) {
+  function openModal(imgSrc) {
     const flyerImg = document.getElementById('flyerImage');
     flyerImg.src = imgSrc;
-
-    const badge = document.getElementById('flyerIconBadge');
-    const iconImg = document.getElementById('flyerIconImg');
-    if (iconoSrc) {
-      iconImg.src = iconoSrc;
-      badge.classList.remove('d-none');
-    } else {
-      badge.classList.add('d-none');
-      iconImg.src = '';
-    }
-
     const modal = document.getElementById('flyerModal');
     modal.classList.remove('d-none');
     modal.classList.add('d-flex');
@@ -964,8 +684,6 @@
     modal.classList.remove('d-flex');
     modal.classList.add('d-none');
     document.getElementById('flyerImage').src = "";
-    document.getElementById('flyerIconBadge').classList.add('d-none');
-    document.getElementById('flyerIconImg').src = "";
   }
 </script>
 
