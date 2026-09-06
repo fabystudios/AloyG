@@ -12,41 +12,47 @@
     "thumb": "./cartelera/img/aure.png",
     "flyer_desk": "./cartelera/img/aure_desk.jpg",
     "flyer_mob": "./cartelera/img/aure_mob.jpg",
-    "whatsapp": "+5491165346704"
+    "whatsapp": "+5491165346704",
+    "icono": "./cartelera/img/libro.png"
   },
   {
     "nombre": "Clases particulares",
     "thumb": "./cartelera/img/leonel.jpg",
     "flyer_desk": "./cartelera/img/leonel2.jpg",
     "flyer_mob": "./cartelera/img/leonel2.jpg",
-    "whatsapp": "+5491158073712"
+    "whatsapp": "+5491158073712",
+    "icono": "./cartelera/img/libro.png"
   },
         {
     "nombre": "Fletes Carrera",
     "thumb": "./cartelera/img/flete.jpg",
     "flyer_desk": "./cartelera/img/flete.jpg",
     "flyer_mob": "./cartelera/img/flete.jpg",
-    "whatsapp": "+549223549963"
+    "whatsapp": "+549223549963",
+    "icono": "./cartelera/img/flete2.png"
   },
       {
     "nombre": "Trabajos de Pintura",
     "thumb": "../actividades/cartelera/pint_mob.jpg",
     "flyer_desk": "../actividades/cartelera/pint_mob.jpg",
     "flyer_mob": "../actividades/cartelera/pint_mob.jpg",
-    "whatsapp": "+5492216014485"
+    "whatsapp": "+5492216014485",
+    "icono": "./cartelera/img/pintura.png"
   },
     {
     "nombre": "Productos Artesanales",
     "thumb": "./cartelera/img/clarisas.jpg",
     "flyer_desk": "./cartelera/img/clarisas.jpg",
     "flyer_mob": "./cartelera/img/clarisas.jpg",
-    "whatsapp": "+5492215238250"
+    "whatsapp": "+5492215238250",
+    "icono": "./cartelera/img/dulce.png"
   },
   {
     "nombre": "Stickers y Autoadhesivos",
     "thumb": "./cartelera/img/cande.jpg",
     "flyer_desk": "./cartelera/img/cande.jpg",
     "flyer_mob": "./cartelera/img/cande.jpg",
-    "whatsapp": "+5491163762916"
+    "whatsapp": "+5491163762916",
+    "icono": "./cartelera/img/sticker.png"
   }
 ]
