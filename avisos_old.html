@@ -635,8 +635,7 @@
                  class="aviso-btn aviso-btn-wa" aria-label="Enviar mensaje por WhatsApp a ${c.nombre}">
                 <i class="fab fa-whatsapp"></i><span>Mensaje</span>
               </a>
-              <button type="button" class="aviso-btn aviso-btn-ver btn-ver"
-                      data-flyer-desk="${c.flyer_desk}" data-flyer-mob="${c.flyer_mob}"
+              <button type="button" class="aviso-btn aviso-btn-ver btn-ver" data-flyer="${c.flyer}"
                       aria-label="Ver flyer de ${c.nombre}">
                 <i class="fas fa-search"></i><span>Ver más</span>
               </button>
@@ -645,30 +644,21 @@
         `;
         container.appendChild(card);
 
-        // Click sobre la miniatura/pill abre en zoom el poster acorde al dispositivo
+        // Click sobre la miniatura/pill abre en zoom el MISMO thumb que se ve
         card.querySelector(".aviso-thumb").addEventListener("click", () => {
-          openModal(getFlyerParaDispositivo(c));
+          openModal(c.flyer);
         });
       });
 
       // Vincular eventos después de renderizar
       document.querySelectorAll(".btn-ver").forEach(btn => {
         btn.addEventListener("click", () => {
-          const flyerDesk = btn.getAttribute("data-flyer-desk");
-          const flyerMob = btn.getAttribute("data-flyer-mob");
-          openModal(getFlyerParaDispositivo({ flyer_desk: flyerDesk, flyer_mob: flyerMob }));
+          const flyerSrc = btn.getAttribute("data-flyer");
+          openModal(flyerSrc);
         });
       });
     })
     .catch(err => console.error("Error cargando ofertas.json", err));
-
-  // Elige el poster (flyer_desk o flyer_mob) según el ancho de pantalla actual.
-  // Se evalúa en el momento del click, no al cargar la página, para cubrir
-  // el caso de que el usuario rote el dispositivo o redimensione la ventana.
-  function getFlyerParaDispositivo(c) {
-    const esMobile = window.matchMedia("(max-width: 767px)").matches;
-    return esMobile ? (c.flyer_mob || c.flyer_desk) : (c.flyer_desk || c.flyer_mob);
-  }
 
   // Funciones modal
   function openModal(imgSrc) {

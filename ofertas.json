@@ -2,43 +2,50 @@
         {
     "nombre": "Clases de Canto",
     "thumb": "./cartelera/img/canto.jpg",
-    "flyer": "./cartelera/img/canto.jpg",
+    "flyer_desk": "./cartelera/img/canto_desk.png",
+    "flyer_mob": "./cartelera/img/canto_mob.png",
     "whatsapp": "+5492215559320"
+  },
+    {
+    "nombre": "Apoyo escolar a Domicilio",
+    "thumb": "./cartelera/img/aure.png",
+    "flyer_desk": "./cartelera/img/aure_desk.jpg",
+    "flyer_mob": "./cartelera/img/aure_mob.jpg",
+    "whatsapp": "+5491165346704"
+  },
+  {
+    "nombre": "Clases particulares",
+    "thumb": "./cartelera/img/leonel.jpg",
+    "flyer_desk": "./cartelera/img/leonel2.jpg",
+    "flyer_mob": "./cartelera/img/leonel2.jpg",
+    "whatsapp": "+5491158073712"
   },
         {
     "nombre": "Fletes Carrera",
     "thumb": "./cartelera/img/flete.jpg",
-    "flyer": "./cartelera/img/flete.jpg",
+    "flyer_desk": "./cartelera/img/flete.jpg",
+    "flyer_mob": "./cartelera/img/flete.jpg",
     "whatsapp": "+549223549963"
   },
       {
     "nombre": "Trabajos de Pintura",
     "thumb": "../actividades/cartelera/pint_mob.jpg",
-    "flyer": "../actividades/cartelera/pint_mob.jpg",
+    "flyer_desk": "../actividades/cartelera/pint_mob.jpg",
+    "flyer_mob": "../actividades/cartelera/pint_mob.jpg",
     "whatsapp": "+5492216014485"
   },
     {
     "nombre": "Productos Artesanales",
     "thumb": "./cartelera/img/clarisas.jpg",
-    "flyer": "./cartelera/img/clarisas.jpg",
+    "flyer_desk": "./cartelera/img/clarisas.jpg",
+    "flyer_mob": "./cartelera/img/clarisas.jpg",
     "whatsapp": "+5492215238250"
-  },
-  {
-    "nombre": "Apoyo escolar a Domicilio",
-    "thumb": "./cartelera/img/aure.jpg",
-    "flyer": "./cartelera/img/aure2.jpg",
-    "whatsapp": "+5491165346704"
   },
   {
     "nombre": "Stickers y Autoadhesivos",
     "thumb": "./cartelera/img/cande.jpg",
-    "flyer": "./cartelera/img/cande.jpg",
+    "flyer_desk": "./cartelera/img/cande.jpg",
+    "flyer_mob": "./cartelera/img/cande.jpg",
     "whatsapp": "+5491163762916"
-  },
-  {
-    "nombre": "Clases particulares",
-    "thumb": "./cartelera/img/leonel.jpg",
-    "flyer": "./cartelera/img/leonel2.jpg",
-    "whatsapp": "+5491158073712"
   }
 ]

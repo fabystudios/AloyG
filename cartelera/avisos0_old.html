@@ -179,7 +179,7 @@
             </a>
 
               <!-- Botón Ver -->
-            <button data-flyer-desk="${c.flyer_desk}" data-flyer-mob="${c.flyer_mob}"
+            <button data-flyer="${c.flyer}"
              class="btn-ver btn-md3 flex-fill rounded-pill shadow-lg"
              style="border: none; color: white; font-weight: 600; padding: 10px 15px; transition: all 0.3s ease; transform: perspective(1px) translateZ(0); width: 50%; font-size: 0.875rem; text-transform: none;"
              onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(13, 110, 253, 0.4)'"
@@ -195,21 +195,12 @@
       // Vincular eventos después de renderizar
       document.querySelectorAll(".btn-ver").forEach(btn => {
         btn.addEventListener("click", () => {
-          const flyerDesk = btn.getAttribute("data-flyer-desk");
-          const flyerMob = btn.getAttribute("data-flyer-mob");
-          openModal(getFlyerParaDispositivo({ flyer_desk: flyerDesk, flyer_mob: flyerMob }));
+          const flyerSrc = btn.getAttribute("data-flyer");
+          openModal(flyerSrc);
         });
       });
     })
     .catch(err => console.error("Error cargando ofertas.json", err));
-
-  // Elige el poster (flyer_desk o flyer_mob) según el ancho de pantalla actual.
-  // Se evalúa en el momento del click, no al cargar la página, para cubrir
-  // el caso de que el usuario rote el dispositivo o redimensione la ventana.
-  function getFlyerParaDispositivo(c) {
-    const esMobile = window.matchMedia("(max-width: 767px)").matches;
-    return esMobile ? (c.flyer_mob || c.flyer_desk) : (c.flyer_desk || c.flyer_mob);
-  }
 
   // Funciones modal
   function openModal(imgSrc) {
