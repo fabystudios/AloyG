@@ -2,27 +2,39 @@
  * <cartel-evento>
  * Web component nativo (vanilla JS, Shadow DOM) que encapsula el/los cartel(es)
  * de "Festejamos a San Francisco de Asís" + "Feria de Emprendedores".
- * Estilo, fuentes e íconos quedan encerrados en el Shadow DOM: no interfiere
- * con el CSS del sitio ni es afectado por él.
+ * Estilo, fuentes e íconos quedan encerrados en el Shadow DOM.
  *
- * USO BÁSICO
+ * Layout fluido (CSS Grid + container queries): cada cartel es rectangular y
+ * ocupa el máximo espacio disponible sin necesitar scroll ni JS de escalado.
+ * - Desktop (>=769px de ventana): cartel apaisado ("a lo largo"), 1.7:1.
+ * - Mobile (<=768px de ventana): cartel vertical ("a lo alto").
+ * El switch para alternar entre los dos carteles se muestra siempre, arriba,
+ * tanto en desktop como en mobile.
+ *
+ * USO
  * <script src="cartel-evento.js"></script>
- * <cartel-evento></cartel-evento>                          -> muestra el poster "main"
- * <cartel-evento poster="feria"></cartel-evento>            -> muestra el poster "feria"
- * <cartel-evento show-switcher></cartel-evento>             -> con pestañas para alternar
+ * <cartel-evento></cartel-evento>                    -> arranca en el poster "main"
+ * <cartel-evento poster="feria"></cartel-evento>      -> arranca en el poster "feria"
+ * <cartel-evento
+ *   img-santo="/img/san-francisco.png"
+ *   img-iglesia="/img/iglesia.png"
+ *   img-bunting="/img/banderines.png"
+ *   style="--cartel-max-width:900px;">
+ * </cartel-evento>
  *
  * ATRIBUTOS
- * - poster           "main" | "feria"   (default "main") cuál se muestra
- * - show-switcher    presente/ausente   muestra pestañas para alternar entre ambos
- * - img-santo        ruta de la imagen del santo (PNG transparente)  default "san-francisco.png"
- * - img-iglesia      ruta de la imagen de la iglesia (PNG transparente) default "iglesia.png"
- * - full-bleed       presente/ausente   si está, el host no limita max-width (ocupa 100% del contenedor)
+ * - poster        "main" | "feria"   (default "main") con cuál arranca
+ * - img-santo     ruta de imagen     (default "san-francisco.png")
+ * - img-iglesia   ruta de imagen     (default "iglesia.png") reemplaza el ícono
+ *                 de iglesia en la banda terracota del footer del poster principal
+ * - img-bunting   ruta de imagen     (default "banderines.png") guirnalda de
+ *                 banderines superpuesta arriba de la card, con balanceo animado.
+ *                 Se espera una imagen apaisada (banderines pegados arriba,
+ *                 resto transparente) con fondo transparente.
  *
- * VARIABLES CSS (se setean desde afuera, en el elemento host)
- * --cartel-max-width   ancho máximo del cartel embebido (default 640px, ignorado si full-bleed)
- *
- * El cartel es cuadrado (1:1) y escala de forma fluida con el ancho de su contenedor
- * (usa ResizeObserver, no depende del viewport de la ventana).
+ * VARIABLE CSS
+ * - --cartel-max-width   ancho máximo del componente (default: sin tope, ocupa
+ *                        el 100% del contenedor donde se inserte)
  */
 (function () {
   if (customElements.get('cartel-evento')) return;
@@ -50,8 +62,7 @@
       :host{
         display:block;
         width:100%;
-        --cartel-max-width-default:640px;
-        max-width:var(--cartel-max-width, var(--cartel-max-width-default));
+        max-width:var(--cartel-max-width, none);
         font-family:'Sora',sans-serif;
         --cream:#f6ecd8; --cream-deep:#ecdcba; --ink:#33210f; --ink-soft:#5a4326;
         --terracotta:#c4552e; --terracotta-deep:#9c3f20; --gold:#d6a234; --gold-soft:#e8c877;
@@ -62,14 +73,13 @@
         --mkt-gold-soft:#e3c27a; --mkt-glass:rgba(255,246,224,0.10); --mkt-glass-border:rgba(255,246,224,0.22);
         --mkt-shadow-light:rgba(255,255,255,0.05); --mkt-shadow-dark:rgba(0,0,0,0.5);
       }
-      :host([full-bleed]){ max-width:none; }
-      :host([layout="duo"]){ --cartel-max-width-default:1040px; }
       *{ box-sizing:border-box; }
 
-      .switcher{ display:flex; gap:8px; margin-bottom:12px; }
+      /* -------- switch (siempre visible, mobile y desktop) -------- */
+      .switcher{ display:flex; gap:8px; margin-bottom:14px; }
       .switcher button{
-        font-family:'Sora',sans-serif; font-weight:600; font-size:13px;
-        padding:8px 16px; border-radius:999px; border:none; cursor:pointer;
+        font-family:'Sora',sans-serif; font-weight:600; font-size:14px;
+        padding:9px 18px; border-radius:999px; border:none; cursor:pointer;
         background:linear-gradient(145deg,#efe2c2,#d9c69e); color:#4a3620;
         box-shadow:5px 5px 10px rgba(150,114,66,0.35), -4px -4px 9px rgba(255,255,255,0.75);
       }
@@ -78,164 +88,226 @@
         box-shadow:inset 3px 3px 7px rgba(0,0,0,0.35), inset -3px -3px 7px rgba(255,140,90,0.25);
       }
 
-      .duo-wrapper{ display:flex; gap:24px; width:100%; }
-
+      /* -------- frame: rectangular, apaisado en desktop / vertical en mobile -------- */
       .frame{
-        position:relative; flex:1 1 0; min-width:0; aspect-ratio:1/1;
-        border-radius:34px; overflow:hidden;
+        position:relative; width:100%;
+        container-type:inline-size;
+        border-radius:clamp(16px,2.4cqw,34px);
+        overflow:hidden;
         box-shadow:0 20px 40px rgba(30,18,6,0.30), 0 6px 14px rgba(30,18,6,0.20);
+        aspect-ratio:3/4; /* mobile: a lo alto */
       }
       .frame.hidden{ display:none; }
-
-      .poster{
-        position:absolute; top:0; left:0;
-        width:1080px; height:1080px;
-        transform-origin:top left;
+      @media (min-width:769px){
+        .frame{ aspect-ratio:1.7/1; } /* desktop: a lo largo */
       }
 
-      /* -------- poster principal -------- */
+      .poster{ width:100%; height:100%; position:relative; display:grid; }
+
+      /* ================= POSTER 1: EVENTO PRINCIPAL ================= */
       #poster-main{
+        padding:3.2cqw 4cqw; gap:1.6cqw 3cqw;
+        grid-template-columns:1fr;
+        grid-template-rows:auto auto 1fr auto;
+        grid-template-areas:"halo" "header" "cards" "footer";
         background:
           radial-gradient(circle at 78% 8%, rgba(214,162,52,0.25), transparent 40%),
           linear-gradient(160deg,var(--cream) 0%, var(--cream-deep) 100%);
       }
-      .bunting{ position:absolute; top:0; left:0; width:100%; height:64px; display:flex; justify-content:space-between; padding:0 26px; }
-      .bunting span{ width:0; height:0; border-left:23px solid transparent; border-right:23px solid transparent; border-top:40px solid var(--c); opacity:.85; transform:translateY(-6px); }
-      .halo-wrap{ position:absolute; top:118px; left:70px; width:340px; height:340px; }
-      .halo-glow{ position:absolute; inset:-30px; border-radius:50%; background:radial-gradient(circle, rgba(230,190,90,0.65) 0%, rgba(230,190,90,0.0) 70%); filter:blur(2px); animation:pulse 4.5s ease-in-out infinite; }
+      @media (min-width:769px){
+        #poster-main{
+          grid-template-columns:30% 1fr;
+          grid-template-rows:auto 1fr auto;
+          grid-template-areas:"halo header" "halo cards" "footer footer";
+        }
+      }
+
+      /* guirnalda de banderines: imagen superpuesta arriba de la card, con balanceo suave.
+         z-index mínimo (queda DETRÁS del contenido del poster, así nunca lo tapa/pisa).
+         Se recorta a una franja fija pegada arriba, sin importar cuánta transparencia
+         tenga el PNG por debajo del dibujo. */
+      .bunting-wrap{
+        position:absolute; top:0; left:0; width:100%;
+        height:clamp(30px,7cqw,120px);
+        z-index:0;
+        pointer-events:none; overflow:hidden;
+        transform-origin:top center;
+        animation:bunting-sway 6s ease-in-out infinite;
+      }
+      .bunting-wrap img{ position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover; object-position:top center; }
+      @keyframes bunting-sway{
+        0%,100%{ transform:rotate(-0.6deg); }
+        50%{ transform:rotate(0.6deg); }
+      }
+      /* fallback CSS (triangulitos) si la imagen de banderines no carga */
+      .bunting-fallback{ position:absolute; inset:0; width:100%; display:flex; justify-content:space-between; padding:0 clamp(10px,2cqw,26px); }
+      .bunting-fallback span{ border-left:clamp(9px,1.5cqw,20px) solid transparent; border-right:clamp(9px,1.5cqw,20px) solid transparent; border-top:clamp(16px,2.8cqw,36px) solid var(--c); opacity:.85; }
+
+      .halo-wrap{ grid-area:halo; position:relative; justify-self:center; align-self:center; width:clamp(110px,22cqw,240px); aspect-ratio:1/1; }
+      .halo-glow{ position:absolute; inset:-14%; border-radius:50%; background:radial-gradient(circle, rgba(230,190,90,0.65) 0%, rgba(230,190,90,0.0) 70%); filter:blur(2px); animation:pulse 4.5s ease-in-out infinite; }
       @keyframes pulse{ 0%,100%{ transform:scale(1); opacity:.9; } 50%{ transform:scale(1.08); opacity:1; } }
-      .portrait-frame{ position:absolute; inset:0; border-radius:50%; background:linear-gradient(145deg,#f3e6c6,#dcc697); box-shadow:14px 14px 26px var(--shadow-dark), -12px -12px 24px var(--shadow-light); display:flex; align-items:center; justify-content:center; overflow:hidden; border:6px solid rgba(255,255,255,0.6); }
-      .portrait-frame img{ width:100%; height:100%; object-fit:contain; transform:scale(1.12) translateY(6px); }
+      .portrait-frame{ position:absolute; inset:0; border-radius:50%; background:linear-gradient(145deg,#f3e6c6,#dcc697); box-shadow:8px 8px 18px var(--shadow-dark), -6px -6px 16px var(--shadow-light); display:flex; align-items:center; justify-content:center; overflow:hidden; border:4px solid rgba(255,255,255,0.6); }
+      .portrait-frame img{ width:100%; height:100%; object-fit:contain; transform:scale(1.12) translateY(4%); }
       .fallback-icon{ width:56%; height:56%; opacity:.35; }
       .sparkle{ position:absolute; border-radius:50%; background:var(--gold-soft); animation:twinkle 3s ease-in-out infinite; }
       @keyframes twinkle{ 0%,100%{ opacity:.15; transform:scale(.7); } 50%{ opacity:1; transform:scale(1.15); } }
-      .headline-block{ position:absolute; top:150px; left:430px; right:60px; }
-      .eyebrow-hand{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:27px; color:var(--ink-soft); }
-      .headline-block h1{ margin:2px 0 0; font-family:'Fraunces',serif; font-weight:700; font-size:70px; line-height:.98; color:var(--ink); }
+
+      .headline-block{ grid-area:header; align-self:center; text-align:center; }
+      @media (min-width:769px){ .headline-block{ text-align:left; } }
+      .eyebrow-hand{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:clamp(12px,1.9cqw,19px); color:var(--ink-soft); }
+      .headline-block h1{ margin:.1em 0 0; font-family:'Fraunces',serif; font-weight:700; font-size:clamp(22px,4.8cqw,44px); line-height:1.04; color:var(--ink); }
       .headline-block h1 .accent1{ font-style:italic; font-weight:600; color:var(--terracotta-deep); }
       .headline-block h1 .accent2{ font-style:italic; font-weight:600; color:var(--olive); }
-      .date-badge{ display:inline-flex; align-items:center; gap:10px; margin-top:20px; padding:12px 26px; border-radius:16px; background:var(--glass-fill); border:1px solid var(--glass-border); backdrop-filter:blur(10px); box-shadow:6px 6px 14px var(--shadow-dark), -4px -4px 10px var(--shadow-light); }
-      .date-badge span{ font-family:'Sora',sans-serif; font-weight:700; font-size:22px; letter-spacing:.4px; color:var(--ink); }
-      .info-row{ position:absolute; top:480px; bottom:190px; left:70px; right:70px; display:flex; gap:26px; }
-      .info-card{ flex:1; position:relative; display:flex; flex-direction:column; justify-content:space-between; border-radius:32px; padding:38px 32px 32px; background:linear-gradient(150deg,#f7ecd6,#e7d6ac); box-shadow:12px 12px 24px var(--shadow-dark), -10px -10px 20px var(--shadow-light); }
-      .info-card .top{ display:flex; flex-direction:column; }
-      .info-card .medal{ width:104px; height:104px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:22px; box-shadow:inset 4px 4px 8px rgba(0,0,0,0.18), inset -4px -4px 8px rgba(255,255,255,0.35); }
-      .info-card svg{ width:50px; height:50px; }
-      .info-card h3{ margin:0 0 10px; font-family:'Sora',sans-serif; font-weight:800; font-size:34px; color:var(--ink); }
-      .info-card p{ margin:0; font-size:21px; line-height:1.4; color:var(--ink-soft); font-weight:500; }
-      .info-card .tag{ align-self:flex-start; margin-top:18px; padding:11px 22px; border-radius:14px; font-size:19px; font-weight:700; color:#fff; }
+      .date-badge{ display:inline-flex; align-items:center; gap:8px; margin-top:clamp(6px,1.1cqw,14px); padding:clamp(6px,.9cqw,11px) clamp(12px,1.9cqw,22px); border-radius:14px; background:var(--glass-fill); border:1px solid var(--glass-border); backdrop-filter:blur(10px); box-shadow:4px 4px 10px var(--shadow-dark), -3px -3px 8px var(--shadow-light); }
+      .date-badge span{ font-family:'Sora',sans-serif; font-weight:700; font-size:clamp(12px,1.6cqw,17px); letter-spacing:.3px; color:var(--ink); }
+
+      .info-row{ grid-area:cards; display:flex; gap:clamp(10px,1.6cqw,22px); min-height:0; }
+      @media (max-width:768px){ .info-row{ flex-direction:column; } }
+      .info-card{ flex:1; min-width:0; min-height:0; display:flex; flex-direction:column; justify-content:space-between; border-radius:clamp(14px,1.8cqw,24px); padding:clamp(12px,2cqw,24px); background:linear-gradient(150deg,#f7ecd6,#e7d6ac); box-shadow:8px 8px 18px var(--shadow-dark), -6px -6px 14px var(--shadow-light); overflow:hidden; }
+      .info-card .top{ display:flex; flex-direction:column; min-height:0; }
+      .info-card .medal{ width:clamp(36px,5.6cqw,66px); height:clamp(36px,5.6cqw,66px); border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:clamp(6px,1.1cqw,14px); box-shadow:inset 3px 3px 7px rgba(0,0,0,0.18), inset -3px -3px 7px rgba(255,255,255,0.35); flex-shrink:0; }
+      .info-card svg{ width:52%; height:52%; }
+      .info-card h3{ margin:0 0 .2em; font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(16px,2.4cqw,24px); color:var(--ink); }
+      .info-card p{ margin:0; font-size:clamp(12px,1.5cqw,16px); line-height:1.36; color:var(--ink-soft); font-weight:500; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+      .info-card .tag{ align-self:flex-start; flex-shrink:0; margin-top:clamp(6px,1.1cqw,14px); padding:clamp(5px,.8cqw,9px) clamp(10px,1.5cqw,16px); border-radius:12px; font-size:clamp(11px,1.4cqw,15px); font-weight:700; color:#fff; }
       #card-misa .medal{ background:var(--olive); } #card-feria .medal{ background:var(--pink); } #card-buffet .medal{ background:var(--teal); }
       #card-misa .tag{ background:var(--olive); } #card-feria .tag{ background:var(--pink); } #card-buffet .tag{ background:var(--teal); }
-      .footer-main{ position:absolute; bottom:0; left:0; right:0; height:160px; background:linear-gradient(90deg,var(--terracotta) 0%, var(--terracotta-deep) 100%); display:flex; align-items:center; justify-content:space-between; padding:0 60px; }
-      .footer-main .parish{ display:flex; align-items:center; gap:20px; }
-      .footer-main .parish svg{ width:54px; height:54px; flex-shrink:0; }
-      .footer-main .parish h4{ margin:0; color:#fbeedb; font-family:'Sora',sans-serif; font-weight:800; font-size:26px; letter-spacing:.3px; }
-      .footer-main .parish span{ color:#f3d9c2; font-size:17px; font-weight:500; }
-      .footer-main .welcome{ padding:14px 28px; border-radius:16px; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.3); color:#fff2df; font-family:'Fraunces',serif; font-style:italic; font-weight:600; font-size:26px; }
-      .bg-church{ position:absolute; top:26px; right:36px; width:230px; opacity:.5; filter:drop-shadow(0 8px 10px rgba(0,0,0,0.12)); }
 
-      /* -------- poster feria -------- */
-      #poster-feria{ background: radial-gradient(circle at 15% 90%, rgba(201,154,63,0.20), transparent 45%), linear-gradient(165deg,var(--mkt-bg) 0%, var(--mkt-bg-deep) 100%); }
-      .feria-top{ position:absolute; top:56px; left:0; right:0; text-align:center; }
-      .feria-top .eyebrow-hand{ color:var(--mkt-gold-soft); font-size:25px; }
-      .feria-top h1{ margin:4px 0 0; font-family:'Fraunces',serif; font-weight:700; font-size:66px; color:var(--mkt-cream); letter-spacing:.2px; }
+      .footer-main{ grid-area:footer; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:clamp(8px,1.3cqw,16px) clamp(14px,2cqw,26px); border-radius:clamp(12px,1.6cqw,18px); background:linear-gradient(90deg,var(--terracotta) 0%, var(--terracotta-deep) 100%); }
+      .footer-main .parish{ display:flex; align-items:center; gap:clamp(10px,1.6cqw,18px); min-width:0; }
+      .footer-main .parish svg{ width:clamp(20px,3cqw,36px); height:clamp(20px,3cqw,36px); flex-shrink:0; }
+      .footer-main .parish img{ width:clamp(52px,8.5cqw,120px); height:clamp(42px,6.8cqw,96px); object-fit:contain; flex-shrink:0; }
+      .footer-main .parish h4{ margin:0; color:#fbeedb; font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(12px,2cqw,18px); letter-spacing:.2px; }
+      .footer-main .parish span{ color:#f3d9c2; font-size:clamp(9px,1.3cqw,13px); font-weight:500; }
+      .footer-main .welcome{ flex-shrink:0; padding:clamp(6px,1.1cqw,11px) clamp(11px,1.7cqw,18px); border-radius:14px; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.3); color:#fff2df; font-family:'Fraunces',serif; font-style:italic; font-weight:600; font-size:clamp(11px,1.7cqw,17px); white-space:nowrap; }
+
+      /* ================= POSTER 2: FERIA DE EMPRENDEDORES ================= */
+      #poster-feria{
+        padding:3.2cqw 4cqw; gap:1.4cqw 3cqw;
+        grid-template-columns:1fr;
+        grid-template-rows:auto auto auto 1fr auto auto;
+        grid-template-areas:"portrait" "top" "quote" "panels" "whatsapp" "footer";
+        background:
+          radial-gradient(circle at 15% 90%, rgba(201,154,63,0.20), transparent 45%),
+          linear-gradient(165deg,var(--mkt-bg) 0%, var(--mkt-bg-deep) 100%);
+      }
+      @media (min-width:769px){
+        #poster-feria{
+          grid-template-columns:28% 1fr;
+          grid-template-rows:auto auto 1fr auto auto;
+          grid-template-areas:"portrait top" "portrait quote" "panels panels" "whatsapp whatsapp" "footer footer";
+        }
+      }
+
+      .feria-top{ grid-area:top; align-self:center; text-align:center; }
+      @media (min-width:769px){ .feria-top{ text-align:left; } }
+      .feria-top .eyebrow-hand{ color:var(--mkt-gold-soft); font-size:clamp(11px,1.7cqw,16px); }
+      .feria-top h1{ margin:.1em 0 0; font-family:'Fraunces',serif; font-weight:700; font-size:clamp(19px,4cqw,34px); color:var(--mkt-cream); letter-spacing:.1px; line-height:1.08; }
       .feria-top h1 span{ font-style:italic; font-weight:600; color:var(--mkt-gold-soft); }
-      .feria-date{ display:inline-flex; align-items:center; gap:10px; margin-top:16px; padding:10px 24px; border-radius:14px; background:var(--mkt-glass); border:1px solid var(--mkt-glass-border); backdrop-filter:blur(10px); }
-      .feria-date span{ font-weight:700; font-size:19px; color:var(--mkt-cream); }
-      .feria-portrait{ position:absolute; top:270px; left:90px; width:230px; height:230px; border-radius:50%; background:linear-gradient(150deg,#3a4d2f,#233318); box-shadow:12px 12px 22px var(--mkt-shadow-dark), -8px -8px 18px var(--mkt-shadow-light); border:5px solid rgba(255,246,224,0.18); display:flex; align-items:center; justify-content:center; overflow:hidden; }
-      .feria-portrait img{ width:100%; height:100%; object-fit:contain; transform:scale(1.15) translateY(4px); }
-      .feria-quote{ position:absolute; top:300px; left:360px; right:80px; font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:29px; line-height:1.3; color:var(--mkt-cream); }
+      .feria-date{ display:inline-flex; align-items:center; gap:8px; margin-top:clamp(5px,1cqw,12px); padding:clamp(5px,.8cqw,9px) clamp(10px,1.5cqw,17px); border-radius:12px; background:var(--mkt-glass); border:1px solid var(--mkt-glass-border); backdrop-filter:blur(10px); }
+      .feria-date span{ font-weight:700; font-size:clamp(11px,1.4cqw,15px); color:var(--mkt-cream); }
+
+      .feria-portrait{ grid-area:portrait; justify-self:center; align-self:start; width:clamp(64px,12cqw,120px); aspect-ratio:1/1; border-radius:50%; background:linear-gradient(150deg,#3a4d2f,#233318); box-shadow:8px 8px 18px var(--mkt-shadow-dark), -6px -6px 14px var(--mkt-shadow-light); border:3px solid rgba(255,246,224,0.18); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+      .feria-portrait img{ width:100%; height:100%; object-fit:contain; transform:scale(1.15) translateY(3%); }
+
+      .feria-quote{ grid-area:quote; align-self:center; text-align:center; font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:clamp(12px,1.7cqw,19px); line-height:1.3; color:var(--mkt-cream); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+      @media (min-width:769px){ .feria-quote{ text-align:left; } }
       .feria-quote b{ color:var(--mkt-gold-soft); font-weight:600; }
-      .feria-panels{ position:absolute; top:512px; left:80px; right:80px; display:flex; gap:22px; }
-      .feria-panel{ flex:1; border-radius:24px; padding:24px 24px 22px; background:var(--mkt-glass); border:1px solid var(--mkt-glass-border); backdrop-filter:blur(8px); box-shadow:8px 8px 18px var(--mkt-shadow-dark), -6px -6px 14px var(--mkt-shadow-light); }
-      .feria-panel .medal{ width:50px; height:50px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--mkt-gold); margin-bottom:14px; box-shadow:inset 2px 2px 5px rgba(0,0,0,0.25), inset -2px -2px 5px rgba(255,255,255,0.2); }
-      .feria-panel svg{ width:24px; height:24px; }
-      .feria-panel h3{ margin:0 0 6px; color:var(--mkt-cream); font-family:'Sora',sans-serif; font-weight:800; font-size:19px; }
-      .feria-panel p{ margin:0; color:#d8ceb4; font-size:14.5px; line-height:1.4; font-weight:500; }
-      .feria-panel .price{ font-family:'Fraunces',serif; font-weight:700; font-size:30px; color:var(--mkt-gold-soft); margin-top:6px; }
-      .whatsapp-chip{ position:absolute; top:754px; left:80px; right:80px; display:flex; align-items:center; justify-content:center; gap:14px; padding:16px 20px; border-radius:18px; background:linear-gradient(150deg,#2e5c33,#1f4025); box-shadow:8px 8px 18px var(--mkt-shadow-dark), -4px -4px 10px rgba(255,255,255,0.06); }
-      .whatsapp-chip svg{ width:30px; height:30px; }
-      .whatsapp-chip .wa-text{ color:#eafbe9; font-weight:600; font-size:16px; }
-      .whatsapp-chip .wa-num{ color:#fff; font-weight:800; font-size:22px; letter-spacing:.3px; font-family:'Sora',sans-serif; }
-      .footer-feria{ position:absolute; bottom:0; left:0; right:0; height:130px; background:rgba(0,0,0,0.18); border-top:1px solid rgba(255,246,224,0.12); display:flex; align-items:center; justify-content:space-between; padding:0 60px; }
-      .footer-feria .parish{ display:flex; align-items:center; gap:16px; }
-      .footer-feria .parish svg{ width:36px; height:36px; }
-      .footer-feria .parish h4{ margin:0; color:var(--mkt-cream); font-family:'Sora',sans-serif; font-weight:800; font-size:18px; }
-      .footer-feria .parish span{ color:#c9c0a6; font-size:13px; }
-      .footer-feria .addr{ color:var(--mkt-gold-soft); font-weight:700; font-size:14.5px; display:flex; align-items:center; gap:8px; }
+
+      .feria-panels{ grid-area:panels; display:flex; gap:clamp(10px,1.4cqw,20px); min-height:0; }
+      @media (max-width:768px){ .feria-panels{ flex-direction:column; } }
+      .feria-panel{ flex:1; min-width:0; min-height:0; display:flex; flex-direction:column; justify-content:center; gap:clamp(5px,1cqw,11px); border-radius:clamp(14px,1.8cqw,22px); padding:clamp(10px,1.8cqw,22px); background:var(--mkt-glass); border:1px solid var(--mkt-glass-border); backdrop-filter:blur(8px); box-shadow:8px 8px 18px var(--mkt-shadow-dark), -6px -6px 14px var(--mkt-shadow-light); overflow:hidden; }
+      .feria-panel .medal{ width:clamp(30px,4.6cqw,58px); height:clamp(30px,4.6cqw,58px); border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--mkt-gold); box-shadow:inset 3px 3px 6px rgba(0,0,0,0.25), inset -3px -3px 6px rgba(255,255,255,0.2); flex-shrink:0; }
+      .feria-panel svg{ width:50%; height:50%; }
+      .feria-panel h3{ margin:0; color:var(--mkt-cream); font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(14px,2.1cqw,21px); }
+      .feria-panel p{ margin:0; color:#d8ceb4; font-size:clamp(11px,1.4cqw,14px); line-height:1.38; font-weight:500; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+      .feria-panel .price{ font-family:'Fraunces',serif; font-weight:700; font-size:clamp(17px,2.8cqw,27px); color:var(--mkt-gold-soft); }
+
+      .whatsapp-chip{ grid-area:whatsapp; display:flex; align-items:center; justify-content:center; gap:clamp(7px,1.2cqw,12px); padding:clamp(7px,1.2cqw,14px) clamp(10px,1.6cqw,18px); border-radius:clamp(12px,1.6cqw,16px); background:linear-gradient(150deg,#2e5c33,#1f4025); box-shadow:6px 6px 14px var(--mkt-shadow-dark), -4px -4px 10px rgba(255,255,255,0.06); flex-wrap:wrap; }
+      .whatsapp-chip svg{ width:clamp(15px,2.2cqw,24px); height:clamp(15px,2.2cqw,24px); }
+      .whatsapp-chip .wa-text{ color:#eafbe9; font-weight:600; font-size:clamp(10px,1.3cqw,13px); }
+      .whatsapp-chip .wa-num{ color:#fff; font-weight:800; font-size:clamp(12px,1.8cqw,18px); letter-spacing:.2px; font-family:'Sora',sans-serif; }
+
+      .footer-feria{ grid-area:footer; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:clamp(7px,1.2cqw,14px) clamp(12px,1.8cqw,24px); border-radius:clamp(10px,1.4cqw,14px); background:rgba(0,0,0,0.18); border:1px solid rgba(255,246,224,0.12); }
+      .footer-feria .parish{ display:flex; align-items:center; gap:clamp(7px,1.2cqw,14px); min-width:0; }
+      .footer-feria .parish svg{ width:clamp(17px,2.6cqw,32px); height:clamp(17px,2.6cqw,32px); flex-shrink:0; }
+      .footer-feria .parish h4{ margin:0; color:var(--mkt-cream); font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(11px,1.7cqw,16px); }
+      .footer-feria .parish span{ color:#c9c0a6; font-size:clamp(9px,1.1cqw,11px); }
+      .footer-feria .addr{ flex-shrink:0; color:var(--mkt-gold-soft); font-weight:700; font-size:clamp(9px,1.3cqw,12px); display:flex; align-items:center; gap:6px; white-space:nowrap; }
     </style>
 
-    <div class="switcher" id="switcher" hidden>
+    <div class="switcher" id="switcher">
       <button type="button" id="tab-main" data-target="main">Evento principal</button>
       <button type="button" id="tab-feria" data-target="feria">Feria de emprendedores</button>
     </div>
 
-    <div class="duo-wrapper" id="duo-wrapper">
-     <div class="frame" id="frame-main">
-      <div id="poster-main" class="poster">
-        <div class="bunting">
-          <span style="--c:#e14c81"></span><span style="--c:#d6a234"></span><span style="--c:#1e7d74"></span>
-          <span style="--c:#c4552e"></span><span style="--c:#5c7a34"></span><span style="--c:#d6a234"></span>
-          <span style="--c:#e14c81"></span><span style="--c:#1e7d74"></span><span style="--c:#c4552e"></span>
-          <span style="--c:#5c7a34"></span><span style="--c:#d6a234"></span><span style="--c:#e14c81"></span>
+    <div class="frames" id="frames">
+      <div class="frame" id="frame-main">
+        <div class="bunting-wrap" id="bunting-wrap">
+          <img id="img-bunting" alt="">
+          <div class="bunting-fallback" id="bunting-fallback" hidden>
+            <span style="--c:#e14c81"></span><span style="--c:#d6a234"></span><span style="--c:#1e7d74"></span>
+            <span style="--c:#c4552e"></span><span style="--c:#5c7a34"></span><span style="--c:#d6a234"></span>
+            <span style="--c:#e14c81"></span><span style="--c:#1e7d74"></span><span style="--c:#c4552e"></span>
+            <span style="--c:#5c7a34"></span><span style="--c:#d6a234"></span><span style="--c:#e14c81"></span>
+          </div>
         </div>
-        <img class="bg-church" id="img-iglesia" alt="">
-        <div class="halo-wrap">
-          <div class="halo-glow"></div>
-          <div class="portrait-frame"><img id="img-santo-main" alt="San Francisco de Asís"></div>
-          <div class="sparkle" style="width:8px;height:8px; top:-6px; left:40px; animation-delay:.2s;"></div>
-          <div class="sparkle" style="width:12px;height:12px; top:60px; left:-14px; animation-delay:1.1s;"></div>
-          <div class="sparkle" style="width:6px;height:6px; top:280px; right:-8px; left:auto; animation-delay:1.9s;"></div>
-        </div>
-        <div class="headline-block">
-          <div class="eyebrow-hand">Festejamos a</div>
-          <h1><span class="accent1">San Francisco</span><br><span class="accent2">de Asís</span></h1>
-          <div class="date-badge"><span>Domingo 4 de Octubre</span></div>
-        </div>
-        <div class="info-row">
-          <div class="info-card" id="card-misa"><div class="top"><div class="medal">${ICONS.chalice}</div><h3>Misa</h3><p>Comenzamos juntos celebrando a nuestro querido San Francisco.</p></div><span class="tag">11:00 hs</span></div>
-          <div class="info-card" id="card-feria"><div class="top"><div class="medal">${ICONS.stall}</div><h3>Feria &amp; Bingo</h3><p>Emprendedores y bingo familiar en el colegio, Calle 52 casi 8 · Acceso 2.</p></div><span class="tag">12:30 a 17:00 hs</span></div>
-          <div class="info-card" id="card-buffet"><div class="top"><div class="medal">${ICONS.food}</div><h3>Buffet</h3><p>Habrá cosas ricas para comer durante toda la tarde.</p></div><span class="tag">Todo el día</span></div>
-        </div>
-        <div class="footer-main">
-          <div class="parish">${ICONS.church}<div><h4>Parroquia San Luis Gonzaga</h4><span>Villa Elisa</span></div></div>
-          <div class="welcome">¡Te esperamos!</div>
+        <div id="poster-main" class="poster">
+          <div class="halo-wrap">
+            <div class="halo-glow"></div>
+            <div class="portrait-frame"><img id="img-santo-main" alt="San Francisco de Asís"></div>
+            <div class="sparkle" style="width:6%;height:6%; top:-4%; left:14%; animation-delay:.2s;"></div>
+            <div class="sparkle" style="width:9%;height:9%; top:20%; left:-8%; animation-delay:1.1s;"></div>
+            <div class="sparkle" style="width:5%;height:5%; bottom:-2%; right:-4%; animation-delay:1.9s;"></div>
+          </div>
+          <div class="headline-block">
+            <div class="eyebrow-hand">Festejamos a</div>
+            <h1><span class="accent1">San Francisco</span> <span class="accent2">de Asís</span></h1>
+            <div class="date-badge"><span>Domingo 4 de Octubre</span></div>
+          </div>
+          <div class="info-row">
+            <div class="info-card" id="card-misa"><div class="top"><div class="medal">${ICONS.chalice}</div><h3>Misa</h3><p>Comenzamos juntos celebrando a nuestro querido San Francisco.</p></div><span class="tag">11:00 hs</span></div>
+            <div class="info-card" id="card-feria"><div class="top"><div class="medal">${ICONS.stall}</div><h3>Feria &amp; Bingo</h3><p>Emprendedores y bingo familiar en el colegio, Calle 52 casi 8 · Acceso 2.</p></div><span class="tag">12:30 a 17:00 hs</span></div>
+            <div class="info-card" id="card-buffet"><div class="top"><div class="medal">${ICONS.food}</div><h3>Buffet</h3><p>Habrá cosas ricas para comer durante toda la tarde.</p></div><span class="tag">Todo el día</span></div>
+          </div>
+          <div class="footer-main">
+            <div class="parish"><img id="img-iglesia" alt=""><div><h4>Parroquia San Luis Gonzaga</h4><span>Villa Elisa</span></div></div>
+            <div class="welcome">¡Te esperamos!</div>
+          </div>
         </div>
       </div>
-     </div>
 
-     <div class="frame" id="frame-feria">
-      <div id="poster-feria" class="poster">
-        <div class="feria-top">
-          <div class="eyebrow-hand">Feria de</div>
-          <h1>Emprendedores <span>&amp; Comunidad</span></h1>
-          <div class="feria-date"><span>Domingo 4 de Octubre</span></div>
-        </div>
-        <div class="feria-portrait"><img id="img-santo-feria" alt="San Francisco de Asís"></div>
-        <div class="feria-quote"><b>¡Tu emprendimiento puede inspirar y transformar!</b><br>Un espacio para compartir tus productos, mostrar tu talento y hacer crecer tus sueños. Todos somos comunidad.</div>
-        <div class="feria-panels">
-          <div class="feria-panel"><div class="medal">${ICONS.hearts}</div><h3>¿Sos emprendedor?</h3><p>Te invitamos a sumarte con tu propuesta a esta feria que nos une y nos fortalece.</p></div>
-          <div class="feria-panel"><div class="medal">${ICONS.coin}</div><h3>Inscripción</h3><div class="price">$15.000</div><p>Valor único + un producto de tu emprendimiento para el bingo.</p></div>
-        </div>
-        <div class="whatsapp-chip">${ICONS.whatsapp}<span class="wa-text">Comunicate con Nancy</span><span class="wa-num">11 5313-3638</span></div>
-        <div class="footer-feria">
-          <div class="parish">${ICONS.churchLight}<div><h4>Parroquia San Luis Gonzaga</h4><span>Villa Elisa</span></div></div>
-          <div class="addr">${ICONS.pin} Calle 8 / 52 y 53</div>
+      <div class="frame hidden" id="frame-feria">
+        <div id="poster-feria" class="poster">
+          <div class="feria-portrait"><img id="img-santo-feria" alt="San Francisco de Asís"></div>
+          <div class="feria-top">
+            <div class="eyebrow-hand">Feria de</div>
+            <h1>Emprendedores <span>&amp; Comunidad</span></h1>
+            <div class="feria-date"><span>Domingo 4 de Octubre</span></div>
+          </div>
+          <div class="feria-quote"><b>¡Tu emprendimiento puede inspirar y transformar!</b> Un espacio para compartir tus productos, mostrar tu talento y hacer crecer tus sueños. Todos somos comunidad.</div>
+          <div class="feria-panels">
+            <div class="feria-panel"><div class="medal">${ICONS.hearts}</div><h3>¿Sos emprendedor?</h3><p>Te invitamos a sumarte con tu propuesta a esta feria que nos une y nos fortalece.</p></div>
+            <div class="feria-panel"><div class="medal">${ICONS.coin}</div><h3>Inscripción</h3><div class="price">$15.000</div><p>Valor único + un producto de tu emprendimiento para el bingo.</p></div>
+          </div>
+          <div class="whatsapp-chip">${ICONS.whatsapp}<span class="wa-text">Comunicate con Nancy</span><span class="wa-num">11 5313-3638</span></div>
+          <div class="footer-feria">
+            <div class="parish">${ICONS.churchLight}<div><h4>Parroquia San Luis Gonzaga</h4><span>Villa Elisa</span></div></div>
+            <div class="addr">${ICONS.pin} Calle 8 / 52 y 53</div>
+          </div>
         </div>
       </div>
-     </div>
     </div>
   `;
 
   class CartelEvento extends HTMLElement {
     static get observedAttributes() {
-      return ['poster', 'layout', 'show-switcher', 'img-santo', 'img-iglesia'];
+      return ['poster', 'img-santo', 'img-iglesia', 'img-bunting'];
     }
 
     constructor() {
       super();
       this.attachShadow({ mode: 'open' });
-      this._ro = null;
     }
 
     connectedCallback() {
@@ -246,27 +318,19 @@
       }
       this._applyImages();
       this._applyPoster();
-      this._applySwitcher();
-      this._observeResize();
-      this._fit();
-    }
-
-    disconnectedCallback() {
-      if (this._ro) this._ro.disconnect();
     }
 
     attributeChangedCallback() {
       if (!this._rendered) return;
       this._applyImages();
       this._applyPoster();
-      this._applySwitcher();
-      this._fit();
     }
 
     _wire() {
       const root = this.shadowRoot;
       root.getElementById('tab-main').addEventListener('click', () => this.setAttribute('poster', 'main'));
       root.getElementById('tab-feria').addEventListener('click', () => this.setAttribute('poster', 'feria'));
+
       const iconSaintImg = root.getElementById('img-santo-main');
       const iconSaintFeria = root.getElementById('img-santo-feria');
       iconSaintImg.addEventListener('error', () => {
@@ -275,61 +339,41 @@
       iconSaintFeria.addEventListener('error', () => {
         iconSaintFeria.replaceWith(Object.assign(document.createElement('div'), { className: 'fallback-icon', innerHTML: ICONS.saintLight }));
       });
-      root.getElementById('img-iglesia').addEventListener('error', (e) => { e.target.style.display = 'none'; });
+
+      const iglesiaImg = root.getElementById('img-iglesia');
+      iglesiaImg.addEventListener('error', () => {
+        iglesiaImg.replaceWith(Object.assign(document.createElement('span'), { innerHTML: ICONS.church }).firstChild);
+      });
+
+      const buntingImg = root.getElementById('img-bunting');
+      buntingImg.addEventListener('error', () => {
+        buntingImg.hidden = true;
+        root.getElementById('bunting-fallback').hidden = false;
+      });
     }
 
     _applyImages() {
       const root = this.shadowRoot;
       const santo = this.getAttribute('img-santo') || 'san-francisco.png';
       const iglesia = this.getAttribute('img-iglesia') || 'iglesia.png';
+      const bunting = this.getAttribute('img-bunting') || 'banderines.png';
       const santoMain = root.getElementById('img-santo-main');
       const santoFeria = root.getElementById('img-santo-feria');
       const iglesiaImg = root.getElementById('img-iglesia');
+      const buntingImg = root.getElementById('img-bunting');
       if (santoMain) santoMain.src = santo;
       if (santoFeria) santoFeria.src = santo;
       if (iglesiaImg) iglesiaImg.src = iglesia;
-    }
-
-    _isDuo() {
-      return this.getAttribute('layout') === 'duo';
+      if (buntingImg) buntingImg.src = bunting;
     }
 
     _applyPoster() {
-      const root = this.shadowRoot;
       const which = this.getAttribute('poster') === 'feria' ? 'feria' : 'main';
-      const frameMain = root.getElementById('frame-main');
-      const frameFeria = root.getElementById('frame-feria');
-      if (this._isDuo()) {
-        frameMain.classList.remove('hidden');
-        frameFeria.classList.remove('hidden');
-      } else {
-        frameMain.classList.toggle('hidden', which !== 'main');
-        frameFeria.classList.toggle('hidden', which !== 'feria');
-      }
+      const root = this.shadowRoot;
+      root.getElementById('frame-main').classList.toggle('hidden', which !== 'main');
+      root.getElementById('frame-feria').classList.toggle('hidden', which !== 'feria');
       root.getElementById('tab-main').classList.toggle('active', which === 'main');
       root.getElementById('tab-feria').classList.toggle('active', which === 'feria');
-    }
-
-    _applySwitcher() {
-      const show = this.hasAttribute('show-switcher') && !this._isDuo();
-      this.shadowRoot.getElementById('switcher').hidden = !show;
-    }
-
-    _observeResize() {
-      if (this._ro) return;
-      this._ro = new ResizeObserver(() => this._fit());
-      this._ro.observe(this.shadowRoot.getElementById('frame-main'));
-      this._ro.observe(this.shadowRoot.getElementById('frame-feria'));
-    }
-
-    _fit() {
-      const root = this.shadowRoot;
-      [['frame-main', 'poster-main'], ['frame-feria', 'poster-feria']].forEach(([frameId, posterId]) => {
-        const frame = root.getElementById(frameId);
-        const poster = root.getElementById(posterId);
-        if (!frame || !poster || frame.clientWidth === 0) return;
-        poster.style.transform = `scale(${frame.clientWidth / 1080})`;
-      });
     }
   }
 
