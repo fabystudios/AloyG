@@ -148,9 +148,13 @@
       }
       *{ box-sizing:border-box; }
       /* En mobile, sea cual sea --cartel-max-width (pensado para desktop),
-         la card nunca ocupa más del 95% del ancho disponible. */
+         la card nunca ocupa más del 95% del ANCHO DE PANTALLA (viewport), no del
+         contenedor donde esté embebida. El !important es necesario porque, por
+         spec, los estilos de la página que envuelve el componente (por ej. un
+         ancho fijo puesto en el elemento <cartel-evento> desde afuera) le ganan
+         a las reglas :host normales de adentro del shadow DOM. */
       @media (max-width:768px){
-        :host{ max-width:95%; margin-left:auto; margin-right:auto; }
+        :host{ max-width:95vw !important; margin-left:auto !important; margin-right:auto !important; }
       }
 
       .switcher{ display:flex; gap:8px; margin-bottom:14px; }
