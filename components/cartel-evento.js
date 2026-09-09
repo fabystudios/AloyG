@@ -506,17 +506,27 @@
       });
     }
 
+    // Usa esto (en vez de root.getElementById(id).src = ...) porque si esa imagen
+    // ya falló una vez, el handler de 'error' en _wire() la reemplaza (replaceWith)
+    // por un ícono de fallback y el <img> con ese id deja de existir en el DOM.
+    // Sin este chequeo, getElementById(id) da null y "null.src = ..." tira una
+    // excepción que corta en seco el resto de attributeChangedCallback (¡incluido
+    // _applyPoster()!), rompiendo el switcher main/feria de ahí en adelante.
+    _setSrcSafe(id, src) {
+      const el = this.shadowRoot.getElementById(id);
+      if (el) el.src = src;
+    }
+
     _applyImages() {
-      const root = this.shadowRoot;
       const santo = this.getAttribute('img-santo') || 'san-francisco.png';
       const iglesia = this.getAttribute('img-iglesia') || 'iglesia.png';
       const bunting = this.getAttribute('img-bunting') || 'banderines.png';
-      root.getElementById('img-santo-main').src = santo;
-      root.getElementById('img-santo-feria').src = santo;
-      root.getElementById('img-iglesia-main').src = iglesia;
-      root.getElementById('img-iglesia-feria').src = iglesia;
-      root.getElementById('img-bunting-main').src = bunting;
-      root.getElementById('img-bunting-feria').src = bunting;
+      this._setSrcSafe('img-santo-main', santo);
+      this._setSrcSafe('img-santo-feria', santo);
+      this._setSrcSafe('img-iglesia-main', iglesia);
+      this._setSrcSafe('img-iglesia-feria', iglesia);
+      this._setSrcSafe('img-bunting-main', bunting);
+      this._setSrcSafe('img-bunting-feria', bunting);
     }
 
     _applyPortraitShape() {
