@@ -13,9 +13,10 @@ filtran hacia afuera.
 En **los dos** posters (principal y feria), en ese orden:
 
 1. Fondo de color (degradé).
-2. Guirnalda de banderines (`img-bunting`), pegada arriba, recortada a una
-   franja fija con `object-fit:cover` (no importa cuánta transparencia tenga
-   el PNG por debajo del dibujo) y con un balanceo animado suave.
+2. Guirnalda de banderines (`img-bunting`), pegada arriba, mostrando la
+   imagen completa a su alto natural (nunca recorta los banderines) — la
+   transparencia que le sobre por debajo queda tapada por el propio marco
+   redondeado de la card. Tiene un balanceo animado suave.
 3. Contenido (halo/portada, títulos, subcards, footer).
 
 Este orden es intencional: la guirnalda nunca tapa el contenido, pero
@@ -52,6 +53,13 @@ de la feria):
 | `<id>-body-img`      | URL de imagen que **reemplaza por completo** el título+descripción de esa subcard (el círculo deja de mostrarse; queda solo la imagen). |
 | `panel2-price`       | Precio de inscripción (default `"$15.000"`).                                          |
 
+Cada uno de estos también acepta guión bajo en vez de guión medio
+(`card2_body-img` funciona igual que `card2-body-img`), por si se escribe
+así por error.
+
+El texto de la descripción admite hasta 4 líneas; si es más largo se corta
+con "…" — para textos más cortos ajustá `<id>-text`.
+
 ```html
 <!-- círculo con imagen propia, título y texto sin cambios -->
 <cartel-evento card2-img="/img/feria-emprendedores.png"></cartel-evento>
@@ -68,6 +76,35 @@ Qué subcard es cuál:
 - Poster principal: `card1` = Misa, `card2` = Feria & Bingo, `card3` = Buffet.
 - Poster feria: `panel1` = ¿Sos emprendedor?, `panel2` = Inscripción.
 
+### Imagen distinta para mobile
+
+`<id>-body-img-mobile` deja pasar una imagen distinta a la de desktop para
+esa misma subcard — pensada para que en mobile (donde la card es vertical)
+uses una imagen apaisada que aproveche mejor el ancho angosto. Si no la
+pasás, se usa la misma que `<id>-body-img`.
+
+```html
+<cartel-evento
+  card2-body-img="/img/feria-desktop.png"
+  card2-body-img-mobile="/img/feria-mobile-landscape.png">
+</cartel-evento>
+```
+
+## Título de la feria
+
+Por defecto dice "Feria de Emprendedores". Se puede cambiar el texto o
+reemplazarlo por una imagen (un clip-art/logo, por ejemplo):
+
+| Atributo           | Qué hace                                                        |
+|----------------------|----------------------------------------------------------------------|
+| `feria-eyebrow`     | Texto chico de arriba (default `"Feria de"`)                          |
+| `feria-title`       | Texto grande (default `"Emprendedores"`)                              |
+| `feria-title-img`   | URL de imagen que reemplaza **todo** el título (eyebrow + texto grande) |
+
+```html
+<cartel-evento poster="feria" feria-title-img="/img/logo-feria.png"></cartel-evento>
+```
+
 ## Botón de WhatsApp
 
 En el poster de la feria, "Comunicate con Nancy" ahora es un **botón real**
@@ -83,7 +120,7 @@ mensaje — no un texto decorativo.
 
 | Atributo         | Valores            | Default               | Descripción                                                     |
 |--------------------|---------------------|--------------------------|----------------------------------------------------------------------|
-| `poster`          | `main` \| `feria`   | `main`                    | Con cuál cartel arranca (el switch permite cambiar)                    |
+| `poster`          | `main` \| `feria`   | `main`                    | Con cuál cartel arranca (el switch permite cambiar). **Importante**: si escribís el atributo `poster` dos veces en el mismo tag, el navegador respeta la primera y descarta la segunda — es una regla de HTML, no del componente. |
 | `img-santo`       | ruta de imagen      | `san-francisco.png`      | PNG con fondo transparente del santo (se usa en los dos posters)       |
 | `img-iglesia`     | ruta de imagen      | `iglesia.png`             | PNG con fondo transparente de la iglesia — aparece en el footer de **los dos** posters |
 | `img-bunting`     | ruta de imagen      | `banderines.png`          | PNG de la guirnalda de banderines, en **los dos** posters              |

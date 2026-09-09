@@ -77,7 +77,7 @@
     { id: 'panel2', icon: ICONS.coin, title: 'Inscripción', text: 'Valor único + un producto de tu emprendimiento para el bingo.', hasPrice: true, price: '$15.000' }
   ];
   const ALL_DEFS = [...CARD_DEFS, ...PANEL_DEFS];
-  const SLOT_ATTR_SUFFIXES = ['img', 'title', 'text', 'body-img'];
+  const SLOT_ATTR_SUFFIXES = ['img', 'title', 'text', 'body-img', 'body-img-mobile'];
 
   const TEMPLATE = document.createElement('template');
   TEMPLATE.innerHTML = `
@@ -168,7 +168,7 @@
       .headline-block{ grid-area:header; align-self:center; text-align:center; }
       @media (min-width:769px){ .headline-block{ text-align:left; } }
       .eyebrow-hand{ font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:clamp(12px,1.9cqw,19px); color:var(--ink-soft); }
-      .headline-block h1{ margin:.1em 0 0; font-family:'Fraunces',serif; font-weight:700; font-size:clamp(22px,4.8cqw,44px); line-height:1.04; color:var(--ink); }
+      .headline-block h1{ margin:.1em 0 0; font-family:'Fraunces',serif; font-weight:700; font-size:clamp(28px,6.4cqw,58px); line-height:1.05; color:var(--ink); }
       .headline-block h1 .accent1{ font-style:italic; font-weight:600; color:var(--terracotta-deep); }
       .headline-block h1 .accent2{ font-style:italic; font-weight:600; color:var(--olive); }
       .date-badge{ display:inline-flex; align-items:center; gap:8px; margin-top:clamp(6px,1.1cqw,14px); padding:clamp(6px,.9cqw,11px) clamp(12px,1.9cqw,22px); border-radius:14px; background:var(--glass-fill); border:1px solid var(--glass-border); backdrop-filter:blur(10px); box-shadow:4px 4px 10px var(--shadow-dark), -3px -3px 8px var(--shadow-light); }
@@ -185,10 +185,12 @@
       .info-card .medal.img-medal{ overflow:hidden; box-shadow:none; }
       .info-card .medal.img-medal img{ width:100%; height:100%; object-fit:cover; }
       .info-card .medal.c-olive{ background:var(--olive); } .info-card .medal.c-pink{ background:var(--pink); } .info-card .medal.c-teal{ background:var(--teal); }
-      .info-card h3{ margin:0; font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(16px,2.4cqw,24px); color:var(--ink); }
-      .info-card p{ margin:0; font-size:clamp(11px,1.3cqw,14px); line-height:1.32; color:var(--ink-soft); font-weight:500; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
+      .info-card h3{ margin:0; font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(18px,2.8cqw,27px); color:var(--ink); }
+      .info-card p{ margin:0; font-size:clamp(14px,2cqw,19px); line-height:1.42; color:var(--ink-soft); font-weight:600; letter-spacing:.1px; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
       .info-card .body-img{ flex:1; min-height:0; display:flex; }
-      .info-card .body-img img{ width:100%; height:100%; object-fit:contain; border-radius:10px; }
+      .info-card .body-img img{ display:none; width:100%; height:100%; object-fit:contain; border-radius:10px; }
+      @media (min-width:769px){ .info-card .body-img .bi-desktop{ display:block; } }
+      @media (max-width:768px){ .info-card .body-img .bi-mobile{ display:block; } }
       .info-card .tag{ align-self:flex-start; flex-shrink:0; margin-top:clamp(6px,1.1cqw,14px); padding:clamp(5px,.8cqw,9px) clamp(10px,1.5cqw,16px); border-radius:12px; font-size:clamp(11px,1.4cqw,15px); font-weight:700; color:#fff; }
       .info-card .tag.c-olive{ background:var(--olive); } .info-card .tag.c-pink{ background:var(--pink); } .info-card .tag.c-teal{ background:var(--teal); }
 
@@ -217,9 +219,12 @@
 
       .feria-top{ grid-area:top; align-self:center; text-align:center; }
       @media (min-width:769px){ .feria-top{ text-align:left; } }
-      .feria-top .eyebrow-hand{ color:var(--mkt-gold-soft); font-size:clamp(11px,1.7cqw,16px); }
-      .feria-top h1{ margin:.1em 0 0; font-family:'Fraunces',serif; font-weight:700; font-size:clamp(19px,4cqw,34px); color:var(--mkt-cream); letter-spacing:.1px; line-height:1.08; }
+      .feria-top .eyebrow-hand{ color:var(--mkt-gold-soft); font-size:clamp(13px,2.1cqw,19px); }
+      .feria-top h1{ margin:.1em 0 0; font-family:'Fraunces',serif; font-weight:700; font-size:clamp(24px,5.2cqw,44px); color:var(--mkt-cream); letter-spacing:.1px; line-height:1.08; }
       .feria-top h1 span{ font-style:italic; font-weight:600; color:var(--mkt-gold-soft); }
+      .feria-title-img{ margin-bottom:clamp(4px,.8cqw,8px); }
+      .feria-title-img img{ display:block; max-width:min(80%,320px); width:100%; height:auto; margin:0 auto; }
+      @media (min-width:769px){ .feria-title-img img{ margin:0; } }
       .feria-date{ display:inline-flex; align-items:center; gap:8px; margin-top:clamp(5px,1cqw,12px); padding:clamp(5px,.8cqw,9px) clamp(10px,1.5cqw,17px); border-radius:12px; background:var(--mkt-glass); border:1px solid var(--mkt-glass-border); backdrop-filter:blur(10px); }
       .feria-date span{ font-weight:700; font-size:clamp(11px,1.4cqw,15px); color:var(--mkt-cream); }
 
@@ -239,10 +244,12 @@
       .feria-panel .medal svg{ width:50%; height:50%; }
       .feria-panel .medal.img-medal{ overflow:hidden; box-shadow:none; background:none; }
       .feria-panel .medal.img-medal img{ width:100%; height:100%; object-fit:cover; }
-      .feria-panel h3{ margin:0; color:var(--mkt-cream); font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(14px,2.1cqw,21px); }
-      .feria-panel p{ margin:0; color:#d8ceb4; font-size:clamp(10px,1.25cqw,13px); line-height:1.34; font-weight:500; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
+      .feria-panel h3{ margin:0; color:var(--mkt-cream); font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(16px,2.4cqw,24px); }
+      .feria-panel p{ margin:0; color:#e4dcc4; font-size:clamp(13px,1.9cqw,17px); line-height:1.44; font-weight:600; letter-spacing:.1px; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
       .feria-panel .body-img{ flex:1; min-height:0; display:flex; }
-      .feria-panel .body-img img{ width:100%; height:100%; object-fit:contain; border-radius:10px; }
+      .feria-panel .body-img img{ display:none; width:100%; height:100%; object-fit:contain; border-radius:10px; }
+      @media (min-width:769px){ .feria-panel .body-img .bi-desktop{ display:block; } }
+      @media (max-width:768px){ .feria-panel .body-img .bi-mobile{ display:block; } }
       .feria-panel .price{ font-family:'Fraunces',serif; font-weight:700; font-size:clamp(17px,2.8cqw,27px); color:var(--mkt-gold-soft); }
 
       .whatsapp-chip{ grid-area:whatsapp; display:flex; align-items:center; justify-content:center; gap:clamp(7px,1.2cqw,12px); padding:clamp(7px,1.2cqw,14px) clamp(10px,1.6cqw,18px); border-radius:clamp(12px,1.6cqw,16px); background:linear-gradient(150deg,#2e5c33,#1f4025); box-shadow:6px 6px 14px var(--mkt-shadow-dark), -4px -4px 10px rgba(255,255,255,0.06); flex-wrap:wrap; text-decoration:none; cursor:pointer; transition:transform .15s ease; }
@@ -321,8 +328,7 @@
         <div id="poster-feria" class="poster">
           <div class="feria-portrait"><img id="img-santo-feria" alt="San Francisco de Asís"></div>
           <div class="feria-top">
-            <div class="eyebrow-hand">Feria de</div>
-            <h1>Emprendedores <span>&amp; Comunidad</span></h1>
+            <div id="feria-title-zone"></div>
             <div class="feria-date"><span>Domingo 4 de Octubre</span></div>
           </div>
           <div class="feria-quote"><b>¡Tu emprendimiento puede inspirar y transformar!</b> Un espacio para compartir tus productos, mostrar tu talento y hacer crecer tus sueños. Todos somos comunidad.</div>
@@ -345,6 +351,7 @@
       return [
         'poster', 'img-santo', 'img-iglesia', 'img-bunting',
         'whatsapp-number', 'whatsapp-display', 'panel2-price', 'panel2_price',
+        'feria-title', 'feria-eyebrow', 'feria-title-img',
         ...ALL_DEFS.flatMap(def => SLOT_ATTR_SUFFIXES.flatMap(suf => [`${def.id}-${suf}`, `${def.id}_${suf}`]))
       ];
     }
@@ -364,6 +371,7 @@
       this._applyPoster();
       this._applyWhatsapp();
       this._renderSlots();
+      this._renderFeriaTitle();
     }
 
     attributeChangedCallback() {
@@ -372,6 +380,7 @@
       this._applyPoster();
       this._applyWhatsapp();
       this._renderSlots();
+      this._renderFeriaTitle();
     }
 
     _wire() {
@@ -448,9 +457,23 @@
       });
     }
 
+    _renderFeriaTitle() {
+      const zone = this.shadowRoot.getElementById('feria-title-zone');
+      if (!zone) return;
+      const imgUrl = this.getAttribute('feria-title-img');
+      if (imgUrl) {
+        zone.innerHTML = `<div class="feria-title-img"><img src="${esc(imgUrl)}" alt="Feria de Emprendedores"></div>`;
+      } else {
+        const eyebrow = this.getAttribute('feria-eyebrow') || 'Feria de';
+        const title = this.getAttribute('feria-title') || 'Emprendedores';
+        zone.innerHTML = `<div class="eyebrow-hand">${esc(eyebrow)}</div><h1>${esc(title)}</h1>`;
+      }
+    }
+
     _renderSlotHtml(def) {
       const imgUrl = this._slotAttr(def.id, 'img');
       const bodyImgUrl = this._slotAttr(def.id, 'body-img');
+      const bodyImgMobileUrl = this._slotAttr(def.id, 'body-img-mobile') || bodyImgUrl;
       const title = this._slotAttr(def.id, 'title') || def.title;
       const text = this._slotAttr(def.id, 'text') || def.text;
       const price = def.hasPrice ? (this.getAttribute('panel2-price') || this.getAttribute('panel2_price') || def.price) : null;
@@ -458,7 +481,7 @@
 
       let topHtml;
       if (bodyImgUrl) {
-        topHtml = `<div class="body-img"><img src="${esc(bodyImgUrl)}" alt=""></div>`;
+        topHtml = `<div class="body-img"><img class="bi-desktop" src="${esc(bodyImgUrl)}" alt=""><img class="bi-mobile" src="${esc(bodyImgMobileUrl)}" alt=""></div>`;
       } else {
         const medal = imgUrl
           ? `<div class="medal img-medal"><img src="${esc(imgUrl)}" alt=""></div>`
