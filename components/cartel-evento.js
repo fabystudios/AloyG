@@ -147,15 +147,15 @@
         --mkt-shadow-light:rgba(255,255,255,0.05); --mkt-shadow-dark:rgba(0,0,0,0.5);
       }
       *{ box-sizing:border-box; }
-      /* En mobile, sea cual sea --cartel-max-width (pensado para desktop),
-         la card nunca ocupa más del 95% del ANCHO DE PANTALLA (viewport), no del
-         contenedor donde esté embebida. El !important es necesario porque, por
-         spec, los estilos de la página que envuelve el componente (por ej. un
-         ancho fijo puesto en el elemento <cartel-evento> desde afuera) le ganan
-         a las reglas :host normales de adentro del shadow DOM. */
-      @media (max-width:768px){
-        :host{ max-width:95vw !important; margin-left:auto !important; margin-right:auto !important; }
-      }
+      /* NOTA: antes había acá una regla @media que forzaba max-width:95vw!important
+         en mobile. La saqué: :host ya tiene width:100% (ocupa el ancho de SU
+         CONTENEDOR, sea cual sea) + max-width opcional vía --cartel-max-width.
+         Eso ya es responsive por sí solo en cualquier pantalla. Forzar 95vw
+         (relativo al VIEWPORT, no al contenedor) rompía el layout apenas el
+         sitio real envolvía el componente en un contenedor con su propio
+         padding/margen — muy común — porque 95vw podía terminar siendo MÁS
+         ANCHO que el espacio real disponible, desbordando la card hacia
+         afuera justo en mobile. Este era el bug principal que reportaste. */
 
       .switcher{ display:flex; gap:8px; margin-bottom:14px; }
       .switcher button{
@@ -299,7 +299,7 @@
       .feria-top h1 span{ font-style:italic; font-weight:600; color:var(--mkt-gold-soft); }
       .main-title-img, .feria-title-img{ margin-bottom:clamp(4px,.8cqw,8px); }
       .main-title-img img, .feria-title-img img{ display:block; max-width:min(80%,320px); max-height:clamp(48px,12cqw,140px); width:auto; height:auto; object-fit:contain; margin:0 auto; }
-      .main-title-img img.sized, .feria-title-img img.sized{ max-width:none; max-height:none; }
+      .main-title-img img.sized, .feria-title-img img.sized{ max-width:100%; max-height:none; }
       @media (min-width:769px){ .main-title-img img, .feria-title-img img{ margin:0; } }
       .feria-date{ display:inline-flex; align-items:center; gap:8px; margin-top:clamp(5px,1cqw,12px); padding:clamp(5px,.8cqw,9px) clamp(10px,1.5cqw,17px); border-radius:12px; background:var(--mkt-glass); border:1px solid var(--mkt-glass-border); backdrop-filter:blur(10px); }
       .feria-date[hidden]{ display:none; }
@@ -544,6 +544,8 @@
     // img-santo-width / img-santo-height: si se pasa uno solo, el otro queda "auto"
     // y el aspect-ratio del marco (según su forma) escala el otro lado proporcional.
     // Si se pasan los dos, se usan tal cual (puede deformar el marco).
+    // max-width:100% es la misma protección que en _titleImgAttrs: un ancho fijo
+    // pensado para desktop no puede desbordar la card en mobile.
     _applyPortraitSize() {
       const root = this.shadowRoot;
       const w = this.getAttribute('img-santo-width');
@@ -551,9 +553,10 @@
       const targets = [root.querySelector('.halo-wrap'), root.querySelector('.feria-portrait')];
       targets.forEach(el => {
         if (!el) return;
-        if (!w && !h) { el.style.width = ''; el.style.height = ''; return; }
+        if (!w && !h) { el.style.width = ''; el.style.height = ''; el.style.maxWidth = ''; return; }
         el.style.width = w || 'auto';
         el.style.height = h || 'auto';
+        el.style.maxWidth = '100%';
       });
       const feriaTop = this.getAttribute('img-santo-feria-top');
       const feriaEl = root.querySelector('.feria-portrait');
@@ -610,11 +613,16 @@
     // Arma el atributo class + style para <img> del título, a partir de -width / -height.
     // Si se pasa uno solo, el otro queda en "auto" y escala proporcional.
     // Si se pasan los dos, se usan tal cual (puede deformar la imagen).
+    // IMPORTANTE: max-width se deja en 100% (no "none") para que el ancho pedido
+    // funcione como techo en desktop pero NUNCA se salga de la card en mobile,
+    // donde el ancho disponible es mucho menor. Sin esto, un ancho pensado para
+    // desktop (ej. "260px") desbordaba la card en pantallas angostas, tanto en
+    // el poster principal como en el de la feria (los dos usan este mismo método).
     _titleImgAttrs(prefix) {
       const w = this.getAttribute(`${prefix}-width`);
       const h = this.getAttribute(`${prefix}-height`);
       if (!w && !h) return '';
-      const decls = ['max-width:none', 'max-height:none'];
+      const decls = ['max-width:100%', 'max-height:none'];
       decls.push(`width:${w ? esc(w) : 'auto'}`);
       decls.push(`height:${h ? esc(h) : 'auto'}`);
       return ` class="sized" style="${decls.join(';')}"`;
