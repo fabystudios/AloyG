@@ -8,48 +8,85 @@ Todo el CSS, las fuentes (Google Fonts) y los íconos SVG viven dentro del
 Shadow DOM: el estilo del sitio anfitrión no lo afecta, y sus estilos no se
 filtran hacia afuera.
 
+## Capas (de atrás hacia adelante)
+
+En **los dos** posters (principal y feria), en ese orden:
+
+1. Fondo de color (degradé).
+2. Guirnalda de banderines (`img-bunting`), pegada arriba, recortada a una
+   franja fija con `object-fit:cover` (no importa cuánta transparencia tenga
+   el PNG por debajo del dibujo) y con un balanceo animado suave.
+3. Contenido (halo/portada, títulos, subcards, footer).
+
+Este orden es intencional: la guirnalda nunca tapa el contenido, pero
+tampoco queda invisible detrás del fondo.
+
 ## Layout
 
-El cartel es **rectangular** y usa CSS Grid + container queries (`cqw`) en
-vez de un lienzo fijo escalado por JS, así que ocupa el máximo espacio
-disponible sin scroll, con las proporciones cambiando según el ancho de la
-**ventana**:
+El cartel es **rectangular** y usa CSS Grid + container queries (`cqw`):
+apaisado 1.7:1 en desktop (ventana ≥769px), vertical 3:4 en mobile
+(≤768px). El switch para alternar entre los dos posters se muestra
+**siempre, arriba**.
 
-- **Desktop** (ventana ≥769px): cartel apaisado ("a lo largo").
-- **Mobile** (ventana ≤768px): cartel vertical ("a lo alto").
+Los textos de las subcards tienen `line-clamp` de seguridad además de
+`clamp()` para el tamaño de fuente: nunca se desbordan ni quedan tapados
+por el footer, sea cual sea el ancho del contenedor.
 
-El switch para alternar entre "Evento principal" y "Feria de emprendedores"
-se muestra **siempre, arriba**, tanto en desktop como en mobile.
+## Subcards configurables por props
 
-## Instalación
+Cada subcard (3 en el poster principal, 2 en el de la feria) tiene el
+mismo diseño: un círculo a la izquierda y el título al lado, centrado a la
+altura del medio del círculo — y debajo, la descripción (o el precio, en el
+caso de "Inscripción").
+
+Por defecto muestran el ícono, título y texto originales. Se pueden
+sobreescribir con estos atributos, usando el id de la subcard
+(`card1`, `card2`, `card3` en el poster principal; `panel1`, `panel2` en el
+de la feria):
+
+| Atributo            | Qué hace                                                                          |
+|-----------------------|--------------------------------------------------------------------------------------|
+| `<id>-img`           | URL de imagen para el círculo. Si no se pasa, usa el ícono y color por defecto.       |
+| `<id>-title`         | Texto del título.                                                                     |
+| `<id>-text`          | Texto de la descripción.                                                              |
+| `<id>-body-img`      | URL de imagen que **reemplaza por completo** el título+descripción de esa subcard (el círculo deja de mostrarse; queda solo la imagen). |
+| `panel2-price`       | Precio de inscripción (default `"$15.000"`).                                          |
 
 ```html
-<script src="cartel-evento.js"></script>
+<!-- círculo con imagen propia, título y texto sin cambios -->
+<cartel-evento card2-img="/img/feria-emprendedores.png"></cartel-evento>
+
+<!-- toda la subcard 3 reemplazada por una sola imagen -->
+<cartel-evento card3-body-img="/img/buffet-foto.png"></cartel-evento>
+
+<!-- solo cambiar el texto -->
+<cartel-evento panel1-title="¿Tenés un emprendimiento?"></cartel-evento>
 ```
 
-## Ejemplo de llamada (props / atributos)
+Qué subcard es cuál:
 
-```html
-<cartel-evento
-  poster="main"
-  img-santo="/img/san-francisco.png"
-  style="--cartel-max-width:900px;">
-</cartel-evento>
-```
+- Poster principal: `card1` = Misa, `card2` = Feria & Bingo, `card3` = Buffet.
+- Poster feria: `panel1` = ¿Sos emprendedor?, `panel2` = Inscripción.
 
-- `poster`: con cuál de los dos carteles arranca (`main` o `feria`). El
-  visitante después puede cambiar con el switch.
-- `img-santo`: ruta a tu PNG con fondo transparente del santo (se usa en
-  los dos carteles).
-- `--cartel-max-width`: se pasa en el `style` del propio tag. Si no se
-  especifica, el componente ocupa el 100% del ancho de su contenedor.
+## Botón de WhatsApp
 
-## Atributos
+En el poster de la feria, "Comunicate con Nancy" ahora es un **botón real**
+(`<a>` con `target="_blank"`) que abre WhatsApp directo para mandar un
+mensaje — no un texto decorativo.
 
-| Atributo      | Valores           | Default               | Descripción                                    |
-|----------------|--------------------|--------------------------|----------------------------------------------------|
-| `poster`      | `main` \| `feria`  | `main`                    | Con cuál cartel arranca (el switch permite cambiar) |
-| `img-santo`   | ruta de imagen     | `san-francisco.png`      | PNG con fondo transparente del santo                |
+| Atributo             | Default            | Descripción                                   |
+|------------------------|----------------------|----------------------------------------------------|
+| `whatsapp-number`     | `5491153133638`     | Solo dígitos, con código de país (54) y 9 de celular. Se usa para armar el link `https://wa.me/...`. |
+| `whatsapp-display`    | `11 5313-3638`       | Texto que se muestra en el botón.                    |
+
+## Otros atributos
+
+| Atributo         | Valores            | Default               | Descripción                                                     |
+|--------------------|---------------------|--------------------------|----------------------------------------------------------------------|
+| `poster`          | `main` \| `feria`   | `main`                    | Con cuál cartel arranca (el switch permite cambiar)                    |
+| `img-santo`       | ruta de imagen      | `san-francisco.png`      | PNG con fondo transparente del santo (se usa en los dos posters)       |
+| `img-iglesia`     | ruta de imagen      | `iglesia.png`             | PNG con fondo transparente de la iglesia — aparece en el footer de **los dos** posters |
+| `img-bunting`     | ruta de imagen      | `banderines.png`          | PNG de la guirnalda de banderines, en **los dos** posters              |
 
 ## Variable CSS
 
@@ -57,20 +94,17 @@ se muestra **siempre, arriba**, tanto en desktop como en mobile.
 |------------------------|-----------|----------------------------------------------------------|
 | `--cartel-max-width`  | sin tope  | Ancho máximo del componente; por defecto ocupa el 100% del contenedor |
 
-## Subcards con más presencia
-
-Los textos de las tarjetas (Misa / Feria & Bingo / Buffet, y las de la
-feria) escalan de forma fluida con `clamp()` + `cqw` y las filas de tarjetas
-usan `1fr` en el grid, así que **ocupan todo el espacio vertical
-disponible** en vez de dejar zonas vacías — se agrandan solas cuanto más
-grande es el cartel.
-
 ## Imágenes
 
-Colocá junto al HTML (o donde prefieras, indicando la ruta con el atributo
-`img-santo`) el archivo PNG con fondo transparente del santo. Si no existe
-todavía, el componente no se rompe: lo reemplaza por un ícono simple de
-silueta.
+- `san-francisco.png` — recorte del santo, se usa en los dos carteles.
+- `iglesia.png` — recorte de la iglesia, aparece en el footer de **los dos**
+  carteles (antes solo estaba en el principal).
+- `banderines.png` — guirnalda de banderines, apaisada, con los banderines
+  pegados arriba del todo y el resto transparente.
+
+Si algún archivo no existe todavía, el componente no se rompe: cada uno cae
+a su propio respaldo (ícono de silueta, ícono de iglesia, o banderines de
+triangulitos CSS).
 
 ## Compatibilidad
 
@@ -82,6 +116,7 @@ carga más de una vez en la misma página.
 
 ## Demo
 
-Abrí `demo.html`, que muestra el componente embebido en una página con
-estilos deliberadamente "hostiles" (otra tipografía, otro fondo). Achicá y
-agrandá la ventana del navegador para ver el cambio de apaisado a vertical.
+Abrí `demo.html`: muestra el componente sin props, con las 3 imágenes y el
+botón de WhatsApp, con subcards personalizadas (imagen en el círculo, texto
+propio, y una subcard reemplazada por imagen completa), y con ancho
+acotado.
