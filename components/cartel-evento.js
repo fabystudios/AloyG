@@ -147,15 +147,19 @@
         --mkt-shadow-light:rgba(255,255,255,0.05); --mkt-shadow-dark:rgba(0,0,0,0.5);
       }
       *{ box-sizing:border-box; }
-      /* NOTA: antes había acá una regla @media que forzaba max-width:95vw!important
-         en mobile. La saqué: :host ya tiene width:100% (ocupa el ancho de SU
-         CONTENEDOR, sea cual sea) + max-width opcional vía --cartel-max-width.
-         Eso ya es responsive por sí solo en cualquier pantalla. Forzar 95vw
-         (relativo al VIEWPORT, no al contenedor) rompía el layout apenas el
-         sitio real envolvía el componente en un contenedor con su propio
-         padding/margen — muy común — porque 95vw podía terminar siendo MÁS
-         ANCHO que el espacio real disponible, desbordando la card hacia
-         afuera justo en mobile. Este era el bug principal que reportaste. */
+      /* En mobile (<=768px), la card ocupa como máximo el 95% del ANCHO DE
+         PANTALLA (viewport), sea cual sea el --cartel-max-width que se haya
+         puesto (pensado normalmente para desktop) y sea cual sea el ancho del
+         contenedor donde esté embebida. Uso min() con var(--cartel-max-width)
+         para que, si ese valor ya es menor a 95vw, se respete el menor de los
+         dos — nunca hace que la card sea MÁS ancha de lo que ya sería sin esta
+         regla, solo agrega un techo extra en mobile. Aplica igual a los dos
+         posters porque es una regla de :host (afecta a todo el componente).
+         El !important es para que gane incluso si el sitio que lo envuelve
+         define su propio ancho para la etiqueta <cartel-evento> desde afuera. */
+      @media (max-width:768px){
+        :host{ max-width:min(95vw, var(--cartel-max-width, 95vw)) !important; margin-left:auto; margin-right:auto; }
+      }
 
       .switcher{ display:flex; gap:8px; margin-bottom:14px; }
       .switcher button{
@@ -543,9 +547,10 @@
 
     // img-santo-width / img-santo-height: si se pasa uno solo, el otro queda "auto"
     // y el aspect-ratio del marco (según su forma) escala el otro lado proporcional.
-    // Si se pasan los dos, se usan tal cual (puede deformar el marco).
-    // max-width:100% es la misma protección que en _titleImgAttrs: un ancho fijo
-    // pensado para desktop no puede desbordar la card en mobile.
+    // Si se pasan los DOS, ya no se usan tal cual (eso deformaba en mobile: el
+    // ancho se achicaba para no desbordar pero el alto quedaba fijo). Ahora, con
+    // los dos valores se arma un aspect-ratio propio (ancho:alto) y el marco
+    // escala manteniendo esa proporción a cualquier tamaño de pantalla.
     _applyPortraitSize() {
       const root = this.shadowRoot;
       const w = this.getAttribute('img-santo-width');
@@ -553,10 +558,26 @@
       const targets = [root.querySelector('.halo-wrap'), root.querySelector('.feria-portrait')];
       targets.forEach(el => {
         if (!el) return;
-        if (!w && !h) { el.style.width = ''; el.style.height = ''; el.style.maxWidth = ''; return; }
-        el.style.width = w || 'auto';
-        el.style.height = h || 'auto';
-        el.style.maxWidth = '100%';
+        if (!w && !h) {
+          el.style.width = ''; el.style.height = ''; el.style.maxWidth = ''; el.style.aspectRatio = '';
+          return;
+        }
+        const wNum = w ? parseFloat(w) : null;
+        const hNum = h ? parseFloat(h) : null;
+        if (wNum > 0 && hNum > 0) {
+          // los dos juntos: aspect-ratio propio, escala proporcional siempre
+          el.style.aspectRatio = `${wNum} / ${hNum}`;
+          el.style.width = `min(100%, ${w})`;
+          el.style.height = 'auto';
+          el.style.maxWidth = '';
+        } else {
+          // solo uno de los dos: el otro queda "auto", proporcional según
+          // el aspect-ratio de la forma (circle/square/rectangle) del CSS
+          el.style.width = w || 'auto';
+          el.style.height = h || 'auto';
+          el.style.maxWidth = '100%';
+          el.style.aspectRatio = '';
+        }
       });
       const feriaTop = this.getAttribute('img-santo-feria-top');
       const feriaEl = root.querySelector('.feria-portrait');
@@ -610,21 +631,25 @@
       if (span) span.textContent = text;
     }
 
-    // Arma el atributo class + style para <img> del título, a partir de -width / -height.
-    // Si se pasa uno solo, el otro queda en "auto" y escala proporcional.
-    // Si se pasan los dos, se usan tal cual (puede deformar la imagen).
-    // IMPORTANTE: max-width se deja en 100% (no "none") para que el ancho pedido
-    // funcione como techo en desktop pero NUNCA se salga de la card en mobile,
-    // donde el ancho disponible es mucho menor. Sin esto, un ancho pensado para
-    // desktop (ej. "260px") desbordaba la card en pantallas angostas, tanto en
-    // el poster principal como en el de la feria (los dos usan este mismo método).
+    // Arma el atributo style para <img> del título, a partir de -width / -height.
+    // Si se pasa uno solo, el otro queda en "auto" y escala proporcional según
+    // la proporción natural de la imagen.
+    // Si se pasan los DOS, se arma un aspect-ratio propio (igual que en
+    // _applyPortraitSize) para que escale proporcional sin deformarse, con el
+    // ancho pedido como techo en desktop y encogiéndose en mobile sin perder
+    // esa proporción.
     _titleImgAttrs(prefix) {
       const w = this.getAttribute(`${prefix}-width`);
       const h = this.getAttribute(`${prefix}-height`);
       if (!w && !h) return '';
-      const decls = ['max-width:100%', 'max-height:none'];
-      decls.push(`width:${w ? esc(w) : 'auto'}`);
-      decls.push(`height:${h ? esc(h) : 'auto'}`);
+      const wNum = w ? parseFloat(w) : null;
+      const hNum = h ? parseFloat(h) : null;
+      let decls;
+      if (wNum > 0 && hNum > 0) {
+        decls = [`aspect-ratio:${wNum} / ${hNum}`, `width:min(100%, ${esc(w)})`, 'height:auto', 'max-height:none'];
+      } else {
+        decls = ['max-width:100%', 'max-height:none', `width:${w ? esc(w) : 'auto'}`, `height:${h ? esc(h) : 'auto'}`];
+      }
       return ` class="sized" style="${decls.join(';')}"`;
     }
 
