@@ -1,7 +1,7 @@
 [
                 {
     "id": "leon",
-    "position": 2,
+    "position": 1,
     "hasVideo": false,
     "link": "https://acreditaciones.episcopado.org/voluntarios",
     "time": { "desktop": 3, "mobile": 3 },
@@ -16,7 +16,7 @@
   },
     {
   "id": "Aurelia",
-  "position": 6,
+  "position": 5,
   "hasVideo": false,
   "link": "./avisos.html",
   "time": { "desktop": 5, "mobile": 5 },
@@ -31,7 +31,7 @@
 },
                 {
     "id": "asis1",
-    "position": 3,
+    "position": 2,
     "hasVideo": false,
     "link": "#asis1",
     "time": { "desktop": 3, "mobile": 3 },
@@ -46,7 +46,7 @@
   },
                   {
     "id": "asis2",
-    "position": 4,
+    "position": 3,
     "hasVideo": false,
     "link": "#asis2",
     "time": { "desktop": 3, "mobile": 3 },
@@ -76,7 +76,7 @@
   },
       {
     "id": "feria",
-    "position": 5,
+    "position": 4,
     "hasVideo": false,
     "link": "#feria",
     "time": { "desktop": 3, "mobile": 3 },
@@ -195,7 +195,7 @@
        
               {
     "id": "merienda",
-    "position": 7,
+    "position": 6,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
