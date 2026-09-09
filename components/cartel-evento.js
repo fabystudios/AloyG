@@ -147,6 +147,11 @@
         --mkt-shadow-light:rgba(255,255,255,0.05); --mkt-shadow-dark:rgba(0,0,0,0.5);
       }
       *{ box-sizing:border-box; }
+      /* En mobile, sea cual sea --cartel-max-width (pensado para desktop),
+         la card nunca ocupa más del 95% del ancho disponible. */
+      @media (max-width:768px){
+        :host{ max-width:95%; margin-left:auto; margin-right:auto; }
+      }
 
       .switcher{ display:flex; gap:8px; margin-bottom:14px; }
       .switcher button{
