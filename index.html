@@ -990,11 +990,11 @@
 
 ></section-title>
 
-<!-- <script src="./components/cartel-evento.js"></script>
+<script src="./components/cartel-evento.js"></script>
 <div style="display:flex;justify-content:center;">
  
 <cartel-evento
-
+      feria-title-img="./logos/titulo2.png" 
       card1-img="/logos/misa.png"
       card1-title="Misa"
       card1-text="Comenzamos juntos celebrando a nuestro querido San Francisco de Asis en la parroquia a las 11hs."
@@ -1002,10 +1002,12 @@
       card2-img="./logos/feria.png"
       card2-title="Feria"
       card2-body-img="./logos/body2.png"
+      card2-body-img-mobile="./logos/body2-mob.png"
 
       card3-img="./logos/buffet.png"
       card3-title="Buffet"
       card3-body-img="./logos/body3.png"
+      card3-body-img-mobile="./logos/body3-mob.png"
 
       panel1-title="¿Tenés un emprendimiento?"
       panel2-price="$18.000"
@@ -1020,7 +1022,7 @@
       style="--cartel-max-width:1200px;">
 </cartel-evento>   
 
-  </div> -->
+  </div>
 
 
 <!-- <script src="./components/video-card-gold.js"></script>
@@ -1145,12 +1147,21 @@
 <!-- --------- -->
 
   <video-card-frame
+    video="./eva/9-9.mp4"
+    frame="./eva/frame-gold.png"
+    badge="Miércoles"
+    titulo="9 de Septiembre"
+    style="width:auto; flex:0 0 auto;"
+
+  ></video-card-frame>
+
+  <video-card-frame
     video="./eva/8-9.mp4"
     frame="./eva/frame-gold.png"
     badge="Martes"
     titulo="8 de Septiembre"
     style="width:auto; flex:0 0 auto;"
-
+    hide-mobile
   ></video-card-frame>
 
   <video-card-frame
@@ -1167,16 +1178,6 @@
     frame="./eva/frame-aloy.png"
     badge="Diferencias"
     titulo="santiguarse, signarse y persignarse"
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
-  ></video-card-frame>
-
-
-  <video-card-frame
-    video="./eva/6-9.mp4"
-    frame="./eva/frame-gold.png"
-    badge="Domingo"
-    titulo="6 de Septiembre"
     style="width:auto; flex:0 0 auto;"
     hide-mobile
   ></video-card-frame>
