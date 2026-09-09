@@ -17,21 +17,18 @@
 <body>
 
   <div class="col">
-    <h2>Default — títulos y textos con más presencia</h2>
-    <cartel-evento></cartel-evento>
+    <h2>Default — texto largo en Misa, ya no se corta</h2>
+    <cartel-evento card1-text="Comenzamos juntos celebrando a nuestro querido San Francisco de Asís en la parroquia a las 11hs."></cartel-evento>
   </div>
 
   <div class="col">
-    <h2>Título de la feria con imagen (clip-png) en vez de texto</h2>
-    <cartel-evento poster="feria" feria-title-img="san-francisco.png"></cartel-evento>
+    <h2>Título del poster principal con imagen (sin píldora de fecha), ancho controlado</h2>
+    <cartel-evento main-title-img="san-francisco.png" main-title-img-width="180px"></cartel-evento>
   </div>
 
   <div class="col">
-    <h2>body-img con versión distinta para mobile (landscape) — angostá la ventana para verla</h2>
-    <cartel-evento
-      card2-body-img="san-francisco.png"
-      card2-body-img-mobile="iglesia.png">
-    </cartel-evento>
+    <h2>Título de la feria con imagen (sin píldora de fecha), ancho controlado</h2>
+    <cartel-evento poster="feria" feria-title-img="san-francisco.png" feria-title-img-width="160px"></cartel-evento>
   </div>
 
 </body>

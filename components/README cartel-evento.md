@@ -90,20 +90,44 @@ pasás, se usa la misma que `<id>-body-img`.
 </cartel-evento>
 ```
 
+## Título del poster principal
+
+Por defecto muestra "Festejamos a San Francisco de Asís" con el estilo
+original (dos colores, cursiva). Se puede reemplazar por una imagen:
+
+| Atributo               | Qué hace                                                                |
+|--------------------------|------------------------------------------------------------------------------|
+| `main-title-img`        | URL de imagen que reemplaza el título completo                                |
+| `main-title-img-width`  | Ancho máximo de esa imagen (cualquier valor CSS: `"180px"`, `"40%"`, etc.)     |
+
+Cuando se usa `main-title-img`, **la píldora de la fecha desaparece**
+(la idea es que el diseño de la imagen ya incluya esa información si hace
+falta).
+
 ## Título de la feria
 
 Por defecto dice "Feria de Emprendedores". Se puede cambiar el texto o
 reemplazarlo por una imagen (un clip-art/logo, por ejemplo):
 
-| Atributo           | Qué hace                                                        |
-|----------------------|----------------------------------------------------------------------|
-| `feria-eyebrow`     | Texto chico de arriba (default `"Feria de"`)                          |
-| `feria-title`       | Texto grande (default `"Emprendedores"`)                              |
-| `feria-title-img`   | URL de imagen que reemplaza **todo** el título (eyebrow + texto grande) |
+| Atributo               | Qué hace                                                                    |
+|--------------------------|----------------------------------------------------------------------------------|
+| `feria-eyebrow`         | Texto chico de arriba (default `"Feria de"`)                                      |
+| `feria-title`           | Texto grande (default `"Emprendedores"`)                                          |
+| `feria-title-img`       | URL de imagen que reemplaza **todo** el título (eyebrow + texto grande)            |
+| `feria-title-img-width` | Ancho máximo de esa imagen (cualquier valor CSS: `"160px"`, `"50%"`, etc.)         |
+
+Igual que en el poster principal, si usás `feria-title-img` la píldora de
+la fecha desaparece.
 
 ```html
-<cartel-evento poster="feria" feria-title-img="/img/logo-feria.png"></cartel-evento>
+<cartel-evento main-title-img="/img/titulo-santo.png" main-title-img-width="220px"></cartel-evento>
+<cartel-evento poster="feria" feria-title-img="/img/logo-feria.png" feria-title-img-width="200px"></cartel-evento>
 ```
+
+Aunque no indiques el ancho, la imagen nunca puede crecer indefinidamente:
+tiene un tope de alto de seguridad para que no empuje el resto del cartel
+hacia abajo. Igualmente, si tu imagen es muy alargada, especificar el ancho
+con `*-title-img-width` te da mejor control del resultado final.
 
 ## Botón de WhatsApp
 
