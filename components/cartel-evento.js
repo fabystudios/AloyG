@@ -30,6 +30,31 @@
  * OTROS ATRIBUTOS
  * - poster            "main" | "feria"   (default "main") con cuál arranca
  * - img-santo         ruta de imagen     (default "san-francisco.png")
+ * - img-santo-main-desk  ruta de imagen alternativa para el marco de img-santo,
+ *                     que se usa SOLO en el poster PRINCIPAL y SOLO en desktop
+ *                     (>=769px de ventana). Sirve para tener una versión distinta
+ *                     (recortada distinto, por ejemplo) en esa combinación puntual.
+ *                     Si no se pasa, se usa img-santo ahí también. En mobile
+ *                     (cualquier poster) y en el poster de la feria (cualquier
+ *                     tamaño) SIEMPRE se usa img-santo, sin importar este prop.
+ * - img-santo-desk-width  ancho del marco SOLO EN DESKTOP, SOLO cuando se pasó
+ *                     img-santo-main-desk (si no se pasó esa imagen, este prop
+ *                     no hace nada: desktop usa la misma caja que mobile).
+ * - img-santo-desk-height alto del marco SOLO EN DESKTOP, mismo alcance que
+ *                     el de arriba (pasá SOLO uno de los dos para que escale
+ *                     proporcional; los dos juntos se usan tal cual).
+ *                     Si NO se pasa NINGUNO de los dos (y sí img-santo-main-desk):
+ *                     el ancho del marco en desktop queda igual al de mobile
+ *                     (img-santo-width, o el default si tampoco se pasó ese),
+ *                     y el alto sale proporcional al tamaño REAL del archivo
+ *                     de img-santo-main-desk (no del shape del marco ni de
+ *                     img-santo-height, que son para la imagen default).
+ * - img-santo-main-desk-top  ajuste fino vertical (CSS margin-top) del marco
+ *                     de img-santo (.halo-wrap) SOLO EN DESKTOP (>=769px),
+ *                     ej: "20px" (baja) o "-15px" (sube). Aplica siempre que
+ *                     se pase, tenga o no imagen propia img-santo-main-desk.
+ *                     En mobile no tiene ningún efecto (ahí el marco principal
+ *                     no tiene ajuste vertical propio, sigue el grid normal).
  * - img-santo-width   ancho del marco que contiene a img-santo (agranda/achica proporcional
  *                     según la forma), ej: "160px". Aplica a LOS DOS posters.
  * - img-santo-height  alto del marco que contiene a img-santo (mismo comportamiento que arriba)
@@ -259,14 +284,45 @@
         }
       }
 
-      .halo-wrap{ grid-area:halo; position:relative; justify-self:center; align-self:center; width:clamp(110px,22cqw,240px); aspect-ratio:1/1; }
-      .halo-wrap.shape-rectangle{ width:clamp(130px,26cqw,280px); aspect-ratio:4/3; }
+      /* Tamaño del marco (.halo-wrap): se setea vía custom properties (--santo-*)
+         en vez de estilos inline directos en width/height/aspect-ratio, para
+         poder pisarlas SOLO en desktop (ver media query más abajo) cuando se
+         usa img-santo-main-desk + img-santo-desk-width/-height. Los valores
+         de acá adentro son el fallback de siempre (default del marco, o lo
+         que ponga img-santo-width/-height, seteado por JS). */
+      .halo-wrap{ grid-area:halo; position:relative; justify-self:center; align-self:center;
+        width:var(--santo-w, clamp(110px,22cqw,240px)); max-width:var(--santo-mw, none);
+        height:var(--santo-h, auto); aspect-ratio:var(--santo-ar, 1/1); }
+      .halo-wrap.shape-rectangle{ width:var(--santo-w, clamp(130px,26cqw,280px)); aspect-ratio:var(--santo-ar, 4/3); }
+      /* img-santo-desk-width / img-santo-desk-height (o, si no se pasan, el
+         ancho de siempre + el alto real de img-santo-main-desk): pisa el
+         tamaño de arriba SOLO en desktop. Si no hay valores --santo-desk-*
+         (no se pasó img-santo-main-desk), cae en los de siempre sin cambios. */
+      @media (min-width:769px){
+        .halo-wrap{
+          width:var(--santo-desk-w, var(--santo-w, clamp(110px,22cqw,240px)));
+          max-width:var(--santo-desk-mw, var(--santo-mw, none));
+          height:var(--santo-desk-h, var(--santo-h, auto));
+          aspect-ratio:var(--santo-desk-ar, var(--santo-ar, 1/1));
+          margin-top:var(--santo-desk-mt, 0);
+        }
+        .halo-wrap.shape-rectangle{
+          width:var(--santo-desk-w, var(--santo-w, clamp(130px,26cqw,280px)));
+          aspect-ratio:var(--santo-desk-ar, var(--santo-ar, 4/3));
+        }
+      }
       .halo-glow{ position:absolute; inset:-14%; border-radius:50%; background:radial-gradient(circle, rgba(230,190,90,0.65) 0%, rgba(230,190,90,0.0) 70%); filter:blur(2px); animation:pulse 4.5s ease-in-out infinite; }
       .halo-wrap.shape-square .halo-glow, .halo-wrap.shape-rectangle .halo-glow{ inset:-8%; border-radius:clamp(12px,2cqw,22px); }
       @keyframes pulse{ 0%,100%{ transform:scale(1); opacity:.9; } 50%{ transform:scale(1.08); opacity:1; } }
       .portrait-frame{ position:absolute; inset:0; border-radius:50%; background:linear-gradient(145deg,#f3e6c6,#dcc697); box-shadow:8px 8px 18px var(--shadow-dark), -6px -6px 16px var(--shadow-light); display:flex; align-items:center; justify-content:center; overflow:hidden; border:4px solid rgba(255,255,255,0.6); }
       .halo-wrap.shape-square .portrait-frame, .halo-wrap.shape-rectangle .portrait-frame{ border-radius:clamp(12px,2cqw,22px); }
       .portrait-frame img{ width:100%; height:100%; object-fit:contain; transform:scale(1.12) translateY(4%); }
+      /* img-santo-main-desk: img-santo-main-desktop/-mobile son dos <img> superpuestos
+         en el mismo marco; solo se muestra uno según el ancho de ventana (mismo
+         patrón que .bi-desktop/.bi-mobile en las subcards, ver más abajo). */
+      .portrait-frame .santo-desktop, .portrait-frame .santo-mobile{ display:none; }
+      @media (min-width:769px){ .portrait-frame .santo-desktop{ display:block; } }
+      @media (max-width:768px){ .portrait-frame .santo-mobile{ display:block; } }
       .fallback-icon{ width:56%; height:56%; opacity:.35; }
       .sparkle{ position:absolute; border-radius:50%; background:var(--gold-soft); animation:twinkle 3s ease-in-out infinite; }
       @keyframes twinkle{ 0%,100%{ opacity:.15; transform:scale(.7); } 50%{ opacity:1; transform:scale(1.15); } }
@@ -433,7 +489,10 @@
         <div id="poster-main" class="poster">
           <div class="halo-wrap">
             <div class="halo-glow"></div>
-            <div class="portrait-frame"><img id="img-santo-main" alt="San Francisco de Asís"></div>
+            <div class="portrait-frame">
+              <img id="img-santo-main-desktop" class="santo-desktop" alt="San Francisco de Asís">
+              <img id="img-santo-main-mobile" class="santo-mobile" alt="San Francisco de Asís">
+            </div>
             <div class="sparkle" style="width:6%;height:6%; top:-4%; left:14%; animation-delay:.2s;"></div>
             <div class="sparkle" style="width:9%;height:9%; top:20%; left:-8%; animation-delay:1.1s;"></div>
             <div class="sparkle" style="width:5%;height:5%; bottom:-2%; right:-4%; animation-delay:1.9s;"></div>
@@ -494,7 +553,7 @@
   class CartelEvento extends HTMLElement {
     static get observedAttributes() {
       return [
-        'poster', 'img-santo', 'img-santo-width', 'img-santo-height', 'img-santo-feria-top', 'img-santo-main', 'img-santo-feria', 'marco-img-santo', 'img-iglesia', 'img-bunting', 'banderines-movimiento',
+        'poster', 'img-santo', 'img-santo-main-desk', 'img-santo-desk-width', 'img-santo-desk-height', 'img-santo-main-desk-top', 'img-santo-width', 'img-santo-height', 'img-santo-feria-top', 'img-santo-main', 'img-santo-feria', 'marco-img-santo', 'img-iglesia', 'img-bunting', 'banderines-movimiento',
         'whatsapp-number', 'whatsapp-display', 'panel2-price', 'panel2_price',
         'feria-title', 'feria-eyebrow', 'feria-title-img', 'feria-title-img-width', 'feria-title-img-height', 'feria-quote-top',
         'main-title-img', 'main-title-img-width', 'main-title-img-height',
@@ -547,10 +606,14 @@
       root.getElementById('tab-main').addEventListener('click', () => this.setAttribute('poster', 'main'));
       root.getElementById('tab-feria').addEventListener('click', () => this.setAttribute('poster', 'feria'));
 
-      const iconSaintImg = root.getElementById('img-santo-main');
+      const iconSaintDesktop = root.getElementById('img-santo-main-desktop');
+      const iconSaintMobile = root.getElementById('img-santo-main-mobile');
       const iconSaintFeria = root.getElementById('img-santo-feria');
-      iconSaintImg.addEventListener('error', () => {
-        iconSaintImg.replaceWith(Object.assign(document.createElement('div'), { className: 'fallback-icon', innerHTML: ICONS.saint }));
+      iconSaintDesktop.addEventListener('error', () => {
+        iconSaintDesktop.replaceWith(Object.assign(document.createElement('div'), { className: 'fallback-icon santo-desktop', innerHTML: ICONS.saint }));
+      });
+      iconSaintMobile.addEventListener('error', () => {
+        iconSaintMobile.replaceWith(Object.assign(document.createElement('div'), { className: 'fallback-icon santo-mobile', innerHTML: ICONS.saint }));
       });
       iconSaintFeria.addEventListener('error', () => {
         iconSaintFeria.replaceWith(Object.assign(document.createElement('div'), { className: 'fallback-icon', innerHTML: ICONS.saintLight }));
@@ -586,9 +649,16 @@
 
     _applyImages() {
       const santo = this.getAttribute('img-santo') || 'san-francisco.png';
+      // img-santo-main-desk: si viene, reemplaza a img-santo SOLO en el <img>
+      // que se ve en desktop dentro del poster principal (ver media queries
+      // .santo-desktop/.santo-mobile en el CSS). El resto (mobile del poster
+      // principal, y el poster de la feria en cualquier tamaño) sigue usando
+      // siempre img-santo.
+      const santoMainDesk = this.getAttribute('img-santo-main-desk') || santo;
       const iglesia = this.getAttribute('img-iglesia') || 'iglesia.png';
       const bunting = this.getAttribute('img-bunting') || 'banderines.png';
-      this._setSrcSafe('img-santo-main', santo);
+      this._setSrcSafe('img-santo-main-desktop', santoMainDesk);
+      this._setSrcSafe('img-santo-main-mobile', santo);
       this._setSrcSafe('img-santo-feria', santo);
       this._setSrcSafe('img-iglesia-main', iglesia);
       this._setSrcSafe('img-iglesia-feria', iglesia);
@@ -614,37 +684,135 @@
     // ancho se achicaba para no desbordar pero el alto quedaba fijo). Ahora, con
     // los dos valores se arma un aspect-ratio propio (ancho:alto) y el marco
     // escala manteniendo esa proporción a cualquier tamaño de pantalla.
+    //
+    // .feria-portrait se sigue seteando con estilos inline directos (width/
+    // height/aspect-ratio): no tiene variante desktop propia, siempre usa
+    // img-santo. .halo-wrap (poster principal) en cambio se setea a través de
+    // custom properties (--santo-w/-h/-ar/-mw) para que el CSS pueda pisarlas
+    // SOLO en desktop con --santo-desk-* (ver _applyPortraitSizeDesktop y las
+    // media queries de .halo-wrap en el <style>).
     _applyPortraitSize() {
       const root = this.shadowRoot;
       const w = this.getAttribute('img-santo-width');
       const h = this.getAttribute('img-santo-height');
-      const targets = [root.querySelector('.halo-wrap'), root.querySelector('.feria-portrait')];
-      targets.forEach(el => {
-        if (!el) return;
-        if (!w && !h) {
-          el.style.width = ''; el.style.height = ''; el.style.maxWidth = ''; el.style.aspectRatio = '';
-          return;
-        }
-        const wNum = w ? parseFloat(w) : null;
-        const hNum = h ? parseFloat(h) : null;
-        if (wNum > 0 && hNum > 0) {
-          // los dos juntos: aspect-ratio propio, escala proporcional siempre
-          el.style.aspectRatio = `${wNum} / ${hNum}`;
-          el.style.width = `min(100%, ${w})`;
-          el.style.height = 'auto';
-          el.style.maxWidth = '';
-        } else {
-          // solo uno de los dos: el otro queda "auto", proporcional según
-          // el aspect-ratio de la forma (circle/square/rectangle) del CSS
-          el.style.width = w || 'auto';
-          el.style.height = h || 'auto';
-          el.style.maxWidth = '100%';
-          el.style.aspectRatio = '';
-        }
-      });
-      const feriaTop = this.getAttribute('img-santo-feria-top');
+
       const feriaEl = root.querySelector('.feria-portrait');
-      if (feriaEl) feriaEl.style.marginTop = feriaTop || '';
+      if (feriaEl) {
+        if (!w && !h) {
+          feriaEl.style.width = ''; feriaEl.style.height = ''; feriaEl.style.maxWidth = ''; feriaEl.style.aspectRatio = '';
+        } else {
+          const wNum = w ? parseFloat(w) : null;
+          const hNum = h ? parseFloat(h) : null;
+          if (wNum > 0 && hNum > 0) {
+            feriaEl.style.aspectRatio = `${wNum} / ${hNum}`;
+            feriaEl.style.width = `min(100%, ${w})`;
+            feriaEl.style.height = 'auto';
+            feriaEl.style.maxWidth = '';
+          } else {
+            feriaEl.style.width = w || 'auto';
+            feriaEl.style.height = h || 'auto';
+            feriaEl.style.maxWidth = '100%';
+            feriaEl.style.aspectRatio = '';
+          }
+        }
+        const feriaTop = this.getAttribute('img-santo-feria-top');
+        feriaEl.style.marginTop = feriaTop || '';
+      }
+
+      const haloWrap = root.querySelector('.halo-wrap');
+      if (haloWrap) {
+        if (!w && !h) {
+          ['--santo-w', '--santo-h', '--santo-ar', '--santo-mw'].forEach(v => haloWrap.style.removeProperty(v));
+        } else {
+          const wNum = w ? parseFloat(w) : null;
+          const hNum = h ? parseFloat(h) : null;
+          if (wNum > 0 && hNum > 0) {
+            haloWrap.style.setProperty('--santo-ar', `${wNum} / ${hNum}`);
+            haloWrap.style.setProperty('--santo-w', `min(100%, ${w})`);
+            haloWrap.style.setProperty('--santo-h', 'auto');
+            haloWrap.style.removeProperty('--santo-mw');
+          } else {
+            haloWrap.style.setProperty('--santo-w', w || 'auto');
+            haloWrap.style.setProperty('--santo-h', h || 'auto');
+            haloWrap.style.setProperty('--santo-mw', '100%');
+            haloWrap.style.removeProperty('--santo-ar');
+          }
+        }
+      }
+
+      this._applyPortraitSizeDesktop();
+    }
+
+    // img-santo-desk-width / img-santo-desk-height: pisan el tamaño del marco
+    // (.halo-wrap) SOLO EN DESKTOP, y SOLO si se pasó img-santo-main-desk (si
+    // no se pasó esa imagen, no tiene sentido un tamaño propio para ella:
+    // desktop usa la misma caja que mobile, comportamiento de siempre).
+    // - Si se pasa alguno de los dos (o los dos juntos): mismo criterio que
+    //   img-santo-width/-height (combo con aspect-ratio propio, o uno solo
+    //   con el otro proporcional según la forma del marco).
+    // - Si NO se pasa NINGUNO de los dos: el ancho en desktop queda igual al
+    //   de mobile (--santo-w, o el default del marco si tampoco se pasó
+    //   img-santo-width), y el alto sale proporcional al tamaño REAL del
+    //   archivo de img-santo-main-desk (no del shape del marco, para que no
+    //   quede recortada/estirada si esa imagen tiene otra proporción).
+    _applyPortraitSizeDesktop() {
+      const root = this.shadowRoot;
+      const haloWrap = root.querySelector('.halo-wrap');
+      if (!haloWrap) return;
+
+      // img-santo-main-desk-top: ajuste fino vertical SOLO EN DESKTOP, se
+      // aplica siempre que venga el atributo (no depende de si hay o no
+      // img-santo-main-desk propia). Ver --santo-desk-mt en el CSS: solo
+      // existe dentro de la media query de desktop, así que en mobile este
+      // prop no tiene ningún efecto.
+      const deskTop = this.getAttribute('img-santo-main-desk-top');
+      if (deskTop) haloWrap.style.setProperty('--santo-desk-mt', deskTop);
+      else haloWrap.style.removeProperty('--santo-desk-mt');
+
+      const clearDesk = () => ['--santo-desk-w', '--santo-desk-h', '--santo-desk-ar', '--santo-desk-mw'].forEach(v => haloWrap.style.removeProperty(v));
+
+      const deskUrl = this.getAttribute('img-santo-main-desk');
+      if (!deskUrl) { clearDesk(); return; }
+
+      const deskW = this.getAttribute('img-santo-desk-width');
+      const deskH = this.getAttribute('img-santo-desk-height');
+
+      if (deskW || deskH) {
+        const wNum = deskW ? parseFloat(deskW) : null;
+        const hNum = deskH ? parseFloat(deskH) : null;
+        if (wNum > 0 && hNum > 0) {
+          haloWrap.style.setProperty('--santo-desk-ar', `${wNum} / ${hNum}`);
+          haloWrap.style.setProperty('--santo-desk-w', `min(100%, ${deskW})`);
+          haloWrap.style.setProperty('--santo-desk-h', 'auto');
+          haloWrap.style.removeProperty('--santo-desk-mw');
+        } else {
+          haloWrap.style.setProperty('--santo-desk-w', deskW || 'auto');
+          haloWrap.style.setProperty('--santo-desk-h', deskH || 'auto');
+          haloWrap.style.setProperty('--santo-desk-mw', '100%');
+          haloWrap.style.removeProperty('--santo-desk-ar');
+        }
+        return;
+      }
+
+      // Ninguno de los dos: el ancho queda como está (cae solo por fallback
+      // de CSS var() en --santo-w); solo hace falta calcular el aspect-ratio
+      // real de img-santo-main-desk para el alto. Se mide con el <img> que
+      // ya está en el DOM (mismo que muestra la imagen), esperando a que
+      // cargue si todavía no lo hizo.
+      clearDesk();
+      const imgEl = root.getElementById('img-santo-main-desktop');
+      if (!imgEl) return;
+      const applyNaturalRatio = () => {
+        if (imgEl.naturalWidth && imgEl.naturalHeight) {
+          haloWrap.style.setProperty('--santo-desk-ar', `${imgEl.naturalWidth} / ${imgEl.naturalHeight}`);
+          haloWrap.style.setProperty('--santo-desk-h', 'auto');
+        }
+      };
+      if (imgEl.complete && imgEl.naturalWidth) {
+        applyNaturalRatio();
+      } else {
+        imgEl.onload = applyNaturalRatio;
+      }
     }
 
     // Helper genérico para atributos booleanos "sueltos" (no ligados a un slot):
