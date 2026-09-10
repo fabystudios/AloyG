@@ -55,11 +55,19 @@
  * - main-title-img       URL de imagen que reemplaza el título del poster principal
  * - main-title-img-width  ancho de esa imagen (agranda/achica proporcionalmente), ej: "260px"
  * - main-title-img-height alto de esa imagen (agranda/achica proporcionalmente), ej: "90px"
- *                     (pasá SOLO uno de los dos para que escale proporcional; si pasás
- *                     los dos juntos, se usan tal cual y puede deformar la imagen)
+ *                     (pasando SOLO uno de los dos escala proporcional. Si pasás los DOS
+ *                     juntos, se usan como topes (máx. ancho y máx. alto): la imagen
+ *                     nunca se deforma ni deja espacio vacío, sea cual sea su proporción
+ *                     real; si la proporción real no da para llenar los dos topes a la
+ *                     vez, va a respetar el que la achique más)
  * - feria-title-img      URL de imagen que reemplaza el título del poster de la feria
  * - feria-title-img-width  ancho de esa imagen (mismo comportamiento que arriba)
  * - feria-title-img-height alto de esa imagen (mismo comportamiento que arriba)
+ * - feria-quote-top   ajuste fino vertical (CSS margin-top) de la frase/bajada
+ *                     ("¡Tu emprendimiento puede inspirar...") del poster de la feria.
+ *                     Sirve para subirla (valor negativo, ej "-60px") cuando
+ *                     feria-title-img trae espacio en blanco incorporado abajo
+ *                     y queda un hueco antes de la frase. Por defecto no se aplica.
  * - fecha-ppal        texto de la pastilla de fecha del poster principal
  *                     (default "Domingo 4 de Octubre"). fecha-ppal="" la oculta.
  * - fecha-feria       texto de la pastilla de fecha del poster de la feria
@@ -488,7 +496,7 @@
       return [
         'poster', 'img-santo', 'img-santo-width', 'img-santo-height', 'img-santo-feria-top', 'img-santo-main', 'img-santo-feria', 'marco-img-santo', 'img-iglesia', 'img-bunting', 'banderines-movimiento',
         'whatsapp-number', 'whatsapp-display', 'panel2-price', 'panel2_price',
-        'feria-title', 'feria-eyebrow', 'feria-title-img', 'feria-title-img-width', 'feria-title-img-height',
+        'feria-title', 'feria-eyebrow', 'feria-title-img', 'feria-title-img-width', 'feria-title-img-height', 'feria-quote-top',
         'main-title-img', 'main-title-img-width', 'main-title-img-height',
         'fecha-ppal', 'fecha-feria',
         ...ALL_DEFS.flatMap(def => SLOT_ATTR_SUFFIXES.flatMap(suf => [`${def.id}-${suf}`, `${def.id}_${suf}`]))
@@ -511,6 +519,7 @@
       this._applyPortraitSize();
       this._applySantoMobileVisibility();
       this._applyBuntingSway();
+      this._applyFeriaQuoteAdjust();
       this._applyPoster();
       this._applyWhatsapp();
       this._renderSlots();
@@ -525,6 +534,7 @@
       this._applyPortraitSize();
       this._applySantoMobileVisibility();
       this._applyBuntingSway();
+      this._applyFeriaQuoteAdjust();
       this._applyPoster();
       this._applyWhatsapp();
       this._renderSlots();
@@ -659,6 +669,14 @@
       if (feriaPortrait) feriaPortrait.classList.toggle('hide-mobile', !showFeria);
     }
 
+    // feria-quote-top: permite subir (margin-top negativo) o bajar la frase/bajada
+    // del poster de la feria. Pensado para cuando feria-title-img trae espacio
+    // en blanco incorporado abajo de la imagen y queda un hueco antes de la frase.
+    _applyFeriaQuoteAdjust() {
+      const el = this.shadowRoot.querySelector('.feria-quote');
+      if (el) el.style.marginTop = this.getAttribute('feria-quote-top') || '';
+    }
+
     // banderines-movimiento="slow"|"medium"|"fast": intensidad del balanceo
     // de la guirnalda (ver --sway-amt / .sway-* en el CSS). Cualquier valor
     // no reconocido (o ausente) cae en "medium".
@@ -722,19 +740,21 @@
     // Arma el atributo style para <img> del título, a partir de -width / -height.
     // Si se pasa uno solo, el otro queda en "auto" y escala proporcional según
     // la proporción natural de la imagen.
-    // Si se pasan los DOS, se arma un aspect-ratio propio (igual que en
-    // _applyPortraitSize) para que escale proporcional sin deformarse, con el
-    // ancho pedido como techo en desktop y encogiéndose en mobile sin perder
-    // esa proporción.
+    // Si se pasan los DOS, se usan como TOPES (max-width/max-height), no como
+    // una caja fija: la imagen siempre escala respetando su proporción real.
+    // (Antes se forzaba un aspect-ratio propio con los dos valores; si no
+    // coincidía con la proporción real del archivo, quedaba un espacio
+    // transparente dentro de esa caja —letterboxing—, invisible arriba porque
+    // coincide con la franja de los banderines pero bien visible abajo, justo
+    // antes del contenido siguiente. Con topes en vez de caja fija, ese hueco
+    // ya no puede aparecer, sea cual sea la proporción real de la imagen.)
     _titleImgAttrs(prefix) {
       const w = this.getAttribute(`${prefix}-width`);
       const h = this.getAttribute(`${prefix}-height`);
       if (!w && !h) return '';
-      const wNum = w ? parseFloat(w) : null;
-      const hNum = h ? parseFloat(h) : null;
       let decls;
-      if (wNum > 0 && hNum > 0) {
-        decls = [`aspect-ratio:${wNum} / ${hNum}`, `width:min(100%, ${esc(w)})`, 'height:auto', 'max-height:none'];
+      if (w && h) {
+        decls = [`max-width:min(100%, ${esc(w)})`, `max-height:${esc(h)}`, 'width:auto', 'height:auto'];
       } else {
         decls = ['max-width:100%', 'max-height:none', `width:${w ? esc(w) : 'auto'}`, `height:${h ? esc(h) : 'auto'}`];
       }
