@@ -112,6 +112,15 @@
  *                     correspondiente queda oculta automáticamente.
  * - whatsapp-number   solo dígitos, con código de país (default "5491153133638")
  * - whatsapp-display  texto mostrado en el botón (default "11 5313-3638")
+ * - bee-main          "true" muestra abejitas animadas (canvas) volando de forma
+ *                      errática por TODA la card del poster PRINCIPAL, por encima
+ *                      del resto del contenido. (default: "false", no se muestran)
+ * - bee-feria         igual que bee-main, pero para la card de la FERIA.
+ * - willow-main       "true" muestra hojitas verdes claras (canvas) flotando al
+ *                      viento por TODA la card del poster PRINCIPAL. (default: "false")
+ * - willow-feria      igual que willow-main, pero para la card de la FERIA.
+ *                      Las cuatro son independientes entre sí y se pueden combinar
+ *                      (ej: bee-main="true" willow-main="true" juntas en la misma card).
  *
  * VARIABLE CSS
  * - --cartel-max-width   ancho máximo del componente (default: sin tope)
@@ -167,6 +176,347 @@
 
   function esc(s) {
     return String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+  }
+
+  // ---------------------------------------------------------------------
+  // FX de canvas: abejitas (bee-main / bee-feria) y hojitas de sauce
+  // (willow-main / willow-feria) volando por toda la card, dibujadas en un
+  // <canvas> transparente superpuesto (pointer-events:none) a cada poster.
+  // ---------------------------------------------------------------------
+  const BEE_COUNT = 10;
+  const LEAF_COUNT = 10;
+
+  function fxRand(min, max) { return min + Math.random() * (max - min); }
+
+  function makeFxParticle(type, w, h) {
+    if (type === 'bee') {
+      return {
+        type,
+        x: fxRand(0, w || 300), y: fxRand(0, h || 200),
+        angle: fxRand(0, Math.PI * 2),
+        dir: 0,
+        speed: fxRand(20, 40),
+        wobble: fxRand(0, Math.PI * 2),
+        wobbleSpeed: fxRand(3.2, 5.6),
+        turnTimer: 0,
+        turnEvery: fxRand(0.35, 1.1),
+        buzzPhase: fxRand(0, Math.PI * 2),
+        buzzSpeed: fxRand(15, 24),
+        size: fxRand(9, 15),
+        wingPhase: fxRand(0, Math.PI * 2)
+      };
+    }
+    // leaf (willow)
+    return {
+      type,
+      x: fxRand(0, w || 300), y: fxRand(0, h || 200),
+      rot: fxRand(0, Math.PI * 2),
+      rotSpeed: fxRand(-1.1, 1.1),
+      tumble: fxRand(0, Math.PI * 2),
+      tumbleSpeed: fxRand(1.1, 2.5),
+      driftPhase: fxRand(0, Math.PI * 2),
+      driftSpeed: fxRand(0.6, 1.4),
+      windX: fxRand(10, 22),
+      fallY: fxRand(6, 14),
+      swayAmp: fxRand(6, 16),
+      size: fxRand(9, 15)
+    };
+  }
+
+  // El vuelo de la abeja combina 3 movimientos superpuestos para que se vea
+  // errático (volando) y no un deslizamiento parejo (caminando):
+  // 1) cambios de rumbo frecuentes y bruscos (turnTimer/turnEvery)
+  // 2) un "eses" continuo mientras vuela (wobble, afecta el rumbo real)
+  // 3) un zumbido/temblor rápido perpendicular al rumbo, solo visual
+  //    (buzzPhase, se aplica al dibujar en drawBee, no mueve x/y "de verdad"
+  //    así nunca se acumula ni hace que se desvíe del recorrido real)
+  function updateBee(p, w, h, dt) {
+    p.turnTimer += dt;
+    if (p.turnTimer > p.turnEvery) {
+      p.turnTimer = 0;
+      p.turnEvery = fxRand(0.35, 1.1);
+      p.angle += fxRand(-2.3, 2.3);
+    }
+    p.wobble += p.wobbleSpeed * dt;
+    p.buzzPhase += p.buzzSpeed * dt;
+    const heading = p.angle + Math.sin(p.wobble) * 0.75;
+    p.dir = heading;
+    p.x += Math.cos(heading) * p.speed * dt;
+    p.y += Math.sin(heading) * p.speed * dt;
+    p.wingPhase += dt * 46;
+    const margin = p.size * 1.3;
+    if (p.x < margin) { p.x = margin; p.angle = Math.PI - p.angle; }
+    else if (p.x > w - margin) { p.x = w - margin; p.angle = Math.PI - p.angle; }
+    if (p.y < margin) { p.y = margin; p.angle = -p.angle; }
+    else if (p.y > h - margin) { p.y = h - margin; p.angle = -p.angle; }
+  }
+
+  // Dibuja un ala translúcida tipo "gota" con nervadura, pivotando desde
+  // (cx,cy). scaleLen simula el aleteo (se abre/cierra sobre su propio eje).
+  function drawBeeWing(ctx, cx, cy, len, wid, scaleLen, tilt) {
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(tilt);
+    ctx.scale(1, Math.max(0.12, scaleLen));
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.bezierCurveTo(wid, -len * 0.32, wid * 0.85, -len * 0.88, 0, -len);
+    ctx.bezierCurveTo(-wid * 0.85, -len * 0.88, -wid, -len * 0.32, 0, 0);
+    ctx.closePath();
+    const g = ctx.createLinearGradient(0, 0, 0, -len);
+    g.addColorStop(0, 'rgba(255,255,255,0.12)');
+    g.addColorStop(0.55, 'rgba(240,247,255,0.55)');
+    g.addColorStop(1, 'rgba(214,232,255,0.25)');
+    ctx.fillStyle = g;
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.55)';
+    ctx.lineWidth = Math.max(0.4, len * 0.045);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(0, -len * 0.05);
+    ctx.lineTo(0, -len * 0.85);
+    ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+    ctx.lineWidth = Math.max(0.3, len * 0.025);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  // Abejita "de verdad": cabeza + antenas, tórax peludo, abdomen con
+  // franjas negro/dorado (recortadas con clip a la silueta real del
+  // abdomen, no franjas rectas sueltas) y dos pares de alas que aletean.
+  function drawBee(ctx, p) {
+    const s = p.size;
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.dir || 0);
+    // temblor/zumbido rápido, perpendicular al rumbo (solo visual, no mueve
+    // la posición real) + un leve "banking" al girar: esto es lo que hace
+    // que se vea volando de forma errática y no deslizando/caminando derecho.
+    ctx.translate(0, Math.sin(p.buzzPhase) * s * 0.16);
+    ctx.rotate(Math.sin(p.buzzPhase * 0.7) * 0.16);
+
+    const flapFront = 0.3 + Math.abs(Math.sin(p.wingPhase)) * 0.7;
+    const flapHind = 0.3 + Math.abs(Math.sin(p.wingPhase * 0.92 + 0.7)) * 0.7;
+    drawBeeWing(ctx, -s * 0.02, -s * 0.16, s * 0.85, s * 0.38, flapFront, -0.18);
+    drawBeeWing(ctx, -s * 0.02, s * 0.16, s * 0.85, s * 0.38, flapFront, 0.18);
+    drawBeeWing(ctx, -s * 0.28, -s * 0.12, s * 0.48, s * 0.22, flapHind, -0.12);
+    drawBeeWing(ctx, -s * 0.28, s * 0.12, s * 0.48, s * 0.22, flapHind, 0.12);
+
+    // abdomen: corto y rechoncho (nada de "abeja reina" alargada), rayado
+    // real recortado a la silueta
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(s * 0.1, 0);
+    ctx.bezierCurveTo(s * 0.05, -s * 0.46, -s * 0.55, -s * 0.42, -s * 0.72, 0);
+    ctx.bezierCurveTo(-s * 0.55, s * 0.42, s * 0.05, s * 0.46, s * 0.1, 0);
+    ctx.closePath();
+    const abGrad = ctx.createLinearGradient(-s * 0.72, -s * 0.42, -s * 0.72, s * 0.42);
+    abGrad.addColorStop(0, '#4a3a18');
+    abGrad.addColorStop(0.5, '#241a0a');
+    abGrad.addColorStop(1, '#4a3a18');
+    ctx.fillStyle = abGrad;
+    ctx.fill();
+    ctx.clip();
+    ctx.fillStyle = '#e8b923';
+    [-0.1, -0.32, -0.54].forEach(fx => { ctx.fillRect(s * fx - s * 0.09, -s * 0.5, s * 0.15, s); });
+    ctx.restore();
+
+    // tórax peludito
+    const thGrad = ctx.createRadialGradient(s * 0.14, -s * 0.1, s * 0.04, s * 0.08, 0, s * 0.42);
+    thGrad.addColorStop(0, '#6b4a22');
+    thGrad.addColorStop(1, '#2a1e0c');
+    ctx.beginPath();
+    ctx.ellipse(s * 0.08, 0, s * 0.4, s * 0.32, 0, 0, Math.PI * 2);
+    ctx.fillStyle = thGrad;
+    ctx.fill();
+    // pelusita (motitas claras esparcidas) para dar textura peluda
+    ctx.fillStyle = 'rgba(255,214,140,0.35)';
+    for (let i = 0; i < 6; i++) {
+      const ang = (i / 6) * Math.PI * 2 + 0.4;
+      const fx2 = s * 0.08 + Math.cos(ang) * s * 0.22;
+      const fy2 = Math.sin(ang) * s * 0.18;
+      ctx.beginPath(); ctx.arc(fx2, fy2, s * 0.045, 0, Math.PI * 2); ctx.fill();
+    }
+
+    // cabeza + ojo + antenas
+    const hx = s * 0.58;
+    ctx.beginPath(); ctx.arc(hx, 0, s * 0.26, 0, Math.PI * 2);
+    ctx.fillStyle = '#1c140a'; ctx.fill();
+    ctx.beginPath(); ctx.arc(hx + s * 0.06, -s * 0.07, s * 0.07, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,255,255,0.55)'; ctx.fill();
+    ctx.strokeStyle = '#1c140a';
+    ctx.lineWidth = Math.max(0.5, s * 0.05);
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(hx + s * 0.14, -s * 0.16);
+    ctx.quadraticCurveTo(hx + s * 0.48, -s * 0.4, hx + s * 0.55, -s * 0.56);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(hx + s * 0.14, s * 0.16);
+    ctx.quadraticCurveTo(hx + s * 0.48, s * 0.4, hx + s * 0.55, s * 0.56);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  function updateLeaf(p, w, h, dt) {
+    p.driftPhase += p.driftSpeed * dt;
+    p.tumble += p.tumbleSpeed * dt;
+    const vx = p.windX + Math.sin(p.driftPhase) * p.swayAmp;
+    const vy = p.fallY + Math.sin(p.driftPhase * 0.7) * (p.swayAmp * 0.3);
+    p.x += vx * dt;
+    p.y += vy * dt;
+    p.rot += p.rotSpeed * dt;
+    const pad = p.size * 2;
+    if (p.x > w + pad) p.x = -pad;
+    else if (p.x < -pad) p.x = w + pad;
+    if (p.y > h + pad) { p.y = -pad; p.x = fxRand(0, w); }
+    else if (p.y < -pad) { p.y = h + pad; p.x = fxRand(0, w); }
+  }
+
+  // Hojita de sauce: silueta lanceolada angosta (larga y afilada en las dos
+  // puntas, como una hoja de sauce real), con nervadura central + secundarias
+  // y un leve brillo de borde. "tumble" simula que va girando en el aire: al
+  // pasar de canto se angosta (scaleX) y muestra el envés, más pálido.
+  function drawLeaf(ctx, p) {
+    const s = p.size;
+    const flip = Math.cos(p.tumble);
+    const scaleX = Math.max(0.12, Math.abs(flip));
+    const isBack = flip < 0;
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rot);
+    ctx.scale(scaleX, 1);
+
+    ctx.beginPath();
+    ctx.moveTo(0, -s);
+    ctx.bezierCurveTo(s * 0.34, -s * 0.55, s * 0.36, s * 0.35, 0, s);
+    ctx.bezierCurveTo(-s * 0.36, s * 0.35, -s * 0.34, -s * 0.55, 0, -s);
+    ctx.closePath();
+
+    const grad = ctx.createLinearGradient(0, -s, 0, s);
+    if (isBack) {
+      grad.addColorStop(0, 'rgba(216,227,199,0.92)');
+      grad.addColorStop(1, 'rgba(190,205,167,0.92)');
+    } else {
+      grad.addColorStop(0, 'rgba(197,229,164,0.94)');
+      grad.addColorStop(1, 'rgba(149,198,109,0.94)');
+    }
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // nervadura central
+    ctx.strokeStyle = isBack ? 'rgba(172,186,151,0.7)' : 'rgba(96,150,72,0.75)';
+    ctx.lineWidth = Math.max(0.5, s * 0.055);
+    ctx.beginPath();
+    ctx.moveTo(0, -s * 0.9); ctx.lineTo(0, s * 0.9);
+    ctx.stroke();
+
+    // nervaduras secundarias, parejas a lo largo de toda la hoja, en
+    // ángulo hacia la punta (como en una hoja de verdad)
+    ctx.lineWidth = Math.max(0.35, s * 0.03);
+    [-0.55, -0.2, 0.15, 0.5].forEach(frac => {
+      const y0 = frac * s;
+      const y1 = y0 - s * 0.24;
+      [1, -1].forEach(side => {
+        ctx.beginPath();
+        ctx.moveTo(0, y0);
+        ctx.lineTo(side * s * 0.24 * (1 - Math.abs(frac) * 0.5), y1);
+        ctx.stroke();
+      });
+    });
+
+    // brillo sutil de borde
+    ctx.strokeStyle = 'rgba(255,255,255,0.26)';
+    ctx.lineWidth = Math.max(0.4, s * 0.04);
+    ctx.beginPath();
+    ctx.moveTo(0, -s * 0.85);
+    ctx.bezierCurveTo(s * 0.26, -s * 0.5, s * 0.28, s * 0.2, 0, s * 0.85);
+    ctx.stroke();
+
+    ctx.restore();
+  }
+
+  // Controlador de un canvas de FX para un poster (main o feria): maneja
+  // resize (con devicePixelRatio), población de partículas según qué tipos
+  // están activos, y el loop de animación (que se pausa solo si no hay
+  // ningún tipo activo, o si la card está oculta por el switcher).
+  function createFxController(canvas, frameEl) {
+    const ctx = canvas.getContext('2d');
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let w = 0, h = 0;
+    let bees = [];
+    let leaves = [];
+    let active = { bee: false, willow: false };
+    let running = false;
+    let lastT = 0;
+    let rafId = null;
+
+    function resize() {
+      const rect = frameEl.getBoundingClientRect();
+      w = rect.width;
+      h = rect.height;
+      canvas.width = Math.max(1, Math.round(w * dpr));
+      canvas.height = Math.max(1, Math.round(h * dpr));
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function populate() {
+      if (active.bee && bees.length === 0 && w > 0) {
+        for (let i = 0; i < BEE_COUNT; i++) bees.push(makeFxParticle('bee', w, h));
+      }
+      if (!active.bee) bees = [];
+      if (active.willow && leaves.length === 0 && w > 0) {
+        for (let i = 0; i < LEAF_COUNT; i++) leaves.push(makeFxParticle('leaf', w, h));
+      }
+      if (!active.willow) leaves = [];
+    }
+
+    function step(t) {
+      if (!running) return;
+      if (!lastT) lastT = t;
+      let dt = (t - lastT) / 1000;
+      lastT = t;
+      if (dt > 0.1) dt = 0.1;
+      ctx.clearRect(0, 0, w, h);
+      if (!frameEl.classList.contains('hidden') && w > 0 && h > 0) {
+        if (active.bee) { if (!bees.length) populate(); bees.forEach(p => { updateBee(p, w, h, dt); drawBee(ctx, p); }); }
+        if (active.willow) { if (!leaves.length) populate(); leaves.forEach(p => { updateLeaf(p, w, h, dt); drawLeaf(ctx, p); }); }
+      }
+      rafId = requestAnimationFrame(step);
+    }
+
+    function start() {
+      if (running) return;
+      running = true;
+      lastT = 0;
+      rafId = requestAnimationFrame(step);
+    }
+
+    function stop() {
+      running = false;
+      if (rafId) cancelAnimationFrame(rafId);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+    if (window.ResizeObserver) {
+      new ResizeObserver(() => resize()).observe(frameEl);
+    } else {
+      window.addEventListener('resize', resize);
+    }
+    resize();
+
+    return {
+      setTypes(types) {
+        const wasActive = active.bee || active.willow;
+        active = types;
+        if (w === 0) resize();
+        populate();
+        const isActive = active.bee || active.willow;
+        if (isActive && !wasActive) start();
+        else if (!isActive && wasActive) stop();
+      }
+    };
   }
 
   const CARD_DEFS = [
@@ -275,6 +625,13 @@
 
       .poster{ position:relative; z-index:2; width:100%; height:100%; display:grid; background:transparent; }
       @media (max-width:768px){ .poster{ height:auto; } }
+
+      /* bee-main/bee-feria/willow-main/willow-feria: canvas transparente que
+         cubre TODA la card (por encima del contenido), donde se dibujan las
+         abejitas y/o hojitas animadas. pointer-events:none para no bloquear
+         clicks/hover del contenido de abajo. Se activa/desactiva por JS
+         (createFxController) según esos atributos, no por CSS. */
+      .fx-canvas{ position:absolute; inset:0; width:100%; height:100%; z-index:10; pointer-events:none; }
 
       /* img-santo-main="false" / img-santo-feria="false": oculta el marco de
          img-santo SOLO en mobile (<=768px). En desktop nunca se oculta. */
@@ -552,6 +909,7 @@
             <div class="welcome">¡Te esperamos!</div>
           </div>
         </div>
+        <canvas class="fx-canvas" id="fx-canvas-main" aria-hidden="true"></canvas>
       </div>
 
       <div class="frame hidden" id="frame-feria">
@@ -583,6 +941,7 @@
             <div class="addr">${ICONS.pin} Calle 8 / 52 y 53</div>
           </div>
         </div>
+        <canvas class="fx-canvas" id="fx-canvas-feria" aria-hidden="true"></canvas>
       </div>
     </div>
   `;
@@ -595,6 +954,7 @@
         'feria-title', 'feria-eyebrow', 'feria-title-img', 'feria-title-img-width', 'feria-title-img-height', 'feria-quote-top',
         'main-title-img', 'main-title-img-width', 'main-title-img-height',
         'fecha-ppal', 'fecha-feria',
+        'bee-main', 'bee-feria', 'willow-main', 'willow-feria',
         ...ALL_DEFS.flatMap(def => SLOT_ATTR_SUFFIXES.flatMap(suf => [`${def.id}-${suf}`, `${def.id}_${suf}`]))
       ];
     }
@@ -632,6 +992,7 @@
       this._renderFeriaTitle();
       this._renderMainTitle();
       this._updateAudioToggles();
+      this._applyFx();
     }
 
     attributeChangedCallback() {
@@ -648,6 +1009,7 @@
       this._renderFeriaTitle();
       this._renderMainTitle();
       this._updateAudioToggles();
+      this._applyFx();
     }
 
     _wire() {
@@ -1055,6 +1417,42 @@
       const v = this._slotAttr(id, suffix);
       if (v === null || v === undefined) return defaultValue;
       return v !== 'false' && v !== '0';
+    }
+
+    // Lee un atributo booleano "plano" (no de slot), ej: bee-main, willow-feria.
+    _boolAttr(name, defaultValue) {
+      const v = this.getAttribute(name);
+      if (v === null || v === undefined) return defaultValue;
+      return v !== 'false' && v !== '0';
+    }
+
+    // bee-main / bee-feria / willow-main / willow-feria: prende o apaga, por
+    // canvas, las abejitas y/o hojitas de sauce voladoras de cada card.
+    // Por defecto (atributo ausente) están apagadas en las dos cards.
+    _applyFx() {
+      const root = this.shadowRoot;
+      if (!this._fxMain) {
+        const canvas = root.getElementById('fx-canvas-main');
+        const frame = root.getElementById('frame-main');
+        if (canvas && frame) this._fxMain = createFxController(canvas, frame);
+      }
+      if (!this._fxFeria) {
+        const canvas = root.getElementById('fx-canvas-feria');
+        const frame = root.getElementById('frame-feria');
+        if (canvas && frame) this._fxFeria = createFxController(canvas, frame);
+      }
+      if (this._fxMain) {
+        this._fxMain.setTypes({
+          bee: this._boolAttr('bee-main', false),
+          willow: this._boolAttr('willow-main', false)
+        });
+      }
+      if (this._fxFeria) {
+        this._fxFeria.setTypes({
+          bee: this._boolAttr('bee-feria', false),
+          willow: this._boolAttr('willow-feria', false)
+        });
+      }
     }
 
     _renderSlots() {
