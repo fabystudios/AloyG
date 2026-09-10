@@ -29,8 +29,13 @@
  *
  * OTROS ATRIBUTOS
  * - poster            "main" | "feria"   (default "main") con cuál arranca
- * - img-santo         ruta de imagen     (default "san-francisco.png")
- * - img-santo-main-desk  ruta de imagen alternativa para el marco de img-santo,
+ * - img-santo         ruta de imagen, o de VIDEO .mp4 (default "san-francisco.png").
+ *                     Si la ruta termina en ".mp4" se muestra como video (autoplay,
+ *                     loop, muteado, sin controles) en vez de imagen, ocupando el
+ *                     mismo marco. Aplica a los dos posters (salvo que se pase
+ *                     img-santo-main-desk o img-santo-feria-img, ver abajo).
+ * - img-santo-main-desk  ruta de imagen (o .mp4, mismo criterio que img-santo)
+ *                     alternativa para el marco de img-santo,
  *                     que se usa SOLO en el poster PRINCIPAL y SOLO en desktop
  *                     (>=769px de ventana). Sirve para tener una versión distinta
  *                     (recortada distinto, por ejemplo) en esa combinación puntual.
@@ -63,7 +68,8 @@
  * - img-santo-feria-top  ajuste fino vertical (CSS margin-top) del marco de img-santo
  *                     SOLO en la card de la feria, ej: "20px" (baja) o "-15px" (sube).
  *                     Por defecto está centrado respecto al título+bajada de esa card.
- * - img-santo-feria-img  ruta de imagen alternativa para el marco de img-santo,
+ * - img-santo-feria-img  ruta de imagen (o .mp4, mismo criterio que img-santo)
+ *                     alternativa para el marco de img-santo,
  *                     que se usa SOLO en el poster de la FERIA (en cualquier tamaño,
  *                     mobile y desktop). Si no se pasa, se usa img-santo ahí también.
  *                     El poster PRINCIPAL sigue usando siempre img-santo (o
@@ -136,7 +142,9 @@
     whatsapp: `<svg viewBox="0 0 24 24" fill="#eafbe9"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.1a8 8 0 0 1-4.1-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8 8 0 1 1 12 20.1zm4.4-6c-.2-.1-1.4-.7-1.6-.8-.2-.1-.4-.1-.6.1-.2.2-.6.8-.8 1-.1.2-.3.2-.5.1-.2-.1-1-.4-2-1.2-.7-.7-1.2-1.5-1.4-1.7-.1-.2 0-.4.1-.5l.4-.5c.1-.1.2-.3.2-.4.1-.2 0-.3 0-.4l-.7-1.7c-.2-.4-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.2-.9.9-.9 2.2s1 2.6 1.1 2.7c.1.2 2 3 4.8 4.2.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.4-.6 1.6-1.1.2-.5.2-1 .1-1.1-.1-.1-.2-.2-.4-.3z"/></svg>`,
     pin: `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#e3c27a" stroke-width="2" style="vertical-align:-3px"><path d="M12 22s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>`,
     starGold: `<svg viewBox="0 0 24 24" fill="#d6a234"><path d="M12 1.5c.7 6.3 2.2 7.8 8.5 8.5-6.3.7-7.8 2.2-8.5 8.5-.7-6.3-2.2-7.8-8.5-8.5C9.8 9.3 11.3 7.8 12 1.5z"/></svg>`,
-    starCream: `<svg viewBox="0 0 24 24" fill="#f1e6cd"><path d="M12 1.5c.7 6.3 2.2 7.8 8.5 8.5-6.3.7-7.8 2.2-8.5 8.5-.7-6.3-2.2-7.8-8.5-8.5C9.8 9.3 11.3 7.8 12 1.5z"/></svg>`
+    starCream: `<svg viewBox="0 0 24 24" fill="#f1e6cd"><path d="M12 1.5c.7 6.3 2.2 7.8 8.5 8.5-6.3.7-7.8 2.2-8.5 8.5-.7-6.3-2.2-7.8-8.5-8.5C9.8 9.3 11.3 7.8 12 1.5z"/></svg>`,
+    speakerOff: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16 9l5 5"/><path d="M21 9l-5 5"/></svg>`,
+    speakerOn: `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18 6a9 9 0 0 1 0 12"/></svg>`
   };
 
   // Genera un campo de estrellitas destellantes esparcidas en posiciones
@@ -321,14 +329,28 @@
       @keyframes pulse{ 0%,100%{ transform:scale(1); opacity:.9; } 50%{ transform:scale(1.08); opacity:1; } }
       .portrait-frame{ position:absolute; inset:0; border-radius:50%; background:linear-gradient(145deg,#f3e6c6,#dcc697); box-shadow:8px 8px 18px var(--shadow-dark), -6px -6px 16px var(--shadow-light); display:flex; align-items:center; justify-content:center; overflow:hidden; border:4px solid rgba(255,255,255,0.6); }
       .halo-wrap.shape-square .portrait-frame, .halo-wrap.shape-rectangle .portrait-frame{ border-radius:clamp(12px,2cqw,22px); }
-      .portrait-frame img{ width:100%; height:100%; object-fit:contain; transform:scale(1.12) translateY(4%); }
-      /* img-santo-main-desk: img-santo-main-desktop/-mobile son dos <img> superpuestos
-         en el mismo marco; solo se muestra uno según el ancho de ventana (mismo
-         patrón que .bi-desktop/.bi-mobile en las subcards, ver más abajo). */
+      .portrait-frame img, .portrait-frame video{ width:100%; height:100%; object-fit:contain; transform:scale(1.12) translateY(4%); }
+      /* img-santo-main-desk: img-santo-main-desktop/-mobile son dos elementos
+         (<img> o <video>) superpuestos en el mismo marco; solo se muestra uno
+         según el ancho de ventana (mismo patrón que .bi-desktop/.bi-mobile en
+         las subcards, ver más abajo). Cada slot (desktop/mobile) tiene ADEMÁS
+         una versión <img> y una <video>: la clase "media-on" (puesta por JS
+         según la extensión del archivo, ver _setSantoMedia) decide cuál de
+         las dos se usa dentro del slot que corresponda por ancho de ventana. */
       .portrait-frame .santo-desktop, .portrait-frame .santo-mobile{ display:none; }
-      @media (min-width:769px){ .portrait-frame .santo-desktop{ display:block; } }
-      @media (max-width:768px){ .portrait-frame .santo-mobile{ display:block; } }
+      @media (min-width:769px){ .portrait-frame .santo-desktop.media-on{ display:block; } }
+      @media (max-width:768px){ .portrait-frame .santo-mobile.media-on{ display:block; } }
       .fallback-icon{ width:56%; height:56%; opacity:.35; }
+      /* Botón traslucido de mute/unmute, pegado al extremo inferior derecho
+         del marco (halo-wrap / feria-portrait) que tiene el video del santo.
+         Solo se muestra cuando ese marco está mostrando un .mp4 (lo
+         prende/apaga JS con la clase "show", ver _updateAudioToggle). */
+      .audio-toggle{ position:absolute; right:4%; bottom:4%; width:26%; max-width:34px; min-width:22px; aspect-ratio:1/1; border-radius:50%; border:1px solid rgba(255,255,255,0.35); background:rgba(20,16,8,0.45); backdrop-filter:blur(3px); -webkit-backdrop-filter:blur(3px); display:none; align-items:center; justify-content:center; cursor:pointer; padding:0; z-index:6; box-shadow:0 2px 6px rgba(0,0,0,0.25); }
+      .audio-toggle.show{ display:flex; }
+      .audio-toggle svg{ width:58%; height:58%; }
+      .audio-toggle .icon-on{ display:none; }
+      .audio-toggle.is-on .icon-off{ display:none; }
+      .audio-toggle.is-on .icon-on{ display:block; }
       .sparkle{ position:absolute; border-radius:50%; background:var(--gold-soft); animation:twinkle 3s ease-in-out infinite; }
       @keyframes twinkle{ 0%,100%{ opacity:.15; transform:scale(.7); } 50%{ opacity:1; transform:scale(1.15); } }
 
@@ -424,10 +446,14 @@
       .feria-date[hidden]{ display:none; }
       .feria-date span{ font-weight:700; font-size:clamp(11px,1.4cqw,15px); color:var(--mkt-cream); }
 
-      .feria-portrait{ grid-area:portrait; justify-self:center; align-self:center; width:clamp(64px,12cqw,120px); aspect-ratio:1/1; border-radius:50%; background:linear-gradient(150deg,#3a4d2f,#233318); box-shadow:8px 8px 18px var(--mkt-shadow-dark), -6px -6px 14px var(--mkt-shadow-light); border:3px solid rgba(255,246,224,0.18); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+      .feria-portrait{ position:relative; grid-area:portrait; justify-self:center; align-self:center; width:clamp(64px,12cqw,120px); aspect-ratio:1/1; border-radius:50%; background:linear-gradient(150deg,#3a4d2f,#233318); box-shadow:8px 8px 18px var(--mkt-shadow-dark), -6px -6px 14px var(--mkt-shadow-light); border:3px solid rgba(255,246,224,0.18); display:flex; align-items:center; justify-content:center; overflow:hidden; }
       .feria-portrait.shape-rectangle{ width:clamp(78px,15cqw,150px); aspect-ratio:4/3; }
       .feria-portrait.shape-square, .feria-portrait.shape-rectangle{ border-radius:clamp(8px,1.4cqw,16px); }
-      .feria-portrait img{ width:100%; height:100%; object-fit:contain; transform:scale(1.15) translateY(3%); }
+      .feria-portrait img, .feria-portrait video{ width:100%; height:100%; object-fit:contain; transform:scale(1.15) translateY(3%); }
+      /* Igual que arriba: img-santo-feria tiene una versión <img> y una <video>
+         superpuestas; "media-on" (JS) decide cuál se muestra según la extensión. */
+      .feria-portrait .santo-feria{ display:none; }
+      .feria-portrait .santo-feria.media-on{ display:block; }
 
       .feria-quote{ grid-area:quote; align-self:center; text-align:center; font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:clamp(15px,2.6cqw,22px); line-height:1.35; color:var(--mkt-cream); display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
       @media (min-width:769px){ .feria-quote{ text-align:left; font-size:clamp(13px,1.9cqw,19px); -webkit-line-clamp:3; } }
@@ -497,7 +523,9 @@
             <div class="halo-glow"></div>
             <div class="portrait-frame">
               <img id="img-santo-main-desktop" class="santo-desktop" alt="San Francisco de Asís">
+              <video id="img-santo-main-desktop-vid" class="santo-desktop" muted loop autoplay playsinline></video>
               <img id="img-santo-main-mobile" class="santo-mobile" alt="San Francisco de Asís">
+              <video id="img-santo-main-mobile-vid" class="santo-mobile" muted loop autoplay playsinline></video>
             </div>
             <div class="sparkle" style="width:6%;height:6%; top:-4%; left:14%; animation-delay:.2s;"></div>
             <div class="sparkle" style="width:9%;height:9%; top:20%; left:-8%; animation-delay:1.1s;"></div>
@@ -506,6 +534,9 @@
             <div class="sparkle" style="width:7%;height:7%; bottom:8%; left:-4%; animation-delay:2.4s;"></div>
             <div class="sparkle" style="width:5%;height:5%; top:46%; left:-10%; animation-delay:1.6s;"></div>
             <div class="sparkle" style="width:4%;height:4%; bottom:-4%; right:18%; animation-delay:.4s;"></div>
+            <button type="button" id="audio-toggle-main" class="audio-toggle" aria-label="Activar o desactivar el sonido">
+              <span class="icon-off">${ICONS.speakerOff}</span><span class="icon-on">${ICONS.speakerOn}</span>
+            </button>
           </div>
           <div class="headline-block">
             <div id="main-title-zone"></div>
@@ -536,7 +567,7 @@
           </div>
         </div>
         <div id="poster-feria" class="poster">
-          <div class="feria-portrait"><img id="img-santo-feria" alt="San Francisco de Asís"></div>
+          <div class="feria-portrait"><img id="img-santo-feria" class="santo-feria" alt="San Francisco de Asís"><video id="img-santo-feria-vid" class="santo-feria" muted loop autoplay playsinline></video><button type="button" id="audio-toggle-feria" class="audio-toggle" aria-label="Activar o desactivar el sonido"><span class="icon-off">${ICONS.speakerOff}</span><span class="icon-on">${ICONS.speakerOn}</span></button></div>
           <div class="feria-top">
             <div id="feria-title-zone"></div>
             <div class="feria-date" id="feria-date-badge"><span>Domingo 4 de Octubre</span></div>
@@ -571,6 +602,11 @@
     constructor() {
       super();
       this.attachShadow({ mode: 'open' });
+      // Para saber, en cualquier momento, cuál de los dos videos del poster
+      // principal (desktop/mobile) es "el visible" y así el botón de audio
+      // sepa a cuál controlar (ver _mainActiveVideo). El CSS ya resuelve solo
+      // el cambio de tamaño de ventana; esto es lo único que necesita JS.
+      this._deskMq = window.matchMedia ? window.matchMedia('(min-width:769px)') : null;
     }
 
     connectedCallback() {
@@ -578,6 +614,11 @@
         this.shadowRoot.appendChild(TEMPLATE.content.cloneNode(true));
         this._rendered = true;
         this._wire();
+        if (this._deskMq) {
+          const onChange = () => this._updateAudioToggles();
+          if (this._deskMq.addEventListener) this._deskMq.addEventListener('change', onChange);
+          else if (this._deskMq.addListener) this._deskMq.addListener(onChange);
+        }
       }
       this._applyImages();
       this._applyPortraitShape();
@@ -590,6 +631,7 @@
       this._renderSlots();
       this._renderFeriaTitle();
       this._renderMainTitle();
+      this._updateAudioToggles();
     }
 
     attributeChangedCallback() {
@@ -605,6 +647,7 @@
       this._renderSlots();
       this._renderFeriaTitle();
       this._renderMainTitle();
+      this._updateAudioToggles();
     }
 
     _wire() {
@@ -612,18 +655,27 @@
       root.getElementById('tab-main').addEventListener('click', () => this.setAttribute('poster', 'main'));
       root.getElementById('tab-feria').addEventListener('click', () => this.setAttribute('poster', 'feria'));
 
-      const iconSaintDesktop = root.getElementById('img-santo-main-desktop');
-      const iconSaintMobile = root.getElementById('img-santo-main-mobile');
-      const iconSaintFeria = root.getElementById('img-santo-feria');
-      iconSaintDesktop.addEventListener('error', () => {
-        iconSaintDesktop.replaceWith(Object.assign(document.createElement('div'), { className: 'fallback-icon santo-desktop', innerHTML: ICONS.saint }));
-      });
-      iconSaintMobile.addEventListener('error', () => {
-        iconSaintMobile.replaceWith(Object.assign(document.createElement('div'), { className: 'fallback-icon santo-mobile', innerHTML: ICONS.saint }));
-      });
-      iconSaintFeria.addEventListener('error', () => {
-        iconSaintFeria.replaceWith(Object.assign(document.createElement('div'), { className: 'fallback-icon', innerHTML: ICONS.saintLight }));
-      });
+      // Fallback a ícono si el <img> o el <video> del santo no cargan (404,
+      // formato no soportado, etc.). Se usa el className actual del elemento
+      // que falló (en vez de una lista fija) porque ahora cada slot tiene dos
+      // variantes (img/video) y la que está activa lleva además la clase
+      // "media-on" (ver _setSantoMedia): copiándola tal cual, el ícono de
+      // reemplazo queda visible en el slot/breakpoint correcto sin duplicar
+      // esa lógica acá.
+      const wireSaintFallback = (id, icon) => {
+        const el = root.getElementById(id);
+        if (!el) return;
+        el.addEventListener('error', () => {
+          el.replaceWith(Object.assign(document.createElement('div'), { className: `fallback-icon ${el.className}`, innerHTML: icon }));
+          this._updateAudioToggles();
+        });
+      };
+      wireSaintFallback('img-santo-main-desktop', ICONS.saint);
+      wireSaintFallback('img-santo-main-desktop-vid', ICONS.saint);
+      wireSaintFallback('img-santo-main-mobile', ICONS.saint);
+      wireSaintFallback('img-santo-main-mobile-vid', ICONS.saint);
+      wireSaintFallback('img-santo-feria', ICONS.saintLight);
+      wireSaintFallback('img-santo-feria-vid', ICONS.saintLight);
 
       root.getElementById('img-iglesia-main').addEventListener('error', function () {
         this.replaceWith(Object.assign(document.createElement('span'), { innerHTML: ICONS.church }).firstChild);
@@ -640,6 +692,59 @@
         root.getElementById('img-bunting-feria').hidden = true;
         root.getElementById('bunting-fallback-feria').hidden = false;
       });
+
+      // Botón traslucido de audio: mutea/desmutea el video del santo que
+      // esté visible en ese momento (ver _mainActiveVideo para el poster
+      // principal, que depende del ancho de ventana; la feria tiene un
+      // único video posible).
+      const wireAudioToggle = (btnId, getVideo) => {
+        const btn = root.getElementById(btnId);
+        if (!btn) return;
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const vid = getVideo();
+          if (!vid) return;
+          vid.muted = !vid.muted;
+          if (!vid.muted) {
+            const p = vid.play();
+            if (p && p.catch) p.catch(() => {});
+          }
+          this._updateAudioToggles();
+        });
+      };
+      wireAudioToggle('audio-toggle-main', () => this._mainActiveVideo());
+      wireAudioToggle('audio-toggle-feria', () => {
+        const v = root.getElementById('img-santo-feria-vid');
+        return (v && v.classList.contains('media-on')) ? v : null;
+      });
+    }
+
+    // Devuelve el <video> del poster principal que está realmente visible
+    // ahora mismo (desktop o mobile, según el ancho de ventana), solo si ese
+    // slot está en modo video (media-on). null si en este momento se está
+    // mostrando una imagen (no un video) o no hay ninguno.
+    _mainActiveVideo() {
+      const root = this.shadowRoot;
+      const isDesktop = this._deskMq ? this._deskMq.matches : (window.innerWidth >= 769);
+      const el = root.getElementById(isDesktop ? 'img-santo-main-desktop-vid' : 'img-santo-main-mobile-vid');
+      return (el && el.classList.contains('media-on')) ? el : null;
+    }
+
+    _updateAudioToggle(btnId, videoEl) {
+      const btn = this.shadowRoot.getElementById(btnId);
+      if (!btn) return;
+      btn.classList.toggle('show', !!videoEl);
+      btn.classList.toggle('is-on', !!videoEl && !videoEl.muted);
+    }
+
+    // Refresca los dos botones de audio: se llama después de cada render
+    // (attributeChangedCallback / connectedCallback) y cuando cambia el
+    // breakpoint desktop/mobile, porque eso puede cambiar cuál video del
+    // poster principal es "el visible" sin que haya cambiado ningún atributo.
+    _updateAudioToggles() {
+      this._updateAudioToggle('audio-toggle-main', this._mainActiveVideo());
+      const feriaVid = this.shadowRoot.getElementById('img-santo-feria-vid');
+      this._updateAudioToggle('audio-toggle-feria', (feriaVid && feriaVid.classList.contains('media-on')) ? feriaVid : null);
     }
 
     // Usa esto (en vez de root.getElementById(id).src = ...) porque si esa imagen
@@ -651,6 +756,38 @@
     _setSrcSafe(id, src) {
       const el = this.shadowRoot.getElementById(id);
       if (el) el.src = src;
+    }
+
+    // img-santo / img-santo-main-desk / img-santo-feria-img ahora aceptan,
+    // además de imagen, un archivo .mp4: si la ruta termina en .mp4 (con o
+    // sin query/hash después), se usa el <video> del slot en vez del <img>.
+    _isVideoSrc(src) {
+      return /\.mp4(?:[?#]|$)/i.test(src || '');
+    }
+
+    // Análogo a _setSrcSafe pero para un slot que tiene DOS elementos
+    // superpuestos (<img id> / <video id>-vid, ver el HTML y el CSS de
+    // .santo-desktop/.santo-mobile/.santo-feria): según la extensión de
+    // "src" activa uno y apaga el otro con la clase "media-on" (mismo
+    // chequeo de "¿existe el elemento?" que _setSrcSafe, por si ya fue
+    // reemplazado por el ícono de fallback tras un error previo).
+    _setSantoMedia(imgId, vidId, src) {
+      const root = this.shadowRoot;
+      const isVideo = this._isVideoSrc(src);
+      const imgEl = root.getElementById(imgId);
+      const vidEl = root.getElementById(vidId);
+      if (imgEl) {
+        imgEl.classList.toggle('media-on', !isVideo);
+        if (!isVideo) imgEl.src = src;
+      }
+      if (vidEl) {
+        vidEl.classList.toggle('media-on', isVideo);
+        if (isVideo) {
+          if (vidEl.getAttribute('src') !== src) vidEl.src = src;
+          const playPromise = vidEl.play();
+          if (playPromise && playPromise.catch) playPromise.catch(() => {});
+        }
+      }
     }
 
     _applyImages() {
@@ -667,9 +804,9 @@
       const santoFeria = this.getAttribute('img-santo-feria-img') || santo;
       const iglesia = this.getAttribute('img-iglesia') || 'iglesia.png';
       const bunting = this.getAttribute('img-bunting') || 'banderines.png';
-      this._setSrcSafe('img-santo-main-desktop', santoMainDesk);
-      this._setSrcSafe('img-santo-main-mobile', santo);
-      this._setSrcSafe('img-santo-feria', santoFeria);
+      this._setSantoMedia('img-santo-main-desktop', 'img-santo-main-desktop-vid', santoMainDesk);
+      this._setSantoMedia('img-santo-main-mobile', 'img-santo-main-mobile-vid', santo);
+      this._setSantoMedia('img-santo-feria', 'img-santo-feria-vid', santoFeria);
       this._setSrcSafe('img-iglesia-main', iglesia);
       this._setSrcSafe('img-iglesia-feria', iglesia);
       this._setSrcSafe('img-bunting-main', bunting);
@@ -806,22 +943,32 @@
 
       // Ninguno de los dos: el ancho queda como está (cae solo por fallback
       // de CSS var() en --santo-w); solo hace falta calcular el aspect-ratio
-      // real de img-santo-main-desk para el alto. Se mide con el <img> que
-      // ya está en el DOM (mismo que muestra la imagen), esperando a que
-      // cargue si todavía no lo hizo.
+      // real de img-santo-main-desk para el alto. Se mide con el elemento que
+      // ya está en el DOM mostrando ese archivo (el <img>, o el <video> si
+      // img-santo-main-desk es un .mp4), esperando a que cargue si todavía
+      // no lo hizo.
       clearDesk();
-      const imgEl = root.getElementById('img-santo-main-desktop');
-      if (!imgEl) return;
+      const isVideo = this._isVideoSrc(deskUrl);
+      const mediaEl = root.getElementById(isVideo ? 'img-santo-main-desktop-vid' : 'img-santo-main-desktop');
+      if (!mediaEl) return;
       const applyNaturalRatio = () => {
-        if (imgEl.naturalWidth && imgEl.naturalHeight) {
-          haloWrap.style.setProperty('--santo-desk-ar', `${imgEl.naturalWidth} / ${imgEl.naturalHeight}`);
+        const w = isVideo ? mediaEl.videoWidth : mediaEl.naturalWidth;
+        const h = isVideo ? mediaEl.videoHeight : mediaEl.naturalHeight;
+        if (w && h) {
+          haloWrap.style.setProperty('--santo-desk-ar', `${w} / ${h}`);
           haloWrap.style.setProperty('--santo-desk-h', 'auto');
         }
       };
-      if (imgEl.complete && imgEl.naturalWidth) {
+      if (isVideo) {
+        if (mediaEl.readyState >= 1 && mediaEl.videoWidth) {
+          applyNaturalRatio();
+        } else {
+          mediaEl.onloadedmetadata = applyNaturalRatio;
+        }
+      } else if (mediaEl.complete && mediaEl.naturalWidth) {
         applyNaturalRatio();
       } else {
-        imgEl.onload = applyNaturalRatio;
+        mediaEl.onload = applyNaturalRatio;
       }
     }
 
@@ -875,6 +1022,20 @@
       root.getElementById('frame-feria').classList.toggle('hidden', which !== 'feria');
       root.getElementById('tab-main').classList.toggle('active', which === 'main');
       root.getElementById('tab-feria').classList.toggle('active', which === 'feria');
+
+      // Si al cambiar de card (main <-> feria) había un audio activo, se
+      // mutea solo: no tiene sentido que un video siga sonando en la card
+      // que quedó oculta. Se compara con el poster anterior para no mutear
+      // en cada re-render (attributeChangedCallback corre para CUALQUIER
+      // atributo, no solo "poster") sino solo cuando de verdad cambió.
+      if (this._lastPoster !== undefined && this._lastPoster !== which) {
+        ['img-santo-main-desktop-vid', 'img-santo-main-mobile-vid', 'img-santo-feria-vid'].forEach(id => {
+          const vid = root.getElementById(id);
+          if (vid) vid.muted = true;
+        });
+        this._updateAudioToggles();
+      }
+      this._lastPoster = which;
     }
 
     _applyWhatsapp() {
