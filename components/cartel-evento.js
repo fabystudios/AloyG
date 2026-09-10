@@ -38,6 +38,10 @@
  * - img-santo-feria-top  ajuste fino vertical (CSS margin-top) del marco de img-santo
  *                     SOLO en la card de la feria, ej: "20px" (baja) o "-15px" (sube).
  *                     Por defecto está centrado respecto al título+bajada de esa card.
+ * - img-santo-main    "false" oculta el marco de img-santo SOLO EN MOBILE (<=768px)
+ *                     en el poster PRINCIPAL. En desktop siempre se ve. (default: visible)
+ * - img-santo-feria   "false" oculta el marco de img-santo SOLO EN MOBILE (<=768px)
+ *                     en el poster de la FERIA. En desktop siempre se ve. (default: visible)
  * - marco-img-santo   "circle" | "square" | "rectangle"  (default "circle")
  *                     forma del marco que contiene a img-santo, en LOS DOS posters.
  *                     "square" es 1:1 con esquinas redondeadas, "rectangle" es 4:3.
@@ -201,16 +205,27 @@
         z-index:1;
         pointer-events:none; overflow:visible;
         transform-origin:top center;
-        animation:bunting-sway 6s ease-in-out infinite;
+        animation:bunting-sway 3.2s ease-in-out infinite;
       }
       .bunting-wrap img{ display:block; width:100%; height:auto; }
-      @keyframes bunting-sway{ 0%,100%{ transform:rotate(-0.6deg); } 50%{ transform:rotate(0.6deg); } }
+      @keyframes bunting-sway{
+        0%,100%{ transform:rotate(-4deg) translateY(0); }
+        25%{ transform:rotate(2.5deg) translateY(-1.5%); }
+        50%{ transform:rotate(-2deg) translateY(0); }
+        75%{ transform:rotate(4deg) translateY(-1.5%); }
+      }
       .bunting-fallback{ position:absolute; top:0; left:0; width:100%; height:clamp(20px,4cqw,52px); display:flex; justify-content:space-between; padding:0 clamp(10px,2cqw,26px); }
       .bunting-fallback[hidden]{ display:none; }
       .bunting-fallback span{ border-left:clamp(9px,1.5cqw,20px) solid transparent; border-right:clamp(9px,1.5cqw,20px) solid transparent; border-top:clamp(16px,2.8cqw,36px) solid var(--c); opacity:.85; }
 
       .poster{ position:relative; z-index:2; width:100%; height:100%; display:grid; background:transparent; }
       @media (max-width:768px){ .poster{ height:auto; } }
+
+      /* img-santo-main="false" / img-santo-feria="false": oculta el marco de
+         img-santo SOLO en mobile (<=768px). En desktop nunca se oculta. */
+      @media (max-width:768px){
+        .halo-wrap.hide-mobile, .feria-portrait.hide-mobile{ display:none; }
+      }
 
       /* ================= POSTER 1: EVENTO PRINCIPAL ================= */
       #poster-main{
@@ -252,7 +267,8 @@
       /* -------- subcards (compartido por poster principal y feria) -------- */
       .info-row{ grid-area:cards; display:flex; gap:clamp(10px,1.6cqw,22px); min-height:0; }
       @media (max-width:768px){ .info-row{ flex-direction:column; } }
-      .info-card{ flex:1; min-width:0; min-height:0; display:flex; flex-direction:column; justify-content:space-between; border-radius:clamp(14px,1.8cqw,24px); padding:clamp(12px,2cqw,24px); background:linear-gradient(150deg,#f7ecd6,#e7d6ac); box-shadow:8px 8px 18px var(--shadow-dark), -6px -6px 14px var(--shadow-light); overflow:hidden; }
+      .info-card{ position:relative; flex:1; min-width:0; min-height:0; display:flex; flex-direction:column; justify-content:space-between; border-radius:clamp(14px,1.8cqw,24px); padding:clamp(12px,2cqw,24px); background:linear-gradient(150deg,#f7ecd6,#e7d6ac); box-shadow:8px 8px 18px var(--shadow-dark), -6px -6px 14px var(--shadow-light); overflow:hidden; transition:transform .25s ease, box-shadow .25s ease; }
+      .info-card:hover{ transform:translateY(-5px); box-shadow:11px 15px 26px var(--shadow-dark), -7px -7px 18px var(--shadow-light); }
       .info-card .top{ display:flex; flex-direction:column; gap:clamp(6px,1cqw,12px); min-height:0; flex:1; }
       .info-card .head{ display:flex; align-items:center; gap:clamp(8px,1.4cqw,16px); }
       .info-card .medal{ width:clamp(36px,5.6cqw,66px); height:clamp(36px,5.6cqw,66px); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; box-shadow:inset 3px 3px 7px rgba(0,0,0,0.18), inset -3px -3px 7px rgba(255,255,255,0.35); }
@@ -269,6 +285,25 @@
       .info-card .tag{ align-self:flex-start; flex-shrink:0; margin-top:clamp(6px,1.1cqw,14px); padding:clamp(5px,.8cqw,9px) clamp(10px,1.5cqw,16px); border-radius:12px; font-size:clamp(11px,1.4cqw,15px); font-weight:700; color:#fff; }
       .info-card .tag.c-olive{ background:var(--olive); } .info-card .tag.c-pink{ background:var(--pink); } .info-card .tag.c-teal{ background:var(--teal); }
 
+      /* brillo/reluciente: una franja de luz que recorre cada subcard cada
+         tanto, para darles más vida. z-index alto para pasar por encima del
+         contenido, pointer-events:none para no interferir con clicks/hover. */
+      .info-card::before, .feria-panel::before{
+        content:''; position:absolute; top:0; left:-60%; width:35%; height:100%;
+        background:linear-gradient(75deg, transparent 0%, rgba(255,255,255,0.55) 45%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.55) 55%, transparent 100%);
+        transform:skewX(-20deg); pointer-events:none; z-index:3;
+        animation:card-shine 5.5s ease-in-out infinite;
+      }
+      @keyframes card-shine{
+        0%{ left:-60%; opacity:0; }
+        6%{ opacity:1; }
+        20%{ left:130%; opacity:0; }
+        100%{ left:130%; opacity:0; }
+      }
+      .info-row .info-card:nth-child(1)::before{ animation-delay:.2s; }
+      .info-row .info-card:nth-child(2)::before{ animation-delay:2s; }
+      .info-row .info-card:nth-child(3)::before{ animation-delay:3.8s; }
+
       .footer-main{
         grid-area:footer; display:flex; align-items:center; justify-content:space-between; gap:10px;
         margin:0 -4cqw -3.2cqw -4cqw; padding:clamp(6px,1cqw,12px) 4cqw;
@@ -277,8 +312,9 @@
       .footer-main .parish{ display:flex; align-items:center; gap:clamp(8px,1.3cqw,14px); min-width:0; }
       .footer-main .parish svg{ width:clamp(16px,2.4cqw,28px); height:clamp(16px,2.4cqw,28px); flex-shrink:0; }
       .footer-main .parish img{ width:clamp(34px,5.6cqw,72px); height:clamp(28px,4.6cqw,58px); object-fit:contain; flex-shrink:0; }
-      .footer-main .parish h4{ margin:0; color:#fbeedb; font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(11px,1.7cqw,15px); letter-spacing:.2px; }
-      .footer-main .parish span{ color:#f3d9c2; font-size:clamp(8px,1.1cqw,11px); font-weight:500; }
+      .footer-main .parish-text{ display:flex; flex-direction:column; gap:1px; }
+      .footer-main .parish h4{ margin:0; color:#fbeedb; font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(11px,1.7cqw,15px); letter-spacing:.2px; line-height:1.15; }
+      .footer-main .parish span{ display:block; color:#f3d9c2; font-size:clamp(8px,1.1cqw,11px); font-weight:500; line-height:1.15; }
       .footer-main .welcome{ flex-shrink:0; padding:clamp(4px,.8cqw,8px) clamp(9px,1.3cqw,14px); border-radius:999px; background:rgba(255,255,255,0.14); border:1px solid rgba(255,255,255,0.3); color:#fff2df; font-family:'Fraunces',serif; font-style:italic; font-weight:600; font-size:clamp(10px,1.4cqw,14px); white-space:nowrap; }
 
       /* ================= POSTER 2: FERIA DE EMPRENDEDORES ================= */
@@ -320,7 +356,8 @@
 
       .feria-panels{ grid-area:panels; display:flex; gap:clamp(10px,1.4cqw,20px); min-height:0; }
       @media (max-width:768px){ .feria-panels{ flex-direction:column; } }
-      .feria-panel{ flex:1; min-width:0; min-height:0; display:flex; flex-direction:column; justify-content:center; border-radius:clamp(14px,1.8cqw,22px); padding:clamp(10px,1.8cqw,22px); background:var(--mkt-glass); border:1px solid var(--mkt-glass-border); backdrop-filter:blur(8px); box-shadow:8px 8px 18px var(--mkt-shadow-dark), -6px -6px 14px var(--mkt-shadow-light); overflow:hidden; }
+      .feria-panel{ position:relative; flex:1; min-width:0; min-height:0; display:flex; flex-direction:column; justify-content:center; border-radius:clamp(14px,1.8cqw,22px); padding:clamp(10px,1.8cqw,22px); background:var(--mkt-glass); border:1px solid var(--mkt-glass-border); backdrop-filter:blur(8px); box-shadow:8px 8px 18px var(--mkt-shadow-dark), -6px -6px 14px var(--mkt-shadow-light); overflow:hidden; transition:transform .25s ease, box-shadow .25s ease; }
+      .feria-panel:hover{ transform:translateY(-5px); box-shadow:11px 15px 26px var(--mkt-shadow-dark), -7px -7px 18px rgba(255,255,255,0.08); }
       .feria-panel .top{ display:flex; flex-direction:column; gap:clamp(4px,.8cqw,10px); flex:1; min-height:0; }
       .feria-panel .head{ display:flex; align-items:center; gap:clamp(6px,1.1cqw,12px); }
       .feria-panel .medal{ width:clamp(30px,4.6cqw,58px); height:clamp(30px,4.6cqw,58px); border-radius:50%; display:flex; align-items:center; justify-content:center; background:var(--mkt-gold); flex-shrink:0; box-shadow:inset 3px 3px 6px rgba(0,0,0,0.25), inset -3px -3px 6px rgba(255,255,255,0.2); }
@@ -334,6 +371,8 @@
       @media (min-width:769px){ .feria-panel .body-img .bi-desktop{ display:block; } }
       @media (max-width:768px){ .feria-panel .body-img .bi-mobile{ display:block; } }
       .feria-panel .price{ font-family:'Fraunces',serif; font-weight:700; font-size:clamp(17px,2.8cqw,27px); color:var(--mkt-gold-soft); }
+      .feria-panels .feria-panel:nth-child(1)::before{ animation-delay:1.1s; }
+      .feria-panels .feria-panel:nth-child(2)::before{ animation-delay:3.4s; }
 
       .whatsapp-chip{ grid-area:whatsapp; display:flex; align-items:center; justify-content:center; gap:clamp(7px,1.2cqw,12px); padding:clamp(7px,1.2cqw,14px) clamp(10px,1.6cqw,18px); border-radius:clamp(12px,1.6cqw,16px); background:linear-gradient(150deg,#2e5c33,#1f4025); box-shadow:6px 6px 14px var(--mkt-shadow-dark), -4px -4px 10px rgba(255,255,255,0.06); flex-wrap:wrap; text-decoration:none; cursor:pointer; transition:transform .15s ease; }
       .whatsapp-chip:hover{ transform:translateY(-2px); }
@@ -350,8 +389,9 @@
       .footer-feria .parish{ display:flex; align-items:center; gap:clamp(6px,1cqw,12px); min-width:0; }
       .footer-feria .parish svg{ width:clamp(14px,2.2cqw,26px); height:clamp(14px,2.2cqw,26px); flex-shrink:0; }
       .footer-feria .parish img{ width:clamp(26px,4.6cqw,60px); height:clamp(20px,3.6cqw,48px); object-fit:contain; flex-shrink:0; }
-      .footer-feria .parish h4{ margin:0; color:var(--mkt-cream); font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(10px,1.5cqw,14px); }
-      .footer-feria .parish span{ color:#c9c0a6; font-size:clamp(8px,1cqw,10px); }
+      .footer-feria .parish-text{ display:flex; flex-direction:column; gap:1px; }
+      .footer-feria .parish h4{ margin:0; color:var(--mkt-cream); font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(10px,1.5cqw,14px); line-height:1.15; }
+      .footer-feria .parish span{ display:block; color:#c9c0a6; font-size:clamp(8px,1cqw,10px); line-height:1.15; }
       .footer-feria .addr{ flex-shrink:0; color:var(--mkt-gold-soft); font-weight:700; font-size:clamp(9px,1.2cqw,11px); display:flex; align-items:center; gap:6px; white-space:nowrap; }
     </style>
 
@@ -395,7 +435,7 @@
             <div class="info-card" id="slot-card3"></div>
           </div>
           <div class="footer-main">
-            <div class="parish"><img id="img-iglesia-main" alt=""><div><h4>Parroquia San Luis Gonzaga</h4><span>Villa Elisa</span></div></div>
+            <div class="parish"><img id="img-iglesia-main" alt=""><div class="parish-text"><h4>Parroquia San Luis Gonzaga</h4><span>Villa Elisa</span></div></div>
             <div class="welcome">¡Te esperamos!</div>
           </div>
         </div>
@@ -426,7 +466,7 @@
           </div>
           <a class="whatsapp-chip" id="whatsapp-btn" target="_blank" rel="noopener noreferrer">${ICONS.whatsapp}<span class="wa-text">Comunicate con Nancy</span><span class="wa-num" id="wa-num"></span></a>
           <div class="footer-feria">
-            <div class="parish"><img id="img-iglesia-feria" alt=""><div><h4>Parroquia San Luis Gonzaga</h4><span>Villa Elisa</span></div></div>
+            <div class="parish"><img id="img-iglesia-feria" alt=""><div class="parish-text"><h4>Parroquia San Luis Gonzaga</h4><span>Villa Elisa</span></div></div>
             <div class="addr">${ICONS.pin} Calle 8 / 52 y 53</div>
           </div>
         </div>
@@ -437,7 +477,7 @@
   class CartelEvento extends HTMLElement {
     static get observedAttributes() {
       return [
-        'poster', 'img-santo', 'img-santo-width', 'img-santo-height', 'img-santo-feria-top', 'marco-img-santo', 'img-iglesia', 'img-bunting',
+        'poster', 'img-santo', 'img-santo-width', 'img-santo-height', 'img-santo-feria-top', 'img-santo-main', 'img-santo-feria', 'marco-img-santo', 'img-iglesia', 'img-bunting',
         'whatsapp-number', 'whatsapp-display', 'panel2-price', 'panel2_price',
         'feria-title', 'feria-eyebrow', 'feria-title-img', 'feria-title-img-width', 'feria-title-img-height',
         'main-title-img', 'main-title-img-width', 'main-title-img-height',
@@ -460,6 +500,7 @@
       this._applyImages();
       this._applyPortraitShape();
       this._applyPortraitSize();
+      this._applySantoMobileVisibility();
       this._applyPoster();
       this._applyWhatsapp();
       this._renderSlots();
@@ -472,6 +513,7 @@
       this._applyImages();
       this._applyPortraitShape();
       this._applyPortraitSize();
+      this._applySantoMobileVisibility();
       this._applyPoster();
       this._applyWhatsapp();
       this._renderSlots();
@@ -582,6 +624,28 @@
       const feriaTop = this.getAttribute('img-santo-feria-top');
       const feriaEl = root.querySelector('.feria-portrait');
       if (feriaEl) feriaEl.style.marginTop = feriaTop || '';
+    }
+
+    // Helper genérico para atributos booleanos "sueltos" (no ligados a un slot):
+    // ausente -> defaultValue; "false" o "0" -> false; cualquier otro valor -> true.
+    _boolAttr(name, defaultValue) {
+      const v = this.getAttribute(name);
+      if (v === null || v === undefined) return defaultValue;
+      return v !== 'false' && v !== '0';
+    }
+
+    // img-santo-main="false" / img-santo-feria="false": oculta el marco de
+    // img-santo (halo del poster principal / retrato del poster de la feria)
+    // SOLO en mobile (<=768px, ver media query en el CSS). En desktop el
+    // marco de img-santo siempre se muestra, sin importar estos atributos.
+    _applySantoMobileVisibility() {
+      const root = this.shadowRoot;
+      const showMain = this._boolAttr('img-santo-main', true);
+      const showFeria = this._boolAttr('img-santo-feria', true);
+      const haloWrap = root.querySelector('.halo-wrap');
+      const feriaPortrait = root.querySelector('.feria-portrait');
+      if (haloWrap) haloWrap.classList.toggle('hide-mobile', !showMain);
+      if (feriaPortrait) feriaPortrait.classList.toggle('hide-mobile', !showFeria);
     }
 
     _applyPoster() {
