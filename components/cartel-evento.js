@@ -49,6 +49,9 @@
  *                     footer de LOS DOS posters
  * - img-bunting       ruta de imagen     (default "banderines.png") guirnalda
  *                     superpuesta arriba, en LOS DOS posters, con balanceo animado
+ * - banderines-movimiento  "slow" | "medium" | "fast"  (default "medium")
+ *                     qué tanto se balancean los banderines (guirnalda), en LOS DOS posters.
+ *                     "slow" = sutil, "medium" = moderado, "fast" = bien marcado.
  * - main-title-img       URL de imagen que reemplaza el título del poster principal
  * - main-title-img-width  ancho de esa imagen (agranda/achica proporcionalmente), ej: "260px"
  * - main-title-img-height alto de esa imagen (agranda/achica proporcionalmente), ej: "90px"
@@ -205,14 +208,20 @@
         z-index:1;
         pointer-events:none; overflow:visible;
         transform-origin:top center;
-        animation:bunting-sway 3.2s ease-in-out infinite;
+        --sway-amt:2.4deg;
+        animation:bunting-sway 4s ease-in-out infinite;
       }
+      /* banderines-movimiento="slow|medium|fast": controla amplitud (grados de
+         rotación) y velocidad del balanceo de la guirnalda. Default: medium. */
+      .bunting-wrap.sway-slow{ --sway-amt:1.2deg; animation-duration:5.5s; }
+      .bunting-wrap.sway-medium{ --sway-amt:2.4deg; animation-duration:4s; }
+      .bunting-wrap.sway-fast{ --sway-amt:4.5deg; animation-duration:2.6s; }
       .bunting-wrap img{ display:block; width:100%; height:auto; }
       @keyframes bunting-sway{
-        0%,100%{ transform:rotate(-4deg) translateY(0); }
-        25%{ transform:rotate(2.5deg) translateY(-1.5%); }
-        50%{ transform:rotate(-2deg) translateY(0); }
-        75%{ transform:rotate(4deg) translateY(-1.5%); }
+        0%,100%{ transform:rotate(calc(var(--sway-amt) * -1)) translateY(0); }
+        25%{ transform:rotate(calc(var(--sway-amt) * 0.6)) translateY(-1.5%); }
+        50%{ transform:rotate(calc(var(--sway-amt) * -0.5)) translateY(0); }
+        75%{ transform:rotate(var(--sway-amt)) translateY(-1.5%); }
       }
       .bunting-fallback{ position:absolute; top:0; left:0; width:100%; height:clamp(20px,4cqw,52px); display:flex; justify-content:space-between; padding:0 clamp(10px,2cqw,26px); }
       .bunting-fallback[hidden]{ display:none; }
@@ -477,7 +486,7 @@
   class CartelEvento extends HTMLElement {
     static get observedAttributes() {
       return [
-        'poster', 'img-santo', 'img-santo-width', 'img-santo-height', 'img-santo-feria-top', 'img-santo-main', 'img-santo-feria', 'marco-img-santo', 'img-iglesia', 'img-bunting',
+        'poster', 'img-santo', 'img-santo-width', 'img-santo-height', 'img-santo-feria-top', 'img-santo-main', 'img-santo-feria', 'marco-img-santo', 'img-iglesia', 'img-bunting', 'banderines-movimiento',
         'whatsapp-number', 'whatsapp-display', 'panel2-price', 'panel2_price',
         'feria-title', 'feria-eyebrow', 'feria-title-img', 'feria-title-img-width', 'feria-title-img-height',
         'main-title-img', 'main-title-img-width', 'main-title-img-height',
@@ -501,6 +510,7 @@
       this._applyPortraitShape();
       this._applyPortraitSize();
       this._applySantoMobileVisibility();
+      this._applyBuntingSway();
       this._applyPoster();
       this._applyWhatsapp();
       this._renderSlots();
@@ -514,6 +524,7 @@
       this._applyPortraitShape();
       this._applyPortraitSize();
       this._applySantoMobileVisibility();
+      this._applyBuntingSway();
       this._applyPoster();
       this._applyWhatsapp();
       this._renderSlots();
@@ -646,6 +657,19 @@
       const feriaPortrait = root.querySelector('.feria-portrait');
       if (haloWrap) haloWrap.classList.toggle('hide-mobile', !showMain);
       if (feriaPortrait) feriaPortrait.classList.toggle('hide-mobile', !showFeria);
+    }
+
+    // banderines-movimiento="slow"|"medium"|"fast": intensidad del balanceo
+    // de la guirnalda (ver --sway-amt / .sway-* en el CSS). Cualquier valor
+    // no reconocido (o ausente) cae en "medium".
+    _applyBuntingSway() {
+      const root = this.shadowRoot;
+      const raw = (this.getAttribute('banderines-movimiento') || '').toLowerCase().trim();
+      const speed = ['slow', 'medium', 'fast'].includes(raw) ? raw : 'medium';
+      root.querySelectorAll('.bunting-wrap').forEach(el => {
+        el.classList.remove('sway-slow', 'sway-medium', 'sway-fast');
+        el.classList.add(`sway-${speed}`);
+      });
     }
 
     _applyPoster() {
