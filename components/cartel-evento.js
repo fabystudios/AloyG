@@ -63,6 +63,11 @@
  * - img-santo-feria-top  ajuste fino vertical (CSS margin-top) del marco de img-santo
  *                     SOLO en la card de la feria, ej: "20px" (baja) o "-15px" (sube).
  *                     Por defecto está centrado respecto al título+bajada de esa card.
+ * - img-santo-feria-img  ruta de imagen alternativa para el marco de img-santo,
+ *                     que se usa SOLO en el poster de la FERIA (en cualquier tamaño,
+ *                     mobile y desktop). Si no se pasa, se usa img-santo ahí también.
+ *                     El poster PRINCIPAL sigue usando siempre img-santo (o
+ *                     img-santo-main-desk en desktop), sin importar este prop.
  * - img-santo-main    "false" oculta el marco de img-santo SOLO EN MOBILE (<=768px)
  *                     en el poster PRINCIPAL. En desktop siempre se ve. (default: visible)
  * - img-santo-feria   "false" oculta el marco de img-santo SOLO EN MOBILE (<=768px)
@@ -392,13 +397,14 @@
 
       /* ================= POSTER 2: FERIA DE EMPRENDEDORES ================= */
       #poster-feria{
-        padding:3.2cqw 4cqw; gap:1.4cqw 3cqw;
+        padding:3.2cqw 4cqw; gap:0.6cqw 3cqw;
         grid-template-columns:1fr;
         grid-template-rows:auto auto auto auto auto auto;
         grid-template-areas:"portrait" "top" "quote" "panels" "whatsapp" "footer";
       }
       @media (min-width:769px){
         #poster-feria{
+          gap:1.4cqw 3cqw;
           grid-template-columns:28% 1fr;
           grid-template-rows:auto auto 1fr auto auto;
           grid-template-areas:"portrait top" "portrait quote" "panels panels" "whatsapp whatsapp" "footer footer";
@@ -423,8 +429,8 @@
       .feria-portrait.shape-square, .feria-portrait.shape-rectangle{ border-radius:clamp(8px,1.4cqw,16px); }
       .feria-portrait img{ width:100%; height:100%; object-fit:contain; transform:scale(1.15) translateY(3%); }
 
-      .feria-quote{ grid-area:quote; align-self:center; text-align:center; font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:clamp(12px,1.7cqw,19px); line-height:1.3; color:var(--mkt-cream); display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
-      @media (min-width:769px){ .feria-quote{ text-align:left; } }
+      .feria-quote{ grid-area:quote; align-self:center; text-align:center; font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:clamp(15px,2.6cqw,22px); line-height:1.35; color:var(--mkt-cream); display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
+      @media (min-width:769px){ .feria-quote{ text-align:left; font-size:clamp(13px,1.9cqw,19px); -webkit-line-clamp:3; } }
       .feria-quote b{ color:var(--mkt-gold-soft); font-weight:600; }
 
       .feria-panels{ grid-area:panels; display:flex; gap:clamp(10px,1.4cqw,20px); min-height:0; }
@@ -553,7 +559,7 @@
   class CartelEvento extends HTMLElement {
     static get observedAttributes() {
       return [
-        'poster', 'img-santo', 'img-santo-main-desk', 'img-santo-desk-width', 'img-santo-desk-height', 'img-santo-main-desk-top', 'img-santo-width', 'img-santo-height', 'img-santo-feria-top', 'img-santo-main', 'img-santo-feria', 'marco-img-santo', 'img-iglesia', 'img-bunting', 'banderines-movimiento',
+        'poster', 'img-santo', 'img-santo-main-desk', 'img-santo-desk-width', 'img-santo-desk-height', 'img-santo-main-desk-top', 'img-santo-width', 'img-santo-height', 'img-santo-feria-top', 'img-santo-feria-img', 'img-santo-main', 'img-santo-feria', 'marco-img-santo', 'img-iglesia', 'img-bunting', 'banderines-movimiento',
         'whatsapp-number', 'whatsapp-display', 'panel2-price', 'panel2_price',
         'feria-title', 'feria-eyebrow', 'feria-title-img', 'feria-title-img-width', 'feria-title-img-height', 'feria-quote-top',
         'main-title-img', 'main-title-img-width', 'main-title-img-height',
@@ -655,11 +661,15 @@
       // principal, y el poster de la feria en cualquier tamaño) sigue usando
       // siempre img-santo.
       const santoMainDesk = this.getAttribute('img-santo-main-desk') || santo;
+      // img-santo-feria-img: si viene, reemplaza a img-santo SOLO en el <img>
+      // del poster de la FERIA (mobile y desktop). El poster principal sigue
+      // usando siempre img-santo (o img-santo-main-desk en su caso).
+      const santoFeria = this.getAttribute('img-santo-feria-img') || santo;
       const iglesia = this.getAttribute('img-iglesia') || 'iglesia.png';
       const bunting = this.getAttribute('img-bunting') || 'banderines.png';
       this._setSrcSafe('img-santo-main-desktop', santoMainDesk);
       this._setSrcSafe('img-santo-main-mobile', santo);
-      this._setSrcSafe('img-santo-feria', santo);
+      this._setSrcSafe('img-santo-feria', santoFeria);
       this._setSrcSafe('img-iglesia-main', iglesia);
       this._setSrcSafe('img-iglesia-feria', iglesia);
       this._setSrcSafe('img-bunting-main', bunting);
