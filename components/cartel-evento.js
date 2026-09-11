@@ -151,7 +151,13 @@
  * - willow-main       "true" muestra hojitas verdes claras (canvas) flotando al
  *                      viento por TODA la card del poster PRINCIPAL. (default: "false")
  * - willow-feria      igual que willow-main, pero para la card de la FERIA.
- *                      Las cuatro son independientes entre sí y se pueden combinar
+ * - luciernaga-main   "true" muestra luciérnagas animadas (canvas): puntitos de
+ *                      luz cálida que flotan despacio y van encendiéndose y
+ *                      apagándose de a poco (destello lento + parpadeo breve),
+ *                      por TODA la card del poster PRINCIPAL. (default: "false")
+ * - luciernaga-feria  igual que luciernaga-main, pero para la card de la FERIA.
+ *                      Las seis (bee/willow/luciernaga × main/feria) son
+ *                      independientes entre sí y se pueden combinar
  *                      (ej: bee-main="true" willow-main="true" juntas en la misma card).
  *
  * VARIABLE CSS
@@ -217,6 +223,7 @@
   // ---------------------------------------------------------------------
   const BEE_COUNT = 10;
   const LEAF_COUNT = 10;
+  const FIREFLY_COUNT = 9;
 
   function fxRand(min, max) { return min + Math.random() * (max - min); }
 
@@ -239,7 +246,7 @@
       };
     }
     // leaf (willow)
-    return {
+    if (type === 'leaf') return {
       type,
       x: fxRand(0, w || 300), y: fxRand(0, h || 200),
       rot: fxRand(0, Math.PI * 2),
@@ -252,6 +259,20 @@
       fallY: fxRand(6, 14),
       swayAmp: fxRand(6, 16),
       size: fxRand(9, 15)
+    };
+    // firefly (luciérnaga)
+    return {
+      type,
+      x: fxRand(0, w || 300), y: fxRand(0, h || 200),
+      angle: fxRand(0, Math.PI * 2),
+      turnTimer: 0,
+      turnEvery: fxRand(1.6, 3.4),
+      speed: fxRand(4, 11),
+      glowPhase: fxRand(0, Math.PI * 2),
+      glowSpeed: fxRand(0.55, 1.15),
+      flickerPhase: fxRand(0, Math.PI * 2),
+      flickerSpeed: fxRand(6, 10),
+      size: fxRand(2.2, 3.8)
     };
   }
 
@@ -469,7 +490,58 @@
     ctx.restore();
   }
 
-  // Controlador de un canvas de FX para un poster (main o feria): maneja
+  // La luciérnaga flota despacio y sin rumbo fijo (nada de vuelo errático
+  // tipo abeja): cambia de dirección de forma suave y esporádica, y da la
+  // vuelta al llegar a un borde en vez de rebotar, para que se sienta como
+  // que deambula por toda la escena.
+  function updateFirefly(p, w, h, dt) {
+    p.turnTimer += dt;
+    if (p.turnTimer > p.turnEvery) {
+      p.turnTimer = 0;
+      p.turnEvery = fxRand(1.6, 3.4);
+      p.angle += fxRand(-1.3, 1.3);
+    }
+    p.glowPhase += p.glowSpeed * dt;
+    p.flickerPhase += p.flickerSpeed * dt;
+    p.x += Math.cos(p.angle) * p.speed * dt;
+    p.y += Math.sin(p.angle) * p.speed * dt;
+    const pad = p.size * 8;
+    if (p.x < -pad) p.x = w + pad;
+    else if (p.x > w + pad) p.x = -pad;
+    if (p.y < -pad) p.y = h + pad;
+    else if (p.y > h + pad) p.y = -pad;
+  }
+
+  // El brillo combina dos ondas: una lenta (el "destello" real, sube y baja
+  // en un par de segundos) y una rápida y sutil encima (el parpadeo). Se eleva
+  // a una potencia para que pase la mayor parte del tiempo casi apagada y
+  // "explote" de luz solo en el pico, que es como se ve una luciérnaga de
+  // verdad (no una lucecita fija tipo LED). El halo se dibuja en dos capas
+  // (glow ancho y núcleo chico) para que tenga cuerpo y no sea un punto plano.
+  function drawFirefly(ctx, p) {
+    const glow = (Math.sin(p.glowPhase) + 1) / 2;
+    const flicker = 0.85 + Math.sin(p.flickerPhase) * 0.15;
+    const b = Math.pow(glow, 1.7) * flicker;
+    if (b < 0.035) return;
+    const s = p.size * (0.7 + b * 0.6);
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    const r = s * 7;
+    const g = ctx.createRadialGradient(0, 0, 0, 0, 0, r);
+    g.addColorStop(0, `rgba(255,248,220,${0.95 * b})`);
+    g.addColorStop(0.28, `rgba(255,231,148,${0.5 * b})`);
+    g.addColorStop(0.62, `rgba(212,255,150,${0.16 * b})`);
+    g.addColorStop(1, 'rgba(212,255,150,0)');
+    ctx.fillStyle = g;
+    ctx.beginPath();
+    ctx.arc(0, 0, r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.beginPath();
+    ctx.arc(0, 0, s * 0.55, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(255,255,240,${Math.min(1, b * 1.15)})`;
+    ctx.fill();
+    ctx.restore();
+  }
   // resize (con devicePixelRatio), población de partículas según qué tipos
   // están activos, y el loop de animación (que se pausa solo si no hay
   // ningún tipo activo, o si la card está oculta por el switcher).
@@ -479,7 +551,8 @@
     let w = 0, h = 0;
     let bees = [];
     let leaves = [];
-    let active = { bee: false, willow: false };
+    let fireflies = [];
+    let active = { bee: false, willow: false, firefly: false };
     let running = false;
     let lastT = 0;
     let rafId = null;
@@ -502,6 +575,10 @@
         for (let i = 0; i < LEAF_COUNT; i++) leaves.push(makeFxParticle('leaf', w, h));
       }
       if (!active.willow) leaves = [];
+      if (active.firefly && fireflies.length === 0 && w > 0) {
+        for (let i = 0; i < FIREFLY_COUNT; i++) fireflies.push(makeFxParticle('firefly', w, h));
+      }
+      if (!active.firefly) fireflies = [];
     }
 
     function step(t) {
@@ -514,6 +591,7 @@
       if (!frameEl.classList.contains('hidden') && w > 0 && h > 0) {
         if (active.bee) { if (!bees.length) populate(); bees.forEach(p => { updateBee(p, w, h, dt); drawBee(ctx, p); }); }
         if (active.willow) { if (!leaves.length) populate(); leaves.forEach(p => { updateLeaf(p, w, h, dt); drawLeaf(ctx, p); }); }
+        if (active.firefly) { if (!fireflies.length) populate(); fireflies.forEach(p => { updateFirefly(p, w, h, dt); drawFirefly(ctx, p); }); }
       }
       rafId = requestAnimationFrame(step);
     }
@@ -540,11 +618,11 @@
 
     return {
       setTypes(types) {
-        const wasActive = active.bee || active.willow;
+        const wasActive = active.bee || active.willow || active.firefly;
         active = types;
         if (w === 0) resize();
         populate();
-        const isActive = active.bee || active.willow;
+        const isActive = active.bee || active.willow || active.firefly;
         if (isActive && !wasActive) start();
         else if (!isActive && wasActive) stop();
       }
@@ -1000,7 +1078,7 @@
         'feria-title', 'feria-eyebrow', 'feria-title-img', 'feria-title-img-width', 'feria-title-img-height', 'feria-quote-top', 'feria-quote-mobile-top',
         'main-title-img', 'main-title-img-width', 'main-title-img-height',
         'fecha-ppal', 'fecha-feria',
-        'bee-main', 'bee-feria', 'willow-main', 'willow-feria',
+        'bee-main', 'bee-feria', 'willow-main', 'willow-feria', 'luciernaga-main', 'luciernaga-feria',
         ...ALL_DEFS.flatMap(def => SLOT_ATTR_SUFFIXES.flatMap(suf => [`${def.id}-${suf}`, `${def.id}_${suf}`])),
         ...PANEL_DEFS.flatMap(def => ['titulo', 'text', 'subtitulo', 'icono'].flatMap(suf => [`${def.aliasId}-${suf}`, `${def.aliasId}_${suf}`]))
       ];
@@ -1479,8 +1557,9 @@
       return v !== 'false' && v !== '0';
     }
 
-    // bee-main / bee-feria / willow-main / willow-feria: prende o apaga, por
-    // canvas, las abejitas y/o hojitas de sauce voladoras de cada card.
+    // bee-main / bee-feria / willow-main / willow-feria / luciernaga-main /
+    // luciernaga-feria: prende o apaga, por canvas, las abejitas, hojitas de
+    // sauce y/o luciérnagas voladoras de cada card.
     // Por defecto (atributo ausente) están apagadas en las dos cards.
     _applyFx() {
       const root = this.shadowRoot;
@@ -1497,13 +1576,15 @@
       if (this._fxMain) {
         this._fxMain.setTypes({
           bee: this._boolAttr('bee-main', false),
-          willow: this._boolAttr('willow-main', false)
+          willow: this._boolAttr('willow-main', false),
+          firefly: this._boolAttr('luciernaga-main', false)
         });
       }
       if (this._fxFeria) {
         this._fxFeria.setTypes({
           bee: this._boolAttr('bee-feria', false),
-          willow: this._boolAttr('willow-feria', false)
+          willow: this._boolAttr('willow-feria', false),
+          firefly: this._boolAttr('luciernaga-feria', false)
         });
       }
     }
