@@ -772,7 +772,7 @@
       }
       .footer-main .parish{ display:flex; align-items:center; gap:clamp(8px,1.3cqw,14px); min-width:0; }
       .footer-main .parish svg{ width:clamp(16px,2.4cqw,28px); height:clamp(16px,2.4cqw,28px); flex-shrink:0; }
-      .footer-main .parish img{ width:clamp(34px,5.6cqw,72px); height:clamp(28px,4.6cqw,58px); object-fit:contain; flex-shrink:0; }
+      .footer-main .parish img{ width:clamp(46px,7.6cqw,98px); height:clamp(38px,6.2cqw,80px); object-fit:contain; flex-shrink:0; }
       .footer-main .parish-text{ display:flex; flex-direction:column; gap:1px; }
       .footer-main .parish h4{ margin:0; color:#fbeedb; font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(11px,1.7cqw,15px); letter-spacing:.2px; line-height:1.15; }
       .footer-main .parish span{ display:block; color:#f3d9c2; font-size:clamp(8px,1.1cqw,11px); font-weight:500; line-height:1.15; }
@@ -821,7 +821,7 @@
       .feria-quote b{ color:var(--mkt-gold-soft); font-weight:600; }
 
       .feria-panels{ grid-area:panels; display:flex; gap:clamp(10px,1.4cqw,20px); min-height:0; }
-      @media (max-width:768px){ .feria-panels{ flex-direction:column; } }
+      @media (max-width:768px){ .feria-panels{ flex-direction:column; } .feria-panel{ flex:1 1 auto; } }
       .feria-panel{ position:relative; flex:1; min-width:0; min-height:0; display:flex; flex-direction:column; justify-content:center; border-radius:clamp(14px,1.8cqw,22px); padding:clamp(10px,1.8cqw,22px); background:var(--mkt-glass); border:1px solid var(--mkt-glass-border); backdrop-filter:blur(8px); box-shadow:8px 8px 18px var(--mkt-shadow-dark), -6px -6px 14px var(--mkt-shadow-light); overflow:hidden; transition:transform .25s ease, box-shadow .25s ease; }
       .feria-panel:hover{ transform:translateY(-5px); box-shadow:11px 15px 26px var(--mkt-shadow-dark), -7px -7px 18px rgba(255,255,255,0.08); }
       .feria-panel .top{ display:flex; flex-direction:column; gap:clamp(4px,.8cqw,10px); flex:1; min-height:0; }
@@ -854,7 +854,7 @@
       }
       .footer-feria .parish{ display:flex; align-items:center; gap:clamp(6px,1cqw,12px); min-width:0; }
       .footer-feria .parish svg{ width:clamp(14px,2.2cqw,26px); height:clamp(14px,2.2cqw,26px); flex-shrink:0; }
-      .footer-feria .parish img{ width:clamp(26px,4.6cqw,60px); height:clamp(20px,3.6cqw,48px); object-fit:contain; flex-shrink:0; }
+      .footer-feria .parish img{ width:clamp(36px,6.4cqw,84px); height:clamp(28px,5cqw,68px); object-fit:contain; flex-shrink:0; }
       .footer-feria .parish-text{ display:flex; flex-direction:column; gap:1px; }
       .footer-feria .parish h4{ margin:0; color:var(--mkt-cream); font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(10px,1.5cqw,14px); line-height:1.15; }
       .footer-feria .parish span{ display:block; color:#c9c0a6; font-size:clamp(8px,1cqw,10px); line-height:1.15; }
