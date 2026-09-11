@@ -27,6 +27,34 @@
  *   <id> es: card1, card2, card3 (poster principal) | panel1, panel2 (feria)
  * panel2 además admite: panel2-price (default "$15.000")
  *
+ * ALIAS EN ESPAÑOL PARA LOS PANELES DE LA FERIA (panel1/panel2)
+ * Además de <id>-title / <id>-text / <id>-img de arriba, panel1 y panel2
+ * admiten estos nombres equivalentes (si se pasan los dos, estos tienen
+ * prioridad sobre los de arriba):
+ *   feria-panel1-titulo / feria-panel2-titulo   = panel1-title / panel2-title
+ *   feria-panel1-text   / feria-panel2-text     = panel1-text / panel2-text
+ *   feria-panel1-subtitulo / feria-panel2-subtitulo
+ *     texto chico debajo del título (ej: un precio). Antes esto solo existía
+ *     para panel2 (vía panel2-price); ahora los dos paneles lo admiten.
+ *     Default: vacío en panel1 (no se muestra nada), "$15.000" en panel2
+ *     (panel2-price/panel2_price se mantienen como alias por compatibilidad).
+ *   feria-panel1-icono / feria-panel2-icono
+ *     ícono de la medalla (círculo de la cabecera), elegido de una lista fija
+ *     de íconos ya incluidos en el componente (no hace falta subir imagen).
+ *     Valores posibles: "corazon" | "moneda" | "iglesia" | "puesto" | "comida"
+ *     | "caliz" | "estrella". Si no se pasa, panel1 usa "corazon" y panel2
+ *     "moneda" (los de siempre). Para un ícono que NO esté en esta lista
+ *     (un logo propio, por ejemplo), seguí usando panel1-img/panel2-img
+ *     (URL de imagen): reemplaza la medalla entera y tiene prioridad sobre
+ *     feria-panelN-icono si se pasan los dos.
+ *
+ * Ejemplo de cómo está seteado el contenido actual de la feria:
+ *   feria-panel1-icono="corazon" feria-panel1-titulo="¿Sos emprendedor?"
+ *   feria-panel1-text="Te invitamos a sumarte con tu propuesta a esta feria que nos une y nos fortalece."
+ *   feria-panel2-icono="moneda" feria-panel2-titulo="Inscripción"
+ *   feria-panel2-text="Valor único + un producto de tu emprendimiento para el bingo."
+ *   feria-panel2-subtitulo="$18.000"
+ *
  * OTROS ATRIBUTOS
  * - poster            "main" | "feria"   (default "main") con cuál arranca
  * - img-santo         ruta de imagen, o de VIDEO .mp4 (default "san-francisco.png").
@@ -528,9 +556,19 @@
     { id: 'card2', color: 'pink', icon: ICONS.stall, title: 'Feria & Bingo', text: 'Emprendedores y bingo familiar en el colegio, Calle 52 casi 8 · Acceso 2.', tag: '12:30 a 17:00 hs' },
     { id: 'card3', color: 'teal', icon: ICONS.food, title: 'Buffet', text: 'Habrá cosas ricas para comer durante toda la tarde.', tag: 'Todo el día' }
   ];
+  // Íconos disponibles para feria-panel1-icono / feria-panel2-icono (ver doc arriba).
+  const MEDAL_ICONS = {
+    corazon: ICONS.hearts,
+    moneda: ICONS.coin,
+    iglesia: ICONS.church,
+    puesto: ICONS.stall,
+    comida: ICONS.food,
+    caliz: ICONS.chalice,
+    estrella: ICONS.starGold
+  };
   const PANEL_DEFS = [
-    { id: 'panel1', icon: ICONS.hearts, title: '¿Sos emprendedor?', text: 'Te invitamos a sumarte con tu propuesta a esta feria que nos une y nos fortalece.' },
-    { id: 'panel2', icon: ICONS.coin, title: 'Inscripción', text: 'Valor único + un producto de tu emprendimiento para el bingo.', hasPrice: true, price: '$15.000' }
+    { id: 'panel1', aliasId: 'feria-panel1', icon: ICONS.hearts, title: '¿Sos emprendedor?', text: 'Te invitamos a sumarte con tu propuesta a esta feria que nos une y nos fortalece.' },
+    { id: 'panel2', aliasId: 'feria-panel2', icon: ICONS.coin, title: 'Inscripción', text: 'Valor único + un producto de tu emprendimiento para el bingo.', hasPrice: true, price: '$15.000' }
   ];
   const ALL_DEFS = [...CARD_DEFS, ...PANEL_DEFS];
   const SLOT_ATTR_SUFFIXES = ['img', 'title', 'text', 'body-img', 'body-img-mobile', 'img-show', 'title-show'];
@@ -730,7 +768,7 @@
 
       /* -------- subcards (compartido por poster principal y feria) -------- */
       .info-row{ grid-area:cards; display:flex; gap:clamp(10px,1.6cqw,22px); min-height:0; }
-      @media (max-width:768px){ .info-row{ flex-direction:column; } }
+      @media (max-width:768px){ .info-row{ flex-direction:column; } .info-card{ flex:1 1 auto; } .info-card .top{ flex:1 1 auto; } }
       .info-card{ position:relative; flex:1; min-width:0; min-height:0; display:flex; flex-direction:column; justify-content:space-between; border-radius:clamp(14px,1.8cqw,24px); padding:clamp(12px,2cqw,24px); background:linear-gradient(150deg,#f7ecd6,#e7d6ac); box-shadow:8px 8px 18px var(--shadow-dark), -6px -6px 14px var(--shadow-light); overflow:hidden; transition:transform .25s ease, box-shadow .25s ease; }
       .info-card:hover{ transform:translateY(-5px); box-shadow:11px 15px 26px var(--shadow-dark), -7px -7px 18px var(--shadow-light); }
       .info-card .top{ display:flex; flex-direction:column; gap:clamp(6px,1cqw,12px); min-height:0; flex:1; }
@@ -741,7 +779,7 @@
       .info-card .medal.img-medal img{ width:100%; height:100%; object-fit:cover; }
       .info-card .medal.c-olive{ background:var(--olive); } .info-card .medal.c-pink{ background:var(--pink); } .info-card .medal.c-teal{ background:var(--teal); }
       .info-card h3{ margin:0; font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(18px,2.8cqw,27px); color:var(--ink); }
-      .info-card p{ margin:0; font-size:clamp(13px,1.9cqw,18px); line-height:1.38; color:var(--ink-soft); font-weight:600; letter-spacing:.1px; display:-webkit-box; -webkit-line-clamp:6; -webkit-box-orient:vertical; overflow:hidden; }
+      .info-card p{ margin:0; font-size:clamp(13px,1.9cqw,18px); line-height:1.38; color:var(--ink-soft); font-weight:600; letter-spacing:.1px; overflow-wrap:break-word; }
       .info-card .body-img{ flex:1; min-height:0; display:flex; }
       .info-card .body-img img{ display:none; width:100%; height:auto; max-height:clamp(110px,34cqw,240px); object-fit:contain; border-radius:10px; margin:auto; }
       @media (min-width:769px){ .info-card .body-img .bi-desktop{ display:block; } }
@@ -824,7 +862,7 @@
       .feria-quote b{ color:var(--mkt-gold-soft); font-weight:600; }
 
       .feria-panels{ grid-area:panels; display:flex; gap:clamp(10px,1.4cqw,20px); min-height:0; }
-      @media (max-width:768px){ .feria-panels{ flex-direction:column; } .feria-panel{ flex:1 1 auto; } }
+      @media (max-width:768px){ .feria-panels{ flex-direction:column; } .feria-panel{ flex:1 1 auto; } .feria-panel .top{ flex:1 1 auto; } }
       .feria-panel{ position:relative; flex:1; min-width:0; min-height:0; display:flex; flex-direction:column; justify-content:center; border-radius:clamp(14px,1.8cqw,22px); padding:clamp(10px,1.8cqw,22px); background:var(--mkt-glass); border:1px solid var(--mkt-glass-border); backdrop-filter:blur(8px); box-shadow:8px 8px 18px var(--mkt-shadow-dark), -6px -6px 14px var(--mkt-shadow-light); overflow:hidden; transition:transform .25s ease, box-shadow .25s ease; }
       .feria-panel:hover{ transform:translateY(-5px); box-shadow:11px 15px 26px var(--mkt-shadow-dark), -7px -7px 18px rgba(255,255,255,0.08); }
       .feria-panel .top{ display:flex; flex-direction:column; gap:clamp(4px,.8cqw,10px); flex:1; min-height:0; }
@@ -834,7 +872,7 @@
       .feria-panel .medal.img-medal{ overflow:hidden; box-shadow:none; background:none; }
       .feria-panel .medal.img-medal img{ width:100%; height:100%; object-fit:cover; }
       .feria-panel h3{ margin:0; color:var(--mkt-cream); font-family:'Sora',sans-serif; font-weight:800; font-size:clamp(16px,2.4cqw,24px); }
-      .feria-panel p{ margin:0; color:#e4dcc4; font-size:clamp(12px,1.8cqw,16px); line-height:1.4; font-weight:600; letter-spacing:.1px; display:-webkit-box; -webkit-line-clamp:6; -webkit-box-orient:vertical; overflow:hidden; }
+      .feria-panel p{ margin:0; color:#e4dcc4; font-size:clamp(12px,1.8cqw,16px); line-height:1.4; font-weight:600; letter-spacing:.1px; overflow-wrap:break-word; }
       .feria-panel .body-img{ flex:1; min-height:0; display:flex; }
       .feria-panel .body-img img{ display:none; width:100%; height:auto; max-height:clamp(100px,30cqw,220px); object-fit:contain; border-radius:10px; margin:auto; }
       @media (min-width:769px){ .feria-panel .body-img .bi-desktop{ display:block; } }
@@ -963,7 +1001,8 @@
         'main-title-img', 'main-title-img-width', 'main-title-img-height',
         'fecha-ppal', 'fecha-feria',
         'bee-main', 'bee-feria', 'willow-main', 'willow-feria',
-        ...ALL_DEFS.flatMap(def => SLOT_ATTR_SUFFIXES.flatMap(suf => [`${def.id}-${suf}`, `${def.id}_${suf}`]))
+        ...ALL_DEFS.flatMap(def => SLOT_ATTR_SUFFIXES.flatMap(suf => [`${def.id}-${suf}`, `${def.id}_${suf}`])),
+        ...PANEL_DEFS.flatMap(def => ['titulo', 'text', 'subtitulo', 'icono'].flatMap(suf => [`${def.aliasId}-${suf}`, `${def.aliasId}_${suf}`]))
       ];
     }
 
@@ -1546,9 +1585,32 @@
       const imgUrl = this._slotAttr(def.id, 'img');
       const bodyImgUrl = this._slotAttr(def.id, 'body-img');
       const bodyImgMobileUrl = this._slotAttr(def.id, 'body-img-mobile') || bodyImgUrl;
-      const title = this._slotAttr(def.id, 'title') || def.title;
-      const text = this._slotAttr(def.id, 'text') || def.text;
-      const price = def.hasPrice ? (this.getAttribute('panel2-price') || this.getAttribute('panel2_price') || def.price) : null;
+
+      // Título / texto: para los paneles de la feria admiten también el alias
+      // en español (feria-panel1-titulo, feria-panel2-text, etc.), que
+      // tiene prioridad sobre panelN-title/panelN-text si se pasan los dos.
+      const title = (def.aliasId && this._slotAttr(def.aliasId, 'titulo'))
+        || this._slotAttr(def.id, 'title') || def.title;
+      const text = (def.aliasId && this._slotAttr(def.aliasId, 'text'))
+        || this._slotAttr(def.id, 'text') || def.text;
+
+      // Subtítulo (antes solo existía como "precio" y solo para panel2, vía
+      // panel2-price). Ahora cualquier panel de la feria lo admite vía
+      // feria-panel1-subtitulo / feria-panel2-subtitulo. Si no se pasa,
+      // panel2 sigue cayendo en panel2-price/panel2_price (compatibilidad)
+      // y de ahí en su default ("$15.000"); panel1 no tiene default, así que
+      // sin este prop no muestra nada, igual que hasta ahora.
+      let subtitle = def.aliasId ? this._slotAttr(def.aliasId, 'subtitulo') : null;
+      if (subtitle === null || subtitle === undefined) {
+        subtitle = def.hasPrice ? (this.getAttribute('panel2-price') || this.getAttribute('panel2_price') || def.price) : null;
+      }
+      const price = subtitle || null;
+
+      // Ícono de la medalla: feria-panel1-icono / feria-panel2-icono, elegido
+      // de MEDAL_ICONS (ver arriba). Si el valor no matchea ninguna clave
+      // conocida, o no se pasa, se usa el ícono default de ese panel.
+      const iconKey = def.aliasId && this._slotAttr(def.aliasId, 'icono');
+      const icon = (iconKey && MEDAL_ICONS[iconKey]) || def.icon;
       const colorClass = def.color ? ` c-${def.color}` : '';
 
       // img-show / title-show controlan la cabecera (medallón + título) de forma
@@ -1560,7 +1622,7 @@
       if (showImg || showTitle) {
         const medal = !showImg ? '' : (imgUrl
           ? `<div class="medal img-medal"><img src="${esc(imgUrl)}" alt=""></div>`
-          : `<div class="medal${colorClass}">${def.icon}</div>`);
+          : `<div class="medal${colorClass}">${icon}</div>`);
         const titleHtml = showTitle ? `<h3>${esc(title)}</h3>` : '';
         headHtml = `<div class="head">${medal}${titleHtml}</div>`;
       }
