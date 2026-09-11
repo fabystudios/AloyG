@@ -712,8 +712,11 @@
       .audio-toggle .icon-on{ display:none; }
       .audio-toggle.is-on .icon-off{ display:none; }
       .audio-toggle.is-on .icon-on{ display:block; }
-      .sparkle{ position:absolute; border-radius:50%; background:var(--gold-soft); animation:twinkle 3s ease-in-out infinite; }
-      @keyframes twinkle{ 0%,100%{ opacity:.15; transform:scale(.7); } 50%{ opacity:1; transform:scale(1.15); } }
+      .sparkle{ position:absolute; aspect-ratio:1/1; border-radius:50%; pointer-events:none;
+        background:radial-gradient(circle at 35% 32%, #fff8e4 0%, var(--gold-soft) 42%, rgba(230,190,90,0) 74%);
+        box-shadow:0 0 8px 1px rgba(230,190,90,0.5), 0 0 2px rgba(255,255,255,0.6);
+        animation:twinkle 3.4s ease-in-out infinite; }
+      @keyframes twinkle{ 0%,100%{ opacity:.18; transform:scale(.55) rotate(0deg); } 50%{ opacity:1; transform:scale(1.15) rotate(12deg); } }
 
       .headline-block{ grid-area:header; align-self:center; text-align:center; }
       @media (min-width:769px){ .headline-block{ text-align:left; } }
@@ -888,13 +891,14 @@
               <img id="img-santo-main-mobile" class="santo-mobile" alt="San Francisco de Asís">
               <video id="img-santo-main-mobile-vid" class="santo-mobile" muted loop autoplay playsinline></video>
             </div>
-            <div class="sparkle" style="width:6%;height:6%; top:-4%; left:14%; animation-delay:.2s;"></div>
-            <div class="sparkle" style="width:9%;height:9%; top:20%; left:-8%; animation-delay:1.1s;"></div>
-            <div class="sparkle" style="width:5%;height:5%; bottom:-2%; right:-4%; animation-delay:1.9s;"></div>
-            <div class="sparkle" style="width:4%;height:4%; top:6%; right:6%; animation-delay:.7s;"></div>
-            <div class="sparkle" style="width:7%;height:7%; bottom:8%; left:-4%; animation-delay:2.4s;"></div>
-            <div class="sparkle" style="width:5%;height:5%; top:46%; left:-10%; animation-delay:1.6s;"></div>
-            <div class="sparkle" style="width:4%;height:4%; bottom:-4%; right:18%; animation-delay:.4s;"></div>
+            <div class="sparkle" style="width:6%; top:-4%; left:14%; animation-delay:.2s;"></div>
+            <div class="sparkle" style="width:9%; top:20%; left:-8%; animation-delay:1.3s;"></div>
+            <div class="sparkle" style="width:5%; bottom:-2%; right:-4%; animation-delay:2.2s;"></div>
+            <div class="sparkle" style="width:4%; top:6%; right:6%; animation-delay:.8s;"></div>
+            <div class="sparkle" style="width:7%; bottom:8%; left:-4%; animation-delay:2.8s;"></div>
+            <div class="sparkle" style="width:5%; top:46%; left:-10%; animation-delay:1.8s;"></div>
+            <div class="sparkle" style="width:4%; bottom:-4%; right:18%; animation-delay:.5s;"></div>
+            <div class="sparkle" style="width:3.5%; top:32%; right:-9%; animation-delay:1.6s;"></div>
             <button type="button" id="audio-toggle-main" class="audio-toggle" aria-label="Activar o desactivar el sonido">
               <span class="icon-off">${ICONS.speakerOff}</span><span class="icon-on">${ICONS.speakerOn}</span>
             </button>
