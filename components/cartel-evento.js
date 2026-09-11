@@ -100,10 +100,14 @@
  * - feria-title-img-width  ancho de esa imagen (mismo comportamiento que arriba)
  * - feria-title-img-height alto de esa imagen (mismo comportamiento que arriba)
  * - feria-quote-top   ajuste fino vertical (CSS margin-top) de la frase/bajada
- *                     ("¡Tu emprendimiento puede inspirar...") del poster de la feria.
- *                     Sirve para subirla (valor negativo, ej "-60px") cuando
- *                     feria-title-img trae espacio en blanco incorporado abajo
- *                     y queda un hueco antes de la frase. Por defecto no se aplica.
+ *                     ("¡Tu emprendimiento puede inspirar...") del poster de la feria,
+ *                     SOLO EN DESKTOP (>=769px de ventana). Sirve para subirla
+ *                     (valor negativo, ej "-60px") cuando feria-title-img trae
+ *                     espacio en blanco incorporado abajo y queda un hueco antes
+ *                     de la frase. Por defecto no se aplica.
+ * - feria-quote-mobile-top  igual que feria-quote-top pero SOLO EN MOBILE
+ *                     (<=768px de ventana). Los dos son independientes: podés
+ *                     pasar uno, el otro, los dos, o ninguno.
  * - fecha-ppal        texto de la pastilla de fecha del poster principal
  *                     (default "Domingo 4 de Octubre"). fecha-ppal="" la oculta.
  * - fecha-feria       texto de la pastilla de fecha del poster de la feria
@@ -812,8 +816,8 @@
       .feria-portrait .santo-feria{ display:none; }
       .feria-portrait .santo-feria.media-on{ display:block; }
 
-      .feria-quote{ grid-area:quote; align-self:center; text-align:center; font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:clamp(15px,2.6cqw,22px); line-height:1.35; color:var(--mkt-cream); display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; }
-      @media (min-width:769px){ .feria-quote{ text-align:left; font-size:clamp(13px,1.9cqw,19px); -webkit-line-clamp:3; } }
+      .feria-quote{ grid-area:quote; align-self:center; text-align:center; font-family:'Fraunces',serif; font-style:italic; font-weight:500; font-size:clamp(15px,2.6cqw,22px); line-height:1.35; color:var(--mkt-cream); display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden; margin-top:var(--feria-quote-mobile-top,0); }
+      @media (min-width:769px){ .feria-quote{ text-align:left; font-size:clamp(13px,1.9cqw,19px); -webkit-line-clamp:3; margin-top:var(--feria-quote-top,0); } }
       .feria-quote b{ color:var(--mkt-gold-soft); font-weight:600; }
 
       .feria-panels{ grid-area:panels; display:flex; gap:clamp(10px,1.4cqw,20px); min-height:0; }
@@ -951,7 +955,7 @@
       return [
         'poster', 'img-santo', 'img-santo-main-desk', 'img-santo-desk-width', 'img-santo-desk-height', 'img-santo-main-desk-top', 'img-santo-width', 'img-santo-height', 'img-santo-feria-top', 'img-santo-feria-img', 'img-santo-main', 'img-santo-feria', 'marco-img-santo', 'img-iglesia', 'img-bunting', 'banderines-movimiento',
         'whatsapp-number', 'whatsapp-display', 'panel2-price', 'panel2_price',
-        'feria-title', 'feria-eyebrow', 'feria-title-img', 'feria-title-img-width', 'feria-title-img-height', 'feria-quote-top',
+        'feria-title', 'feria-eyebrow', 'feria-title-img', 'feria-title-img-width', 'feria-title-img-height', 'feria-quote-top', 'feria-quote-mobile-top',
         'main-title-img', 'main-title-img-width', 'main-title-img-height',
         'fecha-ppal', 'fecha-feria',
         'bee-main', 'bee-feria', 'willow-main', 'willow-feria',
@@ -1356,12 +1360,18 @@
       if (feriaPortrait) feriaPortrait.classList.toggle('hide-mobile', !showFeria);
     }
 
-    // feria-quote-top: permite subir (margin-top negativo) o bajar la frase/bajada
-    // del poster de la feria. Pensado para cuando feria-title-img trae espacio
-    // en blanco incorporado abajo de la imagen y queda un hueco antes de la frase.
+    // feria-quote-top / feria-quote-mobile-top: permiten subir (valor negativo)
+    // o bajar la frase/bajada del poster de la feria, cada uno en su breakpoint:
+    // feria-quote-top SOLO aplica en desktop (>=769px de ventana), y
+    // feria-quote-mobile-top SOLO aplica en mobile (<=768px de ventana).
+    // Pensado para cuando feria-title-img trae espacio en blanco incorporado
+    // abajo de la imagen y queda un hueco antes de la frase (el hueco puede
+    // necesitar un ajuste distinto en cada tamaño).
     _applyFeriaQuoteAdjust() {
       const el = this.shadowRoot.querySelector('.feria-quote');
-      if (el) el.style.marginTop = this.getAttribute('feria-quote-top') || '';
+      if (!el) return;
+      el.style.setProperty('--feria-quote-top', this.getAttribute('feria-quote-top') || '0');
+      el.style.setProperty('--feria-quote-mobile-top', this.getAttribute('feria-quote-mobile-top') || '0');
     }
 
     // banderines-movimiento="slow"|"medium"|"fast": intensidad del balanceo
