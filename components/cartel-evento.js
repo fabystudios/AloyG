@@ -113,6 +113,11 @@
  *                     footer de LOS DOS posters
  * - img-bunting       ruta de imagen     (default "banderines.png") guirnalda
  *                     superpuesta arriba, en LOS DOS posters, con balanceo animado
+ * - img-bunting-main-mobile / img-bunting-feria-mobile
+ *                     reemplaza la guirnalda de img-bunting SOLO EN MOBILE
+ *                     (<=768px), una por card (independientes entre sí). Si no
+ *                     se pasan, en mobile se sigue viendo img-bunting como
+ *                     siempre. En desktop no tienen ningún efecto.
  * - banderines-movimiento  "slow" | "medium" | "fast"  (default "medium")
  *                     qué tanto se balancean los banderines (guirnalda), en LOS DOS posters.
  *                     "slow" = sutil, "medium" = moderado, "fast" = bien marcado.
@@ -741,7 +746,9 @@
       .bunting-wrap.sway-slow{ --sway-amt:1.2deg; animation-duration:5.5s; }
       .bunting-wrap.sway-medium{ --sway-amt:2.4deg; animation-duration:4s; }
       .bunting-wrap.sway-fast{ --sway-amt:4.5deg; animation-duration:2.6s; }
-      .bunting-wrap img{ display:block; width:100%; height:auto; }
+      .bunting-wrap img{ display:none; width:100%; height:auto; }
+      @media (min-width:769px){ .bunting-wrap img.bunting-desktop{ display:block; } }
+      @media (max-width:768px){ .bunting-wrap img.bunting-mobile{ display:block; } }
       @keyframes bunting-sway{
         0%,100%{ transform:rotate(calc(var(--sway-amt) * -1)) translateY(0); }
         25%{ transform:rotate(calc(var(--sway-amt) * 0.6)) translateY(-1.5%); }
@@ -1015,7 +1022,8 @@
         <div class="frame-bg bg-main"></div>
         ${starsField(16, ICONS.starGold, 7)}
         <div class="bunting-wrap" id="bunting-wrap-main">
-          <img id="img-bunting-main" alt="">
+          <img id="img-bunting-main" class="bunting-desktop" alt="">
+          <img id="img-bunting-main-mobile" class="bunting-mobile" alt="">
           <div class="bunting-fallback" id="bunting-fallback-main" hidden>
             <span style="--c:#e14c81"></span><span style="--c:#d6a234"></span><span style="--c:#1e7d74"></span>
             <span style="--c:#c4552e"></span><span style="--c:#5c7a34"></span><span style="--c:#d6a234"></span>
@@ -1065,7 +1073,8 @@
         <div class="frame-bg bg-feria"></div>
         ${starsField(16, ICONS.starCream, 42)}
         <div class="bunting-wrap" id="bunting-wrap-feria">
-          <img id="img-bunting-feria" alt="">
+          <img id="img-bunting-feria" class="bunting-desktop" alt="">
+          <img id="img-bunting-feria-mobile" class="bunting-mobile" alt="">
           <div class="bunting-fallback" id="bunting-fallback-feria" hidden>
             <span style="--c:#e14c81"></span><span style="--c:#d6a234"></span><span style="--c:#1e7d74"></span>
             <span style="--c:#c4552e"></span><span style="--c:#5c7a34"></span><span style="--c:#d6a234"></span>
@@ -1098,7 +1107,7 @@
   class CartelEvento extends HTMLElement {
     static get observedAttributes() {
       return [
-        'poster', 'img-santo', 'img-santo-main-desk', 'img-santo-desk-width', 'img-santo-desk-height', 'img-santo-main-desk-top', 'img-santo-width', 'img-santo-height', 'img-santo-feria-top', 'img-santo-feria-img', 'img-santo-main', 'img-santo-feria', 'marco-img-santo', 'img-iglesia', 'img-bunting', 'banderines-movimiento',
+        'poster', 'img-santo', 'img-santo-main-desk', 'img-santo-desk-width', 'img-santo-desk-height', 'img-santo-main-desk-top', 'img-santo-width', 'img-santo-height', 'img-santo-feria-top', 'img-santo-feria-img', 'img-santo-main', 'img-santo-feria', 'marco-img-santo', 'img-iglesia', 'img-bunting', 'img-bunting-main-mobile', 'img-bunting-feria-mobile', 'banderines-movimiento',
         'whatsapp-number', 'whatsapp-display', 'panel2-price', 'panel2_price',
         'feria-title', 'feria-eyebrow', 'feria-title-img', 'feria-title-img-width', 'feria-title-img-height', 'feria-title-img-efecto', 'feria-quote-top', 'feria-quote-mobile-top',
         'main-title-img', 'main-title-img-width', 'main-title-img-height', 'main-title-img-efecto',
@@ -1202,6 +1211,14 @@
       });
       root.getElementById('img-bunting-feria').addEventListener('error', () => {
         root.getElementById('img-bunting-feria').hidden = true;
+        root.getElementById('bunting-fallback-feria').hidden = false;
+      });
+      root.getElementById('img-bunting-main-mobile').addEventListener('error', () => {
+        root.getElementById('img-bunting-main-mobile').hidden = true;
+        root.getElementById('bunting-fallback-main').hidden = false;
+      });
+      root.getElementById('img-bunting-feria-mobile').addEventListener('error', () => {
+        root.getElementById('img-bunting-feria-mobile').hidden = true;
         root.getElementById('bunting-fallback-feria').hidden = false;
       });
 
@@ -1316,6 +1333,11 @@
       const santoFeria = this.getAttribute('img-santo-feria-img') || santo;
       const iglesia = this.getAttribute('img-iglesia') || 'iglesia.png';
       const bunting = this.getAttribute('img-bunting') || 'banderines.png';
+      // img-bunting-main-mobile / img-bunting-feria-mobile: reemplazan la
+      // guirnalda SOLO en mobile (<=768px), una por card. Si no se pasan,
+      // en mobile se sigue viendo el mismo img-bunting de siempre.
+      const buntingMainMobile = this.getAttribute('img-bunting-main-mobile') || bunting;
+      const buntingFeriaMobile = this.getAttribute('img-bunting-feria-mobile') || bunting;
       this._setSantoMedia('img-santo-main-desktop', 'img-santo-main-desktop-vid', santoMainDesk);
       this._setSantoMedia('img-santo-main-mobile', 'img-santo-main-mobile-vid', santo);
       this._setSantoMedia('img-santo-feria', 'img-santo-feria-vid', santoFeria);
@@ -1323,6 +1345,8 @@
       this._setSrcSafe('img-iglesia-feria', iglesia);
       this._setSrcSafe('img-bunting-main', bunting);
       this._setSrcSafe('img-bunting-feria', bunting);
+      this._setSrcSafe('img-bunting-main-mobile', buntingMainMobile);
+      this._setSrcSafe('img-bunting-feria-mobile', buntingFeriaMobile);
     }
 
     _applyPortraitShape() {
