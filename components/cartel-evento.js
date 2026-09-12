@@ -127,6 +127,15 @@
  * - feria-title-img      URL de imagen que reemplaza el título del poster de la feria
  * - feria-title-img-width  ancho de esa imagen (mismo comportamiento que arriba)
  * - feria-title-img-height alto de esa imagen (mismo comportamiento que arriba)
+ * - main-title-img-efecto / feria-title-img-efecto
+ *                     efecto visual sobre la imagen del título (independiente
+ *                     entre las dos cards). Valores: "sombra" (sombra
+ *                     paralela/alargada, tipo "long shadow"), "pulso" (late
+ *                     agrandándose y achicándose suavemente en loop), o las
+ *                     dos juntas separadas por espacio (ej: "sombra pulso").
+ *                     Default: sin efecto. Solo tiene sentido si esa card usa
+ *                     main-title-img / feria-title-img (no aplica al título
+ *                     de texto).
  * - feria-quote-top   ajuste fino vertical (CSS margin-top) de la frase/bajada
  *                     ("¡Tu emprendimiento puede inspirar...") del poster de la feria,
  *                     SOLO EN DESKTOP (>=769px de ventana). Sirve para subirla
@@ -922,6 +931,22 @@
       .main-title-img img, .feria-title-img img{ display:block; max-width:min(80%,320px); max-height:clamp(48px,12cqw,140px); width:auto; height:auto; object-fit:contain; margin:0 auto; }
       .main-title-img img.sized, .feria-title-img img.sized{ max-width:100%; max-height:none; }
       @media (min-width:769px){ .main-title-img img, .feria-title-img img{ margin:0; } }
+      /* main-title-img-efecto / feria-title-img-efecto: "sombra", "pulso", o
+         las dos juntas separadas por espacio (ej: "sombra pulso"). Se aplican
+         sobre la imagen del título (no sobre el texto), y son independientes
+         para cada card. Sin el prop, la imagen se ve como hasta ahora. */
+      .main-title-img img.fx-sombra, .feria-title-img img.fx-sombra{
+        filter:
+          drop-shadow(clamp(.6px,.16cqw,2px) clamp(.6px,.16cqw,2px) 0 rgba(51,33,15,.55))
+          drop-shadow(clamp(1.2px,.32cqw,4px) clamp(1.2px,.32cqw,4px) 0 rgba(51,33,15,.44))
+          drop-shadow(clamp(1.8px,.48cqw,6px) clamp(1.8px,.48cqw,6px) 0 rgba(51,33,15,.33))
+          drop-shadow(clamp(2.4px,.64cqw,8px) clamp(2.4px,.64cqw,8px) 0 rgba(51,33,15,.22))
+          drop-shadow(clamp(3px,.85cqw,11px) clamp(3px,.85cqw,11px) clamp(1px,.3cqw,3px) rgba(20,12,5,.3));
+      }
+      .main-title-img img.fx-pulso, .feria-title-img img.fx-pulso{
+        animation:pulse 2.6s ease-in-out infinite;
+        transform-origin:center;
+      }
       .feria-date{ display:inline-flex; align-items:center; gap:8px; margin-top:clamp(5px,1cqw,12px); padding:clamp(5px,.8cqw,9px) clamp(10px,1.5cqw,17px); border-radius:12px; background:var(--mkt-glass); border:1px solid var(--mkt-glass-border); backdrop-filter:blur(10px); }
       .feria-date[hidden]{ display:none; }
       .feria-date span{ font-weight:700; font-size:clamp(11px,1.4cqw,15px); color:var(--mkt-cream); }
@@ -1075,8 +1100,8 @@
       return [
         'poster', 'img-santo', 'img-santo-main-desk', 'img-santo-desk-width', 'img-santo-desk-height', 'img-santo-main-desk-top', 'img-santo-width', 'img-santo-height', 'img-santo-feria-top', 'img-santo-feria-img', 'img-santo-main', 'img-santo-feria', 'marco-img-santo', 'img-iglesia', 'img-bunting', 'banderines-movimiento',
         'whatsapp-number', 'whatsapp-display', 'panel2-price', 'panel2_price',
-        'feria-title', 'feria-eyebrow', 'feria-title-img', 'feria-title-img-width', 'feria-title-img-height', 'feria-quote-top', 'feria-quote-mobile-top',
-        'main-title-img', 'main-title-img-width', 'main-title-img-height',
+        'feria-title', 'feria-eyebrow', 'feria-title-img', 'feria-title-img-width', 'feria-title-img-height', 'feria-title-img-efecto', 'feria-quote-top', 'feria-quote-mobile-top',
+        'main-title-img', 'main-title-img-width', 'main-title-img-height', 'main-title-img-efecto',
         'fecha-ppal', 'fecha-feria',
         'bee-main', 'bee-feria', 'willow-main', 'willow-feria', 'luciernaga-main', 'luciernaga-feria',
         ...ALL_DEFS.flatMap(def => SLOT_ATTR_SUFFIXES.flatMap(suf => [`${def.id}-${suf}`, `${def.id}_${suf}`])),
@@ -1619,17 +1644,33 @@
     // coincide con la franja de los banderines pero bien visible abajo, justo
     // antes del contenido siguiente. Con topes en vez de caja fija, ese hueco
     // ya no puede aparecer, sea cual sea la proporción real de la imagen.)
+    // main-title-img-efecto / feria-title-img-efecto: "sombra", "pulso", o
+    // las dos separadas por espacio (ej: "sombra pulso"). Traduce cada
+    // palabra a su clase CSS (fx-sombra / fx-pulso); una palabra que no
+    // matchee ninguna se ignora en silencio.
+    _titleImgEffectClasses(prefix) {
+      const raw = this.getAttribute(`${prefix}-efecto`) || '';
+      const map = { sombra: 'fx-sombra', pulso: 'fx-pulso' };
+      return raw.split(/\s+/).map(w => map[w.toLowerCase()]).filter(Boolean);
+    }
+
     _titleImgAttrs(prefix) {
       const w = this.getAttribute(`${prefix}-width`);
       const h = this.getAttribute(`${prefix}-height`);
-      if (!w && !h) return '';
-      let decls;
-      if (w && h) {
-        decls = [`max-width:min(100%, ${esc(w)})`, `max-height:${esc(h)}`, 'width:auto', 'height:auto'];
-      } else {
-        decls = ['max-width:100%', 'max-height:none', `width:${w ? esc(w) : 'auto'}`, `height:${h ? esc(h) : 'auto'}`];
+      const effectClasses = this._titleImgEffectClasses(prefix);
+      let styleAttr = '';
+      if (w || h) {
+        let decls;
+        if (w && h) {
+          decls = [`max-width:min(100%, ${esc(w)})`, `max-height:${esc(h)}`, 'width:auto', 'height:auto'];
+        } else {
+          decls = ['max-width:100%', 'max-height:none', `width:${w ? esc(w) : 'auto'}`, `height:${h ? esc(h) : 'auto'}`];
+        }
+        styleAttr = ` style="${decls.join(';')}"`;
       }
-      return ` class="sized" style="${decls.join(';')}"`;
+      const classes = [...(w || h ? ['sized'] : []), ...effectClasses];
+      const classAttr = classes.length ? ` class="${classes.join(' ')}"` : '';
+      return `${classAttr}${styleAttr}`;
     }
 
     _renderMainTitle() {
