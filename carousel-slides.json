@@ -1,7 +1,7 @@
 [
                 {
     "id": "colecta",
-    "position": 1,
+    "position": -1,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -16,7 +16,7 @@
   },
                 {
     "id": "leon",
-    "position": 5,
+    "position": 2,
     "hasVideo": false,
     "link": "https://acreditaciones.episcopado.org/voluntarios",
     "time": { "desktop": 3, "mobile": 3 },
@@ -31,7 +31,7 @@
   },
     {
   "id": "Aurelia",
-  "position": 6,
+  "position": 5,
   "hasVideo": false,
   "link": "./avisos.html",
   "time": { "desktop": 5, "mobile": 5 },
@@ -133,7 +133,7 @@
   },
                   {
     "id": "SF",
-    "position": 2,
+    "position": 1,
     "hasVideo": false,
     "link": "https://colegiosanfranciscodeasis.edu.ar/",
     "time": { "desktop": 3, "mobile": 3 },
@@ -210,7 +210,7 @@
        
               {
     "id": "merienda",
-    "position": 7,
+    "position": 6,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
