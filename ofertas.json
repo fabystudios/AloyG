@@ -17,7 +17,7 @@
   },
   {
     "nombre": "Clases particulares",
-    "thumb": "./cartelera/img/leonel.jpg",
+    "thumb": "./cartelera/img/leonel.png",
     "flyer_desk": "./cartelera/img/leonel2.jpg",
     "flyer_mob": "./cartelera/img/leonel2.jpg",
     "whatsapp": "+5491158073712",
@@ -25,7 +25,7 @@
   },
         {
     "nombre": "Fletes Carrera",
-    "thumb": "./cartelera/img/flete.jpg",
+    "thumb": "./cartelera/img/carrera.png",
     "flyer_desk": "./cartelera/img/flete.jpg",
     "flyer_mob": "./cartelera/img/flete.jpg",
     "whatsapp": "+549223549963",
