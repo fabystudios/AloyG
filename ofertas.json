@@ -33,7 +33,7 @@
   },
       {
     "nombre": "Trabajos de Pintura",
-    "thumb": "../actividades/cartelera/pint_mob.jpg",
+    "thumb": "./cartelera/img/pint_mob.png",
     "flyer_desk": "../actividades/cartelera/pint_mob.jpg",
     "flyer_mob": "../actividades/cartelera/pint_mob.jpg",
     "whatsapp": "+5492216014485",
@@ -49,7 +49,7 @@
   },
   {
     "nombre": "Stickers y Autoadhesivos",
-    "thumb": "./cartelera/img/cande.jpg",
+    "thumb": "./cartelera/img/cande.png",
     "flyer_desk": "./cartelera/img/cande.jpg",
     "flyer_mob": "./cartelera/img/cande.jpg",
     "whatsapp": "+5491163762916",
