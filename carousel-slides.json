@@ -3,7 +3,7 @@
     "id": "viaje",
     "position": 1,
     "hasVideo": false,
-    "link": "",
+    "link": "#papa1",
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
