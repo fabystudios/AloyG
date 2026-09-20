@@ -144,7 +144,7 @@
     const link = document.createElement('link');
     link.id = 'pec-fonts';
     link.rel = 'stylesheet';
-    link.href = 'https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Mulish:wght@400;600;700&family=Caveat:wght@600;700&display=swap';
+    link.href = 'https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Mulish:wght@400;600;700&family=Caveat:wght@600;700&family=Fredoka:wght@600;700&display=swap';
     document.head.appendChild(link);
   }
 
@@ -171,6 +171,7 @@
       --pec-font-display: 'Baloo 2', system-ui, -apple-system, 'Segoe UI', sans-serif;
       --pec-font-body: 'Mulish', system-ui, -apple-system, 'Segoe UI', sans-serif;
       --pec-font-script: 'Caveat', cursive;
+      --pec-font-badge: 'Fredoka', var(--pec-font-display);
 
       display: block;
       box-sizing: border-box;
@@ -215,13 +216,27 @@
       background: linear-gradient(to top, rgba(12,30,52,.78) 0%, rgba(12,30,52,.18) 46%, rgba(12,30,52,0) 66%);
     }
     .pec-hero-badge {
-      position: absolute; left: 18px; bottom: 56px; /* el panel sube -42px sobre el hero: hay que despejar esa franja */
+      position: absolute; left: 18px; bottom: 56px;
       display: inline-flex; align-items: center; gap: 8px;
-      font-family: var(--pec-font-display); font-weight: 700; font-size: .92rem;
+      font-family: var(--pec-font-badge); font-weight: 600; font-size: .92rem;
+      letter-spacing: .015em;
       color: var(--pec-navy-900);
-      background: linear-gradient(120deg, var(--pec-gold-400), var(--pec-gold-600));
+      background: linear-gradient(120deg, rgba(239,168,60,.82), rgba(201,127,30,.82));
+      backdrop-filter: blur(6px) saturate(160%);
+      -webkit-backdrop-filter: blur(6px) saturate(160%);
+      border: 1px solid rgba(255,255,255,.35);
       padding: 8px 16px; border-radius: 999px;
-      box-shadow: 0 10px 20px rgba(201,127,30,.45);
+      box-shadow: 0 10px 20px rgba(201,127,30,.4);
+      transition: font-size .2s ease;
+    }
+    @media (min-width: 641px) {
+      .pec-hero-badge {
+        font-size: 1.7rem;
+        font-weight: 700;
+        padding: 14px 28px;
+        gap: 10px;
+        box-shadow: 0 14px 28px rgba(201,127,30,.5);
+      }
     }
     .pec-hero-cross { position: absolute; top: 16px; right: 16px; width: 26px; height: 26px; color: #fff; opacity: .9; filter: drop-shadow(0 2px 5px rgba(0,0,0,.35)); }
 
