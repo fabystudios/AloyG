@@ -290,6 +290,7 @@
         font-size: .8rem;
         padding: 7px 12px;
       }
+      .pec-hero-cross { width: 18px; height: 18px; top: 12px; right: 12px; }
       .pec-grid { margin-top: 22px; gap: 12px; }
     }
 
