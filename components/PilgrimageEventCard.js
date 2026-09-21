@@ -294,7 +294,7 @@
     .pec-orn svg { width: 16px; height: 16px; flex-shrink: 0; }
 
     .pec-tagline { font-family: var(--pec-font-script); font-weight: 700; font-size: clamp(1.7rem, 3vw, 2.8rem); line-height: 1.1; color: var(--pec-blue-700); margin: 0 0 12px; }
-    .pec-tagline > span { position: relative; display: inline-block; padding-bottom: 4px; text-wrap: balance; }
+    .pec-tagline > span { position: relative; display: inline-block; max-width: 100%; padding-bottom: 4px; }
     .pec-underline { position: absolute; left: -2%; bottom: -6px; width: 104%; height: 12px; overflow: visible; }
     .pec-underline path { fill: none; stroke: var(--pec-gold-400); stroke-width: 2.6; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1; }
     .pec-panel.pec-in .pec-underline path { animation: pec-draw 1.3s var(--pec-ease) .9s forwards; }
