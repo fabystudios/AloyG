@@ -55,6 +55,7 @@ class NoticiaCard extends HTMLElement {
     const autorImg      = this._attr('autor-img');
     const autorLink     = this._attr('autor-link', '');
     const imagen        = this._attr('imagen');
+    const imagenMob     = this._attr('imagen-mob', '');
     const imagenAlt     = this._attr('imagen-alt', titular);
     const texto         = this._attr('texto');
     const textoMobile   = this._attr('texto-mobile', '');
@@ -62,6 +63,7 @@ class NoticiaCard extends HTMLElement {
     const textoElegido  = (esMobileAhora && textoMobile) ? textoMobile : texto;
     this._texto = texto;
     this._textoMobile = textoMobile;
+    this._imagenMob = imagenMob;
     const fuenteNombre  = this._attr('fuente-nombre', 'Leer más');
     const fuenteUrl     = this._attr('fuente-url', '#');
     const fuenteLogo    = this._attr('fuente-logo', '');
@@ -276,8 +278,17 @@ class NoticiaCard extends HTMLElement {
 
     const onKeydown = (e) => { if (e.key === 'Escape') cerrar(); };
 
+    // En mobile, si se pasó el atributo "imagen-mob", el modal muestra esa
+    // imagen (pensada/recortada para pantallas chicas) en vez de "imagen".
+    // Si no se pasó, se usa "imagen" en todos los modos (comportamiento
+    // por defecto, sin cambios).
+    const elegirSrcModal = () => {
+      const esMobileAhora = window.matchMedia('(max-width: 560px)').matches;
+      return (esMobileAhora && this._imagenMob) ? this._imagenMob : (img.currentSrc || img.src);
+    };
+
     const abrir = () => {
-      lightboxImg.src = img.currentSrc || img.src;
+      lightboxImg.src = elegirSrcModal();
       lightboxImg.alt = img.alt;
       lightbox.classList.add('is-open');
       lightbox.setAttribute('aria-hidden', 'false');
