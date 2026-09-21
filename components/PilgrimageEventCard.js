@@ -27,8 +27,10 @@
  *   title, description, cta-text
  * WHATSAPP: whatsapp-phone (549 + área sin 0 + número sin 15, sin "+"),
  *   whatsapp-message (opcional). Con teléfono, el CTA es un link directo.
- * JSON: info-cards -> [{ id, icon, image, title, highlight, lines[] }]
- *       icon: "bus" | "clipboard" | "calendar" | "coins"
+ * JSON: info-cards -> [{ id, icon, image, badgeImage, title, highlight, lines[] }]
+ *       icon: "bus" | "clipboard" | "calendar" | "coins" (ícono dorado por defecto)
+ *       badgeImage: PNG con transparencia que reemplaza al ícono dentro del
+ *         badge dorado; se ajusta al recuadro sin deformarse (aspect ratio original).
  *       footer     -> { parishName, address, phone, email, instagramUrl, facebookUrl }
  * EVENTO: 'cta-click' (bubbles, composed) — siempre al tocar el CTA.
  *
@@ -36,6 +38,7 @@
  *   --cartel-max-width         ancho máximo (default 1080px)
  *   --pec-hero-aspect          proporción fija del cover (default 4/3 mobile, 16/9 desktop)
  *   --pec-hero-object-position parte de la foto a priorizar (default "center top")
+ *   --pec-badge-size           tamaño del badge dorado de cada tarjeta (default 42px)
  *
  * EFECTOS (todos se apagan con prefers-reduced-motion):
  *   aurora animada + grano · rayos de luz sobre el cover · chispas doradas
@@ -341,11 +344,6 @@
     .pec-grid { margin-top: 34px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
     @media (max-width: 880px) { .pec-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (max-width: 520px) { .pec-grid { grid-template-columns: 1fr; } }
-    /* Ritmo en onda: las tarjetas pares bajan un poco (solo en 4 columnas) */
-    // @media (min-width: 881px) {
-    //   .pec-slot:nth-child(odd) { margin-bottom: 26px; }
-    //   .pec-slot:nth-child(even) { margin-top: 26px; }
-    // }
 
     @media (max-width: 640px) {
       :host { max-width: 95vw !important; padding: 10px; }
@@ -400,7 +398,7 @@
     .pec-card-media-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
     .pec-card-media-fallback svg { width: 42px; height: 42px; color: #fff; opacity: .92; }
     .pec-card-icon-badge {
-      position: absolute; z-index: 4; left: 14px; bottom: -17px; width: 42px; height: 42px;
+      position: absolute; z-index: 4; left: 14px; bottom: -17px; width: var(--pec-badge-size, 42px); height: var(--pec-badge-size, 42px);
       border-radius: 14px; display: flex; align-items: center; justify-content: center;
       background: linear-gradient(140deg, var(--pec-gold-300), var(--pec-gold-600)); color: var(--pec-navy-900);
       box-shadow: 0 8px 18px rgba(201,127,30,.45), 0 0 0 3px #fff, inset 0 1px 0 rgba(255,255,255,.6);
@@ -408,6 +406,12 @@
     }
     .pec-card:hover .pec-card-icon-badge { transform: translateY(-3px) rotate(-6deg) scale(1.08); }
     .pec-card-icon-badge svg { width: 21px; height: 21px; }
+    /* Badge con imagen PNG (canal alfa): va dentro del badge dorado, contenida y sin deformarse */
+    .pec-card-icon-badge.is-img { padding: 5px; }
+    .pec-card-icon-badge.is-img img {
+      display: block; max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain;
+      filter: drop-shadow(0 2px 2px rgba(20,44,70,.3));
+    }
 
     .pec-card-body { position: relative; z-index: 1; padding: 28px 18px 20px; flex: 1; display: flex; flex-direction: column; gap: 7px; text-align: left; }
     .pec-card-title { font-family: var(--pec-font-display); font-weight: 700; font-size: 1.12rem; line-height: 1.2; margin: 0; color: var(--pec-navy-900); }
@@ -588,7 +592,9 @@
         <article class="pec-card">
           <div class="pec-card-media">
             <div class="pec-card-media-inner">${media}</div>
-            <span class="pec-card-icon-badge">${icon}</span>
+            ${item.badgeImage
+              ? `<span class="pec-card-icon-badge is-img" aria-hidden="true"><img src="${esc(item.badgeImage)}" alt="" loading="lazy" decoding="async"></span>`
+              : `<span class="pec-card-icon-badge">${icon}</span>`}
           </div>
           <div class="pec-card-body">
             <h3 class="pec-card-title">${esc(item.title)}</h3>
