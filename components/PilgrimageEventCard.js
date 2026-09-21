@@ -291,7 +291,7 @@
     .pec-orn svg { width: 16px; height: 16px; flex-shrink: 0; }
 
     .pec-tagline { font-family: var(--pec-font-script); font-weight: 700; font-size: clamp(1.7rem, 3vw, 2.8rem); line-height: 1.1; color: var(--pec-blue-700); margin: 0 0 12px; }
-    .pec-tagline > span { position: relative; display: inline-block; padding-bottom: 4px; }
+    .pec-tagline > span { position: relative; display: inline-block; padding-bottom: 4px; text-wrap: balance; }
     .pec-underline { position: absolute; left: -2%; bottom: -6px; width: 104%; height: 12px; overflow: visible; }
     .pec-underline path { fill: none; stroke: var(--pec-gold-400); stroke-width: 2.6; stroke-linecap: round; vector-effect: non-scaling-stroke; stroke-dasharray: 1; stroke-dashoffset: 1; }
     .pec-panel.pec-in .pec-underline path { animation: pec-draw 1.3s var(--pec-ease) .9s forwards; }
@@ -348,8 +348,8 @@
     // }
 
     @media (max-width: 640px) {
-      :host { max-width: 95vw !important; padding: 12px; }
-      .pec-panel { margin: 12px 4px 0; padding: 24px 16px 24px; }
+      :host { max-width: 95vw !important; padding: 10px; }
+      .pec-panel { margin: 12px 0 0; padding: 20px 8px 22px; }
       .pec-hero-badge { top: 14px; bottom: auto; left: 12px; font-size: .8rem; padding: 7px 12px; }
       .pec-hero-cross { width: 30px; height: 30px; padding: 7px; top: 12px; right: 12px; }
       .pec-grid { margin-top: 24px; gap: 14px; }
