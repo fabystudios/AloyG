@@ -15,6 +15,7 @@ class NoticiaCard extends HTMLElement {
     this._render();
     this._setupClamp();
     this._setupMedia();
+    this._setupLightbox();
     this._setupTextoMobile();
     this._applyAncho();
   }
@@ -83,19 +84,21 @@ class NoticiaCard extends HTMLElement {
 
           <h2 class="headline">${titular}</h2>
 
+          ${(autorNombre || autorImg) ? `
           <div class="author">
             ${autorImg ? (
               autorLink
                 ? `<a class="author__img-link" href="${autorLink}" target="_blank" rel="noopener" aria-label="${autorNombre}"><img class="author__img" src="${autorImg}" alt="${autorNombre}"></a>`
                 : `<img class="author__img" src="${autorImg}" alt="${autorNombre}">`
             ) : ''}
+            ${autorNombre ? `
             <div class="author__info">
               ${autorLink
                 ? `<a class="author__name author__name--link" href="${autorLink}" target="_blank" rel="noopener">${autorNombre}</a>`
                 : `<span class="author__name">${autorNombre}</span>`}
               ${autorDesc ? `<span class="author__desc">${autorDesc}</span>` : ''}
-            </div>
-          </div>
+            </div>` : ''}
+          </div>` : ''}
 
           <div class="body-wrap">
             <p class="body-text">${textoElegido}</p>
@@ -112,6 +115,11 @@ class NoticiaCard extends HTMLElement {
           </a>
         </div>
       </article>
+
+      <div class="lightbox" part="lightbox" aria-hidden="true">
+        <button class="lightbox__close" type="button" aria-label="Cerrar imagen">&times;</button>
+        <img class="lightbox__img" src="" alt="">
+      </div>
     `;
 
     this.shadowRoot.querySelector('.toggle')
@@ -226,6 +234,9 @@ class NoticiaCard extends HTMLElement {
     if (this._mqTextoMobile && this._mqTextoMobileHandler) {
       this._mqTextoMobile.removeEventListener('change', this._mqTextoMobileHandler);
     }
+    if (this._lightboxKeydownHandler) {
+      document.removeEventListener('keydown', this._lightboxKeydownHandler);
+    }
   }
 
   // Detecta si la foto es vertical/alargada (retrato) y, en ese caso,
@@ -250,6 +261,47 @@ class NoticiaCard extends HTMLElement {
 
     if (img.complete) apply();
     else img.addEventListener('load', apply);
+  }
+
+  // Click/touch en la imagen abre un modal a pantalla completa con la foto
+  // sin recortar. Se cierra con la X o haciendo click/touch fuera de la
+  // imagen (en el fondo oscuro). También con Escape, por accesibilidad.
+  _setupLightbox() {
+    const media      = this.shadowRoot.querySelector('.media');
+    const img        = this.shadowRoot.querySelector('.media__img');
+    const lightbox   = this.shadowRoot.querySelector('.lightbox');
+    const lightboxImg = this.shadowRoot.querySelector('.lightbox__img');
+    const closeBtn   = this.shadowRoot.querySelector('.lightbox__close');
+    if (!media || !img || !lightbox || !lightboxImg || !closeBtn) return;
+
+    const onKeydown = (e) => { if (e.key === 'Escape') cerrar(); };
+
+    const abrir = () => {
+      lightboxImg.src = img.currentSrc || img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add('is-open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.addEventListener('keydown', onKeydown);
+    };
+
+    const cerrar = () => {
+      lightbox.classList.remove('is-open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.removeEventListener('keydown', onKeydown);
+    };
+
+    media.addEventListener('click', abrir);
+    closeBtn.addEventListener('click', cerrar);
+
+    // Cierra al tocar/clickear fuera de la imagen (el fondo del modal).
+    // La imagen ampliada y el botón de cerrar no propagan hasta acá porque
+    // el chequeo es sobre el target exacto (el fondo), no sobre bubbling.
+    lightbox.addEventListener('click', (e) => {
+      if (e.target === lightbox) cerrar();
+    });
+
+    this._cerrarLightbox = cerrar;
+    this._lightboxKeydownHandler = onKeydown;
   }
 
   _css() {
@@ -302,6 +354,7 @@ class NoticiaCard extends HTMLElement {
         min-height: 100%;
         overflow:hidden;
         background: var(--ink);
+        cursor: zoom-in;
       }
       .media__bg{
         position:absolute;
@@ -515,6 +568,56 @@ class NoticiaCard extends HTMLElement {
         box-shadow: 0 2px 6px rgba(90,32,32,.3);
       }
       .cta__logo{ height:1.3em; width:auto; display:block; filter: brightness(0) invert(1); }
+
+      /* ---------- Lightbox (imagen a pantalla completa) ---------- */
+      .lightbox{
+        position:fixed;
+        inset:0;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding: 5vh 5vw;
+        background: rgba(10,8,6,.92);
+        opacity:0;
+        visibility:hidden;
+        transition: opacity .25s ease;
+        z-index:9999;
+        cursor: zoom-out;
+      }
+      .lightbox.is-open{
+        opacity:1;
+        visibility:visible;
+      }
+      .lightbox__img{
+        max-width:100%;
+        max-height:100%;
+        object-fit:contain;
+        border-radius:8px;
+        box-shadow: 0 25px 70px rgba(0,0,0,.55);
+        cursor: default;
+      }
+      .lightbox__close{
+        position:absolute;
+        top:18px;
+        right:18px;
+        width:42px;
+        height:42px;
+        border-radius:50%;
+        border: 1px solid rgba(255,255,255,.25);
+        background: rgba(255,255,255,.1);
+        color:#fbf3e6;
+        font-size:1.7rem;
+        line-height:1;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        cursor:pointer;
+        transition: background .2s ease, transform .2s ease;
+      }
+      .lightbox__close:hover{
+        background: rgba(255,255,255,.22);
+        transform: scale(1.06);
+      }
 
       /* ---------- Mobile: formato 9:16 ---------- */
       @media (max-width: 560px){
