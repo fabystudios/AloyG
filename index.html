@@ -434,6 +434,36 @@
     }
   </style>
   <!-- PUNTO ROJO   ALERTA VERSION  -->
+  <!--
+    ¿CÓMO FUNCIONA EL SISTEMA DE PUNTOS ROJOS (BADGE-DOT) EN EL MENÚ PPAL?
+
+    Cada link del menú que quiere tener "punto rojo de novedad" lleva dos atributos:
+      data-badge="clave"      -> identificador único (ej: "homilias", "avisos", "noticias")
+      data-version="vN"       -> versión actual del contenido de esa sección (ej: "v22")
+
+    Y dentro del <a> tiene un <span class="badge-dot hidden" id="badge-xxx"></span>
+    que es el puntito rojo en sí (oculto por defecto con la clase "hidden").
+
+    LÓGICA:
+    1. Al cargar la página, por cada link con [data-badge] se compara:
+         localStorage["<key>_visto"]  vs  data-version actual
+       Si NO coinciden (o el usuario nunca vio esa versión), se muestra el punto
+       rojo (se saca la clase "hidden" del badge).
+    2. Cuando el usuario hace click en ese link, se guarda en localStorage
+       que ya vio esa versión (localStorage[key+"_visto"] = version) y se oculta
+       el punto rojo de esa sección.
+    3. El "badge-hamburguesa" (el punto rojo del ícono de menú hamburguesa, para
+       mobile) se enciende si CUALQUIERA de las secciones tiene novedad pendiente,
+       y se apaga cuando ya no queda ninguna.
+
+    CÓMO FORZAR MANUALMENTE UN "HAY NOVEDAD" (llamar la atención del usuario):
+    Basta con subir el número de data-version del link correspondiente
+    (ej: de data-version="v22" a data-version="v23"). Como ese valor ya no
+    coincide con lo que el usuario tiene guardado en localStorage, el punto
+    rojo vuelve a aparecer aunque el contenido "real" no haya cambiado tanto.
+    Es un truco manual: no hay detección automática de cambios, la versión
+    se sube a mano cada vez que se quiere resaltar la sección.
+  -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const badgeHamburguesa = document.getElementById("badge-hamburguesa");
