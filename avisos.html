@@ -463,7 +463,8 @@
     transform: rotate(20deg) translateX(320%);
   }
 
-  /* El flyer en primer plano: completo, centrado, sin recorte */
+  /* El flyer en primer plano: por defecto completo, centrado, sin recorte
+     (ideal para flyers verticales, donde el fondo borroso rellena los huecos). */
   .aviso-thumb img {
     position: relative;
     z-index: 1;
@@ -475,8 +476,20 @@
     filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.28));
   }
 
+  /* Cuando el JS detecta que el flyer es cuadrado o apaisado (aviso-thumb--fill),
+     usamos "cover" para que ocupe TODO el contenedor de 320px sin dejar huecos.
+     El recorte lateral es imperceptible en imágenes 1:1 o más anchas. */
+  .aviso-thumb.aviso-thumb--fill img {
+    object-fit: cover;
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.22));
+  }
+  /* Con "cover" ya no hace falta el fondo borroso de relleno */
+  .aviso-thumb.aviso-thumb--fill .aviso-thumb-bg {
+    opacity: 0;
+  }
+
   .aviso-card:hover .aviso-thumb img {
-    transform: scale(1.04);
+    transform: scale(1.06);
   }
 
   /* Badge "Ver flyer" — también con glassmorfismo */
@@ -504,6 +517,22 @@
   }
 
   .aviso-badge i { font-size: 0.75rem; }
+
+  /* Pulso sutil en el badge para llamar la atención incluso sin hover */
+  @keyframes avisoBadgePulse {
+    0%, 100% { box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22), 0 0 0 rgba(255, 255, 255, 0); }
+    50%      { box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22), 0 0 12px 2px rgba(255, 255, 255, 0.55); }
+  }
+  .aviso-badge {
+    animation: avisoBadgePulse 2.6s ease-in-out infinite;
+  }
+  .aviso-card:hover .aviso-badge {
+    animation-play-state: paused;
+    background: rgba(255, 255, 255, 0.55);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .aviso-badge { animation: none; }
+  }
 
   /* Cuerpo: vidrio más claro para legibilidad */
   .aviso-body {
@@ -551,6 +580,22 @@
     height: 3px;
     background: linear-gradient(90deg, #25d366, #0d6efd);
     border-radius: 2px;
+    box-shadow: 0 0 0 rgba(37, 211, 102, 0);
+    transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.4s ease;
+  }
+
+  /* La rayita crece y brilla cuando se pasa el mouse sobre la card */
+  .aviso-card:hover .aviso-title::after {
+    width: 68px;
+    box-shadow: 0 0 10px rgba(37, 211, 102, 0.55);
+  }
+
+  /* Leve realce de color del título al hacer hover, sin perder legibilidad */
+  .aviso-title {
+    transition: color 0.35s ease;
+  }
+  .aviso-card:hover .aviso-title {
+    color: #084298;
   }
 
   /* Acciones */
@@ -621,6 +666,14 @@
       -2px -2px 8px rgba(255, 255, 255, 0.3),
       inset 0 1px 0 rgba(255, 255, 255, 0.45);
     color: #fff;
+  }
+
+  /* El ícono "salta" levemente al pasar el mouse, da sensación de interactividad */
+  .aviso-btn i {
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .aviso-btn:hover i {
+    transform: translateY(-2px) scale(1.15);
   }
 
   /* Efecto "hundido" neomórfico al presionar */
@@ -700,6 +753,7 @@
     max-height: 92vh;
     box-shadow: 0 25px 60px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
     animation: modalPopIn 0.35s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    z-index: 3;
   }
 
   @keyframes modalPopIn {
@@ -774,6 +828,83 @@
     .modal-star { animation: none; opacity: 0.6; }
   }
 
+  /* ====== Medallas flotando junto a las estrellas, en el fondo del modal ======
+     Cada medalla recibe su propio recorrido (--mx1/--my1...), su sentido de giro
+     (--spin) y su rango de brillo (--op-min/--op-max) desde JS, para que floten
+     de forma independiente y caótica en vez de moverse todas al unísono. */
+  .modal-medal {
+    position: absolute;
+    pointer-events: none;
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.45));
+    animation-name: modalMedalFloat, modalMedalSpin, modalMedalTwinkle;
+    animation-timing-function: ease-in-out, linear, ease-in-out;
+    animation-iteration-count: infinite, infinite, infinite;
+  }
+  @keyframes modalMedalFloat {
+    0%   { translate: 0 0; }
+    22%  { translate: var(--mx1, 18px) var(--my1, -20px); }
+    48%  { translate: var(--mx2, -16px) var(--my2, -6px); }
+    74%  { translate: var(--mx3, 12px) var(--my3, 18px); }
+    100% { translate: 0 0; }
+  }
+  @keyframes modalMedalSpin {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(var(--spin, 360deg)); }
+  }
+  @keyframes modalMedalTwinkle {
+    0%, 100% { opacity: var(--op-min, 0.5); }
+    50%      { opacity: var(--op-max, 0.95); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .modal-medal { animation: none; opacity: 0.75; }
+  }
+
+  /* ====== Gio volando en el modal: una silueta cruza por detrás del flyer
+     y otra revolotea por delante, sobre una esquina del panel ====== */
+  .modal-gio {
+    position: absolute;
+    height: auto;
+    pointer-events: none;
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.4));
+  }
+
+  /* Gio de atrás: cruza todo el ancho del modal, detrás del panel del flyer */
+  .modal-gio--back {
+    top: 10%;
+    left: 0;
+    width: 150px;
+    z-index: 2;
+    animation: gioVuelaAtras 10s ease-in-out infinite;
+  }
+  @keyframes gioVuelaAtras {
+    0%   { transform: translateX(-40vw) translateY(0) rotate(-6deg); opacity: 0; }
+    12%  { opacity: 0.95; }
+    50%  { transform: translateX(55vw) translateY(-35px) rotate(4deg); }
+    88%  { opacity: 0.95; }
+    100% { transform: translateX(140vw) translateY(0) rotate(-6deg); opacity: 0; }
+  }
+
+  /* Gio de adelante: revolotea sobre la esquina del flyer, por encima de todo */
+  .modal-gio--front {
+    width: 108px;
+    bottom: -20px;
+    right: -24px;
+    z-index: 4;
+    animation: gioRevolotea 3.4s ease-in-out infinite;
+  }
+  @keyframes gioRevolotea {
+    0%, 100% { transform: translateY(0) rotate(-4deg); }
+    50%      { transform: translateY(-14px) rotate(5deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .modal-gio--back  { animation: none; opacity: 0; }
+    .modal-gio--front { animation: none; }
+  }
+  @media (max-width: 576px) {
+    .modal-gio--back  { width: 100px; }
+    .modal-gio--front { width: 76px; bottom: -14px; right: -14px; }
+  }
+
   /* ====== Ícono opcional (tomado del JSON) flotando sobre el modal ====== */
   .flyer-modal-icon-badge {
     position: absolute;
@@ -808,6 +939,7 @@
   style="z-index: 1050;"
   onclick="closeModal()">
   <div id="modalStarfield" class="modal-starfield"></div>
+  <img src="./cartelera/gio-vuela.png" alt="" class="modal-gio modal-gio--back" aria-hidden="true">
   <div class="position-relative flyer-modal-panel" onclick="event.stopPropagation()">
     <button onclick="closeModal()" class="flyer-modal-close" aria-label="Cerrar">
       <i class="fas fa-times"></i>
@@ -816,6 +948,7 @@
       <img id="flyerIconImg" src="" alt="">
     </div>
     <img id="flyerImage" src="" alt="Flyer" class="flyer-modal-img">
+    <img src="./cartelera/gio-vuela.png" alt="" class="modal-gio modal-gio--front" aria-hidden="true">
   </div>
 </div>
 
@@ -835,7 +968,7 @@
           <div class="aviso-thumb" data-zoom="${c.thumb}">
             <div class="aviso-thumb-bg" style="background-image: url('${c.thumb}');"></div>
             <span class="aviso-badge"><i class="fas fa-search-plus"></i> Ampliar</span>
-            <img src="${c.thumb}" alt="Flyer ${c.nombre}" loading="lazy">
+            <img src="${c.thumb}" alt="Flyer ${c.nombre}" loading="lazy" onload="clasificarThumb(this)">
           </div>
           <div class="aviso-body">
             <h3 class="aviso-title">${c.nombre}</h3>
@@ -876,6 +1009,17 @@
     })
     .catch(err => console.error("Error cargando ofertas.json", err));
 
+  // Detecta la proporción real del flyer: si es cuadrado o apaisado
+  // (ancho/alto >= 0.85), lo hacemos cubrir todo el contenedor (object-fit: cover)
+  // en vez de dejarlo "flotando" con márgenes dentro del fondo borroso, que es lo
+  // que conviene para los flyers verticales/apaisados angostos.
+  function clasificarThumb(img) {
+    const ratio = img.naturalWidth / img.naturalHeight;
+    const thumb = img.closest(".aviso-thumb");
+    if (!thumb) return;
+    thumb.classList.toggle("aviso-thumb--fill", ratio >= 0.85);
+  }
+
   // Elige el poster (flyer_desk o flyer_mob) según el ancho de pantalla actual.
   // Se evalúa en el momento del click, no al cargar la página, para cubrir
   // el caso de que el usuario rote el dispositivo o redimensione la ventana.
@@ -914,10 +1058,14 @@
     });
   }
 
-  // Genera un puñado de estrellas chispeantes con posición, tamaño y ritmo aleatorios
-  (function crearStarfieldModal() {
+  // Genera un puñado de estrellas chispeantes y medallas (logo14s.png) flotando,
+  // con posición, tamaño y ritmo aleatorios. Se llama cada vez que se abre el modal
+  // (no una sola vez al cargar la página), para que el reparto cambie en cada aviso.
+  function generarStarfieldModal() {
     const contenedor = document.getElementById("modalStarfield");
     if (!contenedor) return;
+    contenedor.innerHTML = ""; // limpiar el reparto anterior
+
     const CANTIDAD = 35;
     for (let i = 0; i < CANTIDAD; i++) {
       const estrella = document.createElement("span");
@@ -934,10 +1082,52 @@
       estrella.style.animationDelay = `${delay}, ${delay}`;
       contenedor.appendChild(estrella);
     }
-  })();
+
+    const CANTIDAD_MEDALLAS = 8;
+    for (let i = 0; i < CANTIDAD_MEDALLAS; i++) {
+      const medalla = document.createElement("img");
+      medalla.src = "./logos/logo14s.png";
+      medalla.alt = "";
+      medalla.setAttribute("aria-hidden", "true");
+      medalla.className = "modal-medal";
+      const tam = (Math.random() * 18 + 72).toFixed(0); // 72px a 90px
+      medalla.style.width = tam + "px";
+      medalla.style.height = tam + "px";
+      medalla.style.top = (Math.random() * 85 + 5) + "%";
+      medalla.style.left = (Math.random() * 85 + 5) + "%";
+
+      // Recorrido propio (3 puntos de paso) para que cada medalla flote
+      // en una dirección y con una amplitud distinta a las demás.
+      const rnd = (min, max) => (Math.random() * (max - min) + min).toFixed(0) + "px";
+      medalla.style.setProperty("--mx1", rnd(-32, 32));
+      medalla.style.setProperty("--my1", rnd(-32, 32));
+      medalla.style.setProperty("--mx2", rnd(-32, 32));
+      medalla.style.setProperty("--my2", rnd(-32, 32));
+      medalla.style.setProperty("--mx3", rnd(-32, 32));
+      medalla.style.setProperty("--my3", rnd(-32, 32));
+
+      // Sentido de giro al azar (horario o antihorario) y brillo propio
+      medalla.style.setProperty("--spin", (Math.random() < 0.5 ? "360deg" : "-360deg"));
+      medalla.style.setProperty("--op-min", (Math.random() * 0.25 + 0.35).toFixed(2));
+      medalla.style.setProperty("--op-max", (Math.random() * 0.2 + 0.75).toFixed(2));
+
+      // Duraciones y demoras completamente independientes entre sí y entre medallas
+      const duracionFloat = (Math.random() * 6 + 5).toFixed(2) + "s";   // 5s a 11s
+      const duracionSpin = (Math.random() * 30 + 15).toFixed(2) + "s";  // 15s a 45s
+      const duracionTwinkle = (Math.random() * 3 + 2).toFixed(2) + "s"; // 2s a 5s
+      const delayFloat = (Math.random() * 5).toFixed(2) + "s";
+      const delaySpin = (Math.random() * 5).toFixed(2) + "s";
+      const delayTwinkle = (Math.random() * 5).toFixed(2) + "s";
+      medalla.style.animationDuration = `${duracionFloat}, ${duracionSpin}, ${duracionTwinkle}`;
+      medalla.style.animationDelay = `${delayFloat}, ${delaySpin}, ${delayTwinkle}`;
+      contenedor.appendChild(medalla);
+    }
+  }
 
   // Funciones modal
   function openModal(imgSrc, iconoSrc) {
+    generarStarfieldModal(); // nuevo reparto de estrellas y medallas en cada apertura
+
     const flyerImg = document.getElementById('flyerImage');
     flyerImg.src = imgSrc;
 
