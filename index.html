@@ -301,15 +301,80 @@
 
           <!-- Opciones de Navegación -->
           <style>
-            /* Alineación uniforme de todos los ítems del menú */
+            /* ============================================================
+               MENÚ PRINCIPAL — ESTILO "PÍLDORA" CON EFECTOS
+               Cada opción es una cápsula con tipografía Poppins, borde
+               dorado sutil y, al pasar el mouse: se eleva, brilla con
+               degradado dorado y un destello ("shine") cruza la píldora.
+               ============================================================ */
+            .navbar-nav {
+              gap: .4rem;
+              row-gap: .5rem;
+            }
+
             .navbar-nav .nav-link {
               display: flex !important;
               align-items: center;
               gap: var(--icon-gap);
               line-height: 1;
-              padding-top: .55rem;
-              padding-bottom: .55rem;
+              padding: .5rem 1rem;
               color: #ffffff !important;
+              font-family: 'Poppins', 'Arial Rounded MT Bold', Arial, sans-serif;
+              font-weight: 500;
+              letter-spacing: .015em;
+
+              /* Forma de píldora */
+              border-radius: 999px;
+              background: rgba(255,255,255,0.05);
+              border: 1px solid rgba(56,189,248,0.32);
+
+              position: relative;
+              overflow: hidden;
+              isolation: isolate;
+              transition: background .35s ease, border-color .35s ease,
+                          transform .3s ease, box-shadow .35s ease, color .3s ease;
+            }
+
+            /* Destello que cruza la píldora al hacer hover */
+            .navbar-nav .nav-link::before {
+              content: "";
+              position: absolute;
+              inset: 0;
+              z-index: -1;
+              background: linear-gradient(120deg,
+                            transparent 0%,
+                            rgba(56,189,248,0.35) 45%,
+                            rgba(255,255,255,0.6) 50%,
+                            rgba(56,189,248,0.35) 55%,
+                            transparent 100%);
+              background-size: 250% 100%;
+              background-position: 150% 0;
+              opacity: 0;
+              transition: opacity .3s ease;
+            }
+
+            .navbar-nav .nav-link:hover,
+            .navbar-nav .nav-link:focus-visible {
+              color: #04222e !important;
+              background: linear-gradient(135deg, #bff0ff, #38bdf8 55%, #0ea5c7);
+              border-color: rgba(56,189,248,0.9);
+              transform: translateY(-2px);
+              box-shadow: 0 6px 16px rgba(56,189,248,0.35),
+                          0 0 0 1px rgba(56,189,248,0.5) inset;
+            }
+
+            .navbar-nav .nav-link:hover::before {
+              opacity: 1;
+              animation: pill-shine .9s ease forwards;
+            }
+
+            @keyframes pill-shine {
+              from { background-position: 150% 0; }
+              to   { background-position: -50% 0; }
+            }
+
+            .navbar-nav .nav-link:active {
+              transform: translateY(0) scale(.97);
             }
 
             .navbar-nav .nav-link i,
@@ -320,6 +385,14 @@
               line-height: 1;
               display: inline-flex;
               align-items: center;
+              transition: transform .3s ease;
+            }
+
+            .navbar-nav .nav-link:hover i,
+            .navbar-nav .nav-link:hover .material-icons,
+            .navbar-nav .nav-link:hover .material-symbols-rounded,
+            .navbar-nav .nav-link:hover .fas {
+              transform: scale(1.15) rotate(-4deg);
             }
 
             .navbar-nav .nav-link span.text-label {
@@ -340,10 +413,22 @@
               background: #ff1744;
               border-radius: 50%;
               box-shadow: 0 0 0 2px #1565c0;
+              animation: badge-pulse 1.6s ease-in-out infinite;
+            }
+
+            @keyframes badge-pulse {
+              0%, 100% { box-shadow: 0 0 0 2px #1565c0, 0 0 0 0 rgba(255,23,68,.6); }
+              50%      { box-shadow: 0 0 0 2px #1565c0, 0 0 6px 3px rgba(255,23,68,0); }
             }
 
             .badge-dot.hidden {
               display: none;
+            }
+
+            @media (max-width: 991.98px) {
+              .navbar-nav .nav-link {
+                margin-bottom: .3rem;
+              }
             }
           </style>
           <div class="collapse navbar-collapse" id="navbarNav">
@@ -426,6 +511,7 @@
 
   <style>
     @import url('https://fonts.cdnfonts.com/css/amarillo');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
     @media (max-width: 600px) {
       .navbar-brand .logo {
         height: 50px !important;
