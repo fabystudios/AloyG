@@ -140,7 +140,7 @@
   <script src="./components/cork-mural-carousel.js" defer></script>
   <script src="./components/diario-parroquial.js" defer></script>
   <script src="./components/cartelera-carousel.js" defer></script>
-  <script src="./components/retro-tv-player.js" defer></script>
+  <script src="./components/retro-tv-player.js?v=3" defer></script>
   <script src="./components/semana-santa-programa.js" defer></script>
   <script src="./components/parroquia-nosotros.js" defer></script>
   <script src="./components/video-gold-special-flot.js" defer></script>
@@ -254,15 +254,20 @@
         <div class="container d-flex align-items-center" style="width: 100%;">
           <!-- Logo y Título -->
           <a class="navbar-brand d-flex align-items-center gap-2" href="#footer" style="gap: 0.5rem;">
-            <img src="./img/medalla.png" alt="Logo San Luis Gonzaga" height="80" class="me-2 logo" style="display: block;">
+            <img src="./logos/medallaprem50.png" alt="Logo San Luis Gonzaga" height="80" class="me-2 logo" style="display: block; filter: drop-shadow(4px 5px 6px rgba(0, 0, 0, 0.45));">
 
             <div class="titulo-ppal d-flex flex-column justify-content-center" style="padding-top:0.8em">
               <span class="linea1 text-center" style="font-family: 'amarillo', 'Arial Rounded MT Bold', Arial, 
-          sans-serif; font-size: 0.9em; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
+          sans-serif; font-size: 0.9em; line-height: 1.3; display:block;
+          text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);">
                 San Luis Gonzaga</span>
               <span class="linea2 fs-7 d-md-none text-center"
-                style="font-size: 0.7rem; padding-top: .3em; color: rgba(255,255,255,0.75) !important; display: block;">
-                Villa Elisa, La Plata, Argentina
+                style="font-family:'Poppins',Arial,sans-serif; font-weight:400; font-size: 0.62rem;
+          letter-spacing: .09em; text-transform: uppercase; padding-top: .3em; margin-top:0;
+          color: rgba(186,230,253,0.85) !important; display:flex; align-items:center;
+          justify-content:center; gap:.3em; text-shadow: 1px 1px 2px rgba(0,0,0,.4);">
+                <i class="material-icons" style="font-size:11px; line-height:1;">place</i>
+                Villa Elisa · La Plata, Argentina
               </span>
               <!-- <style>
           @media (max-width: 600px) {
@@ -275,9 +280,6 @@
             }
           }
           </style> -->
-
-              <span class="linea2 d-none d-md-block" style="font-size: 0.985rem; padding-top: .3em; 
-          color: rgba(255,255,255,0.75) !important;">Villa Elisa, La Plata, Argentina</span>
             </div>
           </a>
           <!-- Botón Hamburguesa -->
@@ -301,15 +303,80 @@
 
           <!-- Opciones de Navegación -->
           <style>
-            /* Alineación uniforme de todos los ítems del menú */
+            /* ============================================================
+               MENÚ PRINCIPAL — ESTILO "PÍLDORA" CON EFECTOS
+               Cada opción es una cápsula con tipografía Poppins, borde
+               dorado sutil y, al pasar el mouse: se eleva, brilla con
+               degradado dorado y un destello ("shine") cruza la píldora.
+               ============================================================ */
+            .navbar-nav {
+              gap: .4rem;
+              row-gap: .5rem;
+            }
+
             .navbar-nav .nav-link {
               display: flex !important;
               align-items: center;
               gap: var(--icon-gap);
               line-height: 1;
-              padding-top: .55rem;
-              padding-bottom: .55rem;
+              padding: .5rem 1rem;
               color: #ffffff !important;
+              font-family: 'Poppins', 'Arial Rounded MT Bold', Arial, sans-serif;
+              font-weight: 500;
+              letter-spacing: .015em;
+
+              /* Forma de píldora */
+              border-radius: 999px;
+              background: rgba(255,255,255,0.05);
+              border: 1px solid rgba(56,189,248,0.32);
+
+              position: relative;
+              overflow: hidden;
+              isolation: isolate;
+              transition: background .35s ease, border-color .35s ease,
+                          transform .3s ease, box-shadow .35s ease, color .3s ease;
+            }
+
+            /* Destello que cruza la píldora al hacer hover */
+            .navbar-nav .nav-link::before {
+              content: "";
+              position: absolute;
+              inset: 0;
+              z-index: -1;
+              background: linear-gradient(120deg,
+                            transparent 0%,
+                            rgba(56,189,248,0.35) 45%,
+                            rgba(255,255,255,0.6) 50%,
+                            rgba(56,189,248,0.35) 55%,
+                            transparent 100%);
+              background-size: 250% 100%;
+              background-position: 150% 0;
+              opacity: 0;
+              transition: opacity .3s ease;
+            }
+
+            .navbar-nav .nav-link:hover,
+            .navbar-nav .nav-link:focus-visible {
+              color: #04222e !important;
+              background: linear-gradient(135deg, #bff0ff, #38bdf8 55%, #0ea5c7);
+              border-color: rgba(56,189,248,0.9);
+              transform: translateY(-2px);
+              box-shadow: 0 6px 16px rgba(56,189,248,0.35),
+                          0 0 0 1px rgba(56,189,248,0.5) inset;
+            }
+
+            .navbar-nav .nav-link:hover::before {
+              opacity: 1;
+              animation: pill-shine .9s ease forwards;
+            }
+
+            @keyframes pill-shine {
+              from { background-position: 150% 0; }
+              to   { background-position: -50% 0; }
+            }
+
+            .navbar-nav .nav-link:active {
+              transform: translateY(0) scale(.97);
             }
 
             .navbar-nav .nav-link i,
@@ -320,6 +387,14 @@
               line-height: 1;
               display: inline-flex;
               align-items: center;
+              transition: transform .3s ease;
+            }
+
+            .navbar-nav .nav-link:hover i,
+            .navbar-nav .nav-link:hover .material-icons,
+            .navbar-nav .nav-link:hover .material-symbols-rounded,
+            .navbar-nav .nav-link:hover .fas {
+              transform: scale(1.15) rotate(-4deg);
             }
 
             .navbar-nav .nav-link span.text-label {
@@ -340,84 +415,111 @@
               background: #ff1744;
               border-radius: 50%;
               box-shadow: 0 0 0 2px #1565c0;
+              animation: badge-pulse 1.6s ease-in-out infinite;
+            }
+
+            @keyframes badge-pulse {
+              0%, 100% { box-shadow: 0 0 0 2px #1565c0, 0 0 0 0 rgba(255,23,68,.6); }
+              50%      { box-shadow: 0 0 0 2px #1565c0, 0 0 6px 3px rgba(255,23,68,0); }
             }
 
             .badge-dot.hidden {
               display: none;
             }
+
+            @media (max-width: 991.98px) {
+              .navbar-nav .nav-link {
+                margin-bottom: .3rem;
+              }
+            }
           </style>
           <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-lg-auto" style="--icon-gap:4px;">
-              <li class="nav-item">
-                <a class="nav-link" href="#usca">
-                  <span style="font-size:20px;line-height:1;display:inline-flex;align-items:center;">⚜</span>
-                  <span class="text-label">Actividades</span>
-                </a>
-              </li>
+            <div class="nav-options-wrap d-flex flex-column ms-lg-auto" style="width: fit-content;">
+              <ul class="navbar-nav" style="--icon-gap:4px;">
+                <li class="nav-item">
+                  <a class="nav-link" href="#usca">
+                    <span style="font-size:20px;line-height:1;display:inline-flex;align-items:center;">⚜</span>
+                    <span class="text-label">Actividades</span>
+                  </a>
+                </li>
 
-              <li class="nav-item">
-                <a class="nav-link position-relative" href="./homilias.html" id="homilias-link" data-badge="homilias"
-                  data-version="v22">
-                  <span class="material-symbols-rounded">menu_book</span>
-                  <span class="text-label">Homilias</span>
-                  <span id="badge-homilias" class="badge-dot hidden" aria-hidden="true"></span>
-                </a>
-              </li>
+                <li class="nav-item">
+                  <a class="nav-link position-relative" href="./homilias.html" id="homilias-link" data-badge="homilias"
+                    data-version="v22">
+                    <span class="material-symbols-rounded">menu_book</span>
+                    <span class="text-label">Homilias</span>
+                    <span id="badge-homilias" class="badge-dot hidden" aria-hidden="true"></span>
+                  </a>
+                </li>
 
-              <li class="nav-item">
-                <a class="nav-link position-relative" href="avisos.html" id="avisos-link" data-badge="avisos"
-                  data-version="v3">
-                  <i class="material-icons">announcement</i>
-                  <span class="text-label">Avisos</span>
-                  <span id="badge-avisos" class="badge-dot hidden" aria-hidden="true"></span>
-                </a>
-              </li>
+                <li class="nav-item">
+                  <a class="nav-link position-relative" href="avisos.html" id="avisos-link" data-badge="avisos"
+                    data-version="v3">
+                    <i class="material-icons">announcement</i>
+                    <span class="text-label">Avisos</span>
+                    <span id="badge-avisos" class="badge-dot hidden" aria-hidden="true"></span>
+                  </a>
+                </li>
 
-              <li class="nav-item">
-                <a class="nav-link" href="#RETIROS">
-                  <i class="material-icons">spa</i>
-                  <span class="text-label">Retiro</span>
-                </a>
-              </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#RETIROS">
+                    <i class="material-icons">spa</i>
+                    <span class="text-label">Retiro</span>
+                  </a>
+                </li>
 
-              <!-- <li class="nav-item">
-                <a class="nav-link" href="#misas">
-                  <i class="material-icons">schedule</i>
-                  <span class="text-label">Misas</span>
-                </a>
-              </li> -->
+                <!-- <li class="nav-item">
+                  <a class="nav-link" href="#misas">
+                    <i class="material-icons">schedule</i>
+                    <span class="text-label">Misas</span>
+                  </a>
+                </li> -->
 
-              <li class="nav-item">
-                <a class="nav-link position-relative" href="noticias.html" id="noticias-link" data-badge="noticias"
-                  data-version="v17">
-                  <i class="fas fa-newspaper"></i>
-                  <span class="text-label">Noticias</span>
-                  <span id="badge-noticias" class="badge-dot hidden" aria-hidden="true"></span>
-                </a>
-              </li>
+                <li class="nav-item">
+                  <a class="nav-link position-relative" href="noticias.html" id="noticias-link" data-badge="noticias"
+                    data-version="v17">
+                    <i class="fas fa-newspaper"></i>
+                    <span class="text-label">Noticias</span>
+                    <span id="badge-noticias" class="badge-dot hidden" aria-hidden="true"></span>
+                  </a>
+                </li>
 
-              <li class="nav-item">
-                <a class="nav-link" href="#educacion">
-                  <i class="material-icons">school</i>
-                  <span class="text-label">Educación</span>
-                </a>
-              </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#educacion">
+                    <i class="material-icons">school</i>
+                    <span class="text-label">Educación</span>
+                  </a>
+                </li>
 
-              <li class="nav-item">
-                <a class="nav-link" href="#contacto">
-                  <i class="material-icons">contact_mail</i>
-                  <span class="text-label">Contacto</span>
-                </a>
-              </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#contacto">
+                    <i class="material-icons">contact_mail</i>
+                    <span class="text-label">Contacto</span>
+                  </a>
+                </li>
 
-              <li class="nav-item">
-                <a class="nav-link" href="#nosotros">
-                  <i class="material-icons">people</i>
-                  <span class="text-label">Nosotros</span>
-                </a>
-              </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="#nosotros">
+                    <i class="material-icons">people</i>
+                    <span class="text-label">Nosotros</span>
+                  </a>
+                </li>
 
-            </ul>
+              </ul>
+
+              <!-- Subtítulo de ubicación, SOLO en escritorio (cuando el menú
+                   se muestra en línea, no colapsado a hamburguesa). Centrado
+                   respecto al ancho real que ocupan las opciones, gracias a
+                   que el contenedor padre tiene width: fit-content. -->
+              <span class="menu-subtitle d-none d-lg-flex text-center"
+                style="font-family:'Poppins',Arial,sans-serif; font-weight:400; font-size: 0.68rem;
+          letter-spacing: .12em; text-transform: uppercase; margin-top: .5em;
+          color: rgba(186,230,253,0.85) !important; align-items:center; justify-content:center; gap:.35em;
+          text-shadow: 1px 1px 2px rgba(0,0,0,.4);">
+                <i class="material-icons" style="font-size:13px; line-height:1;">place</i>
+                Villa Elisa · La Plata, Argentina
+              </span>
+            </div>
           </div>
         </div>
       </nav>
@@ -426,6 +528,7 @@
 
   <style>
     @import url('https://fonts.cdnfonts.com/css/amarillo');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap');
     @media (max-width: 600px) {
       .navbar-brand .logo {
         height: 50px !important;
@@ -434,6 +537,36 @@
     }
   </style>
   <!-- PUNTO ROJO   ALERTA VERSION  -->
+  <!--
+    ¿CÓMO FUNCIONA EL SISTEMA DE PUNTOS ROJOS (BADGE-DOT) EN EL MENÚ PPAL?
+
+    Cada link del menú que quiere tener "punto rojo de novedad" lleva dos atributos:
+      data-badge="clave"      -> identificador único (ej: "homilias", "avisos", "noticias")
+      data-version="vN"       -> versión actual del contenido de esa sección (ej: "v22")
+
+    Y dentro del <a> tiene un <span class="badge-dot hidden" id="badge-xxx"></span>
+    que es el puntito rojo en sí (oculto por defecto con la clase "hidden").
+
+    LÓGICA:
+    1. Al cargar la página, por cada link con [data-badge] se compara:
+         localStorage["<key>_visto"]  vs  data-version actual
+       Si NO coinciden (o el usuario nunca vio esa versión), se muestra el punto
+       rojo (se saca la clase "hidden" del badge).
+    2. Cuando el usuario hace click en ese link, se guarda en localStorage
+       que ya vio esa versión (localStorage[key+"_visto"] = version) y se oculta
+       el punto rojo de esa sección.
+    3. El "badge-hamburguesa" (el punto rojo del ícono de menú hamburguesa, para
+       mobile) se enciende si CUALQUIERA de las secciones tiene novedad pendiente,
+       y se apaga cuando ya no queda ninguna.
+
+    CÓMO FORZAR MANUALMENTE UN "HAY NOVEDAD" (llamar la atención del usuario):
+    Basta con subir el número de data-version del link correspondiente
+    (ej: de data-version="v22" a data-version="v23"). Como ese valor ya no
+    coincide con lo que el usuario tiene guardado en localStorage, el punto
+    rojo vuelve a aparecer aunque el contenido "real" no haya cambiado tanto.
+    Es un truco manual: no hay detección automática de cambios, la versión
+    se sube a mano cada vez que se quiere resaltar la sección.
+  -->
   <script>
     document.addEventListener("DOMContentLoaded", () => {
       const badgeHamburguesa = document.getElementById("badge-hamburguesa");
@@ -989,75 +1122,105 @@
                  png-count="3" png-width="80px"
 
 ></section-title>
+  <!-- {"id":"viaje","icon":"bus","title":"Cómo viajamos","lines":["Salimos de noche.","Llegamos con anticipación."]},
+      {"id":"fecha","icon":"calendar","title":"Fecha del viaje","highlight":"11 de noviembre","lines":["Salida el 10 por la noche."]}, -->
 
 
-  <!-- ═══ Video Presentación (Retro TV) ═══ -->
-   <!-- <div id="encuentro"></div>
-  <retro-tv-player
-    anchor-id="video-encuentro"
-    src-desktop="https://www.youtube.com/embed/CM4oHl8Fkr0"
-    src-mobile="4bis.mp4"
-    title="Moisés: El Hombre que Dios Eligió para Liberar a Israel"
-    color="#c8a84b"
-    autoplay>
-  </retro-tv-player> -->
-  <!-- ═══ Fin Video Presentación ═══ -->
+<noticia-card
+  id="noticia-principal"
+  fecha="21 Setiembre"
+  categoria="Argentina"
+  titular="Se confirmó la agenda del Papa en Argentina: el lunes 9 a las 11:30 será la misa multitudinaria en Palermo"
+ 
+  imagen="./img/crono2.png"
+  imagen-mob="./img/crono-mob.jpg"
+  imagen-alt="imagen oficial de la nota"
+texto="El papa León XIV llegará a Buenos Aires el 8 de noviembre y cumplirá una agenda de cuatro días que incluirá misas, encuentros con autoridades, trabajadores, jóvenes y referentes religiosos, además de actividades en Claypole, Córdoba y Luján. El itinerario prevé que el pontífice arribe desde Montevideo y parta hacia Lima el miércoles 11, según confirmó el Vaticano este lunes oficialmente.
+La visita comenzará el domingo por la tarde, tras una misa en Florida, Uruguay, y una ceremonia de despedida en el aeropuerto de Montevideo-Carrasco. El vuelo tiene previsto aterrizar a las 16:30 en el Aeroparque Jorge Newbery, donde se realizará la acogida oficial."
 
-        <!-- style="display:none" -->
- <video-gold-special
+  fuente-nombre="Infobae"
+  fuente-url="https://www.infobae.com/sociedad/2026/09/21/se-confirmo-la-agenda-del-papa-en-argentina-el-lunes-9-a-las-1130-sera-la-misa-multitudinaria-en-palermo/"
+  fuente-logo="https://www.infobae.com/assets/images/logos/logo_infobae_naranja.svg"
+></noticia-card>
 
-      video-desktop="https://youtu.be/CM4oHl8Fkr0"
-      video-mobile="./asantos/4bis.mp4"
-      poster-mobile="./asantos/moises.jpg"
-      ancho-desktop="860px"
+<br><br><br>
 
-      etiqueta="Septiembre 4"
-      badge="Moisés"
-      titulo="El Hombre que Dios Eligió para Liberar a Israel"
 
-      logo="./img/medalla.png"
-      logo-duracion="4">
-    </video-gold-special>
+
+<script src="./components/PilgrimageEventCard.js"></script>
+<div id="papa1" style="display:flex;justify-content:center;">
+  <pilgrimage-event-card
+    
+    main-image="/papa/cover.png"
+    badge-text="Luján · 11 de noviembre"
+    tagline="¡Encuentro que nos une como Iglesia!"
+    title="¡Vivamos juntos este acontecimiento histórico de nuestra fe!"
+    cta-text="Quiero inscribirme"
+    whatsapp-phone="5492215947600"
+    whatsapp-message="Hola, quiero inscribirme al viaje a Luján"
+    info-cards='[
+      {"id":"viaje","icon":"bus","image":"/papa/bus.png","title":"Cómo viajamos","lines":["Viajamos durante la noche para llegar con anticipación.","Nos ubicamos cerca de la Basílica antes del evento."],"badgeImage":"/papa/bus-blanco.png"},
+      {"id":"inscripcion","icon":"clipboard","image":"/papa/inscri.png","title":"Inscripciones","lines":["Se hacen en la Secretaría Parroquial.","Lunes y jueves de 16 a 18 hs.","Martes y sábados de 10 a 12 hs."],"badgeImage":"/papa/2.png"},
+      {"id":"fecha","icon":"calendar","image":"/papa/viaje.png","title":"Fecha del viaje","highlight":"Miércoles 11 de noviembre","lines":["Salida: martes 10 de noviembre por la noche."],"badgeImage":"/papa/3.png"},
+      {"id":"valor","icon":"coins","image":"/papa/valor.png","title":"Valor del viaje","highlight":"$30.000","lines":["Se puede pagar en 2 veces.","Reserva: $10.000 al inscribirte."],"badgeImage":"/papa/4.png"}
+    ]'
+
+    footer='{"parishName":"Parroquia San Luis Gonzaga","address":"calle 8, N° 1950. Villa Elisa","phone":"+54 9 11 1234-5678","email":"sanluisvillaelisa@gmail.com","instagramUrl":"https://www.instagram.com/parroquiasanluisgonzaga_"}'
+    style="--cartel-max-width:1300px;">
+  </pilgrimage-event-card>
+</div>
+<!-- style="--cartel-max-width:1300px; --pec-badge-size:52px;" -->
+
+<script>
+  document.querySelector('pilgrimage-event-card')
+    .addEventListener('cta-click', () => {
+      // opcional: analytics, tracking, etc. — no hace falta para que abra WhatsApp
+    });
+</script>
+
 
 <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
   <!-- style="display: none;" -->
-<div class="video-card-gold-container" >
-
-      <video-card-gold
-      badge="4 de Septiembre"
-      titulo="Santa Rosalía"
-      video="./asantos/4.mp4"
-      style="width:auto; flex:0 0 auto;"
-
-    ></video-card-gold>
-
-      <video-card-gold
-      badge="3 de Septiembre"
-      titulo="San Gregorio Magno"
-      video="./asantos/3.mp4"
-      style="width:auto; flex:0 0 auto;"
-      hide-mobile
-    ></video-card-gold>
+<div class="video-card-gold-container">
 
 
-      <video-card-gold
+<video-card-gold
       badge="2 de Septiembre"
-      titulo="Beato Bartolomé Gutiérrez y Compañeros Mártires"
-      video="./asantos/2.mp4"
+      titulo="Los 233 Mártires de España"
+      video="./asantos/22bis.mp4"
+      style="width:auto; flex:0 0 auto;"
+  
+    ></video-card-gold>
+
+<video-card-gold
+      badge="23 de Septiembre"
+      titulo="Los niños mártires de Tlaxcala"
+      video="./asantos/23.mp4"
       style="width:auto; flex:0 0 auto;"
       hide-mobile
     ></video-card-gold>
 
-      <video-card-gold
-      badge="1 de Septiembre"
-      titulo="San Gil"
-      video="./asantos/1.mp4"
+<video-card-gold
+      badge="22 de Septiembre"
+      titulo="San Mauricio y compañeros mártires"
+      video="./asantos/22.mp4"
+      style="width:auto; flex:0 0 auto;"
+  
+    ></video-card-gold>
+
+<video-card-gold
+      badge="21 de Septiembre"
+      titulo="San Mateo apostol"
+      video="./asantos/21.mp4"
       style="width:auto; flex:0 0 auto;"
       hide-mobile
     ></video-card-gold>
 
 
-  </div>  
+
+    </div>  
+
+
 
 
 
@@ -1067,71 +1230,132 @@
 <script src="./components/video-card-frame.js"></script>
 
 <!-- --------- -->
-
-  <video-card-frame
-    video="./eva/4-9.mp4"
-    frame="./eva/frame-gold.png"
-    badge="Viernes"
-    titulo="4 de Septiembre"
-    style="width:auto; flex:0 0 auto;"
-
-  ></video-card-frame>
-
-  <video-card-frame
-    video="./eva/3-9.mp4"
-    frame="./eva/frame-gold.png"
-    badge="Jueves"
-    titulo="3 de Septiembre"
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
-  ></video-card-frame>
-
-  <video-card-frame
-    video="./eva/2-9.mp4"
-    frame="./eva/frame-gold.png"
-    badge="Miércoles"
-    titulo="2 de Septiembre"
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
-  ></video-card-frame>
-
-  <video-card-frame
-    video="./eva/1-9.mp4"
+<video-card-frame
+    video="./eva/22-9.mp4"
     frame="./eva/frame-gold.png"
     badge="Martes"
-    titulo="1 de Septiembre"
+    titulo="22 de Septiembre"
+    style="width:auto; flex:0 0 auto;"
+    
+  ></video-card-frame>
+
+<video-card-frame
+    video="./eva/21-9.mp4"
+    frame="./eva/frame-gold.png"
+    badge="Lunes"
+    titulo="21 de Septiembre"
     style="width:auto; flex:0 0 auto;"
     hide-mobile
   ></video-card-frame>
 
 
+<video-card-frame
+    video="./eva/20-9.mp4"
+    frame="./eva/frame-gold.png"
+    badge="Sábado"
+    titulo="20 de Septiembre"
+    style="width:auto; flex:0 0 auto;"
+    hide-mobile
+  ></video-card-frame>
+
+
+<video-card-frame
+    video="./eva/19-9.mp4"
+    frame="./eva/frame-gold.png"
+    badge="Sábado"
+    titulo="19 de Septiembre"
+    style="width:auto; flex:0 0 auto;"
+    hide-mobile
+  ></video-card-frame>
+
+
+
+
+  
 </div>  
 
 
 <!-- <br> <br> <br> -->
 
 
-<noticia-card
-  fecha="3 Setiembre"
-  categoria="América Latina"
-  titular="¿Qué se sabe de la agenda del Papa en Argentina y Uruguay?"
-  autor-nombre="Julieta Villar"
-  autor-link="https://www.aciprensa.com/autor/56/julieta-villar"
-  autor-desc="Corresponsal de ACI Prensa para Argentina, Chile, Uruguay y Bolivia."
-  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
-  imagen="https://res.cloudinary.com/ewtn/image/upload/v1781451465/ewtn-news/es/imagespp/10-momentos-1-1781370285.jpg?w=672&h=448"
-  imagen-alt="imagen oficial de la nota"
-texto="La Iglesia Católica en Uruguay y en Argentina continúan delineando las propuestas de actividades programadas para la visita del Papa León XIV a ambos países, que se desarrollará entre el 6 y el 11 de noviembre para luego continuar en Perú, donde permanecerá seis días más.
 
-Por estos días y en el marco de una nueva misión de avanzada, una delegación del Vaticano recorre las locaciones donde se prevé que se lleven a cabo las celebraciones que encabezará el Papa, y se desarrollan reuniones entre las autoridades eclesiales y los referentes de los distintos niveles de Gobierno que tienen a cargo aspectos de la organización, la seguridad y la logística que requieren eventos de tal magnitud."
+<script src="./components/cartel-evento.js"></script>
+<div style="display:flex;justify-content:center;">
+ 
+<cartel-evento
+      id="asis1"
+      feria-title-img="./logos/titulo2.png" 
+      main-title-img="./logos/titulo1bis.png"
 
-  fuente-nombre="ACI Prensa"
-  fuente-url="https://www.aciprensa.com/noticias/128181/a-la-espera-de-confirmacion-vaticana-cual-sera-la-agenda-del-papa-en-argentina-y-uruguay"
-  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
-></noticia-card>
+      main-title-img-efecto="sombra pulso"
+      feria-title-img-efecto="sombra pulso"
 
 
+     main-title-img-width="420px"
+     feria-title-img-height="300px"
 
+      marco-img-santo="rectangle"
+
+      card1-img="/logos/misa.png"
+      card1-title="Misa"
+     
+      card1-body-img="./logos/body1.png"
+      card1-body-img-mobile="./logos/body1-mob.png"
+
+      card2-img="./logos/feria.png"
+      card2-title="Feria"
+      card2-body-img="./logos/body2.png"
+      card2-body-img-mobile="./logos/body2-mob.png"
+
+      card3-img="./logos/buffet.png"
+      card3-title="Buffet"
+      card3-body-img="./logos/body3.png"
+      card3-body-img-mobile="./logos/body3-mob.png"
+
+      poster="main"
+      img-santo-feria="false"
+      willow-feria="true"
+      whatsapp-number="5491153133638"
+      whatsapp-display="11 5313-3638"
+      feria-quote-top="-20px"
+      feria-quote-mobile-top="-60px"
+      img-santo-feria-top="25px"
+ 
+      luciernaga-main="true"
+      luciernaga-feria="false"
+
+      feria-panel1-icono="corazon"
+      feria-panel1-titulo="¿Sos emprendedor?"
+      feria-panel1-text="Te invitamos a sumarte con tu propuesta a esta feria que nos une y nos fortalece."
+      feria-panel1-subtitulo="Vení!!!"
+      feria-panel2-icono="moneda"
+      feria-panel2-titulo="Inscripción"
+      feria-panel2-text="Valor único + un producto de tu emprendimiento para el bingo."
+      feria-panel2-subtitulo="$15.000"
+
+      img-santo-main-desk-top="150px"
+      img-santo-feria-img="/logos/img-santo-feria-img.mp4"
+      img-santo="./logos/img-santo.mp4"
+      img-santo-width="360px"
+      img-santo-height="210px"
+      img-santo-main-desk="/logos/img-santo-main-desk.mp4"
+      img-santo-desk-width="330px"
+      img-santo-desk-height="543px"
+      img-bunting="./logos/banderines2.png"
+      img-bunting-main-mobile="/logos/banderines-mobile-main.png"
+      img-bunting-feria-mobile="/logos/banderines-mobile-feria.png"
+      banderines-movimiento="slow"
+      img-iglesia="./logos/iglesia.png"
+      style="--cartel-max-width:1300px;">
+</cartel-evento>
+  </div>
+
+<!-- img-santo-feria-img="/logos/img-santo-feria.png"
+      img-santo="./logos/san_francisco2.png"
+      img-santo-width="360px"
+      img-santo-height="240px"
+      img-santo-main-desk="/logos/img-santo-main-desk.png"
+       -->
 <script src="./components/panel-photo-gallery.js"></script>
 <panel-photo-gallery
 
@@ -1146,11 +1370,87 @@ Por estos días y en el marco de una nueva misión de avanzada, una delegación 
   title="Galería"
   title-em="Reparaciones"
   total="6"
-  sources='["1.mp4","2.jpg","3.jpg","5.jpg","4.jpg","7.jpg"]'
-  sources-mobile='["4.jpg","2.jpg","3.jpg","5.jpg","7.jpg","1.mp4"]'
+  sources='["1.png","2.jpg","3.jpg","5.jpg","4.jpg","7.jpg"]'
+  sources-mobile='["1.png","2.jpg","3.jpg","5.jpg","4.jpg","7.jpg"]'
   orientacion-mobile='["portrait","portrait","portrait","portrait","portrait","portrait"]'
   width="100%">
 </panel-photo-gallery>
+<!-- <script src="./components/video-card-gold.js"></script>
+<script src="./components/showcase-card.js"></script>
+<showcase-card
+  bg="./img/sky.jpg"
+  id="fran"
+  cover="./asantos/natividad.jpg"
+  medallion="./asantos/natividad.jpg"
+
+  video="./asantos/8.mp4"
+  badge="8 de Septiembre"
+  titulo="Natividad de la Virgen María"
+  
+
+  video2="./asantos/8bis.mp4"
+  badge2="8 de Septiembre" 
+  titulo2="María naciente"
+
+
+
+
+
+  effects="ember,dust,stars"
+  intensity="1"
+></showcase-card> -->
+ 
+  <!-- <retro-tv-player
+    link-href="https://colegiosanfranciscodeasis.edu.ar/"
+    link-mode="button"
+    link-target="_blank"
+    link-label="COLEGIO SAN FRANCISCO DE ASÍS"
+    chassis="ipod"
+    anchor-id="video-colecta"
+    src-desktop="./video/inscri.mp4"
+    src-mobile="./video/inscri.mp4"
+    title="ABIERTA LA INSCRIPCIÓN 2027"
+    color="#FF0000"
+    bg-color="#EAD7D8"
+    device-color="#f5e6d3"
+    screen-effect="moderno"
+    autoplay>
+  </retro-tv-player> -->
+
+  <!-- ═══ Video Presentación (Retro TV) ═══ -->
+   <!-- <div id="encuentro"></div>
+  <retro-tv-player
+    anchor-id="video-encuentro"
+    src-desktop="https://www.youtube.com/embed/CM4oHl8Fkr0"
+    src-mobile="4bis.mp4"
+    title="Moisés: El Hombre que Dios Eligió para Liberar a Israel"
+    color="#c8a84b"
+    autoplay>
+  </retro-tv-player> -->
+  <!-- ═══ Fin Video Presentación ═══ -->
+
+        <!-- style="display:none" -->
+ <!-- <video-gold-special
+
+      video-desktop="https://youtu.be/CM4oHl8Fkr0"
+      video-mobile="./asantos/4bis.mp4"
+      poster-mobile="./asantos/moises.jpg"
+      ancho-desktop="860px"
+
+      etiqueta="Septiembre 4"
+      badge="Moisés"
+      titulo="El Hombre que Dios Eligió para Liberar a Israel"
+
+      logo="./img/medalla.png"
+      logo-duracion="4">
+    </video-gold-special> -->
+
+
+
+
+
+
+
 
 
   <!-- ═══ Video Presentación (Retro TV) ═══ -->
@@ -1160,18 +1460,29 @@ Por estos días y en el marco de una nueva misión de avanzada, una delegación 
 <!-- <div style="display:flex;justify-content:center;"> -->
 <!-- </retro-tv-player> -->
 <style>
-  /* El componente le pone "margin: 2.5rem auto" y "padding: 2rem" a
-     su panel de vidrio interno, y ese panel se ESTIRA hasta su
-     max-width (380px para chassis="ipod") aunque el dispositivo de
-     adentro sea más angosto. Esa franja de vidrio "de más" -invisible
-     por el bg-color clarito- es la que se ve como hueco enorme entre
-     las tarjetas. Con width:fit-content lo achicamos al tamaño real
-     del contenido, y ahí sí el "gap" del flex manda de verdad. */
-  .fila-videos [class*="-outer"] {
-    margin: 0 !important;
-    padding-left: 0.9rem !important;
-    padding-right: 0.9rem !important;
-    width: fit-content !important;
+  /* Estos overrides son SOLO para el layout en fila de escritorio/tablet.
+     En mobile, cada dispositivo ya ocupa ~95% del viewport por su cuenta
+     (lógica propia del componente) y se apilan uno debajo del otro, así
+     que acá no tocamos nada: dejamos que el componente use su margin y
+     padding originales, que ya están pensados para esos anchos chicos. */
+  @media (min-width: 768px) {
+    /* El componente le pone "margin: 2.5rem auto" y "padding: 2rem" a
+       su panel de vidrio interno (pensado para cuando se usa uno solo,
+       suelto, centrado en la página). Los anulamos/reducimos acá para
+       que sea el "gap" del flex el que controle la separación real
+       entre los tres, y no el padding interno de cada tarjeta. */
+    .fila-videos [class*="-outer"] {
+      margin: 0 !important;
+      padding-left: 0.9rem !important;
+      padding-right: 0.9rem !important;
+    }
+    /* El bloque global de "ritmo vertical entre publicaciones" (arriba en
+       el <head>) le pone margin-inline:auto al TAG <retro-tv-player> en
+       sí. Ese margin:auto en un item de flexbox se come todo el espacio
+       libre de la fila y anula el "gap" del contenedor. Lo anulamos acá. */
+    .fila-videos > retro-tv-player {
+      margin: 0 !important;
+    }
   }
 </style>
 
@@ -1209,7 +1520,7 @@ Por estos días y en el marco de una nueva misión de avanzada, una delegación 
     device-color="#f5e6d3"
     screen-effect="moderno"
     autoplay
-    hide-mobile>
+    hide-mobile="all">
   </retro-tv-player>
 
   <retro-tv-player
@@ -1227,7 +1538,7 @@ Por estos días y en el marco de una nueva misión de avanzada, una delegación 
     device-color="#f5e6d3"
     screen-effect="moderno"
     autoplay
-    hide-mobile>
+    hide-mobile="all">
   </retro-tv-player>
 
 </div>
@@ -1239,8 +1550,8 @@ Por estos días y en el marco de una nueva misión de avanzada, una delegación 
   
   <misa-card
     id="card"
-    show-after="2026-08-28T00:00:00"
-    hide-after="2026-09-06T20:00:00"
+    show-after="2026-09-27T00:00:00"
+    hide-after="2026-10-04T20:00:00"
     logo-src="./img-cards/es.png"
     medal-src="./logos/aloy-marmol-piel.png"
     theme="luz-calida"
@@ -1249,9 +1560,9 @@ Por estos días y en el marco de una nueva misión de avanzada, una delegación 
     subtitle="por enfermos y afligidos"
     verse-text="Vengan a mi todos los que están afligidos y agobiados, y yo los aliviaré."
     verse-ref="Mateo 11,28"
-    day="06"
+    day="04"
     day-name="Domingo"
-    month="Sept"
+    month="OCT"
     year="2026"
     hour="19hs"
     hour-sub="En punto"
@@ -1262,86 +1573,8 @@ Por estos días y en el marco de una nueva misión de avanzada, una delegación 
 
 <br><br><br>
 
-<div style="display:flex;justify-content:center;">
-<script src="./wc-draft/video-showcase-yt.js"></script>
-
-<video-showcase-yt
-  video="https://www.youtube.com/embed/lrFwPfBOfYA"
-  sound-control
-  sound-position="right"
-  frame-image="/video/star.png"
-  frame-speed="30"
-  frame-size="10"
-  effect-image="./video/candy2.png"
-  effect-mode="none"
-  confetti-button
-  confetti-button-label="🎉 Festejar"
-  effect-intensity="45"
-  width="1080px">
-</video-showcase-yt>
-</div>
 
 
-
- <section class="post-dia-nino viewport-container" style="display: none">
-    <div class="md3-card festiva" >
-      <!-- Canvas para el confetti -->
-      <canvas id="confetti-canvas" class="d-none d-md-block"></canvas>
-
-      <!-- Header festivo -->
-      <div class="header-festivo">
-        <!-- <span class="globo">🎈</span> -->
-        <h2 class="post-title d-none d-md-block">🧸 ¡Día del Niño 2026! 🧸</h2>
-        <h2 class="post-title d-block d-md-none">¡Día del Niño 2026!</h2>
-
-      </div>
-      <!-- Video centrado en la card -->
-      <div class="video-container2">
-        <iframe src="https://www.youtube.com/embed/UkMyJW8_HHw" title="Video Día del Niño" frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-      </div>
-    </section>
- 
-
-<div style="display:flex;justify-content:center;display: none">
- <video-showcase
-  id="fiesta"
-  video-desktop="/video/fiesta_desk.mp4"
-  video-mobile="/video/fiesta.mp4"
-  frame-image="/video/star.png"
-  frame-speed="30"
-  frame-size="10"
-  effect-image="./video/candy2.png"
-  effect-mode="none"
-  sound-control
-  sound-position="left"
-  confetti-button
-  confetti-button-label="🎉 confeti"
-  effect-intensity="45"
-  width="1080px">
-</video-showcase>
-</div>
-
-<div style="display:flex;justify-content:center;display: none">
- <video-showcase
-  id="hero"
-  video-desktop="/video/festejo-desk.mp4"
-  video-mobile="/video/festejo-mob.mp4"
-  frame-image="/video/star.png"
-  frame-speed="30"
-  frame-size="10"
-  effect-image="./video/candy2.png"
-  effect-mode="none"
-  sound-control
-  sound-position="left"
-  confetti-button
-  confetti-button-label="🎉 Festejar"
-  effect-intensity="45"
-  width="1080px">
-</video-showcase>
-</div>
 
  <video-gold-special
       style="display:none"
@@ -1390,15 +1623,15 @@ Por estos días y en el marco de una nueva misión de avanzada, una delegación 
   
 
 
-  <glassmorphism-yt-player
+  <!-- <glassmorphism-yt-player
     video-id="5mQJyBnEzPs"
     title="✝️ Reflexiones del Evangelio"
     subtitle="📅 Julio 2026"
     poster=".\logos\julio.png"
    gradient="#173B63, #8FAFC5">
-  </glassmorphism-yt-player>
+  </glassmorphism-yt-player> -->
 
-</div>
+
 
 <script src="./components/mascota-flotante.js"></script>
 <mascota-flotante
@@ -1407,6 +1640,54 @@ Por estos días y en el marco de una nueva misión de avanzada, una delegación 
   href="./noticias.html"
   offset-bottom="-150"
 ></mascota-flotante>
+
+
+<noticia-card
+  id="noticia-principal"
+  fecha="14 Setiembre"
+  categoria="Vaticano"
+  titular="León XIV celebra sus 71 años y recuerda con una sonrisa que su madre fue bibliotecaria"
+  autor-nombre="Diego López Marina"
+  autor-link="https://www.aciprensa.com/autor/40/diego-lopez-marina"
+  autor-desc="Redactor en ACI Pensa desde 2016"
+  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/hFs8L49AYuYMPBZqdzuhWkkSQqDumie1speLbwop?w=48&h=48"
+  imagen="https://res.cloudinary.com/ewtn/image/upload/v1789394403/ewtn-news/es/LeonCumple_140926_vpnrnh.jpg?w=672&h=448"
+  imagen-alt="imagen oficial de la nota"
+texto="El Papa León XIV recibió este 14 de septiembre un emotivo saludo de cumpleaños por parte del personal de la Biblioteca Apostólica Vaticana y del Archivo Apostólico Vaticano, durante la visita que realizó con motivo de la inauguración de la exposición “AQVA. Catástrofe y maravilla”.
+
+En una jornada en la que celebró sus 71 años de vida, los trabajadores de ambas instituciones sorprendieron al Santo Padre entonando la tradicional canción italiana “Tanti auguri a te!” (“Feliz cumpleaños a ti”)."
+
+  fuente-nombre="ACI Prensa"
+  fuente-url="https://www.aciprensa.com/noticias/128419/papa-leon-xiv-celebra-sus-71-anos-en-el-vaticano"
+  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
+></noticia-card>
+
+<br><br><br>
+
+<noticia-card
+  id="noticia-principal"
+  fecha="3 Setiembre"
+  categoria="América Latina"
+  titular="¿Qué se sabe de la agenda del Papa en Argentina y Uruguay?"
+  autor-nombre="Julieta Villar"
+  autor-link="https://www.aciprensa.com/autor/56/julieta-villar"
+  autor-desc="Corresponsal de ACI Prensa para Argentina, Chile, Uruguay y Bolivia."
+  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
+  imagen="https://res.cloudinary.com/ewtn/image/upload/v1781451465/ewtn-news/es/imagespp/10-momentos-1-1781370285.jpg?w=672&h=448"
+  imagen-alt="imagen oficial de la nota"
+texto="La Iglesia Católica en Uruguay y en Argentina continúan delineando las propuestas de actividades programadas para la visita del Papa León XIV a ambos países, que se desarrollará entre el 6 y el 11 de noviembre para luego continuar en Perú, donde permanecerá seis días más.
+
+Por estos días y en el marco de una nueva misión de avanzada, una delegación del Vaticano recorre las locaciones donde se prevé que se lleven a cabo las celebraciones que encabezará el Papa, y se desarrollan reuniones entre las autoridades eclesiales y los referentes de los distintos niveles de Gobierno que tienen a cargo aspectos de la organización, la seguridad y la logística que requieren eventos de tal magnitud."
+
+  fuente-nombre="ACI Prensa"
+  fuente-url="https://www.aciprensa.com/noticias/128181/a-la-espera-de-confirmacion-vaticana-cual-sera-la-agenda-del-papa-en-argentina-y-uruguay"
+  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
+></noticia-card>
+
+
+
+<br><br><br>
+
 
 <noticia-card
   id="noticia-principal"
@@ -1427,134 +1708,7 @@ En una isla del Caribe de Panamá, lejos de la realidad católica en la que Laur
   fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
 ></noticia-card>
 
-<br><br><br>
 
-<noticia-card
-  id="noticia-principal"
-  fecha="24 Agosto"
-  categoria="Mundo"
-  titular="“Winnie-the-Pooh”, 100 años después: Virtudes en el Bosque de los Cien Acres"
-  autor-nombre="Alyssa Murphy"
-  autor-link="https://www.aciprensa.com/autor/152/alyssa-murphy"
-  autor-desc="Editora ejecutiva de activos digitales del National Catholic Register"
-  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/ZWn9ukPAhJCKsNjMJoxG8SeRpZRDXFx46Y2hI7Q1?w=48&h=48"
-  imagen="https://res.cloudinary.com/ewtn/image/upload/v1787613634/ewtn-news/es/Winnie-the-Pooh-Shutterstock-240826_ceqrgn.jpg?w=672&h=448"
-  imagen-alt="imagen oficial de la nota"
-texto="Un siglo después de que A.A. Milne presentara por primera vez al mundo a un “Oso de Muy Poco Cerebro”, los relatos del Bosque de los Cien Acres siguen teniendo eco mucho más allá del ámbito de la literatura infantil.
-Para Gavin Ashenden, antiguo capellán anglicano de la reina de Inglaterra y converso al catolicismo, la obra clásica de Milne continúa siendo una fuente de inspiración no sólo como relato atemporal, sino también como un sutil reflejo de profundas verdades cristianas."
-  fuente-nombre="ACI Prensa"
-  fuente-url="https://www.aciprensa.com/noticias/127935/winnie-the-pooh-100-anos-virtudes-bosque-cien-acres"
-  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
-></noticia-card>
-
-
-<br><br><br>
-    
-
-
-
-
-
-<!-- ---------------------------------------------------
---------------------------------------------------- -->
-<div class="d-none d-md-block" style="text-align: justify;">
-<!-- ---------------------------------------------------
---------------------------------------------------- -->
-<!-- <br><br><br> -->
-<noticia-card
-  id="noticia-principal"
-  fecha="12 Agosto"
-  categoria="Vaticano"
-  titular="El Papa León XIV envía 100.000 euros a la Iglesia en Colombia para asistir a los damnificados"
-  autor-nombre="Eduardo Berdejo"
-  autor-link="https://www.aciprensa.com/autor/4/eduardo-berdejo"
-  autor-desc="Profesional en Comunicación Social por la Universidad Nacional Mayor de San Marcos (Perú)"
-  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/cfySIWmHETH0dvxEPHBRl072iQPtIzt8UpVhV83M?w=48&h=48"
-  imagen="https://res.cloudinary.com/ewtn/image/upload/v1786549551/ewtn-news/es/Papa-Leon-XIV_CastelGandolfo_VaticanMedia_170825_wevuod.jpg?w=672&h=448"
-  imagen-alt="imagen oficial de la nota"
-texto="El Papa León XIV dispuso que por medio de la Limosnería Vaticana se envíen 100.000 euros a la Iglesia Católica en Colombia para asistir los damnificados por el terremoto del 10 de agosto que golpeó varias ciudades en el occidente del país.
-La información, brindada por Vatican News, fue confirmada en el sitio web de la Conferencia Episcopal de Colombia (CEC). La concreción de la ayuda fue gracias a la coordinación del prefecto del Dicasterio para el Servicio de la Caridad, Mons. Luis Marín de San Martín, con la Nunciatura y el presidente del Episcopado, Mons. Javier Múnera.
-"
-  fuente-nombre="ACI Prensa"
-  fuente-url="https://www.aciprensa.com/noticias/127627/papa-leon-xiv-dona-cien-mil-euros-a-la-iglesia-en-colombia-para-ayudar-a-damnificados-del-terremoto"
-  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
-></noticia-card>
-<br><br><br>
-
-<noticia-card
-  id="noticia-principal"
-  fecha="7 Agosto"
-  categoria="Internacionales"
-  titular="Francia cierra una mezquita en las afueras de París por presunto apoyo al terrorismo"
-  autor-nombre="Solène Tadié"
-  autor-link="https://www.aciprensa.com/autor/92/solene-tadie"
-  autor-desc="Corresponsal en Europa del National Catholic Register."
-  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/0MuJVvSBuwqj5AR878MEanaFugKfEYvjpTmf9udp?w=48&h=48"
-  imagen="https://res.cloudinary.com/ewtn/image/upload/v1786108788/ewtn-news/es/ParisFrancia_070826_wazog2.jpg?w=672&h=448"
-  imagen-alt="imagen oficial de la nota"
-texto="Las autoridades francesas ordenaron el 27 de julio el cierre durante seis meses de una mezquita situada en París, al considerar que sermones y publicaciones en redes sociales de sus imanes glorificaban el terrorismo, legitimaban la yihad e incitaban a la violencia, el odio y la discriminación.
-La medida se produce en un contexto de creciente debate político en Francia sobre los desafíos que plantea la expansión del islam en el país.
-"
-  fuente-nombre="ACI Prensa"
-  fuente-url="https://www.aciprensa.com/noticias/127503/francia-cierra-una-mezquita-en-las-afueras-de-paris-por-presunto-apoyo-al-terrorismo"
-  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
-></noticia-card>
-
-
-
-<br><br><br>
-
-<noticia-card
- 
-  id="noticia-principal"
-  fecha="5 Agosto"
-  categoria="Viajes"
-  titular="León XIV visitará Uruguay, Argentina y Perú del 6 al 17 de noviembre"
-  autor-nombre="Victoria Cardiel"
-  autor-link="https://www.aciprensa.com/autor/247/victoria-cardiel"
-  autor-desc="Periodista española especializada en información social y religiosa"
-  autor-img="https://res.cloudinary.com/ewtn/image/upload/v1769178404/Victoria_Cardiel_author_bio_pic_xsjwlp.jpg?w=48&h=48"
-  imagen="https://res.cloudinary.com/ewtn/image/upload/v1785951502/ewtn-news/es/Vatican_Media_Papa_Leon_XIV_05082026_acxqkb.jpg?w=672&h=448"
-  imagen-alt="imagen oficial de la nota"
-texto="El Papa León XIV realizará un viaje apostólico a Uruguay, Argentina y Perú del 6 al 17 de noviembre de 2026, una gira de doce días que supondrá su primera visita a América Latina.
-Tal y como informó la Oficina de Prensa del Vaticano, el Pontífice aceptó la invitación de los jefes de Estado y de las autoridades eclesiásticas de los tres países para llevar a cabo esta visita pastoral, que incluirá varias ciudades emblemáticas de cada nación.
-"
-
-  fuente-nombre="ACI Prensa"
-  fuente-url="https://www.aciprensa.com/noticias/127415/leon-xiv-visitara-uruguay-argentina-y-peru-del-6-al-17-de-noviembre"
-  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
-></noticia-card>
-
-
-
-
-<br><br><br>
-
-
-<noticia-card
-  style="display: none;"
-  id="noticia-principal"
-  fecha="5 Agosto"
-  categoria="misión evangelizadora"
-  titular="Cómo los vampiros muestran la misericordia de Dios: Religiosa católica concluye trilogía de vampiros"
-  autor-nombre="Kate Quiñones"
-  autor-link="https://www.aciprensa.com/autor/113/kate-quinones"
-  autor-desc="Redactora de Catholic News Agency y miembro de College Fix"
-  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/wPrKsZoqQh83ESDP8Q8ntqE62IlHGhvGjNJAEQ5I?w=48&h=48"
-  imagen="https://res.cloudinary.com/ewtn/image/upload/v1785791101/ewtn-news/es/Author-SrAllisonGliot_zje9as.jpg?w=672&h=448"
-  imagen-alt="imagen oficial de la nota"
-texto="Los vampiros pueden enseñarnos acerca de nosotros mismos y de la misericordia de Dios, al menos según la hermana Allison Gliot, una religiosa que escribió una trilogía de vampiros que concluyó este verano.
-Gliot forma parte de las Hijas de San Pablo, una congregación religiosa cuya misión es evangelizar a través de los medios de comunicación. La trilogía de vampiros forma parte de esa misión evangelizadora."
-
-  fuente-nombre="ACI Prensa"
-  fuente-url="https://www.aciprensa.com/noticias/127415/leon-xiv-visitara-uruguay-argentina-y-peru-del-6-al-17-de-noviembre"
-  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
-></noticia-card>
-<!-- <br> <br> <br> -->
-
-<!-- ----------------------------------------------------
----------------------------------------------------- -->
-</div>
 <!-- ---------------------------------------------------
 --------------------------------------------------- -->
 
@@ -3811,30 +3965,7 @@ Solemnidad de Corpus Christi – 6 de junio de 2026.">
 
 
 
-<!-- 
 
-<script src="./components/video-card-gold.js"></script>
-<script src="./components/showcase-card.js"></script>
-<showcase-card
-  bg="./img/sky.jpg"
-  id="fran"
-  cover="./img/francis2.png"
-  medallion="./img/francis_cuadrado2.png"
-
-  video="./video/fran4.mp4"
-  titulo="El argentino más importante"
-  badge="entrevista con Jordi"
-
-  video2="./video/fran3.mp4"
-  titulo2="Dejar que pase el nublado..."
-  badge2="Consejo" 
-
-
-
-
-  effects="ember,dust,stars"
-  intensity="1"
-></showcase-card> -->
 
  
 
@@ -5782,13 +5913,13 @@ Solemnidad de Corpus Christi – 6 de junio de 2026.">
             <div class="date-block">
               <div class="date-item">
                 <div class="date-label">Día</div>
-                <div class="date-value">06</div>
+                <div class="date-value">04</div>
                 <div class="date-sub">Domingo</div>
               </div>
               <div class="date-sep"></div>
               <div class="date-item">
                 <div class="date-label">Mes</div>
-                <div class="date-value">Sep</div>
+                <div class="date-value">Oct</div>
                 <div class="date-sub">2026</div>
               </div>
               <div class="date-sep"></div>
@@ -7084,6 +7215,26 @@ for (let i = 0; i < 18; i++) {
  
 <!-- inicio videos usca  -->
 
+<div style="display:flex;justify-content:center;">
+<script src="./wc-draft/video-showcase-yt.js"></script>
+
+<video-showcase-yt
+  video="https://www.youtube.com/embed/lrFwPfBOfYA"
+  sound-control
+  sound-position="right"
+  frame-image="/video/star.png"
+  frame-speed="30"
+  frame-size="10"
+  effect-image="./video/candy2.png"
+  effect-mode="none"
+  confetti-button
+  confetti-button-label="🎉 Festejar"
+  effect-intensity="45"
+  width="1080px">
+</video-showcase-yt>
+</div>
+
+
  <!-- ═══ Mural de Actividades ═══ -->
   <cork-mural-carousel
     title="Pizarra Actividades"
@@ -7994,15 +8145,29 @@ for (let i = 0; i < 18; i++) {
         </div>
       </div>
     </div>
+<div style="width:100%; max-width:860px; margin:1.5rem auto; padding:0 1rem; box-sizing:border-box;">
+  <img src="./img/secre_desk.png"
+       alt="Información parroquial"
+       class="d-none d-md-block"
+       style="width:100%; border-radius:16px; box-shadow:0 4px 18px rgba(0,0,0,.13); display:block;">
+  <img src="./img/secre_mob.jpg"
+       alt="Información parroquial"
+       class="d-block d-md-none"
+       style="width:100%; border-radius:14px; box-shadow:0 4px 18px rgba(0,0,0,.13); display:block;">
+</div>
+
+
   </section>
 
 
+  
   <section-title id="UBICACION" icon="📍" text="Ubicación"
                  effect="floating-png" png-src="./img/gps.png"
                  png-count="6" png-height="28px" icon-mobile="off"></section-title>
   <section id="ubicacion" class="section-padding bg-light">
     <div class="container text-center">
       <!-- <h2 class="mb-4">Nuestra Ubicación</h2> -->
+
       <!-- Google Maps Iframe        src="https://maps.google.com/maps?q=-34.9037613,-57.9251084&z=15&output=embed"  -->
       <div class="iframe-container">
         <iframe
