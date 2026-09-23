@@ -438,7 +438,7 @@
               <ul class="navbar-nav" style="--icon-gap:4px;">
                 <li class="nav-item">
                   <a class="nav-link" href="#usca">
-                    <span style="font-size:20px;line-height:1;display:inline-flex;align-items:center;">⚜</span>
+                    <i class="material-icons">local_activity</i>
                     <span class="text-label">Actividades</span>
                   </a>
                 </li>
@@ -533,6 +533,15 @@
       .navbar-brand .logo {
         height: 50px !important;
         max-height: 50px !important;
+      }
+    }
+    /* Desde 768px (donde la 2ª línea de dirección se oculta por d-md-none)
+       el bloque de título tiene 1 sola línea: el padding-top de 0.8em pensado
+       para el bloque de 2 líneas en mobile lo descentra respecto del logo.
+       Se anula solo en este rango — mobile queda intacto. */
+    @media (min-width: 768px) {
+      .navbar-brand .titulo-ppal {
+        padding-top: 0 !important;
       }
     }
   </style>
