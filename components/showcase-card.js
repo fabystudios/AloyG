@@ -6,7 +6,9 @@
  *   cover          — URL poster desktop (columna izquierda)
  *   medallion      — URL foto circular flotante mobile (y desktop si medallion-desk="true")
  *   medallion-desk — literal "true" (string exacto) para mostrar también el medallón en desktop (default/cualquier otro valor: oculto, igual que antes)
- *   medallion-corner — Corner del medallón EN DESKTOP: "top-left" (default) | "top-right" | "bottom-left" | "bottom-right"
+ *   medallion-corner — Corner del medallón, aplica en mobile Y desktop: "top-left" (default) | "top-right" | "bottom-left" | "bottom-right"
+ *   cover-mobile   — literal "true" para que la imagen de `cover` aparezca también como un slide más dentro del carrusel mobile (adaptada al mismo tamaño que los video-cards). Default: no aparece en mobile (igual que antes)
+ *   cover-mobile-position — "first" (default) | "last" — dónde se inserta el slide de cover dentro del carrusel mobile (solo aplica si cover-mobile="true")
  *   video          — URL video principal (mp4)              [legacy, 1 video]
  *   video2         — URL segundo video opcional (mp4)        [legacy, 2do video]
  *   titulo         — Título del video principal
@@ -163,6 +165,10 @@ _scTpl.innerHTML = `
   .sc-cover{flex:1 1 45%;min-width:0;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.4),0 0 0 1px rgba(197,162,39,.25);}
   .sc-cover img{display:block;width:100%;height:auto;border-radius:16px;}
 
+  /* Cover como slide del carrusel mobile (cover-mobile="true") — mismo contenedor/tamaño que un video-card */
+  .sc-cover-mobile-slide{width:100%;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.4),0 0 0 1px rgba(197,162,39,.25);}
+  .sc-cover-mobile-slide img{display:block;width:100%;height:auto;border-radius:16px;}
+
   /* contenedor de los video cards en desktop */
   .sc-videos-desktop{flex:0 0 auto;display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:center;}
 
@@ -266,6 +272,12 @@ _scTpl.innerHTML = `
     object-fit:contain;
   }
 
+  /* Corner del medallón: mismo atributo para mobile y desktop (default: top-left) */
+  :host([medallion-corner="top-right"])    .sc-medallon-wrap{top:12px;right:12px;left:auto;bottom:auto;}
+  :host([medallion-corner="bottom-left"])  .sc-medallon-wrap{top:auto;bottom:12px;left:12px;right:auto;}
+  :host([medallion-corner="bottom-right"]) .sc-medallon-wrap{top:auto;bottom:12px;right:12px;left:auto;}
+  /* "top-left" es el default (hereda top:12px;left:12px de .sc-medallon-wrap) */
+
   /* ── Responsive ── */
   @media (min-width:768px){
     .sc-layout{flex-direction:row;}
@@ -277,12 +289,6 @@ _scTpl.innerHTML = `
     :host([medallion-desk="true"]) .sc-medallon-wrap{
       display:flex !important;
     }
-
-    /* Corner configurable, aplica SOLO en desktop (mobile siempre top-left) */
-    :host([medallion-corner="top-right"])    .sc-medallon-wrap{top:12px;right:12px;left:auto;bottom:auto;}
-    :host([medallion-corner="bottom-left"])  .sc-medallon-wrap{top:auto;bottom:12px;left:12px;right:auto;}
-    :host([medallion-corner="bottom-right"]) .sc-medallon-wrap{top:auto;bottom:12px;right:12px;left:auto;}
-    /* "top-left" es el default (hereda top:12px;left:12px de .sc-medallon-wrap) */
   }
   @media (max-width:767px){
     .sc-wrap{width:95vw;max-width:95vw;}
@@ -359,7 +365,7 @@ const OVERLAY_PRESETS = {light:.15, medium:.35, dark:.58};
 
 class ShowcaseCard extends HTMLElement {
   static get observedAttributes() {
-    return ['bg','cover','medallion','medallion-modal','medallion-full',
+    return ['bg','cover','cover-mobile','cover-mobile-position','medallion','medallion-modal','medallion-full','medallion-desk','medallion-corner',
             'video','titulo','badge','poster',
             'video2','titulo2','badge2','poster2',
             'videos',
@@ -401,7 +407,7 @@ class ShowcaseCard extends HTMLElement {
   }
 
   _applyAll() {
-    ['bg','cover','medallion','medallion-modal','medallion-full',
+    ['bg','cover','cover-mobile','cover-mobile-position','medallion','medallion-modal','medallion-full','medallion-desk','medallion-corner',
      'video','titulo','badge','poster',
      'video2','titulo2','badge2','poster2',
      'videos',
@@ -419,6 +425,10 @@ class ShowcaseCard extends HTMLElement {
 
     } else if (name === 'cover') {
       if (val) { this._coverImg.src = val; this._coverImg.alt = this.getAttribute('titulo')||''; }
+      this._rebuildVideos(); /* por si cover-mobile="true": refresca el slide del carrusel */
+
+    } else if (name === 'cover-mobile' || name === 'cover-mobile-position') {
+      this._rebuildVideos();
 
     } else if (name === 'medallion') {
       if (val) this._medImg.src = val;
@@ -499,12 +509,23 @@ class ShowcaseCard extends HTMLElement {
     return list;
   }
 
+  /* Crea el slide de "cover" para el carrusel mobile (cover-mobile="true") */
+  _makeCoverSlide(src) {
+    const wrap = document.createElement('div');
+    wrap.className = 'sc-cover-mobile-slide';
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = this.getAttribute('titulo') || '';
+    wrap.appendChild(img);
+    return wrap;
+  }
+
   _rebuildVideos() {
     if (!this._videosDesktop) return;
 
     const list = this._getVideosData();
 
-    /* ── Desktop: limpiar y reconstruir ── */
+    /* ── Desktop: limpiar y reconstruir (cover NO entra acá, tiene su propia columna) ── */
     this._videosDesktop.innerHTML = '';
     list.forEach(({video, titulo, badge, poster}) => {
       this._videosDesktop.appendChild(this._makeCard(video, titulo, badge, poster));
@@ -514,17 +535,33 @@ class ShowcaseCard extends HTMLElement {
     this._carouselTrack.innerHTML = '';
     this._carouselDots.innerHTML  = '';
 
-    list.forEach(({video, titulo, badge, poster}, idx) => {
+    /* Slide opcional de cover al inicio del carrusel mobile */
+    const coverSrc = this.getAttribute('cover');
+    const showCoverMobile = !!coverSrc && this.getAttribute('cover-mobile') === 'true';
+    const coverAtEnd = this.getAttribute('cover-mobile-position') === 'last';
+
+    const slidesData = [];
+    if (showCoverMobile && !coverAtEnd) slidesData.push({ _cover: true });
+    list.forEach(item => slidesData.push(item));
+    if (showCoverMobile && coverAtEnd) slidesData.push({ _cover: true });
+
+    slidesData.forEach((data, idx) => {
       /* slide */
       const slide = document.createElement('div');
       slide.style.cssText = 'flex:0 0 100%;max-width:100%;display:flex;align-items:center;justify-content:center;padding:0 2px;';
-      const card = this._makeCard(video, titulo, badge, poster);
-      card.style.width = '100%';
-      slide.appendChild(card);
+
+      let content;
+      if (data._cover) {
+        content = this._makeCoverSlide(coverSrc);
+      } else {
+        content = this._makeCard(data.video, data.titulo, data.badge, data.poster);
+        content.style.width = '100%';
+      }
+      slide.appendChild(content);
       this._carouselTrack.appendChild(slide);
 
       /* dot */
-      if (list.length > 1) {
+      if (slidesData.length > 1) {
         const dot = document.createElement('div');
         dot.className = 'sc-dot' + (idx === 0 ? ' active' : '');
         dot.addEventListener('click', () => this._goTo(idx));
