@@ -185,10 +185,31 @@ _scTpl.innerHTML = `
   .sc-carousel-track{display:flex;transition:transform .38s cubic-bezier(.22,1,.36,1);will-change:transform;}
   .sc-carousel-track > *{flex:0 0 100%;max-width:100%;}
 
-  /* flechas: absolutas, centradas verticalmente, sobre el track */
+  /* flechas: hit-area ampliada a toda la columna lateral (arriba/abajo),
+     el dibujo visual (círculo chico) queda igual, solo se agranda el área táctil */
   .sc-arr{
     position:absolute;
-    top:50%;transform:translateY(-50%);
+    top:0;bottom:0;
+    width:28%;
+    max-width:96px;
+    min-width:60px;
+    display:flex;
+    align-items:center;
+    background:transparent;
+    border:none;
+    padding:0;margin:0;
+    cursor:pointer;
+    transition:opacity .25s;
+    z-index:9;
+    -webkit-tap-highlight-color:transparent;
+    user-select:none;
+  }
+  #scArrPrev{left:0;justify-content:flex-start;padding-left:6px;}
+  #scArrNext{right:0;justify-content:flex-end;padding-right:6px;}
+  .sc-arr.hidden{opacity:0;pointer-events:none;}
+
+  /* el círculo visual, sin cambios de diseño, ahora es un hijo decorativo */
+  .sc-arr-visual{
     width:34px;height:34px;
     border-radius:50%;
     border:1.5px solid rgba(245,208,107,.6);
@@ -196,19 +217,13 @@ _scTpl.innerHTML = `
     backdrop-filter:blur(8px);
     -webkit-backdrop-filter:blur(8px);
     display:flex;align-items:center;justify-content:center;
-    cursor:pointer;
-    transition:background .2s,border-color .2s,box-shadow .2s,opacity .25s,transform .15s;
+    transition:background .2s,border-color .2s,box-shadow .2s,transform .15s;
     box-shadow:0 0 12px rgba(197,162,39,.25);
-    z-index:9;
-    -webkit-tap-highlight-color:transparent;
-    user-select:none;
+    pointer-events:none;
   }
-  #scArrPrev{left:6px;}
-  #scArrNext{right:6px;}
-  .sc-arr:hover{background:rgba(197,162,39,.22);border-color:rgba(245,208,107,.95);box-shadow:0 0 20px rgba(197,162,39,.45);}
-  .sc-arr:active{transform:translateY(-50%) scale(.9);}
-  .sc-arr.hidden{opacity:0;pointer-events:none;}
-  .sc-arr svg{width:14px;height:14px;fill:none;stroke:rgba(245,208,107,.9);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
+  .sc-arr:hover .sc-arr-visual{background:rgba(197,162,39,.22);border-color:rgba(245,208,107,.95);box-shadow:0 0 20px rgba(197,162,39,.45);}
+  .sc-arr:active .sc-arr-visual{transform:scale(.9);}
+  .sc-arr-visual svg{width:14px;height:14px;fill:none;stroke:rgba(245,208,107,.9);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}
 
   .sc-carousel-dots{display:flex;gap:7px;align-items:center;justify-content:center;padding-top:2px;}
   .sc-dot{width:7px;height:7px;border-radius:50%;background:rgba(197,162,39,.3);border:1px solid rgba(245,208,107,.5);transition:background .3s,transform .3s;cursor:pointer;}
@@ -337,13 +352,13 @@ _scTpl.innerHTML = `
     <div class="sc-carousel-wrap" id="scCarouselWrap">
       <div class="sc-carousel-row">
         <button class="sc-arr" id="scArrPrev" aria-label="Anterior">
-          <svg viewBox="0 0 14 14"><polyline points="9,2 4,7 9,12"/></svg>
+          <span class="sc-arr-visual"><svg viewBox="0 0 14 14"><polyline points="9,2 4,7 9,12"/></svg></span>
         </button>
         <div class="sc-carousel-outer" id="scCarouselOuter">
           <div class="sc-carousel-track" id="scCarouselTrack"></div>
         </div>
         <button class="sc-arr" id="scArrNext" aria-label="Siguiente">
-          <svg viewBox="0 0 14 14"><polyline points="5,2 10,7 5,12"/></svg>
+          <span class="sc-arr-visual"><svg viewBox="0 0 14 14"><polyline points="5,2 10,7 5,12"/></svg></span>
         </button>
       </div>
       <div class="sc-carousel-dots" id="scCarouselDots"></div>
