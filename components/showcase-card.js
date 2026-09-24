@@ -4,7 +4,9 @@
  * ATRIBUTOS:
  *   bg             — URL imagen de fondo
  *   cover          — URL poster desktop (columna izquierda)
- *   medallion      — URL foto circular flotante mobile
+ *   medallion      — URL foto circular flotante mobile (y desktop si medallion-desk="true")
+ *   medallion-desk — literal "true" (string exacto) para mostrar también el medallón en desktop (default/cualquier otro valor: oculto, igual que antes)
+ *   medallion-corner — Corner del medallón EN DESKTOP: "top-left" (default) | "top-right" | "bottom-left" | "bottom-right"
  *   video          — URL video principal (mp4)              [legacy, 1 video]
  *   video2         — URL segundo video opcional (mp4)        [legacy, 2do video]
  *   titulo         — Título del video principal
@@ -270,6 +272,17 @@ _scTpl.innerHTML = `
     .sc-medallon-wrap{display:none !important;}
     .sc-carousel-wrap{display:none !important;}
     .sc-videos-desktop{display:flex;}
+
+    /* Medallón en desktop: solo si medallion-desk="true" (default sigue oculto) */
+    :host([medallion-desk="true"]) .sc-medallon-wrap{
+      display:flex !important;
+    }
+
+    /* Corner configurable, aplica SOLO en desktop (mobile siempre top-left) */
+    :host([medallion-corner="top-right"])    .sc-medallon-wrap{top:12px;right:12px;left:auto;bottom:auto;}
+    :host([medallion-corner="bottom-left"])  .sc-medallon-wrap{top:auto;bottom:12px;left:12px;right:auto;}
+    :host([medallion-corner="bottom-right"]) .sc-medallon-wrap{top:auto;bottom:12px;right:12px;left:auto;}
+    /* "top-left" es el default (hereda top:12px;left:12px de .sc-medallon-wrap) */
   }
   @media (max-width:767px){
     .sc-wrap{width:95vw;max-width:95vw;}
@@ -574,8 +587,8 @@ class ShowcaseCard extends HTMLElement {
     const inner    = this._shadow.getElementById('scMedModalInner');
 
     const open = () => {
-      /* solo en mobile */
-      if (window.innerWidth >= 768) return;
+      /* en mobile siempre habilitado; en desktop solo si medallion-desk="true" */
+      if (window.innerWidth >= 768 && this.getAttribute('medallion-desk') !== 'true') return;
       const src = this._medallionModalSrc || this._medImg.src;
       if (!src) return;
       modalImg.src = src;
