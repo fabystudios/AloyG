@@ -9,6 +9,7 @@
  *   medallion-corner — Corner del medallón, aplica en mobile Y desktop: "top-left" (default) | "top-right" | "bottom-left" | "bottom-right"
  *   cover-mobile   — literal "true" para que la imagen de `cover` aparezca también como un slide más dentro del carrusel mobile (adaptada al mismo tamaño que los video-cards). Default: no aparece en mobile (igual que antes)
  *   cover-mobile-position — "first" (default) | "last" — dónde se inserta el slide de cover dentro del carrusel mobile (solo aplica si cover-mobile="true")
+ *   (click/tap sobre el cover abre el mismo modal de zoom que usa el medallón, en modo rectangular — funciona tanto en el slide mobile como en la columna desktop)
  *   video          — URL video principal (mp4)              [legacy, 1 video]
  *   video2         — URL segundo video opcional (mp4)        [legacy, 2do video]
  *   titulo         — Título del video principal
@@ -162,11 +163,13 @@ _scTpl.innerHTML = `
   /* ── Desktop layout: cover | video1 | video2 ── */
   .sc-layout{display:flex;align-items:center;justify-content:center;gap:1.5rem;position:relative;z-index:8;}
 
-  .sc-cover{flex:1 1 45%;min-width:0;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.4),0 0 0 1px rgba(197,162,39,.25);}
+  .sc-cover{flex:1 1 45%;min-width:0;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.4),0 0 0 1px rgba(197,162,39,.25);cursor:pointer;transition:transform .15s ease;}
+  .sc-cover:active{transform:scale(.98);}
   .sc-cover img{display:block;width:100%;height:auto;border-radius:16px;}
 
   /* Cover como slide del carrusel mobile (cover-mobile="true") — mismo contenedor/tamaño que un video-card */
-  .sc-cover-mobile-slide{width:100%;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.4),0 0 0 1px rgba(197,162,39,.25);}
+  .sc-cover-mobile-slide{width:100%;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.4),0 0 0 1px rgba(197,162,39,.25);cursor:pointer;transition:transform .15s ease;}
+  .sc-cover-mobile-slide:active{transform:scale(.97);}
   .sc-cover-mobile-slide img{display:block;width:100%;height:auto;border-radius:16px;}
 
   /* contenedor de los video cards en desktop */
@@ -325,7 +328,7 @@ _scTpl.innerHTML = `
 
   <div class="sc-layout">
     <!-- Cover desktop izquierda -->
-    <div class="sc-cover"><img id="scCoverImg" src="" alt=""></div>
+    <div class="sc-cover" id="scCoverWrap"><img id="scCoverImg" src="" alt=""></div>
 
     <!-- Videos desktop: uno o dos cards side by side -->
     <div class="sc-videos-desktop" id="scVideosDesktop"></div>
@@ -381,6 +384,7 @@ class ShowcaseCard extends HTMLElement {
     this._wrap          = this._shadow.getElementById('scWrap');
     this._overlay       = this._shadow.getElementById('scOverlay');
     this._coverImg      = this._shadow.getElementById('scCoverImg');
+    this._coverWrap     = this._shadow.getElementById('scCoverWrap');
     this._medImg        = this._shadow.getElementById('scMedallonImg');
     this._videosDesktop = this._shadow.getElementById('scVideosDesktop');
     this._carouselTrack = this._shadow.getElementById('scCarouselTrack');
@@ -389,12 +393,16 @@ class ShowcaseCard extends HTMLElement {
     this._arrPrev       = this._shadow.getElementById('scArrPrev');
     this._arrNext       = this._shadow.getElementById('scArrNext');
     this._canvas        = this._shadow.getElementById('scCanvas');
+    this._imgModal      = this._shadow.getElementById('scMedModal');
+    this._imgModalImg   = this._shadow.getElementById('scMedModalImg');
+    this._imgModalInner = this._shadow.getElementById('scMedModalInner');
 
     this._carouselIdx = 0;
     this._arrPrev.addEventListener('click', () => this._goTo(this._carouselIdx - 1));
     this._arrNext.addEventListener('click', () => this._goTo(this._carouselIdx + 1));
     this._initSwipe();
     this._initMedallionModal();
+    this._coverWrap.addEventListener('click', () => this._openImageModal(this._coverImg.src, true));
 
     this._engine = new ParticleEngine(this._canvas);
     this._applyAll();
@@ -517,6 +525,12 @@ class ShowcaseCard extends HTMLElement {
     img.src = src;
     img.alt = this.getAttribute('titulo') || '';
     wrap.appendChild(img);
+
+    /* click/tap → abre el mismo modal de zoom que el medallón (modo "full") */
+    const openZoom = () => this._openImageModal(src, true);
+    wrap.addEventListener('click', openZoom);
+    wrap.addEventListener('touchend', e => { e.preventDefault(); openZoom(); }, {passive: false});
+
     return wrap;
   }
 
@@ -616,33 +630,35 @@ class ShowcaseCard extends HTMLElement {
     }, {passive: true});
   }
 
+  /* Modal de zoom genérico (medallón y cover-mobile lo comparten) */
+  _openImageModal(src, isFull) {
+    if (!src) return;
+    this._imgModalImg.src = src;
+    this._imgModalInner.classList.toggle('full', !!isFull);
+    this._imgModalImg.classList.toggle('full', !!isFull);
+    this._imgModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  _closeImageModal() {
+    this._imgModal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
   _initMedallionModal() {
     const medWrap  = this._shadow.querySelector('.sc-medallon-wrap');
-    const modal    = this._shadow.getElementById('scMedModal');
-    const modalImg = this._shadow.getElementById('scMedModalImg');
+    const modal    = this._imgModal;
     const closeBtn = this._shadow.getElementById('scMedModalClose');
-    const inner    = this._shadow.getElementById('scMedModalInner');
+    const inner    = this._imgModalInner;
 
     const open = () => {
       /* en mobile siempre habilitado; en desktop solo si medallion-desk="true" */
       if (window.innerWidth >= 768 && this.getAttribute('medallion-desk') !== 'true') return;
       const src = this._medallionModalSrc || this._medImg.src;
-      if (!src) return;
-      modalImg.src = src;
-
-      /* Modo full: imagen rectangular sin clip circular */
-      const isFull = !!this._medallionFull;
-      inner.classList.toggle('full', isFull);
-      modalImg.classList.toggle('full', isFull);
-
-      modal.classList.add('open');
-      document.body.style.overflow = 'hidden';
+      this._openImageModal(src, !!this._medallionFull);
     };
 
-    const close = () => {
-      modal.classList.remove('open');
-      document.body.style.overflow = '';
-    };
+    const close = () => this._closeImageModal();
 
     medWrap.addEventListener('touchend', e => {
       e.preventDefault(); /* evita disparo del click fantasma */
