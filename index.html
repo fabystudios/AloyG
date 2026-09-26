@@ -805,13 +805,13 @@
             // Generar HTML del overlay si existe
             let overlayHTML = '';
             if (slide.overlay && slide.overlay.src) {
-              const {src, desktopPos, mobilePos, effect, desktopScale, mobileScale} = slide.overlay;
+              const {src, desktopPos, mobilePos, effect, desktopScale, mobileScale, flyDuration, flyDelay} = slide.overlay;
               overlayHTML = `
                 <div class="slide-overlay" 
                      data-desktop-pos="${desktopPos || 'center'}" 
                      data-mobile-pos="${mobilePos || 'center'}" 
                      data-effect="${effect || 'none'}"
-                     style="background-image: url('${src}'); --overlay-scale-desktop: ${desktopScale || 1}; --overlay-scale-mobile: ${mobileScale || 1};">
+                     style="background-image: url('${src}'); --overlay-scale-desktop: ${desktopScale || 1}; --overlay-scale-mobile: ${mobileScale || 1}; --fly-duration: ${flyDuration || 6}s; --fly-delay: ${flyDelay || 0}s;">
                 </div>`;
             }
             
@@ -1144,6 +1144,99 @@
 
 
 
+<script src="./components/cartel-evento.js"></script>
+<div style="display:flex;justify-content:center;">
+ 
+<cartel-evento
+      id="asis1"
+      feria-title-img="./logos/titulo2.png" 
+      main-title-img="./logos/titulo1bis.png"
+
+      main-title-img-efecto="sombra pulso"
+      feria-title-img-efecto="sombra pulso"
+
+
+     main-title-img-width="420px"
+     feria-title-img-height="300px"
+
+      marco-img-santo="rectangle"
+
+      card1-img="/logos/misa.png"
+      card1-title="Misa"
+     
+      card1-body-img="./logos/body1.png"
+      card1-body-img-mobile="./logos/body1-mob.png"
+
+      card2-img="./logos/feria.png"
+      card2-title="Feria"
+      card2-body-img="./logos/body2.png"
+      card2-body-img-mobile="./logos/body2-mob.png"
+
+      card3-img="./logos/buffet.png"
+      card3-title="Buffet"
+      card3-body-img="./logos/body3.png"
+      card3-body-img-mobile="./logos/body3-mob.png"
+
+      poster="main"
+      img-santo-feria="false"
+      willow-feria="true"
+      whatsapp-number="5491153133638"
+      whatsapp-display="11 5313-3638"
+      feria-quote-top="-20px"
+      feria-quote-mobile-top="-60px"
+      img-santo-feria-top="25px"
+ 
+      luciernaga-main="true"
+      luciernaga-feria="false"
+
+      feria-panel1-icono="corazon"
+      feria-panel1-titulo="¿Sos emprendedor?"
+      feria-panel1-text="Te invitamos a sumarte con tu propuesta a esta feria que nos une y nos fortalece."
+      feria-panel1-subtitulo="Vení!!!"
+      feria-panel2-icono="moneda"
+      feria-panel2-titulo="Inscripción"
+      feria-panel2-text="Valor único + un producto de tu emprendimiento para el bingo."
+      feria-panel2-subtitulo="$15.000"
+
+      img-santo-main-desk-top="150px"
+      img-santo-feria-img="/logos/img-santo-feria-img.mp4"
+      img-santo="./logos/img-santo.mp4"
+      img-santo-width="360px"
+      img-santo-height="210px"
+      img-santo-main-desk="/logos/img-santo-main-desk.mp4"
+      img-santo-desk-width="330px"
+      img-santo-desk-height="543px"
+      img-bunting="./logos/banderines2.png"
+      img-bunting-main-mobile="/logos/banderines-mobile-main.png"
+      img-bunting-feria-mobile="/logos/banderines-mobile-feria.png"
+      banderines-movimiento="slow"
+      img-iglesia="./logos/iglesia.png"
+      style="--cartel-max-width:1300px;">
+</cartel-evento>
+  </div>
+
+<script>
+(function () {
+  function aplicarHashCartel() {
+    const hash = location.hash.slice(1); // saca el "#"
+    if (!hash) return;
+    const [id, poster] = hash.split('--'); // "asis1--feria" -> ["asis1","feria"]
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (poster === 'main' || poster === 'feria') {
+      el.setAttribute('poster', poster);
+    }
+    // Scroll manual: el navegador no auto-scrollea porque "asis1--feria"
+    // no es el id real de ningún elemento (el id real es "asis1").
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  window.addEventListener('DOMContentLoaded', aplicarHashCartel);
+  window.addEventListener('hashchange', aplicarHashCartel);
+})();
+</script>
+
+
 <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
   <!-- style="display: none;" -->
 <div class="video-card-gold-container">
@@ -1343,78 +1436,6 @@ La visita comenzará el domingo por la tarde, tras una misa en Florida, Uruguay,
 
 <!-- <br> <br> <br> -->
 
-
-
-<script src="./components/cartel-evento.js"></script>
-<div style="display:flex;justify-content:center;">
- 
-<cartel-evento
-      id="asis1"
-      feria-title-img="./logos/titulo2.png" 
-      main-title-img="./logos/titulo1bis.png"
-
-      main-title-img-efecto="sombra pulso"
-      feria-title-img-efecto="sombra pulso"
-
-
-     main-title-img-width="420px"
-     feria-title-img-height="300px"
-
-      marco-img-santo="rectangle"
-
-      card1-img="/logos/misa.png"
-      card1-title="Misa"
-     
-      card1-body-img="./logos/body1.png"
-      card1-body-img-mobile="./logos/body1-mob.png"
-
-      card2-img="./logos/feria.png"
-      card2-title="Feria"
-      card2-body-img="./logos/body2.png"
-      card2-body-img-mobile="./logos/body2-mob.png"
-
-      card3-img="./logos/buffet.png"
-      card3-title="Buffet"
-      card3-body-img="./logos/body3.png"
-      card3-body-img-mobile="./logos/body3-mob.png"
-
-      poster="main"
-      img-santo-feria="false"
-      willow-feria="true"
-      whatsapp-number="5491153133638"
-      whatsapp-display="11 5313-3638"
-      feria-quote-top="-20px"
-      feria-quote-mobile-top="-60px"
-      img-santo-feria-top="25px"
- 
-      luciernaga-main="true"
-      luciernaga-feria="false"
-
-      feria-panel1-icono="corazon"
-      feria-panel1-titulo="¿Sos emprendedor?"
-      feria-panel1-text="Te invitamos a sumarte con tu propuesta a esta feria que nos une y nos fortalece."
-      feria-panel1-subtitulo="Vení!!!"
-      feria-panel2-icono="moneda"
-      feria-panel2-titulo="Inscripción"
-      feria-panel2-text="Valor único + un producto de tu emprendimiento para el bingo."
-      feria-panel2-subtitulo="$15.000"
-
-      img-santo-main-desk-top="150px"
-      img-santo-feria-img="/logos/img-santo-feria-img.mp4"
-      img-santo="./logos/img-santo.mp4"
-      img-santo-width="360px"
-      img-santo-height="210px"
-      img-santo-main-desk="/logos/img-santo-main-desk.mp4"
-      img-santo-desk-width="330px"
-      img-santo-desk-height="543px"
-      img-bunting="./logos/banderines2.png"
-      img-bunting-main-mobile="/logos/banderines-mobile-main.png"
-      img-bunting-feria-mobile="/logos/banderines-mobile-feria.png"
-      banderines-movimiento="slow"
-      img-iglesia="./logos/iglesia.png"
-      style="--cartel-max-width:1300px;">
-</cartel-evento>
-  </div>
 
 <!-- img-santo-feria-img="/logos/img-santo-feria.png"
       img-santo="./logos/san_francisco2.png"

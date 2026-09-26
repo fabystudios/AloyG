@@ -1,7 +1,32 @@
 [
+                  {
+    "id": "bingo",
+    "position": 1,
+    "hasVideo": false,
+    "link": "#asis1--feria",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/bingo_desk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/bingo_mob.png"
+    },
+    "overlay": {
+      "src": "./logos/palomita.png",
+      "desktopPos": "center",
+      "mobilePos": "center",
+      "effect": "vuela-izq-der",
+      "desktopScale": 0.35,
+      "mobileScale": 0.5,
+      "flyDuration": 6,
+      "flyDelay": 0.5
+}
+  },
                 {
     "id": "viaje",
-    "position": 1,
+    "position": 2,
     "hasVideo": false,
     "link": "#papa1",
     "time": { "desktop": 3, "mobile": 3 },
@@ -16,7 +41,7 @@
   },
                 {
     "id": "leon",
-    "position": 5,
+    "position": 6,
     "hasVideo": false,
     "link": "https://acreditaciones.episcopado.org/voluntarios",
     "time": { "desktop": 3, "mobile": 3 },
@@ -31,7 +56,7 @@
   },
     {
   "id": "Aurelia",
-  "position": 4,
+  "position": 5,
   "hasVideo": false,
   "link": "./avisos.html",
   "time": { "desktop": 5, "mobile": 5 },
@@ -46,7 +71,7 @@
 },
                 {
     "id": "asis1",
-    "position": 2,
+    "position": 3,
     "hasVideo": false,
     "link": "#asis1",
     "time": { "desktop": 3, "mobile": 3 },
@@ -61,7 +86,7 @@
   },
                   {
     "id": "asis2",
-    "position": 3,
+    "position": 4,
     "hasVideo": false,
     "link": "#asis2",
     "time": { "desktop": 3, "mobile": 3 },
@@ -133,7 +158,7 @@
   },
                   {
     "id": "SF",
-    "position": 2,
+    "position": 3,
     "hasVideo": false,
     "link": "https://colegiosanfranciscodeasis.edu.ar/",
     "time": { "desktop": 3, "mobile": 3 },
@@ -210,7 +235,7 @@
        
               {
     "id": "merienda",
-    "position": 7,
+    "position": 8,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },

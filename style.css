@@ -3149,3 +3149,29 @@ left: 10%;  /* ajuste horizontal en porcentaje */
     --current-scale: var(--overlay-scale-mobile, 1);
   }
 }
+
+/* Efecto "vuela-izq-der": la imagen cruza el slide de izquierda a
+   derecha, con un leve aleteo (sube/baja) mientras pasa. Anima la
+   propiedad "translate" (aparte de "transform", que ya usa
+   .slide-overlay para el scale) para no pisar el desktopScale /
+   mobileScale ni el resto de las reglas de posicion. */
+@keyframes overlayFlyIzqDer {
+  0%   { translate: -130vw 0; }
+  10%  { translate: -95vw -4%; }
+  30%  { translate: -35vw 3%; }
+  50%  { translate: 0vw -4%; }
+  70%  { translate: 35vw 3%; }
+  90%  { translate: 95vw -4%; }
+  100% { translate: 130vw 0; }
+}
+
+.slide-overlay[data-effect="vuela-izq-der"] {
+  animation: overlayFlyIzqDer var(--fly-duration, 6s) linear infinite;
+  animation-delay: var(--fly-delay, 0s);
+}
+
+@media (max-width: 768px) {
+  .slide-overlay[data-effect="vuela-izq-der"] {
+    animation-duration: calc(var(--fly-duration, 6s) * 0.85);
+  }
+}
