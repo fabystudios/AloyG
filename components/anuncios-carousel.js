@@ -216,10 +216,10 @@
       .ac-lightbox { position: fixed; inset: 0; z-index: 10000; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; display: flex; align-items: center; justify-content: center; }
       .ac-lightbox.open { opacity: 1; pointer-events: auto; }
       .ac-lb-backdrop { position: absolute; inset: 0; background: rgba(4,0,18,0.95); backdrop-filter: blur(26px); -webkit-backdrop-filter: blur(26px); }
-      .ac-lb-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 4rem 1rem 3rem; box-sizing: border-box; }
-      .ac-lb-nav-row { display: flex; align-items: center; justify-content: center; gap: 1rem; width: 100%; max-width: 1200px; }
-      .ac-lb-img-wrap { flex: 1; display: flex; align-items: center; justify-content: center; max-width: 82vw; max-height: 76vh; }
-      .ac-lb-img { max-width: 100%; max-height: 76vh; object-fit: contain; border-radius: 16px; box-shadow: 0 40px 100px rgba(0,0,0,0.82), 0 0 60px var(--ac-card-glow, rgba(140,80,255,0.14)); transition: opacity 0.22s ease; display: block; }
+      .ac-lb-inner { position: relative; z-index: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; padding: 2.4rem 1rem 2rem; box-sizing: border-box; }
+      .ac-lb-nav-row { display: flex; align-items: center; justify-content: center; gap: 1rem; width: 100%; max-width: min(1800px, 96vw); }
+      .ac-lb-img-wrap { flex: 1; display: flex; align-items: center; justify-content: center; max-width: 90vw; max-height: 88vh; }
+      .ac-lb-img { max-width: 100%; max-height: 88vh; object-fit: contain; border-radius: 16px; box-shadow: 0 40px 100px rgba(0,0,0,0.82), 0 0 60px var(--ac-card-glow, rgba(140,80,255,0.14)); transition: opacity 0.22s ease, transform 0.2s ease; display: block; transform-origin: center center; }
       .ac-lb-img.ac-loading { opacity: 0.3; }
       .ac-lb-nav-btn {
         flex-shrink: 0; width: 50px; height: 50px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2);
@@ -246,6 +246,53 @@
       .ac-lb-caption {
         margin-top: 1rem; color: rgba(255,255,255,0.72); font-size: 0.88rem; font-weight: 600; text-align: center; letter-spacing: 0.5px;
         background: rgba(0,0,0,0.45); backdrop-filter: blur(8px); padding: 0.35rem 1.2rem; border-radius: 20px; min-height: 1.5rem;
+      }
+
+      /* ── CONTROLES VERTICALES (lightbox): pan + zoom ──
+         Reemplazan al <input type="range"> nativo: algunos navegadores/
+         webviews ignoran el estilo del "thumb" en orientación vertical
+         y muestran su propio control por defecto (por eso no aparecía
+         la lupa). Estos son divs con arrastre propio (pointer events),
+         así el resultado es idéntico en todos lados. */
+      .ac-lb-controls {
+        position: fixed; right: 1rem; top: 50%; transform: translateY(-50%); z-index: 12;
+        display: flex; align-items: center; gap: 0.6rem;
+      }
+      .ac-lb-vslider {
+        display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+        background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        border-radius: 999px; padding: 0.8rem 0.5rem; box-shadow: 0 8px 26px rgba(0,0,0,0.4);
+        touch-action: none;
+      }
+      .ac-lb-vslider-btn {
+        width: 26px; height: 26px; border-radius: 50%; border: none; cursor: pointer; padding: 0;
+        background: rgba(255,255,255,0.14); color: #fff; font-size: 0.8rem; font-weight: 800; line-height: 1;
+        display: flex; align-items: center; justify-content: center; transition: background 0.2s ease; flex-shrink: 0;
+      }
+      .ac-lb-vslider-btn:hover, .ac-lb-vslider-btn:active { background: rgba(255,255,255,0.3); }
+      .ac-lb-vslider-track { position: relative; width: 6px; height: 130px; border-radius: 4px; background: rgba(255,255,255,0.22); cursor: pointer; }
+      .ac-lb-vslider-fill { position: absolute; left: 0; bottom: 0; width: 100%; border-radius: 4px; background: linear-gradient(180deg, var(--ac-accent-1,#38bdf8), var(--ac-accent-2,#0ea5e9)); pointer-events: none; }
+      .ac-lb-vslider-thumb {
+        position: absolute; left: 50%; width: 30px; height: 30px; border-radius: 50%;
+        background: #fff; transform: translate(-50%, 50%); border: 2px solid rgba(255,255,255,0.92);
+        box-shadow: 0 4px 14px rgba(0,0,0,0.5); cursor: grab; touch-action: none;
+        display: flex; align-items: center; justify-content: center; color: #334155; font-size: 0.95rem; font-weight: 800;
+      }
+      .ac-lb-vslider-thumb:active { cursor: grabbing; }
+      .ac-lb-vslider-thumb img { width: 68%; height: 68%; object-fit: contain; pointer-events: none; user-select: none; }
+
+      /* ── IMÁGENES FLOTANTES DE FONDO (lightbox) ── */
+      .ac-float-img {
+        position: fixed; pointer-events: none; user-select: none; opacity: 0; will-change: transform, opacity;
+        animation: ac-float-drift var(--fdur) ease-in-out both;
+      }
+      @keyframes ac-float-drift {
+        0%   { transform: translate(0,0) rotate(0deg); opacity: 0; }
+        10%  { opacity: var(--fopa); }
+        50%  { transform: translate(var(--fx), var(--fy)) rotate(var(--frot)); }
+        90%  { opacity: var(--fopa); }
+        100% { transform: translate(var(--fx2), var(--fy2)) rotate(0deg); opacity: 0; }
       }
 
       /* ── INFO BUTTON (card) ── */
@@ -288,6 +335,11 @@
         .ac-lb-next { right: 14px; }
         .ac-lb-nav-btn:hover, .ac-lb-nav-btn:focus-visible { transform: translateY(-50%) scale(1.1); }
         .ac-lb-caption { position: fixed; bottom: 1.4rem; left: 50%; transform: translateX(-50%); white-space: nowrap; z-index: 10; }
+        .ac-lb-controls { top: auto; bottom: 5.4rem; right: 0.5rem; transform: none; gap: 0.4rem; }
+        .ac-lb-vslider { padding: 0.6rem 0.4rem; gap: 0.4rem; }
+        .ac-lb-vslider-track { height: 90px; }
+        .ac-lb-vslider-btn { width: 22px; height: 22px; font-size: 0.7rem; }
+        .ac-lb-vslider-thumb { width: 26px; height: 26px; }
       }
 
       /* ── PARTÍCULAS MÁGICAS ── */
@@ -336,7 +388,7 @@
   class AnunciosCarousel extends HTMLElement {
 
     static get observedAttributes() {
-      return ['tema', 'theme', 'efecto', 'effect', 'titulo', 'title', 'subtitulo', 'subtitle', 'icono', 'icon'];
+      return ['tema', 'theme', 'efecto', 'effect', 'titulo', 'title', 'subtitulo', 'subtitle', 'icono', 'icon', 'floating-image', 'imagen-flotante', 'zoom-icon', 'icono-zoom'];
     }
 
     connectedCallback() {
@@ -358,6 +410,7 @@
       this._applyTheme();
 
       this.innerHTML = this._buildHTML();
+      this._applyZoomIcon();
       this._bindEvents();
       this._updateTrack(false);
       this._setupIntroObserver();
@@ -367,6 +420,8 @@
       if (oldVal === newVal || !this.isConnected) return;
       if (name === 'tema' || name === 'theme') { this._readThemeAndEffect(); this._applyTheme(); }
       if (name === 'efecto' || name === 'effect') { this._readThemeAndEffect(); }
+      if (name === 'floating-image' || name === 'imagen-flotante') { this._readThemeAndEffect(); }
+      if (name === 'zoom-icon' || name === 'icono-zoom') { this._readThemeAndEffect(); this._applyZoomIcon(); }
       if (['titulo', 'title', 'subtitulo', 'subtitle', 'icono', 'icon'].includes(name)) {
         this._readThemeAndEffect();
         const h2 = this.querySelector('.ac-title-text h2');
@@ -384,6 +439,8 @@
       this._icon = this.getAttribute('icono') || this.getAttribute('icon') || '📌';
       this._themeName = this.getAttribute('tema') || this.getAttribute('theme') || 'violeta';
       this._effectName = this.getAttribute('efecto') || this.getAttribute('effect') || 'estrellas';
+      this._floatingImage = this.getAttribute('floating-image') || this.getAttribute('imagen-flotante') || null;
+      this._zoomIcon = this.getAttribute('zoom-icon') || this.getAttribute('icono-zoom') || './img/lupa.png';
     }
 
     /* Cambiar tema o efecto por JS, sin tocar atributos */
@@ -408,6 +465,14 @@
       this.style.setProperty('--ac-btn-6', t.btn[5]);
       this.style.setProperty('--ac-btn-shadow', t.btnShadow);
       this.style.setProperty('--ac-card-glow', t.cardGlow);
+    }
+
+    /* El thumb del zoom ahora es un <img> real dentro del div, así que
+       si el atributo zoom-icon cambia en caliente basta con actualizar
+       su src (ya no depende de una variable CSS ni de pseudo-elementos). */
+    _applyZoomIcon() {
+      const img = this.querySelector('.ac-lb-zoom-vslider .ac-lb-vslider-thumb img');
+      if (img) img.src = this._zoomIcon;
     }
 
     /* ── HTML ── */
@@ -477,6 +542,24 @@
             </div>
             <div class="ac-lb-caption"></div>
           </div>
+          <div class="ac-lb-controls">
+            <div class="ac-lb-vslider ac-lb-pan-vslider" role="group" aria-label="Mover imagen arriba o abajo">
+              <button type="button" class="ac-lb-vslider-btn" data-delta="0.18" aria-label="Ver parte de arriba">▲</button>
+              <div class="ac-lb-vslider-track">
+                <div class="ac-lb-vslider-fill"></div>
+                <div class="ac-lb-vslider-thumb" tabindex="0" role="slider" aria-valuemin="-1" aria-valuemax="1" aria-valuenow="0" aria-label="Desplazar imagen">↕</div>
+              </div>
+              <button type="button" class="ac-lb-vslider-btn" data-delta="-0.18" aria-label="Ver parte de abajo">▼</button>
+            </div>
+            <div class="ac-lb-vslider ac-lb-zoom-vslider" role="group" aria-label="Zoom de la imagen">
+              <button type="button" class="ac-lb-vslider-btn" data-delta="0.25" aria-label="Acercar">+</button>
+              <div class="ac-lb-vslider-track">
+                <div class="ac-lb-vslider-fill"></div>
+                <div class="ac-lb-vslider-thumb" tabindex="0" role="slider" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1" aria-label="Zoom"><img src="${this._zoomIcon}" alt="" /></div>
+              </div>
+              <button type="button" class="ac-lb-vslider-btn" data-delta="-0.25" aria-label="Alejar">−</button>
+            </div>
+          </div>
         </div>
       `;
     }
@@ -504,6 +587,26 @@
       this.querySelector('.ac-lightbox').addEventListener('click', () => this.closeLightbox());
       this.querySelector('.ac-lb-nav-row').addEventListener('click', (e) => e.stopPropagation());
       this.querySelector('.ac-lb-caption').addEventListener('click', (e) => e.stopPropagation());
+
+      const controlsWrap = this.querySelector('.ac-lb-controls');
+      if (controlsWrap) controlsWrap.addEventListener('click', (e) => e.stopPropagation());
+
+      this._lbZoom = 1;
+      this._lbPan = 0;
+      const zoomRoot = this.querySelector('.ac-lb-zoom-vslider');
+      const panRoot = this.querySelector('.ac-lb-pan-vslider');
+      if (zoomRoot) {
+        this._zoomVSlider = this._setupVSlider(zoomRoot, {
+          min: 1, max: 3, value: 1,
+          onChange: (v) => { this._lbZoom = v; this._applyLbTransform(); }
+        });
+      }
+      if (panRoot) {
+        this._panVSlider = this._setupVSlider(panRoot, {
+          min: -1, max: 1, value: 0,
+          onChange: (v) => { this._lbPan = v; this._applyLbTransform(); }
+        });
+      }
 
       this._keyHandler = (e) => {
         if (!this._lbOpen) return;
@@ -671,11 +774,89 @@
       return sel ? lb?.querySelector(sel) : lb;
     }
 
+    /* Slider vertical genérico (pan y zoom lo usan). No es un <input>
+       nativo: es un track + thumb propios, arrastrables con Pointer
+       Events, para que el resultado sea igual en cualquier navegador. */
+    _setupVSlider(root, { min, max, value, onChange }) {
+      const track = root.querySelector('.ac-lb-vslider-track');
+      const fill = root.querySelector('.ac-lb-vslider-fill');
+      const thumb = root.querySelector('.ac-lb-vslider-thumb');
+      let val = value;
+
+      const render = () => {
+        const pct = (val - min) / (max - min);
+        fill.style.height = (pct * 100) + '%';
+        thumb.style.bottom = (pct * 100) + '%';
+        thumb.setAttribute('aria-valuenow', val.toFixed(2));
+      };
+
+      const setVal = (v, fire) => {
+        val = Math.min(max, Math.max(min, v));
+        render();
+        if (fire !== false) onChange(val);
+      };
+
+      const posToVal = (clientY) => {
+        const rect = track.getBoundingClientRect();
+        const pct = Math.min(1, Math.max(0, 1 - (clientY - rect.top) / rect.height));
+        return min + pct * (max - min);
+      };
+
+      let dragging = false;
+      const onDown = (e) => {
+        dragging = true;
+        setVal(posToVal(e.clientY));
+        e.preventDefault(); e.stopPropagation();
+      };
+      const onMove = (e) => { if (dragging) { setVal(posToVal(e.clientY)); e.preventDefault(); } };
+      const onUp = () => { dragging = false; };
+
+      thumb.addEventListener('pointerdown', onDown);
+      track.addEventListener('pointerdown', onDown);
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
+      window.addEventListener('pointercancel', onUp);
+
+      root.querySelectorAll('.ac-lb-vslider-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => { e.stopPropagation(); setVal(val + parseFloat(btn.dataset.delta)); });
+      });
+
+      render();
+      return { setVal: (v) => setVal(v, false) };
+    }
+
+    /* Combina zoom + desplazamiento vertical en una sola transformación.
+       El paneo se calcula en base a cuánto "sobra" de imagen respecto
+       del recuadro visible, así solo tiene efecto real cuando la
+       imagen ya está agrandada (a zoom 1x no hay nada que recorrer). */
+    _applyLbTransform() {
+      const img = this._lb('.ac-lb-img');
+      const wrap = this._lb('.ac-lb-img-wrap');
+      if (!img) return;
+      const scale = this._lbZoom || 1;
+      img.style.transform = scale === 1 ? '' : `scale(${scale})`;
+      if (!wrap) return;
+      requestAnimationFrame(() => {
+        const imgRect = img.getBoundingClientRect();
+        const wrapRect = wrap.getBoundingClientRect();
+        const overflow = Math.max(0, imgRect.height - wrapRect.height);
+        const maxScreenPan = overflow / 2;
+        const screenPan = (this._lbPan || 0) * maxScreenPan;
+        const localTy = scale ? screenPan / scale : 0;
+        img.style.transform = (scale === 1 && !localTy) ? '' : `scale(${scale}) translateY(${localTy}px)`;
+      });
+    }
+
     _renderLightboxSlide() {
       const slide = this._slides[this._lbIndex];
       if (!slide) return;
       const src = this._basePath + (this._isMobile() ? slide.mob : (slide.desk || slide.mob));
       const img = this._lb('.ac-lb-img');
+      this._lbZoom = 1;
+      this._lbPan = 0;
+      if (this._zoomVSlider) this._zoomVSlider.setVal(1);
+      if (this._panVSlider) this._panVSlider.setVal(0);
+      img.style.transform = '';
       img.classList.add('ac-loading');
       img.onload = () => img.classList.remove('ac-loading');
       img.onerror = () => {
@@ -758,13 +939,64 @@
         if (!this._lbOpen) return;
         this._spawnStars(eff, { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight }, window.innerWidth < 600 ? 22 : 40, false);
       }, 3000);
+
+      if (this._floatingImage) {
+        this._spawnFloatImages(fullRect, window.innerWidth < 600 ? 4 : 7);
+        this._floatInterval = setInterval(() => {
+          if (!this._lbOpen) return;
+          this._spawnFloatImages({ left: 0, top: 0, width: window.innerWidth, height: window.innerHeight }, window.innerWidth < 600 ? 3 : 5);
+        }, 6000);
+      }
     }
 
     _stopAmbientEffect() {
       if (this._particleInterval) { clearInterval(this._particleInterval); this._particleInterval = null; }
       if (this._starInterval) { clearInterval(this._starInterval); this._starInterval = null; }
+      if (this._floatInterval) { clearInterval(this._floatInterval); this._floatInterval = null; }
       if (this._magicEls) { this._magicEls.forEach(el => el.remove()); this._magicEls = []; }
-      document.querySelectorAll('.ac-particle, .ac-star, .ac-flash').forEach(el => el.remove());
+      document.querySelectorAll('.ac-particle, .ac-star, .ac-flash, .ac-float-img').forEach(el => el.remove());
+    }
+
+    /* Imágenes que flotan de fondo dentro del visor ampliado (detrás de
+       la foto, sobre el backdrop difuminado). Se insertan como hijas
+       del backdrop: al tener este "backdrop-filter", crea su propio
+       contexto de apilado y se convierte en el "containing block" de
+       los elementos position:fixed que cuelgan de él, así que quedan
+       ancladas a toda la pantalla pero siempre detrás de la imagen. */
+    _spawnFloatImages(rect, count) {
+      if (!this._floatingImage) return;
+      const host = this._lb('.ac-lb-backdrop');
+      if (!host) return;
+      for (let i = 0; i < count; i++) {
+        const img = document.createElement('img');
+        img.className = 'ac-float-img';
+        img.src = this._floatingImage;
+        img.alt = '';
+        const size = 30 + Math.random() * 110;
+        const startX = rect.left + Math.random() * rect.width;
+        const startY = rect.top + Math.random() * rect.height;
+        const fx = (Math.random() - 0.5) * 220;
+        const fy = (Math.random() - 0.5) * 220;
+        const fx2 = fx + (Math.random() - 0.5) * 160;
+        const fy2 = fy - 40 - Math.random() * 130;
+        const frot = (Math.random() - 0.5) * 60;
+        const dur = 9 + Math.random() * 10;
+        const delay = Math.random() * 3;
+        const opa = 0.10 + Math.random() * 0.22;
+
+        img.style.cssText = `
+          left:${startX}px; top:${startY}px; width:${size}px; height:${size}px;
+          --fx:${fx}px; --fy:${fy}px; --fx2:${fx2}px; --fy2:${fy2}px; --frot:${frot}deg;
+          --fdur:${dur}s; --fopa:${opa}; animation-delay:${delay}s;
+        `;
+        host.appendChild(img);
+        if (this._magicEls) this._magicEls.push(img);
+
+        setTimeout(() => {
+          img.remove();
+          if (this._magicEls) { const idx = this._magicEls.indexOf(img); if (idx > -1) this._magicEls.splice(idx, 1); }
+        }, (delay + dur + 0.3) * 1000);
+      }
     }
 
     _spawnParticles(eff, rect, count, isIntro) {
