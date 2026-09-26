@@ -4,7 +4,7 @@
     "position": 1,
     "hasVideo": false,
     "link": "#asis1--feria",
-    "time": { "desktop": 3, "mobile": 3 },
+    "time": { "desktop": 5, "mobile": 5 },
     "desktop": {
       "type": "image",
       "src": "./slides/bingo_desk.png"
