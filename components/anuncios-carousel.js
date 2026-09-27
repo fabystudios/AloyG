@@ -282,6 +282,25 @@
       .ac-lb-vslider-thumb:active { cursor: grabbing; }
       .ac-lb-vslider-thumb img { width: 68%; height: 68%; object-fit: contain; pointer-events: none; user-select: none; }
 
+      /* ── SLIDER HORIZONTAL (izquierda / derecha) ── */
+      .ac-lb-hcontrols { position: fixed; left: 50%; bottom: 1.6rem; transform: translateX(-50%); z-index: 12; }
+      .ac-lb-hslider {
+        display: flex; align-items: center; gap: 0.55rem;
+        background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18);
+        backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+        border-radius: 999px; padding: 0.5rem 0.8rem; box-shadow: 0 8px 26px rgba(0,0,0,0.4);
+        touch-action: none;
+      }
+      .ac-lb-hslider-track { position: relative; width: 130px; height: 6px; border-radius: 4px; background: rgba(255,255,255,0.22); cursor: pointer; }
+      .ac-lb-hslider-fill { position: absolute; top: 0; height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--ac-accent-1,#38bdf8), var(--ac-accent-2,#0ea5e9)); pointer-events: none; }
+      .ac-lb-hslider-thumb {
+        position: absolute; top: 50%; width: 30px; height: 30px; border-radius: 50%;
+        background: #fff; transform: translate(-50%, -50%); border: 2px solid rgba(255,255,255,0.92);
+        box-shadow: 0 4px 14px rgba(0,0,0,0.5); cursor: grab; touch-action: none;
+        display: flex; align-items: center; justify-content: center; color: #334155; font-size: 0.85rem; font-weight: 800;
+      }
+      .ac-lb-hslider-thumb:active { cursor: grabbing; }
+
       /* ── IMÁGENES FLOTANTES DE FONDO (lightbox) ── */
       .ac-float-img {
         position: fixed; pointer-events: none; user-select: none; opacity: 0; will-change: transform, opacity;
@@ -340,6 +359,9 @@
         .ac-lb-vslider-track { height: 90px; }
         .ac-lb-vslider-btn { width: 22px; height: 22px; font-size: 0.7rem; }
         .ac-lb-vslider-thumb { width: 26px; height: 26px; }
+        .ac-lb-hcontrols { bottom: 5.4rem; }
+        .ac-lb-hslider { padding: 0.4rem 0.6rem; gap: 0.4rem; }
+        .ac-lb-hslider-track { width: 92px; }
       }
 
       /* ── PARTÍCULAS MÁGICAS ── */
@@ -560,6 +582,16 @@
               <button type="button" class="ac-lb-vslider-btn" data-delta="-0.25" aria-label="Alejar">−</button>
             </div>
           </div>
+          <div class="ac-lb-hcontrols">
+            <div class="ac-lb-hslider" role="group" aria-label="Mover imagen a la izquierda o derecha">
+              <button type="button" class="ac-lb-vslider-btn" data-delta="-0.2" aria-label="Ver parte izquierda">◀</button>
+              <div class="ac-lb-hslider-track">
+                <div class="ac-lb-hslider-fill"></div>
+                <div class="ac-lb-hslider-thumb" tabindex="0" role="slider" aria-valuemin="-1" aria-valuemax="1" aria-valuenow="0" aria-label="Desplazar imagen a los lados">↔</div>
+              </div>
+              <button type="button" class="ac-lb-vslider-btn" data-delta="0.2" aria-label="Ver parte derecha">▶</button>
+            </div>
+          </div>
         </div>
       `;
     }
@@ -590,11 +622,15 @@
 
       const controlsWrap = this.querySelector('.ac-lb-controls');
       if (controlsWrap) controlsWrap.addEventListener('click', (e) => e.stopPropagation());
+      const hControlsWrap = this.querySelector('.ac-lb-hcontrols');
+      if (hControlsWrap) hControlsWrap.addEventListener('click', (e) => e.stopPropagation());
 
       this._lbZoom = 1;
       this._lbPan = 0;
+      this._lbPanX = 0;
       const zoomRoot = this.querySelector('.ac-lb-zoom-vslider');
       const panRoot = this.querySelector('.ac-lb-pan-vslider');
+      const panXRoot = this.querySelector('.ac-lb-hslider');
       if (zoomRoot) {
         this._zoomVSlider = this._setupVSlider(zoomRoot, {
           min: 1, max: 3, value: 1,
@@ -605,6 +641,12 @@
         this._panVSlider = this._setupVSlider(panRoot, {
           min: -1, max: 1, value: 0,
           onChange: (v) => { this._lbPan = v; this._applyLbTransform(); }
+        });
+      }
+      if (panXRoot) {
+        this._panHSlider = this._setupHSlider(panXRoot, {
+          min: -1, max: 1, value: 0,
+          onChange: (v) => { this._lbPanX = v; this._applyLbTransform(); }
         });
       }
 
@@ -825,6 +867,59 @@
       return { setVal: (v) => setVal(v, false) };
     }
 
+    /* Igual que _setupVSlider pero para el eje horizontal (mover la
+       imagen a izquierda/derecha una vez zoomeada). */
+    _setupHSlider(root, { min, max, value, onChange }) {
+      const track = root.querySelector('.ac-lb-hslider-track');
+      const fill = root.querySelector('.ac-lb-hslider-fill');
+      const thumb = root.querySelector('.ac-lb-hslider-thumb');
+      let val = value;
+
+      const render = () => {
+        const pct = (val - min) / (max - min) * 100;
+        thumb.style.left = pct + '%';
+        const left = Math.min(50, pct);
+        const width = Math.abs(pct - 50);
+        fill.style.left = left + '%';
+        fill.style.width = width + '%';
+        thumb.setAttribute('aria-valuenow', val.toFixed(2));
+      };
+
+      const setVal = (v, fire) => {
+        val = Math.min(max, Math.max(min, v));
+        render();
+        if (fire !== false) onChange(val);
+      };
+
+      const posToVal = (clientX) => {
+        const rect = track.getBoundingClientRect();
+        const pct = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+        return min + pct * (max - min);
+      };
+
+      let dragging = false;
+      const onDown = (e) => {
+        dragging = true;
+        setVal(posToVal(e.clientX));
+        e.preventDefault(); e.stopPropagation();
+      };
+      const onMove = (e) => { if (dragging) { setVal(posToVal(e.clientX)); e.preventDefault(); } };
+      const onUp = () => { dragging = false; };
+
+      thumb.addEventListener('pointerdown', onDown);
+      track.addEventListener('pointerdown', onDown);
+      window.addEventListener('pointermove', onMove);
+      window.addEventListener('pointerup', onUp);
+      window.addEventListener('pointercancel', onUp);
+
+      root.querySelectorAll('.ac-lb-vslider-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => { e.stopPropagation(); setVal(val + parseFloat(btn.dataset.delta)); });
+      });
+
+      render();
+      return { setVal: (v) => setVal(v, false) };
+    }
+
     /* Combina zoom + desplazamiento vertical en una sola transformación.
        El paneo se calcula en base a cuánto "sobra" de imagen respecto
        del recuadro visible, así solo tiene efecto real cuando la
@@ -839,11 +934,15 @@
       requestAnimationFrame(() => {
         const imgRect = img.getBoundingClientRect();
         const wrapRect = wrap.getBoundingClientRect();
-        const overflow = Math.max(0, imgRect.height - wrapRect.height);
-        const maxScreenPan = overflow / 2;
-        const screenPan = (this._lbPan || 0) * maxScreenPan;
-        const localTy = scale ? screenPan / scale : 0;
-        img.style.transform = (scale === 1 && !localTy) ? '' : `scale(${scale}) translateY(${localTy}px)`;
+        const overflowY = Math.max(0, imgRect.height - wrapRect.height);
+        const overflowX = Math.max(0, imgRect.width - wrapRect.width);
+        const maxScreenPanY = overflowY / 2;
+        const maxScreenPanX = overflowX / 2;
+        const screenPanY = (this._lbPan || 0) * maxScreenPanY;
+        const screenPanX = -(this._lbPanX || 0) * maxScreenPanX;
+        const localTy = scale ? screenPanY / scale : 0;
+        const localTx = scale ? screenPanX / scale : 0;
+        img.style.transform = (scale === 1 && !localTy && !localTx) ? '' : `scale(${scale}) translate(${localTx}px, ${localTy}px)`;
       });
     }
 
@@ -854,8 +953,10 @@
       const img = this._lb('.ac-lb-img');
       this._lbZoom = 1;
       this._lbPan = 0;
+      this._lbPanX = 0;
       if (this._zoomVSlider) this._zoomVSlider.setVal(1);
       if (this._panVSlider) this._panVSlider.setVal(0);
+      if (this._panHSlider) this._panHSlider.setVal(0);
       img.style.transform = '';
       img.classList.add('ac-loading');
       img.onload = () => img.classList.remove('ac-loading');
