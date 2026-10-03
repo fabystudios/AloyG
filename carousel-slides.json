@@ -1,7 +1,7 @@
 [
                     {
     "id": "buffet",
-    "position": 1,
+    "position": 3,
     "hasVideo": false,
     "link": "#asis1--feria",
     "time": { "desktop": 5, "mobile": 5 },
@@ -27,7 +27,7 @@
 
                   {
     "id": "bingo",
-    "position": 2,
+    "position": 4,
     "hasVideo": false,
     "link": "#asis1--feria",
     "time": { "desktop": 5, "mobile": 5 },
@@ -52,7 +52,7 @@
   },
                 {
     "id": "viaje",
-    "position": 3,
+    "position": -1,
     "hasVideo": false,
     "link": "#papa1",
     "time": { "desktop": 3, "mobile": 3 },
@@ -67,7 +67,7 @@
   },
                 {
     "id": "leon",
-    "position": 7,
+    "position": -1,
     "hasVideo": false,
     "link": "https://acreditaciones.episcopado.org/voluntarios",
     "time": { "desktop": 3, "mobile": 3 },
@@ -82,7 +82,7 @@
   },
     {
   "id": "Aurelia",
-  "position": 6,
+  "position": -1,
   "hasVideo": false,
   "link": "./avisos.html",
   "time": { "desktop": 5, "mobile": 5 },
@@ -97,7 +97,7 @@
 },
                 {
     "id": "asis1",
-    "position": 4,
+    "position": 1,
     "hasVideo": false,
     "link": "#asis1",
     "time": { "desktop": 3, "mobile": 3 },
@@ -112,7 +112,7 @@
   },
                   {
     "id": "asis2",
-    "position": 5,
+    "position": 2,
     "hasVideo": false,
     "link": "#asis2",
     "time": { "desktop": 3, "mobile": 3 },
@@ -184,7 +184,7 @@
   },
                   {
     "id": "SF",
-    "position": 4,
+    "position": 5,
     "hasVideo": false,
     "link": "https://colegiosanfranciscodeasis.edu.ar/",
     "time": { "desktop": 3, "mobile": 3 },
