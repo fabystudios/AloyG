@@ -160,12 +160,15 @@ _scTpl.innerHTML = `
   .sc-corner.tl{top:0;left:0;}.sc-corner.tr{top:0;right:0;transform:scaleX(-1);}
   .sc-corner.bl{bottom:0;left:0;transform:scaleY(-1);}.sc-corner.br{bottom:0;right:0;transform:scale(-1,-1);}
 
-  /* ── Desktop layout: cover | video1 | video2 ── */
-  .sc-layout{display:flex;align-items:center;justify-content:center;gap:1.5rem;position:relative;z-index:8;}
+  /* ── Desktop layout: cover | video1 | video2 ──
+     align-items:stretch → el cover toma el mismo alto que la fila de videos
+     (su hermano en el layout), sin importar la proporción exacta de la imagen */
+  .sc-layout{display:flex;align-items:stretch;justify-content:center;gap:1.5rem;position:relative;z-index:8;}
 
   .sc-cover{flex:1 1 45%;min-width:0;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.4),0 0 0 1px rgba(197,162,39,.25);cursor:pointer;transition:transform .15s ease;}
   .sc-cover:active{transform:scale(.98);}
-  .sc-cover img{display:block;width:100%;height:auto;border-radius:16px;}
+  /* object-fit:cover rellena el alto estirado recortando lo mínimo necesario */
+  .sc-cover img{display:block;width:100%;height:100%;object-fit:cover;border-radius:16px;}
 
   /* Cover como slide del carrusel mobile (cover-mobile="true") — mismo contenedor/tamaño que un video-card */
   .sc-cover-mobile-slide{width:100%;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.4),0 0 0 1px rgba(197,162,39,.25);cursor:pointer;transition:transform .15s ease;}
