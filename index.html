@@ -1108,6 +1108,7 @@
     {"mob":"1a.jpg","desk":"1a.jpg","title":"","landscape": false},
     {"mob":"a.jpg","desk":"a.jpg","title":"","landscape": false},
  
+    {"mob":"9.png","desk":"9.png","title":"","landscape": false},
     {"mob":"8.jpg","desk":"8.jpg","title":"","landscape": false},
     {"mob":"7.jpg","desk":"7.jpg","title":"","landscape": false},
     {"mob":"6.jpg","desk":"6.jpg","title":"","landscape": false},
@@ -1170,11 +1171,128 @@
   <!-- {"id":"viaje","icon":"bus","title":"Cómo viajamos","lines":["Salimos de noche.","Llegamos con anticipación."]},
       {"id":"fecha","icon":"calendar","title":"Fecha del viaje","highlight":"11 de noviembre","lines":["Salida el 10 por la noche."]}, -->
 
+<!-- <script src="./components/video-card-gold.js"></script> -->
+<!-- cover-mobile-position (opcional): "first" (default, comportamiento actual) o "last" — 
+define si el slide de cover va al principio o al final del carrusel mobile. -->
+<script src="./components/showcase-card.js"></script>
+<showcase-card
+  bg="./img/sky.jpg"
+  id="fran"
+  cover="./asantos/img/sanfrancisco2.png"
+  medallion="./asantos/img/logo15s.png"
+  medallion-desk="true"
+  medallion-corner="top-right"
+  cover-mobile="true" 
+  video="./asantos/sf2.mp4"
+  badge="4 de Octubre"
+  titulo="San Francisco de Asis"
+
+  video2="./asantos/sf1.mp4"
+  badge2="4 de Octubre" 
+  titulo2="San Francisco de Asis"
+
+  effects="ember,dust,stars"
+  intensity="1"
+></showcase-card>
+
+
+
+<script src="./components/cartel-evento.js"></script>
+<div style="display:flex;justify-content:center;">
+ 
+<cartel-evento
+      id="asis1"
+      feria-title-img="./logos/titulo2.png" 
+      main-title-img="./logos/titulo1bis.png"
+
+      main-title-img-efecto="sombra pulso"
+      feria-title-img-efecto="sombra pulso"
+
+
+     main-title-img-width="420px"
+     feria-title-img-height="300px"
+
+      marco-img-santo="rectangle"
+
+      card1-img="/logos/misa.png"
+      card1-title="Misa"
+     
+      card1-body-img="./logos/body1.png"
+      card1-body-img-mobile="./logos/body1-mob.png"
+
+      card2-img="./logos/feria.png"
+      card2-title="Feria"
+      card2-body-img="./logos/body2.png"
+      card2-body-img-mobile="./logos/body2-mob.png"
+
+      card3-img="./logos/buffet.png"
+      card3-title="Buffet"
+      card3-body-img="./logos/body3.png"
+      card3-body-img-mobile="./logos/body3-mob.png"
+
+      poster="main"
+      img-santo-feria="false"
+      willow-feria="true"
+      whatsapp-number="5491153133638"
+      whatsapp-display="11 5313-3638"
+      feria-quote-top="-20px"
+      feria-quote-mobile-top="-60px"
+      img-santo-feria-top="25px"
+ 
+      luciernaga-main="true"
+      luciernaga-feria="false"
+
+      feria-panel1-icono="corazon"
+      feria-panel1-titulo="¿Sos emprendedor?"
+      feria-panel1-text="Te invitamos a sumarte con tu propuesta a esta feria que nos une y nos fortalece."
+      feria-panel1-subtitulo="Vení!!!"
+      feria-panel2-icono="moneda"
+      feria-panel2-titulo="Inscripción"
+      feria-panel2-text="Valor único + un producto de tu emprendimiento para el bingo."
+      feria-panel2-subtitulo="$15.000"
+
+      img-santo-main-desk-top="150px"
+      img-santo-feria-img="/logos/img-santo-feria-img.mp4"
+      img-santo="./logos/img-santo.mp4"
+      img-santo-width="360px"
+      img-santo-height="210px"
+      img-santo-main-desk="/logos/img-santo-main-desk.mp4"
+      img-santo-desk-width="330px"
+      img-santo-desk-height="543px"
+      img-bunting="./logos/banderines2.png"
+      img-bunting-main-mobile="/logos/banderines-mobile-main.png"
+      img-bunting-feria-mobile="/logos/banderines-mobile-feria.png"
+      banderines-movimiento="slow"
+      img-iglesia="./logos/iglesia.png"
+      style="--cartel-max-width:1300px;">
+</cartel-evento>
+  </div>
+
+<script>
+(function () {
+  function aplicarHashCartel() {
+    const hash = location.hash.slice(1); // saca el "#"
+    if (!hash) return;
+    const [id, poster] = hash.split('--'); // "asis1--feria" -> ["asis1","feria"]
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (poster === 'main' || poster === 'feria') {
+      el.setAttribute('poster', poster);
+    }
+    // Scroll manual: el navegador no auto-scrollea porque "asis1--feria"
+    // no es el id real de ningún elemento (el id real es "asis1").
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  window.addEventListener('DOMContentLoaded', aplicarHashCartel);
+  window.addEventListener('hashchange', aplicarHashCartel);
+})();
+</script>
 
 
 <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
   <!-- style="display: none;" -->
-<div class="video-card-gold-container">
+<div class="video-card-gold-container" style="display: none;">
 
 
   <video-card-gold
@@ -1373,124 +1491,6 @@ Muchas familias con niños llegaron con mantas de picnic, los bebés dormían en
 
 
 
-<script src="./components/cartel-evento.js"></script>
-<div style="display:flex;justify-content:center;">
- 
-<cartel-evento
-      id="asis1"
-      feria-title-img="./logos/titulo2.png" 
-      main-title-img="./logos/titulo1bis.png"
-
-      main-title-img-efecto="sombra pulso"
-      feria-title-img-efecto="sombra pulso"
-
-
-     main-title-img-width="420px"
-     feria-title-img-height="300px"
-
-      marco-img-santo="rectangle"
-
-      card1-img="/logos/misa.png"
-      card1-title="Misa"
-     
-      card1-body-img="./logos/body1.png"
-      card1-body-img-mobile="./logos/body1-mob.png"
-
-      card2-img="./logos/feria.png"
-      card2-title="Feria"
-      card2-body-img="./logos/body2.png"
-      card2-body-img-mobile="./logos/body2-mob.png"
-
-      card3-img="./logos/buffet.png"
-      card3-title="Buffet"
-      card3-body-img="./logos/body3.png"
-      card3-body-img-mobile="./logos/body3-mob.png"
-
-      poster="main"
-      img-santo-feria="false"
-      willow-feria="true"
-      whatsapp-number="5491153133638"
-      whatsapp-display="11 5313-3638"
-      feria-quote-top="-20px"
-      feria-quote-mobile-top="-60px"
-      img-santo-feria-top="25px"
- 
-      luciernaga-main="true"
-      luciernaga-feria="false"
-
-      feria-panel1-icono="corazon"
-      feria-panel1-titulo="¿Sos emprendedor?"
-      feria-panel1-text="Te invitamos a sumarte con tu propuesta a esta feria que nos une y nos fortalece."
-      feria-panel1-subtitulo="Vení!!!"
-      feria-panel2-icono="moneda"
-      feria-panel2-titulo="Inscripción"
-      feria-panel2-text="Valor único + un producto de tu emprendimiento para el bingo."
-      feria-panel2-subtitulo="$15.000"
-
-      img-santo-main-desk-top="150px"
-      img-santo-feria-img="/logos/img-santo-feria-img.mp4"
-      img-santo="./logos/img-santo.mp4"
-      img-santo-width="360px"
-      img-santo-height="210px"
-      img-santo-main-desk="/logos/img-santo-main-desk.mp4"
-      img-santo-desk-width="330px"
-      img-santo-desk-height="543px"
-      img-bunting="./logos/banderines2.png"
-      img-bunting-main-mobile="/logos/banderines-mobile-main.png"
-      img-bunting-feria-mobile="/logos/banderines-mobile-feria.png"
-      banderines-movimiento="slow"
-      img-iglesia="./logos/iglesia.png"
-      style="--cartel-max-width:1300px;">
-</cartel-evento>
-  </div>
-
-<script>
-(function () {
-  function aplicarHashCartel() {
-    const hash = location.hash.slice(1); // saca el "#"
-    if (!hash) return;
-    const [id, poster] = hash.split('--'); // "asis1--feria" -> ["asis1","feria"]
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (poster === 'main' || poster === 'feria') {
-      el.setAttribute('poster', poster);
-    }
-    // Scroll manual: el navegador no auto-scrollea porque "asis1--feria"
-    // no es el id real de ningún elemento (el id real es "asis1").
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  window.addEventListener('DOMContentLoaded', aplicarHashCartel);
-  window.addEventListener('hashchange', aplicarHashCartel);
-})();
-</script>
-
-
-
-
-<!-- <script src="./components/video-card-gold.js"></script> -->
-<!-- cover-mobile-position (opcional): "first" (default, comportamiento actual) o "last" — 
-define si el slide de cover va al principio o al final del carrusel mobile. -->
-<!-- <script src="./components/showcase-card.js"></script>999999
-<showcase-card
-  bg="./img/sky.jpg"
-  id="fran"
-  cover="./asantos/img/mercedes.png"
-  medallion="./asantos/img/logo15s.png"
-  medallion-desk="true"
-  medallion-corner="top-right"
-  cover-mobile="true" 
-  video="./asantos/24.mp4"
-  badge="24 de Septiembre"
-  titulo="Nuestra Señora de las Mercedes"
-
-  video2="./asantos/24bis.mp4"
-  badge2="Virgen de la Merced" 
-  titulo2="24 de Septiembre"
-
-  effects="ember,dust,stars"
-  intensity="1"
-></showcase-card> -->
 
       <noticia-card
   id="noticia-principal"
