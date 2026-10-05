@@ -29,9 +29,6 @@
  *                        Las miniaturas miden 3-4 filas de alto: 72 → ~290px, 100 → ~400px, 120 → ~480px
  *  total                 total de fotos               (default: 9)
  *  page-size             fotos por página desktop     (default: 9)
- *  orientacion-desktop   forma del marco por foto en la grilla de escritorio (JSON)
- *                        orientacion-desktop='["portrait","","landscape"]'
- *                        portrait = vertical (3:4) · landscape = horizontal (16:11) · "" = forma del lugar
  *  sources               (opcional) JSON array con los nombres de archivo EN ORDEN.
  *                        Acepta jpg/png/gif (gif animado funciona) y video mp4/webm/mov.
  *                        sources='["1.jpg","6.gif","clip.mp4","3.jpg"]'
@@ -162,21 +159,6 @@ class PanelPhotoGallery extends HTMLElement {
       catch(e){ orientacionMobile = orMobRaw.split(',').map(s=>s.trim()); }
     }
  
-    // ── Orientacion desktop: "portrait" | "landscape" | "" por foto ──────
-    // orientacion-desktop='["portrait","","landscape"]'
-    // Cambia la forma del marco dentro de su lugar de la grilla (vertical u horizontal).
-    let orientacionDesktop = [];
-    const orDeskRaw = this.getAttribute('orientacion-desktop');
-    if (orDeskRaw && orDeskRaw.trim()) {
-      try { orientacionDesktop = JSON.parse(orDeskRaw); }
-      catch(e){ orientacionDesktop = orDeskRaw.split(',').map(s=>s.trim()); }
-    }
-    const oriClass = i => {
-      const o = String(orientacionDesktop[i] || '').toLowerCase();
-      return o==='portrait' ? ' ori-portrait' : o==='landscape' ? ' ori-landscape' : '';
-    };
-    const oriExtra = Math.round(rowHeight*.9);   // cuánto "sobresale" un marco vertical para verse realmente alto
-
     // ── Helpers de nombre/media ───────────────────────────────────────────
     const fileName = i => (sources[i] || `${i+1}.jpg`);
     // Para mobile: usa la foto alternativa si existe y no está vacía
@@ -237,7 +219,7 @@ class PanelPhotoGallery extends HTMLElement {
       const start=page*pageSize, end=Math.min(start+pageSize,total);
       return Array.from({length:end-start},(_,i)=>{
         const idx=start+i, caption=cap(idx);
-        return `<div class="photo-item pi${i+1}${oriClass(idx)}" data-idx="${idx}">
+        return `<div class="photo-item pi${i+1}" data-idx="${idx}">
           <div class="photo-frame">
             <div class="photo-img-wrap">${mediaTag(idx)}</div>
             ${caption?`<div class="photo-caption">${caption}</div>`:'<div class="photo-caption-empty"></div>'}
@@ -328,15 +310,6 @@ class PanelPhotoGallery extends HTMLElement {
   .photo-caption{text-align:center;padding-top:6px;font-size:.62rem;color:rgba(80,50,15,.65);letter-spacing:.16em;font-style:italic;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
   .photo-caption-empty{height:22px;}
  
-  /* ══ ORIENTACIÓN DESKTOP (portrait / landscape) ══ */
-  .photo-item.ori-portrait,.photo-item.ori-landscape{display:flex;align-items:center;justify-content:center;}
-  .photo-item.ori-portrait{z-index:2;}
-  .photo-item.ori-portrait .photo-frame{height:calc(100% + ${oriExtra}px);width:auto;max-width:100%;aspect-ratio:3/4;flex:0 0 auto;min-height:0;}
-  .photo-item.ori-landscape .photo-frame{width:100%;height:auto;aspect-ratio:16/11;flex:0 0 auto;min-height:0;}
-  .photo-item.ori-portrait .photo-img-wrap,.photo-item.ori-landscape .photo-img-wrap{position:relative;min-height:0;}
-  .photo-item.ori-portrait .photo-img-wrap img,.photo-item.ori-portrait .photo-img-wrap video,
-  .photo-item.ori-landscape .photo-img-wrap img,.photo-item.ori-landscape .photo-img-wrap video{position:absolute;inset:0;}
-
   /* ══ PAGINACIÓN ══ */
   .pagination{display:flex;align-items:center;justify-content:center;gap:10px;padding:28px 0 10px;}
   .pg-btn{background:${L?'rgba(255,255,255,.60)':'rgba(255,255,255,.06)'};border:1px solid ${rgb(c2,.35)};color:${rgb(c2,1)};font-size:1.2rem;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .15s;font-family:inherit;}
