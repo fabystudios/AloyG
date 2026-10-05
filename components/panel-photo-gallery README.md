@@ -44,6 +44,7 @@ Por defecto las fotos se buscan como `base-path` + `1.jpg`, `2.jpg`, `3.jpg`… 
 | `captions` | — | Pie de foto de cada imagen (JSON). Ver [Captions](#captions-pies-de-foto). |
 | `sources-mobile` | — | Fotos alternativas solo para celular. |
 | `orientacion-mobile` | — | Forma del marco en el carrusel celular, por foto. |
+| `orientacion-desktop` | — | Forma del marco por foto en la grilla de escritorio. Ver [Orientación](#orientación-de-cada-foto). |
 
 ### Textos del encabezado
 
@@ -140,7 +141,8 @@ sources='["1.jpg","portada.png","baile.gif","clip.mp4","5.jpg"]'
 
 - También acepta lista separada por comas: `sources="1.jpg, baile.gif, clip.mp4"`.
 - Si faltan nombres, esos lugares usan `N.jpg`.
-- Los videos se reproducen solos, sin sonido y en bucle. En el lightbox muestran controles.
+- En la grilla y el carrusel los videos se reproducen solos, **sin sonido** y en bucle.
+- Al abrir un video en el lightbox arranca **con audio** y con controles. Si el navegador bloquea el sonido (pasa en algunos celulares), el video arranca en mudo y se activa con el botón de volumen.
 - Los GIF animados funcionan normalmente.
 
 ## Captions (pies de foto)
@@ -170,6 +172,31 @@ orientacion-mobile='["portrait","","landscape"]'
 | `portrait` | Marco vertical (≈ 3:4). |
 | `landscape` | Marco horizontal (≈ 16:9). |
 | `""` | Forma por defecto (≈ 72% de alto). |
+
+---
+
+## Orientación de cada foto
+
+Hay un atributo para escritorio y otro para celular. Los dos usan un array con un valor por foto, en el mismo orden que `sources`:
+
+```html
+orientacion-desktop='["portrait","","landscape"]'
+orientacion-mobile='["portrait","","landscape"]'
+```
+
+| Valor | Escritorio (`orientacion-desktop`) | Celular (`orientacion-mobile`) |
+|---|---|---|
+| `portrait` | Marco vertical (≈ 3:4). Sobresale un poco por arriba y abajo de su lugar. | Marco vertical (≈ 3:4). |
+| `landscape` | Marco horizontal (≈ 16:11), ocupando todo el ancho de su lugar. | Marco horizontal (≈ 16:9). |
+| `""` | Forma del lugar de la grilla (recorta la foto para llenarlo). | Forma por defecto (≈ 72% de alto). |
+
+Notas para escritorio:
+
+- La grilla tiene 9 lugares fijos y cada foto cae en el lugar que le toca según su número. El marco cambia de forma **dentro de su lugar**, sin mover a las demás fotos.
+- Un marco vertical queda más angosto que su lugar. Como es más alto, se ve más foto y se recorta menos.
+- Un marco horizontal queda más bajo que su lugar.
+- Los lugares ya son casi cuadrados, así que `landscape` se nota menos que `portrait`.
+- En `row-height` más altos el marco vertical sobresale más.
 
 ---
 

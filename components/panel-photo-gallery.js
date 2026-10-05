@@ -205,7 +205,7 @@ class PanelPhotoGallery extends HTMLElement {
       const alt  = (cap(i) || `Foto ${i+1}`).replace(/"/g,'&quot;');
       if (isVideo(name)) {
         const attrs = lightbox
-          ? 'autoplay muted loop playsinline controls'
+          ? 'autoplay loop playsinline controls'
           : 'autoplay muted loop playsinline preload="metadata"';
         return `<video src="${src}" ${attrs} aria-label="${alt}"></video>`;
       }
@@ -696,6 +696,16 @@ class PanelPhotoGallery extends HTMLElement {
     const isMobileView = () => window.matchMedia('(max-width:640px)').matches;
     const setLB=()=>{
       lbMedia.innerHTML=mediaTag(cur,true,isMobileView());
+      // Video en el modal: arranca CON audio. Se llama dentro del click/tecla del usuario,
+      // por eso el navegador lo permite. Si aun así lo bloquea, cae a mudo para que al menos
+      // se reproduzca (los controles permiten activar el sonido).
+      const lbVideo = lbMedia.querySelector('video');
+      if (lbVideo) {
+        lbVideo.muted = false;
+        lbVideo.volume = 1;
+        const pr = lbVideo.play();
+        if (pr && pr.catch) pr.catch(()=>{ lbVideo.muted = true; lbVideo.play().catch(()=>{}); });
+      }
       const txt=cap(cur)||`Foto ${cur+1}`;
       lbLabel.textContent=txt;
       lbCapEl.textContent=txt;
