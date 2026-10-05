@@ -7,6 +7,7 @@
  * ══════════════════════════════════════════════════════════
  *  base-path             ruta carpeta de fotos        (default: './actividades/ramos/')
  *  mascot-src            imagen mascota               (default: './actividades/photo.png')
+ *  mascot-size           tamaño del logo/mascota en px (default: 84)  ej: mascot-size="160"
  *  particle-src          PNG(s) que caen en la card   (default: '' → estrellitas)
  *                        Acepta varios separados por coma:
  *                        particle-src="./gota.png, ./hostia.png, ./pan.png"
@@ -23,6 +24,9 @@
  *                                (ideal para logos, textos o íconos muy simétricos)
  *                        particle-motion="sway"
  *  width                 ancho desktop                (default: '80%')
+ *  max-width             tope de ancho desktop        (default: '1280px')  ← sin esto `width` no pasa de 1280px
+ *  row-height            alto de cada fila del grid en px (default: 72)
+ *                        Las miniaturas miden 3-4 filas de alto: 72 → ~290px, 100 → ~400px, 120 → ~480px
  *  total                 total de fotos               (default: 9)
  *  page-size             fotos por página desktop     (default: 9)
  *  sources               (opcional) JSON array con los nombres de archivo EN ORDEN.
@@ -33,9 +37,12 @@
  *                        Se siguen tomando 'total' elementos; los nombres faltantes usan N.jpg.
  *
  *  ── TEXTOS ──────────────────────────────────────────────
- *  eyebrow               texto pequeño sobre el título
- *  title                 título principal
- *  title-em              parte shimmer del título
+ *  eyebrow               texto pequeño sobre el título   (sin default: si no se pasa o va vacío, no aparece)
+ *  title                 título principal                (sin default: idem)
+ *  title-em              parte shimmer del título        (sin default: idem)
+ *  title-color           color del título (hex/rgb/nombre)   title-color="#ffffff"
+ *  title-em-color        color FIJO de title-em (anula el shimmer)   title-em-color="#ffd166"
+ *  eyebrow-color         color del texto pequeño
  *  captions              JSON array con pie de foto por imagen
  *                        captions='["Procesión","Bendición","Comunidad"]'
  *                        Si hay menos items que fotos, el resto queda vacío.
@@ -43,7 +50,10 @@
  *  ── TEMAS ───────────────────────────────────────────────
  *  theme                 violeta-dorado (default) | azul-dorado | verde-dorado
  *                        rojo-dorado | azul-plateado | blanco-dorado
+ *                        FONDOS CLAROS: rosa-pastel | celeste-pastel | lila-pastel
  *  color1 / color2       colores hex custom (prioridad sobre theme)
+ *  light                 (junto con color1/color2) genera fondo claro pastel: light="true"
+ *  sparkle               polvo de estrellas + explosiones: on (default) | off
  *
  * ══════════════════════════════════════════════════════════
  *  EJEMPLOS
@@ -81,7 +91,12 @@ const THEMES = {
   'rojo-dorado':    { bg1:[55,10,8],   bg2:[30,4,4],    bg3:[44,8,6],    c1:[239,68,68],   c2:[201,168,76],  titleLight:'#fff5f5', shimmer:['#f0d080','#fca5a5','#f0d080'] },
   'azul-plateado':  { bg1:[8,20,55],   bg2:[4,10,30],   bg3:[6,16,44],   c1:[99,179,237],  c2:[203,213,225], titleLight:'#f0f8ff', shimmer:['#e2e8f0','#93c5fd','#e2e8f0'] },
   'blanco-dorado':  { bg1:[30,26,18],  bg2:[18,15,10],  bg3:[24,20,14],  c1:[245,237,210], c2:[201,168,76],  titleLight:'#fffdf5', shimmer:['#f0d080','#fdf8e8','#f0d080'] },
+  // ── Fondos claros pastel ──
+  'rosa-pastel':    { light:true, bg1:[255,228,240], bg2:[255,211,229], bg3:[251,221,237], c1:[232,92,150],  c2:[184,120,40],  titleLight:'#6b1d45', shimmer:['#d6336c','#9b5de5','#d6336c'] },
+  'celeste-pastel': { light:true, bg1:[222,241,255], bg2:[198,227,252], bg3:[211,236,255], c1:[56,150,225],  c2:[190,140,50],  titleLight:'#14406b', shimmer:['#1c7ed6','#7950f2','#1c7ed6'] },
+  'lila-pastel':    { light:true, bg1:[239,229,255], bg2:[224,210,252], bg3:[233,221,255], c1:[150,90,230],  c2:[200,140,60],  titleLight:'#3d2370', shimmer:['#7048e8','#e64980','#7048e8'] },
 };
+const lighten = (c,f)=>[Math.round(c[0]+(255-c[0])*f),Math.round(c[1]+(255-c[1])*f),Math.round(c[2]+(255-c[2])*f)];
  
 const rgb  = (c,a=1)=>`rgba(${c[0]},${c[1]},${c[2]},${a})`;
 const hex2rgb = h=>{ const r=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h.trim()); return r?[parseInt(r[1],16),parseInt(r[2],16),parseInt(r[3],16)]:null; };
@@ -93,18 +108,21 @@ class PanelPhotoGallery extends HTMLElement {
     // ── Atributos ────────────────────────────────────
     const basePath      = this.getAttribute('base-path')             || './actividades/ramos/';
     const mascotSrc     = this.getAttribute('mascot-src')            || './actividades/photo.png';
+    const mascotSize    = parseInt(this.getAttribute('mascot-size')  || '84', 10) || 84;
     const particleRaw   = this.getAttribute('particle-src')          || '';
     const lbParticleRaw = this.getAttribute('lightbox-particle-src') || '';
     const particleMotion = (this.getAttribute('particle-motion') || 'spin').toLowerCase();
     const widthVal      = this.getAttribute('width')                 || '80%';
+    const maxWidthVal   = this.getAttribute('max-width')             || '1280px';
+    const rowHeight     = parseInt(this.getAttribute('row-height')   || '72', 10);
     const total         = parseInt(this.getAttribute('total')     ||'9', 10);
     const pageSize      = parseInt(this.getAttribute('page-size') ||'9', 10);
     const themeName     = this.getAttribute('theme')                 || 'violeta-dorado';
     const customC1      = this.getAttribute('color1')                || null;
     const customC2      = this.getAttribute('color2')                || null;
-    const eyebrow       = this.getAttribute('eyebrow')   || '✦ Parroquia · Semana Santa ✦';
-    const titleMain     = this.getAttribute('title')     || 'Misa de';
-    const titleEm       = this.getAttribute('title-em')  || 'Ramos';
+    const eyebrow       = (this.getAttribute('eyebrow')  || '').trim();
+    const titleMain     = (this.getAttribute('title')    || '').trim();
+    const titleEm       = (this.getAttribute('title-em') || '').trim();
  
     // Captions: JSON array o vacío
     let captions = [];
@@ -181,9 +199,18 @@ class PanelPhotoGallery extends HTMLElement {
     if(customC1||customC2){
       const c1=customC1?(hex2rgb(customC1)||pal.c1):pal.c1;
       const c2=customC2?(hex2rgb(customC2)||pal.c2):pal.c2;
-      pal={bg1:darken(c1,.18),bg2:darken(c1,.09),bg3:darken(c1,.14),c1,c2,titleLight:'#fdf6e3',shimmer:[`rgb(${c2})`,`rgb(${c1})`,`rgb(${c2})`]};
+      const wantLight=this.hasAttribute('light') && this.getAttribute('light')!=='false';
+      pal = wantLight
+        ? {light:true,bg1:lighten(c1,.86),bg2:lighten(c1,.78),bg3:lighten(c1,.83),c1,c2,titleLight:`rgb(${darken(c1,.35)})`,shimmer:[`rgb(${darken(c1,.7)})`,`rgb(${c1})`,`rgb(${darken(c1,.7)})`]}
+        : {bg1:darken(c1,.18),bg2:darken(c1,.09),bg3:darken(c1,.14),c1,c2,titleLight:'#fdf6e3',shimmer:[`rgb(${c2})`,`rgb(${c1})`,`rgb(${c2})`]};
     }
     const{bg1,bg2,bg3,c1,c2,titleLight,shimmer}=pal;
+    const L=!!pal.light;
+    const titleCol   = this.getAttribute('title-color')    || titleLight;           // color del título
+    const emCol      = this.getAttribute('title-em-color') || '';                   // color fijo de la parte en cursiva (sin shimmer)
+    const eyebrowCol = this.getAttribute('eyebrow-color')  || '';                   // color del texto pequeño
+    const shim       = emCol ? [emCol,emCol,emCol] : shimmer;                       // tema claro
+    const shC=rgb(darken(c1,.45),.30), shC2=rgb(darken(c1,.45),.20);
  
     // ── Paginación ───────────────────────────────────
     const totalPages = Math.ceil(total/pageSize);
@@ -218,7 +245,7 @@ class PanelPhotoGallery extends HTMLElement {
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
  
-  :host{display:block;width:${widthVal};max-width:1280px;margin:36px auto;font-family:'Playfair Display',Georgia,serif;position:relative;}
+  :host{display:block;width:${widthVal};max-width:${maxWidthVal};margin:36px auto;font-family:'Playfair Display',Georgia,serif;position:relative;}
   @media(max-width:768px){:host{width:95%!important;max-width:95%!important;}}
  
   /* ══ CARD ══ */
@@ -228,7 +255,7 @@ class PanelPhotoGallery extends HTMLElement {
     backdrop-filter:blur(32px) saturate(1.6) brightness(1.05);
     -webkit-backdrop-filter:blur(32px) saturate(1.6) brightness(1.05);
     border:1.5px solid transparent;background-clip:padding-box;
-    box-shadow:0 40px 100px rgba(0,0,0,.65),0 12px 32px rgba(0,0,0,.45),0 0 60px ${rgb(c1,.18)},0 0 120px ${rgb(c2,.10)},inset 0 1px 0 ${rgb(c2,.35)},inset 0 -1px 0 ${rgb(c1,.20)},inset 1px 0 0 ${rgb(c1,.12)},inset -1px 0 0 ${rgb(c2,.08)};
+    box-shadow:${L?`0 30px 70px ${shC},0 10px 26px ${shC2}`:'0 40px 100px rgba(0,0,0,.65),0 12px 32px rgba(0,0,0,.45)'},0 0 60px ${rgb(c1,.18)},0 0 120px ${rgb(c2,.10)},inset 0 1px 0 ${rgb(c2,.35)},inset 0 -1px 0 ${rgb(c1,.20)},inset 1px 0 0 ${rgb(c1,.12)},inset -1px 0 0 ${rgb(c2,.08)};
   }
   .ramos-card::before{
     content:'';position:absolute;inset:0;border-radius:32px;padding:1.5px;
@@ -247,12 +274,12 @@ class PanelPhotoGallery extends HTMLElement {
   .card-header{position:relative;z-index:10;text-align:center;padding:36px 28px 24px;border-bottom:1px solid ${rgb(c2,.18)};}
   .card-header::before{content:'';display:block;width:120px;height:2px;margin:0 auto 22px;background:linear-gradient(90deg,${rgb(c1,0)} 0%,${rgb(c1,1)} 30%,${rgb(c2,1)} 50%,${rgb(c2,1)} 70%,${rgb(c2,0)} 100%);border-radius:2px;}
   .mascot-wrap{display:flex;justify-content:center;margin-bottom:14px;}
-  .mascot-wrap img{width:84px;height:84px;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 0 18px ${rgb(c1,.70)}) drop-shadow(0 0 8px ${rgb(c2,.60)}) drop-shadow(0 6px 14px rgba(0,0,0,.55));animation:mascotIn .9s cubic-bezier(.34,1.56,.64,1) both,mascotBob 3.8s .9s ease-in-out infinite;transform-origin:bottom center;}
+  .mascot-wrap img{width:${mascotSize}px;height:${mascotSize}px;max-width:70vw;max-height:70vw;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 0 18px ${rgb(c1,.70)}) drop-shadow(0 0 8px ${rgb(c2,.60)}) drop-shadow(0 6px 14px rgba(0,0,0,.55));animation:mascotIn .9s cubic-bezier(.34,1.56,.64,1) both,mascotBob 3.8s .9s ease-in-out infinite;transform-origin:bottom center;}
   @keyframes mascotIn{from{opacity:0;transform:translateY(32px) scale(.6) rotate(-8deg);}to{opacity:1;transform:translateY(0) scale(1) rotate(0);}}
   @keyframes mascotBob{0%,100%{transform:translateY(0) rotate(0);}25%{transform:translateY(-6px) rotate(-2deg);}75%{transform:translateY(-3px) rotate(2deg);}}
-  .card-eyebrow{font-size:.70rem;letter-spacing:.40em;text-transform:uppercase;font-style:italic;color:${rgb(c2,.80)};margin-bottom:10px;animation:fadeUp .7s .3s ease both;}
-  .card-title{font-size:clamp(1.7rem,3.8vw,3rem);font-weight:700;line-height:1.1;color:${titleLight};text-shadow:0 0 40px ${rgb(c1,.50)},0 2px 20px ${rgb(c2,.40)};animation:fadeUp .7s .45s ease both;}
-  .card-title em{font-style:italic;background:linear-gradient(90deg,${shimmer[0]},${shimmer[1]},${shimmer[2]});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200%;animation:shimmer 4s 1.4s linear infinite;}
+  .card-eyebrow{font-size:.70rem;letter-spacing:.40em;text-transform:uppercase;font-style:italic;color:${eyebrowCol||rgb(c2,.80)};margin-bottom:10px;animation:fadeUp .7s .3s ease both;}
+  .card-title{font-size:clamp(1.7rem,3.8vw,3rem);font-weight:700;line-height:1.1;color:${titleCol};text-shadow:${L?'0 1px 0 rgba(255,255,255,.85),0 4px 22px rgba(255,255,255,.75)':`0 0 40px ${rgb(c1,.50)},0 2px 20px ${rgb(c2,.40)}`};animation:fadeUp .7s .45s ease both;}
+  .card-title em{font-style:italic;background:linear-gradient(90deg,${shim[0]},${shim[1]},${shim[2]});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200%;animation:shimmer 4s 1.4s linear infinite;}
   @keyframes shimmer{0%{background-position:200% center;}100%{background-position:-200% center;}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
   .card-rule{width:80px;height:1px;background:linear-gradient(90deg,transparent,${rgb(c1,.8)},${rgb(c2,1)},${rgb(c1,.8)},transparent);margin:16px auto 0;animation:fadeUp .7s .6s ease both;}
@@ -261,7 +288,7 @@ class PanelPhotoGallery extends HTMLElement {
   .card-body{position:relative;z-index:10;padding:38px 30px;}
  
   /* ══ GRID desktop ══ */
-  .photo-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:72px;gap:14px;}
+  .photo-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:${rowHeight}px;gap:14px;}
   .pi1{grid-column:1/5;grid-row:1/5;--rot:-2.5deg;} .pi2{grid-column:5/9;grid-row:1/4;--rot:1.8deg;}
   .pi3{grid-column:9/13;grid-row:1/5;--rot:-1.2deg;} .pi4{grid-column:1/4;grid-row:5/9;--rot:2.3deg;}
   .pi5{grid-column:4/9;grid-row:4/9;--rot:-1.5deg;} .pi6{grid-column:9/13;grid-row:5/9;--rot:2.8deg;}
@@ -285,7 +312,7 @@ class PanelPhotoGallery extends HTMLElement {
  
   /* ══ PAGINACIÓN ══ */
   .pagination{display:flex;align-items:center;justify-content:center;gap:10px;padding:28px 0 10px;}
-  .pg-btn{background:rgba(255,255,255,.06);border:1px solid ${rgb(c2,.35)};color:${rgb(c2,1)};font-size:1.2rem;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .15s;font-family:inherit;}
+  .pg-btn{background:${L?'rgba(255,255,255,.60)':'rgba(255,255,255,.06)'};border:1px solid ${rgb(c2,.35)};color:${rgb(c2,1)};font-size:1.2rem;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .15s;font-family:inherit;}
   .pg-btn:hover{background:${rgb(c2,.18)};transform:scale(1.1);}
   .pg-btn:disabled{opacity:.3;cursor:default;transform:none;}
   .pg-dots{display:flex;gap:8px;align-items:center;}
@@ -324,7 +351,7 @@ class PanelPhotoGallery extends HTMLElement {
     outline:none;
     -webkit-tap-highlight-color:transparent;
     /* botón plano translúcido con aro dorado — coherente con lightbox/paginación */
-    background:rgba(255,255,255,.05);
+    background:${L?'rgba(255,255,255,.60)':'rgba(255,255,255,.05)'};
     border:1.5px solid ${rgb(c2,.45)};
     box-shadow:0 2px 10px rgba(0,0,0,.35),inset 0 0 12px ${rgb(c2,.06)};
     transition:transform .18s cubic-bezier(.34,1.56,.64,1), background .2s ease, border-color .2s ease;
@@ -368,7 +395,7 @@ class PanelPhotoGallery extends HTMLElement {
     overflow:hidden;
   }
   .lb-overlay.active{opacity:1;pointer-events:all;}
-  .lb-backdrop{position:absolute;inset:0;background:rgba(8,2,18,.88);backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);}
+  .lb-backdrop{position:absolute;inset:0;background:${L?rgb(bg1,.88):'rgba(8,2,18,.88)'};backdrop-filter:blur(22px);-webkit-backdrop-filter:blur(22px);}
  
   /* Canvas pirotecnia — DENTRO del overlay, cubre toda la pantalla fija */
   #lbCanvas{
@@ -398,7 +425,7 @@ class PanelPhotoGallery extends HTMLElement {
   .lb-close:hover{background:${rgb(c1,.95)};transform:scale(1.15) rotate(90deg);}
   .lb-counter{font-size:.78rem;color:${rgb(c2,.55)};letter-spacing:.22em;font-style:italic;}
   .lb-nav{display:flex;align-items:center;gap:18px;}
-  .lb-btn{background:rgba(255,255,255,.06);border:1px solid ${rgb(c1,.35)};color:${rgb(c1,1)};font-size:1.5rem;width:46px;height:46px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s;padding-bottom:2px;}
+  .lb-btn{background:${L?'rgba(255,255,255,.65)':'rgba(255,255,255,.06)'};border:1px solid ${rgb(c1,.35)};color:${rgb(c1,1)};font-size:1.5rem;width:46px;height:46px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .2s;padding-bottom:2px;}
   .lb-btn:hover{background:${rgb(c1,.20)};transform:scale(1.1);}
   .lb-label{font-size:.92rem;color:${rgb(c2,.80)};letter-spacing:.14em;font-style:italic;min-width:90px;text-align:center;}
  
@@ -420,15 +447,22 @@ class PanelPhotoGallery extends HTMLElement {
     .lb-btn{width:40px;height:40px;font-size:1.2rem;}
     .lb-counter{font-size:.7rem;}
   }
+  #fxCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:40;border-radius:32px;}
+  ${L?`
+  .photo-frame{box-shadow:0 14px 34px ${shC},0 4px 12px ${shC2},inset 0 0 0 1px rgba(255,255,255,.95);}
+  .cr-frame{box-shadow:0 10px 26px ${shC},0 3px 10px ${shC2},inset 0 0 0 1px rgba(255,255,255,.95);}
+  .cr-slide.active .cr-frame{box-shadow:0 18px 40px ${shC},0 5px 14px ${shC2},inset 0 0 0 1px rgba(255,255,255,.97);}
+  .lb-counter,.lb-label{color:${rgb(darken(c1,.5),.85)};}
+  `:''}
 </style>
  
 <div class="ramos-card" id="ramosCard">
   <canvas id="particleCanvas"></canvas>
+  <canvas id="fxCanvas"></canvas>
   <div class="card-header">
     <div class="mascot-wrap"><img src="${mascotSrc}" alt="Mascota"/></div>
-    <p class="card-eyebrow">${eyebrow}</p>
-    <h2 class="card-title">${titleMain} <em>${titleEm}</em></h2>
-    <div class="card-rule"></div>
+    ${eyebrow?`<p class="card-eyebrow">${eyebrow}</p>`:''}
+    ${(titleMain||titleEm)?`<h2 class="card-title">${titleMain}${titleMain&&titleEm?' ':''}${titleEm?`<em>${titleEm}</em>`:''}</h2><div class="card-rule"></div>`:''}
   </div>
   <div class="card-body">
     <div class="photo-grid" id="photoGrid"></div>
@@ -480,6 +514,61 @@ class PanelPhotoGallery extends HTMLElement {
     const pImgs   = loadImgs(particleRaw);
     let particles=[], rafId=null;
     const DPR = window.devicePixelRatio||1;
+
+    /* ═══════════════════════════════════════
+       POLVO DE ESTRELLAS + EXPLOSIONES
+       sparkle="off" lo desactiva
+    ═══════════════════════════════════════ */
+    const sparkOn = (this.getAttribute('sparkle')||'on').toLowerCase()!=='off'
+                    && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const SPARK_COLORS = L
+      ? [rgb(c1,1),rgb(c2,1),'#ff5fa2','#ff9f43','#4dabf7','#b388ff','#f5b700']
+      : [rgb(c1,1),rgb(c2,1),'#ffffff','#ffe066','#ff6fff','#66ffee','#ff8844','#88ffaa'];
+    const fxCanvas = shadow.getElementById('fxCanvas');
+    const fxCtx    = fxCanvas.getContext('2d');
+    const lbBursts = [];
+    function resizeFX(){
+      const w=card.offsetWidth,h=card.offsetHeight;
+      fxCanvas.width=Math.round(w*DPR); fxCanvas.height=Math.round(h*DPR);
+      fxCanvas.style.width=w+'px'; fxCanvas.style.height=h+'px';
+      fxCtx.setTransform(DPR,0,0,DPR,0,0);
+    }
+    function drawSpark(cx,x,y,size,rot,color,alpha,pts){
+      cx.save();cx.translate(x,y);cx.rotate(rot);
+      cx.globalAlpha=Math.max(0,alpha);cx.fillStyle=color;
+      cx.shadowColor=color;cx.shadowBlur=size*.9;
+      cx.beginPath();
+      const o=size/2, inn=size/(pts===4?4:5);
+      for(let i=0;i<pts*2;i++){
+        const r=i%2===0?o:inn, a=(i*Math.PI)/pts-Math.PI/2;
+        i===0?cx.moveTo(Math.cos(a)*r,Math.sin(a)*r):cx.lineTo(Math.cos(a)*r,Math.sin(a)*r);
+      }
+      cx.closePath();cx.fill();cx.restore();
+    }
+    // Crea una explosión de chispas en (x,y)
+    function makeBurst(list,x,y,count){
+      for(let i=0;i<count;i++){
+        const a=Math.random()*Math.PI*2, v=1.2+Math.random()*4.4;
+        list.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v,g:.045,drag:.965,
+          size:5+Math.random()*11,rot:Math.random()*6.28,rotV:(Math.random()-.5)*.22,
+          color:SPARK_COLORS[(Math.random()*SPARK_COLORS.length)|0],
+          pts:[4,4,5,6][(Math.random()*4)|0],life:0,maxLife:50+Math.random()*45});
+      }
+      // destello central
+      list.push({x,y,vx:0,vy:0,g:0,drag:1,size:38,rot:0,rotV:.05,
+        color:L?rgb(c1,1):'#ffffff',pts:4,life:0,maxLife:20,flash:true});
+    }
+    // Avanza y dibuja las chispas de una lista
+    function stepBursts(list,cx){
+      for(let i=list.length-1;i>=0;i--){
+        const p=list[i]; p.life++;
+        p.vx*=p.drag; p.vy=p.vy*p.drag+p.g; p.x+=p.vx; p.y+=p.vy; p.rot+=p.rotV;
+        const t=p.life/p.maxLife;
+        if(t>=1){list.splice(i,1);continue;}
+        const sz=p.flash?p.size*(.6+t*1.6):p.size*(1-t*.45);
+        drawSpark(cx,p.x,p.y,sz,p.rot,p.color,1-t,p.pts);
+      }
+    }
  
     // Estado de rotación inicial según particle-motion (spin / sway / drift)
     function rotStateCard(){
@@ -494,6 +583,7 @@ class PanelPhotoGallery extends HTMLElement {
       canvas.style.width=w+'px'; canvas.style.height=h+'px';
       ctx.setTransform(DPR,0,0,DPR,0,0);
       ctx.imageSmoothingEnabled=true; ctx.imageSmoothingQuality='high';
+      resizeFX();
     }
     function makeP(){
       const w=card.offsetWidth;
@@ -528,6 +618,43 @@ class PanelPhotoGallery extends HTMLElement {
     if(pImgs.length){let n=0;pImgs.forEach(img=>{const d=()=>{if(++n===1)startP();};img.onload=d;img.onerror=d;if(img.complete)d();});}
     else startP();
     new ResizeObserver(()=>{resizeCanvas();initP();}).observe(card);
+
+    // ── Polvo de estrellas (brillitos) + explosiones periódicas y al hacer click ──
+    if(sparkOn){
+      const dust=[], bursts=[];
+      let fxFrame=0, nextBurst=60, fxVisible=true;
+      new IntersectionObserver(es=>{fxVisible=es[0].isIntersecting;}).observe(card);
+      resizeFX();
+      const fxStep=()=>{
+        requestAnimationFrame(fxStep);
+        if(!fxVisible) return;
+        const w=card.offsetWidth,h=card.offsetHeight;
+        if(fxCanvas.width!==Math.round(w*DPR)) resizeFX();
+        fxCtx.clearRect(0,0,w,h);
+        fxFrame++;
+        if(dust.length<45 && Math.random()<.35){
+          dust.push({x:Math.random()*w,y:Math.random()*h,size:4+Math.random()*9,life:0,
+            maxLife:60+Math.random()*70,rot:Math.random()*6.28,rotV:(Math.random()-.5)*.03,
+            vy:-.12-Math.random()*.2,color:SPARK_COLORS[(Math.random()*SPARK_COLORS.length)|0]});
+        }
+        if(fxFrame>=nextBurst){
+          makeBurst(bursts,60+Math.random()*Math.max(1,w-120),50+Math.random()*Math.max(1,h-100),22+((Math.random()*14)|0));
+          fxFrame=0; nextBurst=130+Math.random()*180;
+        }
+        for(let i=dust.length-1;i>=0;i--){
+          const d=dust[i]; d.life++; d.y+=d.vy; d.rot+=d.rotV;
+          const t=d.life/d.maxLife;
+          if(t>=1){dust.splice(i,1);continue;}
+          drawSpark(fxCtx,d.x,d.y,d.size*(.5+Math.sin(Math.PI*t)*.7),d.rot,d.color,Math.sin(Math.PI*t)*.9,4);
+        }
+        stepBursts(bursts,fxCtx);
+      };
+      requestAnimationFrame(fxStep);
+      card.addEventListener('click',e=>{
+        const r=card.getBoundingClientRect();
+        makeBurst(bursts,e.clientX-r.left,e.clientY-r.top,28);
+      });
+    }
  
     /* ═══════════════════════════════════════
        LIGHTBOX
@@ -549,7 +676,7 @@ class PanelPhotoGallery extends HTMLElement {
     };
     const openLB=idx=>{cur=idx;setLB();lb.classList.add('active');startLB();};
     const closeLB=()=>{lb.classList.remove('active');stopLB();lbMedia.innerHTML='';};
-    const navLB=dir=>{cur=(cur+dir+total)%total;setLB();};
+    const navLB=dir=>{cur=(cur+dir+total)%total;setLB();if(sparkOn){const W=lb.clientWidth||window.innerWidth,H=lb.clientHeight||window.innerHeight;makeBurst(lbBursts,W/2,H*.45,18);}};
  
     shadow.getElementById('lbClose').addEventListener('click',closeLB);
     shadow.getElementById('lbBackdrop').addEventListener('click',closeLB);
@@ -585,10 +712,7 @@ class PanelPhotoGallery extends HTMLElement {
     }
  
     // Colores para pirotecnia CSS — brillantes y variados
-    const STAR_COLORS=[
-      rgb(c1,1), rgb(c2,1),
-      '#ffffff','#ffe066','#ff6fff','#66ffee','#ff8844','#88ffaa',
-    ];
+    const STAR_COLORS=SPARK_COLORS;
 
     function rotStateLB(){
       if(particleMotion==='drift') return {rot:0,rotV:0,rotT:0,rotS:0,rotMax:0};
@@ -642,6 +766,7 @@ class PanelPhotoGallery extends HTMLElement {
       const W=lb.clientWidth||window.innerWidth;
       const H=lb.clientHeight||window.innerHeight;
       lbCtx.clearRect(0,0,W,H);
+      stepBursts(lbBursts,lbCtx);
  
       // Emitir nuevas partículas escalonadas
       if(lbPs.length<LB_COUNT) lbPs.push(makeLBP());
@@ -675,8 +800,9 @@ class PanelPhotoGallery extends HTMLElement {
     }
  
     function startLB(){
-      lbPs=[];
+      lbPs=[];lbBursts.length=0;
       resizeLB();
+      if(sparkOn){const W=lb.clientWidth||window.innerWidth,H=lb.clientHeight||window.innerHeight;makeBurst(lbBursts,W*.2,H*.5,26);makeBurst(lbBursts,W*.8,H*.5,26);makeBurst(lbBursts,W*.5,H*.28,30);}
       if(lbRaf)cancelAnimationFrame(lbRaf);
       lbRaf=requestAnimationFrame(animateLB);
     }
