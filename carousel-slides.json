@@ -184,7 +184,7 @@
   },
                   {
     "id": "SF",
-    "position": 4,
+    "position": -1,
     "hasVideo": false,
     "link": "https://colegiosanfranciscodeasis.edu.ar/",
     "time": { "desktop": 3, "mobile": 3 },
@@ -261,7 +261,7 @@
        
               {
     "id": "merienda",
-    "position": 5,
+    "position": 4,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
