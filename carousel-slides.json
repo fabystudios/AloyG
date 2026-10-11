@@ -1,28 +1,18 @@
 [
                     {
-    "id": "buffet",
-    "position": -1,
+    "id": "matrimonios",
+    "position": 1,
     "hasVideo": false,
-    "link": "#asis1--feria",
+    "link": "#",
     "time": { "desktop": 5, "mobile": 5 },
     "desktop": {
       "type": "image",
-      "src": "./slides/buffet_desk.png"
+      "src": "./slides/matri_desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/buffet_mob.png"
-    },
-    "overlay": {
-      "src": "./logos/palomita.png",
-      "desktopPos": "center",
-      "mobilePos": "center",
-      "effect": "vuela-izq-der",
-      "desktopScale": 0.35,
-      "mobileScale": 0.5,
-      "flyDuration": 6,
-      "flyDelay": 0.5
-}
+      "src": "./slides/matri_mob.png"
+    }
   },
 
                   {
@@ -52,7 +42,7 @@
   },
                 {
     "id": "viaje",
-    "position": 1,
+    "position": 2,
     "hasVideo": false,
     "link": "#papa1",
     "time": { "desktop": 3, "mobile": 3 },
@@ -67,7 +57,7 @@
   },
                 {
     "id": "leon",
-    "position": 2,
+    "position": 3,
     "hasVideo": false,
     "link": "https://acreditaciones.episcopado.org/voluntarios",
     "time": { "desktop": 3, "mobile": 3 },
@@ -82,7 +72,7 @@
   },
     {
   "id": "Aurelia",
-  "position": 3,
+  "position": 4,
   "hasVideo": false,
   "link": "./avisos.html",
   "time": { "desktop": 5, "mobile": 5 },
@@ -261,7 +251,7 @@
        
               {
     "id": "merienda",
-    "position": 4,
+    "position": 5,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
