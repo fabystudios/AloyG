@@ -168,6 +168,7 @@
        Reemplaza el uso de <br>/<br><br> como separadores.        */
     :root { --pub-gap: clamp(2rem, 5vw, 4rem); }
 
+    showcase-card,
     fiesta-patronal,
     glassmorphism-yt-player,
     glassmorphism-video,
@@ -1171,6 +1172,20 @@
 
                  
 ></section-title>
+
+
+<!-- <script src="./components/mascota-flotante.js"></script>
+<mascota-flotante
+  target="noticia-principal"
+  src="./news/gio.png"
+  href="./noticias.html"
+  offset-bottom="-150"
+></mascota-flotante> -->
+
+
+
+
+
 <script src="./components/showcase-card.js"></script>
 <showcase-card
   bg="./img/sky.jpg"
@@ -1369,7 +1384,7 @@ Tras el rezo del Ángelus, el Pontífice comunicó personalmente su situación d
 
 
 
-<script src="./components/panel-photo-gallery.js"></script>
+<!-- <script src="./components/panel-photo-gallery.js"></script>
 <panel-photo-gallery
 
   base-path="./actividades/8oct/"
@@ -1389,7 +1404,7 @@ Tras el rezo del Ángelus, el Pontífice comunicó personalmente su situación d
   orientacion-mobile='["portrait","portrait","","","",""]'
   captions='["Bingo","Bingo","Feria","Buffet","Emprendedores","Nuestro jardín"]'
   width="100%">
-</panel-photo-gallery>
+</panel-photo-gallery> -->
 
 
 
@@ -1557,6 +1572,9 @@ Tras el rezo del Ángelus, el Pontífice comunicó personalmente su situación d
 
 </div>  
 
+
+<!-- triple  videos  verticales -->
+<!-- 
 <div class="fila-videos" style="display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:0.5rem;">
 
 
@@ -1622,10 +1640,10 @@ Traducción realizada con la versión gratuita del traductor DeepL.com"
 </div>
 
 
-<br><br><br>
+<br><br><br> -->
 
-
-<script src="./components/PilgrimageEventCard.js"></script>
+<!-- para  ver al  Papa -->
+<!-- <script src="./components/PilgrimageEventCard.js"></script>
 <div id="papa1" style="display:flex;justify-content:center;">
   <pilgrimage-event-card
     
@@ -1647,109 +1665,12 @@ Traducción realizada con la versión gratuita del traductor DeepL.com"
     style="--cartel-max-width:1300px;">
   </pilgrimage-event-card>
 </div>
-<!-- style="--cartel-max-width:1300px; --pec-badge-size:52px;" -->
-
 <script>
   document.querySelector('pilgrimage-event-card')
     .addEventListener('cta-click', () => {
       // opcional: analytics, tracking, etc. — no hace falta para que abra WhatsApp
     });
-</script>
-
-
-
-<br><br><br>
-<noticia-card
-
-  fecha="27 Setiembre"
-  categoria="Lourdes"
-  titular="Matar a los enfermos es una “falsa compasión”, afirma el Papa en Lourdes”"
-  autor-nombre="Hannah Brockhaus"
-  autor-link="https://www.aciprensa.com/autor/79/hannah-brockhaus"
-  autor-img="https://res.cloudinary.com/ewtn/image/upload/v1767797781/Brockhaus_Headshot_July_3_2023_cropped_ftdtln.jpg?w=48&h=48"
-  autor-desc="Editora adjunta de la sección del Vaticano de EWTN News"
-  imagen="https://res.cloudinary.com/ewtn/image/upload/v1790525017/ewtn-news/es/LourdesPapa_270926_n6dxbb.jpg?w=672&h=448"
- 
-  imagen-alt="imagen oficial de la nota"
-texto="Matar a los enfermos no es ni compasivo ni normal, y que una práctica sea legal no significa que sea moral, afirmó el Papa León XIV el domingo, en una clara referencia a la reciente legalización de la eutanasia y el suicidio asistido en Francia.
-“Sé que para algunos de ustedes, debido a enfermedades particulares y, en ocasiones, a dolores terribles, el horizonte puede parecer oscuro, incierto y sin esperanza. Pero ninguna ley humana debería hacerles perder jamás la certeza de su dignidad”, dijo el Papa durante un encuentro con unas 5.000 personas enfermas y cuidadores en el Santuario de Nuestra Señora de Lourdes, el 27 de septiembre."
-
-  fuente-nombre="ACIPRENSA"
-  fuente-url="https://www.aciprensa.com/noticias/128805/matar-enfermos-falsa-compasion-papa"
-  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
-></noticia-card>
-
-<br><br><br>
-<noticia-card
-
-  fecha="26 Setiembre"
-  categoria="Francia"
-  titular="El Papa León XIV en París: Nadie “es un simple número”"
-  autor-nombre="Hannah Brockhaus"
-  autor-link="https://www.aciprensa.com/autor/79/hannah-brockhaus"
-  autor-img="https://res.cloudinary.com/ewtn/image/upload/v1767797781/Brockhaus_Headshot_July_3_2023_cropped_ftdtln.jpg?w=48&h=48"
-  autor-desc="Editora adjunta de la sección del Vaticano de EWTN News"
-  imagen="https://res.cloudinary.com/ewtn/image/upload/v1790443779/ewtn-news/es/Papa-Leon-XIV-Misa-en-Paris_VaticanMedia_260926_c8xuhp.jpg?w=672&h=448"
- 
-  imagen-alt="imagen oficial de la nota"
-texto="El Papa León XIV dijo a los fieles durante la Misa al aire libre celebrada hoy sábado en París que ninguno de nosotros es simplemente un número o una entrada en un registro, sino una persona única e irreemplazable, a los ojos de Dios.
-Las autoridades locales estimaron la multitud en 800.000 personas, según informó el Vaticano.
-Seis jóvenes con síndrome de Down estuvieron entre los numerosos monaguillos que asistieron a León XIV durante la celebración del 26 de septiembre.
-Muchas familias con niños llegaron con mantas de picnic, los bebés dormían en sus cochecitos y mujeres de cabello cano permanecían sentadas en sillas plegables mientras esperaban el comienzo de la Misa.
-"
-
-  fuente-nombre="ACIPRENSA"
-  fuente-url="https://www.aciprensa.com/noticias/128781/misa-papa-leon-xiv-plaza-de-la-concordia-paris-francia"
-  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
-></noticia-card>
-
-<br><br><br>
-
-
-
-
-      <noticia-card
-  id="noticia-principal"
-  fecha="23 Setiembre"
-  categoria="Argentina"
-  titular="Argentina declara feriado nacional el 9 de noviembre por la visita de León XIV"
-  autor-nombre="Julieta Villar"
-  autor-link="https://www.aciprensa.com/autor/56/julieta-villar"
-  autor-img="https://res.cloudinary.com/ewtn/image/upload/authors/VtAZ2GJ8CQafTgdKvxF4MhGj2JwPzOEexN8bpWYR?w=48&h=48"
-  autor-desc="Corresponsal de ACI Prensa para Argentina, Chile, Uruguay y Bolivia."
-  imagen="https://res.cloudinary.com/ewtn/image/upload/v1789548482/ewtn-news/es/Papa_mgelec.jpg?w=672&h=448"
- 
-  imagen-alt="imagen oficial de la nota"
-texto="El Gobierno de la Nación Argentina confirmó que el lunes 9 de noviembre será feriado nacional por la visita del Papa León XIV.
-Así lo informó la ministra de Seguridad, Alejandra Monteoliva, a los medios de comunicación tras un encuentro llevado a cabo este martes en la sede del ministerio que encabeza, que reunió a autoridades nacionales, referentes eclesiales y funcionarios de los distintos puntos del país que visitará el pontífice.
-Entre los presentes se encontraban la secretaria general de Presidencia, Karina Milei; representantes de la Conferencia Episcopal Argentina, y gobernantes de la Ciudad de Buenos Aires y las provincias de Buenos Aires y Córdoba."
-
-  fuente-nombre="ACIPRENSA"
-  fuente-url="https://www.aciprensa.com/noticias/128657/gobierno-argentino-feriado-papa-leon-xiv"
-  fuente-logo="https://www.aciprensa.com/assets/images/branding/logo-white-small.png"
-></noticia-card>
-
-<br><br><br>
-
-
-
-
-<noticia-card
-  id="noticia-principal"
-  fecha="21 Setiembre"
-  categoria="Argentina"
-  titular="Se confirmó la agenda del Papa en Argentina: el lunes 9 a las 11:30 será la misa multitudinaria en Palermo"
- 
-  imagen="./img/crono2.png"
-  imagen-mob="./img/crono-mob.jpg"
-  imagen-alt="imagen oficial de la nota"
-texto="El papa León XIV llegará a Buenos Aires el 8 de noviembre y cumplirá una agenda de cuatro días que incluirá misas, encuentros con autoridades, trabajadores, jóvenes y referentes religiosos, además de actividades en Claypole, Córdoba y Luján. El itinerario prevé que el pontífice arribe desde Montevideo y parta hacia Lima el miércoles 11, según confirmó el Vaticano este lunes oficialmente.
-La visita comenzará el domingo por la tarde, tras una misa en Florida, Uruguay, y una ceremonia de despedida en el aeropuerto de Montevideo-Carrasco. El vuelo tiene previsto aterrizar a las 16:30 en el Aeroparque Jorge Newbery, donde se realizará la acogida oficial."
-
-  fuente-nombre="Infobae"
-  fuente-url="https://www.infobae.com/sociedad/2026/09/21/se-confirmo-la-agenda-del-papa-en-argentina-el-lunes-9-a-las-1130-sera-la-misa-multitudinaria-en-palermo/"
-  fuente-logo="https://www.infobae.com/assets/images/logos/logo_infobae_naranja.svg"
-></noticia-card>
+</script> -->
 
 
 
@@ -2021,13 +1942,6 @@ La visita comenzará el domingo por la tarde, tras una misa en Florida, Uruguay,
   </glassmorphism-yt-player> -->
 
 
-<script src="./components/mascota-flotante.js"></script>
-<mascota-flotante
-  target="noticia-principal"
-  src="./news/gio.png"
-  href="./noticias.html"
-  offset-bottom="-150"
-></mascota-flotante>
 
 
 

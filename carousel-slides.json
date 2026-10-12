@@ -42,7 +42,7 @@
   },
                 {
     "id": "viaje",
-    "position": 2,
+    "position": -1,
     "hasVideo": false,
     "link": "#papa1",
     "time": { "desktop": 3, "mobile": 3 },
@@ -57,7 +57,7 @@
   },
                 {
     "id": "leon",
-    "position": 3,
+    "position": -1,
     "hasVideo": false,
     "link": "https://acreditaciones.episcopado.org/voluntarios",
     "time": { "desktop": 3, "mobile": 3 },
@@ -72,7 +72,7 @@
   },
     {
   "id": "Aurelia",
-  "position": 4,
+  "position": 2,
   "hasVideo": false,
   "link": "./avisos.html",
   "time": { "desktop": 5, "mobile": 5 },
@@ -251,7 +251,7 @@
        
               {
     "id": "merienda",
-    "position": 5,
+    "position": 3,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
