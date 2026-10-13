@@ -59,6 +59,9 @@ class NoticiaCard extends HTMLElement {
     const imagenAlt     = this._attr('imagen-alt', titular);
     const texto         = this._attr('texto');
     const textoMobile   = this._attr('texto-mobile', '');
+    // Pastilla "en vivo": solo aparece si se pasa el atributo con texto
+    // (ej: en-vivo="EN VIVO"). Sin atributo (o vacío), no se renderiza.
+    const enVivo        = this._attr('en-vivo').trim();
     const esMobileAhora = window.matchMedia('(max-width: 560px)').matches;
     const textoElegido  = (esMobileAhora && textoMobile) ? textoMobile : texto;
     this._texto = texto;
@@ -79,6 +82,11 @@ class NoticiaCard extends HTMLElement {
             <span class="seal__day">${(fecha || '').split(' ')[0]}</span>
             <span class="seal__month">${(fecha || '').split(' ').slice(1).join(' ')}</span>
           </span>
+          ${enVivo ? `
+          <span class="live" part="live" role="status">
+            <span class="live__dot" aria-hidden="true"></span>
+            <span class="live__text">${enVivo}</span>
+          </span>` : ''}
         </figure>
 
         <div class="content">
@@ -411,6 +419,49 @@ class NoticiaCard extends HTMLElement {
       }
       .seal__day{ font-size:1.65rem; font-weight:700; }
       .seal__month{ font-size:.5rem; letter-spacing:.05em; text-transform:uppercase; margin-top:3px; opacity:.85; }
+
+      /* ---------- Pastilla "EN VIVO" (opuesta al sello de fecha) ---------- */
+      .live{
+        position:absolute;
+        top:14px;
+        right:14px;
+        z-index:2;
+        display:inline-flex;
+        align-items:center;
+        gap:7px;
+        max-width: calc(100% - 28px - 74px); /* no pisa el sello de fecha */
+        padding: 6px 13px 6px 11px;
+        border-radius:999px;
+        background:#e50914;
+        color:#fff;
+        font-family: var(--sans);
+        font-size:.72rem;
+        font-weight:800;
+        letter-spacing:.04em;
+        text-transform:uppercase;
+        line-height:1;
+        box-shadow: 0 4px 10px rgba(0,0,0,.35);
+        pointer-events:none;
+      }
+      .live__dot{
+        flex:none;
+        width:8px; height:8px;
+        border-radius:50%;
+        background:#fff;
+        animation: live-blink 1.2s ease-in-out infinite;
+      }
+      .live__text{
+        white-space:nowrap;
+        overflow:hidden;
+        text-overflow:ellipsis;
+      }
+      @keyframes live-blink{
+        0%, 100%{ opacity:1; }
+        50%{ opacity:.15; }
+      }
+      @media (prefers-reduced-motion: reduce){
+        .live__dot{ animation:none; }
+      }
 
       /* ---------- Content ---------- */
       .content{
