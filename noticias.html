@@ -141,13 +141,48 @@
     max-width: 99vw !important;
   }
 }
+
+.noticias-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  line-height: 1;
+}
+
+.noticias-titulo {
+  color: white;
+  font-size: clamp(1.8rem, 4vw, 2.7rem);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.noticias-icono {
+  display: block;
+  width: auto;
+  height: 70px;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+@media (max-width: 600px) {
+  .noticias-header {
+    gap: 8px;
+  }
+
+  .noticias-icono {
+    height: 40;
+  }
+}
 </style>
 
-<section id="NOTIS"  class="section-header">
-
-    <h2 class="md3-headline" style="color: white;">
-        📰 Noticias
-    </h2>
+<section id="NOTIS" class="section-header">
+  <div class="noticias-header">
+     <img src="./logos/news.png" alt="Noticias" class="noticias-icono">
+    <span class="noticias-titulo">NOTICIAS</span>
+   
+  </div>
 </section>
   <script src="./components/noticia-card.js"></script>
 <!-- Noticias!  📰 -->
