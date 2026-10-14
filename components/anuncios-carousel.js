@@ -364,6 +364,52 @@
         .ac-lb-hslider-track { width: 92px; }
       }
 
+      /* ── LIGHTBOX DESKTOP: controles no pisan el botón "siguiente" ──
+         En desktop el botón siguiente está dentro de .ac-lb-nav-row, que
+         mide min(100vw - 2rem, 1800px, 96vw) y va centrada. Los controles
+         de pan/zoom son fixed a la derecha y, al estar centrados en
+         vertical como el botón, lo tapaban. Se corren hacia adentro:
+         margen lateral de la fila + ancho del botón (50px) + aire. */
+      @media (min-width: 769px) {
+        .ac-lb-controls { right: calc((100vw - min(100vw - 2rem, 1800px, 96vw)) / 2 + 50px + 14px); }
+        /* con zoom, la imagen (transform: scale) se pinta ENCIMA de los botones prev/next
+           que no estaban posicionados; position + z-index los deja siempre por arriba */
+        .ac-lb-nav-btn { position: relative; z-index: 11; }
+      }
+
+      /* ── LIGHTBOX EN LANDSCAPE (celular horizontal / pantallas bajas) ──
+         Los controles de pan/zoom están fixed a la derecha, centrados en
+         vertical: justo donde vive el botón "siguiente". Acá el botón pasa
+         a flotar sobre la imagen (como en mobile) y el bloque de controles
+         se corre hacia adentro el ancho del botón + márgenes, así nunca
+         se pisan sin importar el alto de la pantalla. Va DESPUÉS del
+         bloque mobile para ganarle en igualdad de especificidad. */
+      @media (orientation: landscape) and (max-height: 600px) {
+        .ac-lb-inner { padding: 0; }
+        .ac-lb-nav-row { position: relative; width: 100vw; height: 100dvh; max-width: 100vw; gap: 0; align-items: stretch; }
+        .ac-lb-img-wrap { position: absolute; inset: 0; width: 100vw; height: 100dvh; max-width: 100vw; max-height: 100dvh; display: flex; align-items: center; justify-content: center; }
+        .ac-lb-img { width: 100%; height: 100%; max-width: 100vw; max-height: 100dvh; object-fit: contain; border-radius: 0; }
+        .ac-lb-nav-btn { position: absolute; top: 50%; transform: translateY(-50%); z-index: 10; width: 44px; height: 44px; background: rgba(0,0,0,0.52); border: 1px solid rgba(255,255,255,0.28); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
+        .ac-lb-nav-btn svg { width: 20px; height: 20px; }
+        .ac-lb-prev { left: calc(10px + env(safe-area-inset-left, 0px)); }
+        .ac-lb-next { right: calc(10px + env(safe-area-inset-right, 0px)); }
+        .ac-lb-nav-btn:hover, .ac-lb-nav-btn:focus-visible { transform: translateY(-50%) scale(1.1); }
+
+        /* controles verticales: centrados, pero corridos para dejar libre el "siguiente" */
+        .ac-lb-controls { top: 50%; bottom: auto; transform: translateY(-50%); right: calc(10px + 44px + 10px + env(safe-area-inset-right, 0px)); gap: 0.4rem; }
+        .ac-lb-vslider { padding: 0.5rem 0.35rem; gap: 0.35rem; }
+        .ac-lb-vslider-track { height: 64px; }
+        .ac-lb-vslider-btn { width: 22px; height: 22px; font-size: 0.7rem; }
+        .ac-lb-vslider-thumb { width: 26px; height: 26px; }
+
+        /* slider horizontal y leyenda: abajo, compactos */
+        .ac-lb-caption { position: fixed; bottom: 0.5rem; left: 50%; transform: translateX(-50%); white-space: nowrap; z-index: 10; margin-top: 0; padding: 0.25rem 0.9rem; font-size: 0.8rem; }
+        .ac-lb-hcontrols { bottom: 2.9rem; }
+        .ac-lb-hslider { padding: 0.35rem 0.6rem; gap: 0.4rem; }
+        .ac-lb-hslider-track { width: 92px; }
+        .ac-lb-hslider-thumb { width: 26px; height: 26px; }
+      }
+
       /* ── PARTÍCULAS MÁGICAS ── */
       .ac-particle {
         position: fixed; border-radius: 50%; pointer-events: none; z-index: 10001;
