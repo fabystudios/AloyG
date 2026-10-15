@@ -410,21 +410,26 @@
         .ac-lb-hslider-thumb { width: 26px; height: 26px; }
       }
 
-      /* ── SWITCH "CONTROLES" (solo mobile y celular horizontal) ──
-         Oculta/muestra de una vez los sliders de zoom y desplazamiento y
-         los botones anterior/siguiente del lightbox. En desktop no existe.
-         Las reglas "off" viven dentro del mismo media query para que, si
-         se rota o se agranda la ventana, desktop nunca quede sin controles. */
-      .ac-lb-ctrl-switch { display: none; }
+      /* ── SWITCHES DEL LIGHTBOX (solo mobile y celular horizontal) ──
+         Dos interruptores independientes, apilados arriba al centro:
+           · "Carrusel"    → botones anterior / siguiente
+           · "Zoom / mover" → sliders de zoom y desplazamiento
+         En desktop no existen. Las reglas "off" viven dentro del mismo
+         media query para que, si se rota o agranda la ventana, desktop
+         nunca quede sin controles. */
+      .ac-lb-switches { display: none; }
       @media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+        .ac-lb-switches {
+          position: fixed; top: 1.2rem; left: 50%; transform: translateX(-50%); z-index: 12;
+          display: flex; flex-direction: column; align-items: stretch; gap: 6px;
+        }
         .ac-lb-ctrl-switch {
-          position: fixed; top: calc(1.2rem + 8px); left: 50%; transform: translateX(-50%); z-index: 12;
-          display: inline-flex; align-items: center; gap: 0.5rem; margin: 0;
+          display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; margin: 0;
           padding: 0.3rem 0.4rem 0.3rem 0.8rem; border-radius: 999px;
           background: rgba(0,0,0,0.52); border: 1px solid rgba(255,255,255,0.28);
           backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
           color: rgba(255,255,255,0.88); font-family: inherit; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.3px; line-height: 1;
-          cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; user-select: none;
+          white-space: nowrap; cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; user-select: none;
         }
         .ac-lb-ctrl-switch:focus-visible { box-shadow: 0 0 0 3px var(--ac-card-glow, rgba(140,80,255,0.45)); }
         .ac-lb-ctrl-switch-track {
@@ -438,9 +443,9 @@
         .ac-lb-ctrl-switch[aria-checked="true"] .ac-lb-ctrl-switch-track { background: var(--ac-accent-1, #8c50ff); }
         .ac-lb-ctrl-switch[aria-checked="true"] .ac-lb-ctrl-switch-knob { transform: translateX(18px); }
 
-        .ac-lightbox.ac-lb-ctrls-off .ac-lb-controls,
-        .ac-lightbox.ac-lb-ctrls-off .ac-lb-hcontrols,
-        .ac-lightbox.ac-lb-ctrls-off .ac-lb-nav-btn { opacity: 0; visibility: hidden; pointer-events: none; }
+        .ac-lightbox.ac-lb-nav-off .ac-lb-nav-btn,
+        .ac-lightbox.ac-lb-zoom-off .ac-lb-controls,
+        .ac-lightbox.ac-lb-zoom-off .ac-lb-hcontrols { opacity: 0; visibility: hidden; pointer-events: none; }
       }
 
       /* ── PARTÍCULAS MÁGICAS ── */
@@ -635,10 +640,16 @@
           <div class="ac-lb-backdrop"></div>
           <button class="ac-lb-close" aria-label="Cerrar">${closeIcon}</button>
           <a class="ac-lb-info ac-lb-info-hidden" href="#" target="_blank" rel="noopener noreferrer" aria-label="Más información">${infoIcon}</a>
-          <button type="button" class="ac-lb-ctrl-switch" role="switch" aria-checked="true" aria-label="Mostrar u ocultar controles de zoom y navegación">
-            <span class="ac-lb-ctrl-switch-label">Controles</span>
-            <span class="ac-lb-ctrl-switch-track" aria-hidden="true"><span class="ac-lb-ctrl-switch-knob"></span></span>
-          </button>
+          <div class="ac-lb-switches">
+            <button type="button" class="ac-lb-ctrl-switch" data-ctrl="nav" role="switch" aria-checked="true" aria-label="Mostrar u ocultar botones anterior y siguiente">
+              <span class="ac-lb-ctrl-switch-label">Carrusel</span>
+              <span class="ac-lb-ctrl-switch-track" aria-hidden="true"><span class="ac-lb-ctrl-switch-knob"></span></span>
+            </button>
+            <button type="button" class="ac-lb-ctrl-switch" data-ctrl="zoom" role="switch" aria-checked="true" aria-label="Mostrar u ocultar controles de zoom y desplazamiento">
+              <span class="ac-lb-ctrl-switch-label">Zoom / mover</span>
+              <span class="ac-lb-ctrl-switch-track" aria-hidden="true"><span class="ac-lb-ctrl-switch-knob"></span></span>
+            </button>
+          </div>
           <div class="ac-lb-inner">
             <div class="ac-lb-nav-row">
               <button class="ac-lb-nav-btn ac-lb-prev" aria-label="Afiche anterior">${chevronL}</button>
@@ -705,13 +716,14 @@
 
       const controlsWrap = this.querySelector('.ac-lb-controls');
       if (controlsWrap) controlsWrap.addEventListener('click', (e) => e.stopPropagation());
-      const ctrlSwitch = this.querySelector('.ac-lb-ctrl-switch');
-      if (ctrlSwitch) {
-        ctrlSwitch.addEventListener('click', (e) => {
+      const switchesWrap = this.querySelector('.ac-lb-switches');
+      if (switchesWrap) switchesWrap.addEventListener('click', (e) => e.stopPropagation());
+      this.querySelectorAll('.ac-lb-ctrl-switch').forEach(sw => {
+        sw.addEventListener('click', (e) => {
           e.stopPropagation();
-          this._setLbControls(ctrlSwitch.getAttribute('aria-checked') !== 'true');
+          this._setLbControls(sw.dataset.ctrl, sw.getAttribute('aria-checked') !== 'true');
         });
-      }
+      });
       const hControlsWrap = this.querySelector('.ac-lb-hcontrols');
       if (hControlsWrap) hControlsWrap.addEventListener('click', (e) => e.stopPropagation());
 
@@ -901,17 +913,19 @@
     lbPrev() { if (this._lbIndex > 0) { this._lbIndex--; this._renderLightboxSlide(); } }
     lbNext() { if (this._lbIndex < this._slides.length - 1) { this._lbIndex++; this._renderLightboxSlide(); } }
 
-    /* Switch "Controles" (mobile): on = se ven sliders y prev/next; off = se
-       ocultan. Al apagar se vuelve a zoom 1x y sin desplazamiento, porque
-       con la imagen agrandada y sin sliders no habría cómo recorrerla.
+    /* Switches del lightbox (mobile). which = 'nav' | 'zoom'; on = mostrar.
+         nav  → botones anterior / siguiente
+         zoom → sliders de zoom y desplazamiento (vertical y horizontal)
+       Al apagar "zoom" se vuelve a 1x y sin desplazamiento, porque con la
+       imagen agrandada y sin sliders no habría cómo recorrerla.
        El gesto de deslizar el dedo para cambiar de afiche sigue activo. */
-    _setLbControls(on) {
+    _setLbControls(which, on) {
       const lb = this._lb();
-      if (!lb) return;
-      lb.classList.toggle('ac-lb-ctrls-off', !on);
-      const sw = lb.querySelector('.ac-lb-ctrl-switch');
+      if (!lb || (which !== 'nav' && which !== 'zoom')) return;
+      lb.classList.toggle('ac-lb-' + which + '-off', !on);
+      const sw = lb.querySelector('.ac-lb-ctrl-switch[data-ctrl="' + which + '"]');
       if (sw) sw.setAttribute('aria-checked', on ? 'true' : 'false');
-      if (!on) {
+      if (which === 'zoom' && !on) {
         this._lbZoom = 1; this._lbPan = 0; this._lbPanX = 0;
         if (this._zoomVSlider) this._zoomVSlider.setVal(1);
         if (this._panVSlider) this._panVSlider.setVal(0);
