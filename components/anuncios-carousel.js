@@ -410,6 +410,39 @@
         .ac-lb-hslider-thumb { width: 26px; height: 26px; }
       }
 
+      /* ── SWITCH "CONTROLES" (solo mobile y celular horizontal) ──
+         Oculta/muestra de una vez los sliders de zoom y desplazamiento y
+         los botones anterior/siguiente del lightbox. En desktop no existe.
+         Las reglas "off" viven dentro del mismo media query para que, si
+         se rota o se agranda la ventana, desktop nunca quede sin controles. */
+      .ac-lb-ctrl-switch { display: none; }
+      @media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+        .ac-lb-ctrl-switch {
+          position: fixed; top: calc(1.2rem + 8px); left: 50%; transform: translateX(-50%); z-index: 12;
+          display: inline-flex; align-items: center; gap: 0.5rem; margin: 0;
+          padding: 0.3rem 0.4rem 0.3rem 0.8rem; border-radius: 999px;
+          background: rgba(0,0,0,0.52); border: 1px solid rgba(255,255,255,0.28);
+          backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+          color: rgba(255,255,255,0.88); font-family: inherit; font-size: 0.74rem; font-weight: 600; letter-spacing: 0.3px; line-height: 1;
+          cursor: pointer; outline: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; user-select: none;
+        }
+        .ac-lb-ctrl-switch:focus-visible { box-shadow: 0 0 0 3px var(--ac-card-glow, rgba(140,80,255,0.45)); }
+        .ac-lb-ctrl-switch-track {
+          position: relative; flex-shrink: 0; width: 40px; height: 22px; border-radius: 999px;
+          background: rgba(255,255,255,0.28); transition: background 0.25s ease;
+        }
+        .ac-lb-ctrl-switch-knob {
+          position: absolute; top: 2px; left: 2px; width: 18px; height: 18px; border-radius: 50%;
+          background: #fff; box-shadow: 0 1px 4px rgba(0,0,0,0.45); transition: transform 0.25s ease;
+        }
+        .ac-lb-ctrl-switch[aria-checked="true"] .ac-lb-ctrl-switch-track { background: var(--ac-accent-1, #8c50ff); }
+        .ac-lb-ctrl-switch[aria-checked="true"] .ac-lb-ctrl-switch-knob { transform: translateX(18px); }
+
+        .ac-lightbox.ac-lb-ctrls-off .ac-lb-controls,
+        .ac-lightbox.ac-lb-ctrls-off .ac-lb-hcontrols,
+        .ac-lightbox.ac-lb-ctrls-off .ac-lb-nav-btn { opacity: 0; visibility: hidden; pointer-events: none; }
+      }
+
       /* ── PARTÍCULAS MÁGICAS ── */
       .ac-particle {
         position: fixed; border-radius: 50%; pointer-events: none; z-index: 10001;
@@ -602,6 +635,10 @@
           <div class="ac-lb-backdrop"></div>
           <button class="ac-lb-close" aria-label="Cerrar">${closeIcon}</button>
           <a class="ac-lb-info ac-lb-info-hidden" href="#" target="_blank" rel="noopener noreferrer" aria-label="Más información">${infoIcon}</a>
+          <button type="button" class="ac-lb-ctrl-switch" role="switch" aria-checked="true" aria-label="Mostrar u ocultar controles de zoom y navegación">
+            <span class="ac-lb-ctrl-switch-label">Controles</span>
+            <span class="ac-lb-ctrl-switch-track" aria-hidden="true"><span class="ac-lb-ctrl-switch-knob"></span></span>
+          </button>
           <div class="ac-lb-inner">
             <div class="ac-lb-nav-row">
               <button class="ac-lb-nav-btn ac-lb-prev" aria-label="Afiche anterior">${chevronL}</button>
@@ -668,6 +705,13 @@
 
       const controlsWrap = this.querySelector('.ac-lb-controls');
       if (controlsWrap) controlsWrap.addEventListener('click', (e) => e.stopPropagation());
+      const ctrlSwitch = this.querySelector('.ac-lb-ctrl-switch');
+      if (ctrlSwitch) {
+        ctrlSwitch.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this._setLbControls(ctrlSwitch.getAttribute('aria-checked') !== 'true');
+        });
+      }
       const hControlsWrap = this.querySelector('.ac-lb-hcontrols');
       if (hControlsWrap) hControlsWrap.addEventListener('click', (e) => e.stopPropagation());
 
@@ -856,6 +900,26 @@
 
     lbPrev() { if (this._lbIndex > 0) { this._lbIndex--; this._renderLightboxSlide(); } }
     lbNext() { if (this._lbIndex < this._slides.length - 1) { this._lbIndex++; this._renderLightboxSlide(); } }
+
+    /* Switch "Controles" (mobile): on = se ven sliders y prev/next; off = se
+       ocultan. Al apagar se vuelve a zoom 1x y sin desplazamiento, porque
+       con la imagen agrandada y sin sliders no habría cómo recorrerla.
+       El gesto de deslizar el dedo para cambiar de afiche sigue activo. */
+    _setLbControls(on) {
+      const lb = this._lb();
+      if (!lb) return;
+      lb.classList.toggle('ac-lb-ctrls-off', !on);
+      const sw = lb.querySelector('.ac-lb-ctrl-switch');
+      if (sw) sw.setAttribute('aria-checked', on ? 'true' : 'false');
+      if (!on) {
+        this._lbZoom = 1; this._lbPan = 0; this._lbPanX = 0;
+        if (this._zoomVSlider) this._zoomVSlider.setVal(1);
+        if (this._panVSlider) this._panVSlider.setVal(0);
+        if (this._panHSlider) this._panHSlider.setVal(0);
+        const img = this._lb('.ac-lb-img');
+        if (img) img.style.transform = '';
+      }
+    }
 
     _lb(sel) {
       const lb = this._lbEl || this.querySelector('.ac-lightbox') || document.querySelector('.ac-lightbox');
