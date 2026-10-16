@@ -1102,18 +1102,16 @@
   efecto="luz"
   slides='[
 
+
+{"mob":"d16-1.jpg","desk":"d16-1.jpg","title":"","landscape": false},
+{"mob":"d16-2.jpg","desk":"d16-2.jpg","title":"","landscape": false},
+{"mob":"d16-3.jpg","desk":"d16-3.jpg","title":"","landscape": false},
+{"mob":"d16-4.jpg","desk":"d16-4.jpg","title":"","landscape": false},
+{"mob":"d16-5.jpg","desk":"d16-5.jpg","title":"","landscape": false},
+{"mob":"d16-6.jpg","desk":"d16-6.jpg","title":"","landscape": false},
+
 {"mob":"d15.jpg","desk":"d15.jpg","title":"","landscape": false},
-{"mob":"d15-0.jpg","desk":"d15-0.jpg","title":"","landscape": false},
-{"mob":"d15-1.jpg","desk":"d15-1.jpg","title":"","landscape": false},
-{"mob":"d15-2.jpg","desk":"d15-2.jpg","title":"","landscape": false},
 
-{"mob":"d15-4.jpg","desk":"d15-4.jpg","title":"","landscape": false},
-{"mob":"d15-5.jpg","desk":"d15-5.jpg","title":"","landscape": false},
-{"mob":"d15-6.jpg","desk":"d15-6.jpg","title":"","landscape": false},
-
-{"mob":"r2.jpg","desk":"r2.jpg","title":"","landscape": false},
-
-{"mob":"r3.jpg","desk":"r3.jpg","title":"","landscape": false},
 {"mob":"m1.jpg","desk":"m1.jpg","title":"","landscape": false},
 {"mob":"m2.jpg","desk":"m2.jpg","title":"","landscape": false},
 {"mob":"m3.jpg","desk":"m3.jpg","title":"","landscape": false},
@@ -1158,27 +1156,26 @@
 
 <noticia-card
   en-vivo="LO ÚLTIMO"
-  fecha="15 Octubre"
+  fecha="16 Octubre"
   categoria="Salud de León XIV"
-  titular="Los médicos del Papa confirman una “buena recuperación” del pulmón operado"
+  titular="El Vaticano publica las primeras fotos del Papa León XIV tras su cirugía"
   autor-desc="14 de octubre de 2026 a las 2:58 p. m. ET"
   autor-nombre="Victoria Cardiel"
   autor-link="https://www.aciprensa.com/autor/247/victoria-cardiel"
   autor-img="https://res.cloudinary.com/ewtn/image/upload/v1769178404/Victoria_Cardiel_author_bio_pic_xsjwlp.jpg?w=48&h=48"
   autor-desc="Periodista española especializada en información social y religiosa"
 
-  imagen="https://res.cloudinary.com/ewtn/image/upload/c_fill,w_3840,h_2160,g_auto/f_auto/q_80/v1/ewtn-news/es/250221-gemelli-daniel-ibanez-5_kzo33q.jpg?_a=BAVMn6E70"
+  imagen="https://res.cloudinary.com/ewtn/image/upload/c_fill,w_3840,h_2160,g_auto/f_auto/q_80/v1/ewtn-news/es/foto_2_tv8kpw.jpg?_a=BAVMn6E70"
  
   imagen-alt="imagen oficial de la nota"
-texto="En el parte médico difundido este jueves 15 de octubre, el Vaticano confirmó que el pulmón derecho del Papa León XIV, intervenido quirúrgicamente por un cáncer de pulmón el pasado martes 13 de octubre, evoluciona favorablemente.
-En el boletín informativo publicado por la Santa Sede, elaborado por el médico personal del Pontífice, Luigi Carbone, y por el cirujano que llevó a cabo la intervención, Stefano Margaritora, se destaca que la evolución posoperatoria de León XIV, en el segundo día tras la operación, es positiva.
-La radiografía de tórax mostró una buena recuperación del pulmón intervenido, señala el comunicado.
-Además, el Vaticano informó de que el Santo Padre volvió a someterse a los controles de rutina, incluidos los análisis de sangre y una radiografía de tórax, “cuyos resultados fueron normales”.
-Realizó de manera autónoma sus actividades cotidianas. La sesión de fisioterapia incluyó una actividad motora completa, añade la nota médica.
-En conjunto, la evolución postoperatoria continúa desarrollándose de manera regular, explicaron los facultativos.
+texto="
+Fuentes vaticanas indicaron también que el Papa celebrará públicamente el Ángelus este domingo, aunque por el momento no se ha precisado si tendrá lugar desde el hospital o desde el Vaticano.
+El Papa León XIV presidió este viernes 16 de octubre la Santa Misa por primera vez desde que fue ingresado en el Policlínico Gemelli de Roma el pasado martes 13 de octubre para ser operado de un tumor cancerígeno en el pulmón derecho.
+En las dos fotografías difundidas por el Vaticano, las primeras desde su ingreso hospitalario, se ve al Santo Padre de pie, revestido con los ornamentos litúrgicos verdes, usados durante esta parte del año litúrgico.
+En una de ellas aparece con las manos juntas en actitud de oración; la otra fue tomada durante la consagración y muestra al secretario del Pontífice a su derecha.
 "
   fuente-nombre="EWTN News Español"
-  fuente-url="https://www.ewtnnews.com/es/vaticano/los-medicos-del-papa-confirman-una-buena-recuperacion-del-pulmon-operado"
+  fuente-url="https://www.ewtnnews.com/es/vaticano/vaticano-fotos-papa-leon-xiv"
   fuente-logo="https://www.ewtnnews.com/images/logos/aci-prensa.svg"
 ></noticia-card>
 
@@ -1546,13 +1543,22 @@ define si el slide de cover va al principio o al final del carrusel mobile. -->
 <script src="./components/video-card-frame.js"></script>
 
 <!-- --------- -->
-       <video-card-frame
+   <video-card-frame
+    video="./eva/16-10.mp4"
+    frame="./eva/frame-gold.png"
+    badge="Viernes"
+    titulo="16 de Octubre"
+    style="width:auto; flex:0 0 auto;"
+    
+  ></video-card-frame>
+
+  <video-card-frame
     video="./eva/15-10.mp4"
     frame="./eva/frame-gold.png"
     badge="Jueves"
     titulo="15 de Octubre"
     style="width:auto; flex:0 0 auto;"
-    
+    hide-mobile
   ></video-card-frame>
 
       <video-card-frame
@@ -1572,16 +1578,6 @@ define si el slide de cover va al principio o al final del carrusel mobile. -->
     style="width:auto; flex:0 0 auto;"
     hide-mobile
   ></video-card-frame>
-
-    <video-card-frame
-    video="./eva/12-10.mp4"
-    frame="./eva/frame-gold.png"
-    badge="Lunes"
-    titulo="12 de Octubre"
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
-  ></video-card-frame>
-
 
   
 </div>  
