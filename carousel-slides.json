@@ -1,7 +1,22 @@
 [
+                      {
+    "id": "chancho",
+    "position": 1,
+    "hasVideo": false,
+    "link": "#",
+    "time": { "desktop": 5, "mobile": 5 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/chancho_desk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/chancho_mob.png"
+    }
+  },
                     {
     "id": "matrimonios",
-    "position": 3,
+    "position": 4,
     "hasVideo": false,
     "link": "#",
     "time": { "desktop": 5, "mobile": 5 },
@@ -72,7 +87,7 @@
   },
     {
   "id": "Aurelia",
-  "position": 4,
+  "position": 5,
   "hasVideo": false,
   "link": "./avisos.html",
   "time": { "desktop": 5, "mobile": 5 },
@@ -87,7 +102,7 @@
 },
                 {
     "id": "ultimas-vacantes",
-    "position": 2,
+    "position": 3,
     "hasVideo": false,
     "link": "#asis1",
     "time": { "desktop": 3, "mobile": 3 },
@@ -235,7 +250,7 @@
   },
           {
     "id": "coro",
-    "position": 1,
+    "position": 2,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
@@ -251,7 +266,7 @@
        
               {
     "id": "merienda",
-    "position": 5,
+    "position": 6,
     "hasVideo": false,
     "link": "#merendero2",
     "time": { "desktop": 3, "mobile": 3 },
