@@ -2,6 +2,22 @@
   'use strict';
 
   /* ══════════════════════════════════════════
+     FORMATO DE LOS SLIDES (atributo "slides", JSON)
+       mob        imagen O video vertical (siempre requerido)
+       desk       imagen O video para desktop/landscape (opcional)
+       poster     imagen de portada para slides de video (opcional)
+       landscape  true → en desktop la tarjeta ocupa todo el ancho
+       title, anchor
+     VIDEO: cualquier ruta terminada en .mp4 .m4v .webm u .ogv se
+     detecta sola. Recomendado: MP4 H.264 + AAC con "faststart".
+       · En las tarjetas se reproduce mudo, en bucle y solo mientras
+         está a la vista (se pausa fuera de pantalla, con el visor
+         abierto o si el usuario prefiere menos movimiento).
+       · En el visor ampliado se reproduce con sonido y controles
+         nativos; el zoom/desplazamiento no aplica a los videos.
+  ══════════════════════════════════════════ */
+
+  /* ══════════════════════════════════════════
      TEMAS DE COLOR
      Cada tema define las variables CSS que
      pinta todo el componente (título, acentos,
@@ -448,6 +464,22 @@
         .ac-lightbox.ac-lb-zoom-off .ac-lb-hcontrols { opacity: 0; visibility: hidden; pointer-events: none; }
       }
 
+      /* ── VIDEO (mp4 / webm) ── */
+      .ac-card video { width: 100%; height: 100%; object-fit: cover; display: block; background: #000; transition: transform 0.5s ease; user-select: none; pointer-events: none; }
+      .ac-card:hover video, .ac-card:focus-visible video { transform: scale(1.07); }
+      .ac-lb-video { display: none; max-width: 100%; max-height: 88vh; background: #000; border-radius: 16px; box-shadow: 0 40px 100px rgba(0,0,0,0.82); }
+      .ac-lightbox.ac-lb-is-video .ac-lb-video { display: block; }
+      .ac-lightbox.ac-lb-is-video .ac-lb-img { display: none; }
+      /* zoom y desplazamiento no aplican a video */
+      .ac-lightbox.ac-lb-is-video .ac-lb-controls,
+      .ac-lightbox.ac-lb-is-video .ac-lb-hcontrols,
+      .ac-lightbox.ac-lb-is-video .ac-lb-ctrl-switch[data-ctrl="zoom"] { display: none; }
+      @media (max-width: 768px), (orientation: landscape) and (max-height: 600px) {
+        .ac-lb-video { width: 100%; height: 100%; max-width: 100vw; max-height: 100dvh; object-fit: contain; border-radius: 0; }
+        /* deja libre abajo la franja de la leyenda para no tapar los controles nativos */
+        .ac-lightbox.ac-lb-is-video .ac-lb-img-wrap { height: calc(100dvh - 3.6rem); }
+      }
+
       /* ── PARTÍCULAS MÁGICAS ── */
       .ac-particle {
         position: fixed; border-radius: 50%; pointer-events: none; z-index: 10001;
@@ -519,6 +551,7 @@
       this._applyZoomIcon();
       this._bindEvents();
       this._updateTrack(false);
+      this._setupCardVideos();
       this._setupIntroObserver();
     }
 
@@ -581,6 +614,84 @@
       if (img) img.src = this._zoomIcon;
     }
 
+    /* ── MEDIA (imagen o video) ── */
+    _isVideoSrc(path) { return /\.(mp4|m4v|webm|ogv)(?:[?#].*)?$/i.test(path || ''); }
+
+    _mediaHTML(path, s) {
+      const bp = this._basePath;
+      const alt = (s && s.title) || 'Anuncio';
+      if (this._isVideoSrc(path)) {
+        const poster = s && s.poster ? ` poster="${bp}${s.poster}"` : '';
+        return `<video class="ac-media" src="${bp}${path}#t=0.1" data-current-src="${path}"${poster} muted loop playsinline preload="metadata" disablepictureinpicture aria-label="${alt}"></video>`;
+      }
+      return `<img class="ac-media" src="${bp}${path}" data-current-src="${path}" alt="${alt}" loading="lazy" />`;
+    }
+
+    /* Cambia el medio de una tarjeta (p. ej. mob → desk). Si el tipo es el
+       mismo solo cambia el src; si pasa de imagen a video (o al revés)
+       reemplaza el elemento. */
+    _setCardMedia(slideEl, path, s) {
+      const old = slideEl.querySelector('.ac-media');
+      if (!old) return;
+      const wantVideo = this._isVideoSrc(path);
+      const isVideo = old.tagName === 'VIDEO';
+      if (wantVideo === isVideo) {
+        old.dataset.currentSrc = path;
+        if (isVideo) { old.src = this._basePath + path + '#t=0.1'; old.load(); }
+        else { old.src = this._basePath + path; }
+        return;
+      }
+      if (isVideo) {
+        old.pause();
+        if (this._videoIO) this._videoIO.unobserve(old);
+        if (this._cardVideosVisible) this._cardVideosVisible.delete(old);
+      }
+      const tpl = document.createElement('template');
+      tpl.innerHTML = this._mediaHTML(path, s).trim();
+      const neu = tpl.content.firstElementChild;
+      old.replaceWith(neu);
+      if (neu.tagName === 'VIDEO') this._registerCardVideo(neu);
+    }
+
+    /* Los videos de las tarjetas solo corren mientras están a la vista
+       (IntersectionObserver respeta el recorte del carrusel), nunca con el
+       visor abierto, ni con la pestaña oculta, ni con "reducir movimiento". */
+    _setupCardVideos() {
+      this._cardVideosVisible = new Set();
+      this._reducedMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+      if (typeof IntersectionObserver !== 'undefined') {
+        this._videoIO = new IntersectionObserver((entries) => {
+          entries.forEach(en => {
+            if (en.isIntersecting) this._cardVideosVisible.add(en.target);
+            else this._cardVideosVisible.delete(en.target);
+          });
+          this._syncCardVideos();
+        }, { threshold: 0.5 });
+      }
+      this.querySelectorAll('video.ac-media').forEach(v => this._registerCardVideo(v));
+      this._visHandler = () => this._syncCardVideos();
+      document.addEventListener('visibilitychange', this._visHandler);
+    }
+
+    _registerCardVideo(v) {
+      v.muted = true; v.defaultMuted = true;
+      if (this._videoIO) this._videoIO.observe(v);
+      else if (this._cardVideosVisible) { this._cardVideosVisible.add(v); this._syncCardVideos(); }
+    }
+
+    _syncCardVideos() {
+      this.querySelectorAll('video.ac-media').forEach(v => {
+        const shouldPlay = !this._lbOpen && !this._reducedMotion && !document.hidden
+          && this._cardVideosVisible && this._cardVideosVisible.has(v);
+        if (shouldPlay) {
+          const pr = v.play();
+          if (pr && pr.catch) pr.catch(() => {});
+        } else if (!v.paused) {
+          v.pause();
+        }
+      });
+    }
+
     /* ── HTML ── */
     _buildHTML() {
       const bp = this._basePath;
@@ -590,7 +701,7 @@
       const slidesHTML = slides.map((s, i) => `
         <div class="ac-slide" data-i="${i}" data-landscape="0">
           <div class="ac-card" role="button" tabindex="0" aria-label="Ver afiche${s.title ? ': ' + s.title : ''}">
-            <img src="${bp}${s.mob}" data-current-src="${s.mob}" alt="${s.title || 'Anuncio'}" loading="lazy" />
+            ${this._mediaHTML(s.mob, s)}
             <div class="ac-card-overlay">
               <div class="ac-zoom-icon">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -653,7 +764,7 @@
           <div class="ac-lb-inner">
             <div class="ac-lb-nav-row">
               <button class="ac-lb-nav-btn ac-lb-prev" aria-label="Afiche anterior">${chevronL}</button>
-              <div class="ac-lb-img-wrap"><img class="ac-lb-img" src="" alt="" /></div>
+              <div class="ac-lb-img-wrap"><img class="ac-lb-img" src="" alt="" /><video class="ac-lb-video" controls playsinline preload="metadata"></video></div>
               <button class="ac-lb-nav-btn ac-lb-next" aria-label="Afiche siguiente">${chevronR}</button>
             </div>
             <div class="ac-lb-caption"></div>
@@ -755,8 +866,10 @@
       this._keyHandler = (e) => {
         if (!this._lbOpen) return;
         if (e.key === 'Escape') this.closeLightbox();
-        if (e.key === 'ArrowLeft') this.lbPrev();
-        if (e.key === 'ArrowRight') this.lbNext();
+        /* con el foco en el video, las flechas buscan dentro del video */
+        const onVideo = document.activeElement && document.activeElement.classList && document.activeElement.classList.contains('ac-lb-video');
+        if (!onVideo && e.key === 'ArrowLeft') this.lbPrev();
+        if (!onVideo && e.key === 'ArrowRight') this.lbNext();
       };
       document.addEventListener('keydown', this._keyHandler);
 
@@ -769,9 +882,15 @@
       });
 
       let lbSwipeX = 0;
+      let lbSwipeSkip = false;
       const lbInner = this.querySelector('.ac-lb-inner');
-      lbInner.addEventListener('touchstart', (e) => { lbSwipeX = e.touches[0].clientX; }, { passive: true });
+      /* arrastrar sobre el video (barra de progreso, volumen) no cambia de slide */
+      lbInner.addEventListener('touchstart', (e) => {
+        lbSwipeX = e.touches[0].clientX;
+        lbSwipeSkip = !!(e.target.closest && e.target.closest('.ac-lb-video'));
+      }, { passive: true });
       lbInner.addEventListener('touchend', (e) => {
+        if (lbSwipeSkip) return;
         const d = lbSwipeX - e.changedTouches[0].clientX;
         if (Math.abs(d) > 45) d > 0 ? this.lbNext() : this.lbPrev();
       });
@@ -825,17 +944,14 @@
         const el = this.querySelector(`.ac-slide[data-i="${i}"]`);
         if (!el) return;
         const card = el.querySelector('.ac-card');
-        const img = el.querySelector('img');
+        const media = el.querySelector('.ac-media');
         const isLs = !!s.landscape && !mobile;
 
         card.classList.toggle('ac-card-landscape', isLs);
         el.dataset.landscape = isLs ? '1' : '0';
 
         const desired = isLs ? (s.desk || s.mob) : s.mob;
-        if (img.dataset.currentSrc !== desired) {
-          img.src = this._basePath + desired;
-          img.dataset.currentSrc = desired;
-        }
+        if (media && media.dataset.currentSrc !== desired) this._setCardMedia(el, desired, s);
       });
     }
 
@@ -881,6 +997,7 @@
         document.body.appendChild(lb);
         this._lbEl = lb;
       }
+      this._syncCardVideos();
       this._renderLightboxSlide();
       this._lb().classList.add('open');
       this._savedScrollY = window.scrollY;
@@ -896,6 +1013,8 @@
       this._stopAmbientEffect();
       const lb = this._lbEl || document.querySelector('.ac-lightbox');
       if (lb) lb.classList.remove('open');
+      const lbv = lb && lb.querySelector('.ac-lb-video');
+      if (lbv) { lbv.pause(); lbv.removeAttribute('src'); lbv.load(); }
       if (lb && this._lbPlaceholder && this._lbPlaceholder.parentElement) {
         this._lbPlaceholder.parentElement.insertBefore(lb, this._lbPlaceholder);
         this._lbPlaceholder.remove();
@@ -908,6 +1027,7 @@
       document.body.style.width = '';
       document.body.style.overflowY = '';
       window.scrollTo(0, scrollY);
+      this._syncCardVideos();
     }
 
     lbPrev() { if (this._lbIndex > 0) { this._lbIndex--; this._renderLightboxSlide(); } }
@@ -1082,14 +1202,40 @@
       if (this._panVSlider) this._panVSlider.setVal(0);
       if (this._panHSlider) this._panHSlider.setVal(0);
       img.style.transform = '';
-      img.classList.add('ac-loading');
-      img.onload = () => img.classList.remove('ac-loading');
-      img.onerror = () => {
-        if (!this._isMobile() && slide.desk && img.src.indexOf(slide.desk) !== -1) {
-          img.src = this._basePath + slide.mob;
-        } else { img.classList.remove('ac-loading'); }
-      };
-      img.src = src;
+
+      /* imagen o video: el visor tiene un <img> y un <video>; se muestra uno */
+      const lbVideo = this._lb('.ac-lb-video');
+      const isVid = !!lbVideo && this._isVideoSrc(src);
+      this._lb().classList.toggle('ac-lb-is-video', isVid);
+      if (lbVideo) {
+        lbVideo.pause();
+        if (!isVid) { lbVideo.removeAttribute('src'); lbVideo.removeAttribute('poster'); lbVideo.load(); }
+      }
+      if (isVid) {
+        img.classList.remove('ac-loading');
+        img.removeAttribute('src');
+        lbVideo.setAttribute('aria-label', slide.title || 'Video');
+        if (slide.poster) lbVideo.poster = this._basePath + slide.poster; else lbVideo.removeAttribute('poster');
+        lbVideo.src = src;
+        lbVideo.load();
+        /* con sonido; si el navegador lo bloquea, arranca mudo (hay controles para activarlo) */
+        lbVideo.muted = false;
+        const pr = lbVideo.play();
+        if (pr && pr.catch) pr.catch(() => {
+          lbVideo.muted = true;
+          const p2 = lbVideo.play();
+          if (p2 && p2.catch) p2.catch(() => {});
+        });
+      } else {
+        img.classList.add('ac-loading');
+        img.onload = () => img.classList.remove('ac-loading');
+        img.onerror = () => {
+          if (!this._isMobile() && slide.desk && img.src.indexOf(slide.desk) !== -1) {
+            img.src = this._basePath + slide.mob;
+          } else { img.classList.remove('ac-loading'); }
+        };
+        img.src = src;
+      }
       img.alt = slide.title || '';
       this._lb('.ac-lb-caption').textContent = slide.title || '';
 
@@ -1312,6 +1458,8 @@
 
     disconnectedCallback() {
       if (this._keyHandler) document.removeEventListener('keydown', this._keyHandler);
+      if (this._visHandler) document.removeEventListener('visibilitychange', this._visHandler);
+      if (this._videoIO) { this._videoIO.disconnect(); this._videoIO = null; }
       this._stopAmbientEffect();
     }
   }
