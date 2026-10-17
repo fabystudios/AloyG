@@ -1102,6 +1102,13 @@
   efecto="luz"
   slides='[
 
+{"mob":"17-1.jpg","desk":"17-1.jpg","title":"","landscape": false},
+{"mob":"17-2.jpg","desk":"17-2.jpg","title":"","landscape": false},
+{"mob":"17-3.jpg","desk":"17-3.jpg","title":"","landscape": false},
+{"mob":"17-4.jpg","desk":"17-4.jpg","title":"","landscape": false},
+{"mob":"17-5.jpg","desk":"17-5.jpg","title":"","landscape": false},
+{"mob":"17-6.jpg","desk":"17-6.jpg","title":"","landscape": false},
+
 {"mob":"d16-0.jpg","desk":"d16-0.jpg","title":"","landscape": false},
 {"mob":"d16-1.jpg","desk":"d16-1.jpg","title":"","landscape": false},
 {"mob":"d16-2.jpg","desk":"d16-2.jpg","title":"","landscape": false},
@@ -1155,26 +1162,26 @@
 
 <noticia-card
   en-vivo="LO ÚLTIMO"
-  fecha="16 Octubre"
+  fecha="17 Octubre"
   categoria="Salud de León XIV"
-  titular="El Vaticano publica las primeras fotos del Papa León XIV tras su cirugía"
-  autor-desc="14 de octubre de 2026 a las 2:58 p. m. ET"
-  autor-nombre="Victoria Cardiel"
-  autor-link="https://www.aciprensa.com/autor/247/victoria-cardiel"
-  autor-img="https://res.cloudinary.com/ewtn/image/upload/v1769178404/Victoria_Cardiel_author_bio_pic_xsjwlp.jpg?w=48&h=48"
-  autor-desc="Periodista española especializada en información social y religiosa"
+  titular="El Papa León XIV recibe el alta médica y dejará el hospital tras una cirugía exitosa"
+  autor-desc=" realiza prácticas como redactor en la Oficina del Vaticano de EWTN News"
+  autor-nombre="Ishmael Adibuah"
+  autor-link="https://www.ewtnnews.com/es/author/ishmael-adibuah"
+  autor-img="https://res.cloudinary.com/ewtn/image/upload/c_thumb,g_face,h_200,w_200/v1772801463/Ishmael_Adibuah_zb9qxp.jpg"
 
-  imagen="https://res.cloudinary.com/ewtn/image/upload/c_fill,w_3840,h_2160,g_auto/f_auto/q_80/v1/ewtn-news/es/foto_2_tv8kpw.jpg?_a=BAVMn6E70"
+
+  imagen="https://res.cloudinary.com/ewtn/image/upload/c_fill,w_3840,h_2160,g_auto/f_auto/q_80/v1/ewtn-news/en/Vatican_Media_4.29.26_Pope_Leo_smiling_waving_bwg4n4.jpg?_a=BAVMn6E70"
  
   imagen-alt="imagen oficial de la nota"
 texto="
-Fuentes vaticanas indicaron también que el Papa celebrará públicamente el Ángelus este domingo, aunque por el momento no se ha precisado si tendrá lugar desde el hospital o desde el Vaticano.
-El Papa León XIV presidió este viernes 16 de octubre la Santa Misa por primera vez desde que fue ingresado en el Policlínico Gemelli de Roma el pasado martes 13 de octubre para ser operado de un tumor cancerígeno en el pulmón derecho.
-En las dos fotografías difundidas por el Vaticano, las primeras desde su ingreso hospitalario, se ve al Santo Padre de pie, revestido con los ornamentos litúrgicos verdes, usados durante esta parte del año litúrgico.
-En una de ellas aparece con las manos juntas en actitud de oración; la otra fue tomada durante la consagración y muestra al secretario del Pontífice a su derecha.
+Los médicos autorizaron al Papa León XIV a dejar el hospital y regresará al Vaticano la tarde del sábado, según informó el Vaticano.
+El médico personal del Papa, Dr. Luigi Carbone, y el cirujano Dr. Stefano Margaritora señalaron el 17 de octubre que “sobre la base de los análisis de sangre y la radiografía de tórax realizados esta mañana, y tras evaluar su estado clínico, el Santo Padre ha sido considerado apto para recibir el alta”.
+El Vaticano también anunció que León XIV celebrará Misa en el hospital el sábado antes de recibir el alta y dirigirá el Ángelus desde el Vaticano el domingo.
+León XIV anunció durante el Ángelus del domingo 11 de octubre que se sometería a una cirugía para extirpar un nódulo pulmonar. Los médicos confirmaron un diagnóstico de adenocarcinoma pulmonar después de la operación realizada el 13 de octubre en el Hospital Gemelli de Roma.
 "
   fuente-nombre="EWTN News Español"
-  fuente-url="https://www.ewtnnews.com/es/vaticano/vaticano-fotos-papa-leon-xiv"
+  fuente-url="https://www.ewtnnews.com/es/vaticano/papa-leon-xiv-alta-medica"
   fuente-logo="https://www.ewtnnews.com/images/logos/aci-prensa.svg"
 ></noticia-card>
 
@@ -1336,7 +1343,7 @@ define si el slide de cover va al principio o al final del carrusel mobile. -->
     preset="tv"
     video="./video/1.mp4"
     frame="./eva/tv.png"
-
+    hide-mobile
     style="width:auto; flex:0 0 auto;"
     
   ></video-card-frame-tv>
@@ -1544,13 +1551,22 @@ define si el slide de cover va al principio o al final del carrusel mobile. -->
 <script src="./components/video-card-frame.js"></script>
 
 <!-- --------- -->
+    <video-card-frame
+    video="./eva/17-10.mp4"
+    frame="./eva/frame-gold.png"
+    badge="Sábado"
+    titulo="17 de Octubre"
+    style="width:auto; flex:0 0 auto;"
+    
+  ></video-card-frame>
+
    <video-card-frame
     video="./eva/16-10.mp4"
     frame="./eva/frame-gold.png"
     badge="Viernes"
     titulo="16 de Octubre"
     style="width:auto; flex:0 0 auto;"
-    
+    hide-mobile
   ></video-card-frame>
 
   <video-card-frame
@@ -1562,20 +1578,11 @@ define si el slide de cover va al principio o al final del carrusel mobile. -->
     hide-mobile
   ></video-card-frame>
 
-      <video-card-frame
+    <video-card-frame
     video="./eva/14-10.mp4"
     frame="./eva/frame-gold.png"
     badge="Miércoles"
     titulo="14 de Octubre"
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
-  ></video-card-frame>
-
-     <video-card-frame
-    video="./eva/13-10.mp4"
-    frame="./eva/frame-gold.png"
-    badge="Martes"
-    titulo="13 de Octubre"
     style="width:auto; flex:0 0 auto;"
     hide-mobile
   ></video-card-frame>
