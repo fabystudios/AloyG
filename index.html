@@ -789,13 +789,25 @@
               }
             }
             
+            // Tiempo de exposición del poster (solo videos). Acepta número u objeto {desktop, mobile}
+            let posterAttrs = '';
+            let hasPosterTime = false;
+            if (slide.posterTime != null) {
+              const pd = typeof slide.posterTime === 'object' ? slide.posterTime.desktop : slide.posterTime;
+              const pm = typeof slide.posterTime === 'object' ? slide.posterTime.mobile : slide.posterTime;
+              if (pd != null) { posterAttrs += ` data-poster-time-desktop="${pd}"`; hasPosterTime = true; }
+              if (pm != null) { posterAttrs += ` data-poster-time-mobile="${pm}"`; hasPosterTime = true; }
+            }
+            // Con posterTime NO usamos autoplay: el JS inicia el video cuando termina el tiempo del poster
+            const autoplayAttr = hasPosterTime ? '' : 'autoplay ';
+            
             let content = '';
             if (slide.hasVideo && slide.desktop.type === 'video') {
               content = `<a href="${slide.link}">
                   <video src="${slide.desktop.src}" class="d-none d-md-block w-100" alt="${slide.id} escritorio" 
-                         autoplay muted loop playsinline preload="${preloadAttr}" poster="${slide.desktop.poster}"></video>
+                         ${autoplayAttr}muted loop playsinline preload="${preloadAttr}" poster="${slide.desktop.poster}"></video>
                   <video src="${slide.mobile.src}" class="d-block d-md-none w-100" alt="${slide.id} móvil" 
-                         autoplay muted loop playsinline preload="${preloadAttr}" poster="${slide.mobile.poster}"></video>
+                         ${autoplayAttr}muted loop playsinline preload="${preloadAttr}" poster="${slide.mobile.poster}"></video>
                 </a>`;
             } else {
               content = `<a href="${slide.link}">
@@ -817,7 +829,7 @@
                 </div>`;
             }
             
-            return `<div class="carousel-item${activeClass}"${hasVideoAttr}${timeAttrs}>${content}${overlayHTML}</div>`;
+            return `<div class="carousel-item${activeClass}"${hasVideoAttr}${timeAttrs}${posterAttrs}>${content}${overlayHTML}</div>`;
           }
           
           async function loadCarousel() {
@@ -874,17 +886,43 @@
                 return (val ? parseFloat(val) : DEFAULT_SLIDE_TIME) * 1000;
               }
               
+              // Segundos que se muestra el poster antes de iniciar el video (0 = inicia de inmediato)
+              function getPosterTime(slideEl) {
+                const isMobile = window.innerWidth < 768;
+                const attr = isMobile ? 'data-poster-time-mobile' : 'data-poster-time-desktop';
+                const val = slideEl ? slideEl.getAttribute(attr) : null;
+                return val ? parseFloat(val) * 1000 : 0;
+              }
+              
+              let posterTimeout;
+              
+              // Muestra el poster `posterTime` segundos y luego reproduce el video
+              function playSlideVideos(slideEl) {
+                clearTimeout(posterTimeout);
+                const videos = slideEl.querySelectorAll('video');
+                if (!videos.length) return;
+                const posterMs = getPosterTime(slideEl);
+                
+                videos.forEach(v => {
+                  v.pause();
+                  v.load(); // vuelve al inicio y muestra el poster
+                });
+                
+                const start = () => videos.forEach(v => v.play().catch(() => {}));
+                if (posterMs > 0) {
+                  posterTimeout = setTimeout(start, posterMs);
+                } else {
+                  start();
+                }
+              }
+              
               function showSlide(index) {
                 slides.forEach(slide => slide.classList.remove('active'));
                 currentSlide = (index + totalSlides) % totalSlides;
                 slides[currentSlide].classList.add('active');
                 
-                // Reproducir videos si existen
-                const videos = slides[currentSlide].querySelectorAll('video');
-                videos.forEach(v => {
-                  v.load();
-                  v.play().catch(() => {});
-                });
+                // Reproducir videos si existen (respetando el tiempo de poster)
+                playSlideVideos(slides[currentSlide]);
               }
               
               function nextSlide() {
@@ -940,6 +978,9 @@
               // Pausar en hover
               carouselInner.parentElement.addEventListener('mouseenter', stopAutoplay);
               carouselInner.parentElement.addEventListener('mouseleave', startAutoplay);
+              
+              // Si el primer slide es un video con posterTime, programar su inicio
+              if (getPosterTime(slides[0]) > 0) playSlideVideos(slides[0]);
               
               // Iniciar autoplay
               startAutoplay();

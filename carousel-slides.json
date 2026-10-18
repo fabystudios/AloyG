@@ -1,4 +1,21 @@
 [
+             {
+    "id": "videos matrimonio",
+    "position": 4,
+    "hasVideo": true,
+    "link": "",
+    "posterTime": { "desktop": 1.5, "mobile": 1 },
+    "desktop": {
+      "type": "video",
+      "src": "./slides2/video_desk_matrimonios.mp4",
+      "poster": "./slides2/poster_desk_matri.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./slides2/video_mob_matri.mp4",
+      "poster": "./slides2/poster_mob_matri.png"
+    }
+  },
                       {
     "id": "chancho",
     "position": 1,
@@ -16,7 +33,7 @@
   },
                     {
     "id": "matrimonios",
-    "position": 4,
+    "position": -1,
     "hasVideo": false,
     "link": "#",
     "time": { "desktop": 5, "mobile": 5 },
@@ -202,22 +219,7 @@
       "src": "./slides/sf2_mob.png"
     }
   },
-           {
-    "id": "videos niño day",
-    "position": -1,
-    "hasVideo": true,
-    "link": "",
-    "desktop": {
-      "type": "video",
-      "src": "./slides/dia_desk.mp4",
-      "poster": "./slides/dia_desk.png"
-    },
-    "mobile": {
-      "type": "video",
-      "src": "./slides/dia_mob.mp4",
-      "poster": "./slides/dia_mob.png"
-    }
-  },
+
                 {
     "id": "auxiliar",
     "position": -1,
