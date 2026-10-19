@@ -12,7 +12,7 @@
     },
     "mobile": {
       "type": "video",
-      "src": "./slides2/video_mob_matri.mp4",
+      "src": "./slides2/video_mob_matrimonios.mp4",
       "poster": "./slides2/poster_mob_matri.png"
     }
   },
