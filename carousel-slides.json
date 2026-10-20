@@ -1,7 +1,7 @@
 [
              {
     "id": "videos matrimonio",
-    "position": 4,
+    "position": 1,
     "hasVideo": true,
     "link": "",
     "posterTime": { "desktop": 1, "mobile": 1 },
@@ -18,7 +18,7 @@
   },
                       {
     "id": "chancho",
-    "position": 1,
+    "position": 4,
     "hasVideo": false,
     "link": "#",
     "time": { "desktop": 5, "mobile": 5 },
