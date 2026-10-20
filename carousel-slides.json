@@ -4,7 +4,7 @@
     "position": 1,
     "hasVideo": true,
     "link": "",
-    "posterTime": { "desktop": 1, "mobile": 1 },
+    "posterTime": { "desktop": 1},
     "desktop": {
       "type": "video",
       "src": "./slides2/video_desk_matrimonios.mp4",
