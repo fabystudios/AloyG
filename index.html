@@ -1143,6 +1143,9 @@
   tema="dorado"
   efecto="luz"
   slides='[
+{ "mob": "d19-a.mp4", "poster": "", "title": "Himno al Papa" },
+{"mob":"d19-b.jpg","desk":"d19-b.jpg","title":"","landscape": false},
+{ "mob": "d19-c.mp4", "poster": "", "title": "Una gran alegría" },
 
 {"mob":"d19-1.jpg","desk":"d19-1.jpg","title":"","landscape": false},
 {"mob":"d19-2.jpg","desk":"d19-2.jpg","title":"","landscape": false},
@@ -1253,17 +1256,64 @@ Pétros ení. Descubriendo los Orígenes fue producida por AF Films, en colabora
 ></noticia-card>
 
 <!-- <br><br><br> -->
-      
+
+     <!-- style="display: none;"" -->
+ <!-- CONSEJOS A LA COMUNIDAD !!!!!!!!!!!!!!!!!!!!!!! -->
+ <div class="video-card-gold-container" >
+<script src="./components/video-card-frame-tv.js"></script>
+
+
+
+<!-- --------- -->
+
+    <video-card-frame-tv
+    preset="tv"
+    video="./video/jesus.mp4"
+    frame="./eva/tv.png"
+
+    style="width:auto; flex:0 0 auto;"
+    
+  ></video-card-frame-tv>
+
+    <video-card-frame-tv
+    preset="tv"
+    video="./video/padua.mp4"
+    frame="./eva/tv.png"
+    hide-mobile
+    style="width:auto; flex:0 0 auto;"
+    
+  ></video-card-frame-tv>
+
+  <video-card-frame-tv
+    preset="tv"
+    video="./video/1.mp4"
+    frame="./eva/tv.png"
+    hide-mobile
+    style="width:auto; flex:0 0 auto;"
+    hide-mobile
+  ></video-card-frame-tv>
+
+
+</div>  
+
 <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
   <!-- style="display: none;" -->
 <div class="video-card-gold-container">
+
+  <video-card-gold
+      badge="20 de Octubre"
+      titulo="Santa Irene de Tancor"
+      video="./asantos/20.mp4"
+      style="width:auto; flex:0 0 auto;"
+
+    ></video-card-gold>
 
   <video-card-gold
       badge="19 de Octubre"
       titulo="San Pablo de la Cruz"
       video="./asantos/19.mp4"
       style="width:auto; flex:0 0 auto;"
-
+      hide-mobile
     ></video-card-gold>
 
   <video-card-gold
@@ -1278,14 +1328,6 @@ Pétros ení. Descubriendo los Orígenes fue producida por AF Films, en colabora
       badge="17 de Octubre"
       titulo="San Ignacio de Antioquia"
       video="./asantos/17.mp4"
-      style="width:auto; flex:0 0 auto;"
-      hide-mobile
-    ></video-card-gold>
-
-  <video-card-gold
-      badge="16 de Octubre"
-      titulo="Santa Margarita María Alacoque"
-      video="./asantos/16.mp4"
       style="width:auto; flex:0 0 auto;"
       hide-mobile
     ></video-card-gold>
@@ -1397,43 +1439,7 @@ define si el slide de cover va al principio o al final del carrusel mobile. -->
 
 
 
-     <!-- style="display: none;"" -->
- <!-- CONSEJOS A LA COMUNIDAD !!!!!!!!!!!!!!!!!!!!!!! -->
- <div class="video-card-gold-container" >
-<script src="./components/video-card-frame-tv.js"></script>
-
-
-
-<!-- --------- -->
-
-    <video-card-frame-tv
-    preset="tv"
-    video="./video/padua.mp4"
-    frame="./eva/tv.png"
-
-    style="width:auto; flex:0 0 auto;"
-    
-  ></video-card-frame-tv>
-
-  <video-card-frame-tv
-    preset="tv"
-    video="./video/1.mp4"
-    frame="./eva/tv.png"
-    hide-mobile
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
-  ></video-card-frame-tv>
-
-  <video-card-frame-tv
-    preset="tv"
-    video="./eva/12.mp4"
-    frame="./eva/tv.png"
-    hide-mobile
-    style="width:auto; flex:0 0 auto;"
-  ></video-card-frame-tv>
-
-
-</div>     
+   
 
 
 
