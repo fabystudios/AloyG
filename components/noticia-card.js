@@ -46,6 +46,31 @@ class NoticiaCard extends HTMLElement {
     return this.getAttribute(name) || fallback;
   }
 
+  // Convierte el texto del atributo en HTML con formato:
+  //  - Cada salto de línea del atributo es un salto de línea en la card;
+  //    una línea en blanco deja un renglón vacío entre párrafos.
+  //    (Se ignoran sangrías y espacios sobrantes; máx. 1 renglón vacío.)
+  //  - **texto** => negrita (en una línea entera o dentro de una frase).
+  //  - El HTML directo (<b>, <br>, etc.) sigue funcionando como antes.
+  _formatTexto(str) {
+    if (!str) return '';
+    const lineas = String(str)
+      .replace(/\r\n?/g, '\n')
+      .trim()
+      .split('\n')
+      .map(l => l.trim());
+
+    const out = [];
+    let vacias = 0;
+    for (const l of lineas) {
+      if (!l) { vacias++; continue; }
+      if (out.length) out.push(vacias > 0 ? '<br><br>' : '<br>');
+      vacias = 0;
+      out.push(l.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>'));
+    }
+    return out.join('');
+  }
+
   _render() {
     const fecha        = this._attr('fecha');
     const categoria     = this._attr('categoria', 'Noticias');
@@ -111,7 +136,7 @@ class NoticiaCard extends HTMLElement {
           </div>` : ''}
 
           <div class="body-wrap">
-            <p class="body-text">${textoElegido}</p>
+            <p class="body-text">${this._formatTexto(textoElegido)}</p>
             <div class="fade" aria-hidden="true"></div>
           </div>
 
@@ -229,7 +254,7 @@ class NoticiaCard extends HTMLElement {
 
     const aplicar = (esMobile) => {
       if (this._expanded) return; // no pisar el texto mientras está expandido
-      p.textContent = esMobile ? this._textoMobile : this._texto;
+      p.innerHTML = this._formatTexto(esMobile ? this._textoMobile : this._texto);
       if (this._recompute) requestAnimationFrame(() => requestAnimationFrame(this._recompute));
     };
 
@@ -577,6 +602,7 @@ class NoticiaCard extends HTMLElement {
         -webkit-box-orient: vertical;
         overflow:hidden;
       }
+      .body-text strong{ font-weight:700; color: var(--text); }
       .card.is-expanded .body-text{
         -webkit-line-clamp: unset;
         overflow:visible;
