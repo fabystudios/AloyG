@@ -1,4 +1,22 @@
 [
+
+               {
+    "id": "videos merendero",
+    "position": 6,
+    "hasVideo": true,
+    "link": "",
+    "posterTime": { "desktop": 1, "mobile": 1},
+    "desktop": {
+      "type": "video",
+      "src": "./slides2/video_desk_merendero.mp4",
+      "poster": "./slides/angelitos_desk.png"
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./slides2/video_mob_merendero.mp4",
+      "poster": "./slides/angelitos_mob.png"
+    }
+  },
                         {
     "id": "alias",
     "position": 1,
@@ -280,21 +298,7 @@
     }
   },
        
-              {
-    "id": "merienda",
-    "position": 6,
-    "hasVideo": false,
-    "link": "#merendero2",
-    "time": { "desktop": 3, "mobile": 3 },
-    "desktop": {
-      "type": "image",
-      "src": "./slides/angelitos_desk.png"
-    },
-    "mobile": {
-      "type": "image",
-      "src": "./slides/angelitos_mob.png"
-    }
-  },
+
               {
     "id": "jueves",
     "position": -1,
