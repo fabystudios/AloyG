@@ -1143,6 +1143,18 @@
   tema="dorado"
   efecto="luz"
   slides='[
+  
+{ "mob": "d21.1.m.mp4", "poster": "", "title": "Salve Regina" },
+{ "mob": "d21.1.d.mp4", "poster": "", "title": "León otra vez en la plaza San Pedro" },
+
+{"mob":"d21.2.jpg","desk":"d21.2.jpg","title":"","landscape": false},
+{"mob":"d21.3.jpg","desk":"d21.3.jpg","title":"","landscape": false},
+{"mob":"d21.4.jpg","desk":"d21.4.jpg","title":"","landscape": false},
+
+{ "mob": "d21.5.mp4", "poster": "", "title": "Resumen en un minuto" },
+
+{"mob":"d21.6.jpg","desk":"d21.6.jpg","title":"","landscape": false},
+{"mob":"d21.7.jpg","desk":"d21.7.jpg","title":"","landscape": false},
 
   {"mob":"d21-1.jpg","desk":"d21-1.jpg","title":"","landscape": false},
 
@@ -1217,6 +1229,40 @@
                  png-count="3" png-width="80px"
 ></section-title>
   <!-- en-vivo="LO ÚLTIMO" -->
+
+
+
+<!-- para  ver al  Papa -->
+<script src="./components/PilgrimageEventCard.js"></script>
+<div id="papa1" style="display:flex;justify-content:center;">
+  <pilgrimage-event-card
+    
+    main-image="/papa/cover.png"
+    badge-text="Luján · 11 de noviembre"
+    tagline="¡Encuentro que nos une como Iglesia!"
+    title="¡Vivamos juntos este acontecimiento histórico de nuestra fe!"
+    cta-text="Quiero inscribirme"
+    whatsapp-phone="5492215947600"
+    whatsapp-message="Hola, quiero inscribirme al viaje a Luján"
+    info-cards='[
+      {"id":"viaje","icon":"bus","image":"/papa/bus.png","title":"Cómo viajamos","lines":["Viajamos durante la noche para llegar con anticipación.","Nos ubicamos cerca de la Basílica antes del evento."],"badgeImage":"/papa/bus-blanco.png"},
+      {"id":"inscripcion","icon":"clipboard","image":"/papa/inscri.png","title":"Inscripciones","lines":["Se hacen en la Secretaría Parroquial.","Lunes y jueves de 16 a 18 hs.","Martes y sábados de 10 a 12 hs."],"badgeImage":"/papa/2.png"},
+      {"id":"fecha","icon":"calendar","image":"/papa/viaje.png","title":"Fecha del viaje","highlight":"Miércoles 11 de noviembre","lines":["Salida: martes 10 de noviembre por la noche."],"badgeImage":"/papa/3.png"},
+      {"id":"valor","icon":"coins","image":"/papa/valor.png","title":"Valor del viaje","highlight":"$30.000","lines":["Se puede pagar en 2 veces.","Reserva: $10.000 al inscribirte."],"badgeImage":"/papa/4.png"}
+    ]'
+
+    footer='{"parishName":"Parroquia San Luis Gonzaga","address":"calle 8, N° 1950. Villa Elisa","phone":"+54 9 11 1234-5678","email":"sanluisvillaelisa@gmail.com","instagramUrl":"https://www.instagram.com/parroquiasanluisgonzaga_"}'
+    style="--cartel-max-width:1300px;">
+  </pilgrimage-event-card>
+</div>
+<script>
+  document.querySelector('pilgrimage-event-card')
+    .addEventListener('cta-click', () => {
+      // opcional: analytics, tracking, etc. — no hace falta para que abra WhatsApp
+    });
+</script>
+
+<br><br><br>
 
 <noticia-card
 
@@ -1324,33 +1370,7 @@ Por ello la noche del 31 de octubre era llamada en el inglés antiguo “All hal
 
  </div>  
 
-<!-- <br><br><br>
-
-<noticia-card
-  id="noticia-principal"
-  fecha="14 Octubre"
-  categoria="ARGENTINA"
-  titular="Papa León XIV en Argentina: La organización sigue adelante, aseguran desde el Gobierno"
-
-  imagen="./papa/5.png"
- 
-  imagen-alt="imagen oficial de la nota"
-texto="En medio de la expectativa y la preocupación por la evolución médica de León XIV, el canciller Pablo Quirno llevó tranquilidad respecto a la esperada visita del Santo Padre a la Argentina.
-Tras la intervención quirúrgica a la que fue sometido el Papa por un adenocarcinoma pulmonar, el diplomático confirmó que el Gobierno nacional mantiene en marcha todo el operativo organizativo a la espera de la confirmación final de la Santa Sede.
-Seguimos con mucha atención lo que estaba sucediendo con la salud del Papa y las buenas noticias que parecen estar viniendo tras la intervención a la que fue sometido, sostuvo el canciller en declaraciones radiales.
-La organización sigue adelante: reuniones clave con el Vaticano
-Al ser consultado sobre los plazos para ratificar o reprogramar el viaje, Quirno remarcó que la prioridad absoluta es la salud de León XIV y que la decisión final dependerá de su evolución médica, aunque la logística sigue su curso
-"
-
-  fuente-nombre="CRÓNICA"
-  fuente-url="https://www.cronica.com.ar/mundo/papa-leon-xiv-en-argentina-la-organizacion-sigue-adelante-aseguran-desde-el-gobierno/"
-  fuente-logo="https://www.cronica.com.ar/files/image/117/117080/691ce9e680343.png"
-></noticia-card> -->
-
-
-
-
-
+<!-- <br><br><br> -->
 
 
 <!-- <script src="./components/mascota-flotante.js"></script>
@@ -1511,98 +1531,6 @@ define si el slide de cover va al principio o al final del carrusel mobile. -->
  
 
 
-<!-- 
-<script src="./components/cartel-evento.js"></script>
-<div style="display:flex;justify-content:center;">
- 
-<cartel-evento
-      id="asis1"
-      feria-title-img="./logos/titulo2.png" 
-      main-title-img="./logos/titulo1bis.png"
-
-      main-title-img-efecto="sombra pulso"
-      feria-title-img-efecto="sombra pulso"
-
-
-     main-title-img-width="420px"
-     feria-title-img-height="300px"
-
-      marco-img-santo="rectangle"
-
-      card1-img="/logos/misa.png"
-      card1-title="Misa"
-     
-      card1-body-img="./logos/body1.png"
-      card1-body-img-mobile="./logos/body1-mob.png"
-
-      card2-img="./logos/feria.png"
-      card2-title="Feria"
-      card2-body-img="./logos/body2.png"
-      card2-body-img-mobile="./logos/body2-mob.png"
-
-      card3-img="./logos/buffet.png"
-      card3-title="Buffet"
-      card3-body-img="./logos/body3.png"
-      card3-body-img-mobile="./logos/body3-mob.png"
-
-      poster="main"
-      img-santo-feria="false"
-      willow-feria="true"
-      whatsapp-number="5491153133638"
-      whatsapp-display="11 5313-3638"
-      feria-quote-top="-20px"
-      feria-quote-mobile-top="-60px"
-      img-santo-feria-top="25px"
- 
-      luciernaga-main="true"
-      luciernaga-feria="false"
-
-      feria-panel1-icono="corazon"
-      feria-panel1-titulo="¿Sos emprendedor?"
-      feria-panel1-text="Te invitamos a sumarte con tu propuesta a esta feria que nos une y nos fortalece."
-      feria-panel1-subtitulo="Vení!!!"
-      feria-panel2-icono="moneda"
-      feria-panel2-titulo="Inscripción"
-      feria-panel2-text="Valor único + un producto de tu emprendimiento para el bingo."
-      feria-panel2-subtitulo="$15.000"
-
-      img-santo-main-desk-top="150px"
-      img-santo-feria-img="/logos/img-santo-feria-img.mp4"
-      img-santo="./logos/img-santo.mp4"
-      img-santo-width="360px"
-      img-santo-height="210px"
-      img-santo-main-desk="/logos/img-santo-main-desk.mp4"
-      img-santo-desk-width="330px"
-      img-santo-desk-height="543px"
-      img-bunting="./logos/banderines2.png"
-      img-bunting-main-mobile="/logos/banderines-mobile-main.png"
-      img-bunting-feria-mobile="/logos/banderines-mobile-feria.png"
-      banderines-movimiento="slow"
-      img-iglesia="./logos/iglesia.png"
-      style="--cartel-max-width:1300px;">
-</cartel-evento>
-  </div>
-
-<script>
-(function () {
-  function aplicarHashCartel() {
-    const hash = location.hash.slice(1); // saca el "#"
-    if (!hash) return;
-    const [id, poster] = hash.split('--'); // "asis1--feria" -> ["asis1","feria"]
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (poster === 'main' || poster === 'feria') {
-      el.setAttribute('poster', poster);
-    }
-    // Scroll manual: el navegador no auto-scrollea porque "asis1--feria"
-    // no es el id real de ningún elemento (el id real es "asis1").
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
-
-  window.addEventListener('DOMContentLoaded', aplicarHashCartel);
-  window.addEventListener('hashchange', aplicarHashCartel);
-})();
-</script> -->
 
 
 
@@ -1722,35 +1650,6 @@ Traducción realizada con la versión gratuita del traductor DeepL.com"
 
 <br><br><br> -->
 
-<!-- para  ver al  Papa -->
-<!-- <script src="./components/PilgrimageEventCard.js"></script>
-<div id="papa1" style="display:flex;justify-content:center;">
-  <pilgrimage-event-card
-    
-    main-image="/papa/cover.png"
-    badge-text="Luján · 11 de noviembre"
-    tagline="¡Encuentro que nos une como Iglesia!"
-    title="¡Vivamos juntos este acontecimiento histórico de nuestra fe!"
-    cta-text="Quiero inscribirme"
-    whatsapp-phone="5492215947600"
-    whatsapp-message="Hola, quiero inscribirme al viaje a Luján"
-    info-cards='[
-      {"id":"viaje","icon":"bus","image":"/papa/bus.png","title":"Cómo viajamos","lines":["Viajamos durante la noche para llegar con anticipación.","Nos ubicamos cerca de la Basílica antes del evento."],"badgeImage":"/papa/bus-blanco.png"},
-      {"id":"inscripcion","icon":"clipboard","image":"/papa/inscri.png","title":"Inscripciones","lines":["Se hacen en la Secretaría Parroquial.","Lunes y jueves de 16 a 18 hs.","Martes y sábados de 10 a 12 hs."],"badgeImage":"/papa/2.png"},
-      {"id":"fecha","icon":"calendar","image":"/papa/viaje.png","title":"Fecha del viaje","highlight":"Miércoles 11 de noviembre","lines":["Salida: martes 10 de noviembre por la noche."],"badgeImage":"/papa/3.png"},
-      {"id":"valor","icon":"coins","image":"/papa/valor.png","title":"Valor del viaje","highlight":"$30.000","lines":["Se puede pagar en 2 veces.","Reserva: $10.000 al inscribirte."],"badgeImage":"/papa/4.png"}
-    ]'
-
-    footer='{"parishName":"Parroquia San Luis Gonzaga","address":"calle 8, N° 1950. Villa Elisa","phone":"+54 9 11 1234-5678","email":"sanluisvillaelisa@gmail.com","instagramUrl":"https://www.instagram.com/parroquiasanluisgonzaga_"}'
-    style="--cartel-max-width:1300px;">
-  </pilgrimage-event-card>
-</div>
-<script>
-  document.querySelector('pilgrimage-event-card')
-    .addEventListener('cta-click', () => {
-      // opcional: analytics, tracking, etc. — no hace falta para que abra WhatsApp
-    });
-</script> -->
 
 
 

@@ -1,7 +1,22 @@
 [
+                        {
+    "id": "alias",
+    "position": 1,
+    "hasVideo": false,
+    "link": "#",
+    "time": { "desktop": 5, "mobile": 5 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides2/alias_desk2.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides2/alias_mob2.png"
+    }
+  },
              {
     "id": "videos matrimonio",
-    "position": 1,
+    "position": 2,
     "hasVideo": true,
     "link": "",
     "posterTime": { "desktop": 1},
@@ -17,7 +32,7 @@
   },
                       {
     "id": "chancho",
-    "position": 4,
+    "position": -1,
     "hasVideo": false,
     "link": "#",
     "time": { "desktop": 5, "mobile": 5 },
@@ -73,7 +88,7 @@
   },
                 {
     "id": "viaje",
-    "position": -1,
+    "position": 3,
     "hasVideo": false,
     "link": "#papa1",
     "time": { "desktop": 3, "mobile": 3 },
@@ -118,7 +133,7 @@
 },
                 {
     "id": "ultimas-vacantes",
-    "position": 3,
+    "position": 4,
     "hasVideo": false,
     "link": "#asis1",
     "time": { "desktop": 3, "mobile": 3 },
@@ -251,7 +266,7 @@
   },
           {
     "id": "coro",
-    "position": 2,
+    "position": 5,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
