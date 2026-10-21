@@ -517,7 +517,7 @@ class NoticiaCard extends HTMLElement {
       }
 
       .headline{
-        margin:0 0 14px;
+        margin:0 0 10px;
         font-family: var(--display);
         font-weight:700;
         font-size: 1.5rem;
@@ -543,20 +543,22 @@ class NoticiaCard extends HTMLElement {
       .author{
         display:flex;
         align-items:center;
-        gap:10px;
-        margin-bottom:14px;
-        padding-bottom:14px;
-        border-bottom: 1px solid #00000014;
+        gap:9px;
+        margin-bottom:10px;
+        padding-bottom:9px;
+        /* Línea dorada que se desvanece hacia la derecha (reemplaza al gris
+           casi invisible): se ve, pero no pesa. */
+        background: linear-gradient(90deg, var(--gold-soft), transparent) left bottom / 100% 1px no-repeat;
       }
       .author__img{
-        width:34px; height:34px;
+        width:28px; height:28px;
         border-radius:50%;
         object-fit:cover;
         border: 1px solid var(--gold-soft);
       }
       .author__img-link{
         display:block;
-        width:34px; height:34px;
+        width:28px; height:28px;
         border-radius:50%;
         flex-shrink:0;
       }
