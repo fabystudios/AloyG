@@ -14,7 +14,7 @@
     "mobile": {
       "type": "video",
       "src": "./slides2/video_mob_merendero.mp4",
-      "poster": "./slides/angelitos_mob.png"
+      "poster": "./slides2/poster_mob_merendero.png"
     }
   },
                         {
