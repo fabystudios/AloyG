@@ -46,6 +46,14 @@ class NoticiaCard extends HTMLElement {
     return this.getAttribute(name) || fallback;
   }
 
+  // Valida un color recibido por atributo (#hex, rgb(), hsl(), nombre, var()).
+  // Solo deja pasar caracteres propios de un color, así no se puede colar
+  // otro CSS por el atributo. Devuelve '' si no es válido o está vacío.
+  _color(v) {
+    v = (v || '').trim();
+    return /^[#a-zA-Z0-9\s(),.%\/-]+$/.test(v) ? v : '';
+  }
+
   // Convierte el texto del atributo en HTML con formato:
   //  - Cada salto de línea del atributo es un salto de línea en la card;
   //    una línea en blanco deja un renglón vacío entre párrafos.
@@ -87,6 +95,16 @@ class NoticiaCard extends HTMLElement {
     // Pastilla "en vivo": solo aparece si se pasa el atributo con texto
     // (ej: en-vivo="EN VIVO"). Sin atributo (o vacío), no se renderiza.
     const enVivo        = this._attr('en-vivo').trim();
+    // Sello de fecha: por defecto conserva los colores originales (bordó y
+    // dorado). Se pueden cambiar con fecha-fondo="#1d4ed8" y fecha-color="#fff".
+    const fechaFondo    = this._color(this._attr('fecha-fondo'));
+    const fechaColor    = this._color(this._attr('fecha-color'));
+    const sealStyle     = [
+      fechaColor && `--seal-fg:${fechaColor}`,
+      // 1ª declaración: color liso (fallback); 2ª: degradé con brillo arriba-izq.
+      fechaFondo && `background:${fechaFondo}`,
+      fechaFondo && `background:radial-gradient(circle at 35% 30%, color-mix(in srgb, ${fechaFondo}, #fff 25%) 0%, ${fechaFondo} 78%)`
+    ].filter(Boolean).join(';');
     const esMobileAhora = window.matchMedia('(max-width: 560px)').matches;
     const textoElegido  = (esMobileAhora && textoMobile) ? textoMobile : texto;
     this._texto = texto;
@@ -103,7 +121,7 @@ class NoticiaCard extends HTMLElement {
         <figure class="media">
           <div class="media__bg" aria-hidden="true" style="background-image:url('${imagen.replace(/'/g, "\\'")}')"></div>
           <img class="media__img" src="${imagen}" alt="${imagenAlt}" loading="lazy">
-          <span class="seal" aria-hidden="true">
+          <span class="seal" aria-hidden="true"${sealStyle ? ` style="${sealStyle}"` : ''}>
             <span class="seal__day">${(fecha || '').split(' ')[0]}</span>
             <span class="seal__month">${(fecha || '').split(' ').slice(1).join(' ')}</span>
           </span>
@@ -432,15 +450,49 @@ class NoticiaCard extends HTMLElement {
         height:60px;
         border-radius:50%;
         background: radial-gradient(circle at 35% 30%, var(--wine) 0%, var(--wine-dark) 78%);
-        border: 2px solid var(--gold-soft);
+        border: 2px solid var(--seal-fg, var(--gold-soft));
         box-shadow: 0 4px 10px rgba(0,0,0,.35);
         display:flex;
         flex-direction:column;
         align-items:center;
         justify-content:center;
-        color: var(--gold-soft);
+        color: var(--seal-fg, var(--gold-soft));
         font-family: var(--display);
         line-height:1;
+      }
+      /* Efecto 1: aro que se expande y se desvanece (como una onda). */
+      .seal::before{
+        content:'';
+        position:absolute;
+        inset:-2px;
+        border-radius:50%;
+        border: 2px solid var(--seal-fg, var(--gold-soft));
+        opacity:0;
+        pointer-events:none;
+        animation: seal-ring 3.2s ease-out infinite;
+      }
+      /* Efecto 2: destello diagonal que cruza el sello (brillo de medalla). */
+      .seal::after{
+        content:'';
+        position:absolute;
+        inset:0;
+        border-radius:50%;
+        pointer-events:none;
+        background: linear-gradient(115deg, transparent 38%, rgba(255,255,255,.55) 50%, transparent 62%);
+        background-size:250% 100%;
+        background-position:150% 0;
+        animation: seal-sheen 4.5s ease-in-out infinite;
+      }
+      @keyframes seal-ring{
+        0%        { transform:scale(1);    opacity:.65; }
+        70%, 100% { transform:scale(1.38); opacity:0; }
+      }
+      @keyframes seal-sheen{
+        0%, 55%   { background-position:150% 0; }
+        100%      { background-position:-50% 0; }
+      }
+      @media (prefers-reduced-motion: reduce){
+        .seal::before, .seal::after{ animation:none; opacity:0; }
       }
       .seal__day{ font-size:1.65rem; font-weight:700; }
       .seal__month{ font-size:.5rem; letter-spacing:.05em; text-transform:uppercase; margin-top:3px; opacity:.85; }
