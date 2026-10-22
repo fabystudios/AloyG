@@ -247,6 +247,39 @@
         <!-- <img src="./img/cristo_flot2.png" alt="Contacto"> -->
   </a>
 
+  <!-- El botón flotante solo aparece cuando el carrusel ya salió de pantalla
+       (por arriba). Así nunca tapa el slide y no hace falta tocar z-index. -->
+  <style>
+    .btn-floating {
+      opacity: 0 !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+      transition: opacity .3s ease, visibility .3s ease;
+    }
+    .btn-floating.is-visible {
+      opacity: 1 !important;
+      visibility: visible !important;
+      pointer-events: auto !important;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var btn = document.querySelector('.btn-floating');
+      var carousel = document.querySelector('.carousel-section');
+      if (!btn) return;
+      // Si por algún motivo no existe el carrusel, el botón queda siempre visible.
+      if (!carousel || !('IntersectionObserver' in window)) {
+        btn.classList.add('is-visible');
+        return;
+      }
+      new IntersectionObserver(function (entries) {
+        var e = entries[0];
+        // Visible solo si el carrusel no se ve Y quedó arriba (ya scrolleaste más allá).
+        btn.classList.toggle('is-visible', !e.isIntersecting && e.boundingClientRect.top < 0);
+      }, { threshold: 0 }).observe(carousel);
+    });
+  </script>
+
   <section class="cabecera" style="background: linear-gradient(135deg, #0d47a1, #1565c0, #1976d2); width: 100%; max-width: 95%; margin: 0 auto; border: 1px solid rgba(212,175,55,0.4); border-radius: 0 0 12px 12px; box-shadow: 0 4px 30px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1);">
     <div class="container" style="width: 100%; max-width: 100%; padding: 0;">
       <nav class="navbar navbar-expand-lg navbar-dark" style="width: 100%; background: rgba(255,255,255,0.06); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(212,175,55,0.3); position: relative;">
@@ -1362,13 +1395,20 @@ Por ello la noche del 31 de octubre era llamada en el inglés antiguo “All hal
 <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
   <!-- style="display: none;" -->
 <div class="video-card-gold-container">
+  <video-card-gold
+      badge="22 de Octubre"
+      titulo="San Juan Pablo II"
+      video="./asantos/22.mp4"
+      style="width:auto; flex:0 0 auto;"
+
+    ></video-card-gold>
 
   <video-card-gold
       badge="21 de Octubre"
       titulo="Santa Laura Montoya"
       video="./asantos/21.mp4"
       style="width:auto; flex:0 0 auto;"
-
+      hide-mobile
     ></video-card-gold>
 
   <video-card-gold
@@ -1383,14 +1423,6 @@ Por ello la noche del 31 de octubre era llamada en el inglés antiguo “All hal
       badge="19 de Octubre"
       titulo="San Pablo de la Cruz"
       video="./asantos/19.mp4"
-      style="width:auto; flex:0 0 auto;"
-      hide-mobile
-    ></video-card-gold>
-
-  <video-card-gold
-      badge="18 de Octubre"
-      titulo="San Lucas"
-      video="./asantos/18.mp4"
       style="width:auto; flex:0 0 auto;"
       hide-mobile
     ></video-card-gold>
