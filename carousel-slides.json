@@ -1,5 +1,21 @@
 [
-
+               {
+    "id": "videos merendero",
+    "position": 4,
+    "hasVideo": true,
+    "link": "",
+    "posterTime": { "desktop": 1, "mobile": 1},
+    "desktop": {
+      "type": "video",
+      "src": "./slides2/gio_desk.mp4",
+      "poster": ""
+    },
+    "mobile": {
+      "type": "video",
+      "src": "./slides2/gio_mob.mp4",
+      "poster": ""
+    }
+  },
                {
     "id": "videos merendero",
     "position": 6,
@@ -136,7 +152,7 @@
   },
     {
   "id": "Aurelia",
-  "position": 5,
+  "position": -1,
   "hasVideo": false,
   "link": "./avisos.html",
   "time": { "desktop": 5, "mobile": 5 },
@@ -151,7 +167,7 @@
 },
                 {
     "id": "ultimas-vacantes",
-    "position": 4,
+    "position": 5,
     "hasVideo": false,
     "link": "#asis1",
     "time": { "desktop": 3, "mobile": 3 },
