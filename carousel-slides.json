@@ -1,10 +1,10 @@
 [
                {
-    "id": "videos merendero",
+    "id": "videos Consejos",
     "position": 4,
     "hasVideo": true,
-    "link": "",
-    "posterTime": { "desktop": 1, "mobile": 1},
+    "link": "./avisos.html",
+
     "desktop": {
       "type": "video",
       "src": "./slides2/gio_desk.mp4",
