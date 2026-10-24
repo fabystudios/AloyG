@@ -1164,6 +1164,7 @@
 <script src="./components/anuncios-carousel.js"></script>
 
 <anuncios-carousel
+  style="display: none;" 
   titulo="Resumen de Noticias"
   icono="📰"
   subtitulo="tocar imagen para zoom"
@@ -1277,9 +1278,35 @@
                  png-count="3" png-width="80px"
 ></section-title>
 
-
  <noticia-card
   en-vivo="LO ÚLTIMO"
+  fecha="23 Octubre"
+  categoria="América"
+  titular="Investigan en Guatemala un presunto milagro eucarístico"
+
+ 
+  autor-nombre="Diego López Colín"
+  autor-link="https://www.ewtnnews.com/es/author/diego-lopez-colin"
+  autor-img="https://res.cloudinary.com/ewtn/image/upload/c_thumb,g_face,h_200,w_200/authors/fMcdazzPjhPZWFFZDVkjqyuu8iapweOcrSIX7v2e"
+  autor-desc="Corresponsal de ACI Prensa en México desde 2023."
+  
+  imagen="https://res.cloudinary.com/ewtn/image/upload/c_fill,w_3840,h_2160,g_auto/f_auto/q_80/v1/ewtn-news/es/MILAGRO_GUATEMALA_yydkoa.png?_a=BAVMn6E70"
+  imagen-alt="imagen oficial de la nota"
+texto="
+**¿Qué ocurrió con la hostia consagrada?**
+Durante una Misa celebrada el 30 de julio en un colegio de la ciudad de Cuilapa, el sacerdote que presidía la celebración se percató de que uno de los jóvenes retiró de su boca la Eucaristía, por lo que se acercó a él para impedir que la tire al suelo. Tras ello, el sacerdote la guardó y posteriormente la colocó en un vaso de cristal con agua en la capilla de la casa parroquial de la catedral.
+La intención era que la hostia se pudiera disolver de manera natural. Sin embargo, el 6 de agosto notaron que no había sido así e incluso habían aparecido unas manchas de color rojo.
+"
+
+  fuente-nombre="EWTN News Español"
+  fuente-url="https://www.ewtnnews.com/es/mundo/america/guatemala-investigan-presunto-milagro-eucaristico"
+  fuente-logo="https://www.ewtnnews.com/images/logos/aci-prensa.svg"
+></noticia-card>
+
+<br><br><br>
+
+ <noticia-card
+
   fecha="23 Octubre"
   categoria="Salud del Papa"
   titular="Por consejo médico, León XIV cancela su visita a Asís, pero enviará un mensaje"
@@ -1335,11 +1362,19 @@ La información, según el Vaticano, fue proporcionada por el médico del Papa, 
 <div class="video-card-gold-container">
 
   <video-card-gold
+      badge="24 de Octubre"
+      titulo="San Rafael Arcángel"
+      video="./asantos/24.mp4"
+      style="width:auto; flex:0 0 auto;"
+
+    ></video-card-gold>
+
+  <video-card-gold
       badge="23 de Octubre"
       titulo="San Juan de Capistrano"
       video="./asantos/23.mp4"
       style="width:auto; flex:0 0 auto;"
-
+      hide-mobile
     ></video-card-gold>
 
   <video-card-gold
@@ -1358,14 +1393,6 @@ La información, según el Vaticano, fue proporcionada por el médico del Papa, 
       hide-mobile
     ></video-card-gold>
 
-  <video-card-gold
-      badge="20 de Octubre"
-      titulo="Santa Irene de Tancor"
-      video="./asantos/20.mp4"
-      style="width:auto; flex:0 0 auto;"
-      hide-mobile
-    ></video-card-gold>
-
 
  </div>  
 
@@ -1377,6 +1404,7 @@ La información, según el Vaticano, fue proporcionada por el médico del Papa, 
 <script src="./components/video-card-frame.js"></script>
 
 <!-- --------- -->
+ 
   <video-card-frame
     video="./eva/23-10.mp4"
     frame="./eva/frame-gold.png"

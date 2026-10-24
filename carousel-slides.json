@@ -53,6 +53,7 @@
     "position": 2,
     "hasVideo": true,
     "link": "",
+    "time": { "desktop": 9, "mobile": 8 },
     "posterTime": { "desktop": 1},
     "desktop": {
       "type": "video",
