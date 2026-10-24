@@ -4,7 +4,7 @@
     "position": 4,
     "hasVideo": true,
     "link": "./avisos.html",
-
+    "time": { "desktop": 8, "mobile": 6 },
     "desktop": {
       "type": "video",
       "src": "./slides2/gio_desk.mp4",
