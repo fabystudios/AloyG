@@ -1178,6 +1178,14 @@
   efecto="luz"
   slides='[
 
+  {"mob":"evan25.jpg","desk":"evan25.jpg","title":"","landscape": false}, 
+
+  {"mob":"d25-1.jpg","desk":"d25-1.jpg","title":"","landscape": false}, 
+  {"mob":"d25-2.jpg","desk":"d25-2.jpg","title":"","landscape": false}, 
+  {"mob":"d25-3.jpg","desk":"d25-3.jpg","title":"","landscape": false}, 
+  {"mob":"d25-4.jpg","desk":"d25-4.jpg","title":"","landscape": false}, 
+
+
   { "mob": "d24-7.mp4", "poster": "", "title": "" },
   { "mob": "d24-2.mp4", "poster": "", "title": "" },
   {"mob":"d24-3.jpg","desk":"d24-3.jpg","title":"","landscape": false}, 
@@ -1327,7 +1335,33 @@
 
 
 </div>  
+<noticia-card
 
+  fecha="25 Octubre"
+  categoria="Mundo"
+  titular="5 hechos sobrenaturales que hacen de estos santos los “patronos” de Halloween"
+  marca="./logos/site-white.png"
+
+  autor-nombre="Redacción EWTN News Español"
+  autor-link="https://www.ewtnnews.com/es/author/redaccion-central"
+  autor-img="https://res.cloudinary.com/ewtn/image/upload/c_thumb,g_face,h_200,w_200/v1791988050/ewtn-news/es/MVJV40uvaeQV46TRhCVsWyx7psy1fFZG2Ye1jV2I_uplk1u.png"
+  autor-desc="20 de octubre de 2026 a las 3:56 p. m. ET"
+
+  imagen="./img/gfe.png"
+ 
+  imagen-alt="imagen oficial de la nota"
+texto="
+A pocos días de Halloween, la “noche de brujas”, te presentamos 5 santos que por sus experiencias con lo sobrenatural se pueden considerar “patronos” de la víspera del Día de Todos los Santos.
+**1. San Benito (480-547)** 
+En el libro “Hagiografía y el Culto de los Santos” de 1990, el escritor Thomas Head cuenta que el monje se apareció en Fleury (Francia) durante el siglo X, para amenazar con abandonar el monasterio cuando los monjes intentaron frustrar las reformas de San Odón de Cluny.
+"
+  
+  fuente-nombre="EWTN News Español"
+  fuente-url="https://www.ewtnnews.com/es/mundo/5-hechos-sobrenaturales-que-hacen-de-estos-santos-los-patronos-de-halloween"
+  fuente-logo="https://www.ewtnnews.com/images/logos/aci-prensa.svg"
+></noticia-card>
+
+<br><br><br>
   <!-- en-vivo="LO ÚLTIMO" -->
     <noticia-card
 
@@ -1346,37 +1380,12 @@
 texto="
 **El Papa León XIV reconoció que muchos jóvenes viven en zonas donde los cristianos son minoría. Aún así, les pidió no tener miedo de “dar testimonio de su amistad con Jesús”**
 El Papa León XIV recibió este 24 de octubre en audiencia a los participantes de la Conferencia Internacional de la Juventud de Jesús, a quienes pidió convertirse “en testigos de la fe, llenos de alegría y valentía” y apoyar la promoción del matrimonio “como un llamado de Dios”.
-Cuando a mediados de la década de 1970 la Renovación Carismática se extendió a la India, específicamente al estado de Kerala, este empuje dio origen a “grupos juveniles donde jóvenes católicos se encontraron con Jesús y el Evangelio de una manera renovada y revitalizante”, según explica el sitio web de Jesus Youth.
 "
   fuente-nombre="EWTN News Español"
   fuente-url="https://www.ewtnnews.com/es/vaticano/papa-leon-xiv-jovenes-fe-y-matrimonio"
   fuente-logo="https://www.ewtnnews.com/images/logos/aci-prensa.svg"
 ></noticia-card>
-<br><br><br>
- <noticia-card
 
-  fecha="23 Octubre"
-  categoria="América"
-  titular="Investigan en Guatemala un presunto milagro eucarístico"
-
- 
-  autor-nombre="Diego López Colín"
-  autor-link="https://www.ewtnnews.com/es/author/diego-lopez-colin"
-  autor-img="https://res.cloudinary.com/ewtn/image/upload/c_thumb,g_face,h_200,w_200/authors/fMcdazzPjhPZWFFZDVkjqyuu8iapweOcrSIX7v2e"
-  autor-desc="Corresponsal de ACI Prensa en México desde 2023."
-  
-  imagen="https://res.cloudinary.com/ewtn/image/upload/c_fill,w_3840,h_2160,g_auto/f_auto/q_80/v1/ewtn-news/es/MILAGRO_GUATEMALA_yydkoa.png?_a=BAVMn6E70"
-  imagen-alt="imagen oficial de la nota"
-texto="
-**¿Qué ocurrió con la hostia consagrada?**
-Durante una Misa celebrada el 30 de julio en un colegio de la ciudad de Cuilapa, el sacerdote que presidía la celebración se percató de que uno de los jóvenes retiró de su boca la Eucaristía, por lo que se acercó a él para impedir que la tire al suelo. Tras ello, el sacerdote la guardó y posteriormente la colocó en un vaso de cristal con agua en la capilla de la casa parroquial de la catedral.
-La intención era que la hostia se pudiera disolver de manera natural. Sin embargo, el 6 de agosto notaron que no había sido así e incluso habían aparecido unas manchas de color rojo.
-"
-
-  fuente-nombre="EWTN News Español"
-  fuente-url="https://www.ewtnnews.com/es/mundo/america/guatemala-investigan-presunto-milagro-eucaristico"
-  fuente-logo="https://www.ewtnnews.com/images/logos/aci-prensa.svg"
-></noticia-card>
 
 
 <!-- 
@@ -1457,12 +1466,21 @@ La información, según el Vaticano, fue proporcionada por el médico del Papa, 
 <!-- --------- -->
  
   <video-card-frame
+    video="./eva/25-10.mp4"
+    frame="./eva/frame-gold.png"
+    badge="Domingo"
+    titulo="25 de Octubre"
+    style="width:auto; flex:0 0 auto;"
+    
+  ></video-card-frame>
+
+  <video-card-frame
     video="./eva/24-10.mp4"
     frame="./eva/frame-gold.png"
     badge="Sábado"
     titulo="24 de Octubre"
     style="width:auto; flex:0 0 auto;"
-    
+    hide-mobile
   ></video-card-frame>
 
   <video-card-frame
@@ -1483,14 +1501,6 @@ La información, según el Vaticano, fue proporcionada por el médico del Papa, 
     hide-mobile
   ></video-card-frame>
 
-  <video-card-frame
-    video="./eva/21-10.mp4"
-    frame="./eva/frame-gold.png"
-    badge="Miércoles"
-    titulo="21 de Octubre"
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
-  ></video-card-frame>
 
 
 </div>  
@@ -1527,9 +1537,11 @@ La información, según el Vaticano, fue proporcionada por el médico del Papa, 
 
 <br><br><br>
   <!-- fecha-color="#660000" -->
+     <!-- fecha-fondo="#1d4ed8" -->
 <noticia-card
-  fecha-fondo="#1d4ed8"
 
+  fecha-fondo="orange"
+  fecha-color="black"
   id="noticia-principal"
   fecha="31 Octubre"
   categoria="Mundo"

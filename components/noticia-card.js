@@ -17,7 +17,20 @@ class NoticiaCard extends HTMLElement {
     this._setupMedia();
     this._setupLightbox();
     this._setupTextoMobile();
+    this._setupMarca();
     this._applyAncho();
+  }
+
+  // El destello recorre solo la silueta del logo: se usa el propio logo como
+  // máscara. Se asigna por JS (y no en el HTML) para no depender de cómo
+  // venga escapada la URL. Si el logo está en otro dominio sin CORS, el
+  // navegador no puede usarlo como máscara: el logo se ve igual y solo
+  // falta el destello.
+  _setupMarca() {
+    const marca = this.shadowRoot.querySelector('.marca');
+    const img   = this.shadowRoot.querySelector('.marca__img');
+    if (!marca || !img) return;
+    marca.style.setProperty('--marca-url', `url("${img.getAttribute('src').replace(/"/g, '%22')}")`);
   }
 
   attributeChangedCallback(name) {
@@ -105,6 +118,11 @@ class NoticiaCard extends HTMLElement {
       fechaFondo && `background:${fechaFondo}`,
       fechaFondo && `background:radial-gradient(circle at 35% 30%, color-mix(in srgb, ${fechaFondo}, #fff 25%) 0%, ${fechaFondo} 78%)`
     ].filter(Boolean).join(';');
+    // Marca de autoría (logo propio), abajo a la derecha de la imagen.
+    // Solo aparece si se pasa marca="URL". marca-alt es opcional (vacío =
+    // decorativa para lectores de pantalla).
+    const marca         = this._attr('marca').trim().replace(/"/g, '&quot;');
+    const marcaAlt      = this._attr('marca-alt', '').replace(/"/g, '&quot;');
     const esMobileAhora = window.matchMedia('(max-width: 560px)').matches;
     const textoElegido  = (esMobileAhora && textoMobile) ? textoMobile : texto;
     this._texto = texto;
@@ -129,6 +147,10 @@ class NoticiaCard extends HTMLElement {
           <span class="live" part="live" role="status">
             <span class="live__dot" aria-hidden="true"></span>
             <span class="live__text">${enVivo}</span>
+          </span>` : ''}
+          ${marca ? `
+          <span class="marca" part="marca">
+            <img class="marca__img" src="${marca}" alt="${marcaAlt}" loading="lazy" decoding="async">
           </span>` : ''}
         </figure>
 
@@ -172,6 +194,7 @@ class NoticiaCard extends HTMLElement {
       <div class="lightbox" part="lightbox" aria-hidden="true">
         <button class="lightbox__close" type="button" aria-label="Cerrar imagen">&times;</button>
         <img class="lightbox__img" src="" alt="">
+        ${marca ? `<img class="lightbox__marca" src="${marca}" alt="" aria-hidden="true">` : ''}
       </div>
     `;
 
@@ -497,6 +520,54 @@ class NoticiaCard extends HTMLElement {
       .seal__day{ font-size:1.65rem; font-weight:700; }
       .seal__month{ font-size:.5rem; letter-spacing:.05em; text-transform:uppercase; margin-top:3px; opacity:.85; }
 
+      /* ---------- Marca de autoría (abajo a la derecha de la imagen) ---------- */
+      .marca{
+        position:absolute;
+        right:12px;
+        bottom:12px;
+        z-index:2;
+        display:block;
+        width: clamp(92px, 40%, 150px);
+        line-height:0;
+        pointer-events:none;
+        opacity:.94;
+      }
+      .marca__img{
+        display:block;
+        width:100%;
+        height:auto;
+        /* Sombra para que se lea sobre fotos claras + resplandor dorado
+           que "respira" (efecto 1). */
+        filter: drop-shadow(0 1px 3px rgba(0,0,0,.6)) drop-shadow(0 0 0 rgba(255,214,102,0));
+        animation: marca-glow 4.2s ease-in-out infinite;
+      }
+      /* Efecto 2: destello dorado que cruza solo las letras y el ícono
+         (recortado con la silueta del logo). */
+      .marca::after{
+        content:'';
+        position:absolute;
+        inset:0;
+        pointer-events:none;
+        -webkit-mask: var(--marca-url) center / contain no-repeat;
+                mask: var(--marca-url) center / contain no-repeat;
+        background: linear-gradient(105deg, transparent 40%, rgba(255,205,90,.95) 50%, transparent 60%);
+        background-size:260% 100%;
+        background-position:150% 0;
+        animation: marca-sheen 5.5s ease-in-out infinite;
+      }
+      @keyframes marca-glow{
+        0%, 100%{ filter: drop-shadow(0 1px 3px rgba(0,0,0,.6)) drop-shadow(0 0 0 rgba(255,214,102,0)); }
+        50%     { filter: drop-shadow(0 1px 3px rgba(0,0,0,.6)) drop-shadow(0 0 7px rgba(255,214,102,.75)); }
+      }
+      @keyframes marca-sheen{
+        0%, 60% { background-position:150% 0; }
+        100%    { background-position:-50% 0; }
+      }
+      @media (prefers-reduced-motion: reduce){
+        .marca__img{ animation:none; }
+        .marca::after{ animation:none; opacity:0; }
+      }
+
       /* ---------- Pastilla "EN VIVO" (opuesta al sello de fecha) ---------- */
       .live{
         position:absolute;
@@ -737,6 +808,15 @@ class NoticiaCard extends HTMLElement {
         border-radius:8px;
         box-shadow: 0 25px 70px rgba(0,0,0,.55);
         cursor: default;
+      }
+      .lightbox__marca{
+        position:absolute;
+        right:max(16px, 2.5vw);
+        bottom:max(12px, 2vh);
+        width: clamp(110px, 26vw, 190px);
+        height:auto;
+        pointer-events:none;
+        filter: drop-shadow(0 1px 4px rgba(0,0,0,.7));
       }
       .lightbox__close{
         position:absolute;
