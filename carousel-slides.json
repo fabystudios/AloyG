@@ -1,7 +1,37 @@
 [
+  {
+    "id": "ssff",
+    "position": 1,
+    "hasVideo": false,
+    "link": "#",
+    "time": { "desktop": 5, "mobile": 5 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides2/ssff1_desk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides2/ssff1_mob.png"
+    }
+  },
+  {
+    "id": "ssff",
+    "position": 2,
+    "hasVideo": false,
+    "link": "#",
+    "time": { "desktop": 5, "mobile": 5 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides2/ssff2_desk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides2/ssff2_mob.png"
+    }
+  },
                {
     "id": "videos Consejos",
-    "position": 4,
+    "position": 6,
     "hasVideo": true,
     "link": "./avisos.html",
     "time": { "desktop": 8, "mobile": 6 },
@@ -18,7 +48,7 @@
   },
                {
     "id": "videos merendero",
-    "position": 6,
+    "position": 8,
     "hasVideo": true,
     "link": "",
     "posterTime": { "desktop": 1, "mobile": 1},
@@ -35,7 +65,7 @@
   },
                         {
     "id": "alias",
-    "position": 1,
+    "position": 3,
     "hasVideo": false,
     "link": "#",
     "time": { "desktop": 5, "mobile": 5 },
@@ -50,7 +80,7 @@
   },
              {
     "id": "videos matrimonio",
-    "position": 2,
+    "position": 4,
     "hasVideo": true,
     "link": "",
     "time": { "desktop": 9, "mobile": 8 },
@@ -123,7 +153,7 @@
   },
                 {
     "id": "viaje",
-    "position": 3,
+    "position": 5,
     "hasVideo": false,
     "link": "#papa1",
     "time": { "desktop": 3, "mobile": 3 },
@@ -168,7 +198,7 @@
 },
                 {
     "id": "ultimas-vacantes",
-    "position": 5,
+    "position": 7,
     "hasVideo": false,
     "link": "#asis1",
     "time": { "desktop": 3, "mobile": 3 },
