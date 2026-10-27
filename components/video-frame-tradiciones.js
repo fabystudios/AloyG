@@ -32,7 +32,12 @@ _tpl.innerHTML = `
 
   :host {
     display: block;
+    /* El host mide como máximo lo mismo que la tarjeta (320px). Así, dentro de
+       un contenedor flex, las tarjetas quedan pegadas (sin aire lateral) y si
+       falta lugar se achican parejo en vez de quedar centradas en una mitad. */
+    flex: 0 1 320px;
     width: 100%;
+    max-width: 320px;
     --frame-ratio: 1024 / 1536;
     /* Hueco medido en tradi.png (705x1018 px sobre 1024x1536).
        Se deja ~0.2% de solape bajo el marco para que no queden rendijas. */
@@ -47,9 +52,7 @@ _tpl.innerHTML = `
   }
 
   .card {
-    width: min(320px, 92vw);
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
     position: relative;
     aspect-ratio: var(--frame-ratio);
     animation: cardEntrance 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;

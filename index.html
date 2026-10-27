@@ -1180,7 +1180,6 @@
 
 
   {"mob":"d26-1.jpg","desk":"d26-1.jpg","title":"","landscape": false},
-  { "mob": "cuerva.mp4", "poster": "", "title": "Vivimos la alegría y emoción de estar preparando la visita del Papa León XIV " },
   { "mob": "orbe26.mp4", "poster": "", "title": "" },
   {"mob":"d26-3.jpg","desk":"d26-3.jpg","title":"","landscape": false}, 
   {"mob":"d26-4.jpg","desk":"d26-4.jpg","title":"","landscape": false}, 
@@ -1236,12 +1235,90 @@
                  png-count="3" png-width="80px"
 ></section-title>
 
+
+<div class="fila-videos" style="display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:0.5rem;">
+
+  <retro-tv-player
+    link-href="https://programafe.org"
+    link-mode="button"
+    link-target="_blank"
+    link-label="PROGRAMA FE"
+    chassis="ipod"
+    anchor-id="video-colecta"
+    src-desktop="./papa/d28-1.mp4"
+    src-mobile="./papa/d28-1.mp4"
+    title="EL PAPA LEÓN IV VISITA LA ARGENTINA!"
+    color="#00a2ff"
+    bg-color="#EAD7D8"
+    device-color="#f5e6d3"
+    screen-effect="moderno"
+    autoplay>
+  </retro-tv-player>
+
+  <retro-tv-player
+    link-href="https://programafe.org"
+    link-mode="button"
+    link-target="_blank"
+    link-label="PROGRAMA FE"
+    chassis="ipod"
+    anchor-id="video-argentina"
+    src-desktop="./papa/cuerva.mp4"
+    src-mobile="./papa/cuerva.mp4"
+    title="ARGENTINA CANTA Y CAMINA!"
+    color="#00a2ff"
+    bg-color="#EAD7D8"
+    device-color="#f5e6d3"
+    screen-effect="moderno"
+    autoplay
+    hide-mobile="all">
+  </retro-tv-player>
+
+  <retro-tv-player
+    link-href="https://programafe.org"
+    link-mode="button"
+    link-target="_blank"
+    link-label="PROGRAMA FE"
+    chassis="ipod"
+    anchor-id="video-resumen"
+    src-desktop="./papa/d28-2.mp4"
+    src-mobile="./papa/d28-2.mp4"
+    title="Vivimos la alegría y emoción de estar preparando la visita del Papa León XIV"
+    color="#00a2ff"
+    bg-color="#EAD7D8"
+    device-color="#f5e6d3"
+    screen-effect="moderno"
+    autoplay
+    hide-mobile="all">
+  </retro-tv-player>
+
+</div>
+<br><br><br>
+
+
+
 <script src="./components/video-frame-tradiciones.js"></script>
 
- 
- 
-
+ <div class="video-card-gold-container" style="justify-content: center;">
 <!-- con chip y título -->
+
+
+ <!-- <video-frame-tradiciones
+  frame="./eva/tradi.png"
+  video="./eva/t31-10.mp4"
+
+  titulo="El 31 de octubre, nada celebro yo. pero
+          el primero de noviembre festejo con amor."
+  hide-mobile
+></video-frame-tradiciones> -->
+
+ <!-- <video-frame-tradiciones
+  frame="./eva/tradi.png"
+  video="./eva/wolf.mp4"
+
+  titulo="historia de Halloween"
+  hide-mobile
+></video-frame-tradiciones> -->
+
 <video-frame-tradiciones
   frame="./eva/tradi.png"
   video="./eva/t27-10.mp4"
@@ -1249,7 +1326,7 @@
   titulo="El Regreso de las Mascotas">
 </video-frame-tradiciones>
 
-
+</div>
 
 
 
@@ -1389,12 +1466,21 @@ La información, según el Vaticano, fue proporcionada por el médico del Papa, 
 <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
   <!-- style="display: none;" -->
 <div class="video-card-gold-container">
+
+  <video-card-gold
+      badge="28 de Octubre"
+      titulo="San Judas Tadeo"
+      video="./asantos/28.mp4"
+      style="width:auto; flex:0 0 auto;"
+
+    ></video-card-gold>
+  
   <video-card-gold
       badge="27 de Octubre"
       titulo="San Frumencio"
       video="./asantos/27.mp4"
       style="width:auto; flex:0 0 auto;"
-
+      hide-mobile
     ></video-card-gold>
 
 
@@ -1410,15 +1496,6 @@ La información, según el Vaticano, fue proporcionada por el médico del Papa, 
       badge="26 de Octubre"
       titulo="San Evaristo"
       video="./asantos/26bis.mp4"
-      style="width:auto; flex:0 0 auto;"
-      hide-mobile
-    ></video-card-gold>
-
-
-  <video-card-gold
-      badge="25 de Octubre"
-      titulo="Santos Crispín y Crispiniano"
-      video="./asantos/25.mp4"
       style="width:auto; flex:0 0 auto;"
       hide-mobile
     ></video-card-gold>
@@ -1505,7 +1582,7 @@ La información, según el Vaticano, fue proporcionada por el médico del Papa, 
 
 <br><br><br>
 
-
+<!-- 
 <div class="fila-videos" style="display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:0.5rem;">
 
   <retro-tv-player
@@ -1562,7 +1639,7 @@ La información, según el Vaticano, fue proporcionada por el médico del Papa, 
   </retro-tv-player>
 
 </div>
-<br><br><br>
+<br><br><br> -->
 
 
 
