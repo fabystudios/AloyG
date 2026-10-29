@@ -12,7 +12,10 @@
  *   badge         — texto del badge superior, ej. "Viernes" (sin default: vacío = no se muestra)
  *   width         — ancho de la tarjeta (default 400px)
  *   radius        — border-radius del hueco del video (default "9% / 7.4%")
- *   poster        — imagen poster del video (opcional)
+ *   poster        — imagen poster del video (opcional). Si se pasa, el video NO se
+ *                   descarga hasta que el usuario toca play (cero tráfico de video
+ *                   mientras tanto). Sin poster, se carga solo la metadata/primer
+ *                   frame cuando la tarjeta entra en pantalla.
  *   frame-ratio   — proporción ancho/alto de la imagen de marco (default "1109/1202", tv.png)
  *   inset-top     — % desde arriba donde empieza el hueco del video (default 30.28)
  *   inset-right   — % desde la derecha (default 32.73)
@@ -29,6 +32,13 @@
  *   ></video-card-frame-tv>
  *
  *   Sin badge ni título → no aparece ningún texto.
+ *
+ * RENDIMIENTO:
+ *   - Con `poster`: el <video> no tiene src hasta el primer play.
+ *   - Un solo video a la vez: al dar play a una tarjeta, las demás se pausan.
+ *   - Si la tarjeta sale por completo de la pantalla, el video se pausa solo.
+ *   - Al cambiar el atributo `video` (o quitar la tarjeta del DOM de forma
+ *     definitiva) se corta la descarga anterior y se libera el buffer.
  *
  *   Con un marco distinto (otras proporciones), ajustá ratio e insets:
  *   <video-card-frame-tv
@@ -289,7 +299,7 @@ _tpl.innerHTML = `
 
 <div class="card">
   <div class="video-wrap">
-    <video id="vid" src="" playsinline></video>
+    <video id="vid" playsinline preload="none"></video>
     <div class="overlay"></div>
     <div class="info">
       <div class="badge" id="badgeWrap" hidden><span class="badge-dot"></span><span id="badgeEl"></span></div>
@@ -325,6 +335,9 @@ const DEFAULTS = {
   width: '400px'
 };
 
+// Instancias conectadas: sirve para pausar las demás cuando una empieza a reproducir
+const _instances = new Set();
+
 class VideoCardFrameTv extends HTMLElement {
   static get observedAttributes() {
     return [
@@ -352,7 +365,8 @@ class VideoCardFrameTv extends HTMLElement {
   }
 
   connectedCallback() {
-    if (this._shadow) { this._initDotAnim(); return; } // reconexión al DOM
+    _instances.add(this);
+    if (this._shadow) { this._initDotAnim(); this._setupLazyVideo(); this._watchVisibility(); return; } // reconexión al DOM
     this._shadow = this.attachShadow({ mode: 'open' });
     this._shadow.appendChild(_tpl.content.cloneNode(true));
 
@@ -381,9 +395,8 @@ class VideoCardFrameTv extends HTMLElement {
     // Proporciones e insets configurables (para marcos distintos)
     this._applyGeometry();
 
-    // Lazy loading del video
-    this._vid.removeAttribute('src');
-    this._vid.setAttribute('data-src', this.getAttribute('video') || '');
+    // Lazy loading del video: acá todavía NO se asigna src
+    this._src = this.getAttribute('video') || '';
     this._setupLazyVideo();
 
     this._btn.addEventListener('click', () => this._toggle());
@@ -391,6 +404,21 @@ class VideoCardFrameTv extends HTMLElement {
     this._vid.addEventListener('ended', () => this._onEnded());
 
     this._initDotAnim();
+    this._watchVisibility();
+  }
+
+  // Pausa el video si la tarjeta sale por completo de la pantalla
+  _watchVisibility() {
+    this._unwatchVisibility();
+    if (!('IntersectionObserver' in window)) return;
+    this._viewIO = new IntersectionObserver(entries => {
+      if (entries.some(e => !e.isIntersecting)) this._pauseFromOutside();
+    }, { threshold: 0 });
+    this._viewIO.observe(this._card);
+  }
+
+  _unwatchVisibility() {
+    if (this._viewIO) { this._viewIO.disconnect(); this._viewIO = null; }
   }
 
   _applyGeometry() {
@@ -411,34 +439,99 @@ class VideoCardFrameTv extends HTMLElement {
     if (width)  this._card.style.setProperty('--card-width', width);
   }
 
+  // ─── Carga diferida del video ─────────────────────────────────────
+  // Con poster: no se toca el video hasta el play.
+  // Sin poster: al entrar en pantalla se carga solo la metadata (primer frame).
   _setupLazyVideo() {
     if (!this._vid) return;
+    this._stopObserver();
+    if (!this._src) return;
+    if (this._posterSrc) return;                       // el poster alcanza: cero descarga
+    if (this._vid.getAttribute('src')) return;         // ya cargado
+
     if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && !this._vid.src) {
-            this._vid.src = this._vid.dataset.src;
-            this._vid.load();
-            observer.disconnect();
-          }
-        });
+      this._io = new IntersectionObserver(entries => {
+        if (entries.some(e => e.isIntersecting)) {
+          this._stopObserver();
+          this._attachSource('metadata');
+        }
       }, { threshold: 0.2 });
-      observer.observe(this._vid);
+      this._io.observe(this._vid);
     } else {
-      this._vid.src = this._vid.dataset.src;
+      this._attachSource('metadata');
+    }
+  }
+
+  _stopObserver() {
+    if (this._io) { this._io.disconnect(); this._io = null; }
+  }
+
+  // preload: 'metadata' (solo primer frame) | 'auto' (para reproducir)
+  _attachSource(preload) {
+    if (!this._src) return;
+    this._vid.preload = preload;
+    if (!this._vid.getAttribute('src')) {
+      // #t=0.001 fuerza a iOS/Safari a pintar el primer frame con preload=metadata
+      const url = preload === 'metadata' && !this._src.includes('#')
+        ? this._src + '#t=0.001'
+        : this._src;
+      this._vid.src = url;
       this._vid.load();
     }
+  }
+
+  // Corta la descarga en curso y libera el buffer del video
+  _releaseSource() {
+    this._stopObserver();
+    if (!this._vid) return;
+    this._vid.pause();
+    if (this._vid.getAttribute('src')) {
+      this._vid.removeAttribute('src');
+      this._vid.load();                // aborta el request y vacía el buffer
+    }
+    this._vid.preload = 'none';
+  }
+
+  _setPlayingUI(playing) {
+    this._playing = playing;
+    this._btn.classList.toggle('is-playing', playing);
+    if (playing) {
+      this._icon.className = 'pause-icon';
+      this._icon.innerHTML = '<div class="pause-bar"></div><div class="pause-bar"></div>';
+      this._btn.style.animation = 'none';
+    } else {
+      this._icon.className = 'play-icon';
+      this._icon.innerHTML = '';
+      this._btn.style.animation = '';
+      if (this._posterSrc) this._vid.poster = this._posterSrc;
+    }
+  }
+
+  // Lo llama otra tarjeta cuando empieza a reproducir
+  _pauseFromOutside() {
+    if (!this._playing) return;
+    this._vid.pause();
+    this._setPlayingUI(false);
   }
 
   attributeChangedCallback(name, _old, val) {
     if (!this._shadow) return;
     if (name === 'titulo' || name === 'badge') this._renderTexts();
     if (name === 'video') {
-      this._vid.removeAttribute('src');
-      this._vid.setAttribute('data-src', val || '');
+      // Libera lo descargado del video anterior y arranca de cero
+      this._releaseSource();
+      this._src = val || '';
+      this._setPlayingUI(false);
+      this._timeEl.textContent = '0:00';
       this._setupLazyVideo();
     }
-    if (name === 'poster') { this._posterSrc = val || ''; this._vid.poster = this._posterSrc; }
+    if (name === 'poster') {
+      this._posterSrc = val || '';
+      this._vid.poster = this._posterSrc;
+      // Si apareció un poster y el usuario aún no dio play, no hace falta tener el video bajado
+      if (this._posterSrc && !this._playing && this._vid.currentTime === 0) this._releaseSource();
+      else this._setupLazyVideo();
+    }
     if (name === 'frame')  this._frameEl.src = this._get('frame');
     if (['frame-ratio', 'inset-top', 'inset-right', 'inset-bottom', 'inset-left',
          'width', 'radius'].includes(name)) {
@@ -449,21 +542,20 @@ class VideoCardFrameTv extends HTMLElement {
   _toggle() {
     if (this._playing) {
       this._vid.pause();
-      this._playing = false;
-      this._btn.classList.remove('is-playing');
-      this._icon.className = 'play-icon';
-      this._icon.innerHTML = '';
-      this._btn.style.animation = '';
-      if (this._posterSrc) this._vid.poster = this._posterSrc;
-    } else {
-      this._vid.poster = '';
-      this._vid.play().catch(() => {});
-      this._playing = true;
-      this._btn.classList.add('is-playing');
-      this._icon.className = 'pause-icon';
-      this._icon.innerHTML = '<div class="pause-bar"></div><div class="pause-bar"></div>';
-      this._btn.style.animation = 'none';
+      this._setPlayingUI(false);
+      return;
     }
+    if (!this._src) return;
+
+    // Un solo video a la vez
+    _instances.forEach(inst => { if (inst !== this) inst._pauseFromOutside(); });
+
+    // Recién acá se descarga el video (si no estaba ya)
+    this._stopObserver();
+    this._attachSource('auto');
+    this._vid.poster = '';
+    this._setPlayingUI(true);
+    this._vid.play().catch(() => this._setPlayingUI(false));
   }
 
   _updateTime() {
@@ -479,15 +571,11 @@ class VideoCardFrameTv extends HTMLElement {
   }
 
   _onEnded() {
-    this._playing = false;
-    this._btn.classList.remove('is-playing');
-    this._icon.className = 'play-icon';
-    this._icon.innerHTML = '';
-    this._btn.style.animation = '';
-    if (this._posterSrc) this._vid.poster = this._posterSrc;
+    this._setPlayingUI(false);
   }
 
   _initDotAnim() {
+    clearInterval(this._dotInterval);
     let i = 0;
     this._dotInterval = setInterval(() => {
       if (this._playing) return;
@@ -498,6 +586,10 @@ class VideoCardFrameTv extends HTMLElement {
 
   disconnectedCallback() {
     clearInterval(this._dotInterval);
+    _instances.delete(this);
+    this._stopObserver();
+    this._unwatchVisibility();
+    if (this._playing) { this._vid.pause(); this._setPlayingUI(false); }
   }
 }
 

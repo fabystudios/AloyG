@@ -18,6 +18,12 @@
  *   inset-bottom  — % desde abajo (default 22.75)
  *   inset-left    — % desde la izquierda (default 16.55)
  *
+ * RENDIMIENTO:
+ *   - Con `poster`: el video NO se descarga hasta que el usuario toca play.
+ *   - Sin `poster`: se carga solo metadata (primer frame) al entrar en pantalla.
+ *   - Un solo video a la vez: al dar play, las demás tarjetas se pausan.
+ *   - Al cambiar `video`, se aborta y libera la descarga anterior.
+ *
  * USO:
  *   <script src="video-card-frame.js"></script>
  *   <video-card-frame
@@ -316,43 +322,59 @@ class VideoCardFrame extends HTMLElement {
     ];
   }
 
+  // Tarjeta que está reproduciendo ahora (compartida por todas las instancias)
+  static _current = null;
+
   connectedCallback() {
-    this._shadow = this.attachShadow({ mode: 'open' });
-    this._shadow.appendChild(_tpl.content.cloneNode(true));
+    // Si el elemento se mueve en el DOM, connectedCallback corre de nuevo:
+    // no hay que volver a crear el shadow root.
+    if (!this._shadow) {
+      this._shadow = this.attachShadow({ mode: 'open' });
+      this._shadow.appendChild(_tpl.content.cloneNode(true));
 
-    this._card    = this._shadow.querySelector('.card');
-    this._vid     = this._shadow.getElementById('vid');
-    this._btn     = this._shadow.getElementById('playBtn');
-    this._icon    = this._shadow.getElementById('playIcon');
-    this._titleEl = this._shadow.getElementById('titleEl');
-    this._timeEl  = this._shadow.getElementById('timeEl');
-    this._dots    = this._shadow.querySelectorAll('.meta-dot');
-    this._frameEl = this._shadow.getElementById('frameImg');
-    this._badgeEl = this._shadow.getElementById('badgeEl');
-    this._playing = false;
+      this._card    = this._shadow.querySelector('.card');
+      this._vid     = this._shadow.getElementById('vid');
+      this._btn     = this._shadow.getElementById('playBtn');
+      this._icon    = this._shadow.getElementById('playIcon');
+      this._titleEl = this._shadow.getElementById('titleEl');
+      this._timeEl  = this._shadow.getElementById('timeEl');
+      this._dots    = this._shadow.querySelectorAll('.meta-dot');
+      this._frameEl = this._shadow.getElementById('frameImg');
+      this._badgeEl = this._shadow.getElementById('badgeEl');
+      this._playing = false;
 
-    this._titleEl.textContent = this.getAttribute('titulo') || 'Sin título';
-    this._badgeEl.textContent = this.getAttribute('badge') || 'Premium';
+      this._titleEl.textContent = this.getAttribute('titulo') || 'Sin título';
+      this._badgeEl.textContent = this.getAttribute('badge') || 'Premium';
 
-    // Marco: por defecto ./frame.png, reemplazable por prop
-    this._frameEl.src = this.getAttribute('frame') || './frame.png';
+      // Marco: por defecto ./frame.png, reemplazable por prop
+      this._frameEl.src = this.getAttribute('frame') || './frame.png';
 
-    this._posterSrc = this.getAttribute('poster') || '';
-    if (this._posterSrc) this._vid.poster = this._posterSrc;
+      this._posterSrc = this.getAttribute('poster') || '';
+      if (this._posterSrc) this._vid.poster = this._posterSrc;
 
-    // Proporciones e insets configurables (para marcos distintos)
-    this._applyGeometry();
+      this._applyGeometry();
 
-    // Lazy loading del video
-    this._vid.removeAttribute('src');
-    this._vid.setAttribute('data-src', this.getAttribute('video') || '');
-    this._setupLazyVideo();
+      this._vid.removeAttribute('src');
+      this._vid.preload = 'none';
 
-    this._btn.addEventListener('click', () => this._toggle());
-    this._vid.addEventListener('timeupdate', () => this._updateTime());
-    this._vid.addEventListener('ended', () => this._onEnded());
+      this._btn.addEventListener('click', () => this._toggle());
+      this._vid.addEventListener('timeupdate', () => this._updateTime());
+      // El estado de la UI sigue SIEMPRE al estado real del <video>,
+      // así también se actualiza cuando otra tarjeta nos pausa.
+      this._vid.addEventListener('play',  () => this._onPlay());
+      this._vid.addEventListener('pause', () => this._onPause());
+      this._vid.addEventListener('ended', () => this._onPause());
+    }
 
+    this._prepareSource();
     this._initDotAnim();
+  }
+
+  disconnectedCallback() {
+    clearInterval(this._dotInterval);
+    this._disconnectObserver();
+    if (this._vid && !this._vid.paused) this._vid.pause();
+    if (VideoCardFrame._current === this) VideoCardFrame._current = null;
   }
 
   _applyGeometry() {
@@ -369,58 +391,115 @@ class VideoCardFrame extends HTMLElement {
     if (left)   this._card.style.setProperty('--inset-left', `${left}%`);
   }
 
-  _setupLazyVideo() {
-    if (!this._vid) return;
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && !this._vid.src) {
-            this._vid.src = this._vid.dataset.src;
-            this._vid.load();
-            observer.disconnect();
-          }
-        });
-      }, { threshold: 0.2 });
-      observer.observe(this._vid);
-    } else {
-      this._vid.src = this._vid.dataset.src;
-      this._vid.load();
+  /* ─── Carga de video ─────────────────────────────────────────────── */
+
+  // Decide cómo y cuándo se descarga el video. NO descarga nada si hay poster.
+  _prepareSource() {
+    this._disconnectObserver();
+    this._src = this.getAttribute('video') || '';
+    if (!this._src) return;
+
+    // Ya cargado (ej: elemento movido en el DOM): no hacer nada más.
+    if (this._vid.getAttribute('src') === this._src) return;
+
+    if (this._posterSrc) {
+      // Hay poster: no se toca la red hasta que el usuario presione play.
+      this._vid.preload = 'none';
+      return;
     }
+
+    // Sin poster: necesitamos el primer frame, pero solo metadata y
+    // únicamente cuando la tarjeta es visible.
+    this._vid.preload = 'metadata';
+    if ('IntersectionObserver' in window) {
+      this._observer = new IntersectionObserver(entries => {
+        if (entries.some(e => e.isIntersecting)) {
+          this._disconnectObserver();
+          this._loadSource();
+        }
+      }, { threshold: 0.2 });
+      this._observer.observe(this);
+    } else {
+      this._loadSource();
+    }
+  }
+
+  _loadSource() {
+    if (!this._src || this._vid.getAttribute('src') === this._src) return;
+    this._vid.src = this._src;
+  }
+
+  // Aborta la descarga actual y libera el video anterior.
+  _releaseVideo() {
+    this._disconnectObserver();
+    this._vid.pause();
+    this._vid.removeAttribute('src');
+    this._vid.load();               // fuerza al navegador a soltar el recurso
+    this._timeEl.textContent = '0:00';
+    this._setUIPlaying(false);
+  }
+
+  _disconnectObserver() {
+    if (this._observer) { this._observer.disconnect(); this._observer = null; }
   }
 
   attributeChangedCallback(name, _old, val) {
     if (!this._shadow) return;
     if (name === 'titulo') this._titleEl.textContent = val || 'Sin título';
     if (name === 'video') {
-      this._vid.removeAttribute('src');
-      this._vid.setAttribute('data-src', val || '');
-      this._setupLazyVideo();
+      this._releaseVideo();
+      this._prepareSource();
     }
     if (name === 'badge')  this._badgeEl.textContent = val || 'Premium';
-    if (name === 'poster') { this._posterSrc = val || ''; this._vid.poster = this._posterSrc; }
+    if (name === 'poster') {
+      this._posterSrc = val || '';
+      this._vid.poster = this._posterSrc;
+      // Si todavía no se descargó nada, re-evaluar la estrategia de carga.
+      if (!this._vid.getAttribute('src')) this._prepareSource();
+    }
     if (name === 'frame')  this._frameEl.src = val || './frame.png';
     if (['frame-ratio', 'inset-top', 'inset-right', 'inset-bottom', 'inset-left'].includes(name)) {
       this._applyGeometry();
     }
   }
 
+  /* ─── Reproducción ───────────────────────────────────────────────── */
+
   _toggle() {
-    if (this._playing) {
-      this._vid.pause();
-      this._playing = false;
-      this._btn.classList.remove('is-playing');
-      this._icon.className = 'play-icon';
-      this._icon.innerHTML = '';
-      this._btn.style.animation = '';
-      if (this._posterSrc) this._vid.poster = this._posterSrc;
-    } else {
+    if (this._vid.paused) {
+      this._loadSource();
+      this._vid.preload = 'auto';   // ahora sí, el usuario quiere verlo
       this._vid.poster = '';
       this._vid.play().catch(() => {});
-      this._playing = true;
-      this._btn.classList.add('is-playing');
+    } else {
+      this._vid.pause();
+    }
+  }
+
+  _onPlay() {
+    // Un solo video a la vez
+    const prev = VideoCardFrame._current;
+    if (prev && prev !== this) prev._vid.pause();
+    VideoCardFrame._current = this;
+    this._setUIPlaying(true);
+  }
+
+  _onPause() {
+    if (VideoCardFrame._current === this) VideoCardFrame._current = null;
+    this._setUIPlaying(false);
+    if (this._posterSrc) this._vid.poster = this._posterSrc;
+  }
+
+  _setUIPlaying(on) {
+    this._playing = on;
+    this._btn.classList.toggle('is-playing', on);
+    this._btn.style.animation = on ? 'none' : '';
+    if (on) {
       this._icon.className = 'pause-icon';
       this._icon.innerHTML = '<div class="pause-bar"></div><div class="pause-bar"></div>';
-      this._btn.style.animation = 'none';
+    } else {
+      this._icon.className = 'play-icon';
+      this._icon.innerHTML = '';
     }
   }
 
@@ -436,26 +515,14 @@ class VideoCardFrame extends HTMLElement {
     }
   }
 
-  _onEnded() {
-    this._playing = false;
-    this._btn.classList.remove('is-playing');
-    this._icon.className = 'play-icon';
-    this._icon.innerHTML = '';
-    this._btn.style.animation = '';
-    if (this._posterSrc) this._vid.poster = this._posterSrc;
-  }
-
   _initDotAnim() {
+    clearInterval(this._dotInterval);
     let i = 0;
     this._dotInterval = setInterval(() => {
       if (this._playing) return;
       this._dots.forEach((d, j) => d.classList.toggle('active', j === i));
       i = (i + 1) % 3;
     }, 900);
-  }
-
-  disconnectedCallback() {
-    clearInterval(this._dotInterval);
   }
 }
 

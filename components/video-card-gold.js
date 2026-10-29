@@ -4,8 +4,17 @@
  * Se centra solo y se adapta a cualquier pantalla sin parámetro de modo.
  *
  * ATRIBUTOS:
- *   titulo  — texto del título
+ *   titulo  — texto del título (si falta, no se muestra)
+ *   badge   — texto del badge (si falta, no se muestra)
  *   video   — URL del video (mp4 recomendado)
+ *   poster  — imagen de portada. Si se define, el video NO se descarga
+ *             hasta que el usuario presiona play.
+ *
+ * RENDIMIENTO:
+ *   - Con poster: cero descarga de video hasta el primer play.
+ *   - Sin poster: se carga solo la metadata (primer frame) cuando la tarjeta es visible.
+ *   - Un solo video a la vez: al dar play, las demás tarjetas se pausan.
+ *   - Al cambiar el atributo `video` se libera lo descargado del anterior.
  *
  * USO (una sola línea, funciona en desktop y mobile):
  *   <script src="video-card-gold.js"></script>
@@ -19,6 +28,7 @@ _tpl.innerHTML = `
   @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Raleway:wght@300;400;500&display=swap');
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  [hidden] { display: none !important; }
 
   /* El host ocupa todo el ancho disponible */
   :host {
@@ -336,7 +346,7 @@ _tpl.innerHTML = `
 
   <!-- Video -->
   <div class="video-wrap">
-    <video id="vid" src="" playsinline></video>
+    <video id="vid" playsinline preload="none"></video>
     <div class="overlay"></div>
     <button class="play-btn" id="playBtn" aria-label="Reproducir / Pausar">
       <span class="play-icon" id="playIcon"></span>
@@ -345,9 +355,9 @@ _tpl.innerHTML = `
 
   <!-- Info -->
   <div class="info">
-    <div class="badge"><span class="badge-dot"></span><span id="badgeEl">Premium</span></div>
-    <div class="titulo" id="titleEl">Título</div>
-    <div class="gold-line"></div>
+    <div class="badge" id="badgeWrap" hidden><span class="badge-dot"></span><span id="badgeEl"></span></div>
+    <div class="titulo" id="titleEl" hidden></div>
+    <div class="gold-line" id="lineEl" hidden></div>
     <div class="meta">
       <span class="meta-time" id="timeEl">0:00</span>
       <div class="meta-dots">
@@ -360,93 +370,148 @@ _tpl.innerHTML = `
 </div>
 `;
 
+// Registro de tarjetas para garantizar "un solo video a la vez"
+const _instances = new Set();
+
 class VideoCardGold extends HTMLElement {
   static get observedAttributes() { return ['titulo', 'video', 'badge', 'poster']; }
 
   connectedCallback() {
-    this._shadow = this.attachShadow({ mode: 'open' });
-    this._shadow.appendChild(_tpl.content.cloneNode(true));
+    if (!this._shadow) {
+      this._shadow = this.attachShadow({ mode: 'open' });
+      this._shadow.appendChild(_tpl.content.cloneNode(true));
 
-    this._vid     = this._shadow.getElementById('vid');
-    this._btn     = this._shadow.getElementById('playBtn');
-    this._icon    = this._shadow.getElementById('playIcon');
-    this._titleEl = this._shadow.getElementById('titleEl');
-    this._timeEl  = this._shadow.getElementById('timeEl');
-    this._dots    = this._shadow.querySelectorAll('.meta-dot');
-    this._playing = false;
+      const $ = id => this._shadow.getElementById(id);
+      this._vid       = $('vid');
+      this._btn       = $('playBtn');
+      this._icon      = $('playIcon');
+      this._titleEl   = $('titleEl');
+      this._badgeEl   = $('badgeEl');
+      this._badgeWrap = $('badgeWrap');
+      this._lineEl    = $('lineEl');
+      this._timeEl    = $('timeEl');
+      this._dots      = this._shadow.querySelectorAll('.meta-dot');
+      this._playing   = false;
 
-    this._titleEl.textContent = this.getAttribute('titulo') || 'Sin título';
-    this._badgeEl = this._shadow.getElementById('badgeEl');
-    this._badgeEl.textContent = this.getAttribute('badge') || 'Premium';
-
-    this._posterSrc = this.getAttribute('poster') || '';
-    if (this._posterSrc) this._vid.poster = this._posterSrc;
-
-    // Lazy loading para video
-    this._vid.removeAttribute('src');
-    this._vid.setAttribute('data-src', this.getAttribute('video') || '');
-    this._setupLazyVideo();
-
-    this._btn.addEventListener('click', () => this._toggle());
-    this._vid.addEventListener('timeupdate', () => this._updateTime());
-    this._vid.addEventListener('ended', () => this._onEnded());
-
-    this._initDotAnim();
-  }
-
-  _setupLazyVideo() {
-    if (!this._vid) return;
-    if ('IntersectionObserver' in window) {
-      const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting && !this._vid.src) {
-            this._vid.src = this._vid.dataset.src;
-            this._vid.load();
-            observer.disconnect();
-          }
-        });
-      }, { threshold: 0.2 });
-      observer.observe(this._vid);
-    } else {
-      // Fallback: cargar de inmediato
-      this._vid.src = this._vid.dataset.src;
-      this._vid.load();
+      this._btn.addEventListener('click', () => this._toggle());
+      this._vid.addEventListener('timeupdate', () => this._updateTime());
+      this._vid.addEventListener('ended', () => this._onEnded());
+      // Recién cuando el video realmente reproduce se quita el poster
+      this._vid.addEventListener('playing', () => { this._vid.poster = ''; });
     }
+
+    this._applyTexts();
+    this._posterSrc = this.getAttribute('poster') || '';
+    this._vid.poster = this._posterSrc;
+    this._setupVideo();
+    this._initDotAnim();
+    _instances.add(this);
   }
 
   attributeChangedCallback(name, _old, val) {
     if (!this._shadow) return;
-    if (name === 'titulo') this._titleEl.textContent = val || 'Sin título';
-    if (name === 'video') {
-      this._vid.removeAttribute('src');
-      this._vid.setAttribute('data-src', val || '');
-      this._setupLazyVideo();
+    if (name === 'titulo' || name === 'badge') this._applyTexts();
+    if (name === 'video') this._setupVideo();
+    if (name === 'poster') {
+      this._posterSrc = val || '';
+      if (!this._playing) this._vid.poster = this._posterSrc;
+      // Si todavía no se descargó nada, la política de carga puede cambiar
+      if (!this._vid.getAttribute('src')) this._setupVideo();
     }
-    if (name === 'badge')  this._badgeEl.textContent = val || 'Premium';
-    if (name === 'poster') { this._posterSrc = val || ''; this._vid.poster = this._posterSrc; }
   }
 
-  _toggle() {
-    if (this._playing) {
-      this._vid.pause();
-      this._playing = false;
-      this._btn.classList.remove('is-playing');
-      this._icon.className = 'play-icon';
-      this._icon.innerHTML = '';
-      this._btn.style.animation = '';
-      /* restaurar poster al pausar */
-      if (this._posterSrc) this._vid.poster = this._posterSrc;
+  /* ─── Título / badge: si no vienen, no se muestra nada ─────────────── */
+  _applyTexts() {
+    const titulo = (this.getAttribute('titulo') || '').trim();
+    const badge  = (this.getAttribute('badge')  || '').trim();
+    this._titleEl.textContent = titulo;
+    this._titleEl.hidden = !titulo;
+    this._badgeEl.textContent = badge;
+    this._badgeWrap.hidden = !badge;
+    // La línea dorada solo tiene sentido si hay algo arriba
+    this._lineEl.hidden = !titulo && !badge;
+  }
+
+  /* ─── Carga del video ──────────────────────────────────────────────── */
+  _setupVideo() {
+    this._releaseVideo();
+    this._src = this.getAttribute('video') || '';
+    if (!this._src) return;
+
+    // Con poster: no se toca la red hasta que el usuario da play
+    if (this._posterSrc) return;
+
+    // Sin poster: cargar solo metadata (primer frame) cuando sea visible
+    if ('IntersectionObserver' in window) {
+      this._io = new IntersectionObserver(entries => {
+        if (entries.some(e => e.isIntersecting)) {
+          this._io.disconnect();
+          this._io = null;
+          this._attachSrc('metadata');
+        }
+      }, { threshold: 0.2 });
+      this._io.observe(this._vid);
     } else {
-      /* limpiar poster para que se vean los frames del video */
-      this._vid.poster = '';
-      this._vid.play().catch(() => {});
-      this._playing = true;
-      this._btn.classList.add('is-playing');
-      this._icon.className = 'pause-icon';
-      this._icon.innerHTML = '<div class="pause-bar"></div><div class="pause-bar"></div>';
-      this._btn.style.animation = 'none';
+      this._attachSrc('metadata');
     }
   }
+
+  _attachSrc(preload) {
+    if (!this._src || this._vid.getAttribute('src')) return;
+    this._vid.preload = preload;
+    this._vid.src = this._src;
+  }
+
+  /** Libera lo descargado: corta la descarga y vacía el buffer del video. */
+  _releaseVideo() {
+    if (this._io) { this._io.disconnect(); this._io = null; }
+    this._vid.pause();
+    if (this._vid.getAttribute('src')) {
+      this._vid.removeAttribute('src');
+      this._vid.load();
+    }
+    this._vid.preload = 'none';
+    this._timeEl.textContent = '0:00';
+    this._setUI(false);
+  }
+
+  /* ─── Play / Pausa ─────────────────────────────────────────────────── */
+  _toggle() { this._playing ? this._pause() : this._play(); }
+
+  _play() {
+    if (!this._src) return;
+    // Un solo video a la vez
+    _instances.forEach(other => { if (other !== this) other._pause(); });
+
+    this._attachSrc('auto');
+    this._setUI(true);
+    this._vid.play().catch(err => {
+      if (err && err.name === 'AbortError') return;
+      this._setUI(false);
+    });
+  }
+
+  _pause() {
+    if (!this._playing) return;
+    this._vid.pause();
+    this._setUI(false);
+  }
+
+  _setUI(playing) {
+    this._playing = playing;
+    this._btn.classList.toggle('is-playing', playing);
+    this._btn.style.animation = playing ? 'none' : '';
+    if (playing) {
+      this._icon.className = 'pause-icon';
+      this._icon.innerHTML = '<div class="pause-bar"></div><div class="pause-bar"></div>';
+    } else {
+      this._icon.className = 'play-icon';
+      this._icon.innerHTML = '';
+      if (this._posterSrc) this._vid.poster = this._posterSrc;
+    }
+  }
+
+  _onEnded() { this._setUI(false); }
 
   _updateTime() {
     const t = this._vid.currentTime || 0;
@@ -460,17 +525,8 @@ class VideoCardGold extends HTMLElement {
     }
   }
 
-  _onEnded() {
-    this._playing = false;
-    this._btn.classList.remove('is-playing');
-    this._icon.className = 'play-icon';
-    this._icon.innerHTML = '';
-    this._btn.style.animation = '';
-    /* restaurar poster al terminar */
-    if (this._posterSrc) this._vid.poster = this._posterSrc;
-  }
-
   _initDotAnim() {
+    clearInterval(this._dotInterval);
     let i = 0;
     this._dotInterval = setInterval(() => {
       if (this._playing) return;
@@ -481,6 +537,9 @@ class VideoCardGold extends HTMLElement {
 
   disconnectedCallback() {
     clearInterval(this._dotInterval);
+    if (this._io) { this._io.disconnect(); this._io = null; }
+    this._pause();
+    _instances.delete(this);
   }
 }
 
