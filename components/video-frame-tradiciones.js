@@ -7,7 +7,11 @@
  *   video         — URL del video (mp4 recomendado)
  *   titulo        — título (si no se pasa, no se muestra)
  *   fecha         — texto del chip superior, ej "27 de Octubre" (si no se pasa, no se muestra)
- *   poster        — imagen poster del video (opcional)
+ *   poster        — imagen poster del video (opcional).
+ *                   Con poster, el video NO se descarga hasta que el usuario
+ *                   toca play (ideal para varios videos en una misma página).
+ *                   Sin poster, se carga solo metadata cuando la tarjeta entra
+ *                   en pantalla, para que el navegador muestre el primer frame.
  *   frame         — URL de la imagen del marco (default: "./tradi.png")
  *   frame-ratio   — ancho/alto del marco (default "1024/1536")
  *   inset-top / inset-right / inset-bottom / inset-left
@@ -312,11 +316,13 @@ class VideoFrameTradiciones extends HTMLElement {
     this._applyText();
 
     this._vid.setAttribute('data-src', this.getAttribute('video') || '');
-    this._setupLazyVideo();
+    this._setupLoading();
 
     this._btn.addEventListener('click', () => this._toggle());
     this._vid.addEventListener('timeupdate', () => this._updateTime());
     this._vid.addEventListener('ended', () => this._resetPlayUI());
+    // El poster se mantiene hasta que el video realmente arranca (evita parpadeo mientras carga)
+    this._vid.addEventListener('playing', () => { this._vid.poster = ''; });
 
     this._initDotAnim();
   }
@@ -357,19 +363,37 @@ class VideoFrameTradiciones extends HTMLElement {
     set('--inset-left',   this.getAttribute('inset-left'),   '%');
   }
 
-  _setupLazyVideo() {
-    if (this._io) this._io.disconnect();
-    const load = () => {
-      const src = this._vid.dataset.src;
-      if (src) { this._vid.src = src; this._vid.load(); }
-    };
+  /* Con poster: no se toca la red hasta el play.
+     Sin poster: se carga solo metadata al entrar en pantalla. */
+  _setupLoading() {
+    if (this._io) { this._io.disconnect(); this._io = null; }
+    if (this._vid.getAttribute('src')) return; // ya cargado
+
+    if (this._posterSrc) {
+      this._vid.preload = 'none';
+      return;
+    }
+
+    this._vid.preload = 'metadata';
     if ('IntersectionObserver' in window) {
       this._io = new IntersectionObserver(entries => {
-        if (entries.some(e => e.isIntersecting)) { load(); this._io.disconnect(); }
+        if (entries.some(e => e.isIntersecting)) {
+          this._ensureSrc();
+          this._io.disconnect();
+          this._io = null;
+        }
       }, { threshold: 0.2 });
       this._io.observe(this._vid);
     } else {
-      load();
+      this._ensureSrc();
+    }
+  }
+
+  _ensureSrc() {
+    const src = this._vid.dataset.src;
+    if (src && !this._vid.getAttribute('src')) {
+      this._vid.src = src;
+      this._vid.load();
     }
   }
 
@@ -377,11 +401,18 @@ class VideoFrameTradiciones extends HTMLElement {
     if (!this._ready) return;
     if (name === 'titulo' || name === 'fecha') this._applyText();
     if (name === 'video') {
+      this._vid.pause();
+      this._resetPlayUI();
       this._vid.removeAttribute('src');
+      this._vid.load(); // libera lo descargado del video anterior
       this._vid.setAttribute('data-src', val || '');
-      this._setupLazyVideo();
+      this._setupLoading();
     }
-    if (name === 'poster') { this._posterSrc = val || ''; this._vid.poster = this._posterSrc; }
+    if (name === 'poster') {
+      this._posterSrc = val || '';
+      this._vid.poster = this._posterSrc;
+      this._setupLoading();
+    }
     if (name === 'frame')  this._frameEl.src = val || './tradi.png';
     if (name.startsWith('inset-') || name === 'frame-ratio') this._applyGeometry();
   }
@@ -391,7 +422,12 @@ class VideoFrameTradiciones extends HTMLElement {
       this._vid.pause();
       this._resetPlayUI();
     } else {
-      this._vid.poster = '';
+      // Un solo video sonando a la vez: pausa los demás
+      const cur = VideoFrameTradiciones._current;
+      if (cur && cur !== this) cur._pauseFromOutside();
+      VideoFrameTradiciones._current = this;
+
+      this._ensureSrc(); // recién acá se descarga si había poster
       this._vid.play().catch(() => {});
       this._playing = true;
       this._btn.classList.add('is-playing');
@@ -399,6 +435,12 @@ class VideoFrameTradiciones extends HTMLElement {
       this._icon.innerHTML = '<div class="pause-bar"></div><div class="pause-bar"></div>';
       this._btn.style.animation = 'none';
     }
+  }
+
+  _pauseFromOutside() {
+    if (!this._playing) return;
+    this._vid.pause();
+    this._resetPlayUI();
   }
 
   _resetPlayUI() {
