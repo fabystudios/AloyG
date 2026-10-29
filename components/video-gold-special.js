@@ -8,9 +8,14 @@
  *   ancho-desktop  — ancho en desktop. Default: "80vw"
  *   badge          — texto de la píldora inferior.       Default: "Special"
  *   etiqueta       — texto del badge superior centrado.  Default: "Special Edition"
- *   poster-mobile  — imagen de portada para el video mobile. Si no se pasa,
- *                    usa automáticamente el thumbnail del video YouTube desktop
- *   poster-desktop — imagen de portada para desktop (solo si no hay URL de YouTube)
+ *   poster-mobile  — imagen de portada para el video mobile (opcional).
+ *                    Con poster: no se descarga NADA del video hasta el play.
+ *                    Sin poster: se descargan solo los metadatos y se muestra el
+ *                    primer frame del mp4 (el resto se baja recién al hacer play).
+ *   poster-desktop — imagen de portada para desktop (opcional). Funciona con mp4 y
+ *                    con YouTube (en YouTube el iframe se carga recién al hacer play).
+ *                    Sin poster: mp4 → primer frame por metadatos;
+ *                    YouTube → thumbnail oficial del video.
  *
  * USO:
  *   <script src="video-gold-special.js"></script>
@@ -252,13 +257,17 @@ _tplSpecial.innerHTML = `
   .video-wrap.landscape { aspect-ratio: 16 / 9; }
   .video-wrap.portrait  { aspect-ratio: 9 / 16; }
 
-  iframe, video {
+  iframe, video, .yt-poster {
     display: block;
     width: 100%;
     height: 100%;
     border: none;
     transition: transform 0.5s ease;
   }
+
+  /* El poster (y el primer frame) rellenan el área sin deformarse */
+  video, .yt-poster { object-fit: cover; }
+  .yt-poster { cursor: pointer; }
 
   .outer-wrap:hover .video-wrap.portrait video { transform: scale(1.03); }
 
@@ -566,6 +575,7 @@ class VideoGoldSpecial extends HTMLElement {
 
   disconnectedCallback() {
     this._mq && this._mq.removeEventListener('change', this._mqHandler);
+    this._io && this._io.disconnect();
   }
 
   attributeChangedCallback(name, _old, val) {
@@ -595,6 +605,11 @@ class VideoGoldSpecial extends HTMLElement {
   }
 
   _render() {
+    // Limpieza al cambiar de breakpoint / atributos
+    this._io && this._io.disconnect();
+    this._playing = false;
+    this._logoWrap.classList.remove('logo-oculto');
+
     const videoDesktop  = this.getAttribute('video-desktop')  || '';
     const videoMobile   = this.getAttribute('video-mobile')   || '';
     const anchoDesktop  = this.getAttribute('ancho-desktop')  || '80vw';
@@ -616,25 +631,18 @@ class VideoGoldSpecial extends HTMLElement {
       this._videoWrap.className = 'video-wrap portrait';
 
       if (videoMobile) {
-        // poster-mobile explícito → poster del video desktop (si es YouTube) → poster del video mobile (si es mp4) → sin poster
-        let poster = '';
-        if (posterMobileAttr) {
-          poster = posterMobileAttr;
-        } else if (ytThumb) {
-          poster = ytThumb;
-        } else if (videoMobile.endsWith('.mp4')) {
-          // Si es un mp4 y no hay poster, intenta usar el primer frame (el navegador lo hace por defecto)
-          poster = '';
-        }
+        // poster-mobile explícito → solo la imagen, el video no se descarga hasta el play
+        // sin poster            → primer frame del mp4 vía metadatos (preload="metadata")
         this._videoWrap.innerHTML = `
-          <video id="vid" data-src="${videoMobile}" ${poster ? `poster=\"${poster}\"` : ''} loop playsinline></video>
+          <video id="vid" data-src="${videoMobile}" ${posterMobileAttr ? `poster="${posterMobileAttr}"` : ''} loop playsinline></video>
           <div class="overlay"></div>
           <button class="play-btn" id="playBtn" aria-label="Reproducir / Pausar">
             <span class="play-icon" id="playIcon"></span>
           </button>
         `;
         this._timeEl.textContent = '0:00';
-        this._setupLazyVideo(true);
+        this._bindVideo(true);
+        this._setupLazyVideo(!!posterMobileAttr);
       } else {
         this._videoWrap.innerHTML = `
           <div style="display:flex;align-items:center;justify-content:center;height:100%;color:rgba(245,208,107,0.5);font-family:'Raleway',sans-serif;font-size:13px;letter-spacing:2px;">
@@ -651,35 +659,54 @@ class VideoGoldSpecial extends HTMLElement {
       this._videoWrap.className = 'video-wrap landscape';
 
       if (isYouTube) {
-        // YouTube embed — controles nativos, sin play-btn propio
-        const embedSrc = `https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&color=white`;
+        // YouTube — "facade": se muestra solo el poster (poster-desktop o thumbnail
+        // oficial) y el iframe se crea recién cuando el usuario hace play.
+        const poster = posterDesktopAttr || ytThumb;
         this._videoWrap.innerHTML = `
-          <iframe src="${embedSrc}" allowfullscreen
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-          </iframe>
+          <img class="yt-poster" id="ytPoster" src="${poster}" alt="" />
           <div class="overlay"></div>
+          <button class="play-btn" id="playBtn" aria-label="Reproducir">
+            <span class="play-icon"></span>
+          </button>
         `;
         this._timeEl.textContent = '';
 
-      } else if (isMp4Desktop) {
-        // poster-desktop explícito → poster del video desktop (si es YouTube) → poster del video desktop (si es mp4) → sin poster
-        let poster = '';
-        if (posterDesktopAttr) {
-          poster = posterDesktopAttr;
-        } else if (ytThumb) {
-          poster = ytThumb;
-        } else if (videoDesktop.endsWith('.mp4')) {
-          poster = '';
+        const img = this._shadow.getElementById('ytPoster');
+        const btn = this._shadow.getElementById('playBtn');
+
+        // maxresdefault no existe en todos los videos → caer a hqdefault
+        if (!posterDesktopAttr) {
+          const hq = `https://img.youtube.com/vi/${ytId}/hqdefault.jpg`;
+          const fallback = () => { if (img.src !== hq) img.src = hq; };
+          img.addEventListener('error', fallback, { once: true });
+          img.addEventListener('load', () => { if (img.naturalWidth <= 120) fallback(); }, { once: true });
         }
+
+        const cargarIframe = () => {
+          const embedSrc = `https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&color=white&autoplay=1&playsinline=1`;
+          this._videoWrap.innerHTML = `
+            <iframe src="${embedSrc}" allowfullscreen
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+            </iframe>
+            <div class="overlay"></div>
+          `;
+        };
+        btn.addEventListener('click', cargarIframe);
+        img.addEventListener('click', cargarIframe);
+
+      } else if (isMp4Desktop) {
+        // poster-desktop explícito → solo la imagen, el video no se descarga hasta el play
+        // sin poster             → primer frame del mp4 vía metadatos (preload="metadata")
         this._videoWrap.innerHTML = `
-          <video id="vid" data-src="${videoDesktop}" ${poster ? `poster=\"${poster}\"` : ''} loop playsinline></video>
+          <video id="vid" data-src="${videoDesktop}" ${posterDesktopAttr ? `poster="${posterDesktopAttr}"` : ''} loop playsinline></video>
           <div class="overlay"></div>
           <button class="play-btn" id="playBtn" aria-label="Reproducir / Pausar">
             <span class="play-icon" id="playIcon"></span>
           </button>
         `;
         this._timeEl.textContent = '0:00';
-        this._setupLazyVideo(false);
+        this._bindVideo(false);
+        this._setupLazyVideo(!!posterDesktopAttr);
 
       } else if (posterDesktopAttr) {
         // Sin video: mostrar imagen estática
@@ -699,28 +726,36 @@ class VideoGoldSpecial extends HTMLElement {
     }
   }
 
-    _setupLazyVideo(isMobileCtx) {
-      const vid = this._shadow.getElementById('vid');
-      if (!vid) return;
-      if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver(entries => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting && !vid.src) {
-              vid.src = vid.dataset.src;
-              vid.load();
-              this._bindVideo(isMobileCtx);
-              observer.disconnect();
-            }
-          });
-        }, { threshold: 0.2 });
-        observer.observe(vid);
-      } else {
-        // Fallback: cargar de inmediato
-        vid.src = vid.dataset.src;
-        vid.load();
-        this._bindVideo(isMobileCtx);
-      }
+  /**
+   * Con poster  → preload="none": no se descarga nada hasta el play.
+   * Sin poster  → preload="metadata": solo metadatos + primer frame.
+   * El src se asigna recién cuando la card está cerca del viewport.
+   */
+  _setupLazyVideo(hasPoster) {
+    const vid = this._shadow.getElementById('vid');
+    if (!vid) return;
+    vid.preload = hasPoster ? 'none' : 'metadata';
+
+    this._io && this._io.disconnect();
+    if ('IntersectionObserver' in window) {
+      this._io = new IntersectionObserver(entries => {
+        if (entries.some(e => e.isIntersecting)) {
+          this._ensureVideoSrc(vid);
+          this._io.disconnect();
+        }
+      }, { rootMargin: '200px', threshold: 0 });
+      this._io.observe(vid);
+    } else {
+      this._ensureVideoSrc(vid);
     }
+  }
+
+  /* Asigna el src una sola vez. "#t=0.001" hace que iOS/Safari pinte el primer frame. */
+  _ensureVideoSrc(vid) {
+    if (vid.getAttribute('src')) return;
+    const src = vid.dataset.src;
+    vid.src = src.includes('#') ? src : `${src}#t=0.001`;
+  }
 
   _bindVideo(isMobileCtx) {
     const vid  = this._shadow.getElementById('vid');
@@ -755,6 +790,9 @@ class VideoGoldSpecial extends HTMLElement {
         btn.style.animation = '';
         if (isMobileCtx) mostrarLogo();
       } else {
+        // Recién acá se pide el video completo
+        this._ensureVideoSrc(vid);
+        vid.preload = 'auto';
         vid.play().catch(() => {});
         this._playing = true;
         btn.classList.add('is-playing');
