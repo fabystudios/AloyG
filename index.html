@@ -1177,7 +1177,7 @@
   tema="dorado"
   efecto="luz"
   slides='[
-
+ { "mob": "cuerva2.mp4", "poster": "", "title": "" },
     {"mob":"agenda.png","desk":"agenda_desk.png","title":"","landscape": false},
     { "mob": "lujan.mp4", "poster": "", "title": "Luján" },
   { "mob": "d28a.mp4", "poster": "", "title": "cómo ver al Papa" },
@@ -1318,6 +1318,59 @@
 </div>
 
 
+     <!-- style="display: none;"" -->
+ <!-- CONSEJOS A LA COMUNIDAD !!!!!!!!!!!!!!!!!!!!!!! -->
+ <div class="video-card-gold-container" >
+<script src="./components/video-card-frame-tv.js"></script>
+
+
+
+<!-- --------- -->
+    <video-card-frame-tv
+    preset="tv"
+    video="./eva/mar30-10.mp4"
+    frame="./eva/tv.png"
+
+    style="width:auto; flex:0 0 auto;"
+    
+  ></video-card-frame-tv>
+
+    <video-card-frame-tv
+    preset="tv"
+    video="./video/mar25-10.mp4"
+    frame="./eva/tv.png"
+    hide-mobile
+    style="width:auto; flex:0 0 auto;"
+    
+  ></video-card-frame-tv>
+
+    <video-card-frame-tv
+    preset="tv"
+    video="./video/23-10.mp4"
+    frame="./eva/tv.png"
+    hide-mobile
+    style="width:auto; flex:0 0 auto;"
+    
+  ></video-card-frame-tv>
+
+    <!-- <video-card-frame-tv
+    preset="tv"
+    video="./video/jesus.mp4"
+    frame="./eva/tv.png"
+    style="width:auto; flex:0 0 auto;"
+    hide-mobile
+  ></video-card-frame-tv> -->
+
+
+    
+ 
+
+
+
+</div>  
+
+
+
 <!-- <br><br><br> -->
   <!-- fecha-color="#660000" -->
      <!-- fecha-fondo="#1d4ed8" -->
@@ -1375,49 +1428,7 @@ texto="
 ></noticia-card>
 
 
-     <!-- style="display: none;"" -->
- <!-- CONSEJOS A LA COMUNIDAD !!!!!!!!!!!!!!!!!!!!!!! -->
- <div class="video-card-gold-container" >
-<script src="./components/video-card-frame-tv.js"></script>
 
-
-
-<!-- --------- -->
-
-
-    <video-card-frame-tv
-    preset="tv"
-    video="./video/mar25-10.mp4"
-    frame="./eva/tv.png"
-
-    style="width:auto; flex:0 0 auto;"
-    
-  ></video-card-frame-tv>
-
-    <video-card-frame-tv
-    preset="tv"
-    video="./video/23-10.mp4"
-    frame="./eva/tv.png"
-    hide-mobile
-    style="width:auto; flex:0 0 auto;"
-    
-  ></video-card-frame-tv>
-
-    <video-card-frame-tv
-    preset="tv"
-    video="./video/jesus.mp4"
-    frame="./eva/tv.png"
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
-  ></video-card-frame-tv>
-
-
-    
-  ></video-card-frame-tv>
-
-
-
-</div>  
 
 
 
@@ -1457,7 +1468,7 @@ La información, según el Vaticano, fue proporcionada por el médico del Papa, 
 
 <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
   <!-- style="display: none;" -->
-<div class="video-card-gold-container">
+<div class="video-card-gold-container" style="display: none;">
 
   <video-card-gold
 
@@ -1505,13 +1516,22 @@ La información, según el Vaticano, fue proporcionada por el médico del Papa, 
 <script src="./components/video-card-frame.js"></script>
 
 <!-- --------- -->
-     <video-card-frame
+  <video-card-frame
+    video="./eva/30-10.mp4"
+    frame="./eva/frame-gold.png"
+    badge="Viernes"
+    titulo="30 de Octubre"
+    style="width:auto; flex:0 0 auto;"
+    
+  ></video-card-frame>
+
+  <video-card-frame
     video="./eva/29-10.mp4"
     frame="./eva/frame-gold.png"
     badge="Jueves"
     titulo="29 de Octubre"
     style="width:auto; flex:0 0 auto;"
-    
+    hide-mobile
   ></video-card-frame>
 
     <video-card-frame
@@ -1528,15 +1548,6 @@ La información, según el Vaticano, fue proporcionada por el médico del Papa, 
     frame="./eva/frame-gold.png"
     badge="Martes"
     titulo="27 de Octubre"
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
-  ></video-card-frame>
-
-   <video-card-frame
-    video="./eva/26-10.mp4"
-    frame="./eva/frame-gold.png"
-    badge="Lunes"
-    titulo="26 de Octubre"
     style="width:auto; flex:0 0 auto;"
     hide-mobile
   ></video-card-frame>
@@ -1601,7 +1612,7 @@ La información, según el Vaticano, fue proporcionada por el médico del Papa, 
   </retro-tv-player>
 
 </div>
-<br><br><br>
+<!-- <br><br><br> -->
 
 <!-- para  ver al  Papa -->
 <script src="./components/PilgrimageEventCard.js"></script>
