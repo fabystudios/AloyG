@@ -1,4 +1,34 @@
 [
+    {
+    "id": "santos",
+    "position": 1,
+    "hasVideo": false,
+    "link": "",
+    "time": { "desktop": 5, "mobile": 5 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides2/santos_desk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides2/santos_mob.png"
+    }
+  },
+      {
+    "id": "dif",
+    "position": 2,
+    "hasVideo": false,
+    "link": "",
+    "time": { "desktop": 5, "mobile": 5 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides2/fieles_difuntos_desk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides2/fieles_difuntos_mob.png"
+    }
+  },
   {
     "id": "ssff",
     "position": -1,
@@ -32,7 +62,7 @@
   },
                {
     "id": "videos Consejos",
-    "position": 3,
+    "position": 5,
     "hasVideo": true,
     "link": "./avisos.html",
     "time": { "desktop": 8, "mobile": 6 },
@@ -49,7 +79,7 @@
   },
                {
     "id": "videos merendero",
-    "position": 4,
+    "position": 6,
     "hasVideo": true,
     "link": "",
     "posterTime": { "desktop": 1, "mobile": 1},
@@ -66,7 +96,7 @@
   },
                         {
     "id": "alias",
-    "position": 2,
+    "position": 4,
     "hasVideo": false,
     "link": "#",
     "time": { "desktop": 5, "mobile": 5 },
@@ -154,7 +184,7 @@
   },
                 {
     "id": "viaje",
-    "position": 1,
+    "position": 3,
     "hasVideo": false,
     "link": "#papa1",
     "time": { "desktop": 3, "mobile": 3 },
@@ -199,7 +229,7 @@
 },
                 {
     "id": "ultimas-vacantes",
-    "position": 7,
+    "position": 9,
     "hasVideo": false,
     "link": "#asis1",
     "time": { "desktop": 3, "mobile": 3 },
@@ -332,7 +362,7 @@
   },
           {
     "id": "coro",
-    "position": 5,
+    "position": 7,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 3, "mobile": 3 },
