@@ -257,8 +257,21 @@
   const HIDE_MOBILE  = ['hideMobile', 'hide-mobile'];
   const HIDE_DESKTOP = ['hideDesktop', 'hide-desktop'];
 
+  /* Ancho en mobile: "85" o "85%" = % del viewport (→ 85vw); "85vw", "320px", etc. se usan tal cual.
+     Devuelve null si no se indicó nada (→ se mantiene el comportamiento por defecto). */
+  function normalizeMobileWidth(v) {
+    if (v === undefined || v === null) return null;
+    const str = String(v).trim();
+    if (!str) return null;
+    if (/^\d+(\.\d+)?%?$/.test(str)) return Math.min(parseFloat(str), 100) + 'vw';
+    return str;
+  }
+
+  /* ¿Algún post depende del tamaño de pantalla? (para re-renderizar al cruzar el breakpoint) */
   function hasHideFlags(posts) {
-    return posts.some(p => hasFlag(p, ...HIDE_MOBILE, ...HIDE_DESKTOP));
+    return posts.some(p =>
+      hasFlag(p, ...HIDE_MOBILE, ...HIDE_DESKTOP) ||
+      (p.mobileWidth ?? p['mobile-width']) != null);
   }
 
   function filterByViewport(posts) {
@@ -490,15 +503,22 @@
       }
     }
 
-    const gen = generators[type] || generators.facebook;
-    return gen(post, index);
+    const gen  = generators[type] || generators.facebook;
+    const html = gen(post, index);
+
+    /* mobileWidth por publicación (solo en mobile; sin valor = comportamiento por defecto) */
+    const mw = normalizeMobileWidth(post.mobileWidth ?? post['mobile-width']);
+    if (mw && window.matchMedia(MOBILE_MQ).matches) {
+      return `<div class="fb-mobile-width" style="flex:0 0 auto;width:${mw};max-width:100%;margin:0 auto;">${html}</div>`;
+    }
+    return html;
   }
 
   /* ─── Web Component principal ───────────────────────────────── */
   class FbPostsContainer extends HTMLElement {
 
     static get observedAttributes() {
-      return ['src', 'json', 'cache-ttl', 'wallpaper', 'floatingimage', 'floatingimage2', 'width'];
+      return ['src', 'json', 'cache-ttl', 'wallpaper', 'floatingimage', 'floatingimage2', 'width', 'mobile-width'];
     }
 
     connectedCallback() {
@@ -540,32 +560,30 @@
           <div class="fb-loading">Cargando publicaciones…</div>
         </div>`;
 
-      // Aplicar ancho del contenedor si se especifica vía atributo (solo en desktop)
-      const attrWidth = this.getAttribute('width');
-      if (attrWidth) {
-        // En mobile (≤768px) siempre 95vw con margen; en desktop usamos el atributo
-        const mq = window.matchMedia('(max-width: 768px)');
-        const applyWidth = () => {
-          if (mq.matches) {
-            this.style.width = '';
-            this.style.maxWidth = '';
-          } else {
-            // Acepta valores con unidad ("500px", "60%") o solo número (lo trata como px)
-            const val = /^\d+(\.\d+)?$/.test(attrWidth) ? attrWidth + 'px' : attrWidth;
-            this.style.width = val;
-            this.style.maxWidth = val;
-          }
-        };
-        applyWidth();
-        if (!this._mq) {
-          this._mq = mq;
-          this._mqListener = applyWidth;
-          mq.addEventListener('change', applyWidth);
+      // Ancho del contenedor:
+      //  - desktop: atributo `width` (si no hay, manda el CSS: 90vw / max 1200px)
+      //  - mobile (≤768px): atributo `mobile-width` (si no hay, manda el CSS: 95vw)
+      //    "85" o "85%" = 85% del viewport (85vw); también acepta "85vw", "320px", etc.
+      const attrWidth  = this.getAttribute('width');
+      const mobileWidth = normalizeMobileWidth(this.getAttribute('mobile-width'));
+      const mq = window.matchMedia(MOBILE_MQ);
+      const applyWidth = () => {
+        let val = '';
+        if (mq.matches) {
+          val = mobileWidth || '';
+        } else if (attrWidth) {
+          // Acepta valores con unidad ("500px", "60%") o solo número (lo trata como px)
+          val = /^\d+(\.\d+)?$/.test(attrWidth) ? attrWidth + 'px' : attrWidth;
         }
-      } else {
-        // Sin atributo: limpiamos inline para que tome el CSS (90vw / max 1200px)
-        this.style.width = '';
-        this.style.maxWidth = '';
+        this.style.width = val;
+        this.style.maxWidth = val;
+      };
+      this._applyWidth = applyWidth;   // el listener siempre usa la última versión (atributos actuales)
+      applyWidth();
+      if (!this._mq) {
+        this._mq = mq;
+        this._mqListener = () => this._applyWidth();
+        mq.addEventListener('change', this._mqListener);
       }
 
       // Iniciar partículas si corresponde
@@ -865,6 +883,7 @@
       this._floatingCleanup?.();
       if (this._mq && this._mqListener) {
         this._mq.removeEventListener('change', this._mqListener);
+        this._mq = null;
       }
       if (this._hideMq && this._hideListener) {
         this._hideMq.removeEventListener('change', this._hideListener);
