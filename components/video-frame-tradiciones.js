@@ -16,6 +16,14 @@
  *   frame-ratio   — ancho/alto del marco (default "1024/1536")
  *   inset-top / inset-right / inset-bottom / inset-left
  *                 — % del hueco del video (defaults ajustados a tradi.png)
+ *   autoplay      — el video arranca solo cuando la tarjeta entra en pantalla y se
+ *                   pausa al salir (ahorra CPU con varias tarjetas). Funciona con o
+ *                   sin poster. Por política de los navegadores arranca SIN sonido;
+ *                   aparece un botón de parlante (arriba a la derecha del video) para
+ *                   activar/desactivar el sonido sin pausar. Las tarjetas autoplay no
+ *                   se pausan entre sí.
+ *   loop          — repite el video al terminar (útil con autoplay)
+ *   muted         — fuerza silencio siempre (y oculta el botón de parlante)
  *   hide-mobile   — oculta el componente en pantallas < 768px
  *
  * Si no hay ni `titulo` ni `fecha`, no aparece nada sobre el video
@@ -180,6 +188,32 @@ _tpl.innerHTML = `
     filter: drop-shadow(0 0 3px rgba(245,208,107,.7));
   }
 
+  /* ─── Botón de sonido (solo con autoplay) ─── */
+  .sound-btn {
+    position: absolute;
+    top: 19.5%; right: 16.8%;
+    width: 9%; max-width: 34px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    border: 1.5px solid rgba(245,208,107,.85);
+    background: rgba(15,10,30,.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    padding: 0;
+    z-index: 10;
+    transition: background .25s ease, transform .25s ease, box-shadow .25s;
+    box-shadow: 0 0 10px rgba(197,162,39,.25);
+  }
+  .sound-btn[hidden] { display: none !important; }
+  .sound-btn:hover { background: rgba(197,162,39,.28); transform: scale(1.1); }
+  .sound-btn svg { width: 56%; height: 56%; fill: none; stroke: rgba(245,208,107,.95);
+                   stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .sound-btn .ico-on { display: none; }
+  .sound-btn.is-on .ico-on { display: block; }
+  .sound-btn.is-on .ico-off { display: none; }
+
   /* ─── Info (chip, título, meta): todo opcional ─── */
   .info {
     position: absolute;
@@ -274,6 +308,11 @@ _tpl.innerHTML = `
     <span class="play-icon" id="playIcon"></span>
   </button>
 
+  <button class="sound-btn" id="soundBtn" aria-label="Activar o silenciar sonido" hidden>
+    <svg class="ico-off" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M17 9l5 6M22 9l-5 6"/></svg>
+    <svg class="ico-on" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 010 7M19 6a8.5 8.5 0 010 12"/></svg>
+  </button>
+
   <img class="frame-img" id="frameImg" alt="" />
 </div>
 `;
@@ -281,7 +320,8 @@ _tpl.innerHTML = `
 class VideoFrameTradiciones extends HTMLElement {
   static get observedAttributes() {
     return ['titulo', 'fecha', 'video', 'poster', 'frame',
-            'frame-ratio', 'inset-top', 'inset-right', 'inset-bottom', 'inset-left'];
+            'frame-ratio', 'inset-top', 'inset-right', 'inset-bottom', 'inset-left',
+            'autoplay', 'loop', 'muted'];
   }
 
   connectedCallback() {
@@ -305,6 +345,7 @@ class VideoFrameTradiciones extends HTMLElement {
     this._meta     = $('meta');
     this._timeEl   = $('timeEl');
     this._frameEl  = $('frameImg');
+    this._soundBtn = $('soundBtn');
     this._dots     = this._shadow.querySelectorAll('.meta-dot');
     this._playing  = false;
 
@@ -319,6 +360,9 @@ class VideoFrameTradiciones extends HTMLElement {
     this._setupLoading();
 
     this._btn.addEventListener('click', () => this._toggle());
+    this._soundBtn.addEventListener('click', () => this._toggleSound());
+    this._vid.addEventListener('volumechange', () => this._updateSoundUI());
+    this._applySoundBtn();
     this._vid.addEventListener('timeupdate', () => this._updateTime());
     this._vid.addEventListener('ended', () => this._resetPlayUI());
     // El poster se mantiene hasta que el video realmente arranca (evita parpadeo mientras carga)
@@ -367,6 +411,10 @@ class VideoFrameTradiciones extends HTMLElement {
      Sin poster: se carga solo metadata al entrar en pantalla. */
   _setupLoading() {
     if (this._io) { this._io.disconnect(); this._io = null; }
+    this._vid.loop = this.hasAttribute('loop');
+
+    if (this.hasAttribute('autoplay')) { this._setupAutoplay(); return; }
+
     if (this._vid.getAttribute('src')) return; // ya cargado
 
     if (this._posterSrc) {
@@ -389,6 +437,31 @@ class VideoFrameTradiciones extends HTMLElement {
     }
   }
 
+  /* Autoplay: arranca al entrar en pantalla, pausa al salir.
+     Los navegadores solo permiten autoplay en silencio. */
+  _setupAutoplay() {
+    this._vid.muted = true;
+    this._vid.preload = 'auto';
+
+    if (!('IntersectionObserver' in window)) {
+      this._ensureSrc();
+      this._play(false);
+      return;
+    }
+    this._io = new IntersectionObserver(entries => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          this._ensureSrc();
+          if (!this._userPaused && !this._playing) this._play(false);
+        } else if (this._playing) {
+          this._vid.pause();
+          this._resetPlayUI(); // no marca _userPaused: retoma al volver a verse
+        }
+      }
+    }, { threshold: 0.4 });
+    this._io.observe(this._vid);
+  }
+
   _ensureSrc() {
     const src = this._vid.dataset.src;
     if (src && !this._vid.getAttribute('src')) {
@@ -408,6 +481,20 @@ class VideoFrameTradiciones extends HTMLElement {
       this._vid.setAttribute('data-src', val || '');
       this._setupLoading();
     }
+    if (name === 'muted') {
+      if (val !== null) this._vid.muted = true;
+      this._applySoundBtn();
+    }
+    if (name === 'autoplay' || name === 'loop') {
+      if (name === 'autoplay' && val === null) {
+        this._vid.pause();
+        this._resetPlayUI();
+        this._userPaused = false;
+        this._vid.muted = false;
+      }
+      this._setupLoading();
+      this._applySoundBtn();
+    }
     if (name === 'poster') {
       this._posterSrc = val || '';
       this._vid.poster = this._posterSrc;
@@ -419,22 +506,54 @@ class VideoFrameTradiciones extends HTMLElement {
 
   _toggle() {
     if (this._playing) {
+      this._userPaused = true; // el usuario manda: no reanudar solo
       this._vid.pause();
       this._resetPlayUI();
     } else {
-      // Un solo video sonando a la vez: pausa los demás
+      this._userPaused = false;
+      this._play(true);
+    }
+  }
+
+  _play(fromUser) {
+    const isAuto = this.hasAttribute('autoplay');
+
+    // Un solo video sonando a la vez (las tarjetas autoplay quedan fuera)
+    if (fromUser && !isAuto) {
       const cur = VideoFrameTradiciones._current;
       if (cur && cur !== this) cur._pauseFromOutside();
       VideoFrameTradiciones._current = this;
-
-      this._ensureSrc(); // recién acá se descarga si había poster
-      this._vid.play().catch(() => {});
-      this._playing = true;
-      this._btn.classList.add('is-playing');
-      this._icon.className = 'pause-icon';
-      this._icon.innerHTML = '<div class="pause-bar"></div><div class="pause-bar"></div>';
-      this._btn.style.animation = 'none';
     }
+
+    // Autoplay arranca mudo; un gesto del usuario habilita el sonido
+    // Primer gesto del usuario = sonido, salvo que ya haya elegido silenciar
+    if (fromUser && this._soundPref === undefined) this._soundPref = true;
+    if (isAuto) this._vid.muted = this.hasAttribute('muted') || !this._soundPref;
+    else this._vid.muted = this.hasAttribute('muted');
+
+    this._ensureSrc(); // recién acá se descarga si había poster
+    this._vid.play().catch(() => {});
+    this._playing = true;
+    this._btn.classList.add('is-playing');
+    this._icon.className = 'pause-icon';
+    this._icon.innerHTML = '<div class="pause-bar"></div><div class="pause-bar"></div>';
+    this._btn.style.animation = 'none';
+  }
+
+  _applySoundBtn() {
+    const show = this.hasAttribute('autoplay') && !this.hasAttribute('muted');
+    this._soundBtn.hidden = !show;
+    this._updateSoundUI();
+  }
+
+  _toggleSound() {
+    this._soundPref = this._vid.muted; // si estaba mudo, ahora quiere sonido
+    this._vid.muted = !this._soundPref;
+    if (this._soundPref && this._vid.paused && !this._userPaused) this._play(false);
+  }
+
+  _updateSoundUI() {
+    this._soundBtn.classList.toggle('is-on', !this._vid.muted);
   }
 
   _pauseFromOutside() {
