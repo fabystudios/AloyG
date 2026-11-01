@@ -251,6 +251,21 @@
     return result.filter(Boolean);
   }
 
+  /* ─── Visibilidad por dispositivo (hideMobile / hideDesktop) ───── */
+  const MOBILE_MQ = '(max-width: 768px)';
+  const hasFlag = (post, ...names) => names.some(n => post[n] === true || post[n] === 'true');
+  const HIDE_MOBILE  = ['hideMobile', 'hide-mobile'];
+  const HIDE_DESKTOP = ['hideDesktop', 'hide-desktop'];
+
+  function hasHideFlags(posts) {
+    return posts.some(p => hasFlag(p, ...HIDE_MOBILE, ...HIDE_DESKTOP));
+  }
+
+  function filterByViewport(posts) {
+    const mobile = window.matchMedia(MOBILE_MQ).matches;
+    return posts.filter(p => !hasFlag(p, ...(mobile ? HIDE_MOBILE : HIDE_DESKTOP)));
+  }
+
   /* ─── Generadores de HTML por tipo ───────────────────────────── */
   const generators = {
 
@@ -559,12 +574,22 @@
       }
 
       try {
-        const posts = await this._loadPosts();
+        const allPosts = await this._loadPosts();
+
+        /* Si algún post usa hideMobile/hideDesktop, re-render al cruzar el breakpoint */
+        if (hasHideFlags(allPosts) && !this._hideMq) {
+          this._hideMq = window.matchMedia(MOBILE_MQ);
+          this._hideListener = () => this._render();
+          this._hideMq.addEventListener('change', this._hideListener);
+        }
+
+        const posts = filterByViewport(allPosts);
 
         if (!posts.length) {
           this.style.display = 'none';
           return;
         }
+        this.style.display = '';
 
         const grid = this.querySelector('.posts-grid');
         const countClass = posts.length === 1 ? 'count-1'
@@ -840,6 +865,10 @@
       this._floatingCleanup?.();
       if (this._mq && this._mqListener) {
         this._mq.removeEventListener('change', this._mqListener);
+      }
+      if (this._hideMq && this._hideListener) {
+        this._hideMq.removeEventListener('change', this._hideListener);
+        this._hideMq = null;
       }
     }
   }
