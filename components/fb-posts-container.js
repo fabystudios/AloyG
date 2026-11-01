@@ -148,6 +148,41 @@
       box-shadow: 0 4px 15px rgba(0,0,0,0.2);
     }
 
+    /* ── Portada (poster) de YouTube: carga el iframe recién al hacer click ── */
+    fb-posts-container .yt-facade {
+      display: block;
+      position: relative;
+      width: 100%;
+      padding: 0;
+      border: 0;
+      cursor: pointer;
+      background-color: #000;
+      background-size: cover;
+      background-position: center;
+    }
+    fb-posts-container .yt-facade .yt-play {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 68px;
+      height: 48px;
+      transform: translate(-50%, -50%);
+      background: rgba(255,0,0,0.92);
+      border-radius: 14px;
+      transition: transform .15s ease;
+    }
+    fb-posts-container .yt-facade .yt-play::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-35%, -50%);
+      border-style: solid;
+      border-width: 10px 0 10px 18px;
+      border-color: transparent transparent transparent #fff;
+    }
+    fb-posts-container .yt-facade:hover .yt-play { transform: translate(-50%, -50%) scale(1.1); }
+
     /* ── Estado de carga / error ── */
     fb-posts-container .fb-loading,
     fb-posts-container .fb-error {
@@ -308,11 +343,11 @@
 
       return `
         <div class="${wClass}" style="animation-delay:${index * 0.1}s">
-          <div style="width:${fbWidth}px;max-width:100%;margin:0 auto;">
+          <div style="${fbWidth === 'auto' ? '' : `width:${fbWidth}px;`}max-width:100%;margin:0 auto;">
             ${titleHTML}
             <div class="${cClass}">
               <div class="fb-post ${zClass}" ${dataZ}
-                   data-href="${post.url}?t=${Date.now()}"
+                   data-href="${post.url}"
                    data-width="${fbWidth}"
                    data-show-text="false">
               </div>
@@ -321,11 +356,125 @@
           </div>
         </div>`;
     },
+
+    /* Videos / reels de Facebook (plugin oficial fb-video) */
+    'facebook-video'(post, index) {
+      const isMobile  = window.innerWidth < 768;
+      const fbWidth   = post.width || (isMobile ? 'auto' : '500');
+      const styleW    = fbWidth === 'auto' ? '' : `width:${fbWidth}px;`;
+      const titleHTML = post.title       ? `<div class="fb-post-title">${post.title}</div>` : '';
+      const descHTML  = post.description ? `<div class="fb-post-description">${post.description}</div>` : '';
+
+      return `
+        <div class="fb-post-wrapper custom-width" style="animation-delay:${index * 0.1}s">
+          <div style="${styleW}max-width:100%;margin:0 auto;">
+            ${titleHTML}
+            <div class="fb-embed-container">
+              <div class="fb-video"
+                   data-href="${post.url}"
+                   data-width="${fbWidth}"
+                   data-show-text="false"
+                   data-allowfullscreen="true"
+                   data-autoplay="${post.autoplay === true}"></div>
+            </div>
+            ${descHTML}
+          </div>
+        </div>`;
+    },
+
+    /* Videos / Shorts de YouTube (iframe oficial, sin cookies) */
+    youtube(post, index) {
+      const id = youtubeId(post.url);
+      if (!id) {
+        return `<div class="fb-post-wrapper"><div class="fb-error">URL de YouTube no válida: ${post.url}</div></div>`;
+      }
+
+      /* Vertical si es un Short o si se pide explícitamente orientation:"portrait" */
+      const vertical = post.orientation === 'portrait'
+        || (post.orientation !== 'landscape' && /youtube\.com\/shorts\//i.test(post.url));
+      const isMobile = window.innerWidth < 768;
+      const ytWidth  = post.width || (vertical ? 350 : 560);
+      const ratio    = vertical ? '9 / 16' : '16 / 9';
+
+      const params = new URLSearchParams({ rel: '0', playsinline: '1', modestbranding: '1' });
+      if (post.autoplay === true) { params.set('autoplay', '1'); params.set('mute', '1'); }
+      if (post.loop === true)     { params.set('loop', '1'); params.set('playlist', id); }
+
+      const titleHTML = post.title       ? `<div class="fb-post-title">${post.title}</div>` : '';
+      const descHTML  = post.description ? `<div class="fb-post-description">${post.description}</div>` : '';
+      const safeTitle = (post.title || 'Video de YouTube').replace(/"/g, '&quot;');
+      const allow     = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+
+      /* Poster: "auto" = miniatura de YouTube; o ruta/URL a tu propia imagen.
+         Con poster, el iframe se carga recién al hacer click (más liviano). */
+      const autoPoster = `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
+      const posterUrl  = post.poster === 'auto' ? autoPoster : post.poster;
+      let playerHTML;
+
+      if (posterUrl && post.autoplay !== true) {
+        const clickParams = new URLSearchParams(params);
+        clickParams.set('autoplay', '1');
+        clickParams.delete('mute');
+        const cssUrl = String(posterUrl).replace(/'/g, '%27').replace(/"/g, '%22');
+        playerHTML = `
+              <button type="button" class="yt-facade"
+                      aria-label="Reproducir: ${safeTitle}"
+                      data-src="https://www.youtube-nocookie.com/embed/${id}?${clickParams.toString()}"
+                      data-title="${safeTitle}"
+                      data-ratio="${ratio}"
+                      ${post.poster === 'auto' ? `data-fallback="https://i.ytimg.com/vi/${id}/hqdefault.jpg"` : ''}
+                      style="aspect-ratio:${ratio};background-image:url('${cssUrl}');">
+                <span class="yt-play"></span>
+              </button>`;
+      } else {
+        playerHTML = `
+              <iframe src="https://www.youtube-nocookie.com/embed/${id}?${params.toString()}"
+                      title="${safeTitle}"
+                      loading="lazy"
+                      style="display:block;width:100%;aspect-ratio:${ratio};border:0;"
+                      allow="${allow}"
+                      referrerpolicy="strict-origin-when-cross-origin"
+                      allowfullscreen></iframe>`;
+      }
+
+      return `
+        <div class="fb-post-wrapper custom-width" style="animation-delay:${index * 0.1}s">
+          <div style="width:${isMobile ? '100%' : ytWidth + 'px'};max-width:100%;margin:0 auto;">
+            ${titleHTML}
+            <div class="fb-embed-container">
+              ${playerHTML}
+            </div>
+            ${descHTML}
+          </div>
+        </div>`;
+    },
   };
 
+  /* Extrae el ID de 11 caracteres de watch?v=, youtu.be/, /shorts/, /embed/, /live/ */
+  const YT_RE = /(?:youtube\.com\/(?:watch\?(?:[^#]*&)?v=|shorts\/|embed\/|live\/)|youtu\.be\/)([\w-]{11})/i;
+  function youtubeId(url) {
+    const m = (url || '').match(YT_RE);
+    return m ? m[1] : null;
+  }
+
+  /* URLs de video/reel de Facebook (no son archivos mp4) */
+  const FB_VIDEO_RE = /facebook\.com\/(?:[^/]+\/videos\/|watch\/?\?v=|reel\/|video\.php|share\/[vr]\/)|fb\.watch\//i;
+
   function generatePostHTML(post, index) {
-    const type = post.type
+    let type = post.type
       || (post.url?.includes('instagram.com') ? 'instagram' : 'facebook');
+
+    /* Un "video" cuya URL es de YouTube no es un mp4: va por el iframe de YouTube */
+    if (youtubeId(post.url) && type !== 'instagram') type = 'youtube';
+
+    /* Un "video" cuya URL es de Facebook no es un mp4: va por el plugin de FB */
+    if ((type === 'video' || type === 'facebook') && FB_VIDEO_RE.test(post.url || '')) {
+      type = 'facebook-video';
+      if (/\/share\/[vr]\//.test(post.url)) {
+        console.warn('[fb-posts-container] URL "share" no es canónica, el embed puede no cargar. Usá la URL a la que redirige:', post.url);
+      }
+    }
+
     const gen = generators[type] || generators.facebook;
     return gen(post, index);
   }
@@ -424,6 +573,7 @@
           : 'count-many';
         grid.classList.add(countClass);
         grid.innerHTML = posts.map((p, i) => generatePostHTML(p, i)).join('');
+        this._setupYoutubeFacades(grid);
 
         this._parseSdks();
         this._setupZoom();
@@ -583,6 +733,32 @@
       return sorted;
     }
 
+    /* Portadas de YouTube: al click se reemplaza por el iframe con autoplay */
+    _setupYoutubeFacades(root) {
+      root.querySelectorAll('.yt-facade').forEach(btn => {
+        /* poster "auto": si maxresdefault no existe, caemos a hqdefault */
+        const fb = btn.dataset.fallback;
+        if (fb) {
+          const test = new Image();
+          const useFallback = () => { btn.style.backgroundImage = `url('${fb}')`; };
+          test.onerror = useFallback;
+          test.onload  = () => { if (test.naturalWidth <= 120) useFallback(); };
+          test.src = btn.style.backgroundImage.replace(/^url\(["']?|["']?\)$/g, '');
+        }
+
+        btn.addEventListener('click', () => {
+          const f = document.createElement('iframe');
+          f.src   = btn.dataset.src;
+          f.title = btn.dataset.title || 'Video de YouTube';
+          f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+          f.allowFullscreen = true;
+          f.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+          f.style.cssText = `display:block;width:100%;aspect-ratio:${btn.dataset.ratio};border:0;`;
+          btn.replaceWith(f);
+        }, { once: true });
+      });
+    }
+
     _parseSdks() {
       if (window.FB) window.FB.XFBML.parse(this);
 
@@ -677,7 +853,7 @@
   window.fbAsyncInit = function () {
     if (typeof prevFbInit === 'function') prevFbInit();
     document.querySelectorAll('fb-posts-container').forEach(el => {
-      if (el.querySelector('.fb-post')) window.FB.XFBML.parse(el);
+      if (el.querySelector('.fb-post, .fb-video')) window.FB.XFBML.parse(el);
     });
   };
 
