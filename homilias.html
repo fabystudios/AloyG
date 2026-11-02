@@ -346,9 +346,9 @@
     const v = btn.parentElement.querySelector('video');
     const render = () => {
       btn.innerHTML = v.muted
-        ? ICON_ON + '<span>Activar sonido</span>'
+        ? ICON_ON + '<span>Activar</span>'
         : ICON_OFF + '<span>Silenciar</span>';
-      btn.setAttribute('aria-label', v.muted ? 'Activar sonido' : 'Silenciar');
+      btn.setAttribute('aria-label', v.muted ? 'Activar' : 'Silenciar');
     };
     render();
     btn.addEventListener('click', () => {
