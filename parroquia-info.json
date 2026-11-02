@@ -1,0 +1,61 @@
+{
+  "nombre": "Parroquia San Luis Gonzaga",
+  "direccion": "Dirección: calle 8 entre 52 y 53",
+  "titulo_horarios": "Horarios de Secretaría Parroquial",
+  "horarios": [
+    {
+      "dias": "Lunes y Jueves",
+      "hora": "16:00 hs a 18:00 hs"
+    },
+    {
+      "dias": "Martes y Sábados",
+      "hora": "10:00 hs a 12:00 hs"
+    }
+  ],
+  "consulta": {
+    "texto": "Podés hacer consultas por WhatsApp",
+    "telefono": "221 594-7600",
+    "whatsapp": "5492215947600",
+    "mensaje": "Hola, quisiera hacer una consulta a la secretaría parroquial.",
+    "boton": "Escribinos por WhatsApp"
+  },
+  "misas": [
+    {
+      "titulo": "Misas Parroquia San Luis Gonzaga",
+      "horarios": [
+        {
+          "dias": "Lunes a Viernes",
+          "hora": "18:00 hs"
+        },
+        {
+          "dias": "Sábados",
+          "hora": "17:00 hs"
+        },
+        {
+          "dias": "Domingos",
+          "hora": "11:00 hs y 19:00 hs"
+        }
+      ]
+    },
+    {
+      "titulo": "Misa Capilla Ntra. Sra. de Fátima",
+      "direccion": "Calle 408 entre Belgrano y 26",
+      "horarios": [
+        {
+          "dias": "Domingo",
+          "hora": "09:30 hs"
+        }
+      ]
+    },
+    {
+      "titulo": "Misa Ermita de Schoenstatt",
+      "direccion": "Calle 421 bis entre 21d y 22",
+      "horarios": [
+        {
+          "dias": "2° Sábado del mes",
+          "hora": "16:00 hs"
+        }
+      ]
+    }
+  ]
+}
