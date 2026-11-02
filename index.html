@@ -1260,6 +1260,94 @@
                  effect="stars floating-png" 
                  png-count="3" png-width="80px"
 ></section-title>
+<style>
+  .vframe{
+    position:relative; padding:6px; border-radius:24px;
+    /* marco dorado con relieve */
+    background:linear-gradient(145deg,#fff1a8 0%,#d4a017 22%,#7a5604 48%,#f6d86b 74%,#b8860b 100%);
+    box-shadow:
+      0 14px 32px rgba(0,0,0,.35),
+      0 2px 4px rgba(0,0,0,.3),
+      inset 0 1px 2px rgba(255,255,255,.85),
+      inset 0 -2px 4px rgba(80,50,0,.65);
+  }
+  .vglass{
+    position:relative; padding:8px; border-radius:19px;
+    background:rgba(255,255,255,.14);
+    -webkit-backdrop-filter:blur(14px) saturate(150%);
+    backdrop-filter:blur(14px) saturate(150%);
+    border:1px solid rgba(255,255,255,.4);
+    box-shadow:
+      inset 0 2px 5px rgba(255,255,255,.5),
+      inset 0 -4px 8px rgba(0,0,0,.28);
+  }
+  .vglass video{
+    display:block; width:100%; border-radius:13px; background:#000;
+    /* línea dorada fina + sombra de profundidad */
+    box-shadow:0 0 0 1.5px #d9ac2b, 0 0 0 3px rgba(255,255,255,.25), 0 6px 14px rgba(0,0,0,.45);
+  }
+  /* brillo de vidrio sobre el video */
+  .vglass::after{
+    content:""; position:absolute; inset:8px; border-radius:13px; pointer-events:none;
+    background:linear-gradient(160deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,0) 35%);
+  }
+  .vsound{
+    position:absolute; right:22px; bottom:22px; z-index:2;
+    width:44px; height:44px; border-radius:50%; cursor:pointer; font-size:20px; line-height:1;
+    color:#fff; background:rgba(255,255,255,.18);
+    -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
+    border:1.5px solid #e2b93b;
+    box-shadow:0 4px 10px rgba(0,0,0,.4), inset 0 1px 2px rgba(255,255,255,.6), inset 0 -2px 3px rgba(0,0,0,.3);
+    transition:transform .15s;
+  }
+  .vsound:active{ transform:scale(.92); }
+</style>
+
+<div style="width:100%; max-width:860px; margin:1.5rem auto; padding:0 1rem; box-sizing:border-box;">
+
+  <div class="vframe d-none d-md-block">
+    <div class="vglass">
+      <video src="./video/secre_desk.mp4" poster="./img/secre_desk2.png"
+             muted loop playsinline preload="metadata" aria-label="Información parroquial"></video>
+      <button class="vsound" type="button" aria-label="Activar sonido">🔇</button>
+    </div>
+  </div>
+
+  <div class="vframe d-block d-md-none">
+    <div class="vglass">
+      <video src="./video/secre_mob.mp4" poster="./img/secre_mob2.jpg"
+             muted loop playsinline preload="metadata" aria-label="Información parroquial"></video>
+      <button class="vsound" type="button" aria-label="Activar sonido">🔇</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+(() => {
+  const videos = document.querySelectorAll('.vglass video');
+
+  // Reproduce solo el video visible (el oculto no consume datos)
+  const sync = () => videos.forEach(v => {
+    const visible = v.offsetParent !== null;
+    if (visible) { v.preload = 'auto'; v.play().catch(() => {}); }
+    else { v.pause(); }
+  });
+  sync();
+  addEventListener('resize', sync);
+
+  // Botón de sonido
+  document.querySelectorAll('.vsound').forEach(btn => {
+    const v = btn.parentElement.querySelector('video');
+    btn.addEventListener('click', () => {
+      v.muted = !v.muted;
+      btn.textContent = v.muted ? '🔇' : '🔊';
+      btn.setAttribute('aria-label', v.muted ? 'Activar sonido' : 'Silenciar');
+      if (v.paused) v.play();
+    });
+  });
+})();
+</script>
 
         <!-- style="display:none" -->
  <video-gold-special
