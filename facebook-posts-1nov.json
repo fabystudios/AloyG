@@ -5,6 +5,16 @@
     "width": 350,
     "orientation": "portrait",
      "poster": "./img/31oct.png",
+     "hideMobile": true,
+    "position": 0
+  },
+      {
+    "type": "video",
+    "url": "https://youtu.be/iye-KskAZXk",
+    "width": 350,
+    "orientation": "portrait",
+     "poster": "./img/santos.png",
+    
     "position": 0
   }
 
