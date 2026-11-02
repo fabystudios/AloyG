@@ -254,7 +254,7 @@
        class="d-block d-md-none"
        style="width:100%; border-radius:14px; box-shadow:0 4px 18px rgba(0,0,0,.13); display:block;">
 </div> -->
-<<style>
+<style>
   .vframe{
     position:relative; padding:6px; border-radius:24px;
     /* marco dorado con relieve */
@@ -285,16 +285,24 @@
     content:""; position:absolute; inset:8px; border-radius:13px; pointer-events:none;
     background:linear-gradient(160deg,rgba(255,255,255,.22) 0%,rgba(255,255,255,0) 35%);
   }
+
+  /* botón de sonido (arriba a la derecha) */
   .vsound{
-    position:absolute; right:22px; bottom:22px; z-index:2;
-    width:44px; height:44px; border-radius:50%; cursor:pointer; font-size:20px; line-height:1;
-    color:#fff; background:rgba(255,255,255,.18);
+    position:absolute; top:22px; right:22px; z-index:2;
+    display:flex; align-items:center; gap:7px;
+    padding:9px 14px; border-radius:999px; cursor:pointer;
+    font:600 13px/1 system-ui, sans-serif; color:#fff;
+    background:rgba(20,30,70,.55);
     -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
     border:1.5px solid #e2b93b;
-    box-shadow:0 4px 10px rgba(0,0,0,.4), inset 0 1px 2px rgba(255,255,255,.6), inset 0 -2px 3px rgba(0,0,0,.3);
+    box-shadow:0 4px 10px rgba(0,0,0,.4), inset 0 1px 2px rgba(255,255,255,.5), inset 0 -2px 3px rgba(0,0,0,.3);
     transition:transform .15s;
   }
-  .vsound:active{ transform:scale(.92); }
+  .vsound svg{
+    width:18px; height:18px; fill:none; stroke:currentColor;
+    stroke-width:2; stroke-linecap:round; stroke-linejoin:round;
+  }
+  .vsound:active{ transform:scale(.94); }
 </style>
 
 <div style="width:100%; max-width:860px; margin:1.5rem auto; padding:0 1rem; box-sizing:border-box;">
@@ -303,7 +311,7 @@
     <div class="vglass">
       <video src="./video/secre_desk.mp4" poster="./img/secre_desk2.png"
              muted loop playsinline preload="metadata" aria-label="Información parroquial"></video>
-      <button class="vsound" type="button" aria-label="Activar sonido">🔇</button>
+      <button class="vsound" type="button"></button>
     </div>
   </div>
 
@@ -311,7 +319,7 @@
     <div class="vglass">
       <video src="./video/secre_mob.mp4" poster="./img/secre_mob2.jpg"
              muted loop playsinline preload="metadata" aria-label="Información parroquial"></video>
-      <button class="vsound" type="button" aria-label="Activar sonido">🔇</button>
+      <button class="vsound" type="button"></button>
     </div>
   </div>
 
@@ -331,12 +339,21 @@
   addEventListener('resize', sync);
 
   // Botón de sonido
+  const ICON_ON  = '<svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+  const ICON_OFF = '<svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4z"/></svg>';
+
   document.querySelectorAll('.vsound').forEach(btn => {
     const v = btn.parentElement.querySelector('video');
+    const render = () => {
+      btn.innerHTML = v.muted
+        ? ICON_ON + '<span>Activar sonido</span>'
+        : ICON_OFF + '<span>Silenciar</span>';
+      btn.setAttribute('aria-label', v.muted ? 'Activar sonido' : 'Silenciar');
+    };
+    render();
     btn.addEventListener('click', () => {
       v.muted = !v.muted;
-      btn.textContent = v.muted ? '🔇' : '🔊';
-      btn.setAttribute('aria-label', v.muted ? 'Activar sonido' : 'Silenciar');
+      render();
       if (v.paused) v.play();
     });
   });
