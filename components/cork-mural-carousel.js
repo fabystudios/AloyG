@@ -235,16 +235,40 @@ class CorkMuralCarousel extends HTMLElement {
 
       <!-- Modal zoom -->
       <style>
-        @media(max-width:640px){
-          .cmc-modal-wrap{
-            align-items:flex-start!important;
-            overflow-y:auto!important;
-            -webkit-overflow-scrolling:touch;
+        #${uid}-modal-close{
+          background:linear-gradient(145deg,#ef5350,#c62828,#8e0000)!important;
+          backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+          box-shadow:0 4px 0 #5a0000,0 6px 14px rgba(183,28,28,0.55),inset 0 2px 0 rgba(255,255,255,0.45),inset 0 -2px 0 rgba(0,0,0,0.3)!important;
+          transition:transform 0.14s ease,box-shadow 0.14s ease;
+        }
+        #${uid}-modal-close:active{
+          transform:translateY(3px);
+          box-shadow:0 1px 0 #5a0000,inset 0 3px 6px rgba(0,0,0,0.28)!important;
+        }
+        @media(max-width:767px){
+          #${uid}-modal.cmc-modal-wrap{
+            align-items:center!important;
+            overflow:hidden!important;
+            padding:56px 8px calc(84px + env(safe-area-inset-bottom,0px))!important;
           }
-          .cmc-modal-img{
-            max-width:calc(100% - 24px)!important;
-            max-height:70vh!important;
-            margin:auto!important;
+          #${uid}-modal .cmc-modal-img{
+            max-width:100%!important;
+            max-height:calc(100dvh - 140px - env(safe-area-inset-bottom,0px))!important;
+            margin:0 auto!important;
+          }
+          /* Controles al pie, fuera de la slide */
+          #${uid}-modal-prev,#${uid}-modal-next{
+            top:auto!important;
+            bottom:calc(20px + env(safe-area-inset-bottom,0px))!important;
+            transform:none!important;
+            width:52px!important;height:52px!important;
+            background:rgba(255,255,255,0.22)!important;
+          }
+          #${uid}-modal-prev{left:calc(50% - 64px)!important;right:auto!important;}
+          #${uid}-modal-next{right:calc(50% - 64px)!important;left:auto!important;}
+          #${uid}-modal-close{
+            top:calc(10px + env(safe-area-inset-top,0px))!important;
+            right:12px!important;
           }
         }
       </style>
