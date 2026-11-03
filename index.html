@@ -96,6 +96,7 @@
     @media (max-width: 767px) {
       .desktop-only { display: none !important; }
       .mobile-only { display: inline !important; }
+      .noticia-desktop-only { display: none !important; }
     }
   </style>
   <!-- ═══════════════════════════════════════════════
@@ -1265,9 +1266,10 @@ style="display: none;"
                  png-count="3" png-width="80px"
 ></section-title>
 
-  <!-- en-vivo="Efemérides" -->
-<noticia-card
 
+  <!-- en-vivo="Efemérides" -->
+<noticia-card class="noticia-desktop-only"
+ 
   fecha="3 Noviembre"
   categoria="Santos"
   titular="Hoy celebramos a San Martín de Porres, patrono de la justicia social y la paz"
@@ -1289,7 +1291,7 @@ Cada 3 de noviembre, la Iglesia Católica celebra a San Martín de Porres, frail
 ></noticia-card>
 
 <!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
-  <!-- style="display: none;" -->
+
 <div class="video-card-gold-container">
 
 
