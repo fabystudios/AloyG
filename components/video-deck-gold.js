@@ -32,6 +32,7 @@
  *   card-width      — ancho de cada carta. Default: 260px (máx. 60vw en mobile).
  *   expanded-width  — ancho máximo (px) de la carta abierta. Default: 440.
  *   close-on-end    — "false" para que la carta NO vuelva sola al terminar el video.
+ *   close-position  — dónde va la ✕ (círculo dorado): top-left (default) | top-right.
  *   spread          — (fan) apertura del abanico. 1 = default, 1.3 más abierto, 0.7 más cerrado.
  *   peek            — (wallet) px visibles de cada carta de atrás. Default: 72.
  *   columns         — (grid) cantidad de columnas, 1 a 4. Default: 2.
@@ -52,6 +53,44 @@
 (() => {
 const MODES = ['fan', 'stack', 'carousel', 'wallet', 'grid'];
 const VARS = ['x', 'y', 'r', 's', 'o', 'z'].map(v => '--vdg-' + v);
+
+/* Fondo glass + botón ✕, montados en <body>: no dependen de ningún contenedor de la página
+   (transform / overflow / z-index) y quedan siempre por encima. */
+const Z_BACKDROP = 2147482990, Z_CARD = 2147482995, Z_CLOSE = 2147483000;
+function buildLayer(onClose, pos) {
+  const left = pos !== 'top-right';
+  const side = left ? 'left' : 'right';
+  const bd = document.createElement('div');
+  bd.style.cssText =
+    `position:fixed;inset:0;z-index:${Z_BACKDROP};opacity:0;touch-action:none;transition:opacity .45s ease;` +
+    'background:radial-gradient(ellipse at 50% 48%,rgba(197,162,39,.26),transparent 60%),rgba(8,4,20,.68);' +
+    '-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);';
+  const x = document.createElement('button');
+  x.type = 'button';
+  x.setAttribute('aria-label', 'Cerrar');
+  x.style.cssText =
+    `position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);${side}:calc(env(safe-area-inset-${side},0px) + 12px);` +
+    `z-index:${Z_CLOSE};width:44px;height:44px;display:grid;place-items:center;padding:0;border-radius:50%;` +
+    'border:2px solid rgba(245,208,107,.85);background:rgba(15,10,30,.55);cursor:pointer;' +
+    '-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);-webkit-tap-highlight-color:transparent;' +
+    'box-shadow:0 0 18px rgba(197,162,39,.3),inset 0 1px 0 rgba(255,245,192,.3);' +
+    'opacity:0;transform:scale(.8);transition:opacity .3s ease .15s,transform .3s ease .15s;';
+  x.innerHTML = '<svg viewBox="0 0 16 16" width="17" height="17" fill="none" aria-hidden="true" ' +
+    'style="filter:drop-shadow(0 0 3px rgba(245,208,107,.7))">' +
+    '<path d="M3 3 L13 13 M13 3 L3 13" stroke="#f5d06b" stroke-width="2" stroke-linecap="round"/></svg>';
+  bd.addEventListener('click', onClose);
+  x.addEventListener('click', onClose);
+  document.body.append(bd, x);
+  void bd.offsetHeight;                       // registra el estado inicial para que haya transición
+  return {
+    show() { bd.style.opacity = '1'; x.style.opacity = '1'; x.style.transform = 'none'; },
+    hide() {
+      bd.style.opacity = '0'; bd.style.pointerEvents = 'none';
+      x.style.transition = 'opacity .2s ease'; x.style.opacity = '0'; x.style.pointerEvents = 'none';
+    },
+    remove() { bd.remove(); x.remove(); }
+  };
+}
 
 const _tpl = document.createElement('template');
 _tpl.innerHTML = `
@@ -161,66 +200,12 @@ _tpl.innerHTML = `
     :host(:not([data-open])) ::slotted(video-card-gold:hover) { translate: 0 -10px; }
   }
 
-  /* ─── Fondo glass cuando hay una carta abierta ───────────────────── */
-  .backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    opacity: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(ellipse at 50% 48%, rgba(197, 162, 39, 0.26), transparent 60%),
-      rgba(8, 4, 20, 0.68);
-    backdrop-filter: blur(16px) saturate(1.3);
-    -webkit-backdrop-filter: blur(16px) saturate(1.3);
-    touch-action: none;
-    transition: opacity 0.45s ease;
-  }
-  :host([data-open]) .backdrop { opacity: 1; pointer-events: auto; }
-
-  /* ─── Botón cerrar (mismo lenguaje que el botón play) ────────────── */
-  .close {
-    position: fixed;
-    top: calc(env(safe-area-inset-top, 0px) + 10px);
-    right: 12px;
-    z-index: 1002;
-    width: 40px; height: 40px;
-    display: grid; place-items: center;
-    border-radius: 50%;
-    border: 2px solid rgba(245, 208, 107, 0.85);
-    background: rgba(15, 10, 30, 0.55);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    box-shadow: 0 0 18px rgba(197, 162, 39, 0.3), inset 0 1px 0 rgba(255, 245, 192, 0.3);
-    cursor: pointer;
-    opacity: 0;
-    pointer-events: none;
-    transform: scale(0.8);
-    transition: opacity 0.3s ease, transform 0.3s ease, background 0.25s ease;
-  }
-  :host([data-open]) .close {
-    opacity: 1;
-    pointer-events: auto;
-    transform: none;
-    transition-delay: 0.15s;
-  }
-  .close:hover { background: rgba(197, 162, 39, 0.22); }
-  .close:focus-visible { outline: 2px solid rgba(245, 208, 107, 1); outline-offset: 3px; }
-  .close svg { width: 16px; height: 16px; filter: drop-shadow(0 0 3px rgba(245, 208, 107, 0.7)); }
-
   @media (prefers-reduced-motion: reduce) {
-    ::slotted(video-card-gold),
-    .backdrop, .close { transition-duration: 0.01ms !important; transition-delay: 0s !important; }
+    ::slotted(video-card-gold) { transition-duration: 0.01ms !important; transition-delay: 0s !important; }
   }
 </style>
 
 <div class="stage"><slot></slot></div>
-<div class="backdrop"></div>
-<button class="close" type="button" aria-label="Cerrar">
-  <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
-    <path d="M3 3 L13 13 M13 3 L3 13" stroke="#f5d06b" stroke-width="2" stroke-linecap="round"/>
-  </svg>
-</button>
 `;
 
 class VideoDeckGold extends HTMLElement {
@@ -262,8 +247,6 @@ class VideoDeckGold extends HTMLElement {
       this._shadow.appendChild(_tpl.content.cloneNode(true));
       this._stage = this._shadow.querySelector('.stage');
       this._shadow.querySelector('slot').addEventListener('slotchange', () => this._layout());
-      this._shadow.querySelector('.backdrop').addEventListener('click', () => this.close());
-      this._shadow.querySelector('.close').addEventListener('click', () => this.close());
       this._stage.addEventListener('scroll', this._onScroll, { passive: true });
     }
     // Captura: con el mazo cerrado, tocar una carta la abre en vez de dar play directo
@@ -501,6 +484,8 @@ class VideoDeckGold extends HTMLElement {
     this.setAttribute('data-anim', '');
     this._place(card, false);
     this.setAttribute('data-open', '');
+    this._layer = buildLayer(() => this.close(), this.getAttribute('close-position'));
+    this._layer.show();
 
     document.addEventListener('keydown', this._onKey);
     // Bloquea el scroll de la página mientras hay una carta abierta
@@ -521,7 +506,7 @@ class VideoDeckGold extends HTMLElement {
     st.top = r.top + 'px';
     st.width = r.width + 'px';
     st.margin = '0';
-    st.zIndex = '1001';
+    st.zIndex = String(Z_CARD);
     st.translate = 'none';
     st.opacity = '1';
   }
@@ -580,6 +565,7 @@ class VideoDeckGold extends HTMLElement {
     if (typeof card.pause === 'function') card.pause();
 
     this.removeAttribute('data-open');
+    if (this._layer) this._layer.hide();
     document.removeEventListener('keydown', this._onKey);
     document.removeEventListener('wheel', this._prevent);
     document.removeEventListener('touchmove', this._prevent);
@@ -609,6 +595,7 @@ class VideoDeckGold extends HTMLElement {
     ['position', 'left', 'top', 'width', 'margin', 'zIndex', 'transform', 'translate', 'opacity', 'transition']
       .forEach(p => { s[p] = ''; });
     if (this._ph) { this._ph.remove(); this._ph = null; }
+    if (this._layer) { this._layer.remove(); this._layer = null; }
     this.removeAttribute('data-anim');
     this._updateCarousel();
   }

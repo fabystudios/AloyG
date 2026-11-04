@@ -16,12 +16,20 @@
  *   - Un solo video a la vez: al dar play, las demás tarjetas se pausan.
  *   - Al cambiar el atributo `video` se libera lo descargado del anterior.
  *
+ *   expandable      — (opcional) al tocar la tarjeta se despega, se centra y crece sobre
+ *                     un fondo glass con una ✕ para cerrar, y reproduce. Al terminar el
+ *                     video, o al tocar el fondo / la ✕ / Esc, vuelve a su lugar.
+ *                     Dentro de <video-deck-gold> se ignora (el mazo trae su propio efecto).
+ *   expanded-width  — ancho máximo (px) de la tarjeta expandida. Default: 440.
+ *   close-on-end    — "false" para que NO vuelva sola al terminar el video.
+ *   close-position  — dónde va la ✕: top-left (default) | top-right.
+ *
  * VARIABLE CSS:
  *   --vcg-w — ancho de la tarjeta (por defecto 260px). Ej: video-card-gold { --vcg-w: 300px }
  *
- * API / EVENTOS (para usarla dentro de <video-deck-gold>):
- *   el.play() · el.pause() · el.playing
- *   eventos: vcg-play, vcg-pause, vcg-ended (burbujean)
+ * API / EVENTOS:
+ *   el.play() · el.pause() · el.playing · el.expand() · el.collapse() · el.expanded
+ *   eventos: vcg-play, vcg-pause, vcg-ended, vcg-expand, vcg-collapse (burbujean)
  *
  * USO (una sola línea, funciona en desktop y mobile):
  *   <script src="video-card-gold.js"></script>
@@ -49,6 +57,8 @@ _tpl.innerHTML = `
       display: none !important;
     }
   }
+
+  :host([expandable]) .card { cursor: pointer; }
 
   /* ─── Card shell ─────────────────────────────────────────────────── */
   .card {
@@ -380,6 +390,9 @@ _tpl.innerHTML = `
 // Registro de tarjetas para garantizar "un solo video a la vez"
 const _instances = new Set();
 
+// Capas del modo `expandable` (siempre por encima de la página)
+const Z_BACKDROP = 2147482990, Z_CARD = 2147482995, Z_CLOSE = 2147483000;
+
 class VideoCardGold extends HTMLElement {
   static get observedAttributes() { return ['titulo', 'video', 'badge', 'poster']; }
 
@@ -401,6 +414,17 @@ class VideoCardGold extends HTMLElement {
       this._playing   = false;
 
       this._btn.addEventListener('click', () => this._toggle());
+
+      // Modo `expandable`: con la tarjeta en reposo, un toque la expande en vez de dar play directo
+      this._xKey  = e => { if (e.key === 'Escape') this.collapse(); };
+      this._xPrev = e => e.preventDefault();
+      this._xResize = () => { if (this._expanded) { this._pause(); this._emit('vcg-collapse'); this._cleanupExpand(); } };
+      this.addEventListener('click', e => {
+        if (!this.hasAttribute('expandable') || this._expanded || this._inDeck()) return;
+        e.preventDefault();
+        e.stopPropagation();
+        this.expand();
+      }, true);
       this._vid.addEventListener('timeupdate', () => this._updateTime());
       this._vid.addEventListener('ended', () => this._onEnded());
       // Recién cuando el video realmente reproduce se quita el poster
@@ -520,14 +544,148 @@ class VideoCardGold extends HTMLElement {
     }
   }
 
-  _onEnded() { this._setUI(false); this._emit('vcg-ended'); }
+  _onEnded() {
+    this._setUI(false);
+    this._emit('vcg-ended');
+    if (this._expanded && this.getAttribute('close-on-end') !== 'false') {
+      clearTimeout(this._xEndT);
+      this._xEndT = setTimeout(() => this.collapse(), 700);
+    }
+  }
 
   /* ─── API pública (la usa <video-deck-gold>, también sirve sola) ───── */
   play()  { this._play(); }
   pause() { this._pause(); }
   get playing() { return !!this._playing; }
 
-  /** Eventos que burbujean: vcg-play, vcg-pause, vcg-ended */
+  /* ─── Expandir (modal con efecto) ────────────────────────────────────
+     La tarjeta se pasa a position:fixed en el mismo lugar (dejando un hueco para que la
+     página no se mueva), se lleva al centro con transform, y el fondo glass + la ✕ se
+     agregan al <body> (fuera de la tarjeta, que queda con transform). */
+  get expanded() { return !!this._expanded; }
+
+  _inDeck() { return !!(this.parentElement && this.parentElement.localName === 'video-deck-gold'); }
+
+  expand() {
+    if (this._expanded || this._inDeck() || !this.isConnected) return;
+    this._cleanupExpand();                         // por si quedaba una vuelta a medio terminar
+
+    const card = this._shadow.querySelector('.card');
+    const hr = this.getBoundingClientRect();
+    const cr = card.getBoundingClientRect();
+
+    // Hueco que ocupa el lugar de la tarjeta
+    const ph = document.createElement('div');
+    ph.style.cssText = `display:block;visibility:hidden;pointer-events:none;flex:none;` +
+                       `width:${hr.width}px;height:${hr.height}px;margin:${getComputedStyle(this).margin};`;
+    this.before(ph);
+    this._ph = ph;
+    this._saved = this.style.cssText;              // para devolver exactamente los estilos del autor
+
+    const vw = document.documentElement.clientWidth;
+    const vh = window.innerHeight;
+    const maxW = Math.min(vw * 0.94, parseFloat(this.getAttribute('expanded-width')) || 440);
+    const maxH = vh - 112;                         // deja lugar a la ✕ arriba y respiro abajo
+    const sc = Math.min(maxW / cr.width, maxH / cr.height);
+    const dx = vw / 2 - (cr.left + cr.width / 2);
+    const dy = vh / 2 - (cr.top + cr.height / 2);
+
+    const st = this.style;
+    st.position = 'fixed';
+    st.left = cr.left + 'px';
+    st.top = hr.top + 'px';
+    st.width = cr.width + 'px';
+    st.margin = '0';
+    st.zIndex = String(Z_CARD);
+    st.transformOrigin = `50% ${cr.top + cr.height / 2 - hr.top}px`;
+    st.transition = 'none';
+    st.transform = 'none';
+
+    // Fondo glass + botón cerrar (estilos en línea: no dependen de ninguna hoja externa)
+    const bd = document.createElement('div');
+    bd.style.cssText =
+      `position:fixed;inset:0;z-index:${Z_BACKDROP};opacity:0;touch-action:none;transition:opacity .45s ease;` +
+      'background:radial-gradient(ellipse at 50% 48%,rgba(197,162,39,.26),transparent 60%),rgba(8,4,20,.68);' +
+      '-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);';
+    const x = document.createElement('button');
+    x.type = 'button';
+    x.setAttribute('aria-label', 'Cerrar');
+    const side = this.getAttribute('close-position') === 'top-right' ? 'right' : 'left';
+    x.style.cssText =
+      `position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);${side}:calc(env(safe-area-inset-${side},0px) + 12px);` +
+      `z-index:${Z_CLOSE};` +
+      'width:44px;height:44px;display:grid;place-items:center;padding:0;border-radius:50%;' +
+      'border:2px solid rgba(245,208,107,.85);background:rgba(15,10,30,.55);cursor:pointer;' +
+      '-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);' +
+      'box-shadow:0 0 18px rgba(197,162,39,.3),inset 0 1px 0 rgba(255,245,192,.3);' +
+      'opacity:0;transform:scale(.8);transition:opacity .3s ease .15s,transform .3s ease .15s;';
+    x.innerHTML = '<svg viewBox="0 0 16 16" width="17" height="17" fill="none" aria-hidden="true" ' +
+      'style="filter:drop-shadow(0 0 3px rgba(245,208,107,.7))">' +
+      '<path d="M3 3 L13 13 M13 3 L3 13" stroke="#f5d06b" stroke-width="2" stroke-linecap="round"/></svg>';
+    bd.addEventListener('click', () => this.collapse());
+    x.addEventListener('click', () => this.collapse());
+    document.body.append(bd, x);
+    this._ui = { bd, x };
+
+    void this.offsetHeight;                        // registra el estado de reposo para que haya transición
+    st.transition = 'transform .62s cubic-bezier(.22,1.15,.36,1)';
+    st.transform = `translate(${dx}px, ${dy}px) scale(${sc})`;
+    bd.style.opacity = '1';
+    x.style.opacity = '1';
+    x.style.transform = 'none';
+
+    this._expanded = true;
+    document.addEventListener('keydown', this._xKey);
+    document.addEventListener('wheel', this._xPrev, { passive: false });      // sin scroll de fondo
+    document.addEventListener('touchmove', this._xPrev, { passive: false });
+    window.addEventListener('resize', this._xResize);
+
+    this._play();
+    this._emit('vcg-expand');
+  }
+
+  collapse() {
+    if (!this._expanded) return;
+    this._expanded = false;
+    clearTimeout(this._xEndT);
+    this._pause();
+
+    document.removeEventListener('keydown', this._xKey);
+    document.removeEventListener('wheel', this._xPrev);
+    document.removeEventListener('touchmove', this._xPrev);
+    window.removeEventListener('resize', this._xResize);
+
+    const { bd, x } = this._ui;
+    bd.style.opacity = '0'; bd.style.pointerEvents = 'none';
+    x.style.transition = 'opacity .2s ease'; x.style.opacity = '0'; x.style.pointerEvents = 'none';
+
+    // Vuelve a su lugar con transición y recién entonces se reincorpora a la página
+    this.style.transform = 'none';
+    const onEnd = e => { if (e.composedPath()[0] === this && e.propertyName === 'transform') this._cleanupExpand(); };
+    this._col = { onEnd, timer: setTimeout(() => this._cleanupExpand(), 900) };
+    this.addEventListener('transitionend', onEnd);
+    this._emit('vcg-collapse');
+  }
+
+  /** Deja todo como estaba antes de expandir (idempotente). */
+  _cleanupExpand() {
+    clearTimeout(this._xEndT);
+    document.removeEventListener('keydown', this._xKey);
+    document.removeEventListener('wheel', this._xPrev);
+    document.removeEventListener('touchmove', this._xPrev);
+    window.removeEventListener('resize', this._xResize);
+    if (this._col) {
+      clearTimeout(this._col.timer);
+      this.removeEventListener('transitionend', this._col.onEnd);
+      this._col = null;
+    }
+    if (this._ph || this._ui) this.style.cssText = this._saved || '';
+    if (this._ph) { this._ph.remove(); this._ph = null; }
+    if (this._ui) { this._ui.bd.remove(); this._ui.x.remove(); this._ui = null; }
+    this._expanded = false;
+  }
+
+  /** Eventos que burbujean: vcg-play, vcg-pause, vcg-ended, vcg-expand, vcg-collapse */
   _emit(name) {
     this.dispatchEvent(new CustomEvent(name, { bubbles: true, composed: true }));
   }
@@ -558,6 +716,7 @@ class VideoCardGold extends HTMLElement {
     clearInterval(this._dotInterval);
     if (this._io) { this._io.disconnect(); this._io = null; }
     this._pause();
+    this._cleanupExpand();
     _instances.delete(this);
   }
 }
