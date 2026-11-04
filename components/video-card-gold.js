@@ -22,7 +22,7 @@
  *                     Dentro de <video-deck-gold> se ignora (el mazo trae su propio efecto).
  *   expanded-width  — ancho máximo (px) de la tarjeta expandida. Default: 440.
  *   close-on-end    — "false" para que NO vuelva sola al terminar el video.
- *   close-position  — dónde va la ✕: top-left (default) | top-right.
+ *   close-position  — dónde va la ✕: top-right (default) | top-left.
  *
  * VARIABLE CSS:
  *   --vcg-w — ancho de la tarjeta (por defecto 260px). Ej: video-card-gold { --vcg-w: 300px }
@@ -610,7 +610,7 @@ class VideoCardGold extends HTMLElement {
     const x = document.createElement('button');
     x.type = 'button';
     x.setAttribute('aria-label', 'Cerrar');
-    const side = this.getAttribute('close-position') === 'top-right' ? 'right' : 'left';
+    const side = this.getAttribute('close-position') === 'top-left' ? 'left' : 'right';
     x.style.cssText =
       `position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);${side}:calc(env(safe-area-inset-${side},0px) + 12px);` +
       `z-index:${Z_CLOSE};` +

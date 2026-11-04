@@ -32,7 +32,7 @@
  *   card-width      — ancho de cada carta. Default: 260px (máx. 60vw en mobile).
  *   expanded-width  — ancho máximo (px) de la carta abierta. Default: 440.
  *   close-on-end    — "false" para que la carta NO vuelva sola al terminar el video.
- *   close-position  — dónde va la ✕ (círculo dorado): top-left (default) | top-right.
+ *   close-position  — dónde va la ✕ (círculo dorado): top-right (default) | top-left.
  *   spread          — (fan) apertura del abanico. 1 = default, 1.3 más abierto, 0.7 más cerrado.
  *   peek            — (wallet) px visibles de cada carta de atrás. Default: 72.
  *   columns         — (grid) cantidad de columnas, 1 a 4. Default: 2.
@@ -58,7 +58,7 @@ const VARS = ['x', 'y', 'r', 's', 'o', 'z'].map(v => '--vdg-' + v);
    (transform / overflow / z-index) y quedan siempre por encima. */
 const Z_BACKDROP = 2147482990, Z_CARD = 2147482995, Z_CLOSE = 2147483000;
 function buildLayer(onClose, pos) {
-  const left = pos !== 'top-right';
+  const left = pos === 'top-left';
   const side = left ? 'left' : 'right';
   const bd = document.createElement('div');
   bd.style.cssText =

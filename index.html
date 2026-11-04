@@ -145,7 +145,8 @@
   <script src="./components/semana-santa-programa.js" defer></script>
   <script src="./components/parroquia-nosotros.js" defer></script>
   <script src="./components/video-gold-special-flot.js" defer></script>
-  <script src="./components/video-card-gold.js" defer></script>
+  <script src="./components/video-card-gold.js?v=4" defer></script>
+  <script src="./components/video-deck-gold.js" defer></script>
   <script src="./components/video-gold-special.js" defer></script>
   <script src="./components/panel-photo-gallery.js" defer></script>
   <script src="./components/comunicado-card.js" defer></script>
@@ -154,7 +155,6 @@
   <script src="./components/noticia-card.js" defer></script>
   <script src="./components/section-title.js" defer></script>
   <script src="./components/video-showcase.js" defer></script>
-  <script src="./components/video-card-gold.js" defer></script>
   <style>
     @media (max-width: 600px) {
       .rifa-bg-opacity {
@@ -228,6 +228,7 @@
     .video-card-gold-container > video-card-gold {
       margin-block: 0;
       margin-inline: 0;
+      video-deck-gold > video-card-gold { margin: 0; }
     }
   </style>
 
@@ -1281,14 +1282,14 @@
 
 <!-- spread 1.3  es  la  mas abierta, 0.7mas cerrada -->
 
-<script src="./components/video-deck-gold.js"></script>
+
 <video-deck-gold  spread="1">
   <video-card-gold    video="./asantos/4tris.mp4" poster="./asantos/4tris.jpg"
-        badge="4 de Noviembre"   titulo="San Carlos Borromeo" close-position="top-right"></video-card-gold>
+        badge="4 de Noviembre"   titulo="San Carlos Borromeo"></video-card-gold>
   <video-card-gold    video="./asantos/4-2.mp4" poster="./asantos/4-2.jpg"
-        badge="4 de Noviembre"   titulo="San Carlos Borromeo" close-position="top-right"></video-card-gold>
+        badge="4 de Noviembre"   titulo="San Carlos Borromeo"></video-card-gold>
   <video-card-gold   video="./asantos/4-1.mp4" poster="./asantos/4-1cuatri.png"
-        badge="4 de Noviembre" titulo="San Carlos Borromeo"  close-position="top-right"></video-card-gold>
+        badge="4 de Noviembre" titulo="San Carlos Borromeo"></video-card-gold>
 
 </video-deck-gold>
 
@@ -1336,6 +1337,7 @@ Cada 3 de noviembre, la Iglesia Católica celebra a San Martín de Porres, frail
 
 
   <video-card-gold
+      expandable
       poster="./asantos/3.png"
       badge="3 de Noviembre"
       titulo="San Martín de Porres"
@@ -1345,6 +1347,7 @@ Cada 3 de noviembre, la Iglesia Católica celebra a San Martín de Porres, frail
     ></video-card-gold>
 
   <video-card-gold
+      expandable
       poster="./asantos/3d.jpg"
       badge="San Martín de Porres"
       titulo="agarró al demonio a cinturonazos"
@@ -1354,6 +1357,7 @@ Cada 3 de noviembre, la Iglesia Católica celebra a San Martín de Porres, frail
     ></video-card-gold>
 
     <video-card-gold
+      expandable
       poster="./asantos/3b.jpg"
       badge="3 de Noviembre"
       titulo="San Martín de Porres"
@@ -1363,6 +1367,7 @@ Cada 3 de noviembre, la Iglesia Católica celebra a San Martín de Porres, frail
     ></video-card-gold>
 
       <video-card-gold
+      expandable
       poster="./asantos/3a.jpg"
       badge="3 de Noviembre"
       titulo="San Martín de Porres"
@@ -1372,6 +1377,7 @@ Cada 3 de noviembre, la Iglesia Católica celebra a San Martín de Porres, frail
     ></video-card-gold>
 
       <video-card-gold
+      expandable
       poster="./asantos/3c.jpg"
       badge="3 de Noviembre"
       titulo="San Martín de Porres"
