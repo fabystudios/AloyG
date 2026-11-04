@@ -16,6 +16,13 @@
  *   - Un solo video a la vez: al dar play, las demás tarjetas se pausan.
  *   - Al cambiar el atributo `video` se libera lo descargado del anterior.
  *
+ * VARIABLE CSS:
+ *   --vcg-w — ancho de la tarjeta (por defecto 260px). Ej: video-card-gold { --vcg-w: 300px }
+ *
+ * API / EVENTOS (para usarla dentro de <video-deck-gold>):
+ *   el.play() · el.pause() · el.playing
+ *   eventos: vcg-play, vcg-pause, vcg-ended (burbujean)
+ *
  * USO (una sola línea, funciona en desktop y mobile):
  *   <script src="video-card-gold.js"></script>
  *   <video-card-gold titulo="Mi Película" video="./mi-video.mp4"></video-card-gold>
@@ -45,8 +52,8 @@ _tpl.innerHTML = `
 
   /* ─── Card shell ─────────────────────────────────────────────────── */
   .card {
-    /* Ancho: máximo 260px pero nunca más del 95% del viewport */
-    width: min(260px, 95vw);
+    /* Ancho: máximo 260px (configurable con --vcg-w) pero nunca más del 95% del viewport */
+    width: min(var(--vcg-w, 260px), 95vw);
     /* Centrado automático sin importar el contenedor */
     margin-left: auto;
     margin-right: auto;
@@ -485,6 +492,7 @@ class VideoCardGold extends HTMLElement {
 
     this._attachSrc('auto');
     this._setUI(true);
+    this._emit('vcg-play');
     this._vid.play().catch(err => {
       if (err && err.name === 'AbortError') return;
       this._setUI(false);
@@ -495,6 +503,7 @@ class VideoCardGold extends HTMLElement {
     if (!this._playing) return;
     this._vid.pause();
     this._setUI(false);
+    this._emit('vcg-pause');
   }
 
   _setUI(playing) {
@@ -511,7 +520,17 @@ class VideoCardGold extends HTMLElement {
     }
   }
 
-  _onEnded() { this._setUI(false); }
+  _onEnded() { this._setUI(false); this._emit('vcg-ended'); }
+
+  /* ─── API pública (la usa <video-deck-gold>, también sirve sola) ───── */
+  play()  { this._play(); }
+  pause() { this._pause(); }
+  get playing() { return !!this._playing; }
+
+  /** Eventos que burbujean: vcg-play, vcg-pause, vcg-ended */
+  _emit(name) {
+    this.dispatchEvent(new CustomEvent(name, { bubbles: true, composed: true }));
+  }
 
   _updateTime() {
     const t = this._vid.currentTime || 0;
