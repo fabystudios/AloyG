@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mazo de videos — demo</title>
+<style>
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    background: radial-gradient(ellipse at 50% 0%, #2a1a52 0%, #120a26 60%, #0a0618 100%) fixed;
+    min-height: 100vh;
+    font-family: system-ui, sans-serif;
+  }
+  /* Selector de modo (solo para probar) */
+  nav {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+    padding: 16px 12px 0;
+  }
+  nav button {
+    font: inherit; font-size: 13px; cursor: pointer;
+    color: rgba(245, 208, 107, 0.9);
+    background: rgba(15, 10, 30, 0.55);
+    border: 1px solid rgba(245, 208, 107, 0.45);
+    border-radius: 20px; padding: 6px 14px;
+  }
+  nav button[aria-pressed="true"] { background: rgba(197, 162, 39, 0.28); border-color: rgba(245, 208, 107, 0.95); }
+</style>
+</head>
+<body>
+  <nav id="modes">
+    <button data-mode="fan" aria-pressed="true">fan</button>
+    <button data-mode="stack" aria-pressed="false">stack</button>
+    <button data-mode="carousel" aria-pressed="false">carousel</button>
+    <button data-mode="wallet" aria-pressed="false">wallet</button>
+    <button data-mode="grid" aria-pressed="false">grid</button>
+  </nav>
+
+  <!-- Cambia video/poster por tus archivos. Con poster no se descarga nada hasta elegir. -->
+  <video-deck-gold id="deck" mode="fan">
+    <video-card-gold titulo="Primero"  badge="Video 1" video="./video1.mp4" poster="./poster1.jpg"></video-card-gold>
+    <video-card-gold titulo="Segundo"  badge="Video 2" video="./video2.mp4" poster="./poster2.jpg"></video-card-gold>
+    <video-card-gold titulo="Tercero"  badge="Video 3" video="./video3.mp4" poster="./poster3.jpg"></video-card-gold>
+    <video-card-gold titulo="Cuarto"   badge="Video 4" video="./video4.mp4" poster="./poster4.jpg"></video-card-gold>
+  </video-deck-gold>
+
+  <script src="video-card-gold.js"></script>
+  <script src="video-deck-gold.js"></script>
+  <script>
+    const deck = document.getElementById('deck');
+    document.getElementById('modes').addEventListener('click', e => {
+      const b = e.target.closest('button[data-mode]');
+      if (!b) return;
+      deck.setAttribute('mode', b.dataset.mode);
+      document.querySelectorAll('#modes button').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    });
+  </script>
+</body>
+</html>
