@@ -179,6 +179,7 @@
     retro-tv-player,
     showcase-card,
     video-card-gold,
+    video-deck-gold,
     video-gold-special,
     feria-poster,
     cork-mural-carousel,
@@ -228,7 +229,10 @@
     .video-card-gold-container > video-card-gold {
       margin-block: 0;
       margin-inline: 0;
-      video-deck-gold > video-card-gold { margin: 0; }
+    }
+    /* Las cartas dentro del mazo las posiciona el mazo: sin márgenes de la página */
+    video-deck-gold > video-card-gold {
+    margin: 0;
     }
   </style>
 
@@ -1300,8 +1304,7 @@
 
 </video-deck-gold>
 
-<br><br><br><br><br> 
-<br><br>
+
 
 
 <script src="./components/video-glass-frame.js"></script>
