@@ -7,7 +7,20 @@
        desk       imagen O video para desktop/landscape (opcional)
        poster     imagen de portada para slides de video (opcional)
        landscape  true → en desktop la tarjeta ocupa todo el ancho
+       audio      archivo de audio (mp3, ogg, m4a, wav…) asociado a la imagen
+                  (opcional). Solo aplica a slides de imagen; si el slide
+                  es video se ignora (el video ya trae su propio sonido).
        title, anchor
+     AUDIO:
+       · En la tarjeta del carrusel aparece un botón indicador de audio
+         (arriba a la izquierda). Al presionarlo suena el audio de ese
+         slide sin abrir el visor; presionarlo de nuevo lo pausa.
+       · Al ampliar el slide en el visor, el audio empieza a sonar solo
+         (si ya estaba sonando ese mismo audio, continúa). Hay un botón
+         para pausar/reanudar. Al cambiar de slide o cerrar el visor, se
+         corta el audio anterior.
+       · Siempre suena un solo audio a la vez. Se pausa al ocultar la
+         pestaña y al sacar el slide de la vista del carrusel.
      VIDEO: cualquier ruta terminada en .mp4 .m4v .webm u .ogv se
      detecta sola. Recomendado: MP4 H.264 + AAC con "faststart".
        · En las tarjetas se reproduce mudo, en bucle y solo mientras
@@ -464,6 +477,41 @@
         .ac-lightbox.ac-lb-zoom-off .ac-lb-hcontrols { opacity: 0; visibility: hidden; pointer-events: none; }
       }
 
+      /* ── AUDIO (botón indicador en tarjeta y en visor) ── */
+      .ac-audio-btn {
+        display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer; color: #fff; outline: none;
+        border: 2px solid rgba(255,255,255,0.6); border-radius: 50%;
+        background: linear-gradient(145deg, var(--ac-btn-1,#8b5cf6), var(--ac-btn-2,#6d28d9));
+        box-shadow: 0 4px 14px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.32);
+        transition: transform 0.18s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.18s ease;
+        -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+      }
+      .ac-audio-btn::after {
+        content: ''; position: absolute; inset: -5px; border-radius: 50%; pointer-events: none; opacity: 0;
+        border: 2px solid var(--ac-accent-1,#c084fc);
+      }
+      .ac-audio-btn:hover, .ac-audio-btn:focus-visible { transform: translateY(-3px) scale(1.1); box-shadow: 0 10px 26px rgba(0,0,0,0.5), 0 0 22px var(--ac-card-glow, rgba(140,80,255,0.4)), inset 0 1px 0 rgba(255,255,255,0.38); }
+      .ac-audio-btn:active { transform: translateY(2px) scale(0.95); }
+      .ac-audio-btn svg { width: 55%; height: 55%; display: block; filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4)); }
+      .ac-aud-eq { display: none; align-items: flex-end; gap: 3px; height: 40%; }
+      .ac-aud-eq i { display: block; width: 3px; height: 100%; border-radius: 2px; background: #fff; transform-origin: bottom; animation: ac-aud-bar 0.9s ease-in-out infinite; }
+      .ac-aud-eq i:nth-child(2) { animation-delay: -0.3s; }
+      .ac-aud-eq i:nth-child(3) { animation-delay: -0.6s; }
+      .ac-aud-eq i:nth-child(4) { animation-delay: -0.15s; }
+      @keyframes ac-aud-bar { 0%, 100% { transform: scaleY(0.25); } 50% { transform: scaleY(1); } }
+      @keyframes ac-aud-ring { 0% { transform: scale(0.85); opacity: 0.8; } 100% { transform: scale(1.35); opacity: 0; } }
+      .ac-audio-btn.is-playing .ac-aud-speaker { display: none; }
+      .ac-audio-btn.is-playing .ac-aud-eq { display: flex; }
+      .ac-audio-btn.is-playing::after { animation: ac-aud-ring 1.4s ease-out infinite; }
+      .ac-card-audio { position: absolute; top: 8px; left: 8px; z-index: 4; width: 46px; height: 46px; }
+      .ac-lb-audio { position: fixed; top: calc(1.2rem + 62px + 10px); left: 1.2rem; z-index: 13; width: 50px; height: 50px; }
+      .ac-lb-info.ac-lb-info-hidden ~ .ac-lb-audio { top: 1.2rem; }
+      .ac-lb-audio-hidden { display: none !important; }
+      @media (prefers-reduced-motion: reduce) {
+        .ac-aud-eq i { animation: none; transform: scaleY(0.7); }
+        .ac-audio-btn.is-playing::after { animation: none; opacity: 0.6; }
+      }
+
       /* ── VIDEO (mp4 / webm) ── */
       .ac-card video { width: 100%; height: 100%; object-fit: cover; display: block; background: #000; transition: transform 0.5s ease; user-select: none; pointer-events: none; }
       .ac-card:hover video, .ac-card:focus-visible video { transform: scale(1.07); }
@@ -543,6 +591,8 @@
       this._lbIndex = 0;
       this._lbOpen = false;
       this._introPlayed = false;
+
+      this._initAudio();
 
       this._readThemeAndEffect();
       this._applyTheme();
@@ -669,7 +719,10 @@
         }, { threshold: 0.5 });
       }
       this.querySelectorAll('video.ac-media').forEach(v => this._registerCardVideo(v));
-      this._visHandler = () => this._syncCardVideos();
+      this._visHandler = () => {
+        this._syncCardVideos();
+        if (document.hidden && this._audio && !this._audio.paused) this._audio.pause();
+      };
       document.addEventListener('visibilitychange', this._visHandler);
     }
 
@@ -698,6 +751,8 @@
       const slides = this._slides;
       const infoIcon = `<img src="${bp}info.png" alt="Información" class="ac-info-img" />`;
 
+      const audioIcons = `<svg class="ac-aud-speaker" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 10v4h4l5 4V6L7 10H3z"/><path d="M15.5 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M18.2 5.8a8.5 8.5 0 0 1 0 12.4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span class="ac-aud-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>`;
+
       const slidesHTML = slides.map((s, i) => `
         <div class="ac-slide" data-i="${i}" data-landscape="0">
           <div class="ac-card" role="button" tabindex="0" aria-label="Ver afiche${s.title ? ': ' + s.title : ''}">
@@ -711,6 +766,8 @@
               </div>
             </div>
             ${s.title ? `<div class="ac-card-caption">${s.title}</div>` : ''}
+            ${this._audioSrcFor(i) ? `<button type="button" class="ac-audio-btn ac-card-audio" data-i="${i}" aria-pressed="false"
+               aria-label="Reproducir audio${s.title ? ': ' + s.title : ''}" title="Escuchar audio">${audioIcons}</button>` : ''}
             ${s.anchor ? `<a class="ac-card-info" href="${s.anchor}"
                ${s.anchor.startsWith('#') ? '' : 'target="_blank" rel="noopener noreferrer"'}
                aria-label="Más información${s.title ? ' sobre ' + s.title : ''}" title="Más información">${infoIcon}</a>` : ''}
@@ -751,6 +808,7 @@
           <div class="ac-lb-backdrop"></div>
           <button class="ac-lb-close" aria-label="Cerrar">${closeIcon}</button>
           <a class="ac-lb-info ac-lb-info-hidden" href="#" target="_blank" rel="noopener noreferrer" aria-label="Más información">${infoIcon}</a>
+          <button type="button" class="ac-audio-btn ac-lb-audio ac-lb-audio-hidden" aria-pressed="false" aria-label="Reproducir audio" title="Audio">${audioIcons}</button>
           <div class="ac-lb-switches">
             <button type="button" class="ac-lb-ctrl-switch" data-ctrl="nav" role="switch" aria-checked="true" aria-label="Mostrar u ocultar botones anterior y siguiente">
               <span class="ac-lb-ctrl-switch-label">Carrusel</span>
@@ -809,11 +867,21 @@
       this.querySelectorAll('.ac-card').forEach((card, i) => {
         card.addEventListener('click', () => this.showLightbox(i));
         card.addEventListener('keydown', (e) => {
+          if (e.target !== card) return; /* Enter/Espacio sobre el botón de audio o el de info no abren el visor */
           if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); this.showLightbox(i); }
         });
       });
 
       this.querySelectorAll('.ac-card-info').forEach(btn => btn.addEventListener('click', (e) => e.stopPropagation()));
+
+      /* botón de audio de la tarjeta: reproduce/pausa sin abrir el visor */
+      this.querySelectorAll('.ac-card-audio').forEach(btn => {
+        const i = Number(btn.dataset.i);
+        btn.addEventListener('click', (e) => { e.stopPropagation(); this._toggleAudio(i); });
+      });
+      /* botón de audio del visor: pausa/reanuda el audio del slide abierto */
+      const lbAudioBtn = this.querySelector('.ac-lb-audio');
+      if (lbAudioBtn) lbAudioBtn.addEventListener('click', (e) => { e.stopPropagation(); this._toggleAudio(this._lbIndex); });
 
       this.querySelectorAll('.ac-dot').forEach((dot, i) => dot.addEventListener('click', () => this.goTo(i)));
 
@@ -970,6 +1038,13 @@
       const offset = widths.slice(0, this._current).reduce((a, b) => a + b, 0);
       track.style.transform = `translateX(-${offset}%)`;
 
+      /* si el slide cuyo audio suena desde la tarjeta sale de la vista, se corta */
+      if (this._audio && this._audioIdx >= 0 && !this._lbOpen && !this._audio.paused && this._audioIdx < widths.length) {
+        const aStart = widths.slice(0, this._audioIdx).reduce((a, b) => a + b, 0);
+        const aEnd = aStart + widths[this._audioIdx];
+        if (aEnd <= offset + 0.5 || aStart >= offset + 100 - 0.5) this._stopAudio();
+      }
+
       this.querySelectorAll('.ac-dot').forEach((d, i) => d.classList.toggle('active', i === this._current));
 
       const mi = this._maxIndex();
@@ -979,6 +1054,84 @@
       prev.style.pointerEvents = this._current === 0 ? 'none' : 'auto';
       next.style.opacity = this._current >= mi ? '0.3' : '1';
       next.style.pointerEvents = this._current >= mi ? 'none' : 'auto';
+    }
+
+    /* ── AUDIO ASOCIADO A UN SLIDE ──
+       Hay un único <audio> compartido por todo el componente, así nunca
+       suenan dos a la vez. _audioIdx es el slide cuyo audio está cargado
+       (-1 = ninguno). Solo los slides de imagen pueden llevar audio. */
+    _initAudio() {
+      if (this._audio) { try { this._audio.pause(); } catch (e) {} }
+      const a = new Audio();
+      a.preload = 'none';
+      ['play', 'playing', 'pause', 'ended', 'error'].forEach(ev => a.addEventListener(ev, () => this._syncAudioUI()));
+      this._audio = a;
+      this._audioIdx = -1;
+    }
+
+    _audioSrcFor(i) {
+      const s = this._slides[i];
+      if (!s || !s.audio) return null;
+      if (this._isVideoSrc(s.mob) || (s.desk && this._isVideoSrc(s.desk))) return null;
+      return this._basePath + s.audio;
+    }
+
+    _startAudio(i) {
+      const src = this._audioSrcFor(i);
+      if (!src) { this._stopAudio(); return; }
+      const a = this._audio;
+      a.pause();
+      this._audioIdx = i;
+      a.src = src;
+      this._playAudio();
+    }
+
+    _playAudio() {
+      const pr = this._audio.play();
+      /* si el navegador bloquea la reproducción, el botón queda en "pausado" y el usuario puede tocarlo */
+      if (pr && pr.catch) pr.catch(() => this._syncAudioUI());
+      this._syncAudioUI();
+    }
+
+    _toggleAudio(i) {
+      if (!this._audioSrcFor(i)) return;
+      const a = this._audio;
+      if (this._audioIdx === i) {
+        if (!a.paused && !a.ended) { a.pause(); return; }
+        if (a.ended) a.currentTime = 0;
+        this._playAudio();
+      } else {
+        this._startAudio(i);
+      }
+    }
+
+    _stopAudio() {
+      const a = this._audio;
+      if (!a) return;
+      a.pause();
+      if (this._audioIdx !== -1) { a.removeAttribute('src'); a.load(); }
+      this._audioIdx = -1;
+      this._syncAudioUI();
+    }
+
+    _syncAudioUI() {
+      const a = this._audio;
+      const playing = !!a && this._audioIdx >= 0 && !a.paused && !a.ended;
+      const apply = (btn, on) => {
+        btn.classList.toggle('is-playing', on);
+        btn.setAttribute('aria-pressed', on ? 'true' : 'false');
+        const base = btn.getAttribute('data-label') || '';
+        btn.setAttribute('aria-label', (on ? 'Pausar audio' : 'Reproducir audio') + base);
+      };
+      this.querySelectorAll('.ac-card-audio').forEach(btn => {
+        if (btn.getAttribute('data-label') === null) {
+          const m = /^Reproducir audio(.*)$/.exec(btn.getAttribute('aria-label') || '');
+          btn.setAttribute('data-label', m ? m[1] : '');
+        }
+        apply(btn, playing && Number(btn.dataset.i) === this._audioIdx);
+      });
+      const lbBtn = this._lb('.ac-lb-audio');
+      if (lbBtn) apply(lbBtn, playing && this._audioIdx === this._lbIndex);
     }
 
     /* ── CAROUSEL API ── */
@@ -1010,6 +1163,7 @@
 
     closeLightbox() {
       this._lbOpen = false;
+      this._stopAudio();
       this._stopAmbientEffect();
       const lb = this._lbEl || document.querySelector('.ac-lightbox');
       if (lb) lb.classList.remove('open');
@@ -1239,6 +1393,14 @@
       img.alt = slide.title || '';
       this._lb('.ac-lb-caption').textContent = slide.title || '';
 
+      /* audio asociado: suena al ampliar (si ya sonaba ese mismo, continúa) */
+      const audioSrc = this._audioSrcFor(this._lbIndex);
+      const lbAudio = this._lb('.ac-lb-audio');
+      if (lbAudio) lbAudio.classList.toggle('ac-lb-audio-hidden', !audioSrc);
+      if (!audioSrc) this._stopAudio();
+      else if (this._audioIdx === this._lbIndex && this._audio && !this._audio.paused) this._syncAudioUI();
+      else this._startAudio(this._lbIndex);
+
       const lbInfo = this._lb('.ac-lb-info');
       if (lbInfo) {
         if (slide.anchor) {
@@ -1460,6 +1622,7 @@
       if (this._keyHandler) document.removeEventListener('keydown', this._keyHandler);
       if (this._visHandler) document.removeEventListener('visibilitychange', this._visHandler);
       if (this._videoIO) { this._videoIO.disconnect(); this._videoIO = null; }
+      this._stopAudio();
       this._stopAmbientEffect();
     }
   }
