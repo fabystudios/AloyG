@@ -30,6 +30,9 @@
      opcional). Acepta número (= px) o cualquier unidad CSS: icono-size="72"
      · "4.5rem" · "80px". Si no se da el de móvil, usa ~77% del de desktop.
      Por defecto 2.2rem (desktop) / 1.7rem (móvil).
+     SEPARACIÓN ICONO–TÍTULO: "icono-gap" (desktop, def. 1rem) e
+     "icono-gap-mobile" (móvil, def. 0.3rem). Acepta negativos (ej. "-8")
+     para que se solapen; el texto siempre queda por encima del icono.
      VIDEO: cualquier ruta terminada en .mp4 .m4v .webm u .ogv se
      detecta sola. Recomendado: MP4 H.264 + AAC con "faststart".
        · En las tarjetas se reproduce mudo, en bucle y solo mientras
@@ -156,7 +159,7 @@
 
       /* ── HEADER ── */
       .ac-header { position: relative; z-index: 1; text-align: center; margin-bottom: 1.8rem; }
-      .ac-title-row { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+      .ac-title-row { display: flex; align-items: center; justify-content: center; gap: var(--ac-icon-gap, 1rem); flex-wrap: wrap; }
       .ac-title-pin {
         font-size: var(--ac-icon-size, 2.2rem);
         line-height: 1;
@@ -164,6 +167,7 @@
         filter: drop-shadow(0 4px 14px rgba(200,140,255,0.85));
         display: inline-flex; align-items: center; justify-content: center;
         flex-shrink: 0;
+        position: relative; z-index: 0;
       }
       .ac-title-pin img {
         display: block; height: 1em; width: auto; max-width: none;
@@ -173,6 +177,7 @@
         0%, 100% { transform: rotate(-12deg) translateY(0); }
         50%       { transform: rotate(12deg) translateY(-6px); }
       }
+      .ac-title-text { position: relative; z-index: 1; }
       .ac-title-text h2 {
         margin: 0; font-size: clamp(1.45rem, 4.5vw, 2.4rem); font-weight: 900; letter-spacing: -0.5px; line-height: 1.1;
         background: linear-gradient(135deg, var(--ac-title-1,#e0b4ff) 0%, var(--ac-title-2,#a5b4fc) 50%, var(--ac-title-3,#7dd3fc) 100%);
@@ -383,6 +388,7 @@
       @media (max-width: 768px) {
         .ac-wrap { padding: 1.5rem 0.75rem 1.25rem; margin: 1rem 0.5rem; border-radius: 20px; }
         .ac-header { margin-bottom: 1.4rem; }
+        .ac-title-row { gap: var(--ac-icon-gap-m, 0.3rem); }
         .ac-title-pin { font-size: var(--ac-icon-size-m, calc(var(--ac-icon-size, 2.2rem) * 0.77)); }
         .ac-title-text h2 { font-size: 1.45rem; }
         .ac-card { aspect-ratio: 9/16; }
@@ -589,7 +595,7 @@
   class AnunciosCarousel extends HTMLElement {
 
     static get observedAttributes() {
-      return ['tema', 'theme', 'efecto', 'effect', 'titulo', 'title', 'subtitulo', 'subtitle', 'icono', 'icon', 'floating-image', 'imagen-flotante', 'zoom-icon', 'icono-zoom', 'icono-size', 'icon-size', 'icono-size-mobile', 'icon-size-mobile'];
+      return ['tema', 'theme', 'efecto', 'effect', 'titulo', 'title', 'subtitulo', 'subtitle', 'icono', 'icon', 'floating-image', 'imagen-flotante', 'zoom-icon', 'icono-zoom', 'icono-size', 'icon-size', 'icono-size-mobile', 'icon-size-mobile', 'icono-gap', 'icono-gap-mobile'];
     }
 
     connectedCallback() {
@@ -625,7 +631,7 @@
       if (oldVal === newVal || !this.isConnected) return;
       if (name === 'tema' || name === 'theme') { this._readThemeAndEffect(); this._applyTheme(); }
       if (name === 'efecto' || name === 'effect') { this._readThemeAndEffect(); }
-      if (/^(icono|icon)-size(-mobile)?$/.test(name)) { this._applyIconSize(); }
+      if (/^(icono|icon)-(size|gap)(-mobile)?$/.test(name)) { this._applyIconSize(); }
       if (name === 'floating-image' || name === 'imagen-flotante') { this._readThemeAndEffect(); }
       if (name === 'zoom-icon' || name === 'icono-zoom') { this._readThemeAndEffect(); this._applyZoomIcon(); }
       if (['titulo', 'title', 'subtitulo', 'subtitle', 'icono', 'icon'].includes(name)) {
@@ -654,13 +660,17 @@
       const norm = (v) => {
         v = (v || '').trim();
         if (!v) return null;
-        if (/^\d+(\.\d+)?$/.test(v)) return v + 'px';
-        return /^[\d.]+[a-z%]+$/i.test(v) || /^(calc|clamp|min|max)\(/i.test(v) ? v : null;
+        if (/^-?\d+(\.\d+)?$/.test(v)) return v + 'px';
+        return /^-?[\d.]+[a-z%]+$/i.test(v) || /^(calc|clamp|min|max)\(/i.test(v) ? v : null;
       };
       const d = norm(this.getAttribute('icono-size') || this.getAttribute('icon-size'));
       const m = norm(this.getAttribute('icono-size-mobile') || this.getAttribute('icon-size-mobile'));
       if (d) this.style.setProperty('--ac-icon-size', d); else this.style.removeProperty('--ac-icon-size');
       if (m) this.style.setProperty('--ac-icon-size-m', m); else this.style.removeProperty('--ac-icon-size-m');
+      const g = norm(this.getAttribute('icono-gap'));
+      const gm = norm(this.getAttribute('icono-gap-mobile'));
+      if (g) this.style.setProperty('--ac-icon-gap', g); else this.style.removeProperty('--ac-icon-gap');
+      if (gm) this.style.setProperty('--ac-icon-gap-m', gm); else this.style.removeProperty('--ac-icon-gap-m');
     }
 
     /* El icono del título puede ser un emoji/texto o una imagen

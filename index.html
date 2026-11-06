@@ -146,7 +146,7 @@
   <script src="./components/parroquia-nosotros.js" defer></script>
   <script src="./components/video-gold-special-flot.js" defer></script>
   <script src="./components/video-card-gold.js?v=4" defer></script>
-  <script src="./components/video-deck-gold.js" defer></script>
+  <script src="./components/video-deck-gold.js?v=2" defer></script>
   <script src="./components/video-gold-special.js" defer></script>
   <script src="./components/panel-photo-gallery.js" defer></script>
   <script src="./components/comunicado-card.js" defer></script>
@@ -241,7 +241,8 @@
       width: auto;
       flex: 0 0 auto;
       margin: 0;
-      padding-inline: clamp(24px, 20vw, 120px);   /* aire para que el abanico no se recorte */
+      padding-inline: clamp(24px, 20vw, 90px);   /* aire para que el abanico no se recorte */
+      overflow: visible;                          /* ← la sombra deja de cortarse */
     }
   </style>
 
@@ -1183,17 +1184,20 @@
   icono="🙏" -->
 <script src="./components/anuncios-carousel.js"></script>
   <!-- style="display: none;"  
-       icono="📰"             -->
+       icono="📰"            
+         icono-size="80" -->
 <anuncios-carousel
 
   titulo="Resumen de Noticias"
   icono="./img/visita.png"
   icono-size="3.6rem"
+  icono-size-mobile="56"
+  icono-gap="16" icono-gap-mobile="-6"
   subtitulo="tocar imagen para zoom"
   base-path="./papa/"
   floating-image="./img/paloma.png"
   zoom-icon="./img/lupa.png"
-  
+
   visible="3"
   visible-mobile="1"
   tema="dorado"
@@ -1259,15 +1263,15 @@
                  effect="stars floating-png" 
                  png-count="3" png-width="80px"
 ></section-title>
-        <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
+        <!-- <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
 
           <video-card-gold   video="./asantos/6b.mp4" poster="./asantos/6b.jpg"
               badge="6 de Noviembre" titulo="San Leonardo de Noblat" ></video-card-gold>
           <video-card-gold    video="./asantos/6b.mp4" poster="./asantos/6b.png"
               badge="6 de Noviembre"    titulo="San Leonardo de Noblat"></video-card-gold>
 
-        </video-deck-gold>
-<!-- 
+        </video-deck-gold> -->
+
 <div class="video-card-gold-container" style="justify-content: center; gap: 40px;">
 
         <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
@@ -1288,7 +1292,7 @@
 
 </video-deck-gold>
 
-</div> -->
+</div>
 
 <br><br>
 

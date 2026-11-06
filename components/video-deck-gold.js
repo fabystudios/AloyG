@@ -34,6 +34,7 @@
  *   close-on-end    — "false" para que la carta NO vuelva sola al terminar el video.
  *   close-position  — dónde va la ✕ (círculo dorado): top-right (default) | top-left.
  *   spread          — (fan) apertura del abanico. 1 = default, 1.3 más abierto, 0.7 más cerrado.
+ *                     Si el abanico no entra en el ancho de su contenedor, se cierra solo.
  *   peek            — (wallet) px visibles de cada carta de atrás. Default: 72.
  *   columns         — (grid) cantidad de columnas, 1 a 4. Default: 2.
  *
@@ -259,6 +260,7 @@ class VideoDeckGold extends HTMLElement {
     window.addEventListener('resize', this._onResize);
     this._applyWidth();
     this._layout();
+    requestAnimationFrame(() => this._layout());
   }
 
   disconnectedCallback() {
@@ -318,7 +320,8 @@ class VideoDeckGold extends HTMLElement {
       const kMax = (n - 1) / 2;
       // El abanico siempre ocupa el mismo ancho total: con pocas cartas se abre más,
       // con muchas se cierra. `spread` lo escala (1 = default).
-      const f = Math.max(0, parseFloat(this.getAttribute('spread')) || 1);
+      let f = Math.max(0, parseFloat(this.getAttribute('spread')) || 1);
+      f = this._fitSpread(n, f);                              // se cierra solo si no entra en el ancho disponible
       const step = n > 1 ? Math.min(40, 20 / kMax) * f : 0;   // % del ancho de la carta
       const rot  = n > 1 ? Math.min(12, 6 / kMax) * f : 0;    // grados
       cards.forEach((c, i) => {
@@ -364,6 +367,31 @@ class VideoDeckGold extends HTMLElement {
 
     this._stage.style.setProperty('--vdg-extra', extra + 'px');
     if (mode === 'carousel') this._updateCarousel();
+  }
+
+  /** Abanico: ajusta `spread` para que todo el abanico entre en el ancho disponible
+      (el de la columna que lo contiene, nunca más que la pantalla). */
+  _fitSpread(n, f0) {
+    if (n < 2) return f0;
+    const W = this._stage.getBoundingClientRect().width;
+    if (!W) return f0;
+    const vw = document.documentElement.clientWidth;
+    const par = this.parentElement;
+    const avail = Math.min(vw, (par && par.clientWidth) || vw) - 6;   // 6px de respiro para el borde dorado
+    const H = W * 16 / 9;
+    const kMax = (n - 1) / 2;
+    const half = f => {                                // distancia del centro al borde del abanico
+      const th = Math.min(12, 6 / kMax) * f * kMax * Math.PI / 180;
+      const off = kMax * Math.min(40, 20 / kMax) * f / 100 * W;
+      return (W / 2) * Math.cos(th) + (H / 2) * Math.sin(th) + off;
+    };
+    if (half(f0) * 2 <= avail) return f0;
+    let lo = 0, hi = f0;
+    for (let i = 0; i < 14; i++) {
+      const mid = (lo + hi) / 2;
+      if (half(mid) * 2 <= avail) lo = mid; else hi = mid;
+    }
+    return lo;
   }
 
   /** Carrusel: la carta más cercana al centro es la más grande y opaca. */
