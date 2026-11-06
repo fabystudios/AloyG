@@ -234,6 +234,15 @@
     video-deck-gold > video-card-gold {
     margin: 0;
     }
+        /* Mazos dentro del contenedor en fila: miden lo que ocupa su abanico,
+       se centran como grupo y pasan a otra línea si no entran */
+    .video-card-gold-container { flex-wrap: wrap; }
+    .video-card-gold-container > video-deck-gold {
+      width: auto;
+      flex: 0 0 auto;
+      margin: 0;
+      padding-inline: clamp(24px, 20vw, 120px);   /* aire para que el abanico no se recorte */
+    }
   </style>
 
 </head>
@@ -1188,6 +1197,13 @@
   tema="dorado"
   efecto="luz"
   slides='[
+
+      { "mob": "d6cover.mp4", "poster": "", "title": "" },
+      {"mob":"d6-2p.jpg","title":"","landscape": false},
+      { "mob": "d6-2v.mp4", "poster": "", "title": "" },
+      {"mob":"d6-1p.jpg","desk":"d6-1p.jpg","title":"","landscape": false},
+
+
       { "mob": "d6.mp4", "poster": "", "title": "El niño que jugaba a ser Papa" },
       { "mob": "cortes.mp4", "poster": "", "title": "Cortes y desvios en Bs.As." },
       { "mob": "mar4-11.mp4", "poster": "", "title": "" },
@@ -1291,15 +1307,28 @@
                  png-count="3" png-width="80px"
 ></section-title>
 
-<video-deck-gold  spread="1.2" >
+<div class="video-card-gold-container" style="justify-content: center; gap: 40px;">
 
-    <video-card-gold   video="./asantos/6bis.mp4" poster="./asantos/6bis.png"
-        badge="barroco barcelonés" titulo="Iglesia de San Severo (Sant Sever), Barcelona." ></video-card-gold>
-  <video-card-gold    video="./asantos/6.mp4" poster="./asantos/6.png"
-        badge="6 de Noviembre"    titulo="San Severo de Barcelona"></video-card-gold>
+        <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
 
+          <video-card-gold   video="./asantos/6b.mp4" poster="./asantos/6b.jpg"
+              badge="6 de Noviembre" titulo="San Leonardo de Noblat" ></video-card-gold>
+          <video-card-gold    video="./asantos/6b.mp4" poster="./asantos/6b.png"
+              badge="6 de Noviembre"    titulo="San Leonardo de Noblat"></video-card-gold>
+
+        </video-deck-gold>
+
+        <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
+
+          <video-card-gold   video="./asantos/6bis.mp4" poster="./asantos/6bis.png"
+              badge="barroco barcelonés" titulo="Iglesia de San Severo (Sant Sever), Barcelona." ></video-card-gold>
+          <video-card-gold    video="./asantos/6.mp4" poster="./asantos/6.png"
+              badge="6 de Noviembre"    titulo="San Severo de Barcelona"></video-card-gold>
 
 </video-deck-gold>
+
+</div>
+
 <br><br>
 
 <noticia-card 
@@ -1769,15 +1798,25 @@ Cada 3 de noviembre, la Iglesia Católica celebra a San Martín de Porres, frail
 <script src="./components/video-card-frame.js"></script>
 
 <!-- --------- -->
+   <video-card-frame
+    video="./eva/6-11.mp4"
+    frame="./eva/frame-gold.png"
+    badge="Viernes"
+    titulo="6 de Noviembre"
+    style="width:auto; flex:0 0 auto;"
+    
+  ></video-card-frame>
+
   <video-card-frame
     video="./eva/5-11.mp4"
     frame="./eva/frame-gold.png"
     badge="Jueves"
     titulo="5 de Noviembre"
     style="width:auto; flex:0 0 auto;"
-    
+    hide-mobile
   ></video-card-frame>
-      <video-card-frame
+
+  <video-card-frame
     video="./eva/4-11.mp4"
     frame="./eva/frame-gold.png"
     badge="Miércoles"
@@ -1791,15 +1830,6 @@ Cada 3 de noviembre, la Iglesia Católica celebra a San Martín de Porres, frail
     frame="./eva/frame-gold.png"
     badge="Martes"
     titulo="3 de Noviembre"
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
-  ></video-card-frame>
-
-    <video-card-frame
-    video="./eva/2-11.mp4"
-    frame="./eva/frame-gold.png"
-    badge="Lunes"
-    titulo="2 de Noviembre"
     style="width:auto; flex:0 0 auto;"
     hide-mobile
   ></video-card-frame>
