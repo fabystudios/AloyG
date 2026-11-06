@@ -21,6 +21,15 @@
          corta el audio anterior.
        · Siempre suena un solo audio a la vez. Se pausa al ocultar la
          pestaña y al sacar el slide de la vista del carrusel.
+     ICONO (atributo "icono" / "icon"): acepta un emoji o texto (📌) o la
+     ruta de una imagen (.png .jpg .webp .svg .gif .avif) o un data:image/…
+     Ej.: icono="./img/campana.png". La ruta se usa tal cual (igual que
+     "zoom-icon"), sin anteponer base-path. Recomendado: PNG con fondo
+     transparente y cuadrado.
+     TAMAÑO DEL ICONO: "icono-size" (desktop) e "icono-size-mobile" (móvil,
+     opcional). Acepta número (= px) o cualquier unidad CSS: icono-size="72"
+     · "4.5rem" · "80px". Si no se da el de móvil, usa ~77% del de desktop.
+     Por defecto 2.2rem (desktop) / 1.7rem (móvil).
      VIDEO: cualquier ruta terminada en .mp4 .m4v .webm u .ogv se
      detecta sola. Recomendado: MP4 H.264 + AAC con "faststart".
        · En las tarjetas se reproduce mudo, en bucle y solo mientras
@@ -149,10 +158,16 @@
       .ac-header { position: relative; z-index: 1; text-align: center; margin-bottom: 1.8rem; }
       .ac-title-row { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; }
       .ac-title-pin {
-        font-size: 2.2rem;
+        font-size: var(--ac-icon-size, 2.2rem);
+        line-height: 1;
         animation: ac-pin-sway 3s ease-in-out infinite;
         filter: drop-shadow(0 4px 14px rgba(200,140,255,0.85));
-        display: inline-block;
+        display: inline-flex; align-items: center; justify-content: center;
+        flex-shrink: 0;
+      }
+      .ac-title-pin img {
+        display: block; height: 1em; width: auto; max-width: none;
+        object-fit: contain; pointer-events: none; user-select: none;
       }
       @keyframes ac-pin-sway {
         0%, 100% { transform: rotate(-12deg) translateY(0); }
@@ -368,7 +383,7 @@
       @media (max-width: 768px) {
         .ac-wrap { padding: 1.5rem 0.75rem 1.25rem; margin: 1rem 0.5rem; border-radius: 20px; }
         .ac-header { margin-bottom: 1.4rem; }
-        .ac-title-pin { font-size: 1.7rem; }
+        .ac-title-pin { font-size: var(--ac-icon-size-m, calc(var(--ac-icon-size, 2.2rem) * 0.77)); }
         .ac-title-text h2 { font-size: 1.45rem; }
         .ac-card { aspect-ratio: 9/16; }
         .ac-nav-btn { width: 44px; height: 44px; }
@@ -574,7 +589,7 @@
   class AnunciosCarousel extends HTMLElement {
 
     static get observedAttributes() {
-      return ['tema', 'theme', 'efecto', 'effect', 'titulo', 'title', 'subtitulo', 'subtitle', 'icono', 'icon', 'floating-image', 'imagen-flotante', 'zoom-icon', 'icono-zoom'];
+      return ['tema', 'theme', 'efecto', 'effect', 'titulo', 'title', 'subtitulo', 'subtitle', 'icono', 'icon', 'floating-image', 'imagen-flotante', 'zoom-icon', 'icono-zoom', 'icono-size', 'icon-size', 'icono-size-mobile', 'icon-size-mobile'];
     }
 
     connectedCallback() {
@@ -596,6 +611,7 @@
 
       this._readThemeAndEffect();
       this._applyTheme();
+      this._applyIconSize();
 
       this.innerHTML = this._buildHTML();
       this._applyZoomIcon();
@@ -609,6 +625,7 @@
       if (oldVal === newVal || !this.isConnected) return;
       if (name === 'tema' || name === 'theme') { this._readThemeAndEffect(); this._applyTheme(); }
       if (name === 'efecto' || name === 'effect') { this._readThemeAndEffect(); }
+      if (/^(icono|icon)-size(-mobile)?$/.test(name)) { this._applyIconSize(); }
       if (name === 'floating-image' || name === 'imagen-flotante') { this._readThemeAndEffect(); }
       if (name === 'zoom-icon' || name === 'icono-zoom') { this._readThemeAndEffect(); this._applyZoomIcon(); }
       if (['titulo', 'title', 'subtitulo', 'subtitle', 'icono', 'icon'].includes(name)) {
@@ -618,7 +635,7 @@
         const pin = this.querySelector('.ac-title-pin');
         if (h2) h2.textContent = this._title;
         if (p) p.textContent = this._subtitle;
-        if (pin) pin.textContent = this._icon;
+        if (pin) pin.innerHTML = this._iconHTML();
       }
     }
 
@@ -630,6 +647,29 @@
       this._effectName = this.getAttribute('efecto') || this.getAttribute('effect') || 'estrellas';
       this._floatingImage = this.getAttribute('floating-image') || this.getAttribute('imagen-flotante') || null;
       this._zoomIcon = this.getAttribute('zoom-icon') || this.getAttribute('icono-zoom') || './img/lupa.png';
+    }
+
+    /* Tamaño del icono del título. Número → px; si trae unidad se usa tal cual. */
+    _applyIconSize() {
+      const norm = (v) => {
+        v = (v || '').trim();
+        if (!v) return null;
+        if (/^\d+(\.\d+)?$/.test(v)) return v + 'px';
+        return /^[\d.]+[a-z%]+$/i.test(v) || /^(calc|clamp|min|max)\(/i.test(v) ? v : null;
+      };
+      const d = norm(this.getAttribute('icono-size') || this.getAttribute('icon-size'));
+      const m = norm(this.getAttribute('icono-size-mobile') || this.getAttribute('icon-size-mobile'));
+      if (d) this.style.setProperty('--ac-icon-size', d); else this.style.removeProperty('--ac-icon-size');
+      if (m) this.style.setProperty('--ac-icon-size-m', m); else this.style.removeProperty('--ac-icon-size-m');
+    }
+
+    /* El icono del título puede ser un emoji/texto o una imagen
+       (png, jpg, webp, svg, gif, avif, o data:image/...). */
+    _iconHTML() {
+      const icon = String(this._icon || '').trim();
+      const esc = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+      const isImage = /^data:image\//i.test(icon) || /\.(png|jpe?g|gif|webp|svg|avif|ico)(\?.*)?(#.*)?$/i.test(icon);
+      return isImage ? `<img src="${esc(icon)}" alt="" draggable="false">` : esc(icon);
     }
 
     /* Cambiar tema o efecto por JS, sin tocar atributos */
@@ -786,7 +826,7 @@
           <div class="ac-glow"></div>
           <div class="ac-header">
             <div class="ac-title-row">
-              <span class="ac-title-pin" aria-hidden="true">${this._icon}</span>
+              <span class="ac-title-pin" aria-hidden="true">${this._iconHTML()}</span>
               <div class="ac-title-text">
                 <h2>${this._title}</h2>
                 ${this._subtitle ? `<p>${this._subtitle}</p>` : ''}
