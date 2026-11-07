@@ -77,6 +77,11 @@ class NoticiaCard extends HTMLElement {
     return this.getAttribute(name) || fallback;
   }
 
+  // Escapa texto de un atributo para insertarlo como contenido HTML.
+  _escHtml(v) {
+    return String(v).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
   // Valida un color recibido por atributo (#hex, rgb(), hsl(), nombre, var()).
   // Solo deja pasar caracteres propios de un color, así no se puede colar
   // otro CSS por el atributo. Devuelve '' si no es válido o está vacío.
@@ -147,6 +152,9 @@ class NoticiaCard extends HTMLElement {
     this._textoMobile = textoMobile;
     this._imagenMob = imagenMob;
     const fuenteNombre  = this._attr('fuente-nombre', 'Leer más');
+    // Texto que va antes del nombre/logo de la fuente en el botón.
+    // Default: "Leer más en". Se cambia con boton-texto="Ver nota en".
+    const botonTexto    = this._escHtml(this._attr('boton-texto', 'Leer más en'));
     const fuenteUrl     = this._attr('fuente-url', '#');
     const fuenteLogo    = this._attr('fuente-logo', '');
 
@@ -201,7 +209,7 @@ class NoticiaCard extends HTMLElement {
           <button class="toggle" type="button" hidden>Ver más</button>
 
           <a class="cta" href="${fuenteUrl}" target="_blank" rel="noopener">
-            <span>Leer más en</span>
+            <span>${botonTexto}</span>
             ${fuenteLogo
               ? `<img class="cta__logo" src="${fuenteLogo}" alt="${fuenteNombre}">`
               : `<strong>${fuenteNombre}</strong>`}
