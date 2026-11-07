@@ -8,7 +8,7 @@ class NoticiaCard extends HTMLElement {
     this._expanded = false;
   }
 
-  static get observedAttributes() { return ['ancho']; }
+  static get observedAttributes() { return ['ancho', 'marca-ancho']; }
 
   connectedCallback() {
     this._ensureFonts();
@@ -19,6 +19,7 @@ class NoticiaCard extends HTMLElement {
     this._setupTextoMobile();
     this._setupMarca();
     this._applyAncho();
+    this._applyMarcaAncho();
   }
 
   // El destello recorre solo la silueta del logo: se usa el propio logo como
@@ -35,6 +36,23 @@ class NoticiaCard extends HTMLElement {
 
   attributeChangedCallback(name) {
     if (name === 'ancho') this._applyAncho();
+    if (name === 'marca-ancho') this._applyMarcaAncho();
+  }
+
+  // Tamaño (ancho) de la marca, configurable por atributo
+  // (ej: marca-ancho="200px", "30%", "12rem"). Si no se pasa o no es
+  // válido, se mantiene el tamaño por defecto del CSS: clamp(92px, 40%, 150px).
+  _applyMarcaAncho() {
+    const v = this._marcaAnchoValido(this.getAttribute('marca-ancho'));
+    if (v) this.style.setProperty('--nc-marca-ancho', v);
+    else   this.style.removeProperty('--nc-marca-ancho');
+  }
+
+  // Solo deja pasar valores de tamaño CSS (px, %, rem, vw, clamp(), calc()...)
+  // para que no se pueda colar otro CSS por el atributo.
+  _marcaAnchoValido(v) {
+    v = (v || '').trim();
+    return /^[a-zA-Z0-9\s(),.%+*\/-]+$/.test(v) ? v : '';
   }
 
   // Ancho en desktop, configurable por atributo (ej: ancho="60vw" o ancho="900px").
@@ -527,7 +545,7 @@ class NoticiaCard extends HTMLElement {
         bottom:12px;
         z-index:2;
         display:block;
-        width: clamp(92px, 40%, 150px);
+        width: var(--nc-marca-ancho, clamp(92px, 40%, 150px));
         line-height:0;
         pointer-events:none;
         opacity:.94;
