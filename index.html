@@ -237,13 +237,20 @@
         /* Mazos dentro del contenedor en fila: miden lo que ocupa su abanico,
        se centran como grupo y pasan a otra línea si no entran */
     .video-card-gold-container { flex-wrap: wrap; }
-    .video-card-gold-container > video-deck-gold {
-      width: auto;
-      flex: 0 0 auto;
-      margin: 0;
-      padding-inline: clamp(24px, 20vw, 90px);   /* aire para que el abanico no se recorte */
-      overflow: visible;                          /* ← la sombra deja de cortarse */
+ 
+    /* Mazos: contenedor propio, centrado como grupo */
+    .deck-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+      gap: 0 40px;
+      max-width: 940px;
+      margin-block: var(--pub-gap);
+      margin-inline: auto;
     }
+    .deck-row > video-deck-gold { margin: 0; }
+
+
+
   </style>
 
 </head>
@@ -1296,9 +1303,9 @@ Andrés Garofalo, trabajador del sector automotor, explicó que su empresa modif
 
 <!-- <video-deck-gold spread="1" anchor="top-mobile" card-width="min(260px, 54vw)">  -->
 
-<div class="video-card-gold-container" style="justify-content: center; gap: 40px;">
+<div class="deck-row">
 
-        <video-deck-gold  spread="1" card-width="min(260px, 54vw)">
+        <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
 
           <video-card-gold   video="./asantos/6b.mp4" poster="./asantos/6b.jpg"
               badge="6 de Noviembre" titulo="San Leonardo de Noblat" ></video-card-gold>
@@ -1307,7 +1314,7 @@ Andrés Garofalo, trabajador del sector automotor, explicó que su empresa modif
 
         </video-deck-gold>
 
-        <video-deck-gold  spread="1" card-width="min(260px, 54vw)">
+        <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
 
           <video-card-gold   video="./asantos/6bis.mp4" poster="./asantos/6bis.png"
               badge="barroco barcelonés" titulo="Iglesia de San Severo (Sant Sever), Barcelona." ></video-card-gold>

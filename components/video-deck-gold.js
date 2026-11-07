@@ -103,8 +103,7 @@ _tpl.innerHTML = `
     width: 100%;
     /* aire para el abanico, la elevación en hover y las sombras */
     padding: 28px 0 36px;
-    /* el abanico nunca genera scroll horizontal; la carta abierta (fixed) no se recorta */
-    overflow-x: clip;
+    max-width: 100%;
   }
   :host([mode="carousel"]) { padding: 0; }
   :host([mode="grid"]) { padding: 12px 0 24px; }
@@ -377,7 +376,7 @@ class VideoDeckGold extends HTMLElement {
     if (!W) return f0;
     const vw = document.documentElement.clientWidth;
     const par = this.parentElement;
-    const avail = Math.min(vw, (par && par.clientWidth) || vw) - 6;   // 6px de respiro para el borde dorado
+    const avail = Math.min(vw, this.clientWidth || vw, (par && par.clientWidth) || vw) - 6;   // 6px de respiro para el borde dorado
     const H = W * 16 / 9;
     const kMax = (n - 1) / 2;
     const half = f => {                                // distancia del centro al borde del abanico
