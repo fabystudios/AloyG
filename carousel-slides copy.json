@@ -1,4 +1,5 @@
 [
+
     {
     "id": "santos",
     "position": -1,
@@ -31,7 +32,7 @@
   },
   {
     "id": "ssff",
-    "position": 1,
+    "position": 2,
     "hasVideo": false,
     "link": "https://forms.cloud.microsoft/pages/responsepage.aspx?id=3tftEtN_F0yEUN_PKfq_WT1YroBjfUxPkTJMJkG1hqJUMkFKS09OUENJVEE2SERJM0ZUQkRQNjMyNC4u&route=shorturl",
     "time": { "desktop": 5, "mobile": 5 },
@@ -47,7 +48,7 @@
   
   {
     "id": "ssff",
-    "position": 2,
+    "position": 3,
     "hasVideo": false,
     "link": "https://forms.cloud.microsoft/pages/responsepage.aspx?id=3tftEtN_F0yEUN_PKfq_WT1YroBjfUxPkTJMJkG1hqJUMkFKS09OUENJVEE2SERJM0ZUQkRQNjMyNC4u&route=shorturl",
     "time": { "desktop": 5, "mobile": 5 },
@@ -60,9 +61,30 @@
       "src": "./slides2/ssff2_mob.png"
     }
   },
+
+
+
+
+
+                        {
+    "id": "alias",
+    "position": 5,
+    "hasVideo": false,
+    "link": "#",
+    "time": { "desktop": 5, "mobile": 5 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides2/alias_desk2.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides2/alias_mob2.png"
+    }
+  },
+
                {
     "id": "videos Consejos",
-    "position": 5,
+    "position": 6,
     "hasVideo": true,
     "link": "./avisos.html",
     "time": { "desktop": 8, "mobile": 6 },
@@ -79,7 +101,7 @@
   },
                {
     "id": "videos merendero",
-    "position": 6,
+    "position": 7,
     "hasVideo": true,
     "link": "",
     "posterTime": { "desktop": 1, "mobile": 1},
@@ -94,21 +116,39 @@
       "poster": "./slides2/poster_mob_merendero.png"
     }
   },
-                        {
-    "id": "alias",
-    "position": 4,
+     {
+    "id": "coro",
+    "position": 8,
     "hasVideo": false,
-    "link": "#",
-    "time": { "desktop": 5, "mobile": 5 },
+    "link": "",
+    "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides2/alias_desk2.png"
+      "src": "./slides/coro_deskk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides2/alias_mob2.png"
+      "src": "./slides/coro_mobb.png"
     }
   },
+       
+        {
+    "id": "ultimas-vacantes",
+    "position": 10,
+    "hasVideo": false,
+    "link": "#asis1",
+    "time": { "desktop": 3, "mobile": 3 },
+    "desktop": {
+      "type": "image",
+      "src": "./slides/sf_deskk.png"
+    },
+    "mobile": {
+      "type": "image",
+      "src": "./slides/sf_mobb.png"
+    }
+  },
+
+
              {
     "id": "videos matrimonio",
     "position": -1,
@@ -184,7 +224,7 @@
   },
                 {
     "id": "viaje",
-    "position": 1,
+    "position": -1,
     "hasVideo": false,
     "link": "#papa1",
     "time": { "desktop": 3, "mobile": 3 },
@@ -227,21 +267,7 @@
     "src": "./slides/avisos_mob.png"
   }
 },
-                {
-    "id": "ultimas-vacantes",
-    "position": 9,
-    "hasVideo": false,
-    "link": "#asis1",
-    "time": { "desktop": 3, "mobile": 3 },
-    "desktop": {
-      "type": "image",
-      "src": "./slides/sf_deskk.png"
-    },
-    "mobile": {
-      "type": "image",
-      "src": "./slides/sf_mobb.png"
-    }
-  },
+          
                   {
     "id": "asis2",
     "position": -1,
@@ -358,21 +384,6 @@
     "mobile": {
       "type": "image",
       "src": "./slides/fiesta_mob.png"
-    }
-  },
-          {
-    "id": "coro",
-    "position": 7,
-    "hasVideo": false,
-    "link": "",
-    "time": { "desktop": 3, "mobile": 3 },
-    "desktop": {
-      "type": "image",
-      "src": "./slides/coro_deskk.png"
-    },
-    "mobile": {
-      "type": "image",
-      "src": "./slides/coro_mobb.png"
     }
   },
        
