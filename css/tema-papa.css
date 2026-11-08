@@ -1,0 +1,99 @@
+/* ==========================================================================
+   TEMA "VISITA DEL PAPA" — Navbar y Footer con la bandera del Vaticano
+   (mitad amarilla / mitad blanca)
+
+   ► ACTIVAR:    <html lang="es-AR" class="tema-papa">
+   ► RESTABLECER: sacar  class="tema-papa"  del <html>  (o comentar el <link>
+                  a este archivo). No se modificó NINGUNA regla original:
+                  style.css, los estilos inline y los <style> siguen intactos,
+                  así que al desactivarlo el sitio vuelve a su estado anterior.
+
+   Todo está acotado a  html.tema-papa  para no afectar nada más.
+   ========================================================================== */
+
+html.tema-papa {
+  --papa-amarillo: #FFE000;            /* amarillo bandera Vaticano */
+  --papa-blanco:   #FFFFFF;
+  --papa-texto:    #1b1b1b;
+  --papa-dorado:   #b8860b;
+  --papa-bandera:  linear-gradient(90deg, var(--papa-amarillo) 50%, var(--papa-blanco) 50%);
+}
+
+/* ───────────────────────── NAVBAR ───────────────────────── */
+
+/* Fondo: la <section class="cabecera"> lleva el degradado inline azul;
+   un !important de hoja de estilos le gana a un inline sin !important. */
+html.tema-papa .cabecera {
+  background: var(--papa-bandera) !important;
+  border-color: rgba(184,134,11,.6) !important;
+}
+/* El <nav> se deja transparente para que se vea la bandera de la sección */
+html.tema-papa .cabecera .navbar {
+  background: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border-bottom-color: rgba(184,134,11,.5) !important;
+}
+html.tema-papa .glass-shine-overlay { opacity: .35; }
+
+/* Marca / título (el blanco original no se lee sobre amarillo/blanco) */
+html.tema-papa .navbar-brand,
+html.tema-papa .navbar-brand .linea1 {
+  color: var(--papa-texto) !important;
+  text-shadow: none !important;
+}
+html.tema-papa .navbar-brand:hover { color: #000 !important; }
+/* .linea2 trae color inline con !important (no se puede pisar): se oscurece con filter */
+html.tema-papa .navbar-brand .linea2 { filter: brightness(.22) saturate(1.6); text-shadow: none !important; }
+html.tema-papa .navbar-brand .logo { filter: drop-shadow(0 2px 3px rgba(0,0,0,.35)) !important; }
+
+/* Botón hamburguesa (mobile) */
+html.tema-papa .navbar-toggler { border-color: rgba(0,0,0,.45) !important; }
+html.tema-papa .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%2827, 27, 27, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+}
+
+/* Opciones del menú (píldoras) */
+html.tema-papa .navbar-nav .nav-link:not(:hover):not(:focus-visible) {
+  color: var(--papa-texto) !important;
+  background: rgba(0,0,0,.04);
+  border-color: rgba(184,134,11,.55);
+}
+html.tema-papa .navbar-nav .nav-link:hover,
+html.tema-papa .navbar-nav .nav-link:focus-visible {
+  color: #2b2200 !important;
+  background: linear-gradient(135deg, #fff6b8, #FFE000 55%, #e0b400);
+  border-color: var(--papa-dorado);
+  box-shadow: 0 6px 16px rgba(184,134,11,.35), 0 0 0 1px rgba(184,134,11,.5) inset;
+}
+
+/* ───────────────────────── FOOTER ───────────────────────── */
+
+html.tema-papa .footer {
+  background: var(--papa-bandera) !important;
+  color: var(--papa-texto) !important;
+  border-top-color: rgba(184,134,11,.7) !important;
+  border-bottom-color: rgba(184,134,11,.5) !important;
+}
+html.tema-papa .footer .footer-title,
+html.tema-papa .footer .footer-text,
+html.tema-papa .footer .footer-copyright { color: var(--papa-texto) !important; }
+html.tema-papa .footer .footer-copyright { opacity: .85; }
+
+html.tema-papa .footer .footer-link { color: #5c4300 !important; font-weight: 600; }
+html.tema-papa .footer .footer-link:hover { color: #000 !important; }
+
+html.tema-papa .footer .social-link {
+  color: var(--papa-texto) !important;
+  background: rgba(0,0,0,.07);
+  border: 1px solid rgba(184,134,11,.45);
+}
+html.tema-papa .footer .social-link:hover {
+  color: #000 !important;
+  background: rgba(255,224,0,.55);
+}
+
+/* El isotipo del footer es amarillo: sobre la bandera se pierde, se le da contorno oscuro */
+html.tema-papa .footer .footer-logo-link img {
+  filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 1px #000) drop-shadow(0 2px 4px rgba(0,0,0,.45));
+}
