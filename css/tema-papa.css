@@ -43,8 +43,8 @@ html.tema-papa .navbar-brand .linea1 {
   text-shadow: none !important;
 }
 html.tema-papa .navbar-brand:hover { color: #000 !important; }
-/* .linea2 trae color inline con !important (no se puede pisar): se oscurece con filter */
-html.tema-papa .navbar-brand .linea2 { filter: brightness(.22) saturate(1.6); text-shadow: none !important; }
+/* .linea2 trae color inline con !important (no se puede pisar con color): se usa text-fill-color */
+html.tema-papa .navbar-brand .linea2 { -webkit-text-fill-color: #1b1b1b !important; text-shadow: none !important; }
 html.tema-papa .navbar-brand .logo { filter: drop-shadow(0 2px 3px rgba(0,0,0,.35)) !important; }
 
 /* Botón hamburguesa (mobile) */
@@ -96,4 +96,107 @@ html.tema-papa .footer .social-link:hover {
 /* El isotipo del footer es amarillo: sobre la bandera se pierde, se le da contorno oscuro */
 html.tema-papa .footer .footer-logo-link img {
   filter: drop-shadow(0 0 1px #000) drop-shadow(0 0 1px #000) drop-shadow(0 2px 4px rgba(0,0,0,.45));
+}
+
+
+/* ==========================================================================
+   GLOW + TEXTURA DE TELA ONDEANDO  (navbar y footer)
+   Sigue acotado a html.tema-papa: al sacar la clase, desaparece todo.
+   ========================================================================== */
+
+/* ───────── Textura: pliegues de tela de bandera ─────────
+   Sin ruido (el ruido se veía como suciedad): solo ondas suaves de luz y
+   sombra en tono cálido, en dos capas con distinto ángulo y velocidad, como
+   una tela de seda ondeando. Va en un ::before ENTRE el fondo y el contenido
+   y no intercepta clics (pointer-events:none).                              */
+html.tema-papa .cabecera { position: relative; }
+
+html.tema-papa .cabecera::before,
+html.tema-papa .footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image:
+    linear-gradient(105deg,
+      transparent 0%,
+      rgba(120,90,0,.11) 7%,
+      transparent 17%,
+      rgba(255,255,255,.40) 25%,
+      transparent 35%,
+      rgba(120,90,0,.08) 45%,
+      transparent 55%,
+      rgba(255,255,255,.32) 64%,
+      transparent 73%,
+      rgba(120,90,0,.10) 84%,
+      transparent 100%),
+    linear-gradient(78deg,
+      transparent 0%,
+      rgba(255,255,255,.22) 18%,
+      transparent 36%,
+      rgba(120,90,0,.06) 55%,
+      transparent 72%,
+      rgba(255,255,255,.18) 88%,
+      transparent 100%);
+  background-size: 700px 100%, 1100px 100%;
+  background-repeat: repeat-x, repeat-x;
+  animation: papa-ondear 40s linear infinite;
+}
+
+/* Desplazamiento lento y en bucle perfecto (el avance = ancho de cada capa) */
+@keyframes papa-ondear {
+  from { background-position: 0 0,      0 0; }
+  to   { background-position: -700px 0, 1100px 0; }
+}
+
+/* ───────── Glow dorado ─────────
+   Las animaciones pisan al box-shadow inline original sin necesidad de !important. */
+html.tema-papa .cabecera {
+  box-shadow:
+    0 4px 30px rgba(0,0,0,.18),
+    0 0 16px 3px rgba(255,214,0,.60),
+    0 0 40px 10px rgba(255,196,0,.32),
+    inset 0 1px 0 rgba(255,255,255,.65);
+  animation: papa-glow-navbar 4.5s ease-in-out infinite;
+}
+html.tema-papa .footer {
+  box-shadow:
+    0 -4px 30px rgba(0,0,0,.14),
+    0 0 16px 3px rgba(255,214,0,.60),
+    0 0 40px 10px rgba(255,196,0,.32),
+    inset 0 1px 0 rgba(255,255,255,.65);
+  animation: papa-glow-footer 4.5s ease-in-out infinite;
+}
+@keyframes papa-glow-navbar {
+  0%, 100% {
+    box-shadow: 0 4px 30px rgba(0,0,0,.18), 0 0 14px 2px rgba(255,214,0,.50),
+                0 0 36px 8px rgba(255,196,0,.26), inset 0 1px 0 rgba(255,255,255,.65);
+  }
+  50% {
+    box-shadow: 0 4px 30px rgba(0,0,0,.18), 0 0 24px 6px rgba(255,224,0,.85),
+                0 0 60px 18px rgba(255,200,0,.48), inset 0 1px 0 rgba(255,255,255,.8);
+  }
+}
+@keyframes papa-glow-footer {
+  0%, 100% {
+    box-shadow: 0 -4px 30px rgba(0,0,0,.14), 0 0 14px 2px rgba(255,214,0,.50),
+                0 0 36px 8px rgba(255,196,0,.26), inset 0 1px 0 rgba(255,255,255,.65);
+  }
+  50% {
+    box-shadow: 0 -4px 30px rgba(0,0,0,.14), 0 0 24px 6px rgba(255,224,0,.85),
+                0 0 60px 18px rgba(255,200,0,.48), inset 0 1px 0 rgba(255,255,255,.8);
+  }
+}
+
+/* Brillo dorado también al pasar el mouse por los botones sociales y el menú */
+html.tema-papa .footer .social-link:hover { box-shadow: 0 0 14px 3px rgba(255,214,0,.7); }
+
+/* Accesibilidad: quien pide menos movimiento ve el glow y la textura quietos */
+@media (prefers-reduced-motion: reduce) {
+  html.tema-papa .cabecera,
+  html.tema-papa .footer,
+  html.tema-papa .cabecera::before,
+  html.tema-papa .footer::before { animation: none; }
 }
