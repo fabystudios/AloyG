@@ -4,14 +4,14 @@
     "position": 1,
     "hasVideo": false,
     "link": "",
-    "time": { "desktop": 5, "mobile": 5 },
+    "time": { "desktop": 7, "mobile": 7 },
     "desktop": {
       "type": "image",
-      "src": "./slides2/llegada_desk.png"
+      "src": "./slides2/hola_desk.png"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides2/llegada_mob.png"
+      "src": "./slides2/hola_mob.png"
     }
   },
       {
