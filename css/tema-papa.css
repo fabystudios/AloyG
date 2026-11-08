@@ -17,6 +17,27 @@ html.tema-papa {
   --papa-texto:    #1b1b1b;
   --papa-dorado:   #b8860b;
   --papa-bandera:  linear-gradient(90deg, var(--papa-amarillo) 50%, var(--papa-blanco) 50%);
+  --papa-pliegues:
+    linear-gradient(105deg,
+      transparent 0%,
+      rgba(120,90,0,.11) 7%,
+      transparent 17%,
+      rgba(255,255,255,.40) 25%,
+      transparent 35%,
+      rgba(120,90,0,.08) 45%,
+      transparent 55%,
+      rgba(255,255,255,.32) 64%,
+      transparent 73%,
+      rgba(120,90,0,.10) 84%,
+      transparent 100%),
+    linear-gradient(78deg,
+      transparent 0%,
+      rgba(255,255,255,.22) 18%,
+      transparent 36%,
+      rgba(120,90,0,.06) 55%,
+      transparent 72%,
+      rgba(255,255,255,.18) 88%,
+      transparent 100%);
 }
 
 /* ───────────────────────── NAVBAR ───────────────────────── */
@@ -130,27 +151,7 @@ html.tema-papa .footer::before {
   z-index: 0;
   border-radius: inherit;
   pointer-events: none;
-  background-image:
-    linear-gradient(105deg,
-      transparent 0%,
-      rgba(120,90,0,.11) 7%,
-      transparent 17%,
-      rgba(255,255,255,.40) 25%,
-      transparent 35%,
-      rgba(120,90,0,.08) 45%,
-      transparent 55%,
-      rgba(255,255,255,.32) 64%,
-      transparent 73%,
-      rgba(120,90,0,.10) 84%,
-      transparent 100%),
-    linear-gradient(78deg,
-      transparent 0%,
-      rgba(255,255,255,.22) 18%,
-      transparent 36%,
-      rgba(120,90,0,.06) 55%,
-      transparent 72%,
-      rgba(255,255,255,.18) 88%,
-      transparent 100%);
+  background-image: var(--papa-pliegues);
   background-size: 700px 100%, 1100px 100%;
   background-repeat: repeat-x, repeat-x;
   animation: papa-ondear 40s linear infinite;
@@ -210,4 +211,40 @@ html.tema-papa .footer .social-link:hover { box-shadow: 0 0 14px 3px rgba(255,21
   html.tema-papa .footer,
   html.tema-papa .cabecera::before,
   html.tema-papa .footer::before { animation: none; }
+}
+
+
+/* ==========================================================================
+   MENÚ DESPLEGABLE (mobile): bandera + glow + pliegues, igual que el navbar
+   Solo aplica donde Bootstrap colapsa el menú (< 992px).
+   ========================================================================== */
+@media (max-width: 991.98px) {
+  html.tema-papa .navbar-collapse {
+    background: var(--papa-bandera) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    border: 1px solid rgba(184,134,11,.7);
+    box-shadow:
+      0 8px 24px rgba(0,0,0,.22),
+      0 0 14px 3px rgba(255,214,0,.55),
+      inset 0 1px 0 rgba(255,255,255,.7) !important;
+    overflow: hidden;
+  }
+  /* Pliegues de tela (no interceptan clics; el contenido queda por encima) */
+  html.tema-papa .navbar-collapse::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background-image: var(--papa-pliegues);
+    background-size: 700px 100%, 1100px 100%;
+    background-repeat: repeat-x, repeat-x;
+    animation: papa-ondear 40s linear infinite;
+  }
+  html.tema-papa .navbar-collapse > * { position: relative; z-index: 1; }
+}
+@media (max-width: 991.98px) and (prefers-reduced-motion: reduce) {
+  html.tema-papa .navbar-collapse::before { animation: none; }
 }
