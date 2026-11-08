@@ -37,12 +37,23 @@ html.tema-papa .cabecera .navbar {
 html.tema-papa .glass-shine-overlay { opacity: .35; }
 
 /* Marca / título (el blanco original no se lee sobre amarillo/blanco) */
-html.tema-papa .navbar-brand,
-html.tema-papa .navbar-brand .linea1 {
-  color: var(--papa-texto) !important;
-  text-shadow: none !important;
-}
+html.tema-papa .navbar-brand { color: var(--papa-texto) !important; }
 html.tema-papa .navbar-brand:hover { color: #000 !important; }
+
+/* Título "San Luis Gonzaga": letras blancas con contorno oscuro + sombra + glow dorado
+   (mismo efecto que la imagen del título), hecho con CSS: sigue siendo texto real.
+   El contorno son 8 sombras alrededor de cada letra; no depende de -webkit-text-stroke. */
+html.tema-papa .navbar-brand .linea1 {
+  color: #ffffff !important;
+  text-shadow:
+    -2px -2px 0 #1b1b1b,  0   -2px 0 #1b1b1b,  2px -2px 0 #1b1b1b,
+    -2px  0   0 #1b1b1b,                        2px  0   0 #1b1b1b,
+    -2px  2px 0 #1b1b1b,  0    2px 0 #1b1b1b,  2px  2px 0 #1b1b1b,
+     0    4px 5px rgba(0,0,0,.55),
+     0    0   14px rgba(255,196,0,.95),
+     0    0   26px rgba(255,214,0,.60) !important;
+  letter-spacing: .02em;
+}
 /* .linea2 trae color inline con !important (no se puede pisar con color): se usa text-fill-color */
 html.tema-papa .navbar-brand .linea2 { -webkit-text-fill-color: #1b1b1b !important; text-shadow: none !important; }
 html.tema-papa .navbar-brand .logo { filter: drop-shadow(0 2px 3px rgba(0,0,0,.35)) !important; }
