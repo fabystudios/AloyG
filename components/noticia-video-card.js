@@ -998,12 +998,28 @@ class NoticiaVideoCard extends HTMLElement {
           aspect-ratio: 9 / 16;
         }
 
+        /* El video apilado arriba ocupa EXACTAMENTE su franja: el recuadro
+           toma la proporción 16:9 del video (ancho completo de la card, alto
+           justo), sin barras ni fondo desenfocado. El resto del alto queda
+           para el texto. */
         .media{
-          flex: 0 0 44%;
+          flex: none;
+          width:100%;
+          aspect-ratio: 16 / 9;
           min-height:0;
         }
-        .media.is-vertical{ min-height:0; }
-        .media.is-vertical .stage{ top:12px; bottom:12px; }
+        .media__bg{ display:none; }
+        .stage{ box-shadow:none; }
+
+        /* Video vertical (Shorts): no entra a todo el ancho sin comerse la
+           card, así que conserva una franja fija y se centra por alto. */
+        .media.is-vertical{
+          flex: 0 0 44%;
+          aspect-ratio: auto;
+          min-height:0;
+        }
+        .media.is-vertical .media__bg{ display:block; }
+        .media.is-vertical .stage{ top:12px; bottom:12px; box-shadow: 0 10px 30px rgba(0,0,0,.5); }
 
         .content{
           flex:1;
