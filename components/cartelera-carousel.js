@@ -785,13 +785,98 @@
       this._icono     = this.hasAttribute('icono')     ? this.getAttribute('icono')     : '📌';
       this._iconoSize = this._parseSize(this.getAttribute('tamano-icono'));
 
+      // Fondo del panel
+      this._colorFondo = (this.getAttribute('color-fondo') || '').trim();
+      this._tapiz      = (this.getAttribute('papel-tapiz') || '').trim();
+      this._tapizModo  = (this.getAttribute('tapiz-modo') || 'cover').trim().toLowerCase();
+      this._tapizVelo  = parseFloat(this.getAttribute('tapiz-velo'));
+
+      // Fondo del modal (lightbox al hacer zoom)
+      this._modalColor = (this.getAttribute('modal-color') || '').trim();
+      this._modalTapiz = (this.getAttribute('modal-tapiz') || '').trim();
+      this._modalVelo  = parseFloat(this.getAttribute('modal-velo'));
+
       this._current = 0;
       this._lbIndex = 0;
       this._lbOpen  = false;
 
       this.innerHTML = this._buildHTML();
+      this._applyBackground();
       this._bindEvents();
       this._updateTrack(false);
+    }
+
+    /* ── Fondo: color y/o papel tapiz ── */
+    _validColor(c) {
+      return !!c && (typeof CSS === 'undefined' || !CSS.supports || CSS.supports('color', c));
+    }
+
+    // Pinta un elemento con: [velo] sobre [imagen] sobre [color]
+    _paint(el, { color, url, velo, veloRgb, tile, replaceGradient }) {
+      const layers = [];
+      if (velo > 0) {
+        const a = Math.min(velo, 1);
+        layers.push(`linear-gradient(rgba(${veloRgb},${a}), rgba(${veloRgb},${a}))`);
+      }
+      if (url) {
+        const safe = url.replace(/\\/g, '%5C').replace(/"/g, '%22').replace(/[\r\n]/g, '');
+        layers.push(`url("${safe}")`);
+      }
+      if (!layers.length && !color) return;
+
+      if (layers.length || replaceGradient) {
+        el.style.backgroundImage = layers.length ? layers.join(', ') : 'none';
+      }
+      if (color) el.style.backgroundColor = color;
+
+      if (url) {
+        const n = layers.length;
+        const rep  = Array(n).fill('no-repeat');
+        const size = Array(n).fill('cover');
+        if (tile) { rep[n - 1] = 'repeat'; size[n - 1] = 'auto'; } // solo la imagen se repite; el velo cubre todo
+        el.style.backgroundRepeat   = rep.join(', ');
+        el.style.backgroundSize     = size.join(', ');
+        el.style.backgroundPosition = 'center';
+      }
+    }
+
+    _applyBackground() {
+      const tile = this._tapizModo === 'repeat';
+
+      /* Panel principal */
+      const wrap = this.querySelector('.cc-wrap');
+      if (wrap) {
+        const color = this._validColor(this._colorFondo) ? this._colorFondo : '';
+        this._paint(wrap, {
+          color,
+          url: this._tapiz,
+          velo: this._tapizVelo,
+          veloRgb: '0,0,0',
+          tile,
+          replaceGradient: true
+        });
+      }
+
+      /* Modal (lightbox). El fondo va en .cc-lb-backdrop, que viaja con el lightbox al <body> */
+      const backdrop = this.querySelector('.cc-lb-backdrop');
+      if (backdrop) {
+        // "mismo" / "igual" reutiliza el papel tapiz del panel; cualquier otro valor es una ruta distinta
+        const t = this._modalTapiz;
+        const url = /^(mismo|igual|same)$/i.test(t) ? this._tapiz : t;
+        const color = this._validColor(this._modalColor) ? this._modalColor : '';
+        if (!url && !color) return; // sin props: queda el fondo original
+
+        // Velo obvio por defecto (0.6) cuando hay imagen de fondo; configurable con modal-velo
+        const velo = isNaN(this._modalVelo) ? (url ? 0.6 : 0) : this._modalVelo;
+        this._paint(backdrop, {
+          color: color || (url ? 'rgb(4,0,18)' : ''),
+          url,
+          velo,
+          veloRgb: '4,0,18',
+          tile,
+          replaceGradient: true
+        });
+      }
     }
 
     /* ── Header helpers ── */
