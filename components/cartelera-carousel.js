@@ -61,7 +61,15 @@
 
       .cc-title-text {
         align-self: center;
-        text-align: left;
+        text-align: center; /* centrado también cuando se apila bajo el icono (mobile) */
+        max-width: 100%;
+        min-width: 0;
+      }
+
+      .cc-title-text h2,
+      .cc-title-text p {
+        text-align: center;
+        overflow-wrap: anywhere;
       }
 
       /* Icono como imagen: mismo alto que título + subtítulo */
