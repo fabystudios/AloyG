@@ -91,6 +91,31 @@
         filter: drop-shadow(0 4px 14px rgba(200, 140, 255, 0.55));
       }
 
+      /* Icono con tamaño explícito (atributo tamano-icono): cuadrado fijo.
+         En mobile se limita con --cc-icon-m (atributo tamano-icono-mobile) o, por defecto, al 28vw. */
+      .cc-title-img[data-sized] {
+        width: var(--cc-icon);
+        height: var(--cc-icon);
+        min-height: 0;
+        aspect-ratio: auto;
+        align-self: center;
+      }
+
+      /* Velo detrás del encabezado: asegura contraste sobre cualquier papel tapiz */
+      .cc-header::before {
+        content: '';
+        position: absolute;
+        z-index: -1;
+        inset: -2rem -1.75rem -1.1rem -1.75rem;
+        pointer-events: none;
+        background: linear-gradient(
+          180deg,
+          rgba(5, 8, 32, var(--cc-scrim, 0)) 0%,
+          rgba(5, 8, 32, calc(var(--cc-scrim, 0) * 0.7)) 65%,
+          rgba(5, 8, 32, 0) 100%
+        );
+      }
+
       .cc-title-pin {
         align-self: center;
       }
@@ -117,15 +142,18 @@
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
+        /* drop-shadow (y no text-shadow) porque el relleno del texto es transparente */
+        filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.55));
       }
 
       .cc-title-text p {
         margin: 0.35rem 0 0;
-        color: rgba(200, 175, 255, 0.5);
+        color: rgba(228, 214, 255, 0.92);
         font-size: 0.78rem;
         letter-spacing: 1.8px;
         text-transform: uppercase;
-        font-weight: 500;
+        font-weight: 600;
+        text-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
       }
 
       .cc-header-divider {
@@ -606,7 +634,32 @@
         }
 
         .cc-header {
-          margin-bottom: 1.4rem;
+          margin-bottom: 1.1rem;
+        }
+
+        .cc-header::before {
+          inset: -1.5rem -0.75rem -0.9rem -0.75rem;
+        }
+
+        /* Logo arriba, texto abajo, siempre apilados y centrados */
+        .cc-title-row {
+          flex-direction: column;
+          align-items: center;
+          gap: 0.55rem;
+        }
+
+        .cc-title-img {
+          align-self: center;
+          width: clamp(64px, 24vw, 104px);
+          height: auto;
+          min-height: 0;
+          aspect-ratio: 1 / 1;
+        }
+
+        .cc-title-img[data-sized] {
+          width: var(--cc-icon-m, min(var(--cc-icon), 28vw));
+          height: var(--cc-icon-m, min(var(--cc-icon), 28vw));
+          aspect-ratio: auto;
         }
 
         .cc-title-pin {
@@ -614,7 +667,18 @@
         }
 
         .cc-title-text h2 {
-          font-size: 1.45rem;
+          font-size: 1.5rem;
+        }
+
+        .cc-title-text p {
+          font-size: 0.68rem;
+          letter-spacing: 1.2px;
+          line-height: 1.5;
+          margin-top: 0.25rem;
+        }
+
+        .cc-header-divider {
+          margin-top: 0.7rem;
         }
 
         /* Cards taller on mobile to show full portrait poster */
@@ -792,6 +856,12 @@
       this._subtitulo = this.hasAttribute('subtitulo') ? this.getAttribute('subtitulo') : 'Actividades y eventos de nuestra comunidad';
       this._icono     = this.hasAttribute('icono')     ? this.getAttribute('icono')     : '📌';
       this._iconoSize = this._parseSize(this.getAttribute('tamano-icono'));
+      this._iconoSizeM = this._parseSize(this.getAttribute('tamano-icono-mobile'));
+
+      // Legibilidad del encabezado
+      this._colorTitulo    = (this.getAttribute('color-titulo') || '').trim();
+      this._colorSubtitulo = (this.getAttribute('color-subtitulo') || '').trim();
+      this._veloTitulo     = parseFloat(this.getAttribute('velo-titulo'));
 
       // Fondo del panel
       this._colorFondo = (this.getAttribute('color-fondo') || '').trim();
@@ -810,6 +880,7 @@
 
       this.innerHTML = this._buildHTML();
       this._applyBackground();
+      this._applyHeaderStyle();
       this._bindEvents();
       this._updateTrack(false);
     }
@@ -846,6 +917,24 @@
         el.style.backgroundSize     = size.join(', ');
         el.style.backgroundPosition = 'center';
       }
+    }
+
+    // Velo detrás del encabezado + colores opcionales de título y subtítulo
+    _applyHeaderStyle() {
+      const wrap = this.querySelector('.cc-wrap');
+      if (!wrap) return;
+      // Por defecto: velo 0.55 si hay papel tapiz (donde hace falta), 0 si no.
+      const velo = isNaN(this._veloTitulo) ? (this._tapiz ? 0.55 : 0) : Math.min(Math.max(this._veloTitulo, 0), 1);
+      wrap.style.setProperty('--cc-scrim', String(velo));
+
+      const h2 = this.querySelector('.cc-title-text h2');
+      if (h2 && this._validColor(this._colorTitulo)) {
+        h2.style.background = 'none';
+        h2.style.webkitTextFillColor = this._colorTitulo;
+        h2.style.color = this._colorTitulo;
+      }
+      const sub = this.querySelector('.cc-title-text p');
+      if (sub && this._validColor(this._colorSubtitulo)) sub.style.color = this._colorSubtitulo;
     }
 
     _applyBackground() {
@@ -914,8 +1003,9 @@
       const size = this._iconoSize;
       if (this._isImageSrc(icono)) {
         // Con tamaño explícito: cuadrado fijo centrado. Sin tamaño: toma el alto del texto.
+        const sizeM = this._iconoSizeM;
         const style = size
-          ? ` style="width:${size};height:${size};min-height:0;aspect-ratio:auto;align-self:center;"`
+          ? ` data-sized style="--cc-icon:${size};${sizeM ? `--cc-icon-m:${sizeM};` : ''}"`
           : '';
         return `<span class="cc-title-img" aria-hidden="true"${style}><img src="${this._esc(icono)}" alt="" /></span>`;
       }
