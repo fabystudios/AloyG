@@ -53,10 +53,38 @@
 
       .cc-title-row {
         display: flex;
-        align-items: center;
+        align-items: stretch; /* el icono toma el alto del bloque de texto */
         justify-content: center;
         gap: 1rem;
         flex-wrap: wrap;
+      }
+
+      .cc-title-text {
+        align-self: center;
+        text-align: left;
+      }
+
+      /* Icono como imagen: mismo alto que título + subtítulo */
+      .cc-title-img {
+        position: relative;
+        flex: 0 0 auto;
+        align-self: stretch;
+        aspect-ratio: 1 / 1;
+        min-height: 2.6rem;
+      }
+
+      .cc-title-img img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
+        filter: drop-shadow(0 4px 14px rgba(200, 140, 255, 0.55));
+      }
+
+      .cc-title-pin {
+        align-self: center;
       }
 
       .cc-title-pin {
@@ -751,6 +779,12 @@
         this._slides = [];
       }
 
+      // Props del header (con valores por defecto)
+      this._titulo    = this.hasAttribute('titulo')    ? this.getAttribute('titulo')    : 'Cartelera de Novedades';
+      this._subtitulo = this.hasAttribute('subtitulo') ? this.getAttribute('subtitulo') : 'Actividades y eventos de nuestra comunidad';
+      this._icono     = this.hasAttribute('icono')     ? this.getAttribute('icono')     : '📌';
+      this._iconoSize = this._parseSize(this.getAttribute('tamano-icono'));
+
       this._current = 0;
       this._lbIndex = 0;
       this._lbOpen  = false;
@@ -758,6 +792,43 @@
       this.innerHTML = this._buildHTML();
       this._bindEvents();
       this._updateTrack(false);
+    }
+
+    /* ── Header helpers ── */
+    _esc(str) {
+      return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    _isImageSrc(v) {
+      return /^(data:image\/|https?:\/\/|\/|\.{1,2}\/)/i.test(v) ||
+             /\.(png|jpe?g|gif|webp|svg|avif)(\?.*)?$/i.test(v);
+    }
+
+    // Acepta "48" (=> 48px) o un valor CSS con unidad: "48px", "3rem", "5vw", etc.
+    // Devuelve null si no se pasó o es inválido (=> tamaño por defecto).
+    _parseSize(v) {
+      if (v == null) return null;
+      v = String(v).trim();
+      if (/^\d+(\.\d+)?$/.test(v)) return v + 'px';
+      if (/^\d+(\.\d+)?(px|rem|em|vw|vh|%)$/i.test(v)) return v;
+      return null;
+    }
+
+    _buildTitleIcon() {
+      const icono = (this._icono || '').trim();
+      if (!icono) return '';
+      const size = this._iconoSize;
+      if (this._isImageSrc(icono)) {
+        // Con tamaño explícito: cuadrado fijo centrado. Sin tamaño: toma el alto del texto.
+        const style = size
+          ? ` style="width:${size};height:${size};min-height:0;aspect-ratio:auto;align-self:center;"`
+          : '';
+        return `<span class="cc-title-img" aria-hidden="true"${style}><img src="${this._esc(icono)}" alt="" /></span>`;
+      }
+      // Emoji: el tamaño es el font-size (el inline pisa también el media query mobile)
+      const style = size ? ` style="font-size:${size};line-height:1;"` : '';
+      return `<span class="cc-title-pin" aria-hidden="true"${style}>${this._esc(icono)}</span>`;
     }
 
     /* ── HTML ── */
@@ -830,10 +901,10 @@
           <!-- Header -->
           <div class="cc-header">
             <div class="cc-title-row">
-              <span class="cc-title-pin" aria-hidden="true">📌</span>
+              ${this._buildTitleIcon()}
               <div class="cc-title-text">
-                <h2>Cartelera de Novedades</h2>
-                <p>Actividades y eventos de nuestra comunidad</p>
+                <h2>${this._esc(this._titulo)}</h2>
+                ${this._subtitulo ? `<p>${this._esc(this._subtitulo)}</p>` : ''}
               </div>
             </div>
             <div class="cc-header-divider"></div>
