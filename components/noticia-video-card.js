@@ -989,13 +989,17 @@ class NoticiaVideoCard extends HTMLElement {
       .cta__logo{ height:1.3em; width:auto; display:block; filter: brightness(0) invert(1); }
       .cta__icon{ height:1.05em; width:auto; display:block; fill: currentColor; flex:none; }
 
-      /* ---------- Mobile: formato 9:16 ---------- */
+      /* ---------- Mobile: apilado, alto máximo 9:16 ---------- */
       @media (max-width: 560px){
         :host{ width: 95vw; max-width: 95vw; }
 
+        /* Alto AUTOMÁTICO con tope de 9:16: si el texto es corto, la card se
+           ajusta a su contenido (sin espacio vacío abajo); si es largo, crece
+           hasta el formato 9:16 y ahí el texto se corta con el degradé.
+           (el ancho en mobile es 95vw → alto máximo = 95vw × 16/9) */
         .card{
           flex-direction:column;
-          aspect-ratio: 9 / 16;
+          max-height: calc(95vw * 16 / 9);
         }
 
         /* El video apilado arriba ocupa EXACTAMENTE su franja: el recuadro
@@ -1014,7 +1018,8 @@ class NoticiaVideoCard extends HTMLElement {
         /* Video vertical (Shorts): no entra a todo el ancho sin comerse la
            card, así que conserva una franja fija y se centra por alto. */
         .media.is-vertical{
-          flex: 0 0 44%;
+          flex: none;
+          height: calc(95vw * 16 / 9 * .44);
           aspect-ratio: auto;
           min-height:0;
         }
@@ -1027,6 +1032,7 @@ class NoticiaVideoCard extends HTMLElement {
           padding: 18px 18px 16px;
         }
 
+        .body-wrap{ margin-bottom:14px; }
         .headline{ font-size:1.22rem; }
         .body-text{ font-size:.88rem; }
         .author__desc{ display:none; }
