@@ -31,7 +31,7 @@
   },
   {
     "id": "ssff",
-    "position": 3,
+    "position": 4,
     "hasVideo": false,
     "link": "https://forms.cloud.microsoft/pages/responsepage.aspx?id=3tftEtN_F0yEUN_PKfq_WT1YroBjfUxPkTJMJkG1hqJUMkFKS09OUENJVEE2SERJM0ZUQkRQNjMyNC4u&route=shorturl",
     "time": { "desktop": 5, "mobile": 5 },
@@ -47,7 +47,7 @@
 
   {
     "id": "ssff",
-    "position": 4,
+    "position": 5,
     "hasVideo": false,
     "link": "https://forms.cloud.microsoft/pages/responsepage.aspx?id=3tftEtN_F0yEUN_PKfq_WT1YroBjfUxPkTJMJkG1hqJUMkFKS09OUENJVEE2SERJM0ZUQkRQNjMyNC4u&route=shorturl",
     "time": { "desktop": 5, "mobile": 5 },
@@ -63,7 +63,7 @@
 
                 {
     "id": "viaje",
-    "position": 5,
+    "position": 3,
     "hasVideo": false,
     "link": "#papa1",
     "time": { "desktop": 3, "mobile": 3 },
