@@ -1192,8 +1192,8 @@
   <!-- titulo="Nuestros Rezos"
   subtitulo="Oraciones y devociones de la comunidad"
   icono="🙏" -->
-<!-- <script src="./components/anuncios-carousel.js"></script>
 
+<!--
   <cartelera-carousel
     base-path="./actividades/papa/"
     titulo="Nuestras Fotos"
@@ -1227,8 +1227,8 @@
 
     ]'
   ></cartelera-carousel> -->
-  
-<div   style="display:none"> 
+   <script src="./components/anuncios-carousel.js"></script>
+<!-- <div   style="display:none">  -->
 <anuncios-carousel
 
   titulo="Resumen de Noticias"
@@ -1246,6 +1246,11 @@
   tema="dorado"
   efecto="luz"
   slides='[
+                  {"mob": "d11-2.mp4", "poster": "", "title": ""},
+                  {"mob":"d11-3.jpg","desk":"td11-3.jpg","title":"","landscape": false},
+                  {"mob": "d11-4.mp4", "poster": "", "title": ""},
+                  {"mob": "d11-5.mp4", "poster": "", "title": ""},
+
                   {"mob": "d9-1.mp4", "poster": "", "title": ""},
                  {"mob":"texto.png","desk":"texto_desk.png","title":"","landscape": false},
                  {"mob": "record.mp4", "poster": "", "title": ""},
@@ -1274,7 +1279,7 @@
       { "mob": "lujan.mp4", "poster": "", "title": "Luján" }
   ]'>
 </anuncios-carousel>
-</div>
+<!-- </div> -->
 
   <!-- style="display: none;"  
        icono="📰"            
@@ -1363,7 +1368,6 @@
   video="https://www.youtube.com/live/zAU5X_rKAys"
   titular="Papa León XIV en Córdoba: misa multitudinaria y vigilia en Buenos Aires"
   texto="
-📍 18:10 — Llegada al Aeroparque Jorge Newbery.
 📍 20:15 — Vigilia con los jóvenes en el Monumento de los Españoles, en Buenos Aires.
 "
   
@@ -1378,7 +1382,20 @@
   
   <!-- particle-src="./actividades/8oct/1.png, ./actividades/8oct/2.png, ./actividades/8oct/3.png"  -->
      <!-- wallpaper-src="./logos/Visita papal entre banderas argentinas.png" -->
-<br><br><br>
+<!-- <br><br><br> -->
+  <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
+
+          <video-card-gold    video="./asantos/11bis.mp4" poster="./asantos/11bis.png"
+              badge="11 de Noviembre"    titulo="San Martín de Tours"></video-card-gold>
+ 
+             <video-card-gold   video="./asantos/11.mp4" poster="./asantos/11.png"
+              badge="11 de Noviembre" titulo="San Martín de Tours" ></video-card-gold>
+
+             <video-card-gold    video="./asantos/11tris.mp4" poster="./asantos/11tris.jpg"
+              badge="11 de Noviembre"    titulo="San Martín de Tours"></video-card-gold>    
+
+</video-deck-gold> 
+
 <div style="display: flex; justify-content: center; width: 100%;">
 <script src="./components/panel-photo-wall.js"></script>
 <panel-photo-wall
@@ -1406,8 +1423,8 @@
   fit-screen="true"
   width="86%"
   max-width="none"
-  sources='["1.png","2.png","3.png","3b.png","3c.png","4.png","5.png","6.png","7.png","8.jpg","9.png","10.png","11.png","12.png","13.png","14.png","15.png","16.png","17.png","8.mp4"]'
-  sources-mobile='["1.png","2.png","3.png","3b.png","3c.png","4.png","5.png","6.png","7.png","8.jpg","9.png","10.png","11.png","12.png","13.png","14.png","15.png","16.png","17.png","8.mp4"]'
+  sources=       '["1.png","2.png","3.png","3b.png","3c.png","4.png","5.png","6.png","7.png","8.jpg","9.png","10.png","11.png","12.png","13.png","14.png","15.png","16.png","17.png","8.mp4"]'
+  sources-mobile='["1.png","2.png","3.png","3b.png","3c.png","4.png","5.png","6.png","8.jpg","9.png","10.png","11.png","12.png","13.png","14.png","15.png","16.png","17.png","8.mp4"]'
   orientacion-desktop='["portrait","","landscape","portrait","portrait","","","portrait","portrait","portrait","portrait","landscape","landscape","landscape","portrait","landscape","landscape","landscape","","portrait"]'
   orientacion-mobile='["portrait","portrait","portrait","portrait","portrait","portrait","portrait","portrait","portrait","portrait","portrait",,"portrait","portrait","portrait","portrait","portrait",,"portrait","portrait","portrait","portrait","portrait"]'
 
@@ -1415,7 +1432,12 @@
   </div>
   <!-- captions='["Bingo","Bingo","Feria","Buffet","Emprendedores","Nuestro jardín"]' -->
   <!-- width="100%" -->
+
+
+
  <div class="deck-row"> 
+
+
 
 <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
 
