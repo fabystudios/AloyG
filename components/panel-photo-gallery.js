@@ -1,5 +1,7 @@
 /**
- * <panel-photo-gallery>  — v8 (soporta gif animado, mp4/webm y atributo `sources`)
+ * <panel-photo-wall>  — v9 · derivado de panel-photo-gallery v8 (el original queda intacto y puede convivir en la misma página)
+ * Novedades vs. v8: wallpaper de fondo, grilla uniforme columns×rows, fit-screen del bloque de fotos,
+ * dispersión natural (tilt) y controles de navegación más visibles.
  * Shadow DOM · totalmente aislado del CSS de la plataforma.
  *
  * ══════════════════════════════════════════════════════════
@@ -23,8 +25,34 @@
  *                        drift → sin rotación alguna, solo flota/se traslada derecho
  *                                (ideal para logos, textos o íconos muy simétricos)
  *                        particle-motion="sway"
+ *  wallpaper-src         imagen de fondo DENTRO de la card, por debajo de fotos y textos
+ *                        wallpaper-src="./img/fondo.jpg"   (default: '' → sin wallpaper)
+ *  wallpaper-opacity     0 a 1, qué tanto se ve el wallpaper     (default: 0.35)
+ *  wallpaper-size        cover (default) | contain | 100% auto | etc.
+ *  wallpaper-position    center (default) | top | bottom | 50% 20% | etc.
+ *  wallpaper-blur        desenfoque en px                        (default: 0)
  *  width                 ancho desktop                (default: '80%')
  *  max-width             tope de ancho desktop        (default: '1280px')  ← sin esto `width` no pasa de 1280px
+ *                        Para ocupar casi toda la página: width="96%" max-width="none"
+ *                        (el % es relativo al contenedor donde pongas el componente)
+ *
+ *  ── GRILLA UNIFORME + ENCAJAR EN PANTALLA (desktop) ──────
+ *  columns               fotos por fila     columns="4"
+ *  rows                  cantidad de filas  rows="2"      → 4 × 2 = 8 fotos VISIBLES por página
+ *                        Con cualquiera de los dos se activa la grilla uniforme (si falta uno: columns=4, rows=2).
+ *                        Pisa a page-size (page-size = columns × rows).
+ *                        orientacion-desktop SE RESPETA: cada foto portrait/landscape queda dentro de su casilla, centrada.
+ *                        Si total > columns × rows, aparece la paginación (ej. total=20 → 3 páginas de 8/8/4).
+ *                        Sin estos atributos se mantiene el mosaico clásico de 9.
+ *  gap                   separación entre fotos en px (solo grilla uniforme)   (default: 14)
+ *  fit-screen            fit-screen="true": calcula el alto de las filas para que el BLOQUE DE FOTOS
+ *                        (grilla + paginación) entre completo en la pantalla. El título/cabecera queda arriba y se
+ *                        scrollea: al llegar a las fotos se ven todas a la vez. Se recalcula al cambiar el tamaño de ventana.
+ *                        En mobile (carrusel) no aplica.
+ *  tilt                  dispersión natural de las fotos en grilla uniforme: grados máximos de giro y
+ *                        pequeño desplazamiento (default: 3). tilt="0" las deja rectas. Cada foto conserva siempre su ángulo.
+ *  fit-offset            px a restar del alto de pantalla, ej. menú fijo del sitio   (default: 0)
+ *                        fit-offset="70"
  *  row-height            alto de cada fila del grid en px (default: 72)
  *                        Las miniaturas miden 3-4 filas de alto: 72 → ~290px, 100 → ~400px, 120 → ~480px
  *  total                 total de fotos               (default: 9)
@@ -63,7 +91,7 @@
  * ══════════════════════════════════════════════════════════
  *
  *  <!-- Misa de Ramos -->
- *  <panel-photo-gallery
+ *  <panel-photo-wall
  *    base-path="./actividades/ramos/"
  *    particle-src="./img/ramo.png"
  *    lightbox-particle-src="./img/ramo.png"
@@ -72,10 +100,10 @@
  *    title="Misa de" title-em="Ramos"
  *    captions='["Procesión","Bendición","Comunidad","Palmas","Celebración","Fe","Oración","Ramos","Alegría"]'
  *    total="9" width="80%">
- *  </panel-photo-gallery>
+ *  </panel-photo-wall>
  *
  *  <!-- Jueves Santo -->
- *  <panel-photo-gallery
+ *  <panel-photo-wall
  *    base-path="./actividades/jueves-santo/"
  *    particle-src="./img/gota.png, ./img/hostia.png, ./img/pan.png"
  *    lightbox-particle-src="./img/paloma.png"
@@ -83,8 +111,12 @@
  *    eyebrow="Conmemorando la última cena de Jesús"
  *    title="Celebrando" title-em="Jueves Santo"
  *    total="20" width="80%">
- *  </panel-photo-gallery>
+ *  </panel-photo-wall>
  */
+
+(function(){
+'use strict';
+if (customElements.get('panel-photo-wall')) return;   // evita doble registro
 
 // ── Temas ────────────────────────────────────────────────
 const THEMES = {
@@ -106,7 +138,7 @@ const hex2rgb = h=>{ const r=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(h.
 const darken  = (c,f=.15)=>[Math.round(c[0]*f),Math.round(c[1]*f),Math.round(c[2]*f)];
 const loadImgs = s=>{ if(!s||!s.trim())return[]; return s.split(',').map(v=>v.trim()).filter(Boolean).map(src=>{ const i=new Image();i.src=src;return i;}); };
  
-class PanelPhotoGallery extends HTMLElement {
+class PanelPhotoWall extends HTMLElement {
   connectedCallback(){
     // ── Atributos ────────────────────────────────────
     const basePath      = this.getAttribute('base-path')             || './actividades/ramos/';
@@ -115,11 +147,26 @@ class PanelPhotoGallery extends HTMLElement {
     const particleRaw   = this.getAttribute('particle-src')          || '';
     const lbParticleRaw = this.getAttribute('lightbox-particle-src') || '';
     const particleMotion = (this.getAttribute('particle-motion') || 'spin').toLowerCase();
+    const wallSrc       = (this.getAttribute('wallpaper-src')      || '').trim().replace(/["\\\n]/g,'');
+    const wallOpacity   = Math.min(1, Math.max(0, parseFloat(this.getAttribute('wallpaper-opacity') || '0.35')));
+    const wallSize      = this.getAttribute('wallpaper-size')        || 'cover';
+    const wallPos       = this.getAttribute('wallpaper-position')    || 'center';
+    const wallBlur      = parseFloat(this.getAttribute('wallpaper-blur') || '0') || 0;
     const widthVal      = this.getAttribute('width')                 || '80%';
     const maxWidthVal   = this.getAttribute('max-width')             || '1280px';
     const rowHeight     = parseInt(this.getAttribute('row-height')   || '72', 10);
     const total         = parseInt(this.getAttribute('total')     ||'9', 10);
-    const pageSize      = parseInt(this.getAttribute('page-size') ||'9', 10);
+    // Grilla uniforme (columns × rows) y ajuste a pantalla
+    const colsAttr  = parseInt(this.getAttribute('columns') || '', 10);
+    const rowsAttr  = parseInt(this.getAttribute('rows')    || '', 10);
+    const uniform   = colsAttr > 0 || rowsAttr > 0;
+    const gridCols  = uniform ? (colsAttr > 0 ? colsAttr : 4) : 0;
+    const gridRows  = uniform ? (rowsAttr > 0 ? rowsAttr : 2) : 0;
+    const gapAttr   = parseInt(this.getAttribute('gap') || '', 10);
+    const gridGap   = (uniform && gapAttr >= 0) ? gapAttr : 14;
+    const fitScreen = this.hasAttribute('fit-screen') && (this.getAttribute('fit-screen') || '').toLowerCase() !== 'false';
+    const fitOffset = parseInt(this.getAttribute('fit-offset') || '0', 10) || 0;
+    const pageSize      = uniform ? gridCols*gridRows : parseInt(this.getAttribute('page-size') ||'9', 10);
     const themeName     = this.getAttribute('theme')                 || 'violeta-dorado';
     const customC1      = this.getAttribute('color1')                || null;
     const customC2      = this.getAttribute('color2')                || null;
@@ -229,15 +276,32 @@ class PanelPhotoGallery extends HTMLElement {
     const eyebrowCol = this.getAttribute('eyebrow-color')  || '';                   // color del texto pequeño
     const shim       = emCol ? [emCol,emCol,emCol] : shimmer;                       // tema claro
     const shC=rgb(darken(c1,.45),.30), shC2=rgb(darken(c1,.45),.20);
+    // Controles de navegación: botón dorado sólido + flecha oscura (alto contraste)
+    const btnBg  = `linear-gradient(145deg,${rgb(lighten(c2,.35),1)} 0%,${rgb(c2,1)} 100%)`;
+    const btnInk = L ? '#ffffff' : rgb(darken(c1,.14),1);
  
     // ── Paginación ───────────────────────────────────
     const totalPages = Math.ceil(total/pageSize);
  
+    // Dispersión natural: ángulos y desplazamientos pseudo-aleatorios pero estables (siempre los mismos por foto)
+    const tiltAttr = parseFloat(this.getAttribute('tilt'));
+    const tiltMax  = isNaN(tiltAttr) ? 3 : Math.max(0, tiltAttr);
+    const rnd = (n,k)=>{ const x=Math.sin(n*12.9898+k*78.233)*43758.5453; return x-Math.floor(x); };
+    const scatter = idx=>{
+      const r1=rnd(idx+1,1)*2-1, r2=rnd(idx+1,2)*2-1, r3=rnd(idx+1,3)*2-1;
+      const calm = rnd(idx+1,4) < .25;                               // ~1 de cada 4 queda casi derecha
+      const rot  = (calm ? r1*.3 : Math.sign(r1||1)*(.4+.6*Math.abs(r1))) * tiltMax;
+      const k    = tiltMax/3;
+      return { rot:rot.toFixed(2), dx:(r2*5*k).toFixed(1), dy:(r3*5*k).toFixed(1) };
+    };
     const makeGridPage = page=>{
       const start=page*pageSize, end=Math.min(start+pageSize,total);
       return Array.from({length:end-start},(_,i)=>{
         const idx=start+i, caption=cap(idx);
-        return `<div class="photo-item pi${i+1}${oriClass(idx)}" data-idx="${idx}">
+        const itemCls = uniform ? 'pu' : `pi${i+1}`;
+        const sc = uniform ? scatter(idx) : null;
+        const itemSty = uniform ? ` style="--rot:${sc.rot}deg;--dx:${sc.dx}px;--dy:${sc.dy}px;animation-delay:${(.1+i*.08).toFixed(2)}s"` : '';
+        return `<div class="photo-item ${itemCls}${oriClass(idx)}"${itemSty} data-idx="${idx}">
           <div class="photo-frame">
             <div class="photo-img-wrap">${mediaTag(idx)}</div>
             ${caption?`<div class="photo-caption">${caption}</div>`:'<div class="photo-caption-empty"></div>'}
@@ -263,7 +327,7 @@ class PanelPhotoGallery extends HTMLElement {
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&display=swap');
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
  
-  :host{display:block;width:${widthVal};max-width:${maxWidthVal};margin:36px auto;font-family:'Playfair Display',Georgia,serif;position:relative;}
+  :host{display:block;width:${widthVal};max-width:${maxWidthVal};margin:36px auto;margin-left:auto!important;margin-right:auto!important;font-family:'Playfair Display',Georgia,serif;position:relative;}
   @media(max-width:768px){:host{width:95%!important;max-width:95%!important;}}
  
   /* ══ CARD ══ */
@@ -286,6 +350,7 @@ class PanelPhotoGallery extends HTMLElement {
     background:radial-gradient(ellipse at 15% 0%,${rgb(c1,.20)} 0%,transparent 55%),radial-gradient(ellipse at 85% 100%,${rgb(c2,.18)} 0%,transparent 55%),radial-gradient(ellipse at 50% 50%,${rgb(bg1,.08)} 0%,transparent 70%);
     pointer-events:none;z-index:1;
   }
+  .card-wallpaper{position:absolute;inset:${wallBlur?`-${wallBlur*2}px`:'0'};z-index:0;pointer-events:none;background-repeat:no-repeat;background-size:${wallSize};background-position:${wallPos};opacity:${isNaN(wallOpacity)?.35:wallOpacity};${wallBlur?`filter:blur(${wallBlur}px);`:''}}
   #particleCanvas{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:2;border-radius:32px;opacity:.60;}
  
   /* ══ HEADER ══ */
@@ -306,18 +371,25 @@ class PanelPhotoGallery extends HTMLElement {
   .card-body{position:relative;z-index:10;padding:38px 30px;}
  
   /* ══ GRID desktop ══ */
-  .photo-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:${rowHeight}px;gap:14px;}
+  .photo-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:var(--rh,${rowHeight}px);gap:14px;}
+  .photo-grid.uniform{grid-template-columns:repeat(${gridCols},minmax(0,1fr));grid-template-rows:repeat(${gridRows},var(--rh,${rowHeight}px));gap:${gridGap}px;}
+  .photo-grid.uniform .photo-item{grid-column:auto;grid-row:auto;min-width:0;min-height:0;}
+  .photo-grid.uniform .photo-frame{min-height:0;}
+  /* En grilla uniforme, portrait/landscape se acomodan DENTRO de su casilla (nunca desbordan) */
+  .photo-grid.uniform .photo-item{container-type:size;}
+  .photo-grid.uniform .photo-item.ori-portrait .photo-frame{height:min(100cqh,calc(100cqw * 4 / 3));width:auto;max-width:none;aspect-ratio:3/4;flex:0 0 auto;}
+  .photo-grid.uniform .photo-item.ori-landscape .photo-frame{width:min(100cqw,calc(100cqh * 16 / 11));height:auto;aspect-ratio:16/11;flex:0 0 auto;}
   .pi1{grid-column:1/5;grid-row:1/5;--rot:-2.5deg;} .pi2{grid-column:5/9;grid-row:1/4;--rot:1.8deg;}
   .pi3{grid-column:9/13;grid-row:1/5;--rot:-1.2deg;} .pi4{grid-column:1/4;grid-row:5/9;--rot:2.3deg;}
   .pi5{grid-column:4/9;grid-row:4/9;--rot:-1.5deg;} .pi6{grid-column:9/13;grid-row:5/9;--rot:2.8deg;}
   .pi7{grid-column:1/5;grid-row:9/13;--rot:-1.9deg;} .pi8{grid-column:5/9;grid-row:9/13;--rot:1.3deg;}
   .pi9{grid-column:9/13;grid-row:9/13;--rot:-2.2deg;}
-  .photo-item{position:relative;cursor:zoom-in;transform:rotate(var(--rot,0deg));transition:transform .38s cubic-bezier(.23,1,.32,1);z-index:1;opacity:0;animation:cardIn .65s cubic-bezier(.23,1,.32,1) forwards;}
+  .photo-item{position:relative;cursor:zoom-in;transform:translate(var(--dx,0px),var(--dy,0px)) rotate(var(--rot,0deg));transition:transform .38s cubic-bezier(.23,1,.32,1);z-index:1;opacity:0;animation:cardIn .65s cubic-bezier(.23,1,.32,1) forwards;}
   .pi1{animation-delay:.10s}.pi2{animation-delay:.18s}.pi3{animation-delay:.26s}
   .pi4{animation-delay:.34s}.pi5{animation-delay:.42s}.pi6{animation-delay:.50s}
   .pi7{animation-delay:.58s}.pi8{animation-delay:.66s}.pi9{animation-delay:.74s}
-  @keyframes cardIn{from{opacity:0;transform:translateY(28px) rotate(var(--rot,0deg));}to{opacity:1;transform:translateY(0) rotate(var(--rot,0deg));}}
-  .photo-item:hover{transform:rotate(0deg) scale(1.08)!important;z-index:30;}
+  @keyframes cardIn{from{opacity:0;transform:translate(var(--dx,0px),calc(var(--dy,0px) + 28px)) rotate(var(--rot,0deg));}to{opacity:1;transform:translate(var(--dx,0px),var(--dy,0px)) rotate(var(--rot,0deg));}}
+  .photo-item:hover{transform:translate(var(--dx,0px),var(--dy,0px)) rotate(0deg) scale(1.08)!important;z-index:30;}
  
   /* Marco polaroid */
   .photo-frame{width:100%;height:100%;background:linear-gradient(165deg,#fefaf3 0%,#f8edd8 100%);border-radius:3px;padding:8px 8px 32px;box-shadow:0 20px 55px rgba(0,0,0,.80),0 5px 18px rgba(0,0,0,.55),0 1px 4px rgba(0,0,0,.40),inset 0 0 0 1px rgba(255,255,255,.95),0 0 0 1px ${rgb(c1,.10)};display:flex;flex-direction:column;position:relative;overflow:visible;}
@@ -339,13 +411,19 @@ class PanelPhotoGallery extends HTMLElement {
 
   /* ══ PAGINACIÓN ══ */
   .pagination{display:flex;align-items:center;justify-content:center;gap:10px;padding:28px 0 10px;}
-  .pg-btn{background:${L?'rgba(255,255,255,.60)':'rgba(255,255,255,.06)'};border:1px solid ${rgb(c2,.35)};color:${rgb(c2,1)};font-size:1.2rem;width:40px;height:40px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s,transform .15s;font-family:inherit;}
-  .pg-btn:hover{background:${rgb(c2,.18)};transform:scale(1.1);}
+  .pg-btn{background:${btnBg};border:2px solid rgba(255,255,255,.55);color:${btnInk};font-size:1.5rem;font-weight:700;width:50px;height:50px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;padding-bottom:3px;box-shadow:0 4px 14px rgba(0,0,0,.45),0 0 16px ${rgb(c2,.40)};transition:filter .2s,transform .15s;font-family:inherit;}
+  .pg-btn:hover{filter:brightness(1.12);transform:scale(1.08);}
   .pg-btn:disabled{opacity:.3;cursor:default;transform:none;}
-  .pg-dots{display:flex;gap:8px;align-items:center;}
-  .pg-dot{width:9px;height:9px;border-radius:50%;background:${rgb(c1,.25)};border:1px solid ${rgb(c1,.50)};cursor:pointer;transition:background .25s,transform .25s;}
-  .pg-dot.active{background:linear-gradient(135deg,${rgb(c1,1)},${rgb(c2,1)});transform:scale(1.45);border-color:transparent;}
+  .pg-dots{display:flex;gap:11px;align-items:center;}
+  .pg-dot{width:12px;height:12px;border-radius:50%;background:${rgb(c1,.35)};border:1.5px solid ${rgb(c2,.85)};cursor:pointer;transition:background .25s,transform .25s;}
+  .pg-dot.active{background:linear-gradient(135deg,${rgb(lighten(c2,.35),1)},${rgb(c2,1)});transform:scale(1.4);border-color:rgba(255,255,255,.8);box-shadow:0 0 10px ${rgb(c2,.7)};}
  
+  /* ══ MODO fit-screen (solo desktop): el bloque de fotos se compacta un poco; el título NO se toca ══ */
+  @media(min-width:641px){
+    .ramos-card.fit .card-body{padding:22px 26px 6px;}
+    .ramos-card.fit .pagination{padding:16px 0 6px;}
+  }
+
   /* ══ CARRUSEL mobile ══ */
   .carousel-wrap{display:none;}
   @media(max-width:640px){
@@ -367,29 +445,29 @@ class PanelPhotoGallery extends HTMLElement {
   .cr-img-wrap{width:100%;padding-top:72%;position:relative;overflow:hidden;border-radius:2px;}
   .cr-img-wrap img,.cr-img-wrap video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
   .cr-caption{text-align:center;padding-top:8px;font-size:.75rem;color:rgba(80,50,15,.65);letter-spacing:.15em;font-style:italic;}
-  .cr-dots{display:flex;justify-content:center;gap:7px;margin-top:20px;padding:0 16px;flex-wrap:wrap;}
-  .cr-dot{width:7px;height:7px;border-radius:50%;background:${rgb(c1,.20)};border:1px solid ${rgb(c1,.45)};cursor:pointer;transition:background .25s,transform .25s;flex-shrink:0;}
-  .cr-dot.active{background:${rgb(c1,1)};transform:scale(1.45);}
-  .cr-nav{display:flex;justify-content:center;gap:16px;margin-top:18px;}
+  .cr-dots{display:flex;justify-content:center;gap:10px;margin-top:22px;padding:0 16px;flex-wrap:wrap;}
+  .cr-dot{width:11px;height:11px;border-radius:50%;background:${rgb(c1,.35)};border:1.5px solid ${rgb(c2,.85)};cursor:pointer;transition:background .25s,transform .25s;flex-shrink:0;}
+  .cr-dot.active{background:linear-gradient(135deg,${rgb(lighten(c2,.35),1)},${rgb(c2,1)});transform:scale(1.35);border-color:rgba(255,255,255,.8);box-shadow:0 0 10px ${rgb(c2,.7)};}
+  .cr-nav{display:flex;justify-content:center;gap:26px;margin-top:20px;}
   .cr-btn{
     position:relative;
-    width:38px;height:38px;border-radius:50%;cursor:pointer;
+    width:58px;height:58px;border-radius:50%;cursor:pointer;
     display:flex;align-items:center;justify-content:center;
     outline:none;
     -webkit-tap-highlight-color:transparent;
     /* botón plano translúcido con aro dorado — coherente con lightbox/paginación */
-    background:${L?'rgba(255,255,255,.60)':'rgba(255,255,255,.05)'};
-    border:1.5px solid ${rgb(c2,.45)};
-    box-shadow:0 2px 10px rgba(0,0,0,.35),inset 0 0 12px ${rgb(c2,.06)};
-    transition:transform .18s cubic-bezier(.34,1.56,.64,1), background .2s ease, border-color .2s ease;
+    background:${btnBg};
+    border:2px solid rgba(255,255,255,.55);
+    box-shadow:0 5px 16px rgba(0,0,0,.50),0 0 18px ${rgb(c2,.45)};
+    transition:transform .18s cubic-bezier(.34,1.56,.64,1), filter .2s ease;
   }
-  .cr-btn:hover{background:${rgb(c2,.16)};border-color:${rgb(c2,.85)};}
+  .cr-btn:hover{filter:brightness(1.12);transform:scale(1.06);}
   /* flecha SVG inline — dorada */
   .cr-btn::after{
     content:'';
     display:block;
-    width:13px;height:13px;
-    background-color:${rgb(c2,1)};
+    width:26px;height:26px;
+    background-color:${btnInk};
     -webkit-mask-repeat:no-repeat;
     mask-repeat:no-repeat;
     -webkit-mask-position:center;
@@ -407,9 +485,9 @@ class PanelPhotoGallery extends HTMLElement {
   }
   .cr-btn:active{
     transform:scale(.90);
-    background:${rgb(c2,.24)};
+    filter:brightness(.95);
   }
-  .cr-btn:disabled{opacity:.35;cursor:default;transform:none;}
+  .cr-btn:disabled{opacity:.45;cursor:default;transform:none;filter:grayscale(.5);}
  
   /* ══ FOOTER ══ */
   .card-footer{position:relative;z-index:10;text-align:center;padding:14px 0 24px;border-top:1px solid ${rgb(c1,.15)};font-size:1.1rem;letter-spacing:.7em;background:linear-gradient(90deg,${rgb(c1,0)} 0%,${rgb(c1,.8)} 30%,${rgb(c2,1)} 50%,${rgb(c1,.8)} 70%,${rgb(c1,0)} 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
@@ -483,7 +561,8 @@ class PanelPhotoGallery extends HTMLElement {
   `:''}
 </style>
  
-<div class="ramos-card" id="ramosCard">
+<div class="ramos-card${fitScreen?' fit':''}" id="ramosCard">
+  ${wallSrc?`<div class="card-wallpaper" style="background-image:url('${wallSrc}')"></div>`:''}
   <canvas id="particleCanvas"></canvas>
   <canvas id="fxCanvas"></canvas>
   <div class="card-header">
@@ -492,7 +571,7 @@ class PanelPhotoGallery extends HTMLElement {
     ${(titleMain||titleEm)?`<h2 class="card-title">${titleMain}${titleMain&&titleEm?' ':''}${titleEm?`<em>${titleEm}</em>`:''}</h2><div class="card-rule"></div>`:''}
   </div>
   <div class="card-body">
-    <div class="photo-grid" id="photoGrid"></div>
+    <div class="photo-grid${uniform?' uniform':''}" id="photoGrid"></div>
     <div class="pagination" id="pagination">
       <button class="pg-btn" id="pgPrev">‹</button>
       <div class="pg-dots" id="pgDots"></div>
@@ -880,6 +959,27 @@ class PanelPhotoGallery extends HTMLElement {
       pgNext.disabled=curPage===totalPages-1;
     }
     goPage(0);
+
+    // ── Ajuste a pantalla: SOLO el bloque de fotos (grilla + paginación) entra en el alto del viewport.
+    //    La cabecera (mascota/título) queda arriba y se scrollea; al llegar a las fotos se ven todas juntas. ──
+    const bodyEl = shadow.querySelector('.card-body');
+    function fitToScreen(){
+      if(!fitScreen) return;
+      if(window.matchMedia('(max-width:640px)').matches){ grid.style.removeProperty('--rh'); return; }
+      const nRows = uniform ? gridRows : 12;       // el mosaico clásico ocupa 12 filas
+      const g     = uniform ? gridGap  : 14;
+      grid.style.setProperty('--rh','10px');       // medición con filas mínimas
+      const overhead = bodyEl.offsetHeight - grid.offsetHeight;   // padding del body + paginación
+      const avail = window.innerHeight - fitOffset - 8;
+      const rh = Math.max(80, Math.floor((avail - overhead - (nRows-1)*g) / nRows));
+      grid.style.setProperty('--rh', rh+'px');
+    }
+    if(fitScreen){
+      fitToScreen();
+      window.addEventListener('resize', fitToScreen);
+      if(document.fonts && document.fonts.ready) document.fonts.ready.then(fitToScreen);
+    }
+
     pgPrev.addEventListener('click',()=>goPage(curPage-1));
     pgNext.addEventListener('click',()=>goPage(curPage+1));
  
@@ -918,4 +1018,5 @@ class PanelPhotoGallery extends HTMLElement {
   }
 }
  
-customElements.define('panel-photo-gallery', PanelPhotoGallery);
+customElements.define('panel-photo-wall', PanelPhotoWall);
+})();
