@@ -7,11 +7,11 @@
     "time": { "desktop": 7, "mobile": 7 },
     "desktop": {
       "type": "image",
-      "src": "./slides2/hola_desk.png"
+      "src": "./slides2/graxs_desk.jpg"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides2/hola_mob.png"
+      "src": "./slides2/graxs_mob.jpg"
     }
   },
       {
