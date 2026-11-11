@@ -1,9 +1,11 @@
 /**
- * <panel-photo-wall>  — v10 · derivado de panel-photo-gallery v8 (el original queda intacto y puede convivir en la misma página)
+ * <panel-photo-wall>  — v11 · derivado de panel-photo-gallery v8 (el original queda intacto y puede convivir en la misma página)
  * Novedades vs. v8: wallpaper de fondo, grilla uniforme columns×rows, fit-screen del bloque de fotos,
  * dispersión natural (tilt) y controles de navegación más visibles.
  * Novedades v10: el wallpaper también se ve en el zoom (lightbox) · cabecera en una sola línea en desktop
  * (mascota + títulos + controles de paginación; en mobile se apila) · título en tipografía ancha con sombra 3D.
+ * Novedades v11 (mobile): fotos del carrusel más altas (mobile-ratio, default 4/5) · controles ‹ indicador › en UNA sola fila
+ * · indicador automático: puntos hasta 9 fotos, contador "8 / 19" si hay más (mobile-indicator) · videos fuera de foco en pausa.
  * Shadow DOM · totalmente aislado del CSS de la plataforma.
  *
  * ══════════════════════════════════════════════════════════
@@ -75,6 +77,11 @@
  *                        También tolera lista separada por comas: sources="1.jpg, 6.gif, clip.mp4"
  *                        Si NO se pasa (o faltan items), cae al comportamiento histórico: (i+1).jpg
  *                        Se siguen tomando 'total' elementos; los nombres faltantes usan N.jpg.
+ *  mobile-ratio          proporción ANCHO/ALTO de las fotos del carrusel mobile       (default: 4/5)
+ *                        mobile-ratio="3/4" más alta · "1/1" cuadrada · "25/18" = la proporción apaisada anterior.
+ *                        El alto se limita solo al alto de la pantalla. orientacion-mobile por foto sigue teniendo prioridad.
+ *  mobile-indicator      indicador del carrusel mobile: auto (default) | dots | counter
+ *                        auto → hasta 9 fotos muestra puntos; con más muestra un contador "8 / 19" (los puntos se apilaban en 2 filas)
  *
  *  ── TEXTOS ──────────────────────────────────────────────
  *  eyebrow               texto pequeño sobre el título   (sin default: si no se pasa o va vacío, no aparece)
@@ -164,12 +171,23 @@ class PanelPhotoWall extends HTMLElement {
     const wallSize      = this.getAttribute('wallpaper-size')        || 'cover';
     const wallPos       = this.getAttribute('wallpaper-position')    || 'center';
     const wallBlur      = parseFloat(this.getAttribute('wallpaper-blur') || '0') || 0;
+    // Carrusel mobile: proporción de las fotos (ancho/alto) e indicador (puntos | contador)
+    const parseRatio = s => {
+      s = (s||'').trim();
+      const m = /^(\d+(?:\.\d+)?)\s*[\/:]\s*(\d+(?:\.\d+)?)$/.exec(s);
+      if (m && +m[1] > 0 && +m[2] > 0) return `${m[1]}/${m[2]}`;
+      if (/^\d+(\.\d+)?$/.test(s) && parseFloat(s) > 0) return String(parseFloat(s));
+      return '4/5';
+    };
+    const mobileRatio  = parseRatio(this.getAttribute('mobile-ratio'));
+    const indRaw       = (this.getAttribute('mobile-indicator') || 'auto').toLowerCase();
     const lbWallAttr    = parseFloat(this.getAttribute('lightbox-wallpaper-opacity'));
     const lbWallOpacity = isNaN(lbWallAttr) ? (isNaN(wallOpacity) ? .35 : wallOpacity) : Math.min(1, Math.max(0, lbWallAttr));   // wallpaper del zoom
     const widthVal      = this.getAttribute('width')                 || '80%';
     const maxWidthVal   = this.getAttribute('max-width')             || '1280px';
     const rowHeight     = parseInt(this.getAttribute('row-height')   || '72', 10);
     const total         = parseInt(this.getAttribute('total')     ||'9', 10);
+    const useCounter    = indRaw === 'counter' || (indRaw !== 'dots' && total > 9);
     // Grilla uniforme (columns × rows) y ajuste a pantalla
     const colsAttr  = parseInt(this.getAttribute('columns') || '', 10);
     const rowsAttr  = parseInt(this.getAttribute('rows')    || '', 10);
@@ -219,7 +237,7 @@ class PanelPhotoWall extends HTMLElement {
  
     // ── Orientacion mobile: "portrait" | "landscape" | "" por foto ───────
     // orientacion-mobile='["portrait","","landscape"]'
-    // Vacío → comportamiento CSS por defecto (el .cr-img-wrap usa padding-top:72% → ~landscape)
+    // Vacío → proporción por defecto del carrusel (atributo mobile-ratio, default 4/5)
     let orientacionMobile = [];
     const orMobRaw = this.getAttribute('orientacion-mobile');
     if (orMobRaw && orMobRaw.trim()) {
@@ -251,12 +269,12 @@ class PanelPhotoWall extends HTMLElement {
     };
     // Orientación CSS para el wrap del carrusel mobile
     // portrait  → aspect-ratio vertical  (padding-top: 133%)  ≈ 3:4
-    // landscape → aspect-ratio horizontal (padding-top: 56%)  ≈ 16:9
-    // '' / default → mantiene el CSS original (padding-top: 72%)
+    // landscape → aspect-ratio horizontal (16/9)
+    // '' / default → mobile-ratio (CSS)
     const crWrapStyle = i => {
       const ori = (orientacionMobile[i] || '').toLowerCase();
-      if (ori === 'portrait')  return 'padding-top:133%;';
-      if (ori === 'landscape') return 'padding-top:56%;';
+      if (ori === 'portrait')  return 'aspect-ratio:3/4;';
+      if (ori === 'landscape') return 'aspect-ratio:16/9;';
       return ''; // CSS del stylesheet prevalece
     };
  
@@ -306,10 +324,18 @@ class PanelPhotoWall extends HTMLElement {
     const extCol  = L ? rgb(darken(c1,.8),1) : rgb(darken(c2,.62),1);
     const softCol = L ? 'rgba(40,20,60,.34)' : 'rgba(0,0,0,.65)';
     const haloCol = L ? 'rgba(255,255,255,.85)' : rgb(c1,.50);
+    // Indicador mobile (pastilla de vidrio: legible sobre cualquier wallpaper)
+    const pillBg   = L ? 'rgba(255,255,255,.74)' : 'rgba(12,6,28,.58)';
+    const countInk = L ? rgb(darken(c1,.45),1) : '#ffffff';
+    const curInk   = L ? rgb(darken(c2,.75),1) : rgb(lighten(c2,.35),1);
     const title3D = `drop-shadow(.02em .02em 0 ${extCol}) drop-shadow(.04em .04em 0 ${extCol}) drop-shadow(.08em .08em 0 ${extCol}) drop-shadow(.05em .17em .16em ${softCol}) drop-shadow(0 0 .38em ${haloCol})`;
     const emCol      = this.getAttribute('title-em-color') || '';                   // color fijo de la parte en cursiva (sin shimmer)
     const eyebrowCol = this.getAttribute('eyebrow-color')  || '';                   // color del texto pequeño
     const shim       = emCol ? [emCol,emCol,emCol] : shimmer;                       // tema claro
+    // Eyebrow: sombra suave según el color del texto (claro → sombra oscura; oscuro → halo claro) para que se lea sobre el wallpaper
+    const eyeRGB = eyebrowCol ? (hex2rgb(eyebrowCol) || (/^rgba?\(\s*(\d+)[\s,]+(\d+)[\s,]+(\d+)/.exec(eyebrowCol)||[]).slice(1,4).map(Number)) : c2;
+    const eyeLum = (eyeRGB && eyeRGB.length===3 && !eyeRGB.some(isNaN)) ? .299*eyeRGB[0]+.587*eyeRGB[1]+.114*eyeRGB[2] : 255;
+    const eyeShadow = eyeLum > 150 ? '0 1px 2px rgba(0,0,0,.55),0 0 12px rgba(0,0,0,.35)' : '0 1px 0 rgba(255,255,255,.7),0 0 10px rgba(255,255,255,.55)';
     const shC=rgb(darken(c1,.45),.30), shC2=rgb(darken(c1,.45),.20);
     // Controles de navegación: botón dorado sólido + flecha oscura (alto contraste)
     const btnBg  = `linear-gradient(145deg,${rgb(lighten(c2,.35),1)} 0%,${rgb(c2,1)} 100%)`;
@@ -397,7 +423,7 @@ class PanelPhotoWall extends HTMLElement {
   @keyframes mascotIn{from{opacity:0;transform:translateY(32px) scale(.6) rotate(-8deg);}to{opacity:1;transform:translateY(0) scale(1) rotate(0);}}
   @keyframes mascotBob{0%,100%{transform:translateY(0) rotate(0);}25%{transform:translateY(-6px) rotate(-2deg);}75%{transform:translateY(-3px) rotate(2deg);}}
   .header-text{flex:1 1 0;min-width:0;text-align:left;}
-  .card-eyebrow{font-size:.70rem;letter-spacing:.40em;text-transform:uppercase;font-style:italic;color:${eyebrowCol||rgb(c2,.80)};margin-bottom:12px;animation:fadeUp .7s .3s ease both;}
+  .card-eyebrow{font-size:.70rem;letter-spacing:.40em;text-transform:uppercase;font-style:italic;color:${eyebrowCol||rgb(c2,.80)};text-shadow:${eyeShadow};margin-bottom:12px;animation:fadeUp .7s .3s ease both;}
   .card-title{font-family:'${titleFam}','Arial Black','Segoe UI Black',Impact,sans-serif;font-size:clamp(1.25rem,2.5vw,2.25rem);font-weight:${titleWeight};line-height:1.18;letter-spacing:.01em;text-wrap:balance;color:${titleCol};filter:${title3D};animation:fadeUp .7s .45s ease both;}
   .card-title em{font-style:normal;background:linear-gradient(90deg,${shim[0]},${shim[1]},${shim[2]});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200%;animation:shimmer 4s 1.4s linear infinite;}
   @keyframes shimmer{0%{background-position:200% center;}100%{background-position:-200% center;}}
@@ -479,16 +505,16 @@ class PanelPhotoWall extends HTMLElement {
   @media(max-width:640px){
     .photo-grid,.pagination{display:none;}
     .carousel-wrap{display:block;}
-    .card-body{padding:22px 0 26px;}
+    .card-body{padding:14px 0 22px;}
     .card-header{padding:22px 16px 18px;}
     .header-row{flex-direction:column;gap:12px;}
     .header-text{flex:none;width:100%;text-align:center;}
     .card-rule{margin:16px auto 0;background:linear-gradient(90deg,transparent,${rgb(c1,.8)},${rgb(c2,1)},${rgb(c1,.8)},transparent);}
     .card-title{font-size:clamp(1.2rem,6vw,1.7rem);}
   }
-  .carousel-track-outer{overflow:hidden;position:relative;touch-action:pan-y;cursor:grab;user-select:none;padding:22px 0 12px;}
+  .carousel-track-outer{overflow:hidden;position:relative;touch-action:pan-y;cursor:grab;user-select:none;padding:18px 0 10px;}
   .carousel-track-outer:active{cursor:grabbing;}
-  .carousel-track{display:flex;transition:transform .42s cubic-bezier(.23,1,.32,1);will-change:transform;}
+  .carousel-track{display:flex;align-items:center;transition:transform .42s cubic-bezier(.23,1,.32,1);will-change:transform;}
   .cr-slide{flex:0 0 82%;margin:0 4%;opacity:.5;transition:opacity .3s ease;}
   .cr-slide.active{opacity:1;}
   .cr-frame{background:linear-gradient(165deg,#fefaf3 0%,#f8edd8 100%);border-radius:4px;padding:10px 10px 36px;box-shadow:0 12px 36px rgba(0,0,0,.65),0 4px 14px rgba(0,0,0,.45),inset 0 0 0 1px rgba(255,255,255,.95);position:relative;transform:rotate(var(--cr-rot,0deg)) scale(.96);transition:transform .38s ease,box-shadow .38s ease;}
@@ -498,13 +524,21 @@ class PanelPhotoWall extends HTMLElement {
   .cr-frame::before{content:'';position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:15px;height:15px;background:radial-gradient(circle at 32% 32%,#fff8c0,#d4a017,#7a5800);border-radius:50%;box-shadow:0 3px 8px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.45);z-index:40;}
   .cr-slide.clean .cr-frame{padding:8px;}
   .cr-slide.clean .cr-frame::before{display:none;}
-  .cr-img-wrap{width:100%;padding-top:72%;position:relative;overflow:hidden;border-radius:2px;}
+  /* Alto por aspect-ratio (mobile-ratio) con tope = alto de pantalla: la foto nunca se sale del viewport */
+  .cr-img-wrap{width:100%;aspect-ratio:${mobileRatio};max-height:max(220px,calc(100vh - 210px));max-height:max(220px,calc(100dvh - 210px));position:relative;overflow:hidden;border-radius:2px;}
   .cr-img-wrap img,.cr-img-wrap video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
   .cr-caption{text-align:center;padding-top:8px;font-size:.75rem;color:rgba(80,50,15,.65);letter-spacing:.15em;font-style:italic;}
-  .cr-dots{display:flex;justify-content:center;gap:10px;margin-top:22px;padding:0 16px;flex-wrap:wrap;}
-  .cr-dot{width:11px;height:11px;border-radius:50%;background:${rgb(c1,.35)};border:1.5px solid ${rgb(c2,.85)};cursor:pointer;transition:background .25s,transform .25s;flex-shrink:0;}
+  /* Controles en UNA fila: ‹ indicador › (antes: puntos en 1-2 filas + botones en otra) */
+  .cr-controls{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:14px;padding:0 12px;}
+  .cr-mid{flex:0 1 auto;min-width:0;display:flex;align-items:center;justify-content:center;padding:9px 16px;border-radius:999px;background:${pillBg};border:1px solid ${rgb(c2,.55)};backdrop-filter:blur(10px) saturate(1.3);-webkit-backdrop-filter:blur(10px) saturate(1.3);box-shadow:0 4px 14px rgba(0,0,0,.25);}
+  .cr-count{font-size:.92rem;font-weight:700;letter-spacing:.16em;color:${countInk};white-space:nowrap;font-variant-numeric:tabular-nums;min-width:5.2em;text-align:center;}
+  .cr-count b{font-size:1.2rem;color:${curInk};}
+  .cr-dots{display:flex;justify-content:center;align-items:center;gap:8px;}
+  .cr-dot{position:relative;width:10px;height:10px;border-radius:50%;background:${rgb(c1,.35)};border:1.5px solid ${rgb(c2,.85)};cursor:pointer;transition:background .25s,transform .25s;flex-shrink:0;}
+  .cr-dot::after{content:'';position:absolute;inset:-9px -4px;}   /* zona táctil más grande que el punto */
   .cr-dot.active{background:linear-gradient(135deg,${rgb(lighten(c2,.35),1)},${rgb(c2,1)});transform:scale(1.35);border-color:rgba(255,255,255,.8);box-shadow:0 0 10px ${rgb(c2,.7)};}
-  .cr-nav{display:flex;justify-content:center;gap:26px;margin-top:20px;}
+  .cr-controls .cr-btn{width:48px;height:48px;flex:0 0 auto;}
+  .cr-controls .cr-btn::after{width:22px;height:22px;}
   .cr-btn{
     position:relative;
     width:58px;height:58px;border-radius:50%;cursor:pointer;
@@ -643,9 +677,9 @@ class PanelPhotoWall extends HTMLElement {
       <div class="carousel-track-outer" id="crOuter">
         <div class="carousel-track" id="crTrack">${carouselItems}</div>
       </div>
-      <div class="cr-dots" id="crDots"></div>
-      <div class="cr-nav">
+      <div class="cr-controls">
         <button class="cr-btn" id="crPrev" aria-label="Anterior"></button>
+        <div class="cr-mid">${useCounter?'<span class="cr-count" id="crCount" aria-live="polite"></span>':'<div class="cr-dots" id="crDots"></div>'}</div>
         <button class="cr-btn" id="crNext" aria-label="Siguiente"></button>
       </div>
     </div>
@@ -1051,11 +1085,15 @@ class PanelPhotoWall extends HTMLElement {
     ═══════════════════════════════════════ */
     const track  = shadow.getElementById('crTrack');
     const outer  = shadow.getElementById('crOuter');
-    const dotsEl = shadow.getElementById('crDots');
+    const dotsEl = shadow.getElementById('crDots');     // null si el indicador es contador
+    const countEl= shadow.getElementById('crCount');    // null si el indicador son puntos
+    const crPrevB= shadow.getElementById('crPrev');
+    const crNextB= shadow.getElementById('crNext');
     const slides = shadow.querySelectorAll('.cr-slide');
     let crCur=0;
  
     slides.forEach((_,i)=>{
+      if(!dotsEl) return;
       const d=document.createElement('div');
       d.className='cr-dot'+(i===0?' active':'');
       d.addEventListener('click',()=>goTo(i));
@@ -1065,11 +1103,24 @@ class PanelPhotoWall extends HTMLElement {
       crCur=Math.max(0,Math.min(total-1,idx));
       track.style.transform=`translateX(calc(${crCur*-90}%))`;
       slides.forEach((s,i)=>s.classList.toggle('active',i===crCur));
-      dotsEl.querySelectorAll('.cr-dot').forEach((d,i)=>d.classList.toggle('active',i===crCur));
+      if(dotsEl) dotsEl.querySelectorAll('.cr-dot').forEach((d,i)=>d.classList.toggle('active',i===crCur));
+      if(countEl) countEl.innerHTML=`<b>${crCur+1}</b> / ${total}`;
+      crPrevB.disabled = crCur===0;
+      crNextB.disabled = crCur===total-1;
+      syncVideos();
     };
+    // Videos del carrusel: solo el de la slide activa se reproduce (los demás en pausa → menos CPU/datos en el celular)
+    const syncVideos=()=>{
+      if(!isMobileView()) return;
+      slides.forEach((s,i)=>{
+        const v=s.querySelector('video'); if(!v) return;
+        if(i===crCur){ const pr=v.play(); if(pr&&pr.catch) pr.catch(()=>{}); } else v.pause();
+      });
+    };
+    window.addEventListener('resize',syncVideos);
     goTo(0);
-    shadow.getElementById('crPrev').addEventListener('click',()=>goTo(crCur-1));
-    shadow.getElementById('crNext').addEventListener('click',()=>goTo(crCur+1));
+    crPrevB.addEventListener('click',()=>goTo(crCur-1));
+    crNextB.addEventListener('click',()=>goTo(crCur+1));
     slides.forEach(sl=>sl.addEventListener('click',()=>openLB(+sl.dataset.idx)));
     let tS=0;
     outer.addEventListener('touchstart',e=>{tS=e.touches[0].clientX;},{passive:true});
