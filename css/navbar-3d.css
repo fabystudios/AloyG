@@ -5,6 +5,8 @@
    · Hover en "perla" blanca con borde dorado (se acabó el celeste)
    · Glow azul pulsante, y se mantiene el destello (.glass-shine-overlay)
    · Desplegable mobile en vidrio azul con relieve
+   · FOOTER a juego: misma tira 3D (luz, bisel, cinta dorada, glow), botones
+     sociales con el mismo relieve y hover perla
 
    CÓMO USARLO: enlazar DESPUÉS de style.css y ANTES de tema-papa.css
      <link rel="stylesheet" href="css/navbar-3d.css">
@@ -151,8 +153,108 @@ html:not(.tema-papa) .navbar-nav .nav-link:active {
   }
 }
 
+/* ───────────────────────── FOOTER (a juego con la tira) ───────────────────────── */
+
+html:not(.tema-papa) .footer {
+  z-index: 2;
+  /* Luz arriba, profundidad abajo; conserva el tono índigo de tu degradado */
+  background: linear-gradient(180deg, #2a82df 0%, #1565c0 9%, #0d47a1 52%, #0b2f80 100%) !important;
+  border-top-color: rgba(var(--n3d-dorado), .6) !important;
+  /* La sombra proyecta hacia ARRIBA, sobre el contenido; el glow pulsa igual que en la navbar */
+  box-shadow:
+    0 -12px 22px -8px rgba(0,20,70,.50),
+    0 -26px 40px -18px rgba(0,20,70,.40),
+    0 0 18px 2px rgba(66,165,245,.45),
+    inset 0 2px 0 rgba(255,255,255,.35),
+    inset 0 -3px 6px rgba(0,20,70,.45),
+    inset 0 14px 22px rgba(255,255,255,.06);
+  animation: n3d-glow-footer 5s ease-in-out infinite;
+}
+@keyframes n3d-glow-footer {
+  0%, 100% {
+    box-shadow:
+      0 -12px 22px -8px rgba(0,20,70,.50), 0 -26px 40px -18px rgba(0,20,70,.40),
+      0 0 16px 2px rgba(66,165,245,.40),
+      inset 0 2px 0 rgba(255,255,255,.35), inset 0 -3px 6px rgba(0,20,70,.45), inset 0 14px 22px rgba(255,255,255,.06);
+  }
+  50% {
+    box-shadow:
+      0 -12px 22px -8px rgba(0,20,70,.50), 0 -26px 40px -18px rgba(0,20,70,.40),
+      0 0 28px 6px rgba(100,181,246,.75),
+      inset 0 2px 0 rgba(255,255,255,.55), inset 0 -3px 6px rgba(0,20,70,.45), inset 0 14px 22px rgba(255,255,255,.09);
+  }
+}
+
+/* Cinta dorada en el borde superior (el footer tiene overflow:hidden, por eso va adentro) */
+html:not(.tema-papa) .footer::before {
+  content: "";
+  position: absolute;
+  left: 6%; right: 6%; top: 0;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(90deg, transparent, #b8902a 15%, #ffe9a0 50%, #b8902a 85%, transparent);
+  box-shadow: 0 0 10px rgba(255,214,102,.7);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Textos con efecto "grabado" */
+html:not(.tema-papa) .footer .footer-title { text-shadow: 0 2px 3px rgba(0,20,70,.65), 0 -1px 0 rgba(255,255,255,.12); }
+html:not(.tema-papa) .footer .footer-text,
+html:not(.tema-papa) .footer .footer-link { text-shadow: 0 1px 2px rgba(0,20,70,.55); }
+
+/* Logos con volumen */
+html:not(.tema-papa) .footer .footer-logo-link img { filter: drop-shadow(0 8px 10px rgba(0,20,70,.55)); }
+html:not(.tema-papa) .footer .footer-logo { filter: drop-shadow(0 4px 6px rgba(0,20,70,.5)); }
+
+/* Línea de derechos: surco grabado (oscuro arriba + luz abajo) */
+html:not(.tema-papa) .footer .footer-copyright {
+  padding-top: .9rem;
+  border-top: 1px solid rgba(0,20,70,.5);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
+}
+
+/* Botones sociales: mismo relieve que las píldoras del menú */
+html:not(.tema-papa) .footer .social-link {
+  border-radius: 14px;
+  background: linear-gradient(145deg, rgba(255,255,255,.22), rgba(255,255,255,.05) 45%, rgba(0,20,70,.20));
+  border: 1px solid rgba(255,255,255,.24);
+  text-shadow: 0 1px 1px rgba(0,20,70,.55);
+  box-shadow:
+    4px 5px 10px rgba(3,20,66,.45),
+    -3px -3px 8px rgba(120,185,255,.30),
+    inset 0 1px 0 rgba(255,255,255,.38),
+    inset 0 -2px 4px rgba(3,20,66,.25);
+}
+/* Hover: perla blanca, texto azul, borde dorado y glow (igual que el menú) */
+html:not(.tema-papa) .footer .social-link:hover,
+html:not(.tema-papa) .footer .social-link:focus-visible {
+  color: var(--n3d-azul-texto);
+  background: linear-gradient(145deg, #ffffff, #e3efff 60%, #c3dafb);
+  border-color: rgba(var(--n3d-dorado), .95);
+  text-shadow: 0 1px 0 rgba(255,255,255,.9);
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 18px -6px rgba(0,20,70,.55),
+    0 0 16px 2px rgba(160,205,255,.75),
+    0 0 0 1px rgba(var(--n3d-dorado), .55),
+    inset 0 1px 0 #fff,
+    inset 0 -2px 5px rgba(13,71,161,.18);
+}
+/* Presionado: relieve hundido */
+html:not(.tema-papa) .footer .social-link:active {
+  color: #eaf3ff;
+  background: linear-gradient(145deg, #0e58b0, #1a72d4);
+  border-color: rgba(255,255,255,.2);
+  transform: translateY(0) scale(.97);
+  box-shadow:
+    inset 4px 4px 9px rgba(3,20,66,.60),
+    inset -3px -3px 7px rgba(110,175,255,.30);
+}
+
 /* ───────────────────────── ACCESIBILIDAD ───────────────────────── */
 @media (prefers-reduced-motion: reduce) {
+  html:not(.tema-papa) .footer { animation: none; }
   html:not(.tema-papa) .cabecera {
     animation: none;
     box-shadow:
