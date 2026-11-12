@@ -1,10 +1,10 @@
 [
         {
-    "id": "llegada",
+    "id": "saludo",
     "position": 2,
     "hasVideo": false,
     "link": "",
-    "time": { "desktop": 7, "mobile": 7 },
+    "time": { "desktop": 6, "mobile": 6 },
     "desktop": {
       "type": "image",
       "src": "./slides2/graxs_desk.jpg"
@@ -19,7 +19,7 @@
     "position": 1,
     "hasVideo": false,
     "link": "",
-    "time": { "desktop": 5, "mobile": 5 },
+    "time": { "desktop": 8, "mobile": 8 },
     "desktop": {
       "type": "image",
       "src": "./slides2/feria_desk.jpg"
