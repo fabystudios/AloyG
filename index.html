@@ -1337,6 +1337,25 @@
                  png-count="3" png-width="80px"
 ></section-title>
 
+<!-- Un live puntual: se pasa como video (el link /live/ID también sirve) -->
+   <!-- marca="./logos/marca2.png"  -->
+
+<noticia-video-card
+  autoplay
+  autor-nombre="EWTN ESPAÑA"
+  autor-link="https://www.youtube.com/@EWTNESPA%C3%91A"
+  autor-img="https://yt3.ggpht.com/V1OW4vgEeCHMR9QCSessFtKGdH3a_KkT_n7BSs-QTBObf9IKJl_vNpSYCgvZCM-8fb2x9c6_=s88-c-k-c0x00ffffff-no-rj"
+  autor-desc="12 de noviembre de 2026"
+  categoria="Papa León XIV"
+  fecha="12 NOV"
+  en-vivo="EN VIVO"
+  video="https://www.youtube.com/live/TMdF-dkca9M"
+  titular="Papa León XIV en Perú: Bienvenida y Encuentro con las autoridades | 11 noviembre 2026"
+  texto="Acompaña a EWTN en directo durante la llegada del Papa León XIV a Lima, donde comienza la etapa peruana de su Viaje Apostólico a Uruguay, Argentina y Perú. Nuestra cobertura incluye la llegada a la Base Aeronaval del Callao y la recepción oficial al Santo Padre."
+></noticia-video-card>
+<!-- <br><br><br> -->
+
+
 <script src="./components/noticia-video-card.js"></script>
   <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
 
@@ -1385,24 +1404,7 @@ La luz representa a Cristo, luz del mundo, y aleja el miedo."
 
 
 
-<!-- Un live puntual: se pasa como video (el link /live/ID también sirve) -->
-   <!-- marca="./logos/marca2.png"  -->
-<!-- 
-<noticia-video-card
-  autoplay
-  autor-nombre="EWTNespanol"
-  autor-link="https://www.youtube.com/@EWTNespanol"
-  autor-img="https://yt3.ggpht.com/V1OW4vgEeCHMR9QCSessFtKGdH3a_KkT_n7BSs-QTBObf9IKJl_vNpSYCgvZCM-8fb2x9c6_=s88-c-k-c0x00ffffff-no-rj"
-  autor-desc="11 de noviembre de 2026"
-  categoria="Papa León XIV"
-  fecha="11 NOV"
-  en-vivo="EN VIVO"
-  video="https://www.youtube.com/live/25Z_kFZZYaI"
-  titular="Papa León XIV en Argentina: Visita a la cárcel de Devoto | 11 noviembre 2026"
-  texto="Papa León XIV en su visita al Complejo Penitenciario Federal de la Ciudad Autónoma de Buenos Aires, conocido como la cárcel de Devoto. 
-Acompañado por el arzobispo de Buenos Aires, Mons. Jorge Ignacio García Cuerva"
-></noticia-video-card>
-<br><br><br> -->
+
 <!-- <noticia-video-card
   autoplay
 
@@ -1549,13 +1551,22 @@ Acompañado por el arzobispo de Buenos Aires, Mons. Jorge Ignacio García Cuerva
 <script src="./components/video-card-frame.js"></script>
 
 <!-- --------- -->
+   <video-card-frame
+    video="./eva/12-11.mp4"
+    frame="./eva/frame-gold.png"
+    badge="Jueves"
+    titulo="12 de Noviembre"
+    style="width:auto; flex:0 0 auto;"
+    
+  ></video-card-frame>
+
   <video-card-frame
     video="./eva/11-11.mp4"
     frame="./eva/frame-gold.png"
     badge="Miércoles"
     titulo="11 de Noviembre"
     style="width:auto; flex:0 0 auto;"
-    
+    hide-mobile
   ></video-card-frame>
 
     <video-card-frame
@@ -1577,14 +1588,7 @@ Acompañado por el arzobispo de Buenos Aires, Mons. Jorge Ignacio García Cuerva
     hide-mobile
   ></video-card-frame>
 
-  <video-card-frame
-    video="./eva/8-11.mp4"
-    frame="./eva/frame-gold.png"
-    badge="Domingo"
-    titulo="8 de Noviembre"
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
-  ></video-card-frame>
+
 
 </div>  
 
