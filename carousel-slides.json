@@ -22,11 +22,11 @@
     "time": { "desktop": 8, "mobile": 8 },
     "desktop": {
       "type": "image",
-      "src": "./slides2/feria_desk.png"
+      "src": "./slides2/feria_desk.jpg"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides2/feria_mob.png"
+      "src": "./slides2/feria_mob.jpg"
     }
   },
   {
