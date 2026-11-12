@@ -1,0 +1,165 @@
+/* ==========================================================================
+   NAVBAR 3D — tema estándar (azul)
+   · Tira con volumen (bisel, luz superior, sombra proyectada sobre los slides)
+   · Botones con relieve tipo neumorfismo + vidrio (glass), texto AZUL al hover
+   · Hover en "perla" blanca con borde dorado (se acabó el celeste)
+   · Glow azul pulsante, y se mantiene el destello (.glass-shine-overlay)
+   · Desplegable mobile en vidrio azul con relieve
+
+   CÓMO USARLO: enlazar DESPUÉS de style.css y ANTES de tema-papa.css
+     <link rel="stylesheet" href="css/navbar-3d.css">
+
+   Convive con el tema del Papa: todo está bajo  html:not(.tema-papa),
+   así que mientras esa clase esté activa este archivo no hace nada, y al
+   sacarla vuelve el 3D solo. Para desactivar el 3D: quitar el <link>.
+   No se modifica ninguna regla original.
+   ========================================================================== */
+
+html:not(.tema-papa) {
+  --n3d-z: 1040;                         /* altura de la tira sobre los slides (subir si algún slide la tapa) */
+  --n3d-azul-texto: #0d47a1;             /* azul del texto en hover */
+  --n3d-dorado: 212, 175, 55;            /* mismo dorado que ya usa tu borde */
+}
+
+/* ───────────────────────── LA TIRA (cabecera) ───────────────────────── */
+
+html:not(.tema-papa) .cabecera {
+  position: relative;
+  z-index: var(--n3d-z);
+  /* Un !important de hoja le gana al degradado inline: luz arriba, sombra abajo */
+  background: linear-gradient(180deg, #4096ee 0%, #1e7ad8 14%, #1565c0 52%, #0d47a1 100%) !important;
+  border-color: rgba(var(--n3d-dorado), .55) !important;
+  /* Sombra + glow: animados (la animación pisa al box-shadow inline sin !important) */
+  box-shadow:
+    0 12px 22px -8px rgba(0,20,70,.55),
+    0 26px 40px -18px rgba(0,20,70,.45),
+    0 0 18px 2px rgba(66,165,245,.45),
+    inset 0 1px 0 rgba(255,255,255,.5),
+    inset 0 -3px 6px rgba(0,20,70,.45),
+    inset 0 14px 22px rgba(255,255,255,.07);
+  animation: n3d-glow 5s ease-in-out infinite;
+}
+@keyframes n3d-glow {
+  0%, 100% {
+    box-shadow:
+      0 12px 22px -8px rgba(0,20,70,.55), 0 26px 40px -18px rgba(0,20,70,.45),
+      0 0 16px 2px rgba(66,165,245,.40),
+      inset 0 1px 0 rgba(255,255,255,.5), inset 0 -3px 6px rgba(0,20,70,.45), inset 0 14px 22px rgba(255,255,255,.07);
+  }
+  50% {
+    box-shadow:
+      0 12px 22px -8px rgba(0,20,70,.55), 0 26px 40px -18px rgba(0,20,70,.45),
+      0 0 28px 6px rgba(100,181,246,.75),
+      inset 0 1px 0 rgba(255,255,255,.65), inset 0 -3px 6px rgba(0,20,70,.45), inset 0 14px 22px rgba(255,255,255,.10);
+  }
+}
+
+/* Cara del <nav>: brillo de vidrio arriba y sombra abajo (refuerza el volumen) */
+html:not(.tema-papa) .cabecera .navbar {
+  background: linear-gradient(180deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.03) 42%, rgba(0,20,70,.20) 100%) !important;
+}
+
+/* Cinta dorada en el borde inferior: da la sensación de bisel / tira metálica */
+html:not(.tema-papa) .cabecera::after {
+  content: "";
+  position: absolute;
+  left: 6%; right: 6%; bottom: -1px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+  background: linear-gradient(90deg, transparent, #b8902a 15%, #ffe9a0 50%, #b8902a 85%, transparent);
+  box-shadow: 0 0 10px rgba(255,214,102,.7);
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ───────────────────────── BOTONES (píldoras 3D) ───────────────────────── */
+
+/* Estado normal: relieve convexo (luz arriba-izquierda, sombra abajo-derecha) */
+html:not(.tema-papa) .navbar-nav .nav-link {
+  background: linear-gradient(145deg, rgba(255,255,255,.22), rgba(255,255,255,.05) 45%, rgba(0,20,70,.20));
+  border: 1px solid rgba(255,255,255,.24);
+  text-shadow: 0 1px 1px rgba(0,20,70,.55);
+  box-shadow:
+    4px 5px 10px rgba(3,20,66,.45),
+    -3px -3px 8px rgba(120,185,255,.30),
+    inset 0 1px 0 rgba(255,255,255,.38),
+    inset 0 -2px 4px rgba(3,20,66,.25);
+}
+
+/* Hover / foco: píldora "perla" que se eleva, texto AZUL, borde dorado, glow */
+html:not(.tema-papa) .navbar-nav .nav-link:hover,
+html:not(.tema-papa) .navbar-nav .nav-link:focus-visible {
+  color: var(--n3d-azul-texto) !important;
+  background: linear-gradient(145deg, #ffffff, #e3efff 60%, #c3dafb);
+  border-color: rgba(var(--n3d-dorado), .95);
+  text-shadow: 0 1px 0 rgba(255,255,255,.9);
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 18px -6px rgba(0,20,70,.55),
+    0 0 16px 2px rgba(160,205,255,.75),
+    0 0 0 1px rgba(var(--n3d-dorado), .55),
+    inset 0 1px 0 #fff,
+    inset 0 -2px 5px rgba(13,71,161,.18);
+}
+
+/* El destello que cruza la píldora: de celeste a blanco/dorado */
+html:not(.tema-papa) .navbar-nav .nav-link::before {
+  background-image: linear-gradient(120deg,
+    transparent 0%,
+    rgba(var(--n3d-dorado), .28) 45%,
+    rgba(255,255,255,.9) 50%,
+    rgba(var(--n3d-dorado), .28) 55%,
+    transparent 100%);
+}
+
+/* Presionado: relieve hundido (neumorfismo "pressed") */
+html:not(.tema-papa) .navbar-nav .nav-link:active {
+  color: #eaf3ff !important;
+  background: linear-gradient(145deg, #0e58b0, #1a72d4);
+  border-color: rgba(255,255,255,.2);
+  transform: translateY(0) scale(.97);
+  box-shadow:
+    inset 4px 4px 9px rgba(3,20,66,.60),
+    inset -3px -3px 7px rgba(110,175,255,.30);
+}
+
+/* ───────────────────────── MOBILE ───────────────────────── */
+
+@media (max-width: 991.98px) {
+  /* Botón hamburguesa con relieve */
+  html:not(.tema-papa) .navbar-toggler {
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,.25);
+    background: linear-gradient(145deg, #2b86e0, #0f57ad);
+    box-shadow:
+      4px 4px 8px rgba(3,20,66,.45),
+      -3px -3px 7px rgba(110,175,255,.30),
+      inset 0 1px 0 rgba(255,255,255,.35);
+  }
+
+  /* Desplegable: panel de vidrio azul con relieve y glow */
+  html:not(.tema-papa) .navbar-collapse {
+    background: linear-gradient(145deg, rgba(33,128,224,.90), rgba(13,71,161,.94));
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    border: 1px solid rgba(255,255,255,.24);
+    box-shadow:
+      0 18px 40px -12px rgba(0,20,70,.65),
+      0 0 18px 2px rgba(66,165,245,.40),
+      inset 0 1px 0 rgba(255,255,255,.35),
+      inset 0 -2px 6px rgba(0,20,70,.30);
+  }
+}
+
+/* ───────────────────────── ACCESIBILIDAD ───────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  html:not(.tema-papa) .cabecera {
+    animation: none;
+    box-shadow:
+      0 12px 22px -8px rgba(0,20,70,.55),
+      0 26px 40px -18px rgba(0,20,70,.45),
+      0 0 18px 2px rgba(66,165,245,.45),
+      inset 0 1px 0 rgba(255,255,255,.5),
+      inset 0 -3px 6px rgba(0,20,70,.45) !important;
+  }
+}
