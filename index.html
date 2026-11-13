@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es-AR" class="footer-paneles"> <!-- Interruptores (separar con espacio): tema-papa = bandera del Vaticano · footer-paneles = footer con paneles de vidrio -->
-
+<!-- <html lang="es-AR" class="footer-paneles tema-navidad" -->
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,6 +83,8 @@
   <link rel="stylesheet" href="css/navbar-3d.css">
   <!-- Tema visita del Papa (bandera Vaticano en navbar y footer). Activar/desactivar con class="tema-papa" en <html> -->
   <link rel="stylesheet" href="css/tema-papa.css">
+  <!-- Tema Navidad (rojo + adornos en canvas). Activar/desactivar con class="tema-navidad" en <html>. No combinar con tema-papa -->
+  <link rel="stylesheet" href="css/tema-navidad.css">
 <!-- <link rel="stylesheet" href="css/site.css"> -->
 
   <!-- Fix conflicto Tailwind vs Bootstrap: Tailwind define
@@ -9363,6 +9365,8 @@ for (let i = 0; i < 18; i++) {
   <!-- Componente de Feria -->
   <script src="./components/feria-poster.js" defer></script>
 
+  <!-- Adornos navideños en canvas: solo actúan si <html> tiene la clase tema-navidad -->
+  <script src="js/tema-navidad.js" defer></script>
 </body>
 
 </html>

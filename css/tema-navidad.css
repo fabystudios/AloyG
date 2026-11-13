@@ -1,0 +1,66 @@
+/* ==========================================================================
+   TEMA NAVIDAD — rojo, con TODOS los rasgos del tema estándar
+   (tira 3D, filete dorado, botones neumórficos/perla, glow, footer, paneles,
+   logo grande en mobile) + adornos dibujados en canvas (js/tema-navidad.js):
+   bolas, campanas, estrellas, muérdago y polvo de estrellas en movimiento.
+
+   ► ACTIVAR:    <html lang="es-AR" class="tema-navidad">
+                 (se puede combinar:  class="footer-paneles tema-navidad")
+   ► RESTABLECER: quitar la clase  tema-navidad  del <html>. Vuelve el azul.
+
+   Cómo funciona: css/navbar-3d.css define toda su paleta en variables
+   (--n3d-*). Acá solo se REDEFINEN esas variables en rojo, así que cualquier
+   ajuste futuro al 3D se hereda solo. No usar junto con tema-papa.
+
+   Orden de <link>:  navbar-3d.css  →  tema-papa.css  →  tema-navidad.css
+   ========================================================================== */
+
+/* ───────────── Paleta roja ───────────── */
+html.tema-navidad:not(.tema-papa) {
+  --n3d-azul-texto: #8e1414;                                   /* texto en hover: rojo oscuro (equivale al "texto azul") */
+
+  --n3d-s1:#ee5a4f; --n3d-s2:#d32f2f; --n3d-s3:#b71c1c; --n3d-s4:#8e1414;   /* tira */
+  --n3d-f1:#dc4a42; --n3d-f2:#b71c1c; --n3d-f3:#8e1414; --n3d-f4:#5e0c0c;   /* footer */
+  --n3d-sombra: 70, 5, 8;
+  --n3d-luz: 255, 140, 135;
+  --n3d-glow-1: 255, 82, 82;
+  --n3d-glow-2: 255, 138, 128;
+  --n3d-glow-3: 255, 200, 200;
+  --n3d-perla-2:#fff1ef; --n3d-perla-3:#ffd0cb;                             /* hover perla con tinte cálido */
+  --n3d-pres-1:#9a1515;  --n3d-pres-2:#cf3030;  --n3d-texto-pres:#fff0ee;
+  --n3d-tog-1:#e04545;   --n3d-tog-2:#a31616;
+  --n3d-panel-1: 211, 47, 47; --n3d-panel-2: 142, 20, 20;
+}
+
+/* ───────────── Punto de aviso (badge) ─────────────
+   El original es rojo con aro azul: sobre una tira roja no se vería.
+   Se pasa a dorado con aro rojo oscuro. */
+html.tema-navidad:not(.tema-papa) .badge-dot {
+  background: #ffd54f;
+  box-shadow: 0 0 0 2px #8e1414;
+  animation: tn-badge-pulse 1.6s ease-in-out infinite;
+}
+@keyframes tn-badge-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px #8e1414, 0 0 0 0 rgba(255,213,79,.7); }
+  50%      { box-shadow: 0 0 0 2px #8e1414, 0 0 7px 3px rgba(255,213,79,0); }
+}
+
+/* ───────────── Lienzos de adornos (los crea js/tema-navidad.js) ───────────── */
+html.tema-navidad .tn-canvas {
+  position: absolute;
+  left: 0; top: 0;
+  display: block;
+  pointer-events: none;          /* nunca interceptan clics */
+}
+/* Header: por encima del <nav> (1030) y del filete (1035); por debajo del desplegable mobile (1500) */
+html.tema-navidad .tn-canvas--header { z-index: 1036; }
+/* Footer: detrás del contenido y de los paneles de vidrio (el filete queda por encima) */
+html.tema-navidad .tn-canvas--footer { z-index: 0; }
+
+html.tema-navidad .cabecera,
+html.tema-navidad .footer { position: relative; }
+
+/* El logo navideño es una corona: se le da un poco de aire y sombra cálida */
+html.tema-navidad .navbar-brand .logo {
+  filter: drop-shadow(0 4px 6px rgba(var(--n3d-sombra), .55)) drop-shadow(0 0 8px rgba(255,214,102,.35)) !important;
+}

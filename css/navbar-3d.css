@@ -1,5 +1,5 @@
 /* ==========================================================================
-   NAVBAR 3D — tema estándar (azul)
+   NAVBAR 3D — tema estándar (azul)  ·  los colores viven en variables (--n3d-*)
    · Tira con volumen (bisel, luz superior, sombra proyectada sobre los slides)
    · Botones con relieve tipo neumorfismo + vidrio (glass), texto AZUL al hover
    · Hover en "perla" blanca con borde dorado (se acabó el celeste)
@@ -19,7 +19,20 @@
 
 html:not(.tema-papa) {
   --n3d-z: 1040;                         /* altura de la tira sobre los slides (subir si algún slide la tapa) */
-  --n3d-azul-texto: #0d47a1;             /* azul del texto en hover */
+  --n3d-azul-texto: #0d47a1;             /* color del texto en hover (azul en el tema estándar) */
+
+  /* ── Paleta del tema (el tema Navidad redefine SOLO estas variables) ── */
+  --n3d-s1:#4096ee; --n3d-s2:#1e7ad8; --n3d-s3:#1565c0; --n3d-s4:#0d47a1;   /* tira: luz → sombra */
+  --n3d-f1:#2a82df; --n3d-f2:#1565c0; --n3d-f3:#0d47a1; --n3d-f4:#0b2f80;   /* footer: luz → sombra */
+  --n3d-sombra: 0, 20, 70;               /* sombras proyectadas (r, g, b) */
+  --n3d-luz: 120, 185, 255;              /* luz del relieve neumórfico */
+  --n3d-glow-1: 66, 165, 245;            /* glow base */
+  --n3d-glow-2: 100, 181, 246;           /* glow en el pico del pulso */
+  --n3d-glow-3: 160, 205, 255;           /* glow del hover */
+  --n3d-perla-2:#e3efff; --n3d-perla-3:#c3dafb;                             /* hover "perla" */
+  --n3d-pres-1:#0e58b0;  --n3d-pres-2:#1a72d4;  --n3d-texto-pres:#eaf3ff;   /* botón presionado */
+  --n3d-tog-1:#2b86e0;   --n3d-tog-2:#0f57ad;                               /* hamburguesa */
+  --n3d-panel-1: 33, 128, 224; --n3d-panel-2: 13, 71, 161;                  /* desplegable mobile */
   --n3d-dorado: 212, 175, 55;            /* mismo dorado que ya usa tu borde */
   --n3d-filete: 3px;                    /* grosor del filete dorado en su centro (más sutil: 2px · más marcado: 5px) */
 }
@@ -30,36 +43,36 @@ html:not(.tema-papa) .cabecera {
   position: relative;
   z-index: var(--n3d-z);
   /* Un !important de hoja le gana al degradado inline: luz arriba, sombra abajo */
-  background: linear-gradient(180deg, #4096ee 0%, #1e7ad8 14%, #1565c0 52%, #0d47a1 100%) !important;
+  background: linear-gradient(180deg, var(--n3d-s1) 0%, var(--n3d-s2) 14%, var(--n3d-s3) 52%, var(--n3d-s4) 100%) !important;
   border-color: rgba(var(--n3d-dorado), .55) !important;
   /* Sombra + glow: animados (la animación pisa al box-shadow inline sin !important) */
   box-shadow:
-    0 12px 22px -8px rgba(0,20,70,.55),
-    0 26px 40px -18px rgba(0,20,70,.45),
-    0 0 18px 2px rgba(66,165,245,.45),
+    0 12px 22px -8px rgba(var(--n3d-sombra),.55),
+    0 26px 40px -18px rgba(var(--n3d-sombra),.45),
+    0 0 18px 2px rgba(var(--n3d-glow-1),.45),
     inset 0 1px 0 rgba(255,255,255,.5),
-    inset 0 -3px 6px rgba(0,20,70,.45),
+    inset 0 -3px 6px rgba(var(--n3d-sombra),.45),
     inset 0 14px 22px rgba(255,255,255,.07);
   animation: n3d-glow 5s ease-in-out infinite;
 }
 @keyframes n3d-glow {
   0%, 100% {
     box-shadow:
-      0 12px 22px -8px rgba(0,20,70,.55), 0 26px 40px -18px rgba(0,20,70,.45),
-      0 0 16px 2px rgba(66,165,245,.40),
-      inset 0 1px 0 rgba(255,255,255,.5), inset 0 -3px 6px rgba(0,20,70,.45), inset 0 14px 22px rgba(255,255,255,.07);
+      0 12px 22px -8px rgba(var(--n3d-sombra),.55), 0 26px 40px -18px rgba(var(--n3d-sombra),.45),
+      0 0 16px 2px rgba(var(--n3d-glow-1),.40),
+      inset 0 1px 0 rgba(255,255,255,.5), inset 0 -3px 6px rgba(var(--n3d-sombra),.45), inset 0 14px 22px rgba(255,255,255,.07);
   }
   50% {
     box-shadow:
-      0 12px 22px -8px rgba(0,20,70,.55), 0 26px 40px -18px rgba(0,20,70,.45),
-      0 0 28px 6px rgba(100,181,246,.75),
-      inset 0 1px 0 rgba(255,255,255,.65), inset 0 -3px 6px rgba(0,20,70,.45), inset 0 14px 22px rgba(255,255,255,.10);
+      0 12px 22px -8px rgba(var(--n3d-sombra),.55), 0 26px 40px -18px rgba(var(--n3d-sombra),.45),
+      0 0 28px 6px rgba(var(--n3d-glow-2),.75),
+      inset 0 1px 0 rgba(255,255,255,.65), inset 0 -3px 6px rgba(var(--n3d-sombra),.45), inset 0 14px 22px rgba(255,255,255,.10);
   }
 }
 
 /* Cara del <nav>: brillo de vidrio arriba y sombra abajo (refuerza el volumen) */
 html:not(.tema-papa) .cabecera .navbar {
-  background: linear-gradient(180deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.03) 42%, rgba(0,20,70,.20) 100%) !important;
+  background: linear-gradient(180deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.03) 42%, rgba(var(--n3d-sombra),.20) 100%) !important;
 }
 
 /* Cinta dorada en el borde inferior: lente que engrosa hacia el centro (bisel / tira metálica).
@@ -85,30 +98,30 @@ html:not(.tema-papa) .cabecera::after {
 
 /* Estado normal: relieve convexo (luz arriba-izquierda, sombra abajo-derecha) */
 html:not(.tema-papa) .navbar-nav .nav-link {
-  background: linear-gradient(145deg, rgba(255,255,255,.22), rgba(255,255,255,.05) 45%, rgba(0,20,70,.20));
+  background: linear-gradient(145deg, rgba(255,255,255,.22), rgba(255,255,255,.05) 45%, rgba(var(--n3d-sombra),.20));
   border: 1px solid rgba(255,255,255,.24);
-  text-shadow: 0 1px 1px rgba(0,20,70,.55);
+  text-shadow: 0 1px 1px rgba(var(--n3d-sombra),.55);
   box-shadow:
-    4px 5px 10px rgba(3,20,66,.45),
-    -3px -3px 8px rgba(120,185,255,.30),
+    4px 5px 10px rgba(var(--n3d-sombra),.45),
+    -3px -3px 8px rgba(var(--n3d-luz),.30),
     inset 0 1px 0 rgba(255,255,255,.38),
-    inset 0 -2px 4px rgba(3,20,66,.25);
+    inset 0 -2px 4px rgba(var(--n3d-sombra),.25);
 }
 
 /* Hover / foco: píldora "perla" que se eleva, texto AZUL, borde dorado, glow */
 html:not(.tema-papa) .navbar-nav .nav-link:hover,
 html:not(.tema-papa) .navbar-nav .nav-link:focus-visible {
   color: var(--n3d-azul-texto) !important;
-  background: linear-gradient(145deg, #ffffff, #e3efff 60%, #c3dafb);
+  background: linear-gradient(145deg, #ffffff, var(--n3d-perla-2) 60%, var(--n3d-perla-3));
   border-color: rgba(var(--n3d-dorado), .95);
   text-shadow: 0 1px 0 rgba(255,255,255,.9);
   transform: translateY(-2px);
   box-shadow:
-    0 12px 18px -6px rgba(0,20,70,.55),
-    0 0 16px 2px rgba(160,205,255,.75),
+    0 12px 18px -6px rgba(var(--n3d-sombra),.55),
+    0 0 16px 2px rgba(var(--n3d-glow-3),.75),
     0 0 0 1px rgba(var(--n3d-dorado), .55),
     inset 0 1px 0 #fff,
-    inset 0 -2px 5px rgba(13,71,161,.18);
+    inset 0 -2px 5px rgba(var(--n3d-sombra),.18);
 }
 
 /* El destello que cruza la píldora: de celeste a blanco/dorado */
@@ -123,13 +136,13 @@ html:not(.tema-papa) .navbar-nav .nav-link::before {
 
 /* Presionado: relieve hundido (neumorfismo "pressed") */
 html:not(.tema-papa) .navbar-nav .nav-link:active {
-  color: #eaf3ff !important;
-  background: linear-gradient(145deg, #0e58b0, #1a72d4);
+  color: var(--n3d-texto-pres) !important;
+  background: linear-gradient(145deg, var(--n3d-pres-1), var(--n3d-pres-2));
   border-color: rgba(255,255,255,.2);
   transform: translateY(0) scale(.97);
   box-shadow:
-    inset 4px 4px 9px rgba(3,20,66,.60),
-    inset -3px -3px 7px rgba(110,175,255,.30);
+    inset 4px 4px 9px rgba(var(--n3d-sombra),.60),
+    inset -3px -3px 7px rgba(var(--n3d-luz),.30);
 }
 
 /* ───────────────────────── MOBILE ───────────────────────── */
@@ -139,24 +152,24 @@ html:not(.tema-papa) .navbar-nav .nav-link:active {
   html:not(.tema-papa) .navbar-toggler {
     border-radius: 12px;
     border: 1px solid rgba(255,255,255,.25);
-    background: linear-gradient(145deg, #2b86e0, #0f57ad);
+    background: linear-gradient(145deg, var(--n3d-tog-1), var(--n3d-tog-2));
     box-shadow:
-      4px 4px 8px rgba(3,20,66,.45),
-      -3px -3px 7px rgba(110,175,255,.30),
+      4px 4px 8px rgba(var(--n3d-sombra),.45),
+      -3px -3px 7px rgba(var(--n3d-luz),.30),
       inset 0 1px 0 rgba(255,255,255,.35);
   }
 
   /* Desplegable: panel de vidrio azul con relieve y glow */
   html:not(.tema-papa) .navbar-collapse {
-    background: linear-gradient(145deg, rgba(33,128,224,.90), rgba(13,71,161,.94));
+    background: linear-gradient(145deg, rgba(var(--n3d-panel-1), .90), rgba(var(--n3d-panel-2), .94));
     backdrop-filter: blur(14px) saturate(140%);
     -webkit-backdrop-filter: blur(14px) saturate(140%);
     border: 1px solid rgba(255,255,255,.24);
     box-shadow:
-      0 18px 40px -12px rgba(0,20,70,.65),
-      0 0 18px 2px rgba(66,165,245,.40),
+      0 18px 40px -12px rgba(var(--n3d-sombra),.65),
+      0 0 18px 2px rgba(var(--n3d-glow-1),.40),
       inset 0 1px 0 rgba(255,255,255,.35),
-      inset 0 -2px 6px rgba(0,20,70,.30);
+      inset 0 -2px 6px rgba(var(--n3d-sombra),.30);
   }
 }
 
@@ -165,30 +178,30 @@ html:not(.tema-papa) .navbar-nav .nav-link:active {
 html:not(.tema-papa) .footer {
   z-index: 2;
   /* Luz arriba, profundidad abajo; conserva el tono índigo de tu degradado */
-  background: linear-gradient(180deg, #2a82df 0%, #1565c0 9%, #0d47a1 52%, #0b2f80 100%) !important;
+  background: linear-gradient(180deg, var(--n3d-f1) 0%, var(--n3d-f2) 9%, var(--n3d-f3) 52%, var(--n3d-f4) 100%) !important;
   border-top-color: rgba(var(--n3d-dorado), .6) !important;
   /* La sombra proyecta hacia ARRIBA, sobre el contenido; el glow pulsa igual que en la navbar */
   box-shadow:
-    0 -12px 22px -8px rgba(0,20,70,.50),
-    0 -26px 40px -18px rgba(0,20,70,.40),
-    0 0 18px 2px rgba(66,165,245,.45),
+    0 -12px 22px -8px rgba(var(--n3d-sombra),.50),
+    0 -26px 40px -18px rgba(var(--n3d-sombra),.40),
+    0 0 18px 2px rgba(var(--n3d-glow-1),.45),
     inset 0 2px 0 rgba(255,255,255,.35),
-    inset 0 -3px 6px rgba(0,20,70,.45),
+    inset 0 -3px 6px rgba(var(--n3d-sombra),.45),
     inset 0 14px 22px rgba(255,255,255,.06);
   animation: n3d-glow-footer 5s ease-in-out infinite;
 }
 @keyframes n3d-glow-footer {
   0%, 100% {
     box-shadow:
-      0 -12px 22px -8px rgba(0,20,70,.50), 0 -26px 40px -18px rgba(0,20,70,.40),
-      0 0 16px 2px rgba(66,165,245,.40),
-      inset 0 2px 0 rgba(255,255,255,.35), inset 0 -3px 6px rgba(0,20,70,.45), inset 0 14px 22px rgba(255,255,255,.06);
+      0 -12px 22px -8px rgba(var(--n3d-sombra),.50), 0 -26px 40px -18px rgba(var(--n3d-sombra),.40),
+      0 0 16px 2px rgba(var(--n3d-glow-1),.40),
+      inset 0 2px 0 rgba(255,255,255,.35), inset 0 -3px 6px rgba(var(--n3d-sombra),.45), inset 0 14px 22px rgba(255,255,255,.06);
   }
   50% {
     box-shadow:
-      0 -12px 22px -8px rgba(0,20,70,.50), 0 -26px 40px -18px rgba(0,20,70,.40),
-      0 0 28px 6px rgba(100,181,246,.75),
-      inset 0 2px 0 rgba(255,255,255,.55), inset 0 -3px 6px rgba(0,20,70,.45), inset 0 14px 22px rgba(255,255,255,.09);
+      0 -12px 22px -8px rgba(var(--n3d-sombra),.50), 0 -26px 40px -18px rgba(var(--n3d-sombra),.40),
+      0 0 28px 6px rgba(var(--n3d-glow-2),.75),
+      inset 0 2px 0 rgba(255,255,255,.55), inset 0 -3px 6px rgba(var(--n3d-sombra),.45), inset 0 14px 22px rgba(255,255,255,.09);
   }
 }
 
@@ -209,57 +222,57 @@ html:not(.tema-papa) .footer::before {
 }
 
 /* Textos con efecto "grabado" */
-html:not(.tema-papa) .footer .footer-title { text-shadow: 0 2px 3px rgba(0,20,70,.65), 0 -1px 0 rgba(255,255,255,.12); }
+html:not(.tema-papa) .footer .footer-title { text-shadow: 0 2px 3px rgba(var(--n3d-sombra),.65), 0 -1px 0 rgba(255,255,255,.12); }
 html:not(.tema-papa) .footer .footer-text,
-html:not(.tema-papa) .footer .footer-link { text-shadow: 0 1px 2px rgba(0,20,70,.55); }
+html:not(.tema-papa) .footer .footer-link { text-shadow: 0 1px 2px rgba(var(--n3d-sombra),.55); }
 
 /* Logos con volumen */
-html:not(.tema-papa) .footer .footer-logo-link img { filter: drop-shadow(0 8px 10px rgba(0,20,70,.55)); }
-html:not(.tema-papa) .footer .footer-logo { filter: drop-shadow(0 4px 6px rgba(0,20,70,.5)); }
+html:not(.tema-papa) .footer .footer-logo-link img { filter: drop-shadow(0 8px 10px rgba(var(--n3d-sombra),.55)); }
+html:not(.tema-papa) .footer .footer-logo { filter: drop-shadow(0 4px 6px rgba(var(--n3d-sombra),.5)); }
 
 /* Línea de derechos: surco grabado (oscuro arriba + luz abajo) */
 html:not(.tema-papa) .footer .footer-copyright {
   padding-top: .9rem;
-  border-top: 1px solid rgba(0,20,70,.5);
+  border-top: 1px solid rgba(var(--n3d-sombra),.5);
   box-shadow: inset 0 1px 0 rgba(255,255,255,.14);
 }
 
 /* Botones sociales: mismo relieve que las píldoras del menú */
 html:not(.tema-papa) .footer .social-link {
   border-radius: 14px;
-  background: linear-gradient(145deg, rgba(255,255,255,.22), rgba(255,255,255,.05) 45%, rgba(0,20,70,.20));
+  background: linear-gradient(145deg, rgba(255,255,255,.22), rgba(255,255,255,.05) 45%, rgba(var(--n3d-sombra),.20));
   border: 1px solid rgba(255,255,255,.24);
-  text-shadow: 0 1px 1px rgba(0,20,70,.55);
+  text-shadow: 0 1px 1px rgba(var(--n3d-sombra),.55);
   box-shadow:
-    4px 5px 10px rgba(3,20,66,.45),
-    -3px -3px 8px rgba(120,185,255,.30),
+    4px 5px 10px rgba(var(--n3d-sombra),.45),
+    -3px -3px 8px rgba(var(--n3d-luz),.30),
     inset 0 1px 0 rgba(255,255,255,.38),
-    inset 0 -2px 4px rgba(3,20,66,.25);
+    inset 0 -2px 4px rgba(var(--n3d-sombra),.25);
 }
 /* Hover: perla blanca, texto azul, borde dorado y glow (igual que el menú) */
 html:not(.tema-papa) .footer .social-link:hover,
 html:not(.tema-papa) .footer .social-link:focus-visible {
   color: var(--n3d-azul-texto);
-  background: linear-gradient(145deg, #ffffff, #e3efff 60%, #c3dafb);
+  background: linear-gradient(145deg, #ffffff, var(--n3d-perla-2) 60%, var(--n3d-perla-3));
   border-color: rgba(var(--n3d-dorado), .95);
   text-shadow: 0 1px 0 rgba(255,255,255,.9);
   transform: translateY(-2px);
   box-shadow:
-    0 12px 18px -6px rgba(0,20,70,.55),
-    0 0 16px 2px rgba(160,205,255,.75),
+    0 12px 18px -6px rgba(var(--n3d-sombra),.55),
+    0 0 16px 2px rgba(var(--n3d-glow-3),.75),
     0 0 0 1px rgba(var(--n3d-dorado), .55),
     inset 0 1px 0 #fff,
-    inset 0 -2px 5px rgba(13,71,161,.18);
+    inset 0 -2px 5px rgba(var(--n3d-sombra),.18);
 }
 /* Presionado: relieve hundido */
 html:not(.tema-papa) .footer .social-link:active {
-  color: #eaf3ff;
-  background: linear-gradient(145deg, #0e58b0, #1a72d4);
+  color: var(--n3d-texto-pres);
+  background: linear-gradient(145deg, var(--n3d-pres-1), var(--n3d-pres-2));
   border-color: rgba(255,255,255,.2);
   transform: translateY(0) scale(.97);
   box-shadow:
-    inset 4px 4px 9px rgba(3,20,66,.60),
-    inset -3px -3px 7px rgba(110,175,255,.30);
+    inset 4px 4px 9px rgba(var(--n3d-sombra),.60),
+    inset -3px -3px 7px rgba(var(--n3d-luz),.30);
 }
 
 /* ───────────────────────── ICONO DEL PIE DEL FOOTER (identidad / isotipo) ─────────────────────────
@@ -270,17 +283,17 @@ html:not(.tema-papa) .footer .footer-icon { margin-top: 1.4rem; }
 html:not(.tema-papa) .footer .footer-logo {
   width: 76px;
   opacity: 1;
-  filter: drop-shadow(0 6px 8px rgba(0,20,70,.55)) drop-shadow(0 0 10px rgba(255,214,102,.45));
+  filter: drop-shadow(0 6px 8px rgba(var(--n3d-sombra),.55)) drop-shadow(0 0 10px rgba(255,214,102,.45));
   animation: n3d-icono 4.5s ease-in-out infinite;
   transition: transform .3s ease;
 }
 html:not(.tema-papa) .footer .footer-logo:hover {
   transform: translateY(-3px) scale(1.1);
-  filter: drop-shadow(0 10px 12px rgba(0,20,70,.6)) drop-shadow(0 0 16px rgba(255,224,130,.85));
+  filter: drop-shadow(0 10px 12px rgba(var(--n3d-sombra),.6)) drop-shadow(0 0 16px rgba(255,224,130,.85));
 }
 @keyframes n3d-icono {
-  0%, 100% { filter: drop-shadow(0 6px 8px rgba(0,20,70,.55)) drop-shadow(0 0 8px  rgba(255,214,102,.35)); }
-  50%      { filter: drop-shadow(0 6px 8px rgba(0,20,70,.55)) drop-shadow(0 0 16px rgba(255,224,130,.75)); }
+  0%, 100% { filter: drop-shadow(0 6px 8px rgba(var(--n3d-sombra),.55)) drop-shadow(0 0 8px  rgba(255,214,102,.35)); }
+  50%      { filter: drop-shadow(0 6px 8px rgba(var(--n3d-sombra),.55)) drop-shadow(0 0 16px rgba(255,224,130,.75)); }
 }
 
 /* ───────────────────────── LOGO MÁS GRANDE EN MOBILE ─────────────────────────
@@ -319,26 +332,26 @@ html.footer-paneles:not(.tema-papa) .footer .row > [class*="col-"]::before {
   inset: 0 calc(var(--bs-gutter-x, 1.5rem) * .5);
   z-index: -1;
   border-radius: 20px;
-  background: linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.04) 45%, rgba(0,20,70,.20));
+  background: linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.04) 45%, rgba(var(--n3d-sombra),.20));
   -webkit-backdrop-filter: blur(10px) saturate(130%);
   backdrop-filter: blur(10px) saturate(130%);
   border: 1px solid rgba(255,255,255,.22);
   box-shadow:
-    8px 10px 20px rgba(3,20,66,.45),
-    -5px -5px 14px rgba(120,185,255,.22),
+    8px 10px 20px rgba(var(--n3d-sombra),.45),
+    -5px -5px 14px rgba(var(--n3d-luz),.22),
     inset 0 1px 0 rgba(255,255,255,.35),
-    inset 0 -2px 6px rgba(3,20,66,.25);
+    inset 0 -2px 6px rgba(var(--n3d-sombra),.25);
   pointer-events: none;
   transition: box-shadow .3s ease, transform .3s ease;
 }
 html.footer-paneles:not(.tema-papa) .footer .row > [class*="col-"]:hover::before {
   transform: translateY(-3px);
   box-shadow:
-    10px 16px 26px rgba(3,20,66,.5),
-    -5px -5px 14px rgba(120,185,255,.28),
-    0 0 18px 2px rgba(120,185,255,.35),
+    10px 16px 26px rgba(var(--n3d-sombra),.5),
+    -5px -5px 14px rgba(var(--n3d-luz),.28),
+    0 0 18px 2px rgba(var(--n3d-luz),.35),
     inset 0 1px 0 rgba(255,255,255,.45),
-    inset 0 -2px 6px rgba(3,20,66,.25);
+    inset 0 -2px 6px rgba(var(--n3d-sombra),.25);
 }
 /* Un hilo dorado bajo cada título de panel */
 html.footer-paneles:not(.tema-papa) .footer .footer-title::after {
@@ -358,10 +371,10 @@ html.footer-paneles:not(.tema-papa) .footer .footer-title::after {
   html:not(.tema-papa) .cabecera {
     animation: none;
     box-shadow:
-      0 12px 22px -8px rgba(0,20,70,.55),
-      0 26px 40px -18px rgba(0,20,70,.45),
-      0 0 18px 2px rgba(66,165,245,.45),
+      0 12px 22px -8px rgba(var(--n3d-sombra),.55),
+      0 26px 40px -18px rgba(var(--n3d-sombra),.45),
+      0 0 18px 2px rgba(var(--n3d-glow-1),.45),
       inset 0 1px 0 rgba(255,255,255,.5),
-      inset 0 -3px 6px rgba(0,20,70,.45) !important;
+      inset 0 -3px 6px rgba(var(--n3d-sombra),.45) !important;
   }
 }
