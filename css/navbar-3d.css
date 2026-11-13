@@ -21,6 +21,7 @@ html:not(.tema-papa) {
   --n3d-z: 1040;                         /* altura de la tira sobre los slides (subir si algún slide la tapa) */
   --n3d-azul-texto: #0d47a1;             /* azul del texto en hover */
   --n3d-dorado: 212, 175, 55;            /* mismo dorado que ya usa tu borde */
+  --n3d-filete: 3px;                    /* grosor del filete dorado en su centro (más sutil: 2px · más marcado: 5px) */
 }
 
 /* ───────────────────────── LA TIRA (cabecera) ───────────────────────── */
@@ -61,17 +62,23 @@ html:not(.tema-papa) .cabecera .navbar {
   background: linear-gradient(180deg, rgba(255,255,255,.16) 0%, rgba(255,255,255,.03) 42%, rgba(0,20,70,.20) 100%) !important;
 }
 
-/* Cinta dorada en el borde inferior: da la sensación de bisel / tira metálica */
+/* Cinta dorada en el borde inferior: lente que engrosa hacia el centro (bisel / tira metálica).
+   - Es media elipse apoyada en el borde: 7px de alto en el centro, 0 en los extremos.
+   - z-index por ENCIMA del <nav> (z-index 1030): antes quedaba tapada por el velo
+     translúcido del nav y se veía siempre fina y apagada.
+   - Va dentro de la tira (bottom:0), así ningún contenedor con overflow la recorta. */
 html:not(.tema-papa) .cabecera::after {
   content: "";
   position: absolute;
-  left: 6%; right: 6%; bottom: -1px;
-  height: 3px;
-  border-radius: 0 0 3px 3px;
-  background: linear-gradient(90deg, transparent, #b8902a 15%, #ffe9a0 50%, #b8902a 85%, transparent);
-  box-shadow: 0 0 10px rgba(255,214,102,.7);
+  left: 6%; right: 6%; bottom: 0;
+  height: var(--n3d-filete);
+  border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.35), rgba(255,255,255,0) 60%),
+    linear-gradient(90deg, transparent, #b8902a 20%, #f3dc8f 50%, #b8902a 80%, transparent);
+  box-shadow: 0 0 6px rgba(255,214,102,.40);
   pointer-events: none;
-  z-index: 2;
+  z-index: 1035;
 }
 
 /* ───────────────────────── BOTONES (píldoras 3D) ───────────────────────── */
@@ -185,17 +192,20 @@ html:not(.tema-papa) .footer {
   }
 }
 
-/* Cinta dorada en el borde superior (el footer tiene overflow:hidden, por eso va adentro) */
+/* Cinta dorada en el borde superior: misma media elipse, colgando del borde.
+   (El footer tiene overflow:hidden, por eso va adentro.) */
 html:not(.tema-papa) .footer::before {
   content: "";
   position: absolute;
   left: 6%; right: 6%; top: 0;
-  height: 3px;
-  border-radius: 0 0 3px 3px;
-  background: linear-gradient(90deg, transparent, #b8902a 15%, #ffe9a0 50%, #b8902a 85%, transparent);
-  box-shadow: 0 0 10px rgba(255,214,102,.7);
+  height: var(--n3d-filete);
+  border-radius: 0 0 50% 50% / 0 0 100% 100%;
+  background:
+    linear-gradient(0deg, rgba(255,255,255,.35), rgba(255,255,255,0) 60%),
+    linear-gradient(90deg, transparent, #b8902a 20%, #f3dc8f 50%, #b8902a 80%, transparent);
+  box-shadow: 0 0 6px rgba(255,214,102,.40);
   pointer-events: none;
-  z-index: 2;
+  z-index: 3;
 }
 
 /* Textos con efecto "grabado" */
@@ -250,6 +260,27 @@ html:not(.tema-papa) .footer .social-link:active {
   box-shadow:
     inset 4px 4px 9px rgba(3,20,66,.60),
     inset -3px -3px 7px rgba(110,175,255,.30);
+}
+
+/* ───────────────────────── ICONO DEL PIE DEL FOOTER (identidad / isotipo) ─────────────────────────
+   Se CONSERVA el <img class="footer-logo"> de siempre; solo se le da más presencia:
+   tamaño un poco mayor, opacidad completa, sombra con volumen y un halo dorado suave
+   que respira. Al pasar el mouse se eleva. Es un enlace a #inicio. */
+html:not(.tema-papa) .footer .footer-icon { margin-top: 1.4rem; }
+html:not(.tema-papa) .footer .footer-logo {
+  width: 76px;
+  opacity: 1;
+  filter: drop-shadow(0 6px 8px rgba(0,20,70,.55)) drop-shadow(0 0 10px rgba(255,214,102,.45));
+  animation: n3d-icono 4.5s ease-in-out infinite;
+  transition: transform .3s ease;
+}
+html:not(.tema-papa) .footer .footer-logo:hover {
+  transform: translateY(-3px) scale(1.1);
+  filter: drop-shadow(0 10px 12px rgba(0,20,70,.6)) drop-shadow(0 0 16px rgba(255,224,130,.85));
+}
+@keyframes n3d-icono {
+  0%, 100% { filter: drop-shadow(0 6px 8px rgba(0,20,70,.55)) drop-shadow(0 0 8px  rgba(255,214,102,.35)); }
+  50%      { filter: drop-shadow(0 6px 8px rgba(0,20,70,.55)) drop-shadow(0 0 16px rgba(255,224,130,.75)); }
 }
 
 /* ───────────────────────── LOGO MÁS GRANDE EN MOBILE ─────────────────────────
@@ -323,6 +354,7 @@ html.footer-paneles:not(.tema-papa) .footer .footer-title::after {
 /* ───────────────────────── ACCESIBILIDAD ───────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   html:not(.tema-papa) .footer { animation: none; }
+  html:not(.tema-papa) .footer .footer-logo { animation: none; }
   html:not(.tema-papa) .cabecera {
     animation: none;
     box-shadow:
