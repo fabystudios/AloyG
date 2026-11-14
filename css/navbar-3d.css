@@ -275,6 +275,21 @@ html:not(.tema-papa) .footer .social-link:active {
     inset -3px -3px 7px rgba(var(--n3d-luz),.30);
 }
 
+/* ───────────────────────── LOGO MÁS GRANDE EN DESKTOP (≥ 769px) ─────────────────────────
+   El logo mide 80px de alto (atributo height="80"). Se agranda con un margen
+   vertical NEGATIVO que compensa el aumento: su "caja" en el layout sigue valiendo
+   80px, así que el alto de la barra NO cambia; lo único que se reduce es el aire
+   (padding) que quedaba arriba y abajo del logo.
+   Ajustar con --n3d-logo-desktop (80px = original · 96px = actual · ~102px = casi roza los bordes). */
+@media (min-width: 769px) {
+  html:not(.tema-papa) { --n3d-logo-desktop: 96px; }
+  html:not(.tema-papa) .navbar-brand .logo {
+    height: var(--n3d-logo-desktop) !important;
+    max-height: none !important;
+    margin-block: calc((80px - var(--n3d-logo-desktop)) / 2) !important;
+  }
+}
+
 /* ───────────────────────── ICONO DEL PIE DEL FOOTER (identidad / isotipo) ─────────────────────────
    Se CONSERVA el <img class="footer-logo"> de siempre; solo se le da más presencia:
    tamaño un poco mayor, opacidad completa, sombra con volumen y un halo dorado suave

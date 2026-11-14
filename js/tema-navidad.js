@@ -26,7 +26,8 @@
   var CLS = 'tema-navidad';
   var CFG = window.TEMA_NAVIDAD || {};
   var LOGO = CFG.logo || './logos/logo-navidad.png';
-  var HANG = 72;                          // alto extra bajo la tira para los adornos colgantes (px)
+  var LEN_MAX = 11;                       // largo máximo del hilo de los colgantes (px); bajarlo = hilos más cortos
+  var HANG = 56;                          // alto extra bajo la tira para los adornos colgantes (px)
   var TAU = Math.PI * 2;
 
   var root = document.documentElement;
@@ -160,7 +161,7 @@
     var hgt = type === 'bauble' ? s * 2 + 4 : type === 'bell' ? s * 1.5 + 4 : s * 1.95;
     return {
       t: type, x: x, y: y0, s: s,
-      len: rnd(6, Math.max(8, maxLen - hgt - 6)),
+      len: rnd(3, Math.min(LEN_MAX, Math.max(4, maxLen - hgt - 6))),   // hilo corto
       col: pick(BAUBLE_COLORS),
       amp: rnd(0.07, 0.16), w: rnd(1.0, 1.7), ph: rnd(0, TAU), tw: rnd(1.5, 3)
     };
