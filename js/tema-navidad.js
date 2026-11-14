@@ -1,7 +1,7 @@
 /*! Tema Navidad — adornos en canvas (vanilla JS, sin dependencias)
  *
  *  Qué hace (solo mientras <html> tenga la clase "tema-navidad"):
- *    · Header: polvo de estrellas + bolas, campanas, estrellas y muérdago
+ *    · Header: polvo de estrellas + bolas, campanas, estrellas y, en los extremos, hojas con frutos rojos
  *      colgando de la tira, balanceándose como péndulos.
  *    · Footer: polvo de estrellas + adornos colgando del borde superior.
  *    · Cambia el logo del navbar por el navideño (y lo restaura al desactivar).
@@ -168,7 +168,7 @@
   }
 
   function makeMistletoe(x, y0, dir) {
-    return { t: 'mistletoe', x: x, y: y0, s: 1.2, len: 3, col: null, amp: 0.06, w: 1.1, ph: dir > 0 ? 0.6 : 2.4, tw: 1 };
+    return { t: 'mistletoe', x: x, y: y0, s: 1.25, len: 0, col: null, amp: 0.035, w: 1.1, ph: dir > 0 ? 0.6 : 2.4, tw: 1 };
   }
 
   function buildItems(L) {
@@ -281,43 +281,40 @@
     c.strokeStyle = 'rgba(120,85,10,.6)'; c.lineWidth = 0.6; c.stroke();
   }
 
-  function leaf(c, x, y, rot, len, wid) {
+  // Hoja alargada y puntiaguda (forma de almendra) con nervadura central
+  function leaf(c, rot, len, wid) {
     c.save();
-    c.translate(x, y); c.rotate(rot);
+    c.rotate(rot);
     var g = c.createLinearGradient(0, 0, 0, len);
-    g.addColorStop(0, '#86c872'); g.addColorStop(1, '#2f7a35');
+    g.addColorStop(0, '#6fb55c'); g.addColorStop(0.55, '#2f7a35'); g.addColorStop(1, '#1f5a28');
     c.fillStyle = g;
-    c.beginPath(); c.ellipse(0, len / 2, wid, len / 2, 0, 0, TAU); c.fill();
-    c.strokeStyle = 'rgba(20,70,30,.5)'; c.lineWidth = 0.6;
-    c.beginPath(); c.moveTo(0, 1); c.lineTo(0, len - 2); c.stroke();
+    c.beginPath();
+    c.moveTo(0, 0);
+    c.bezierCurveTo(wid * 1.5, len * 0.25, wid * 1.1, len * 0.8, 0, len);
+    c.bezierCurveTo(-wid * 1.1, len * 0.8, -wid * 1.5, len * 0.25, 0, 0);
+    c.closePath(); c.fill();
+    c.strokeStyle = 'rgba(15,60,25,.55)'; c.lineWidth = 0.7;
+    c.beginPath(); c.moveTo(0, 1.5); c.lineTo(0, len * 0.9); c.stroke();
     c.restore();
   }
 
+  // Fruto rojo con brillo
   function berry(c, x, y, r) {
-    var g = c.createRadialGradient(x - r * 0.3, y - r * 0.3, r * 0.1, x, y, r);
-    g.addColorStop(0, '#ffffff'); g.addColorStop(1, '#e4ddc0');
+    var g = c.createRadialGradient(x - r * 0.35, y - r * 0.35, r * 0.1, x, y, r);
+    g.addColorStop(0, '#ff8a80'); g.addColorStop(0.45, '#d32f2f'); g.addColorStop(1, '#7f1010');
     c.fillStyle = g;
     c.beginPath(); c.arc(x, y, r, 0, TAU); c.fill();
-    c.fillStyle = 'rgba(120,100,60,.55)';
-    c.beginPath(); c.arc(x + r * 0.15, y + r * 0.55, r * 0.22, 0, TAU); c.fill();
+    c.fillStyle = 'rgba(255,255,255,.65)';
+    c.beginPath(); c.arc(x - r * 0.35, y - r * 0.38, r * 0.25, 0, TAU); c.fill();
   }
 
+  // Adorno de borde: dos hojas y tres frutos rojos, pegados a la tira (origen = el borde)
   function drawMistletoe(c) {
-    c.lineCap = 'round';
-    c.strokeStyle = '#4e7a2a'; c.lineWidth = 1.4;         // tallo
-    c.beginPath(); c.moveTo(0, 2); c.quadraticCurveTo(2, 14, 0, 30); c.stroke();
-    leaf(c, 0, 5, 0.75, 12, 3.2);   leaf(c, 0, 5, -0.75, 12, 3.2);
-    leaf(c, 0, 14, 0.7, 15, 3.8);   leaf(c, 0, 14, -0.7, 15, 3.8);
-    leaf(c, 0, 23, 0.8, 12, 3.2);   leaf(c, 0, 23, -0.8, 12, 3.2);
-    leaf(c, 0, 29, 0, 10, 3);
-    berry(c, -2.8, 27, 2.5); berry(c, 3, 28.5, 2.5); berry(c, 0.2, 31.5, 2.5);   // perlas del muérdago
-    // lazo rojo en la parte alta
-    c.fillStyle = '#c62828';
-    c.beginPath(); c.moveTo(0, 0); c.bezierCurveTo(-9, -5, -10, 5, 0, 2); c.fill();
-    c.beginPath(); c.moveTo(0, 0); c.bezierCurveTo(9, -5, 10, 5, 0, 2); c.fill();
-    c.beginPath(); c.moveTo(-1, 2); c.lineTo(-5, 11); c.lineTo(-2, 9.5); c.lineTo(0, 12); c.lineTo(1, 2); c.fill();
-    c.fillStyle = '#8e1414';
-    c.beginPath(); c.arc(0, 1, 2, 0, TAU); c.fill();
+    leaf(c, 0.8, 17, 4.6);        // hoja izquierda
+    leaf(c, -0.8, 17, 4.6);       // hoja derecha
+    berry(c, -3.4, 3.2, 3.3);
+    berry(c, 3.4, 3.2, 3.3);
+    berry(c, 0, 6.6, 3.5);
   }
 
   // Péndulo: el hilo cuelga del ancla y el adorno se orienta siguiendo el hilo
