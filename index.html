@@ -1346,9 +1346,40 @@
                    effect="stars floating-png" 
                    png-count="3" png-width="80px"
 ></section-title>
+ 
+<script src="./components/video-frame-navidad.js"></script>
 
+  <div class="video-card-gold-container" style="justify-content: center; gap: 20px; ">
+
+<!-- <video-frame-navidad video="./27.mp4" zoom zoom-frame="./nav.png"
+  zoom-float="./estrella.png" zoom-float-count="12" zoom-float-size="64"></video-frame-navidad>
+<video-frame-navidad video="./27.mp4" zoom zoom-frame="./nav.png"></video-frame-navidad>
+ -->
+<!-- el mismo en los dos -->
+<!-- <video-frame-navidad video="./27.mp4" zoom zoom-bg="./fondo.jpg"></video-frame-navidad> -->
+
+<!-- uno distinto para cada pantalla -->
+<!-- <video-frame-navidad video="./27.mp4" zoom
+  zoom-bg-mobile="./fondo-vertical.jpg" zoom-bg-desktop="./fondo-ancho.jpg"></video-frame-navidad> -->
+
+<!-- wallpaper solo en desktop; en mobile queda el velo oscuro con polvo -->
+<!-- <video-frame-navidad video="./27.mp4" zoom
+  zoom-bg-desktop="./fondo.jpg" zoom-bg-mobile="none"></video-frame-navidad> -->
+
+ <video-frame-navidad
+  zoom
+  zoom-float="./navidad/candy.png ./navidad/vela.png"
+  zoom-bg-mobile="./navidad/fondo_mob.png" zoom-bg-desktop="./navidad/fondo_desk.png"
+  frame="./navidad/cartoon1.png"
+  video="./navidad/calen2.mp4"
+  poster="./navidad/estrella.png"
+  autoplay
+
+  loop
+></video-frame-navidad>
+  </div>
 <!-- biblioteca 1 -->
- <!-- <script src="./components/video-frame-navidad.js"></script> -->
+
   <div class="video-card-gold-container" style="justify-content: center; gap: 20px; ">
 
  <video-frame-tradiciones
@@ -1376,13 +1407,7 @@
   loop
 ></video-frame-tradiciones>
 
- <!-- <video-frame-tradiciones
-  frame="./trad/biblia4.png"
-  video="./trad/cartoon1.mp4"
-  autoplay
-  hide-mobile
-  loop
-></video-frame-tradiciones> -->
+
 
 
 </div>
