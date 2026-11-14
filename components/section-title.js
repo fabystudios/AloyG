@@ -14,6 +14,7 @@
  * │ text             │ string                           │ ""                 │
  * │ icon             │ emoji, material-icon, fa-…       │ ""                 │
  * │ icon-type        │ auto|emoji|material|fa           │ "auto"             │
+ * │ icon-mobile      │ on|off  (off = oculta el ícono ≤768px) │ on           │
  * │ theme            │ classic|3d|navidad               │ classic            │
  * │ shadow           │ ""|"lg"                          │ ""                 │
  * │ extra-style      │ CSS inline extra para el section │ ""                 │
@@ -28,6 +29,26 @@
  * │  <html> tiene class="tema-navidad".                                     │
  * │  Para activarlo en TODOS los títulos de una vez:                        │
  * │      <html data-st-theme="3d">   (el atributo theme del elemento manda) │
+ * ├─────────────────────────────────────────────────────────────────────────┤
+ * │  IMAGEN DESPUÉS DEL TÍTULO  (img="…")                                    │
+ * │   img                 url de la imagen (si falta, no se dibuja nada)    │
+ * │   img-alt             texto alternativo                                 │
+ * │   img-max-height      CSS (default 80px)                                │
+ * │   img-max-width       CSS (default 180px)                               │
+ * │   img-max-height-mobile  CSS, solo ≤768px (default 56px)                │
+ * │   img-mobile          on|off  (off = oculta la imagen ≤768px)  (on)     │
+ * │   img-idle            none|float  → animación continua en reposo        │
+ * │   img-effect          none|zigzag|point|wiggle|float|bounce|pulse       │
+ * │   img-trigger         click|hover|auto  (default: click si hay efecto)  │
+ * │                       click = UNA pasada por toque, se reinicia si se   │
+ * │                       vuelve a tocar; hover/auto = en bucle             │
+ * │   img-class           clases extra para el <img> (ej. "zig-target")     │
+ * │   img-play-class      clase propia que se aplica al tocar (ej. "zigzag")│
+ * │                       en lugar del efecto interno; se quita sola        │
+ * │                       en animationend                                   │
+ * │   ej: <section-title text="Avisos" img="./cartelera/gio-dedo.png"       │
+ * │        img-alt="Gio señalando" img-idle="float" img-effect="zigzag">    │
+ * │       </section-title>                                                  │
  * ├─────────────────────────────────────────────────────────────────────────┤
  * │  EFFECT — acepta varios valores separados por espacio                    │
  * │     ej: effect="stars floating-png glow-pulse"                           │
@@ -291,6 +312,92 @@
       }
       /* acompaña al cartel cuando se eleva 2px en hover */
       section-title:has(.section-header:hover) .st-snow-cap { transform: translateY(-2px); }
+
+
+      /* ═══════════════════════════════════════════════════════════════
+         IMAGEN DESPUÉS DEL TÍTULO  (atributo img="…")
+         · reposo (img-idle): animación continua, ej. flotar
+         · efecto (img-effect): una sola pasada al tocar/clic (se reinicia si se vuelve a
+           tocar), o en bucle con img-trigger="auto" / mientras hay hover
+         ═══════════════════════════════════════════════════════════════ */
+      section-title .st-img-wrap {
+        position: relative;
+        z-index: 3;
+        overflow: visible;                 /* la imagen puede salirse de su caja al animarse */
+        display: inline-block;
+        vertical-align: middle;
+        margin-left: .6em;
+        line-height: 0;                    /* sin hueco bajo la imagen */
+        text-transform: none;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: manipulation;
+      }
+      section-title .st-img-wrap[data-trigger="click"] { cursor: pointer; }
+      section-title .st-img-wrap:focus-visible {
+        outline: 2px solid rgba(255,255,255,.85);
+        outline-offset: 3px;
+        border-radius: 8px;
+      }
+      section-title .st-img-wrap .st-img {
+        display: block;
+        width: auto; height: auto;
+        max-width: var(--st-img-mw, 180px);
+        max-height: var(--st-img-mh, 80px);
+        object-fit: contain;
+        will-change: transform;
+        transform-origin: 50% 90%;         /* pivote en la "panza": parece colgar y flotar */
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+      /* con tema 3D / Navidad la imagen gana profundidad */
+      section-title .section-header.st-3d .st-img { filter: drop-shadow(0 4px 6px rgba(var(--_sh), .5)); }
+
+      /* cada efecto define su versión en bucle (--st-anim) y de una pasada (--st-anim-once) */
+      section-title .st-img-wrap[data-fx="zigzag"] { --st-anim: st-img-zigzag .9s ease-in-out infinite; --st-anim-once: st-img-zigzag .9s ease-in-out 1; }
+      section-title .st-img-wrap[data-fx="point"]  { --st-anim: st-img-point 1.2s ease-in-out infinite;  --st-anim-once: st-img-point 1.2s ease-in-out 1; }
+      section-title .st-img-wrap[data-fx="wiggle"] { --st-anim: st-img-wiggle .9s ease-in-out infinite;  --st-anim-once: st-img-wiggle .9s ease-in-out 1; }
+      section-title .st-img-wrap[data-fx="float"]  { --st-anim: st-img-float 2.6s ease-in-out infinite;  --st-anim-once: st-img-float 1.6s ease-in-out 1; }
+      section-title .st-img-wrap[data-fx="bounce"] { --st-anim: st-img-bounce 1.4s ease-in-out infinite; --st-anim-once: st-img-bounce 1.4s ease-in-out 1; }
+      section-title .st-img-wrap[data-fx="pulse"]  { --st-anim: st-img-pulse 1.4s ease-in-out infinite;  --st-anim-once: st-img-pulse .8s ease-in-out 1; }
+
+      /* orden importa (misma especificidad): reposo → bucle por disparador → una pasada (gana) */
+      section-title .st-img-wrap[data-idle="float"] .st-img { animation: st-img-idle-float 3.4s ease-in-out infinite; }
+      section-title .st-img-wrap[data-trigger="auto"] .st-img,
+      section-title .st-img-wrap[data-trigger="hover"]:hover .st-img { animation: var(--st-anim, none); }
+      section-title .st-img-wrap .st-img.st-play { animation: var(--st-anim-once, none); }
+
+      @keyframes st-img-idle-float { 0%,100% { transform: translateY(0) rotate(-1.5deg); }
+                                     50% { transform: translateY(-5px) rotate(1.5deg); } }
+      @keyframes st-img-zigzag { 0% { transform: translate(0,0) rotate(0); }
+                                 12% { transform: translate(-8px,-4px) rotate(-9deg); }
+                                 28% { transform: translate(8px,0) rotate(9deg); }
+                                 44% { transform: translate(-6px,-3px) rotate(-6deg); }
+                                 60% { transform: translate(6px,0) rotate(6deg); }
+                                 76% { transform: translate(-3px,-1px) rotate(-3deg); }
+                                 100% { transform: translate(0,0) rotate(0); } }
+      @keyframes st-img-point  { 0%,100% { transform: translateX(0); }
+                                 20% { transform: translateX(-9px); } 40% { transform: translateX(0); }
+                                 60% { transform: translateX(-9px); } 80% { transform: translateX(0); } }
+      @keyframes st-img-wiggle { 0%,100% { transform: rotate(0); } 25% { transform: rotate(-9deg); } 75% { transform: rotate(9deg); } }
+      @keyframes st-img-float  { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+      @keyframes st-img-bounce { 0%,100% { transform: translateY(0) scale(1,1); }
+                                 30% { transform: translateY(-11px) scale(.96,1.05); }
+                                 50% { transform: translateY(0) scale(1.06,.94); }
+                                 65% { transform: translateY(-4px) scale(1,1); } }
+      @keyframes st-img-pulse  { 0%,100% { transform: scale(1); } 50% { transform: scale(1.09); } }
+
+      @media (prefers-reduced-motion: reduce) {
+        section-title .st-img-wrap .st-img { animation: none !important; }
+      }
+      @media (max-width: 768px) {
+        section-title .st-img-wrap { margin-left: .4em; }
+        section-title .st-img-wrap .st-img {
+          max-width: min(var(--st-img-mw, 180px), 38vw);
+          max-height: var(--st-img-mhm, 56px);
+        }
+        /* img-mobile="off" → oculta la imagen cuando viewport ≤ 768px */
+        section-title .st-img-wrap.st-img-hide-mobile { display: none !important; }
+      }
 
       @keyframes st-png-float {
         0%   { transform: translate3d(0, 0, 0) rotate(0deg); }
@@ -684,6 +791,8 @@
   class SectionTitle extends HTMLElement {
     static get observedAttributes() {
       return ['text', 'icon', 'icon-type', 'icon-mobile', 'effect',
+              'img', 'img-alt', 'img-max-height', 'img-max-width', 'img-max-height-mobile',
+              'img-mobile', 'img-effect', 'img-trigger', 'img-idle', 'img-class', 'img-play-class',
               'png-src', 'png-count', 'png-size', 'png-width', 'png-height',
               'svg-shape', 'svg-color', 'svg-count', 'svg-size',
               'glow-color', 'rays-color', 'rays-count',
@@ -759,6 +868,67 @@
       XMAS.add(st);
       if (xmasIO) xmasIO.observe(this);
       if (xmasReduce()) xmasDraw(st, 0); else xmasEnsureLoop();
+    }
+
+    /* ───── IMAGEN DESPUÉS DEL TÍTULO ─────
+       Equivale a  <div class="zig-wrap" onclick="toggleZig(event)"><img class="zig-target">  :
+         · img-idle="float"   → la imagen flota siempre (como .zig-target con gioFloat)
+         · img-effect="zigzag"→ al tocar/clic corre UNA pasada y vuelve al reposo; si se toca de
+           nuevo en pleno efecto se reinicia (igual que toggleZig: quitar clase, reflow, agregar clase,
+           quitarla en animationend)
+       Un solo "click" cubre mouse, toque y teclado (sin ontouchstart: no se dispara dos veces).
+       Para reutilizar tu CSS propio: img-class="zig-target" img-play-class="zigzag". */
+    _buildImage(h2) {
+      const src = this._get('img', '');
+      if (!src) return;
+
+      const KNOWN = ['none', 'zigzag', 'point', 'wiggle', 'float', 'bounce', 'pulse'];
+      let fx = (this._get('img-effect', 'none') || 'none').trim();
+      if (fx === 'zig') fx = 'zigzag';                        // alias
+      if (!KNOWN.includes(fx)) fx = 'none';
+
+      const customPlay = (this._get('img-play-class', '') || '').trim();   // clase propia para el efecto
+      const hasEffect = fx !== 'none' || !!customPlay;
+      const trigRaw = (this._get('img-trigger', hasEffect ? 'click' : 'none') || 'click').trim();
+      const trigger = !hasEffect ? 'none' : (['click', 'hover', 'auto'].includes(trigRaw) ? trigRaw : 'click');
+      const idle = (this._get('img-idle', 'none') || 'none').trim() === 'float' ? 'float' : 'none';
+
+      const wrap = document.createElement('span');
+      wrap.className = 'st-img-wrap' + (this._get('img-mobile', 'on') === 'off' ? ' st-img-hide-mobile' : '');
+      wrap.dataset.fx = fx;
+      wrap.dataset.trigger = trigger;
+      wrap.dataset.idle = idle;
+      wrap.style.setProperty('--st-img-mw', this._get('img-max-width', '180px'));
+      wrap.style.setProperty('--st-img-mh', this._get('img-max-height', '80px'));
+      wrap.style.setProperty('--st-img-mhm', this._get('img-max-height-mobile', '56px'));
+
+      const img = document.createElement('img');
+      img.className = 'st-img' + ((this._get('img-class', '') || '').trim() ? ' ' + this._get('img-class', '').trim() : '');
+      img.src = src;
+      img.alt = this._get('img-alt', '');
+      img.draggable = false;
+      img.decoding = 'async';
+      img.loading = 'lazy';
+      wrap.appendChild(img);
+
+      if (trigger === 'click') {
+        const playClass = customPlay || 'st-play';
+        const play = () => {
+          img.classList.remove(playClass);      // reinicia la animación si ya estaba corriendo
+          void img.offsetWidth;                 // fuerza reflow
+          img.classList.add(playClass);
+        };
+        img.addEventListener('animationend', e => {
+          if (e.target === img && img.classList.contains(playClass)) img.classList.remove(playClass);
+        });
+        wrap.setAttribute('role', 'button');
+        wrap.setAttribute('tabindex', '0');
+        wrap.addEventListener('click', play);
+        wrap.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); play(); }
+        });
+      }
+      h2.appendChild(wrap);
     }
 
     _stopXmas() {
@@ -883,6 +1053,7 @@
         }
       }
       h2.appendChild(document.createTextNode(text));
+      this._buildImage(h2);
       section.appendChild(h2);
 
       this.appendChild(section);

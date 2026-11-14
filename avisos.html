@@ -145,17 +145,26 @@
   }
 }
 </style>
-
+<script src="./components/section-title.js"></script>
+ 
+  <section-title   text="Cartelera de Consejos"
+                   icon="fas fa-thumbtack align-middle"
+                   theme="3d"
+                   effect="stars floating-png" 
+                   png-count="3" png-width="80px"
+                   img="./cartelera/gio-dedo.png"
+                  img-alt="Gio señalando" img-idle="float" img-effect="zigzag"
+></section-title>
 
 <div class="avisos-wrapper">
-<section id="Avisos" class="section-header d-flex align-items-center justify-content-center" style="gap: .6rem; padding: .8rem 1rem;">
-  <!-- Texto: versión desktop (una línea) y versión mobile (dos líneas con <br>) -->
+<!-- <section id="Avisos" class="section-header d-flex align-items-center justify-content-center" style="gap: .6rem; padding: .8rem 1rem;">
+ 
   <h2 class="md3-headline mb-0 m-0" style="color: white; display: inline-block; vertical-align: middle;">
     <span class="d-none d-sm-inline"><i class="fas fa-thumbtack align-middle"></i> Cartelera de Consejos</span>
     <span class="d-inline d-sm-none"><i class="fas fa-thumbtack align-middle"></i> Cartelera<br>de avisos</span>
   </h2>
 
-  <!-- Imagen al lado del texto -->
+ 
   <div class="d-inline-block align-middle zig-wrap" onclick="toggleZig(event)" ontouchstart="toggleZig(event)" style="display:inline-block; vertical-align:middle; cursor:pointer;">
     <img src="./cartelera/gio-dedo.png" alt="Gio señalando" class="img-fluid zig-target" style="max-height:80px; max-width:180px; display:block;">
   </div>
@@ -251,7 +260,7 @@
       #Avisos img { max-height:44px; max-width:110px; }
     }
   </style>
-</section>
+</section> -->
 
 <section class="avisos-section py-4 px-4">
   <div class="container">

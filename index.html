@@ -1341,6 +1341,7 @@
  <!-- Super GFE -->
 <!-- confetti  -->
   <section-title   text="Últimas Novedades"
+                   icon="campaign"
                    theme="3d"
                    effect="stars floating-png" 
                    png-count="3" png-width="80px"
@@ -1352,8 +1353,17 @@
 
  <video-frame-tradiciones
   frame="./trad/biblia4.png"
+  video="./video/feria.mp4"
+  poster="./slides2/feria_mob.jpg"
+  autoplay
+  loop
+></video-frame-tradiciones>
+
+ <video-frame-tradiciones
+  frame="./trad/biblia4.png"
   video="./trad/cartoon2.mp4"
   autoplay
+  hide-mobile
   loop
 ></video-frame-tradiciones>
 
@@ -1366,17 +1376,28 @@
   loop
 ></video-frame-tradiciones>
 
- <video-frame-tradiciones
+ <!-- <video-frame-tradiciones
   frame="./trad/biblia4.png"
   video="./trad/cartoon1.mp4"
   autoplay
   hide-mobile
   loop
-></video-frame-tradiciones>
+></video-frame-tradiciones> -->
 
 
 </div>
 
+
+
+ <video-glass-frame
+       desktop="./video/adviento_desk_full.mp4" poster-desktop="./img/adviento_desk.png"
+       mobile="./video/adviento_mob_full.mp4"   poster-mobile="./img/adviento_mob.png"
+       theme="christmas" 
+      alt="Secretaría parroquial"
+ ></video-glass-frame>
+
+
+ 
 <!-- Un live puntual: se pasa como video (el link /live/ID también sirve) -->
    <!-- marca="./logos/marca2.png"  -->
 
@@ -1533,14 +1554,6 @@ La luz representa a Cristo, luz del mundo, y aleja el miedo."
 ></noticia-card>
  <br><br><br>
 <script src="./components/video-glass-frame.js"></script>
-
- <video-glass-frame
-       desktop="./video/adviento_desk_full.mp4" poster-desktop="./img/adviento_desk.png"
-       mobile="./video/adviento_mob_full.mp4"   poster-mobile="./img/adviento_mob.png"
-       theme="christmas" 
-      alt="Secretaría parroquial"
- ></video-glass-frame>
-
 
 
 
