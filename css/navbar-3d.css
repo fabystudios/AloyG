@@ -34,7 +34,7 @@ html:not(.tema-papa) {
   --n3d-tog-1:#2b86e0;   --n3d-tog-2:#0f57ad;                               /* hamburguesa */
   --n3d-panel-1: 33, 128, 224; --n3d-panel-2: 13, 71, 161;                  /* desplegable mobile */
   --n3d-dorado: 212, 175, 55;            /* mismo dorado que ya usa tu borde */
-  --n3d-filete: 3px;                    /* grosor del filete dorado en su centro (más sutil: 2px · más marcado: 5px) */
+  --n3d-filete: 2px;                    /* grosor del filete dorado en su centro (más sutil: 2px · más marcado: 5px) */
 }
 
 /* ───────────────────────── LA TIRA (cabecera) ───────────────────────── */
