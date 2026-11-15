@@ -1482,10 +1482,18 @@ Vive cada momento de esta histórica visita con la cobertura especial EN VIVO en
 
 <script src="./components/noticia-video-card.js"></script>
 
+<style>
+  @media (max-width: 767.98px) {
+    .desktop-only-video-card {
+      display: none !important;
+    }
+  }
+</style>
+
  <div class="deck-row"> 
   <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
    
-    <video-card-gold video="./asantos/14novbis.mp4" poster="./asantos/14novbis.webp"
+    <video-card-gold class="desktop-only-video-card" video="./asantos/14novbis.mp4" poster="./asantos/14novbis.webp"
     badge="14 de Noviembre" titulo="San José Pignatelli"></video-card-gold>
    <video-card-gold video="./asantos/14nov.mp4" poster="./asantos/14nov.png"
     badge="14 de Noviembre" titulo="San José Pignatelli"></video-card-gold>
