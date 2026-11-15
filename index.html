@@ -1350,9 +1350,9 @@
 
   <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
    
-  <video-card-gold video="./asantos/14novbis.mp4" poster="./asantos/15novbis.jpg"
+  <video-card-gold video="./asantos/15novbis.mp4" poster="./asantos/15novbis.jpg"
     badge="15 de Noviembre" titulo="San Roque González de la Santa Cruz"></video-card-gold>
-   <video-card-gold video="./asantos/14nov.mp4" poster="./asantos/15nov.png"
+   <video-card-gold video="./asantos/15nov.mp4" poster="./asantos/15nov.png"
     badge="15 de Noviembre" titulo="San Roque González de la Santa Cruz"></video-card-gold>
 
   </video-deck-gold> 
@@ -1361,7 +1361,7 @@
 
 <script src="./components/video-frame-navidad.js"></script>
 
-  <div class="video-card-gold-container" style="justify-content: center; gap: 20px; ">
+
 
 <!-- <video-frame-navidad video="./27.mp4" zoom zoom-frame="./nav.png"
   zoom-float="./estrella.png" zoom-float-count="12" zoom-float-size="64"></video-frame-navidad>
@@ -1377,6 +1377,7 @@
 <!-- wallpaper solo en desktop; en mobile queda el velo oscuro con polvo -->
 <!-- <video-frame-navidad video="./27.mp4" zoom
   zoom-bg-desktop="./fondo.jpg" zoom-bg-mobile="none"></video-frame-navidad> -->
+  <div class="video-card-gold-container" style="justify-content: center; gap: 20px; ">
 
  <video-frame-navidad
   zoom
@@ -1388,10 +1389,23 @@
   autoplay
   loop
 ></video-frame-navidad>
-  </div>
+
+ <video-frame-navidad
+  zoom
+  zoom-float="./navidad/candy.png ./navidad/vela.png"
+  zoom-bg-mobile="./navidad/fondo_mob.png" zoom-bg-desktop="./navidad/fondo_desk.png"
+  frame="./navidad/cartoon1.png"
+  video="./navidad/nav3.mp4"
+  poster="./navidad/nav3.jpg"
+  titulo="Corona de Adviento"
+  loop
+  hide-mobile
+></video-frame-navidad>
+  </div>   
+
 <!-- biblioteca 1 -->
 
-  <div class="video-card-gold-container" style="justify-content: center; gap: 20px; ">
+ <div class="video-card-gold-container" style="justify-content: center; gap: 20px; ">
 
  <video-frame-tradiciones
   frame="./trad/biblia4.png"
@@ -1404,20 +1418,19 @@
  <video-frame-tradiciones
   frame="./trad/biblia4.png"
   video="./trad/cartoon2.mp4"
-  autoplay
+  poster="./trad/cartoon2.jpg"
+ 
   hide-mobile
   loop
 ></video-frame-tradiciones>
 
  <video-frame-tradiciones
   frame="./trad/biblia4.png"
-  video="./navidad/nav3.mp4"
-  autoplay
-  fecha="29 de noviembre"
-  titulo="Adviento"
+  video="./trad/cartoon1.mp4"
+  poster="./trad/cartoon1.jpg"
+  hide-mobile
   loop
 ></video-frame-tradiciones>
-
 
 
 
