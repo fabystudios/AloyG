@@ -16,7 +16,9 @@
  * │ icon-type        │ auto|emoji|material|fa           │ "auto"             │
  * │ icon-mobile      │ on|off  (off = oculta el ícono ≤768px) │ on           │
  * │ theme            │ classic|3d|navidad               │ classic            │
- * │ lights           │ on|off  (guirnalda de luces, solo con tema navidad) │ según <html> │
+ * │ lights           │ on|off  (luces blancas, solo con tema navidad) │ según <html>   │
+ * │ lights-style     │ americano|festones                │ americano          │
+ * │ snow             │ on|off  (nieve sobre el cartel, tema navidad) │ on         │
  * │ shadow           │ ""|"lg"                          │ ""                 │
  * │ extra-style      │ CSS inline extra para el section │ ""                 │
  * │ id               │ string                           │ ""                 │
@@ -28,8 +30,15 @@
  * │  clásico. theme="navidad" = 3D en rojo + estrellas chispeando + bastones │
  * │  de caramelo + nieve amontonada arriba (canvas). Se activa solo si el   │
  * │  <html> tiene class="tema-navidad".                                     │
- * │  Guirnalda de luces blancas: lights="on"|"off" en el título, o para todos│
- * │  los que no lo fijen: <html class="tema-navidad luces-titulos">.         │
+ * │  Luces blancas: lights="on"|"off" en el título, o para todos los que no  │
+ * │  lo fijen: <html class="tema-navidad luces-titulos">. Estilo: americano  │
+ * │  (cable recto que bordea el cartel, con "persecución" de luz; por        │
+ * │  defecto) o festones (curvas bajo la nieve): lights-style="festones" o   │
+ * │  <html class="luces-festones">.                                          │
+ * │  Nieve: snow="on"|"off" en el título, o <html class="sin-nieve-titulos"> │
+ * │  para apagarla en todos los que no lo fijen. Las luces americanas       │
+ * │  mantienen el margen de la base: con nieve, bajo los goterones; sin      │
+ * │  nieve, a 9px del borde de arriba.                                       │
  * │  Para activarlo en TODOS los títulos de una vez:                        │
  * │      <html data-st-theme="3d">   (el atributo theme del elemento manda) │
  * ├─────────────────────────────────────────────────────────────────────────┤
@@ -518,9 +527,13 @@
     c.closePath(); c.fill();
   }
 
-  /* ───── guirnalda de luces blancas (cuelga del borde superior, debajo de la nieve) ─────
+  /* ───── luces blancas: dos estilos ─────
+       "americano" → cable RECTO que recorre los bordes del cartel (como las luces que bordean
+                     techos y paredes de las casas americanas); bombillas parejas y un brillo que
+                     "corre" alrededor (efecto persecución)
+       "festones"  → cable en curvas que cuelga del borde superior, debajo de la nieve
      Costo mínimo: UN sprite de brillo compartido (drawImage, sin gradientes por cuadro ni
-     shadowBlur), cable = pocas curvas, cada bombilla titila con su propia fase y velocidad. */
+     shadowBlur); portalámparas y vidrio se dibujan por lotes. */
   // Sprite al tamaño EXACTO en píxeles de dispositivo (22 px CSS × dpr): cada drawImage es una copia
   // 1:1 (escalarlo en cada bombilla era ~5× más caro).
   let xmasGlowSprite = null, xmasGlowDpr = 0;
@@ -540,40 +553,100 @@
     return cv;
   }
 
+  // Estilo festones
   function xmasMakeGarland(x1, x2, yTop, nSwags, spacing, sagMax) {
-    const g = { swags: [], bulbs: [] }, span = (x2 - x1) / nSwags;
+    const g = { kind: 'swag', shape: 'hang', swags: [], bulbs: [] }, span = (x2 - x1) / nSwags;
+    let n = 0;
     for (let i = 0; i < nSwags; i++) {
       const a = x1 + i * span, b = a + span, sag = clamp(span * 0.09, 6, sagMax);
       g.swags.push({ a, b, y: yTop, sag });
       const m = Math.max(3, Math.round(span / spacing));
       for (let j = 1; j < m; j++) {
         const u = j / m;
-        g.bulbs.push({ x: a + span * u, y: yTop + 4 * sag * u * (1 - u), ph: rand(0, TAU), sp: rand(1.1, 2.6) });
+        g.bulbs.push({ x: a + span * u, y: yTop + 4 * sag * u * (1 - u), ph: rand(0, TAU), sp: rand(1.1, 2.6), i: n++ });
       }
     }
     return g;
   }
 
+  // Estilo americano: marco rectangular de esquinas redondeadas con bombillas EQUIDISTANTES.
+  // Las bombillas se reparten a pasos iguales de longitud de arco por TODO el perímetro (rectas y
+  // esquinas), con una bombilla centrada arriba y otra abajo: el espaciado es idéntico en los cuatro
+  // lados y la fila de arriba queda igual que la de la base.
+  function xmasMakeFrame(x, y, w, h, r, spacing) {
+    const g = { kind: 'frame', shape: 'round', wire: { x, y, w, h, r }, bulbs: [] };
+    const Q = Math.PI / 2, ar = r * Q;
+    // tramos en sentido horario desde el inicio del lado superior
+    const segs = [
+      { t: 'L', x0: x + r,     y0: y,         x1: x + w - r, y1: y,         len: w - 2 * r },
+      { t: 'A', cx: x + w - r, cy: y + r,     a0: -Q,         len: ar },
+      { t: 'L', x0: x + w,     y0: y + r,     x1: x + w,     y1: y + h - r, len: h - 2 * r },
+      { t: 'A', cx: x + w - r, cy: y + h - r, a0: 0,          len: ar },
+      { t: 'L', x0: x + w - r, y0: y + h,     x1: x + r,     y1: y + h,     len: w - 2 * r },
+      { t: 'A', cx: x + r,     cy: y + h - r, a0: Q,          len: ar },
+      { t: 'L', x0: x,         y0: y + h - r, x1: x,         y1: y + r,     len: h - 2 * r },
+      { t: 'A', cx: x + r,     cy: y + r,     a0: 2 * Q,      len: ar }
+    ];
+    let P = 0; segs.forEach(sg => { sg.s0 = P; P += sg.len; });
+    const N = Math.max(8, 2 * Math.round(P / (2 * spacing)));   // par: simetría arriba/abajo
+    const step = P / N, start = (w - 2 * r) / 2;                // una bombilla en el centro del lado superior
+    for (let k = 0; k < N; k++) {
+      const s = (start + k * step) % P;
+      const sg = segs.find(q => s >= q.s0 && s < q.s0 + q.len) || segs[0];
+      const u = (s - sg.s0) / sg.len;
+      let bx, by;
+      if (sg.t === 'L') { bx = sg.x0 + (sg.x1 - sg.x0) * u; by = sg.y0 + (sg.y1 - sg.y0) * u; }
+      else { const a = sg.a0 + u * Q; bx = sg.cx + Math.cos(a) * r; by = sg.cy + Math.sin(a) * r; }
+      g.bulbs.push({ x: bx, y: by, ph: rand(0, 1), sp: 1, i: k });
+    }
+    return g;
+  }
+
+  function xmasBulbAlpha(g, b) {
+    if (g.kind === 'swag') return 0.2 + 0.8 * Math.pow(0.5 + 0.5 * Math.sin(xmasT * b.sp + b.ph), 2.2);
+    return 0.16 + 0.84 * Math.pow(0.5 + 0.5 * Math.sin(xmasT * 2.4 - b.i * 0.75 + b.ph * 0.5), 2.6);
+  }
+
   function xmasDrawGarland(c, g, dpr) {
     c.strokeStyle = 'rgba(22,48,28,.95)'; c.lineWidth = 1.3; c.lineCap = 'round';
-    for (let i = 0; i < g.swags.length; i++) {            // cable
-      const s = g.swags[i];
-      c.beginPath(); c.moveTo(s.a, s.y); c.quadraticCurveTo((s.a + s.b) / 2, s.y + 2 * s.sag, s.b, s.y); c.stroke();
+    if (g.kind === 'swag') {                               // cable en festones
+      for (let i = 0; i < g.swags.length; i++) {
+        const s = g.swags[i];
+        c.beginPath(); c.moveTo(s.a, s.y); c.quadraticCurveTo((s.a + s.b) / 2, s.y + 2 * s.sag, s.b, s.y); c.stroke();
+      }
+    } else {                                               // cable recto rodeando el cartel
+      const w = g.wire, r = w.r, R = w.x + w.w, B = w.y + w.h;
+      c.beginPath();
+      c.moveTo(w.x + r, w.y);
+      c.lineTo(R - r, w.y); c.arcTo(R, w.y, R, w.y + r, r);
+      c.lineTo(R, B - r);   c.arcTo(R, B, R - r, B, r);
+      c.lineTo(w.x + r, B); c.arcTo(w.x, B, w.x, B - r, r);
+      c.lineTo(w.x, w.y + r); c.arcTo(w.x, w.y, w.x + r, w.y, r);
+      c.closePath(); c.stroke();
     }
-    for (let i = 0; i < g.bulbs.length; i++) {            // portalámparas + vidrio (apagado → encendido)
+    const round = g.shape === 'round';
+    c.fillStyle = '#1d3a24';                               // portalámparas (un solo relleno)
+    c.beginPath();
+    for (let i = 0; i < g.bulbs.length; i++) {
       const b = g.bulbs[i];
-      const a = 0.2 + 0.8 * Math.pow(0.5 + 0.5 * Math.sin(xmasT * b.sp + b.ph), 2.2);
-      c.fillStyle = '#1d3a24';
-      c.fillRect(b.x - 1.2, b.y, 2.4, 3);
-      c.fillStyle = 'rgba(255,246,220,' + (0.3 + 0.7 * a).toFixed(2) + ')';
-      c.beginPath(); c.arc(b.x, b.y + 5, 2.4, 0, TAU); c.fill();
+      if (round) { c.moveTo(b.x + 3.6, b.y); c.arc(b.x, b.y, 3.6, 0, TAU); } else c.rect(b.x - 1.2, b.y, 2.4, 3);
     }
-    const glow = xmasGlow(dpr);
+    c.fill();
+    c.fillStyle = 'rgba(255,246,220,.32)';                 // vidrio apagado (un solo relleno)
+    c.beginPath();
+    for (let i = 0; i < g.bulbs.length; i++) {
+      const b = g.bulbs[i];
+      if (round) { c.moveTo(b.x + 2.5, b.y); c.arc(b.x, b.y, 2.5, 0, TAU); }
+      else { c.moveTo(b.x + 2.2, b.y + 5.5); c.ellipse(b.x, b.y + 5.5, 2.2, 3, 0, 0, TAU); }
+    }
+    c.fill();
+    const glow = xmasGlow(dpr), dy = round ? 0 : 5.5;      // resplandor (el centro del sprite = filamento encendido)
     c.globalCompositeOperation = 'lighter';
-    for (let i = 0; i < g.bulbs.length; i++) {            // resplandor
-      const b = g.bulbs[i];
-      c.globalAlpha = 0.2 + 0.8 * Math.pow(0.5 + 0.5 * Math.sin(xmasT * b.sp + b.ph), 2.2);
-      c.drawImage(glow, b.x - 11, b.y + 5 - 11, 22, 22);
+    for (let i = 0; i < g.bulbs.length; i++) {
+      const b = g.bulbs[i], a = xmasBulbAlpha(g, b);
+      if (a < 0.1) continue;
+      c.globalAlpha = a;
+      c.drawImage(glow, b.x - 11, b.y + dy - 11, 22, 22);
     }
     c.globalAlpha = 1;
     c.globalCompositeOperation = 'source-over';
@@ -582,8 +655,16 @@
   function xmasBuildLights(st) {
     st.garland = null;
     if (!st.lights || !st.W) return;
-    const W = st.W;
-    st.garland = xmasMakeGarland(16, W - 16, 5, clamp(Math.round(W / 150), 3, 9), W < 520 ? 20 : 26, 12);
+    const W = st.W, H = st.H;
+    if (st.lightsStyle === 'festones') {
+      st.garland = xmasMakeGarland(16, W - 16, 5, clamp(Math.round(W / 150), 3, 9), W < 520 ? 20 : 26, 12);
+    } else {
+      // Márgenes iguales a los de la base: 9px por los cuatro lados. Con nieve, la fila de arriba queda
+      // 10px por DEBAJO de donde llegan los goterones (st.snowDown); sin nieve, a 9px del borde, igual
+      // que la fila de abajo.
+      const m = 9, top = st.snowOn ? st.snowDown + 10 : m;
+      st.garland = xmasMakeFrame(m, top, W - 2 * m, H - top - m, 12, W < 520 ? 30 : 34);
+    }
   }
 
   function xmasNewStar(st, anywhere) {
@@ -752,21 +833,25 @@
     if (!W || !H) return;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const h2w = st.h2 ? st.h2.offsetWidth : 0;
-    const key = W + 'x' + H + 'x' + h2w + 'x' + dpr;
+    const key = W + 'x' + H + 'x' + h2w + 'x' + dpr + (st.snowOn ? 's' : 'n');
+
+    const small = W < 520 || H < 80;
+    const up = small ? 18 : 26, down = small ? 8 : 12;
 
     // nieve: canvas a nivel del host, apoyado sobre el borde superior del cartel
     // (la posición se actualiza siempre; es barato)
-    const small = W < 520 || H < 80;
-    const up = small ? 18 : 26, down = small ? 8 : 12;
-    const hr = host.getBoundingClientRect(), sr = sec.getBoundingClientRect();
-    st.cap.style.left = (sr.left - hr.left) + 'px';
-    st.cap.style.top = (sr.top - hr.top - up) + 'px';
+    if (st.snowOn && st.cap) {
+      const hr = host.getBoundingClientRect(), sr = sec.getBoundingClientRect();
+      st.cap.style.left = (sr.left - hr.left) + 'px';
+      st.cap.style.top = (sr.top - hr.top - up) + 'px';
+    }
 
     if (st.key === key) return;          // mismo tamaño: no se vuelve a sortear nada (la nieve no "salta")
     st.key = key;
     st.W = W; st.H = H; st.dpr = dpr;
+    st.snowDown = st.snowOn ? down : 0;
 
-    // interior: estrellas + bastones flotantes
+    // interior: estrellas + luces + bastones flotantes
     st.canvas.width = Math.round(W * dpr);
     st.canvas.height = Math.round(H * dpr);
     st.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -774,9 +859,9 @@
     st.stars = [];
     for (let i = 0; i < n; i++) st.stars.push(xmasNewStar(st, true));
 
-    // bastones chicos que flotan en el sitio libre a cada lado del título
     xmasBuildLights(st);
 
+    // bastones chicos que flotan en el sitio libre a cada lado del título
     const caneH = clamp(H * 0.5, 24, 40);
     st.cane = xmasCaneSprite(caneH, dpr);
     const free = (W - h2w) / 2;
@@ -799,22 +884,25 @@
       }
     });
 
-    st.capH = up + down;
-    st.cap.style.width = W + 'px';
-    st.cap.style.height = st.capH + 'px';
-    st.cap.width = Math.round(W * dpr);
-    st.cap.height = Math.round(st.capH * dpr);
-    st.capCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    st.snow = xmasSnowSprite(W, up, down, dpr);
+    st.snow = null;
     st.glints = [];
-    const ng = clamp(Math.round(W / 150), 3, 9);
-    for (let i = 0; i < ng; i++) {
-      const t = rand(0.06, 0.94);
-      st.glints.push({
-        x: st.snow.x0 + t * st.snow.span,
-        y: st.snow.y0 - st.snow.topAt(t) * rand(0.25, 0.9),
-        r: rand(1.5, 2.8), s: rand(0.8, 2.0), p: rand(0, TAU)
-      });
+    if (st.snowOn && st.cap) {
+      st.capH = up + down;
+      st.cap.style.width = W + 'px';
+      st.cap.style.height = st.capH + 'px';
+      st.cap.width = Math.round(W * dpr);
+      st.cap.height = Math.round(st.capH * dpr);
+      st.capCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      st.snow = xmasSnowSprite(W, up, down, dpr);
+      const ng = clamp(Math.round(W / 150), 3, 9);
+      for (let i = 0; i < ng; i++) {
+        const t = rand(0.06, 0.94);
+        st.glints.push({
+          x: st.snow.x0 + t * st.snow.span,
+          y: st.snow.y0 - st.snow.topAt(t) * rand(0.25, 0.9),
+          r: rand(1.5, 2.8), s: rand(0.8, 2.0), p: rand(0, TAU)
+        });
+      }
     }
     xmasDraw(st, 0);
   }
@@ -853,14 +941,16 @@
       c.restore();
     }
 
-    // nieve + destellos dorados sobre ella
-    const k = st.capCtx;
-    k.clearRect(0, 0, W, st.capH);
-    k.drawImage(st.snow.c, 0, 0, W, st.capH);
-    for (let i = 0; i < st.glints.length; i++) {
-      const g = st.glints[i];
-      const a = Math.pow(Math.max(0, Math.sin(xmasT * g.s + g.p)), 6);
-      if (a > 0.05) xmasSpark(k, g.x, g.y, g.r, a * 0.9, '255,200,80');
+    // nieve + destellos dorados sobre ella (solo si la nieve está activada)
+    if (st.snowOn && st.cap && st.snow) {
+      const k = st.capCtx;
+      k.clearRect(0, 0, W, st.capH);
+      k.drawImage(st.snow.c, 0, 0, W, st.capH);
+      for (let i = 0; i < st.glints.length; i++) {
+        const g = st.glints[i];
+        const a = Math.pow(Math.max(0, Math.sin(xmasT * g.s + g.p)), 6);
+        if (a > 0.05) xmasSpark(k, g.x, g.y, g.r, a * 0.9, '255,200,80');
+      }
     }
   }
 
@@ -868,7 +958,7 @@
     static get observedAttributes() {
       return ['text', 'icon', 'icon-type', 'icon-mobile', 'effect',
               'img', 'img-alt', 'img-max-height', 'img-max-width', 'img-max-height-mobile',
-              'img-mobile', 'img-effect', 'img-trigger', 'img-idle', 'img-class', 'img-play-class', 'lights',
+              'img-mobile', 'img-effect', 'img-trigger', 'img-idle', 'img-class', 'img-play-class', 'lights', 'lights-style', 'snow',
               'png-src', 'png-count', 'png-size', 'png-width', 'png-height',
               'svg-shape', 'svg-color', 'svg-count', 'svg-size',
               'glow-color', 'rays-color', 'rays-count',
@@ -906,7 +996,7 @@
       const t = this._resolveTheme();
       sec.classList.toggle('st-3d', t === '3d' || t === 'navidad');
       sec.classList.toggle('st-xmas', t === 'navidad');
-      if (t === 'navidad') { this._startXmas(sec); this._syncLights(); } else this._stopXmas();
+      if (t === 'navidad') { this._startXmas(sec); this._syncOptions(); } else this._stopXmas();
     }
 
     /* ───── NAVIDAD: estrellas chispeando + bastones (canvas dentro del cartel)
@@ -921,19 +1011,16 @@
       inner.appendChild(canvas);
       section.insertBefore(inner, section.firstChild);
 
-      const cap = document.createElement('canvas');
-      cap.className = 'st-snow-cap';
-      cap.setAttribute('aria-hidden', 'true');
       this.classList.add('st-xmas-host');
-      this.appendChild(cap);
 
       const st = {
         host: this, section, h2: section.querySelector('.md3-headline'),
         inner, canvas, ctx: canvas.getContext('2d'),
-        cap, capCtx: cap.getContext('2d'),
+        cap: null, capCtx: null, snowOn: this._snowWanted(), snowDown: 0, snow: null,
         visible: true, W: 0, H: 0, stars: [], glints: [],
-        lights: this._lightsWanted(), garland: null
+        lights: this._lightsWanted(), lightsStyle: this._lightsStyle(), garland: null
       };
+      if (st.snowOn) this._addSnowCanvas(st);
       this._xmas = st;
       xmasResize(st);
 
@@ -1008,21 +1095,68 @@
       h2.appendChild(wrap);
     }
 
-    /* ───── LUCES: interruptor por título y global ─────
-       lights="on"|"off" en el <section-title> manda; si no está, rige <html class="luces-titulos">.
-       Solo se dibujan con el tema Navidad activo. */
+    /* ───── INTERRUPTORES (por título y globales) ─────
+       NIEVE   snow="on"|"off" en el título manda; si no está, <html class="sin-nieve-titulos">
+               la apaga en todos. Por defecto está encendida.
+       LUCES   lights="on"|"off" manda; si no está, rige <html class="luces-titulos">.
+               También se acepta lights="americano"|"festones" (enciende y fija el estilo).
+       ESTILO  lights-style="americano"|"festones" manda; si no está, <html class="luces-festones">
+               da festones y, sin esa clase, el estilo es americano (cable recto).
+               Sinónimos: festones = swag/curvas/guirnalda · americano = american/recto/line.
+       Todo esto solo se dibuja con el tema Navidad activo. */
+    _snowWanted() {
+      const a = (this.getAttribute('snow') || '').trim().toLowerCase();
+      if (a === 'off' || a === 'no' || a === 'false' || a === '0') return false;
+      if (a === 'on' || a === 'si' || a === 'sí' || a === 'true' || a === '1') return true;
+      return !document.documentElement.classList.contains('sin-nieve-titulos');
+    }
+    _styleOf(v) {
+      v = (v || '').trim().toLowerCase();
+      if (['festones', 'feston', 'festón', 'swag', 'curvas', 'guirnalda', 'garland'].includes(v)) return 'festones';
+      if (['americano', 'americanas', 'american', 'recto', 'line', 'linea', 'línea'].includes(v)) return 'americano';
+      return null;
+    }
     _lightsWanted() {
-      const a = this.getAttribute('lights');
-      if (a === 'on') return true;
-      if (a === 'off') return false;
+      const a = (this.getAttribute('lights') || '').trim().toLowerCase();
+      if (a === 'off' || a === 'no' || a === 'false' || a === '0') return false;
+      if (a === 'on' || a === 'si' || a === 'sí' || a === 'true' || a === '1' || this._styleOf(a)) return true;
       return document.documentElement.classList.contains('luces-titulos');
     }
-    _syncLights() {
+    _lightsStyle() {
+      return this._styleOf(this.getAttribute('lights-style'))
+          || this._styleOf(this.getAttribute('lights'))
+          || (document.documentElement.classList.contains('luces-festones') ? 'festones' : 'americano');
+    }
+
+    _addSnowCanvas(st) {
+      const cap = document.createElement('canvas');
+      cap.className = 'st-snow-cap';
+      cap.setAttribute('aria-hidden', 'true');
+      this.appendChild(cap);
+      st.cap = cap;
+      st.capCtx = cap.getContext('2d');
+    }
+    _removeSnowCanvas(st) {
+      if (st.cap && st.cap.parentNode) st.cap.parentNode.removeChild(st.cap);
+      st.cap = null; st.capCtx = null; st.snow = null; st.glints = [];
+    }
+
+    // Aplica en vivo los cambios de nieve / luces / estilo sin reconstruir el título
+    _syncOptions() {
       const st = this._xmas;
       if (!st) return;
-      const want = this._lightsWanted();
-      if (want === st.lights) return;
+      const snow = this._snowWanted();
+      if (snow !== st.snowOn) {
+        st.snowOn = snow;
+        if (snow) this._addSnowCanvas(st); else this._removeSnowCanvas(st);
+        st.key = null;                       // fuerza rehacer medidas, luces (dependen de la nieve) y sprites
+        xmasResize(st);
+        return;
+      }
+      const want = this._lightsWanted(), style = this._lightsStyle();
+      if (want === st.lights && style === st.lightsStyle) return;
       st.lights = want;
+      st.lightsStyle = style;
       xmasBuildLights(st);
       if (xmasReduce()) xmasDraw(st, 0);
     }
@@ -1034,7 +1168,7 @@
       if (xmasIO) xmasIO.unobserve(this);
       if (st.ro) st.ro.disconnect();
       if (st.inner.parentNode) st.inner.parentNode.removeChild(st.inner);
-      if (st.cap.parentNode) st.cap.parentNode.removeChild(st.cap);
+      if (st.cap && st.cap.parentNode) st.cap.parentNode.removeChild(st.cap);
       this.classList.remove('st-xmas-host');
       this._xmas = null;
       xmasMaybeStopLoop();

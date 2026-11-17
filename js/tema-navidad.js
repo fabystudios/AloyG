@@ -9,9 +9,14 @@
  *  Al quitar la clase se elimina todo (canvas, animación y logo): vuelve el estándar.
  *
  *  Interruptor extra (independiente, solo con tema-navidad activo):
- *    <html class="tema-navidad luces-header">  → guirnalda de luces blancas titilando en el
- *                                               borde inferior del header (los adornos
- *                                               cuelgan del cable). Quitar la clase = sin luces.
+ *    <html class="tema-navidad luces-header">  → luces blancas titilando en el borde inferior del
+ *                                               header, en FESTONES (cable en curvas); los adornos
+ *                                               cuelgan del cable. Quitar la clase = sin luces.
+ *    <html class="tema-navidad luces-header luces-americanas">
+ *                                             → mismo interruptor pero en estilo AMERICANO: cable
+ *                                               recto y bombillas parejas con "persecución" de luz,
+ *                                               como las casas americanas. Quitar luces-americanas
+ *                                               = vuelven los festones.
  *
  *  Opciones (opcionales, ANTES de cargar este script):
  *    <script>window.TEMA_NAVIDAD = { logo: './logos/logo-navidad.png' };</script>
@@ -66,7 +71,7 @@
     host.appendChild(canvas);
     return {
       kind: kind, host: host, canvas: canvas, ctx: canvas.getContext('2d'),
-      w: 0, h: 0, barH: 0, dustH: 0, dust: [], items: [], visible: true, lights: false, garland: null
+      w: 0, h: 0, barH: 0, dustH: 0, dust: [], items: [], visible: true, lights: false, lightsStyle: 'festones', garland: null
     };
   }
 
@@ -80,6 +85,7 @@
     L.w = w; L.h = h; L.dpr = dpr;
     L.barH = L.kind === 'header' ? hostH : 0;
     L.lights = L.kind === 'header' && root.classList.contains('luces-header');
+    L.lightsStyle = root.classList.contains('luces-americanas') ? 'americano' : 'festones';
     L.dustH = L.kind === 'header' ? hostH + 14 : hostH;
 
     L.canvas.style.width = w + 'px';
@@ -158,12 +164,14 @@
     c.globalCompositeOperation = 'source-over';
   }
 
-  /* ───────────── guirnalda de luces blancas ─────────────
-     Costo mínimo: el "brillo" es UN sprite pequeño compartido (se estampa con drawImage, sin
-     crear gradientes por cuadro ni usar shadowBlur); el cable son pocas curvas; cada bombilla
-     titila con su propia fase y velocidad. */
-  // El sprite se crea al tamaño EXACTO en píxeles de dispositivo (22 px CSS × dpr) para que cada
-  // drawImage sea una copia 1:1: escalar un sprite en cada bombilla era ~5× más caro.
+  /* ───────────── luces blancas: dos estilos ─────────────
+       "festones"  → cable en curvas (parábolas) con bombillas que titilan al azar
+       "americano" → cable RECTO con bombillas parejas, como las luces de las casas
+                     americanas; el brillo corre por la fila (efecto "persecución")
+     Costo mínimo: el brillo es UN sprite pequeño compartido (se estampa con drawImage, sin crear
+     gradientes por cuadro ni usar shadowBlur); portalámparas y vidrio se dibujan por lotes. */
+  // El sprite se crea al tamaño EXACTO en píxeles de dispositivo (22 px CSS × dpr): cada drawImage
+  // es una copia 1:1 (escalarlo en cada bombilla era ~5× más caro).
   var glowSprite = null, glowDpr = 0;
   function getGlow(dpr) {
     if (glowSprite && glowDpr === dpr) return glowSprite;
@@ -181,23 +189,32 @@
     return cv;
   }
 
-  // Festones (parábolas) colgando de anclajes a la altura yTop, con bombillas repartidas
+  // Estilo "festones": parábolas colgando de anclajes a la altura yTop
   function buildGarland(x1, x2, yTop, nSwags, spacing, sagMax) {
-    var g = { swags: [], bulbs: [] }, span = (x2 - x1) / nSwags, i, j;
+    var g = { kind: 'swag', shape: 'hang', swags: [], bulbs: [] }, span = (x2 - x1) / nSwags, i, j, n = 0;
     for (i = 0; i < nSwags; i++) {
       var a = x1 + i * span, b = a + span, sag = clamp(span * 0.09, 6, sagMax);
       g.swags.push({ a: a, b: b, y: yTop, sag: sag });
       var m = Math.max(3, Math.round(span / spacing));
       for (j = 1; j < m; j++) {
         var u = j / m;
-        g.bulbs.push({ x: a + span * u, y: yTop + 4 * sag * u * (1 - u), ph: rnd(0, TAU), sp: rnd(1.1, 2.6) });
+        g.bulbs.push({ x: a + span * u, y: yTop + 4 * sag * u * (1 - u), ph: rnd(0, TAU), sp: rnd(1.1, 2.6), i: n++ });
       }
     }
     return g;
   }
 
+  // Estilo "americano": cable recto y bombillas equidistantes colgando hacia abajo
+  function buildLine(x1, x2, y, spacing) {
+    var g = { kind: 'line', shape: 'hang', wire: { y: y, x1: x1, x2: x2 }, bulbs: [] };
+    var n = Math.max(2, Math.round((x2 - x1) / spacing));
+    for (var i = 0; i < n; i++) g.bulbs.push({ x: x1 + (i + 0.5) * (x2 - x1) / n, y: y, ph: rnd(0, 1), sp: 1, i: i });
+    return g;
+  }
+
   // Altura del cable en una x (para colgar los adornos del cable)
   function garlandY(g, x) {
+    if (g.kind === 'line') return g.wire.y;
     for (var i = 0; i < g.swags.length; i++) {
       var s = g.swags[i];
       if (x >= s.a && x <= s.b) { var u = (x - s.a) / (s.b - s.a); return s.y + 4 * s.sag * u * (1 - u); }
@@ -205,28 +222,42 @@
     return g.swags[0].y;
   }
 
+  function bulbAlpha(g, b) {
+    if (g.kind === 'line') return 0.16 + 0.84 * Math.pow(0.5 + 0.5 * Math.sin(T * 2.4 - b.i * 0.75 + b.ph * 0.5), 2.6);
+    return 0.2 + 0.8 * Math.pow(0.5 + 0.5 * Math.sin(T * b.sp + b.ph), 2.2);
+  }
+
   function drawGarland(c, g, dpr) {
     var i, s, b, a;
     c.strokeStyle = 'rgba(22,48,28,.95)'; c.lineWidth = 1.3; c.lineCap = 'round';
-    for (i = 0; i < g.swags.length; i++) {                 // cable
-      s = g.swags[i];
-      c.beginPath(); c.moveTo(s.a, s.y); c.quadraticCurveTo((s.a + s.b) / 2, s.y + 2 * s.sag, s.b, s.y); c.stroke();
+    if (g.kind === 'line') {                               // cable recto
+      c.beginPath(); c.moveTo(g.wire.x1, g.wire.y); c.lineTo(g.wire.x2, g.wire.y); c.stroke();
+    } else {                                               // festones
+      for (i = 0; i < g.swags.length; i++) {
+        s = g.swags[i];
+        c.beginPath(); c.moveTo(s.a, s.y); c.quadraticCurveTo((s.a + s.b) / 2, s.y + 2 * s.sag, s.b, s.y); c.stroke();
+      }
     }
-    for (i = 0; i < g.bulbs.length; i++) {                 // portalámparas + vidrio (apagado → encendido)
+    c.fillStyle = '#1d3a24';                               // portalámparas (un solo relleno)
+    c.beginPath();
+    for (i = 0; i < g.bulbs.length; i++) { b = g.bulbs[i]; c.rect(b.x - 1.2, b.y, 2.4, 3); }
+    c.fill();
+    c.fillStyle = 'rgba(255,246,220,.32)';                 // vidrio apagado (un solo relleno)
+    c.beginPath();
+    for (i = 0; i < g.bulbs.length; i++) {
       b = g.bulbs[i];
-      a = 0.2 + 0.8 * Math.pow(0.5 + 0.5 * Math.sin(T * b.sp + b.ph), 2.2);
-      c.fillStyle = '#1d3a24';
-      c.fillRect(b.x - 1.2, b.y, 2.4, 3);
-      c.fillStyle = 'rgba(255,246,220,' + (0.3 + 0.7 * a).toFixed(2) + ')';
-      c.beginPath(); c.arc(b.x, b.y + 5, 2.4, 0, TAU); c.fill();
+      c.moveTo(b.x + 2.2, b.y + 5.5);
+      c.ellipse(b.x, b.y + 5.5, 2.2, 3, 0, 0, TAU);
     }
-    var glow = getGlow(dpr);
+    c.fill();
+    var glow = getGlow(dpr);                               // resplandor: el centro del sprite hace de filamento encendido
     c.globalCompositeOperation = 'lighter';
-    for (i = 0; i < g.bulbs.length; i++) {                 // resplandor
+    for (i = 0; i < g.bulbs.length; i++) {
       b = g.bulbs[i];
-      a = 0.2 + 0.8 * Math.pow(0.5 + 0.5 * Math.sin(T * b.sp + b.ph), 2.2);
+      a = bulbAlpha(g, b);
+      if (a < 0.1) continue;
       c.globalAlpha = a;
-      c.drawImage(glow, b.x - 11, b.y + 5 - 11, 22, 22);
+      c.drawImage(glow, b.x - 11, b.y + 5.5 - 11, 22, 22);
     }
     c.globalAlpha = 1;
     c.globalCompositeOperation = 'source-over';
@@ -289,7 +320,9 @@
     for (var i = 0; i < n; i++) L.dust.push(newDust(L, true));
     L.garland = null;
     if (L.kind === 'header' && L.lights) {
-      L.garland = buildGarland(10, L.w - 10, L.barH - 2, clamp(Math.round(L.w / 170), 3, 10), L.w < 600 ? 20 : 26, 13);
+      L.garland = L.lightsStyle === 'americano'
+        ? buildLine(12, L.w - 12, L.barH - 2, L.w < 600 ? 26 : 30)
+        : buildGarland(10, L.w - 10, L.barH - 2, clamp(Math.round(L.w / 170), 3, 10), L.w < 600 ? 20 : 26, 13);
     }
     L.items = buildItems(L);
   }
@@ -527,8 +560,10 @@
   function refreshLights() {
     layers.forEach(function (L) {
       var want = L.kind === 'header' && root.classList.contains('luces-header');
-      if (want !== L.lights) {
+      var style = root.classList.contains('luces-americanas') ? 'americano' : 'festones';
+      if (want !== L.lights || style !== L.lightsStyle) {
         L.lights = want;
+        L.lightsStyle = style;
         seed(L);
         if (mqReduce.matches) render(L);
       }
