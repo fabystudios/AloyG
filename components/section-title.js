@@ -16,6 +16,7 @@
  * │ icon-type        │ auto|emoji|material|fa           │ "auto"             │
  * │ icon-mobile      │ on|off  (off = oculta el ícono ≤768px) │ on           │
  * │ theme            │ classic|3d|navidad               │ classic            │
+ * │ lights           │ on|off  (guirnalda de luces, solo con tema navidad) │ según <html> │
  * │ shadow           │ ""|"lg"                          │ ""                 │
  * │ extra-style      │ CSS inline extra para el section │ ""                 │
  * │ id               │ string                           │ ""                 │
@@ -27,6 +28,8 @@
  * │  clásico. theme="navidad" = 3D en rojo + estrellas chispeando + bastones │
  * │  de caramelo + nieve amontonada arriba (canvas). Se activa solo si el   │
  * │  <html> tiene class="tema-navidad".                                     │
+ * │  Guirnalda de luces blancas: lights="on"|"off" en el título, o para todos│
+ * │  los que no lo fijen: <html class="tema-navidad luces-titulos">.         │
  * │  Para activarlo en TODOS los títulos de una vez:                        │
  * │      <html data-st-theme="3d">   (el atributo theme del elemento manda) │
  * ├─────────────────────────────────────────────────────────────────────────┤
@@ -515,6 +518,74 @@
     c.closePath(); c.fill();
   }
 
+  /* ───── guirnalda de luces blancas (cuelga del borde superior, debajo de la nieve) ─────
+     Costo mínimo: UN sprite de brillo compartido (drawImage, sin gradientes por cuadro ni
+     shadowBlur), cable = pocas curvas, cada bombilla titila con su propia fase y velocidad. */
+  // Sprite al tamaño EXACTO en píxeles de dispositivo (22 px CSS × dpr): cada drawImage es una copia
+  // 1:1 (escalarlo en cada bombilla era ~5× más caro).
+  let xmasGlowSprite = null, xmasGlowDpr = 0;
+  function xmasGlow(dpr) {
+    if (xmasGlowSprite && xmasGlowDpr === dpr) return xmasGlowSprite;
+    xmasGlowDpr = dpr;
+    const sz = Math.round(22 * dpr), cv = document.createElement('canvas');
+    cv.width = cv.height = sz;
+    const x = cv.getContext('2d');
+    const g = x.createRadialGradient(sz / 2, sz / 2, 0, sz / 2, sz / 2, sz / 2);
+    g.addColorStop(0, 'rgba(255,255,255,1)');
+    g.addColorStop(0.16, 'rgba(255,250,232,.85)');
+    g.addColorStop(0.4, 'rgba(255,240,200,.28)');
+    g.addColorStop(1, 'rgba(255,235,190,0)');
+    x.fillStyle = g; x.fillRect(0, 0, sz, sz);
+    xmasGlowSprite = cv;
+    return cv;
+  }
+
+  function xmasMakeGarland(x1, x2, yTop, nSwags, spacing, sagMax) {
+    const g = { swags: [], bulbs: [] }, span = (x2 - x1) / nSwags;
+    for (let i = 0; i < nSwags; i++) {
+      const a = x1 + i * span, b = a + span, sag = clamp(span * 0.09, 6, sagMax);
+      g.swags.push({ a, b, y: yTop, sag });
+      const m = Math.max(3, Math.round(span / spacing));
+      for (let j = 1; j < m; j++) {
+        const u = j / m;
+        g.bulbs.push({ x: a + span * u, y: yTop + 4 * sag * u * (1 - u), ph: rand(0, TAU), sp: rand(1.1, 2.6) });
+      }
+    }
+    return g;
+  }
+
+  function xmasDrawGarland(c, g, dpr) {
+    c.strokeStyle = 'rgba(22,48,28,.95)'; c.lineWidth = 1.3; c.lineCap = 'round';
+    for (let i = 0; i < g.swags.length; i++) {            // cable
+      const s = g.swags[i];
+      c.beginPath(); c.moveTo(s.a, s.y); c.quadraticCurveTo((s.a + s.b) / 2, s.y + 2 * s.sag, s.b, s.y); c.stroke();
+    }
+    for (let i = 0; i < g.bulbs.length; i++) {            // portalámparas + vidrio (apagado → encendido)
+      const b = g.bulbs[i];
+      const a = 0.2 + 0.8 * Math.pow(0.5 + 0.5 * Math.sin(xmasT * b.sp + b.ph), 2.2);
+      c.fillStyle = '#1d3a24';
+      c.fillRect(b.x - 1.2, b.y, 2.4, 3);
+      c.fillStyle = 'rgba(255,246,220,' + (0.3 + 0.7 * a).toFixed(2) + ')';
+      c.beginPath(); c.arc(b.x, b.y + 5, 2.4, 0, TAU); c.fill();
+    }
+    const glow = xmasGlow(dpr);
+    c.globalCompositeOperation = 'lighter';
+    for (let i = 0; i < g.bulbs.length; i++) {            // resplandor
+      const b = g.bulbs[i];
+      c.globalAlpha = 0.2 + 0.8 * Math.pow(0.5 + 0.5 * Math.sin(xmasT * b.sp + b.ph), 2.2);
+      c.drawImage(glow, b.x - 11, b.y + 5 - 11, 22, 22);
+    }
+    c.globalAlpha = 1;
+    c.globalCompositeOperation = 'source-over';
+  }
+
+  function xmasBuildLights(st) {
+    st.garland = null;
+    if (!st.lights || !st.W) return;
+    const W = st.W;
+    st.garland = xmasMakeGarland(16, W - 16, 5, clamp(Math.round(W / 150), 3, 9), W < 520 ? 20 : 26, 12);
+  }
+
   function xmasNewStar(st, anywhere) {
     const k = Math.random();
     return {
@@ -704,6 +775,8 @@
     for (let i = 0; i < n; i++) st.stars.push(xmasNewStar(st, true));
 
     // bastones chicos que flotan en el sitio libre a cada lado del título
+    xmasBuildLights(st);
+
     const caneH = clamp(H * 0.5, 24, 40);
     st.cane = xmasCaneSprite(caneH, dpr);
     const free = (W - h2w) / 2;
@@ -766,6 +839,9 @@
     }
     c.globalCompositeOperation = 'source-over';
 
+    // guirnalda de luces blancas titilando
+    if (st.garland) xmasDrawGarland(c, st.garland, st.dpr);
+
     // bastones de caramelo: flotan con vaivén y giro suave (detrás del título)
     for (let i = 0; i < st.canes.length; i++) {
       const b = st.canes[i], sp = st.cane;
@@ -792,7 +868,7 @@
     static get observedAttributes() {
       return ['text', 'icon', 'icon-type', 'icon-mobile', 'effect',
               'img', 'img-alt', 'img-max-height', 'img-max-width', 'img-max-height-mobile',
-              'img-mobile', 'img-effect', 'img-trigger', 'img-idle', 'img-class', 'img-play-class',
+              'img-mobile', 'img-effect', 'img-trigger', 'img-idle', 'img-class', 'img-play-class', 'lights',
               'png-src', 'png-count', 'png-size', 'png-width', 'png-height',
               'svg-shape', 'svg-color', 'svg-count', 'svg-size',
               'glow-color', 'rays-color', 'rays-count',
@@ -830,7 +906,7 @@
       const t = this._resolveTheme();
       sec.classList.toggle('st-3d', t === '3d' || t === 'navidad');
       sec.classList.toggle('st-xmas', t === 'navidad');
-      if (t === 'navidad') this._startXmas(sec); else this._stopXmas();
+      if (t === 'navidad') { this._startXmas(sec); this._syncLights(); } else this._stopXmas();
     }
 
     /* ───── NAVIDAD: estrellas chispeando + bastones (canvas dentro del cartel)
@@ -855,7 +931,8 @@
         host: this, section, h2: section.querySelector('.md3-headline'),
         inner, canvas, ctx: canvas.getContext('2d'),
         cap, capCtx: cap.getContext('2d'),
-        visible: true, W: 0, H: 0, stars: [], glints: []
+        visible: true, W: 0, H: 0, stars: [], glints: [],
+        lights: this._lightsWanted(), garland: null
       };
       this._xmas = st;
       xmasResize(st);
@@ -929,6 +1006,25 @@
         });
       }
       h2.appendChild(wrap);
+    }
+
+    /* ───── LUCES: interruptor por título y global ─────
+       lights="on"|"off" en el <section-title> manda; si no está, rige <html class="luces-titulos">.
+       Solo se dibujan con el tema Navidad activo. */
+    _lightsWanted() {
+      const a = this.getAttribute('lights');
+      if (a === 'on') return true;
+      if (a === 'off') return false;
+      return document.documentElement.classList.contains('luces-titulos');
+    }
+    _syncLights() {
+      const st = this._xmas;
+      if (!st) return;
+      const want = this._lightsWanted();
+      if (want === st.lights) return;
+      st.lights = want;
+      xmasBuildLights(st);
+      if (xmasReduce()) xmasDraw(st, 0);
     }
 
     _stopXmas() {

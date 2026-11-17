@@ -8,6 +8,11 @@
  *
  *  Al quitar la clase se elimina todo (canvas, animación y logo): vuelve el estándar.
  *
+ *  Interruptor extra (independiente, solo con tema-navidad activo):
+ *    <html class="tema-navidad luces-header">  → guirnalda de luces blancas titilando en el
+ *                                               borde inferior del header (los adornos
+ *                                               cuelgan del cable). Quitar la clase = sin luces.
+ *
  *  Opciones (opcionales, ANTES de cargar este script):
  *    <script>window.TEMA_NAVIDAD = { logo: './logos/logo-navidad.png' };</script>
  *
@@ -61,7 +66,7 @@
     host.appendChild(canvas);
     return {
       kind: kind, host: host, canvas: canvas, ctx: canvas.getContext('2d'),
-      w: 0, h: 0, barH: 0, dustH: 0, dust: [], items: [], visible: true
+      w: 0, h: 0, barH: 0, dustH: 0, dust: [], items: [], visible: true, lights: false, garland: null
     };
   }
 
@@ -72,8 +77,9 @@
     var dpr = Math.min(window.devicePixelRatio || 1, 2);
     var h = hostH + (L.kind === 'header' ? HANG : 0);
 
-    L.w = w; L.h = h;
+    L.w = w; L.h = h; L.dpr = dpr;
     L.barH = L.kind === 'header' ? hostH : 0;
+    L.lights = L.kind === 'header' && root.classList.contains('luces-header');
     L.dustH = L.kind === 'header' ? hostH + 14 : hostH;
 
     L.canvas.style.width = w + 'px';
@@ -152,6 +158,80 @@
     c.globalCompositeOperation = 'source-over';
   }
 
+  /* ───────────── guirnalda de luces blancas ─────────────
+     Costo mínimo: el "brillo" es UN sprite pequeño compartido (se estampa con drawImage, sin
+     crear gradientes por cuadro ni usar shadowBlur); el cable son pocas curvas; cada bombilla
+     titila con su propia fase y velocidad. */
+  // El sprite se crea al tamaño EXACTO en píxeles de dispositivo (22 px CSS × dpr) para que cada
+  // drawImage sea una copia 1:1: escalar un sprite en cada bombilla era ~5× más caro.
+  var glowSprite = null, glowDpr = 0;
+  function getGlow(dpr) {
+    if (glowSprite && glowDpr === dpr) return glowSprite;
+    glowDpr = dpr;
+    var sz = Math.round(22 * dpr), cv = document.createElement('canvas');
+    cv.width = cv.height = sz;
+    var x = cv.getContext('2d');
+    var g = x.createRadialGradient(sz / 2, sz / 2, 0, sz / 2, sz / 2, sz / 2);
+    g.addColorStop(0, 'rgba(255,255,255,1)');
+    g.addColorStop(0.16, 'rgba(255,250,232,.85)');
+    g.addColorStop(0.4, 'rgba(255,240,200,.28)');
+    g.addColorStop(1, 'rgba(255,235,190,0)');
+    x.fillStyle = g; x.fillRect(0, 0, sz, sz);
+    glowSprite = cv;
+    return cv;
+  }
+
+  // Festones (parábolas) colgando de anclajes a la altura yTop, con bombillas repartidas
+  function buildGarland(x1, x2, yTop, nSwags, spacing, sagMax) {
+    var g = { swags: [], bulbs: [] }, span = (x2 - x1) / nSwags, i, j;
+    for (i = 0; i < nSwags; i++) {
+      var a = x1 + i * span, b = a + span, sag = clamp(span * 0.09, 6, sagMax);
+      g.swags.push({ a: a, b: b, y: yTop, sag: sag });
+      var m = Math.max(3, Math.round(span / spacing));
+      for (j = 1; j < m; j++) {
+        var u = j / m;
+        g.bulbs.push({ x: a + span * u, y: yTop + 4 * sag * u * (1 - u), ph: rnd(0, TAU), sp: rnd(1.1, 2.6) });
+      }
+    }
+    return g;
+  }
+
+  // Altura del cable en una x (para colgar los adornos del cable)
+  function garlandY(g, x) {
+    for (var i = 0; i < g.swags.length; i++) {
+      var s = g.swags[i];
+      if (x >= s.a && x <= s.b) { var u = (x - s.a) / (s.b - s.a); return s.y + 4 * s.sag * u * (1 - u); }
+    }
+    return g.swags[0].y;
+  }
+
+  function drawGarland(c, g, dpr) {
+    var i, s, b, a;
+    c.strokeStyle = 'rgba(22,48,28,.95)'; c.lineWidth = 1.3; c.lineCap = 'round';
+    for (i = 0; i < g.swags.length; i++) {                 // cable
+      s = g.swags[i];
+      c.beginPath(); c.moveTo(s.a, s.y); c.quadraticCurveTo((s.a + s.b) / 2, s.y + 2 * s.sag, s.b, s.y); c.stroke();
+    }
+    for (i = 0; i < g.bulbs.length; i++) {                 // portalámparas + vidrio (apagado → encendido)
+      b = g.bulbs[i];
+      a = 0.2 + 0.8 * Math.pow(0.5 + 0.5 * Math.sin(T * b.sp + b.ph), 2.2);
+      c.fillStyle = '#1d3a24';
+      c.fillRect(b.x - 1.2, b.y, 2.4, 3);
+      c.fillStyle = 'rgba(255,246,220,' + (0.3 + 0.7 * a).toFixed(2) + ')';
+      c.beginPath(); c.arc(b.x, b.y + 5, 2.4, 0, TAU); c.fill();
+    }
+    var glow = getGlow(dpr);
+    c.globalCompositeOperation = 'lighter';
+    for (i = 0; i < g.bulbs.length; i++) {                 // resplandor
+      b = g.bulbs[i];
+      a = 0.2 + 0.8 * Math.pow(0.5 + 0.5 * Math.sin(T * b.sp + b.ph), 2.2);
+      c.globalAlpha = a;
+      c.drawImage(glow, b.x - 11, b.y + 5 - 11, 22, 22);
+    }
+    c.globalAlpha = 1;
+    c.globalCompositeOperation = 'source-over';
+  }
+
   /* ───────────── adornos ───────────── */
   var BAUBLE_COLORS = ['#d32f2f', '#f2c14e', '#2e7d32', '#e8e1c9', '#b71c1c'];   // rojo, oro, verde, marfil, granate
   var TYPE_CYCLE = ['bauble', 'star', 'bell', 'bauble', 'bell', 'star', 'bauble'];
@@ -181,7 +261,7 @@
       for (i = 0; i < n; i++) {
         x = (i + 0.5) / n * w + rnd(-0.25, 0.25) * (w / n);
         if (Math.abs(x - mx) < 48 || Math.abs(x - (w - mx)) < 48) continue;   // no pisar el muérdago
-        items.push(makeItem(x, y0, TYPE_CYCLE[i % TYPE_CYCLE.length], HANG - 8));
+        items.push(makeItem(x, L.garland ? garlandY(L.garland, x) : y0, TYPE_CYCLE[i % TYPE_CYCLE.length], HANG - 8));
       }
       items.push(makeMistletoe(mx, y0, 1));
       items.push(makeMistletoe(w - mx, y0, -1));
@@ -207,6 +287,10 @@
     n = clamp(n, 12, L.kind === 'header' ? 110 : 130);
     L.dust = [];
     for (var i = 0; i < n; i++) L.dust.push(newDust(L, true));
+    L.garland = null;
+    if (L.kind === 'header' && L.lights) {
+      L.garland = buildGarland(10, L.w - 10, L.barH - 2, clamp(Math.round(L.w / 170), 3, 10), L.w < 600 ? 20 : 26, 13);
+    }
     L.items = buildItems(L);
   }
 
@@ -342,6 +426,7 @@
     var c = L.ctx;
     c.clearRect(0, 0, L.w, L.h);
     drawDust(L);
+    if (L.garland) drawGarland(c, L.garland, L.dpr);
     for (var i = 0; i < L.items.length; i++) drawItem(c, L.items[i]);
   }
 
@@ -438,8 +523,21 @@
     swapLogo(false);
   }
 
+  // Enciende/apaga la guirnalda del header sin reiniciar nada más
+  function refreshLights() {
+    layers.forEach(function (L) {
+      var want = L.kind === 'header' && root.classList.contains('luces-header');
+      if (want !== L.lights) {
+        L.lights = want;
+        seed(L);
+        if (mqReduce.matches) render(L);
+      }
+    });
+  }
+
   function sync() {
-    if (root.classList.contains(CLS)) start(); else stop();
+    if (root.classList.contains(CLS)) { if (!active) start(); else refreshLights(); }
+    else stop();
   }
 
   /* ───────────── activación automática por fechas (opcional) ───────────── */
