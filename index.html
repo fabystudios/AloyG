@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="es-AR" class="footer-paneles"> <!-- Interruptores (separar con espacio): tema-papa = bandera del Vaticano · footer-paneles = footer con paneles de vidrio -->
+<html lang="es-AR" class="footer-paneles"> 
+  <!-- Interruptores (separar con espacio): tema-papa = bandera del Vaticano · footer-paneles = footer con paneles de vidrio -->
 <!-- <html lang="es-AR" class="footer-paneles tema-navidad luces-header luces-americanas"> -->
   <!-- <html lang="es-AR" class="footer-paneles tema-navidad luces-header"> -->
 <head>
@@ -1351,11 +1352,28 @@
 ></section-title>
 <!-- <section-title text="Últimas Novedades" icon="campaign" lights="on" ></section-title>
 <section-title text="Avisos" lights="on" snow="off" lights-style="swang" ></section-title>
-<section-title text="Avisos" lights="on" lights-style="curvas" ></section-title>
-<section-title text="Avisos" lights="on" lights-style="girnaldas" ></section-title> -->
+<section-title text="Avisos" lights="on" lights-style="curvas" png-src="./navidad/candy.png"></section-title>
+<section-title text="Avisos" lights="on" lights-style="girnaldas" ></section-title>
+<section-title text="Avisos" icon="campaign"
+               effect="floating-png"
+               png-src="./navidad/candy.png"
+               png-count="6" png-width="30px"   
+               >
+</section-title> -->
 
  <script src="./components/video-frame-navidad.js"></script>
  <!-- <div class="deck-row">  -->
+
+<div class="deck-row"> 
+  <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
+   
+    <video-card-gold class="desktop-only-video-card" video="./asantos/18novbis.mp4" poster="./asantos/18novbis.jpg"
+    badge="18 de Noviembre" titulo="Santa Isabel de Hungría"></video-card-gold>
+   <video-card-gold video="./asantos/18nov.mp4" poster="./asantos/18nov.png"
+    badge="18 de Noviembre" titulo="Santa Isabel de Hungría"></video-card-gold>
+
+  </video-deck-gold> 
+  </div>
 
 
  <!-- ═══ Mural de Actividades ═══ -->
@@ -1391,20 +1409,23 @@
 
  <video-frame-tradiciones
   frame="./trad/biblia4.png"
-  video="./trad/cart3.mp4"
-  poster="./trad/cart3.webp"
+  video="./trad/toon18-11.mp4"
+  poster="./trad/toon18-11.jpg"
   autoplay
   loop
+
 ></video-frame-tradiciones>
 
  <video-frame-tradiciones
   frame="./trad/biblia4.png"
-  video="./trad/papita.mp4"
-  poster="./trad/papa1.jpg"
+  video="./trad/cart3.mp4"
+  poster="./trad/cart3.webp"
   autoplay
   loop
   hide-mobile
 ></video-frame-tradiciones>
+
+
 
  <!-- <video-frame-tradiciones
   frame="./trad/biblia4.png"
@@ -1448,9 +1469,6 @@
 
 </video-deck-gold>  -->
 </div>
- <br>
-
-
 
 <!-- <video-frame-navidad video="./27.mp4" zoom zoom-frame="./nav.png"
   zoom-float="./estrella.png" zoom-float-count="12" zoom-float-size="64"></video-frame-navidad>
@@ -1554,13 +1572,22 @@ Vive cada momento de esta histórica visita con la cobertura especial EN VIVO en
 <script src="./components/video-card-frame.js"></script>
 
 <!-- --------- -->
-     <video-card-frame
+  <video-card-frame
+    video="./eva/18-11.mp4"
+    frame="./eva/frame-gold.png"
+    badge="Miércoles"
+    titulo="18 de Noviembre"
+    style="width:auto; flex:0 0 auto;"
+  
+  ></video-card-frame>
+
+  <video-card-frame
     video="./eva/17-11.mp4"
     frame="./eva/frame-gold.png"
     badge="Martes"
     titulo="17 de Noviembre"
     style="width:auto; flex:0 0 auto;"
-  
+    hide-mobile
   ></video-card-frame>
 
     <video-card-frame
@@ -1581,14 +1608,6 @@ Vive cada momento de esta histórica visita con la cobertura especial EN VIVO en
     hide-mobile
   ></video-card-frame>
 
-  <video-card-frame
-    video="./eva/14-11.mp4"
-    frame="./eva/frame-gold.png"
-    badge="Sábado"
-    titulo="14 de Noviembre"
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
-  ></video-card-frame>
 
 </div>  
  <noticia-card

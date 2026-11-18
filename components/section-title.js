@@ -36,9 +36,9 @@
  * │  defecto) o festones (curvas bajo la nieve): lights-style="festones" o   │
  * │  <html class="luces-festones">.                                          │
  * │  Nieve: snow="on"|"off" en el título, o <html class="sin-nieve-titulos"> │
- * │  para apagarla en todos los que no lo fijen. Las luces americanas       │
- * │  mantienen el margen de la base: con nieve, bajo los goterones; sin      │
- * │  nieve, a 9px del borde de arriba.                                       │
+ * │  para apagarla en todos los que no lo fijen. Con nieve, la fila de       │
+ * │  luces de arriba queda DEBAJO de ella y la nieve la cubre un poco (como  │
+ * │  en el alero de una casa); sin nieve, a 9px del borde, como la base.     │
  * │  Para activarlo en TODOS los títulos de una vez:                        │
  * │      <html data-st-theme="3d">   (el atributo theme del elemento manda) │
  * ├─────────────────────────────────────────────────────────────────────────┤
@@ -602,6 +602,24 @@
     return g;
   }
 
+  // Resplandor cálido que tiñe la nieve que cubre las bombillas (se estampa con 'source-atop' para
+  // que solo afecte a los píxeles de nieve y no a la cara roja del cartel)
+  let xmasWarmSprite = null, xmasWarmDpr = 0;
+  function xmasWarm(dpr) {
+    if (xmasWarmSprite && xmasWarmDpr === dpr) return xmasWarmSprite;
+    xmasWarmDpr = dpr;
+    const sz = Math.round(26 * dpr), cv = document.createElement('canvas');
+    cv.width = cv.height = sz;
+    const x = cv.getContext('2d');
+    const g = x.createRadialGradient(sz / 2, sz / 2, 0, sz / 2, sz / 2, sz / 2);
+    g.addColorStop(0, 'rgba(255,226,150,.8)');
+    g.addColorStop(0.45, 'rgba(255,216,130,.35)');
+    g.addColorStop(1, 'rgba(255,210,120,0)');
+    x.fillStyle = g; x.fillRect(0, 0, sz, sz);
+    xmasWarmSprite = cv;
+    return cv;
+  }
+
   function xmasBulbAlpha(g, b) {
     if (g.kind === 'swag') return 0.2 + 0.8 * Math.pow(0.5 + 0.5 * Math.sin(xmasT * b.sp + b.ph), 2.2);
     return 0.16 + 0.84 * Math.pow(0.5 + 0.5 * Math.sin(xmasT * 2.4 - b.i * 0.75 + b.ph * 0.5), 2.6);
@@ -659,10 +677,11 @@
     if (st.lightsStyle === 'festones') {
       st.garland = xmasMakeGarland(16, W - 16, 5, clamp(Math.round(W / 150), 3, 9), W < 520 ? 20 : 26, 12);
     } else {
-      // Márgenes iguales a los de la base: 9px por los cuatro lados. Con nieve, la fila de arriba queda
-      // 10px por DEBAJO de donde llegan los goterones (st.snowDown); sin nieve, a 9px del borde, igual
-      // que la fila de abajo.
-      const m = 9, top = st.snowOn ? st.snowDown + 10 : m;
+      // Márgenes parejos de ~9px por los cuatro lados. Con nieve, la fila de arriba se apoya DEBAJO de
+      // ella, a la altura de sus goterones (~70% de su profundidad): la nieve la cubre un poco, como en
+      // el alero de una casa, y las bombillas asoman donde el goterón es corto. Sin nieve, a 9px del
+      // borde, igual que la fila de la base.
+      const m = 9, top = st.snowOn ? Math.max(6, Math.round(st.snowDown * 0.7)) : m;
       st.garland = xmasMakeFrame(m, top, W - 2 * m, H - top - m, 12, W < 520 ? 30 : 34);
     }
   }
@@ -888,6 +907,7 @@
     st.glints = [];
     if (st.snowOn && st.cap) {
       st.capH = up + down;
+      st.capUp = up;
       st.cap.style.width = W + 'px';
       st.cap.style.height = st.capH + 'px';
       st.cap.width = Math.round(W * dpr);
@@ -950,6 +970,20 @@
         const g = st.glints[i];
         const a = Math.pow(Math.max(0, Math.sin(xmasT * g.s + g.p)), 6);
         if (a > 0.05) xmasSpark(k, g.x, g.y, g.r, a * 0.9, '255,200,80');
+      }
+      if (st.garland) {                                   // la nieve se ilumina donde cubre las bombillas
+        const gl = st.garland, wm = xmasWarm(st.dpr), lim = st.snowDown + 4, dy = gl.shape === 'round' ? 0 : 5.5;
+        k.globalCompositeOperation = 'source-atop';
+        for (let i = 0; i < gl.bulbs.length; i++) {
+          const b = gl.bulbs[i];
+          if (b.y > lim) continue;
+          const a = xmasBulbAlpha(gl, b);
+          if (a < 0.1) continue;
+          k.globalAlpha = a * 0.6;
+          k.drawImage(wm, b.x - 13, b.y + dy + st.capUp - 13, 26, 26);
+        }
+        k.globalAlpha = 1;
+        k.globalCompositeOperation = 'source-over';
       }
     }
   }
