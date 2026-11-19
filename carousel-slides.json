@@ -1,7 +1,7 @@
 [
         {
     "id": "tony",
-    "position": 1,
+    "position": -1,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 6, "mobile": 6 },
@@ -16,7 +16,7 @@
   },
       {
     "id": "coro2",
-    "position": 2,
+    "position": 1,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 8, "mobile": 8 },
@@ -80,7 +80,7 @@
 
                       {
     "id": "alias",
-    "position": 3,
+    "position": 2,
     "hasVideo": false,
     "link": "#",
     "time": { "desktop": 5, "mobile": 5 },
@@ -96,7 +96,7 @@
 
                {
     "id": "videos Consejos",
-    "position": 4,
+    "position": 3,
     "hasVideo": true,
     "link": "./avisos.html",
     "time": { "desktop": 8, "mobile": 6 },
@@ -113,7 +113,7 @@
   },
                {
     "id": "videos merendero",
-    "position": 5,
+    "position": 4,
     "hasVideo": true,
     "link": "",
     "posterTime": { "desktop": 1, "mobile": 1},
@@ -147,7 +147,7 @@
        
                 {
     "id": "ultimas-vacantes",
-    "position": 6,
+    "position": 5,
     "hasVideo": false,
     "link": "#asis1",
     "time": { "desktop": 3, "mobile": 3 },
