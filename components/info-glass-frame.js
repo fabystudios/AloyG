@@ -10,6 +10,9 @@
  *  columns       nº de columnas en pantallas anchas (default: cantidad de ítems, máx. 3)
  *  max-width     ancho máximo (default 860px)  → poné el mismo que el video
  *  breakpoint    px desde los que se considera desktop (default 769)
+ *  bg            colores del fondo del panel (degradé): "#34469c,#1a265f,#0a1033" (claro→oscuro; con 1 o 2 colores
+ *                se completa solo). Acepta hex, rgb()/hsl() y nombres.
+ *  accent        color de detalles (aro de íconos, etiquetas, líneas, ícono): ej. "#e2b93b"
  *  animate="off" sin animación de entrada
  *  decor="off"   sin decoración (solo marco)
  *  ornaments="off" · lights="off" · snow="off"   (christmas) igual que en video-glass-frame
@@ -180,10 +183,10 @@ ${Object.keys(BALLS).map((n) => `<radialGradient id="gBall${n}" cx=".35" cy=".3"
 
 .head{display:flex;align-items:center;justify-content:center;gap:12px;margin:0 0 clamp(12px,2.6cqw,20px)}
 .head span{font-weight:800;font-size:clamp(12px,1.9cqw,14.5px);letter-spacing:.26em;text-transform:uppercase;text-align:center;
-  background:linear-gradient(180deg,#fff6c4,#f0c23e 55%,#c8921a);-webkit-background-clip:text;background-clip:text;color:transparent;
+  background:linear-gradient(180deg,var(--acc-hi2,#fff6c4),var(--ring) 55%,var(--acc-lo,#c8921a));-webkit-background-clip:text;background-clip:text;color:transparent;
   filter:drop-shadow(0 1px 1px rgba(0,0,0,.55))}
 .head i{position:relative;flex:1;max-width:140px;height:1px;background:linear-gradient(90deg,transparent,var(--ring))}
-.head i::after{content:"";position:absolute;right:-3px;top:-2.5px;width:6px;height:6px;rotate:45deg;background:#f6dd85;box-shadow:0 0 6px rgba(255,214,90,.8)}
+.head i::after{content:"";position:absolute;right:-3px;top:-2.5px;width:6px;height:6px;rotate:45deg;background:var(--acc-hi,#f6dd85);box-shadow:0 0 6px var(--ring)}
 .head i:last-child{rotate:180deg}
 
 .grid{list-style:none;margin:0;padding:0;display:grid;gap:clamp(10px,2.2cqw,16px);grid-template-columns:minmax(0,1fr)}
@@ -202,7 +205,7 @@ ${Object.keys(BALLS).map((n) => `<radialGradient id="gBall${n}" cx=".35" cy=".3"
   filter:drop-shadow(0 0 5px rgba(255,214,90,.5)) drop-shadow(0 2px 2px rgba(0,0,0,.5))}
 .well img{width:78%;height:78%;object-fit:contain;filter:drop-shadow(0 3px 3px rgba(0,0,0,.45))}
 .txt{display:flex;flex-direction:column;align-items:flex-start;gap:6px;min-width:0;flex:1}
-.lbl{font-weight:800;font-size:11px;line-height:1.1;letter-spacing:.17em;text-transform:uppercase;color:#f6dd85;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.lbl{font-weight:800;font-size:11px;line-height:1.1;letter-spacing:.17em;text-transform:uppercase;color:var(--acc-hi,#f6dd85);text-shadow:0 1px 2px rgba(0,0,0,.5)}
 .val{display:flex;align-items:center;font-weight:700;font-size:clamp(15.5px,4.5cqw,18px);line-height:1.25;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5);
   overflow-wrap:anywhere;max-width:100%}
 
@@ -477,7 +480,7 @@ ${Object.keys(BALLS).map((n) => `<radialGradient id="gBall${n}" cx=".35" cy=".3"
   /* ───────────── componente ───────────── */
   class InfoGlassFrame extends HTMLElement {
     static get observedAttributes() {
-      return ['theme', 'heading', 'alt', 'columns', 'max-width', 'breakpoint', 'animate', 'items',
+      return ['theme', 'heading', 'alt', 'columns', 'bg', 'accent', 'max-width', 'breakpoint', 'animate', 'items',
         'decor', 'ornaments', 'lights', 'snow', 'decor-scale'];
     }
     constructor() {
@@ -541,10 +544,21 @@ ${Object.keys(BALLS).map((n) => `<radialGradient id="gBall${n}" cx=".35" cy=".3"
       const theme = ['gold', 'christmas'].includes(g('theme').toLowerCase()) ? g('theme').toLowerCase() : 'gold';
       let mw = g('max-width', '860px'); if (/^\d+(\.\d+)?$/.test(mw)) mw += 'px';
       const ds = Math.min(2, Math.max(.5, parseFloat(g('decor-scale', '1')) || 1));
+      const COLOR = /^(#[0-9a-f]{3,8}|[a-z]{3,24}|(?:rgb|hsl)a?\([0-9\s.,%\/-]+\))$/i;
+      const mix = (a, b, pa) => `color-mix(in srgb, ${a} ${pa}%, ${b})`;
+      const list = g('bg').split(/,(?![^(]*\))/).map((x) => x.trim()).filter((x) => COLOR.test(x));
+      let bg = '';
+      if (list.length) {
+        const [a, b, d] = list.length === 1 ? [mix(list[0], 'white', 75), list[0], mix(list[0], 'black', 40)]
+          : list.length === 2 ? [list[0], mix(list[0], list[1], 50), list[1]] : list;
+        bg = `radial-gradient(120% 95% at 10% 0%,${a} 0%,${b} 46%,${d} 100%)`;
+      }
+      const ac = g('accent');
+      const accent = COLOR.test(ac) ? ac : '';
       const items = this._readItems();
       const cols = parseInt(g('columns'), 10);
       return {
-        theme, mw, ds, items,
+        theme, mw, ds, items, bg, accent,
         cols: cols > 0 ? Math.min(cols, 6) : Math.min(3, Math.max(1, items.length)),
         bp: parseInt(g('breakpoint'), 10) || 769,
         heading: g('heading'),
@@ -582,10 +596,19 @@ ${Object.keys(BALLS).map((n) => `<radialGradient id="gBall${n}" cx=".35" cy=".3"
       const e = c.theme === 'christmas' ? christmasDecor(c, mobile) : goldDecor(c);
       const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
       const pre = c.animate && !reduce && !this._shown && typeof IntersectionObserver !== 'undefined';
+      let style = '';
+      let defs = DEFS;
+      if (c.bg) style += `;--pbg:${c.bg}`;
+      if (c.accent) {
+        const A = c.accent;
+        style += `;--ring:${A};--geo:color-mix(in srgb, ${A} 17%, transparent);--acc-hi:color-mix(in srgb, ${A} 55%, white);--acc-hi2:color-mix(in srgb, ${A} 30%, white);--acc-lo:color-mix(in srgb, ${A} 70%, black)`;
+        defs = DEFS.replace('stop-color="#fff6c4"', `style="stop-color:color-mix(in srgb, ${A} 30%, white)"`)
+          .replace('<stop offset=".5" stop-color="#f0c23e"/><stop offset="1" stop-color="#b9820d"/>', `<stop offset=".5" style="stop-color:${A}"/><stop offset="1" style="stop-color:color-mix(in srgb, ${A} 70%, black)"/>`);
+      }
       const head = c.heading ? `<div class="head" part="heading"><i></i><span>${esc(c.heading)}</span><i></i></div>` : '';
       this.shadowRoot.innerHTML =
-        `<style>${CSS}</style>${DEFS}` +
-        `<div class="cq t-${c.theme}${pre ? ' pre' : ''}${c.theme === 'christmas' && c.decor && c.ornaments ? ' xm' : ''}" style="--max-w:${esc(c.mw)};--lift-u:${e.liftU};--ds:${c.ds};--cols:${c.cols}">` +
+        `<style>${CSS}</style>${defs}` +
+        `<div class="cq t-${c.theme}${pre ? ' pre' : ''}${c.theme === 'christmas' && c.decor && c.ornaments ? ' xm' : ''}" style="--max-w:${esc(c.mw)};--lift-u:${e.liftU};--ds:${c.ds};--cols:${c.cols}${esc(style)}">` +
         `<div class="pad"><div class="holder" part="holder">` +
         `<div class="frame" part="frame"><div class="glass" part="glass">` +
         `<div class="panel" part="panel" role="group"${c.alt ? ` aria-label="${esc(c.alt)}"` : ''}><span class="geo" aria-hidden="true"></span>${head}` +
