@@ -1359,6 +1359,8 @@
     badge="21 de Noviembre" titulo="Presentación de la Santísima Virgen María"></video-card-gold>
    <video-card-gold video="./asantos/21nov.mp4" poster="./asantos/21nov.png"
     badge="21 de Noviembre" titulo="Presentación de la Santísima Virgen María"></video-card-gold>
+  <video-card-gold video="./asantos/21novtris.mp4" poster="./asantos/21novtris.png"
+    badge="21 de Noviembre" titulo="Presentación de la Santísima Virgen María"></video-card-gold>
 
 </video-deck-gold> 
 
@@ -1396,23 +1398,33 @@
 
  <div class="video-card-gold-container" style="justify-content: center; gap: 20px; ">
 
+
+ <video-frame-tradiciones
+  frame="./trad/biblia4.png"
+  video="./trad/tau.mp4"
+  poster="./trad/tau.jpg"
+ 
+  loop
+
+></video-frame-tradiciones>
+
  <video-frame-tradiciones
   frame="./trad/biblia4.png"
   video="./trad/trad1.mp4"
   poster="./trad/trad1.webp"
   autoplay
   loop
-
+  hide-mobile
 ></video-frame-tradiciones>
 
- <video-frame-tradiciones
+ <!-- <video-frame-tradiciones
   frame="./trad/biblia4.png"
   video="./trad/toon18-11.mp4"
   poster="./trad/toon18-11.jpg"
   autoplay
   loop
   hide-mobile
-></video-frame-tradiciones>
+></video-frame-tradiciones> -->
 
 
  <!-- <video-frame-tradiciones
@@ -1430,6 +1442,7 @@
   video="./trad/feriadef.mp4"
   poster="./trad/feria_parroquial.png"
   autoplay
+  hide-mobile
   loop
 ></video-frame-tradiciones>
  
@@ -1445,13 +1458,22 @@
 <script src="./components/video-card-frame.js"></script>
 
 <!-- --------- -->
+     <video-card-frame
+    video="./eva/21-11.mp4"
+    frame="./eva/frame-gold.png"
+    badge="Sábado"
+    titulo="21 de Noviembre"
+    style="width:auto; flex:0 0 auto;"
+  
+  ></video-card-frame>
+
     <video-card-frame
     video="./eva/20-11.mp4"
     frame="./eva/frame-gold.png"
     badge="Viernes"
     titulo="20 de Noviembre"
     style="width:auto; flex:0 0 auto;"
-  
+    hide-mobile
   ></video-card-frame>
 
    <video-card-frame
@@ -1472,14 +1494,6 @@
     hide-mobile
   ></video-card-frame>
 
-  <video-card-frame
-    video="./eva/17-11.mp4"
-    frame="./eva/frame-gold.png"
-    badge="Martes"
-    titulo="17 de Noviembre"
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
-  ></video-card-frame>
 
 </div>  
 
