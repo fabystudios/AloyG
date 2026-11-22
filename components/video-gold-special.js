@@ -2,12 +2,19 @@
  * <video-gold-special> — Web Component — Variante "Special"
  *
  * ATRIBUTOS:
- *   titulo         — texto del título principal
+ *   titulo         — texto del título principal. Si no se pasa, no se muestra.
  *   video-desktop  — URL de YouTube (youtu.be/... o youtube.com/watch?v=...)
  *   video-mobile   — URL del archivo mp4 vertical
  *   ancho-desktop  — ancho en desktop. Default: "80vw"
- *   badge          — texto de la píldora inferior.       Default: "Special"
- *   etiqueta       — texto del badge superior centrado.  Default: "Special Edition"
+ *   badge          — texto de la píldora inferior.       Si no se pasa, no se muestra.
+ *   etiqueta       — texto del badge superior centrado.  Si no se pasa, no se muestra.
+ *   titulo-mobile · titulo-desktop · badge-mobile · badge-desktop · etiqueta-mobile · etiqueta-desktop
+ *                  — versión por dispositivo. Si se pasa, manda SOLO en ese dispositivo (aunque
+ *                    exista el general); si no se pasa, ese dispositivo usa el general.
+ *                    Vacío ("") = no se muestra en ese dispositivo.
+ *                    Ej: titulo="Hola" titulo-desktop=""   → "Hola" solo en mobile
+ *                        badge-mobile="Nuevo"              → badge solo en mobile
+ *                        titulo="Hola" titulo-desktop="Bienvenidos" → texto distinto en desktop
  *   poster-mobile  — imagen de portada para el video mobile (opcional).
  *                    Con poster: no se descarga NADA del video hasta el play.
  *                    Sin poster: se descargan solo los metadatos y se muestra el
@@ -16,6 +23,25 @@
  *                    con YouTube (en YouTube el iframe se carga recién al hacer play).
  *                    Sin poster: mp4 → primer frame por metadatos;
  *                    YouTube → thumbnail oficial del video.
+ *   sombra-mobile  — intensidad del sombreado oscuro sobre la parte baja del video, en mobile.
+ *   sombra-desktop — ídem para desktop. Se configuran por separado.
+ *                    Porcentaje: 100 = el actual (default si no se pasa), 50 = a la mitad,
+ *                    0 = sin sombra, 150 = más oscuro y más alto. Rango 0–200. Ej: "60" o "60%".
+ *
+ * MODAL (opcional, estilo <video-deck-gold>): al dar play la card se despega de su
+ * lugar, se centra y crece sobre un fondo glass (desenfoque + halo dorado) y reproduce.
+ * Se cierra y vuelve a su lugar al terminar el video, al tocar el fondo / la ✕ / Esc.
+ *   modal-desktop  — activa el modal en desktop. Con el atributo (o "on") se activa;
+ *                    sin él (o con "off" / "false") reproduce en su lugar, como siempre.
+ *   modal-mobile   — ídem para mobile. Se configuran por separado.
+ *   expanded-width — ancho máximo (px) de la card abierta. Default: se ajusta a la pantalla.
+ *   close-on-end   — "false" para que NO vuelva sola al terminar el video (queda en loop).
+ *                    (Con YouTube no aplica: no hay forma de saber cuándo termina sin su API.)
+ *   close-position — dónde va la ✕ (círculo dorado): top-right (default) | top-left.
+ *   Eventos: modal-open, modal-close.
+ *   NOTA: la card abierta usa position:fixed. Si algún contenedor padre tiene
+ *   transform / filter / perspective, el navegador lo toma como referencia y la card
+ *   quedaría mal centrada; en ese caso mové el componente fuera de ese contenedor.
  *
  * USO:
  *   <script src="video-gold-special.js"></script>
@@ -51,6 +77,45 @@ function isMobile() {
   return window.matchMedia('(max-width: 768px)').matches;
 }
 
+/* ── Modal: fondo glass + botón ✕ ───────────────────────────────────────────
+   Se montan en <body>: no dependen de ningún contenedor de la página
+   (transform / overflow / z-index) y quedan siempre por encima. */
+const _VGS_Z_BACKDROP = 2147482990, _VGS_Z_CARD = 2147482995, _VGS_Z_CLOSE = 2147483000;
+
+function _vgsBuildLayer(onClose, pos) {
+  const side = pos === 'top-left' ? 'left' : 'right';
+  const bd = document.createElement('div');
+  bd.style.cssText =
+    `position:fixed;inset:0;z-index:${_VGS_Z_BACKDROP};opacity:0;touch-action:none;transition:opacity .45s ease;` +
+    'background:radial-gradient(ellipse at 50% 48%,rgba(197,162,39,.26),transparent 60%),rgba(8,4,20,.68);' +
+    '-webkit-backdrop-filter:blur(16px) saturate(1.3);backdrop-filter:blur(16px) saturate(1.3);';
+  const x = document.createElement('button');
+  x.type = 'button';
+  x.setAttribute('aria-label', 'Cerrar');
+  x.style.cssText =
+    `position:fixed;top:calc(env(safe-area-inset-top,0px) + 12px);${side}:calc(env(safe-area-inset-${side},0px) + 12px);` +
+    `z-index:${_VGS_Z_CLOSE};width:44px;height:44px;display:grid;place-items:center;padding:0;border-radius:50%;` +
+    'border:2px solid rgba(245,208,107,.85);background:rgba(15,10,30,.55);cursor:pointer;' +
+    '-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);-webkit-tap-highlight-color:transparent;' +
+    'box-shadow:0 0 18px rgba(197,162,39,.3),inset 0 1px 0 rgba(255,245,192,.3);' +
+    'opacity:0;transform:scale(.8);transition:opacity .3s ease .15s,transform .3s ease .15s;';
+  x.innerHTML = '<svg viewBox="0 0 16 16" width="17" height="17" fill="none" aria-hidden="true" ' +
+    'style="filter:drop-shadow(0 0 3px rgba(245,208,107,.7))">' +
+    '<path d="M3 3 L13 13 M13 3 L3 13" stroke="#f5d06b" stroke-width="2" stroke-linecap="round"/></svg>';
+  bd.addEventListener('click', onClose);
+  x.addEventListener('click', onClose);
+  document.body.append(bd, x);
+  void bd.offsetHeight;                       // registra el estado inicial para que haya transición
+  return {
+    show() { bd.style.opacity = '1'; x.style.opacity = '1'; x.style.transform = 'none'; },
+    hide() {
+      bd.style.opacity = '0'; bd.style.pointerEvents = 'none';
+      x.style.transition = 'opacity .2s ease'; x.style.opacity = '0'; x.style.pointerEvents = 'none';
+    },
+    remove() { bd.remove(); x.remove(); }
+  };
+}
+
 /* ── Template ───────────────────────────────────────────────────────────── */
 
 const _tplSpecial = document.createElement('template');
@@ -61,6 +126,17 @@ _tplSpecial.innerHTML = `
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :host { display: block; width: 100%; }
+
+  /* Los elementos opcionales (etiqueta, badge, título) se ocultan con [hidden] */
+  [hidden] { display: none !important; }
+
+  /* Hueco que deja la card cuando se abre en modal (para que nada de la página se mueva) */
+  .ph {
+    margin-left: auto;
+    margin-right: auto;
+    visibility: hidden;
+    pointer-events: none;
+  }
 
   /* ── Outer: borde animado + glow exterior ── */
   .outer-wrap {
@@ -274,11 +350,12 @@ _tplSpecial.innerHTML = `
   .overlay {
     position: absolute;
     inset: 0;
+    /* Los defaults son el sombreado original; sombra-mobile / sombra-desktop los modifican */
     background: linear-gradient(
       to bottom,
-      rgba(0,0,0,0) 45%,
-      rgba(6,3,18,0.65) 72%,
-      rgba(6,3,18,0.93) 100%
+      rgba(0,0,0,0) var(--ov-start, 45%),
+      rgba(6,3,18,var(--ov-a1, 0.65)) var(--ov-mid, 72%),
+      rgba(6,3,18,var(--ov-a2, 0.93)) 100%
     );
     z-index: 2;
     pointer-events: none;
@@ -417,6 +494,7 @@ _tplSpecial.innerHTML = `
   }
 
   .meta-time {
+    margin-left: auto;   /* queda a la derecha aunque no haya badge */
     font-family: 'Raleway', sans-serif;
     font-size: 11px;
     font-weight: 300;
@@ -464,16 +542,17 @@ _tplSpecial.innerHTML = `
   }
 </style>
 
+<div class="ph" id="phEl" hidden></div>
 <div class="outer-wrap">
   <div class="card">
     <div class="shimmer-bar"></div>
     <div class="particles" id="particles"></div>
 
     <!-- Badge superior (etiqueta) -->
-    <div class="badge-wrap" id="badgeWrap">
+    <div class="badge-wrap" id="badgeWrap" hidden>
       <div class="badge-top" id="badgeTop">
         <span class="badge-star">✦</span>
-        <span id="etiquetaEl">Special Edition</span>
+        <span id="etiquetaEl"></span>
         <span class="badge-star">✦</span>
       </div>
     </div>
@@ -517,16 +596,16 @@ _tplSpecial.innerHTML = `
     <div class="video-wrap" id="videoWrap"></div>
 
     <!-- Info inferior -->
-    <div class="info">
-      <div class="info-row">
-        <div class="badge-bottom">
+    <div class="info" id="infoEl" hidden>
+      <div class="info-row" id="infoRow">
+        <div class="badge-bottom" id="badgeBox" hidden>
           <span class="badge-dot"></span>
-          <span id="badgeEl">Special</span>
+          <span id="badgeEl"></span>
         </div>
         <span class="meta-time" id="timeEl"></span>
       </div>
-      <div class="gold-line"></div>
-      <div class="titulo" id="titleEl">Título</div>
+      <div class="gold-line" id="goldLine" hidden></div>
+      <div class="titulo" id="titleEl" hidden></div>
     </div>
   </div>
 </div>
@@ -546,7 +625,15 @@ class VideoGoldSpecial extends HTMLElement {
       'logo',
       'logo-duracion',
       'poster-mobile',
-      'poster-desktop'
+      'poster-desktop',
+      'sombra-mobile',
+      'sombra-desktop',
+      'titulo-mobile',
+      'titulo-desktop',
+      'badge-mobile',
+      'badge-desktop',
+      'etiqueta-mobile',
+      'etiqueta-desktop'
     ];
   }
 
@@ -558,41 +645,118 @@ class VideoGoldSpecial extends HTMLElement {
     this._timeEl    = this._shadow.getElementById('timeEl');
     this._badgeEl   = this._shadow.getElementById('badgeEl');
     this._etiquetaEl= this._shadow.getElementById('etiquetaEl');
+    this._badgeWrap = this._shadow.getElementById('badgeWrap');
+    this._badgeBox  = this._shadow.getElementById('badgeBox');
+    this._infoEl    = this._shadow.getElementById('infoEl');
+    this._infoRow   = this._shadow.getElementById('infoRow');
+    this._goldLine  = this._shadow.getElementById('goldLine');
     this._logoWrap  = this._shadow.getElementById('logoWrap');
     this._logoImg   = this._shadow.getElementById('logoImg');
     this._videoWrap = this._shadow.getElementById('videoWrap');
     this._outer     = this._shadow.querySelector('.outer-wrap');
+    this._phEl      = this._shadow.getElementById('phEl');
     this._playing   = false;
+
+    // Estado del modal
+    this._modalOpen = false;
+    this._modalRet  = null;     // retorno en curso (card volviendo a su lugar)
+    this._mBase     = null;     // rect base de la card al abrir
+    this._layer     = null;     // fondo glass + ✕ (en <body>)
+    this._endT      = 0;
+    this._stopVideo = null;     // pausa el mp4 y restaura el botón (lo define _bindVideo)
+    this._onModalKey    = e => { if (e.key === 'Escape') this._closeModal(true); };
+    this._onModalResize = () => this._placeModal(true);
+    this._prevent       = e => e.preventDefault();
 
     this._applyStatic();
     this._render();
     this._spawnParticles();
 
     this._mq = window.matchMedia('(max-width: 768px)');
-    this._mqHandler = () => this._render();
+    this._mqHandler = () => { this._closeModal(false); this._render(); };
     this._mq.addEventListener('change', this._mqHandler);
   }
 
   disconnectedCallback() {
     this._mq && this._mq.removeEventListener('change', this._mqHandler);
     this._io && this._io.disconnect();
+    this._closeModal(false);
   }
 
   attributeChangedCallback(name, _old, val) {
     if (!this._shadow) return;
-    if (name === 'titulo')   { this._titleEl.textContent = val || 'Sin título'; return; }
-    if (name === 'badge')    { this._badgeEl.textContent = val || 'Special'; return; }
-    if (name === 'etiqueta') { this._etiquetaEl.textContent = val || 'Special Edition'; return; }
+    if (/^(titulo|badge|etiqueta)(-mobile|-desktop)?$/.test(name)) { this._syncTexts(); return; }
     if (name === 'logo')     { this._applyLogo(val); return; }
+    if (name === 'sombra-mobile' || name === 'sombra-desktop') { this._applyShade(isMobile()); return; }
+    this._closeModal(false);
     this._render();
   }
 
   /* Aplica los atributos que no dependen del breakpoint */
   _applyStatic() {
-    this._titleEl.textContent    = this.getAttribute('titulo')   || 'Sin título';
-    this._badgeEl.textContent    = this.getAttribute('badge')    || 'Special';
-    this._etiquetaEl.textContent = this.getAttribute('etiqueta') || 'Special Edition';
+    this._syncTexts();
     this._applyLogo(this.getAttribute('logo'));
+  }
+
+  /**
+   * Texto de titulo / badge / etiqueta para el dispositivo actual.
+   * Si existe la versión del dispositivo (`titulo-mobile`, `titulo-desktop`) manda ella,
+   * aunque esté vacía (vacío = no se muestra en ese dispositivo).
+   * Si no existe, se usa la general (`titulo`).
+   */
+  _textFor(name) {
+    const specific = this.getAttribute(`${name}-${isMobile() ? 'mobile' : 'desktop'}`);
+    return ((specific !== null ? specific : this.getAttribute(name)) || '').trim();
+  }
+
+  /* titulo / badge / etiqueta: si no vienen (o vienen vacíos) el elemento no se muestra */
+  _syncTexts() {
+    const titulo   = this._textFor('titulo');
+    const badge    = this._textFor('badge');
+    const etiqueta = this._textFor('etiqueta');
+
+    this._titleEl.textContent    = titulo;
+    this._badgeEl.textContent    = badge;
+    this._etiquetaEl.textContent = etiqueta;
+
+    this._titleEl.hidden   = !titulo;
+    this._badgeBox.hidden  = !badge;
+    this._badgeWrap.hidden = !etiqueta;
+
+    this._syncInfo();
+  }
+
+  /* Oculta los contenedores del bloque inferior que quedaron vacíos
+     (fila badge/tiempo, línea dorada y el bloque entero) */
+  _syncInfo() {
+    const hasTitle = !this._titleEl.hidden;
+    const hasRow   = !this._badgeBox.hidden || !!this._timeEl.textContent;
+
+    this._infoRow.hidden  = !hasRow;
+    this._goldLine.hidden = !(hasTitle && hasRow);
+    this._infoEl.hidden   = !(hasTitle || hasRow);
+  }
+
+  /**
+   * Sombreado oscuro sobre la parte baja del video (sombra-mobile / sombra-desktop).
+   * Porcentaje: 100 = el actual (también si no se pasa nada), 0 = sin sombra,
+   * más de 100 = más oscuro (el degradé además sube y cubre más alto). Rango 0–200.
+   */
+  _applyShade(mobile) {
+    const st  = this._outer.style;
+    const raw = this.getAttribute(mobile ? 'sombra-mobile' : 'sombra-desktop');
+    const pct = parseFloat(raw);                       // acepta "60" o "60%"
+    const vars = ['--ov-start', '--ov-mid', '--ov-a1', '--ov-a2'];
+    if (!isFinite(pct)) { vars.forEach(v => st.removeProperty(v)); return; }
+
+    const f     = Math.min(2, Math.max(0, pct / 100));
+    const extra = Math.max(0, f - 1);                  // solo al subir de 100 se extiende hacia arriba
+    const start = Math.max(0, 45 - 25 * extra);
+    const mid   = Math.max(start + 1, 72 - 20 * extra);
+    st.setProperty('--ov-start', start.toFixed(1) + '%');
+    st.setProperty('--ov-mid',   mid.toFixed(1) + '%');
+    st.setProperty('--ov-a1', Math.min(1, 0.65 * f).toFixed(3));
+    st.setProperty('--ov-a2', Math.min(1, 0.93 * f).toFixed(3));
   }
 
   _applyLogo(url) {
@@ -608,6 +772,7 @@ class VideoGoldSpecial extends HTMLElement {
     // Limpieza al cambiar de breakpoint / atributos
     this._io && this._io.disconnect();
     this._playing = false;
+    this._stopVideo = null;
     this._logoWrap.classList.remove('logo-oculto');
 
     const videoDesktop  = this.getAttribute('video-desktop')  || '';
@@ -616,6 +781,8 @@ class VideoGoldSpecial extends HTMLElement {
     const posterMobileAttr  = this.getAttribute('poster-mobile');
     const posterDesktopAttr = this.getAttribute('poster-desktop');
     const mobile = isMobile();
+    this._applyShade(mobile);
+    this._syncTexts();                 // titulo / badge / etiqueta pueden diferir entre mobile y desktop
 
     // Detectar si video-desktop es YouTube o mp4
     const ytId       = extractYouTubeId(videoDesktop);
@@ -683,6 +850,7 @@ class VideoGoldSpecial extends HTMLElement {
         }
 
         const cargarIframe = () => {
+          if (this._modalEnabled() && !this._modalOpen) this._openModal();
           const embedSrc = `https://www.youtube.com/embed/${ytId}?rel=0&modestbranding=1&color=white&autoplay=1&playsinline=1`;
           this._videoWrap.innerHTML = `
             <iframe src="${embedSrc}" allowfullscreen
@@ -724,6 +892,9 @@ class VideoGoldSpecial extends HTMLElement {
         this._timeEl.textContent = '';
       }
     }
+
+    // El texto del tiempo cambia según el tipo de video → re-evaluar el bloque inferior
+    this._syncInfo();
   }
 
   /**
@@ -780,16 +951,24 @@ class VideoGoldSpecial extends HTMLElement {
       logoTimer = setTimeout(ocultarLogo, duracion);
     };
 
+    const pausar = () => {
+      vid.pause();
+      this._playing = false;
+      btn.classList.remove('is-playing');
+      icon.className = 'play-icon';
+      icon.innerHTML = '';
+      btn.style.animation = '';
+      if (isMobileCtx) mostrarLogo();
+    };
+    this._stopVideo = pausar;     // lo usa el modal al cerrarse
+
     btn.addEventListener('click', () => {
       if (this._playing) {
-        vid.pause();
-        this._playing = false;
-        btn.classList.remove('is-playing');
-        icon.className = 'play-icon';
-        icon.innerHTML = '';
-        btn.style.animation = '';
-        if (isMobileCtx) mostrarLogo();
+        pausar();
       } else {
+        // Modal activado para este dispositivo: la card se despega y se amplía antes de reproducir
+        if (this._modalEnabled() && !this._modalOpen) this._openModal();
+
         // Recién acá se pide el video completo
         this._ensureVideoSrc(vid);
         vid.preload = 'auto';
@@ -817,7 +996,156 @@ class VideoGoldSpecial extends HTMLElement {
       icon.innerHTML = '';
       btn.style.animation = '';
       if (isMobileCtx) mostrarLogo();
+
+      // En modal: al terminar vuelve a su lugar (el video queda en el primer frame)
+      if (this._modalOpen && this._closeOnEnd()) {
+        clearTimeout(this._endT);
+        this._endT = setTimeout(() => {
+          vid.currentTime = 0;
+          this._closeModal(true);
+        }, 700);
+      }
     });
+  }
+
+  /* ── Modal (ampliar al dar play) ──────────────────────────────────────────── */
+
+  /** ¿Está activado el modal para el dispositivo actual? (modal-desktop / modal-mobile) */
+  _modalEnabled() {
+    const attr = isMobile() ? 'modal-mobile' : 'modal-desktop';
+    if (!this.hasAttribute(attr)) return false;
+    const v = (this.getAttribute(attr) || '').trim().toLowerCase();
+    return !['off', 'false', '0', 'no'].includes(v);
+  }
+
+  _closeOnEnd() {
+    const v = (this.getAttribute('close-on-end') || '').trim().toLowerCase();
+    return !['false', 'off', '0', 'no'].includes(v);
+  }
+
+  _modalTransition(opening) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return 'none';
+    // leve rebote al abrir; más suave al volver
+    const ease = opening ? 'cubic-bezier(0.22,1.15,0.36,1)' : 'cubic-bezier(0.4,0,0.2,1)';
+    const t = opening ? '0.62s' : '0.5s';
+    return `translate ${t} ${ease}, scale ${t} ${ease}, box-shadow 0.4s ease`;
+  }
+
+  /** Despega la card (position:fixed sobre su propio lugar) y la lleva al centro, ampliada. */
+  _openModal() {
+    if (this._modalOpen) return;
+    this._finishModalReturn();
+
+    const el = this._outer, st = el.style;
+    const r = el.getBoundingClientRect();
+    this._mBase = { left: r.left, top: r.top, width: r.width };
+
+    // Hueco: mantiene el tamaño del componente en la página mientras la card está despegada
+    this._phEl.style.width  = r.width + 'px';
+    this._phEl.style.height = r.height + 'px';
+    this._phEl.hidden = false;
+
+    st.transition = 'none';
+    st.position   = 'fixed';
+    st.left       = r.left + 'px';
+    st.top        = r.top + 'px';
+    st.width      = r.width + 'px';
+    st.margin     = '0';
+    st.zIndex     = String(_VGS_Z_CARD);
+    void el.offsetHeight;                              // registra el estado de reposo para que haya transición
+
+    this._modalOpen = true;
+
+    // Para que el video dispare "ended" (con loop nunca termina)
+    const vid = this._shadow.getElementById('vid');
+    if (vid && this._closeOnEnd()) vid.loop = false;
+
+    st.transition = this._modalTransition(true);
+    this._placeModal(false);
+
+    this._layer = _vgsBuildLayer(() => this._closeModal(true), this.getAttribute('close-position'));
+    this._layer.show();
+
+    document.addEventListener('keydown', this._onModalKey);
+    window.addEventListener('resize', this._onModalResize);
+    // Bloquea el scroll de la página mientras hay una card abierta
+    document.addEventListener('wheel', this._prevent, { passive: false });
+    document.addEventListener('touchmove', this._prevent, { passive: false });
+
+    this.dispatchEvent(new CustomEvent('modal-open', { bubbles: true, composed: true }));
+  }
+
+  /** Centra la card y la escala para que entre en pantalla (sin pisar el `transform` de su animación de entrada). */
+  _placeModal(instant) {
+    const b = this._mBase;
+    if (!b || !this._modalOpen) return;
+    const el = this._outer, st = el.style;
+
+    const h   = el.offsetHeight;
+    const vw  = document.documentElement.clientWidth;
+    const vh  = window.innerHeight;
+    const cap = parseFloat(this.getAttribute('expanded-width')) || Infinity;
+    const maxW = Math.min(vw * 0.94, cap);
+    const maxH = Math.max(vh - 112, 120);              // deja lugar a la ✕ arriba y respiro abajo
+    const s  = Math.min(maxW / b.width, maxH / h);
+    const dx = vw / 2 - (b.left + b.width / 2);
+    const dy = vh / 2 - (b.top + h / 2);
+
+    if (instant) st.transition = 'none';
+    st.translate = `${dx}px ${dy}px`;
+    st.scale     = String(s);
+    if (instant) { void el.offsetHeight; st.transition = this._modalTransition(true); }
+  }
+
+  _closeModal(animate) {
+    if (!this._modalOpen) { this._finishModalReturn(); return; }
+    this._modalOpen = false;
+    clearTimeout(this._endT);
+
+    // mp4: pausa y restaura el botón de play
+    if (this._stopVideo) this._stopVideo();
+    const vid = this._shadow.getElementById('vid');
+    if (vid) vid.loop = true;
+
+    if (this._layer) this._layer.hide();
+    document.removeEventListener('keydown', this._onModalKey);
+    window.removeEventListener('resize', this._onModalResize);
+    document.removeEventListener('wheel', this._prevent);
+    document.removeEventListener('touchmove', this._prevent);
+    this.dispatchEvent(new CustomEvent('modal-close', { bubbles: true, composed: true }));
+
+    // YouTube: volver a la portada (quitar el iframe corta el audio)
+    if (this._videoWrap.querySelector('iframe')) this._render();
+
+    // Quitar translate/scale hace que la card vuelva a su lugar (con transición)
+    const el = this._outer;
+    const instant = !animate || this._modalTransition(false) === 'none';
+    el.style.transition = this._modalTransition(false);
+    el.style.translate = '';
+    el.style.scale = '';
+
+    const onEnd = ev => {
+      if (ev.target === el && (ev.propertyName === 'translate' || ev.propertyName === 'scale')) this._finishModalReturn();
+    };
+    this._modalRet = { onEnd, timer: setTimeout(() => this._finishModalReturn(), 900) };
+    el.addEventListener('transitionend', onEnd);
+    if (instant) this._finishModalReturn();
+  }
+
+  /** Recién cuando terminó de volver se la reincorpora al flujo de la página. */
+  _finishModalReturn() {
+    const r = this._modalRet;
+    if (r) {
+      this._modalRet = null;
+      clearTimeout(r.timer);
+      this._outer.removeEventListener('transitionend', r.onEnd);
+    }
+    if (this._modalOpen) return;
+    const s = this._outer.style;
+    ['position', 'left', 'top', 'width', 'margin', 'zIndex', 'translate', 'scale', 'transition']
+      .forEach(p => { s[p] = ''; });
+    this._phEl.hidden = true;
+    if (this._layer) { this._layer.remove(); this._layer = null; }
   }
 
   _spawnParticles() {

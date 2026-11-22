@@ -1336,10 +1336,15 @@
     ]'
   ></cartelera-carousel> -->
   <!-- ═══ Fin Cartelera ═══ -->
-
-
-
-
+<script src="./components/showcase-card.js"></script>
+<script src="./components/video-card-frame.js"></script>
+<script src="./components/video-frame-tradiciones.js"></script>
+<script src="./components/video-card-frame.js"></script>
+<script src="./components/video-frame-navidad.js"></script>
+<script src="./components/video-glass-frame.js"></script>
+<script src="./components/info-glass-frame.js?v=3"></script>
+<script src="./components/panel-photo-wall.js"></script>
+<div   style="display:none"></div>  
  <!-- Super GFE -->
 <!-- confetti  -->
                     <!-- lights="on" -->
@@ -1351,33 +1356,30 @@
                    png-count="3" png-width="80px"
 ></section-title>
     <!-- mobile="./video/adviento_mob_full.mp4"   poster-mobile="./img/adviento_mob.png" -->
-<div class="deck-row"> 
-
-<video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
-   
-  <video-card-gold class="desktop-only-video-card" video="./asantos/21novbis.mp4" poster="./asantos/21novbis.jpg"
-    badge="21 de Noviembre" titulo="Presentación de la Santísima Virgen María"></video-card-gold>
-  <video-card-gold video="./asantos/21novtris.mp4" poster="./asantos/21novtris.png"
-    badge="21 de Noviembre" titulo="Presentación de la Santísima Virgen María"></video-card-gold>
-   <video-card-gold video="./asantos/21nov.mp4" poster="./asantos/21nov.png"
-    badge="21 de Noviembre" titulo="Presentación de la Santísima Virgen María"></video-card-gold>
-  <video-card-gold video="./asantos/21novcuatris.mp4" poster="./asantos/21novcuatris.png"
-    badge="21 de Noviembre" titulo="Venerable Madre Julia Navarrete"></video-card-gold>
-
-</video-deck-gold> 
-
-<video-deck-gold>  
-  <video-card-gold class="desktop-only-video-card" video="./asantos/20nov.mp4" poster="./asantos/20nov.png"
-    badge="20 de Noviembre" titulo="Beata Anna Kolesárová"></video-card-gold>
-</video-deck-gold>
-
-</div>
+ 
+<video-gold-special
+      poster-desktop="./asantos/22nov16x9.png"
+      video-desktop="https://youtu.be/00WRPFYoLnY"
+      video-mobile="./asantos/22nov.mp4"
+      poster-mobile="./asantos/22nov9x16.png"
+      ancho-desktop="860px"
+      modal-desktop
+      modal-mobile
+      titulo-desktop="La fiesta que cierra el año litúrgico"
+      badge-desktop="22 de noviembre"
+      sombra-mobile="30"
+      sombra-desktop="70"
+      logo="./img/medalla.png"
+      logo-duracion="4">
+    </video-gold-special>
+ 
 
  <video-glass-frame
        desktop="./video/premio-francisco.mp4" poster-desktop="./video/premio-francisco.jpg"
        mobile="./video/premio-francisco.mp4"   poster-mobile="./video/premio-francisco.jpg"
        alt="Premio Papa Francisco"
  ></video-glass-frame>
+
 <info-glass-frame theme="gold" heading="Premio Papa Francisco"  bg="#2f4e5e,#173a4b,#0d2431" accent="#cbab80">
   <info-item label="Postulaciones"      value="hasta el 20 de noviembre" icon="calendar"></info-item>
   <info-item label="Entrega del premio" value="17 de diciembre"          icon="trophy"></info-item>
@@ -1419,25 +1421,6 @@
   hide-mobile
 ></video-frame-tradiciones>
 
- <!-- <video-frame-tradiciones
-  frame="./trad/biblia4.png"
-  video="./trad/toon18-11.mp4"
-  poster="./trad/toon18-11.jpg"
-  autoplay
-  loop
-  hide-mobile
-></video-frame-tradiciones> -->
-
-
- <!-- <video-frame-tradiciones
-  frame="./trad/biblia4.png"
-  video="./trad/papa2.mp4"
-  poster="./trad/papa2.jpg"
-   autoplay
-  loop
-></video-frame-tradiciones> -->
-
-
  
  <video-frame-tradiciones
   frame="./trad/biblia4.png"
@@ -1457,7 +1440,7 @@
 
 <!-- evangelio !!!!!!!!!!!!!!!!!!!!!!! -->
  <div class="video-card-gold-container">
-<script src="./components/video-card-frame.js"></script>
+
 
 <!-- --------- -->
      <video-card-frame
@@ -1501,31 +1484,8 @@
 
 
 
- <script src="./components/video-frame-navidad.js"></script>
  <!-- <div class="deck-row">  -->
 
-<div class="deck-row"> 
-  <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
-   
-    <video-card-gold class="desktop-only-video-card" video="./asantos/19novbis.mp4" poster="./asantos/19novbis.jpg"
-    badge="19 de Noviembre" titulo="Nuestra Señora de la Divina Providencia"></video-card-gold>
-   <video-card-gold video="./asantos/19nov.mp4" poster="./asantos/19nov.png"
-    badge="19 de Noviembre" titulo="Nuestra Señora de la Divina Providencia"></video-card-gold>
-       <video-card-gold video="./asantos/19novtris.mp4" poster="./asantos/19novtris.webp"
-    badge="19 de Noviembre" titulo="oración"></video-card-gold>
-
-  </video-deck-gold> 
-
-  <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
-   
-    <video-card-gold class="desktop-only-video-card" video="./asantos/18novbis.mp4" poster="./asantos/18novbis.jpg"
-    badge="18 de Noviembre" titulo="Nuestra Señora de Chiquinquirá"></video-card-gold>
-   <video-card-gold video="./asantos/18nov.mp4" poster="./asantos/18nov.png"
-    badge="18 de Noviembre" titulo="Nuestra Señora de Chiquinquirá"></video-card-gold>
-
-  </video-deck-gold> 
-  </div>
-<br>
 
  <!-- ═══ Mural de Actividades ═══ -->
   <cork-mural-carousel
@@ -1540,57 +1500,7 @@
   </cork-mural-carousel>
     <!-- ═══ Mural de Actividades ═══ -->
 
-
-<br>
-
-<div class="deck-row"> 
-  <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
-   
-    <video-card-gold class="desktop-only-video-card" video="./asantos/17novbis.mp4" poster="./asantos/17novbis.jpg"
-    badge="17 de Noviembre" titulo="Santa Isabel de Hungría"></video-card-gold>
-   <video-card-gold video="./asantos/17nov.mp4" poster="./asantos/17nov.png"
-    badge="17 de Noviembre" titulo="Santa Isabel de Hungría"></video-card-gold>
-
-  </video-deck-gold> 
-
-
-
-
-  <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
-   
-    <video-card-gold class="desktop-only-video-card" video="./asantos/16novbis.mp4" poster="./asantos/16novbis.webp"
-    badge="16 de Noviembre" titulo="Santa Gertrudis la Grande"></video-card-gold>
-   <video-card-gold video="./asantos/16nov.mp4" poster="./asantos/16nov.png"
-    badge="16 de Noviembre" titulo="Santa Gertrudis la Grande"></video-card-gold>
-
-  </video-deck-gold> 
-<br><br><br>
-  <!-- <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
-
-          <video-card-gold    video="./asantos/12bis.mp4" poster="./asantos/13novbis.webp"
-              badge="13 de Noviembre"    titulo="San Diego de Alcalá"></video-card-gold>
-
-             <video-card-gold   video="./asantos/12.mp4" poster="./asantos/13nov.png"
-              badge="13 de Noviembre" titulo="San Diego de Alcalá" ></video-card-gold>
-
-</video-deck-gold>  -->
-</div>
-
-<!-- <video-frame-navidad video="./27.mp4" zoom zoom-frame="./nav.png"
-  zoom-float="./estrella.png" zoom-float-count="12" zoom-float-size="64"></video-frame-navidad>
-<video-frame-navidad video="./27.mp4" zoom zoom-frame="./nav.png"></video-frame-navidad>
- -->
-<!-- el mismo en los dos -->
-<!-- <video-frame-navidad video="./27.mp4" zoom zoom-bg="./fondo.jpg"></video-frame-navidad> -->
-
-<!-- uno distinto para cada pantalla -->
-<!-- <video-frame-navidad video="./27.mp4" zoom
-  zoom-bg-mobile="./fondo-vertical.jpg" zoom-bg-desktop="./fondo-ancho.jpg"></video-frame-navidad> -->
-
-<!-- wallpaper solo en desktop; en mobile queda el velo oscuro con polvo -->
-<!-- <video-frame-navidad video="./27.mp4" zoom
-  zoom-bg-desktop="./fondo.jpg" zoom-bg-mobile="none"></video-frame-navidad> -->
-  <div class="video-card-gold-container" style="justify-content: center; gap: 20px; ">
+<div class="video-card-gold-container" style="justify-content: center; gap: 20px; ">
 
  <video-frame-navidad
   zoom
@@ -1614,7 +1524,8 @@
   loop
   hide-mobile
 ></video-frame-navidad>
-  </div>   
+
+</div>   
 
 
 
@@ -1626,49 +1537,6 @@
       alt="Secretaría parroquial"
  ></video-glass-frame>
 
-
- 
-<!-- Un live puntual: se pasa como video (el link /live/ID también sirve) -->
-   <!-- marca="./logos/marca2.png"  -->
-
-<!-- <noticia-video-card
-  autoplay
-  autor-nombre="EWTN ESPAÑA"
-  autor-link="https://www.youtube.com/@EWTNESPA%C3%91A"
-  autor-img="https://yt3.ggpht.com/V1OW4vgEeCHMR9QCSessFtKGdH3a_KkT_n7BSs-QTBObf9IKJl_vNpSYCgvZCM-8fb2x9c6_=s88-c-k-c0x00ffffff-no-rj"
-  autor-desc="12 de noviembre de 2026"
-  categoria="Papa León XIV"
-  fecha="12 NOV"
-  en-vivo="EN VIVO"
-  video="https://www.youtube.com/live/TMdF-dkca9M"
-  titular="Papa León XIV en Perú | 12 noviembre 2026"
-  texto="Acompaña a EWTN en directo durante la llegada del Papa León XIV a Lima, donde comienza la etapa peruana de su Viaje Apostólico a Uruguay, Argentina y Perú. Nuestra cobertura incluye la llegada a la Base Aeronaval del Callao y la recepción oficial al Santo Padre."
-></noticia-video-card>
-<br><br><br> -->
-<!-- <noticia-video-card
-  autoplay
-  autor-nombre="América Noticias"
-  autor-link="https://www.youtube.com/@americanoticiaspe"
-  autor-img="https://yt3.ggpht.com/bQBAuHpWobrVEXon3i4y9I05_TbrEqWuTn4abVNGGy-CwI5EnvErr58kWls4Nb7SjDgRJ8udww=s88-c-k-c0x00ffffff-no-rj"
-  autor-desc="12 de noviembre de 2026"
-  categoria="Papa León XIV"
-  fecha="12 NOV"
-  en-vivo="EN VIVO"
-  video="https://www.youtube.com/live/O-xienB6z6g"
-  titular="LEÓN XIV en vivo desde Perú"
-  texto="¡EL PAPA LEÓN XIV LLEGA AL PERÚ!
-Vive cada momento de esta histórica visita con la cobertura especial EN VIVO en el canal de América Noticias en YouTube. 📺"
-></noticia-video-card> -->
-
-<script src="./components/noticia-video-card.js"></script>
-
-<!-- <style>
-  @media (max-width: 767.98px) {
-    .desktop-only-video-card {
-      display: none !important;
-    }
-  }
-</style> -->
 
 <br><br><br>
 
@@ -1694,234 +1562,19 @@ La luz representa a Cristo, luz del mundo, y aleja el miedo."
   fuente-url="https://www.ewtnnews.com/es/mundo/la-corona-de-adviento-como-armarla-en-5-pasos-la-bendicion-oficial-y-oraciones"
   fuente-logo="https://www.ewtnnews.com/images/logos/aci-prensa.svg"
 ></noticia-card>
- <br><br><br>
-
-<div style="width:100%; max-width:1200px; margin:1.5rem auto; padding:0 1rem; box-sizing:border-box;">
-
-  <div class="vframe d-none d-md-block">
-    <div class="vglass">
-      <video src="./video/leon_desk.mp4"  poster="./slides2/graxs_desk.jpg"
-             muted loop playsinline preload="metadata" aria-label="Información parroquial"></video>
-      <button class="vsound" type="button"></button>
-    </div>
-  </div>
-</div>
-  <div class="vframe d-block d-md-none">
-    <div class="vglass">
-      <video src="./video/leon_mob.mp4" poster="./slides2/graxs_mob.jpg"
-             muted loop playsinline preload="metadata" aria-label="Información parroquial"></video>
-      <button class="vsound" type="button"></button>
-    </div>
-  </div>
-
-</div>
 
  <br><br><br>
 
-<script src="./components/video-glass-frame.js"></script>
-<script src="./components/info-glass-frame.js?v=3"></script>
-
-
-<div   style="display:none"></div>  
-
-
-<div style="display: flex; justify-content: center; width: 100%;">
-<script src="./components/panel-photo-wall.js"></script>
-<panel-photo-wall
-  eyebrow-color="white"
-  title-color="#ffffff"
-  title-em-color="#ffd166"
-  title-3d-color="#5a1a8c"
-  pin-color="multi"
-  base-path="./actividades/papa/"
-  wallpaper-src="./logos/espa.png"
-  wallpaper-opacity="0.75"
-  particle-src="./img/paloma.png"
-  base-path="./actividades/papa/"
-  mascot-src="./logos/top2.png"
-  mascot-size="100px"
-  overlap="0.2"
-  lightbox-particle-src="./img/estrella.png"
-  theme="celeste-pastel"
-  eyebrow="Monumento de los españoles"
-  title=""
-  title-em="Misa Papa León XIV"
-  total="22"  
-  columns="4"
-  rows="2"
-  fit-screen="true"
-  width="86%"
-  max-width="none"
-  sources=       '["marcelo.mp4","1.png","2.png","3.png","3b.png","lasole.mp4","3c.png","4.png","5.png","6.png","7.png","8.jpg","9.png","10.png","11.png","12.png","13.png","14.png","15.png","16.png","17.png","8.mp4"]'
-  sources-mobile='["marcelo.mp4","1.png","2.png","3.png","3b.png","lasole.mp4","3c.png","4.png","5.png","6.png","7.png","8.jpg","9.png","10.png","11.png","12.png","13.png","14.png","15.png","16.png","17.png","8.mp4"]'
-  orientacion-desktop='["portrait","","landscape","portrait","portrait","portrait","","","portrait","portrait","portrait","portrait","portrait","landscape","landscape","portrait","portrait","landscape","landscape","","portrait"]'
-  orientacion-mobile='["portrait","portrait","portrait","portrait","portrait","portrait","portrait","portrait","portrait","portrait","portrait","portrait",,"portrait","portrait","portrait","portrait","portrait",,"portrait","portrait","portrait","portrait","portrait"]'
-
-  ></panel-photo-wall>
-  </div>
-  <!-- captions='["Bingo","Bingo","Feria","Buffet","Emprendedores","Nuestro jardín"]' -->
-  <!-- width="100%" -->
-
-
-
-<!-- <video-deck-gold spread="1" anchor="top-mobile" card-width="min(260px, 54vw)">  -->
-
-<!-- Desktop: los dos abanicos quedan lado a lado, con exactamente el mismo margen a izquierda y derecha. Con 1280 px son 175 px por lado, y con 1920 px, 495 px.
-Celular: quedan uno debajo del otro, centrados, con 17 px a cada lado y sin que las cartas se corten.
-
-Para los abanicos más juntos o más separados en desktop, el valor que decide es max-width: menos de 940px los aprieta demasiado y más los aleja. -->
-
-<!-- <div class="deck-row">
-
-        <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
-
-          <video-card-gold   video="./asantos/6b.mp4" poster="./asantos/6b.jpg"
-              badge="6 de Noviembre" titulo="San Leonardo de Noblat" ></video-card-gold>
-          <video-card-gold    video="./asantos/6b.mp4" poster="./asantos/6b.png"
-              badge="6 de Noviembre"    titulo="San Leonardo de Noblat"></video-card-gold>
-
-        </video-deck-gold>
-
-        <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
-
-          <video-card-gold   video="./asantos/6bis.mp4" poster="./asantos/6bis.png"
-              badge="barroco barcelonés" titulo="Iglesia de San Severo (Sant Sever), Barcelona." ></video-card-gold>
-          <video-card-gold    video="./asantos/6.mp4" poster="./asantos/6.png"
-              badge="6 de Noviembre"    titulo="San Severo de Barcelona"></video-card-gold>
-
-</video-deck-gold>
-
-</div> -->
-
-
-<!-- <video-deck-gold  spread="1.2" >
-
-    <video-card-gold   video="./asantos/5bis.mp4" poster="./asantos/5bis.jpg"
-        badge="5 de Noviembre" titulo="La promesa del ángel Gabriel" ></video-card-gold>
-  <video-card-gold    video="./asantos/5tris.mp4" poster="./asantos/5tris.jpg"
-        badge="5 de Noviembre"    titulo="Un anuncio imposible"></video-card-gold>
-            <video-card-gold    video="./asantos/5.mp4" poster="./asantos/5gfe.png"
-        badge="5 de Noviembre"   titulo="Santos Zacarías e Isabel"></video-card-gold>
-  <video-card-gold    video="./asantos/5cuat.mp4" poster="./asantos/5cuat.jpg"
-        badge="5 de Noviembre"   titulo="Zacarías"></video-card-gold>
-
-</video-deck-gold> -->
-<!-- <br><br> -->
 
 
 
 
 
 
-<!-- <span class="desktop-only"><br><br><br></span> -->
-
-<!-- class="noticia-desktop-only" -->
-  <!-- en-vivo="Efemérides" -->
-     <!-- marca="./logos/site-white.png" -->
-
-<!-- spread 1.3  es  la  mas abierta, 0.7mas cerrada -->
-
-
-<!-- <video-deck-gold  spread="1">
-    <video-card-gold    video="./asantos/4-2.mp4" poster="./asantos/4-2.jpg"
-        badge="4 de Noviembre"   titulo="San Carlos Borromeo"></video-card-gold>
-    <video-card-gold   video="./asantos/4-1.mp4" poster="./asantos/4gfe.png"
-        badge="4 de Noviembre" titulo="San Carlos Borromeo"></video-card-gold>
-  <video-card-gold    video="./asantos/4tris.mp4" poster="./asantos/4tris.jpg"
-        badge="4 de Noviembre"   titulo="San Carlos Borromeo"></video-card-gold>
-
-</video-deck-gold> -->
-
-
-
-
-<!-- Youtube -->
-        <!-- style="display:none" -->
- <!-- <video-gold-special  
-      poster-desktop="./asantos/img/2nov_desk.png"
-      video-desktop="https://youtu.be/D4L0812Hlyo"
-      video-mobile="./asantos/2.mp4"
-      poster-mobile="./asantos/img/2nov_mob.png"
-      ancho-desktop="860px"
-
-      etiqueta="2 de Noviembre"
-      badge="¿Por qué la Iglesia celebra?"
-      titulo="el Día de los Fieles Difuntos?"
-
-      logo="./img/medalla.png"
-      logo-duracion="4">
-    </video-gold-special> -->
-
-<!-- biblioteca 1 -->
-  <!-- <div class="video-card-gold-container" style="justify-content: center; gap: 20px; ">
-
- <video-frame-tradiciones
-  frame="./eva/biblia4.png"
-  video="./papa/kids.mp4"
-  autoplay
-  titulo="Capítulo 1"
-  loop
-></video-frame-tradiciones>
-
- <video-frame-tradiciones
-  frame="./eva/biblia4.png"
-  video="./papa/kids2.mp4"
-  autoplay
-  titulo="Capítulo 2" 
-  loop
-></video-frame-tradiciones>
-
- <video-frame-tradiciones
-  frame="./eva/biblia4.png"
-  video="./papa/kids3.mp4"
-  autoplay
-  titulo="Capítulo 3"
-  fecha="Continuará..."
-  loop
-></video-frame-tradiciones>
-
-
-</div> -->
-
-<!-- <script src="./components/panel-photo-gallery.js"></script> -->
-<!--
-  El componente:
-    src        → ruta al JSON (default: ./facebook-posts.json)
-    cache-ttl  → ms de cache (default: 3600000 = 1 hora)
-    wallpaper  → imagen de fondo (default: ./img/fb-wallpaper.png)
--->
-<!-- <script src="./components/fb-posts-container.js"></script>
-<fb-posts-container
-  src="facebook-posts-1nov.json"
-  wallpaper="./img/slg.png"
-  floatingImage="./img/lirio.png"
-  floatingImage2="./img/aloy-marmol-piel.png"
-  mobile-Width="85%"
-  width="1100px"
   
-></fb-posts-container>
-  <br> -->
-
-
-
-        <!-- style="display:none" -->
- <!-- <video-gold-special
-      poster-desktop="./trad/1nov16x9.png"
-      video-desktop="https://youtu.be/AM6TQlKEatg"
-      video-mobile="./asantos/1.mp4"
-      poster-mobile="./trad/1nov9x16.png"
-      ancho-desktop="860px"
-
-      etiqueta="1 de Noviembre"
-      badge="Fiesta"
-      titulo="Todos los Santos"
-
-      logo="./img/medalla.png"
-      logo-duracion="4">
-    </video-gold-special> -->
 
 <!-- TRADICIONES -->
-<script src="./components/video-frame-tradiciones.js"></script>
+
 
  <div class="video-card-gold-container" style="justify-content: center; display:none ">
 <!-- con chip y título -->
@@ -1945,62 +1598,7 @@ Para los abanicos más juntos o más separados en desktop, el valor que decide e
 
 
 
- <!-- <video-frame-tradiciones
-  frame="./eva/tradi.png"
-  video="./eva/hall.mp4"
-  titulo=""
-  poster="./trad/hall.png"
-></video-frame-tradiciones> -->
-
-
 </div>
-
-
-<!-- biblioteca 2   -->
- <!-- <div class="video-card-gold-container" style="justify-content: center; gap: 20px; ">
-
-
-  <video-frame-tradiciones
-
-  frame="./eva/biblia4.png"
-  video="./trad/1nov-mar.mp4"
-  autoplay
-></video-frame-tradiciones>
-
-  <video-frame-tradiciones
-
-  frame="./eva/biblia4.png"
-  video="./trad/1nov.mp4"
-  poster="./trad/1novv.png"
-  hide-mobile
-></video-frame-tradiciones>
-
-
- <video-frame-tradiciones
-  frame="./eva/biblia4.png"
-  video="./trad/1novbis.mp4"
-  poster="./trad/1novbis.png"
-  hide-mobile
-></video-frame-tradiciones>
-
-
-</div> -->
-
-<!-- <br><br><br> -->
-  <!-- fecha-color="#660000" -->
-     <!-- fecha-fondo="#1d4ed8" -->
-
-
-<!-- <br><br><br> -->
-
-
-
-
-
-
- 
-
-
 
 
 
@@ -2039,189 +1637,10 @@ Para los abanicos más juntos o más separados en desktop, el valor que decide e
     
   ></video-card-frame-tv>
 
-    <!-- <video-card-frame-tv
-    preset="tv"
-    video="./video/jesus.mp4"
-    frame="./eva/tv.png"
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
-  ></video-card-frame-tv> -->
-
 
 </div>  
 
- 
-<!-- <script src="./components/fb-post-mosaic.js"></script>
-<fb-post-mosaic
-  wallpaper="./img/f1.jpg"
-  title="Hermoso encuentro de matrimonios en San Luis Gonzaga"
-  author="Marcelo Cerniato"
-  date="Sábado 31 de octubre"
-  album-url="https://www.facebook.com/PadreMarceloAlejandro/posts/pfbid021SSB1MLnUf1XgbcyuExyc28VNpDRPbvyLoJuncxTKQZADS9UamdwkqBjVoVN73Pjl"
-  photos='["img/matrimonios-1.jpg","img/matrimonios-2.jpg","img/matrimonios-3.jpg","img/matrimonios-4.jpg","img/matrimonios-5.jpg"]'>
-</fb-post-mosaic> -->
 
-
-<!-- 
-
-<div class="fila-videos" style="display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:0.5rem;">
-
-  <retro-tv-player
-    link-href="https://programafe.org"
-    link-mode="button"
-    link-target="_blank"
-    link-label="PROGRAMA FE"
-    chassis="ipod"
-    anchor-id="video-colecta"
-    src-desktop="./papa/d28-1.mp4"
-    src-mobile="./papa/d28-1.mp4"
-    title="EL PAPA LEÓN IV VISITA LA ARGENTINA!"
-    color="#00a2ff"
-    bg-color="#EAD7D8"
-    device-color="#f5e6d3"
-    screen-effect="moderno"
-    autoplay>
-  </retro-tv-player>
-
-  <retro-tv-player
-    link-href="https://programafe.org"
-    link-mode="button"
-    link-target="_blank"
-    link-label="PROGRAMA FE"
-    chassis="ipod"
-    anchor-id="video-argentina"
-    src-desktop="./papa/cuerva.mp4"
-    src-mobile="./papa/cuerva.mp4"
-    title="ARGENTINA CANTA Y CAMINA!"
-    color="#00a2ff"
-    bg-color="#EAD7D8"
-    device-color="#f5e6d3"
-    screen-effect="moderno"
-    autoplay
-    hide-mobile="all">
-  </retro-tv-player>
-
-  <retro-tv-player
-    link-href="https://programafe.org"
-    link-mode="button"
-    link-target="_blank"
-    link-label="PROGRAMA FE"
-    chassis="ipod"
-    anchor-id="video-resumen"
-    src-desktop="./papa/d28-2.mp4"
-    src-mobile="./papa/d28-2.mp4"
-    title="Vivimos la alegría y emoción de estar preparando la visita del Papa León XIV"
-    color="#00a2ff"
-    bg-color="#EAD7D8"
-    device-color="#f5e6d3"
-    screen-effect="moderno"
-    autoplay
-    hide-mobile="all">
-  </retro-tv-player>
-
-</div>
-<br><br><br> -->
-
-<!-- para  ver al  Papa -->
-<!-- <script src="./components/PilgrimageEventCard.js"></script>
-<div id="papa1" style="display:flex;justify-content:center;">
-  <pilgrimage-event-card
-    
-    main-image="/papa/cover.png"
-    badge-text="Luján · 11 de noviembre"
-    tagline="¡Encuentro que nos une como Iglesia!"
-    title="¡Vivamos juntos este acontecimiento histórico de nuestra fe!"
-    cta-text="Quiero inscribirme"
-    whatsapp-phone="5492215947600"
-    whatsapp-message="Hola, quiero inscribirme al viaje a Luján"
-    info-cards='[
-      {"id":"viaje","icon":"bus","image":"/papa/bus.png","title":"Cómo viajamos","lines":["Viajamos durante la noche para llegar con anticipación.","Nos ubicamos cerca de la Basílica antes del evento."],"badgeImage":"/papa/bus-blanco.png"},
-      {"id":"inscripcion","icon":"clipboard","image":"/papa/inscri.png","title":"Inscripciones","lines":["Se hacen en la Secretaría Parroquial.","Lunes y jueves de 16 a 18 hs.","Martes y sábados de 10 a 12 hs."],"badgeImage":"/papa/2.png"},
-      {"id":"fecha","icon":"calendar","image":"/papa/viaje.png","title":"Fecha del viaje","highlight":"Miércoles 11 de noviembre","lines":["Salida: martes 10 de noviembre por la noche."],"badgeImage":"/papa/3.png"},
-      {"id":"valor","icon":"coins","image":"/papa/valor.png","title":"Valor del viaje","highlight":"$30.000","lines":["Se puede pagar en 2 veces.","Reserva: $10.000 al inscribirte."],"badgeImage":"/papa/4.png"}
-    ]'
-
-    footer='{"parishName":"Parroquia San Luis Gonzaga","address":"calle 8, N° 1950. Villa Elisa","phone":"+54 9 11 1234-5678","email":"sanluisvillaelisa@gmail.com","instagramUrl":"https://www.instagram.com/parroquiasanluisgonzaga_"}'
-    style="--cartel-max-width:1300px;">
-  </pilgrimage-event-card>
-</div>
-<script>
-  document.querySelector('pilgrimage-event-card')
-    .addEventListener('cta-click', () => {
-
-    });
-</script>
-
-<br><br><br> -->
-
-
-
-
-
-
-<!-- class="noticia-desktop-only" -->
-  <!-- en-vivo="Efemérides" -->
-
-<!-- ASANTOS!!!!!!!!!!!!!!!!!!!!!!! -->
-<!-- 
-<div class="video-card-gold-container">
-
-
-  <video-card-gold
-      expandable
-      poster="./asantos/3.png"
-      badge="3 de Noviembre"
-      titulo="San Martín de Porres"
-      video="./asantos/3.mp4"
-      style="width:auto; flex:0 0 auto;"
-
-    ></video-card-gold>
-
-  <video-card-gold
-      expandable
-      poster="./asantos/3d.jpg"
-      badge="San Martín de Porres"
-      titulo="agarró al demonio a cinturonazos"
-      video="./asantos/3d.mp4"
-      style="width:auto; flex:0 0 auto;"
-      hide-mobile
-    ></video-card-gold>
-
-    <video-card-gold
-      expandable
-      poster="./asantos/3b.jpg"
-      badge="3 de Noviembre"
-      titulo="San Martín de Porres"
-      video="./asantos/3a.mp4"
-      style="width:auto; flex:0 0 auto;"
-      hide-mobile
-    ></video-card-gold>
-
-      <video-card-gold
-      expandable
-      poster="./asantos/3a.jpg"
-      badge="3 de Noviembre"
-      titulo="San Martín de Porres"
-      video="./asantos/3b.mp4"
-      style="width:auto; flex:0 0 auto;"
-      hide-mobile
-    ></video-card-gold>
-
-      <video-card-gold
-      expandable
-      poster="./asantos/3c.jpg"
-      badge="3 de Noviembre"
-      titulo="San Martín de Porres"
-      video="./asantos/3c.mp4"
-      style="width:auto; flex:0 0 auto;"
-      hide-mobile
-    ></video-card-gold>
-
-
-
- </div>   -->
-
-<br><br><br>
 
 
 <div style="width:100%; max-width:1200px; margin:1.5rem auto; padding:0 1rem; box-sizing:border-box;">
@@ -2243,66 +1662,6 @@ Para los abanicos más juntos o más separados en desktop, el valor que decide e
   </div>
 
 </div>
-<!-- 
-<div class="fila-videos" style="display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:0.5rem;">
-
-  <retro-tv-player
-    link-href="https://programafe.org"
-    link-mode="button"
-    link-target="_blank"
-    link-label="PROGRAMA FE"
-    chassis="ipod"
-    anchor-id="video-colecta"
-    src-desktop="./video/colecta.mp4"
-    src-mobile="./video/colecta.mp4"
-    title="EL PAPA LEÓN IV VISITA LA ARGENTINA!"
-    color="#00a2ff"
-    bg-color="#EAD7D8"
-    device-color="#f5e6d3"
-    screen-effect="moderno"
-    autoplay>
-  </retro-tv-player>
-
-  <retro-tv-player
-    link-href="https://programafe.org"
-    link-mode="button"
-    link-target="_blank"
-    link-label="PROGRAMA FE"
-    chassis="ipod"
-    anchor-id="video-argentina"
-    src-desktop="./video/argentina.mp4"
-    src-mobile="./video/argentina.mp4"
-    title="ARGENTINA CANTA Y CAMINA!"
-    color="#00a2ff"
-    bg-color="#EAD7D8"
-    device-color="#f5e6d3"
-    screen-effect="moderno"
-    autoplay
-    hide-mobile="all">
-  </retro-tv-player>
-
-  <retro-tv-player
-    link-href="https://programafe.org"
-    link-mode="button"
-    link-target="_blank"
-    link-label="PROGRAMA FE"
-    chassis="ipod"
-    anchor-id="video-resumen"
-    src-desktop="./papa/cuerva.mp4"
-    src-mobile="./papa/cuerva.mp4"
-    title="Vivimos la alegría y emoción de estar preparando la visita del Papa León XIV"
-    color="#00a2ff"
-    bg-color="#EAD7D8"
-    device-color="#f5e6d3"
-    screen-effect="moderno"
-    autoplay
-    hide-mobile="all">
-  </retro-tv-player>
-
-</div>
-<br><br><br> -->
-
-
 
 <!-- MASCOTA FLOTANTE -->
 
@@ -2322,279 +1681,6 @@ Para los abanicos más juntos o más separados en desktop, el valor que decide e
 ></mascota-flotante> -->
 <!-- antes:
   offset-bottom="-150" -->
-
-
-<!-- <video-gold-special
-
-  video-desktop="https://youtu.be/Iga2H_-clk8"
-  video-mobile="./asantos/13.mp4"
-  poster-mobile="./asantos/13.png"
-  ancho-desktop="860px"
-
-  etiqueta="13 de Octubre"
-  badge="El Milagro del Sol"
-  titulo="1917, Fátima"
-
-  logo="./img/medalla.png"
-  logo-duracion="4">
-</video-gold-special> -->
-
-
-
-<!-- <script src="./components/showcase-card.js"></script>
-<showcase-card
-  bg="./img/sky.jpg"
-  id="fran"
-  cover="./asantos/img/duo.png"
-  medallion="./asantos/img/logo15s.png"
-  medallion-desk="true"
-  medallion-corner="top-right"
-  cover-mobile="true" 
-  video="./asantos/12.mp4"
-  badge="12 de octubre"
-  titulo="Virgen del Pilar"
-
-  video2="./asantos/12bis.mp4"
-  badge2="12 de Octubre" 
-  titulo2="San Carlo Acutis"
-
-  effects="ember,dust,stars"
-  intensity="1"
-></showcase-card> -->
-
-
-<!-- cover-mobile-position (opcional): "first" (default, comportamiento actual) o "last" — 
-define si el slide de cover va al principio o al final del carrusel mobile. -->
-<!-- <script src="./components/showcase-card.js"></script>
-<showcase-card
-  bg="./img/sky.jpg"
-  id="fran"
-  cover="./asantos/img/teresa.png"
-  medallion="./asantos/img/logo15s.png"
-  medallion-desk="true"
-  medallion-corner="top-right"
-  cover-mobile="true" 
-  video="./asantos/15bis.mp4"
-  badge="15 de octubre"
-  titulo="Santa Teresa de Jesús"
-
-  video2="./asantos/15tris.mp4"
-  badge2="15 de Octubre" 
-  titulo2="Santa Teresa de Jesús"
-
-  effects="ember,dust,stars"
-  intensity="1"
-></showcase-card> -->
-
-
-
-<!-- <showcase-card
-  bg="./img/sky.jpg"
-  id="fran"
-  cover="./asantos/img/pilar.png"
-  medallion="./asantos/img/logo15s.png"
-  medallion-desk="true"
-  medallion-corner="top-right"
-  cover-mobile="true" 
-  video="./asantos/12.mp4"
-  badge="12 de octubre"
-  titulo="Virgen del Pilar"
-
-  video2="./asantos/12vir.mp4"
-  badge2="12 de Octubre" 
-  titulo2="Virgen del Pilar"
-
-  effects="ember,dust,stars"
-  intensity="1"
-></showcase-card> -->
-
-
-
-
-
-  <!-- {"id":"viaje","icon":"bus","title":"Cómo viajamos","lines":["Salimos de noche.","Llegamos con anticipación."]},
-      {"id":"fecha","icon":"calendar","title":"Fecha del viaje","highlight":"11 de noviembre","lines":["Salida el 10 por la noche."]}, -->
-
-
-
-
-
-
-
-
-
-
-
-<!-- <script src="./components/video-card-gold.js"></script>
-<script src="./components/showcase-card.js"></script>
-<showcase-card
-  bg="./img/sky.jpg"
-  id="fran"
-  cover="./asantos/img/sf3.png"
-  medallion="./asantos/img/logo15s.png"
-  medallion-desk="true"
-  medallion-corner="top-right"
-  cover-mobile="true"
-  videos='[
-    {"video":"./asantos/sf2.mp4", "badge":"4 de Octubre", "titulo":"San Francisco de Asís"},
-    {"video":"./asantos/sf1.mp4", "badge":"4 de Octubre", "titulo":"San Francisco de Asís"},
-    {"video":"./asantos/sf3.mp4", "badge":"4 de Octubre", "titulo":"San Francisco de Asís"}
-  ]'
-  effects="ember,dust,stars"
-  intensity="1"
-></showcase-card> -->
-
- 
-
-
-
-
-
-
-
-<!-- triple  videos  verticales -->
-<!-- 
-<div class="fila-videos" style="display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:0.5rem;">
-
-
-
-  <retro-tv-player
-    link-href="https://programafe.org"
-    link-mode="button"
-    link-target="_blank"
-    link-label="PROGRAMA FE"
-    chassis="ipod"
-    anchor-id="video-argentina"
-    src-desktop="./video/lourdes2.mp4"
-    src-mobile="./video/lourdes2.mp4"
-    title="Una niña de 13 años, vestida como santa Bernardita, cantó ante el papa León XIV en Lourdes.
-"
-    color="#00a2ff"
-    bg-color="#EAD7D8"
-    device-color="#f5e6d3"
-    screen-effect="moderno"
-    autoplay
-    hide-mobile="all">
-  </retro-tv-player>
-
-  <retro-tv-player
-    link-href="https://programafe.org"
-    link-mode="button"
-    link-target="_blank"
-    link-label="PROGRAMA FE"
-    chassis="ipod"
-    anchor-id="video-resumen"
-    src-desktop="./video/lourdes4.mp4"
-    src-mobile="./video/lourdes4.mp4"
-    title="En el Stade de France, alrededor de 80 000 jóvenes se reunieron con el Papa para vivir una noche extraordinaria de oración, música y fe, en la que cobraron vida siglos de cristianismo francés.
-Un «Ejército de Santos» rindió homenaje a los hombres y mujeres que forjaron el legado cristiano de Francia, desde Santa Juana de Arco y San Bernardo de Claraval hasta San Vicente de Paúl y Santa Teresa de Lisieux.
-Traducción realizada con la versión gratuita del traductor DeepL.com"
-    color="#00a2ff"
-    bg-color="#EAD7D8"
-    device-color="#f5e6d3"
-    screen-effect="moderno"
-    autoplay
-    hide-mobile="all">
-  </retro-tv-player>
-
-  <retro-tv-player
-    link-href="https://programafe.org"
-    link-mode="button"
-    link-target="_blank"
-    link-label="PROGRAMA FE"
-    chassis="ipod"
-    anchor-id="video-colecta"
-    src-desktop="./video/lourdes.mp4"
-    src-mobile="./video/lourdes.mp4"
-    title="Oración en la Gruta de las Apariciones de Massabielle"
-    color="#00a2ff"
-    bg-color="#EAD7D8"
-    device-color="#f5e6d3"
-    screen-effect="moderno"
-    autoplay>
-  </retro-tv-player>
-
-
-
-</div>
-
-
-<br><br><br> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- <br> <br> <br> -->
-
-
-<!-- img-santo-feria-img="/logos/img-santo-feria.png"
-      img-santo="./logos/san_francisco2.png"
-      img-santo-width="360px"
-      img-santo-height="240px"
-      img-santo-main-desk="/logos/img-santo-main-desk.png"
-       -->
-<!-- <script src="./components/panel-photo-gallery.js"></script>
-<panel-photo-gallery
-
-  base-path="./actividades/repa/"
-  mascot-src="./actividades/repa/logo.png"
-  mascot-size="200px"
-  particle-src="./actividades/repa/mar.png, ./actividades/repa/cono.png, ./actividades/repa/gua.png, ./actividades/repa/per.png" 
-
-  lightbox-particle-src="./img/estrella.png"
-  theme="verde-dorado"
-  eyebrow="✦ Casas de Retiro ✦"
-  title="Galería"
-  title-em="Reparaciones"
-  total="6"
-  sources='["1.png","2.jpg","3.jpg","5.jpg","4.jpg","7.jpg"]'
-  sources-mobile='["1.png","2.jpg","3.jpg","5.jpg","4.jpg","7.jpg"]'
-  orientacion-mobile='["portrait","portrait","portrait","portrait","portrait","portrait"]'
-  width="100%">
-</panel-photo-gallery> -->
-
- 
-  <!-- <retro-tv-player
-    link-href="https://colegiosanfranciscodeasis.edu.ar/"
-    link-mode="button"
-    link-target="_blank"
-    link-label="COLEGIO SAN FRANCISCO DE ASÍS"
-    chassis="ipod"
-    anchor-id="video-colecta"
-    src-desktop="./video/inscri.mp4"
-    src-mobile="./video/inscri.mp4"
-    title="ABIERTA LA INSCRIPCIÓN 2027"
-    color="#FF0000"
-    bg-color="#EAD7D8"
-    device-color="#f5e6d3"
-    screen-effect="moderno"
-    autoplay>
-  </retro-tv-player> -->
-
-  <!-- ═══ Video Presentación (Retro TV) ═══ -->
-   <!-- <div id="encuentro"></div>
-  <retro-tv-player
-    anchor-id="video-encuentro"
-    src-desktop="https://www.youtube.com/embed/CM4oHl8Fkr0"
-    src-mobile="4bis.mp4"
-    title="Moisés: El Hombre que Dios Eligió para Liberar a Israel"
-    color="#c8a84b"
-    autoplay>
-  </retro-tv-player> -->
-  <!-- ═══ Fin Video Presentación ═══ -->
 
 
 
@@ -2633,59 +1719,7 @@ Traducción realizada con la versión gratuita del traductor DeepL.com"
 
 
 
-
-<!-- MISA standard -->
-
-     <!-- <script src="./components/misa-card.js"></script>
-  
-  <misa-card
-    id="card"
-    show-after="2026-10-27T00:00:00"
-    hide-after="2026-11-01T20:00:00"
-    logo-src="./img-cards/es.png"
-    medal-src="./logos/aloy-marmol-piel.png"
-    theme="luz-calida"
-    parish-name="Parroquia San Luis Gonzaga"
-    title="MISA"
-    subtitle="por enfermos y afligidos"
-    verse-text="Vengan a mi todos los que están afligidos y agobiados, y yo los aliviaré."
-    verse-ref="Mateo 11,28"
-    day="01"
-    day-name="Domingo"
-    month="NOV"
-    year="2026"
-    hour="19hs"
-    hour-sub="En punto"
-    cta-text="✦ Estás invitado, Ven a sanar ✦"
-    footer-text="Villa Elisa, La Plata"
-    photo-src="/img-cards/misa2.png"
-  ></misa-card>
-
-<br><br><br> -->
-
-
-
-
- <!-- <video-gold-special
-      style="display:none"
-      video-desktop="https://youtu.be/3mV4_ldN_ic"
-      video-mobile="./asantos/22.mp4"
-      poster-mobile="./eva/22.jpg"
-      ancho-desktop="860px"
-
-      etiqueta="22 de Agosto"
-      badge="Santa María"
-      titulo="Reina de los cielos y la tierra"
-
-      logo="./img/medalla.png"
-      logo-duracion="4">
-    </video-gold-special> -->
-
-
-
-
 <!-- especiales frameados -->
-<script src="./components/video-card-frame.js"></script>
 
  <div class="video-card-gold-container" style="display: none">
 
@@ -2711,17 +1745,6 @@ Traducción realizada con la versión gratuita del traductor DeepL.com"
 
 
   
-
-
-  <!-- <glassmorphism-yt-player
-    video-id="5mQJyBnEzPs"
-    title="✝️ Reflexiones del Evangelio"
-    subtitle="📅 Julio 2026"
-    poster=".\logos\julio.png"
-   gradient="#173B63, #8FAFC5">
-  </glassmorphism-yt-player> -->
-
-
 
   <section-title id="RETIROS" text="Nuestras Casas de Retiro" 
                 theme="3d"
