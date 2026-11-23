@@ -33,6 +33,12 @@
  *   expanded-width  — ancho máximo (px) de la carta abierta. Default: 440.
  *   close-on-end    — "false" para que la carta NO vuelva sola al terminar el video.
  *   close-position  — dónde va la ✕ (círculo dorado): top-right (default) | top-left.
+ *   expanded-width-desktop — ancho máximo (px) del modal apaisado en desktop. Default: 1100.
+ *
+ * VIDEO APAISADO EN DESKTOP:
+ *   El mazo se ve igual (cartas verticales). Si una <video-card-gold> trae `video-desktop`
+ *   (y opcional `poster-desktop`), al elegirla en desktop (>= 769px) el modal se hace apaisado
+ *   y reproduce ese video; en mobile, o sin la prop, se sigue viendo la carta vertical.
  *   spread          — (fan) apertura del abanico. 1 = default, 1.3 más abierto, 0.7 más cerrado.
  *                     Si el abanico no entra en el ancho de su contenedor, se cierra solo.
  *   peek            — (wallet) px visibles de cada carta de atrás. Default: 72.
@@ -508,6 +514,7 @@ class VideoDeckGold extends HTMLElement {
     if (this._cur) this._close(false);
 
     this._cur = card;
+    this._land = !!card.hasLandscape;              // desktop + la carta trae `video-desktop`
     this.setAttribute('data-anim', '');
     this._place(card, false);
     this.setAttribute('data-open', '');
@@ -570,9 +577,30 @@ class VideoDeckGold extends HTMLElement {
       this._fix(card, r);
     }
 
-    const h = card.offsetHeight;                       // fuerza layout con el estado anterior ya registrado
+    const first = !card.landscapeActive;
+    const h = first ? card.offsetHeight : (this._restH || card.offsetHeight);   // alto vertical de reposo
     const vw = document.documentElement.clientWidth;
     const vh = window.innerHeight;
+
+    if (this._land) {
+      // Modal apaisado: se anima la caja (left/top/width) y el alto del video, sin escalar
+      if (first) { this._restH = h; card._lsStart(h); }
+      const ratio = card.landscapeRatio;
+      const maxWl = Math.min(vw * 0.92, parseFloat(this.getAttribute('expanded-width-desktop')) || 1100);
+      const lw = Math.min(maxWl, (vh - 112) * ratio);
+      const lh = lw / ratio;
+      const E = 'cubic-bezier(0.22, 1.15, 0.36, 1)';
+      void card.offsetHeight;
+      st.transition = instant ? 'none' : `left .62s ${E}, top .62s ${E}, width .62s ${E}, transform .62s ${E}`;
+      st.left = (vw - lw) / 2 + 'px';
+      st.top = (vh - lh) / 2 + 'px';
+      st.width = lw + 'px';
+      st.transform = 'none';
+      card._lsGo(lh, instant);
+      if (instant) { void card.offsetHeight; st.transition = `left .62s ${E}, top .62s ${E}, width .62s ${E}, transform .62s ${E}`; }
+      return;
+    }
+
     const maxCss = parseFloat(this.getAttribute('expanded-width')) || 440;
     const maxW = Math.min(vw * 0.94, maxCss);
     const maxH = vh - 112;                             // deja lugar a la ✕ arriba y respiro abajo
@@ -601,10 +629,18 @@ class VideoDeckGold extends HTMLElement {
     }));
 
     // Quitar los estilos inline hace que la carta vuelva a su transform de reposo (con transición)
+    if (card.landscapeActive) {
+      // Apaisada: vuelve a la caja de reposo (hueco o escenario) y al alto vertical
+      const rr = this._ph ? this._ph.getBoundingClientRect() : this._stage.getBoundingClientRect();
+      card.style.left = rr.left + 'px';
+      card.style.top = rr.top + 'px';
+      card.style.width = rr.width + 'px';
+      card._lsBack(this._restH || rr.height);
+    }
     card.style.transform = '';
     card.style.translate = '';
     const onEnd = ev => {
-      if (ev.composedPath()[0] === card && ev.propertyName === 'transform') this._finishReturn();
+      if (ev.composedPath()[0] === card && (ev.propertyName === 'transform' || ev.propertyName === 'width')) this._finishReturn();
     };
     this._ret = { card, onEnd, timer: setTimeout(() => this._finishReturn(), 900) };
     card.addEventListener('transitionend', onEnd);
@@ -618,6 +654,8 @@ class VideoDeckGold extends HTMLElement {
     this._ret = null;
     clearTimeout(r.timer);
     r.card.removeEventListener('transitionend', r.onEnd);
+    if (typeof r.card._lsEnd === 'function') r.card._lsEnd();
+    this._land = false;
     const s = r.card.style;
     ['position', 'left', 'top', 'width', 'margin', 'zIndex', 'transform', 'translate', 'opacity', 'transition']
       .forEach(p => { s[p] = ''; });

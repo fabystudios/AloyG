@@ -24,6 +24,19 @@
  *   close-on-end    — "false" para que NO vuelva sola al terminar el video.
  *   close-position  — dónde va la ✕: top-right (default) | top-left.
  *
+ * VERSIÓN APAISADA (solo desktop, >= 769px):
+ *   video-desktop   — video apaisado: un mp4/webm, o un link de YouTube (watch, youtu.be, shorts,
+ *                     embed o live). Al abrir la tarjeta ampliada (en <video-deck-gold> o con
+ *                     `expandable`), en desktop el modal se hace apaisado y reproduce ESTE video.
+ *                     Con YouTube se usa el reproductor de YouTube dentro del modal (sus propios
+ *                     controles), y se carga recién al elegir la carta; al terminar el video el
+ *                     modal vuelve solo, igual que con un mp4.
+ *   poster-desktop  — (opcional) imagen del video apaisado; si falta se usa `poster`.
+ *   desktop-ratio   — (opcional) proporción del video apaisado. Default: 16/9.
+ *   expanded-width-desktop — (opcional) ancho máximo (px) del modal apaisado. Default: 1100.
+ *   Sin `video-desktop` todo queda exactamente como antes. En mobile se ignora.
+ *   Si la tarjeta está en reposo (mazo cerrado, o sin `expandable`) siempre se ve vertical.
+ *
  * VARIABLE CSS:
  *   --vcg-w — ancho de la tarjeta (por defecto 260px). Ej: video-card-gold { --vcg-w: 300px }
  *
@@ -59,6 +72,17 @@ _tpl.innerHTML = `
   }
 
   :host([expandable]) .card { cursor: pointer; }
+
+  /* ─── Versión apaisada (modal en desktop) ────────────────────────── */
+  .card[data-landscape] .info { padding: 1.5rem 2rem; }
+  .card[data-landscape] .titulo { font-size: 1.7rem; }
+  .card[data-landscape] .badge { font-size: 12px; padding: 4px 14px; margin-bottom: 0.7rem; }
+  .card[data-landscape] .meta-time { font-size: 13px; }
+  /* Con YouTube el reproductor trae sus controles: el botón de la tarjeta no debe taparlos */
+  .card[data-yt] .play-btn { display: none; }
+  .card[data-landscape] .overlay {
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 55%, rgba(8,4,20,0.65) 85%, rgba(8,4,20,0.9) 100%);
+  }
 
   /* ─── Card shell ─────────────────────────────────────────────────── */
   .card {
@@ -390,6 +414,19 @@ _tpl.innerHTML = `
 // Registro de tarjetas para garantizar "un solo video a la vez"
 const _instances = new Set();
 
+/** Devuelve el id de YouTube de un link (watch, youtu.be, shorts, embed, live) o '' si no es YouTube. */
+function ytId(url) {
+  const u = String(url || '').trim();
+  if (!u) return '';
+  let m = u.match(/^(?:https?:\/\/)?(?:www\.|m\.|music\.)?youtu\.be\/([\w-]{11})(?:[?&#\/]|$)/i);
+  if (m) return m[1];
+  m = u.match(/^(?:https?:\/\/)?(?:www\.|m\.|music\.)?youtube(?:-nocookie)?\.com\/(?:embed|shorts|live|v)\/([\w-]{11})(?:[?&#\/]|$)/i);
+  if (m) return m[1];
+  m = u.match(/^(?:https?:\/\/)?(?:www\.|m\.|music\.)?youtube\.com\/watch\?(?:[^#]*&)?v=([\w-]{11})(?:[&#]|$)/i);
+  if (m) return m[1];
+  return '';
+}
+
 // Capas del modo `expandable` (siempre por encima de la página)
 const Z_BACKDROP = 2147482990, Z_CARD = 2147482995, Z_CLOSE = 2147483000;
 
@@ -510,6 +547,7 @@ class VideoCardGold extends HTMLElement {
   _toggle() { this._playing ? this._pause() : this._play(); }
 
   _play() {
+    if (this._ytId) { this._ytPlay(); return; }     // modal apaisado con video de YouTube
     if (!this._src) return;
     // Un solo video a la vez
     _instances.forEach(other => { if (other !== this) other._pause(); });
@@ -525,7 +563,7 @@ class VideoCardGold extends HTMLElement {
 
   _pause() {
     if (!this._playing) return;
-    this._vid.pause();
+    if (this._ytId) this._ytCmd('pauseVideo'); else this._vid.pause();
     this._setUI(false);
     this._emit('vcg-pause');
   }
@@ -591,6 +629,7 @@ class VideoCardGold extends HTMLElement {
     const dy = vh / 2 - (cr.top + cr.height / 2);
 
     const st = this.style;
+    const land = this.hasLandscape;
     st.position = 'fixed';
     st.left = cr.left + 'px';
     st.top = hr.top + 'px';
@@ -600,6 +639,8 @@ class VideoCardGold extends HTMLElement {
     st.transformOrigin = `50% ${cr.top + cr.height / 2 - hr.top}px`;
     st.transition = 'none';
     st.transform = 'none';
+    if (land) st.setProperty('--vcg-w', '100%');   // el ancho de la carta sigue al del host
+    this._rest = { left: cr.left, top: hr.top, width: cr.width, h: cr.height };
 
     // Fondo glass + botón cerrar (estilos en línea: no dependen de ninguna hoja externa)
     const bd = document.createElement('div');
@@ -627,9 +668,24 @@ class VideoCardGold extends HTMLElement {
     document.body.append(bd, x);
     this._ui = { bd, x };
 
+    if (land) this._lsStart(cr.height);            // cambia a video + poster apaisados
     void this.offsetHeight;                        // registra el estado de reposo para que haya transición
-    st.transition = 'transform .62s cubic-bezier(.22,1.15,.36,1)';
-    st.transform = `translate(${dx}px, ${dy}px) scale(${sc})`;
+    if (land) {
+      // Modal apaisado: se anima caja (left/top/width) y alto, en vez de escalar
+      const ratio = this.landscapeRatio;
+      const maxWl = Math.min(vw * 0.92, parseFloat(this.getAttribute('expanded-width-desktop')) || 1100);
+      const lw = Math.min(maxWl, maxH * ratio);
+      const lh = lw / ratio;
+      const E = 'cubic-bezier(.22,1.15,.36,1)';
+      st.transition = `left .62s ${E}, top .62s ${E}, width .62s ${E}`;
+      st.left = (vw - lw) / 2 + 'px';
+      st.top = ((vh - lh) / 2 - (cr.top - hr.top)) + 'px';
+      st.width = lw + 'px';
+      this._lsGo(lh);
+    } else {
+      st.transition = 'transform .62s cubic-bezier(.22,1.15,.36,1)';
+      st.transform = `translate(${dx}px, ${dy}px) scale(${sc})`;
+    }
     bd.style.opacity = '1';
     x.style.opacity = '1';
     x.style.transform = 'none';
@@ -660,8 +716,17 @@ class VideoCardGold extends HTMLElement {
     x.style.transition = 'opacity .2s ease'; x.style.opacity = '0'; x.style.pointerEvents = 'none';
 
     // Vuelve a su lugar con transición y recién entonces se reincorpora a la página
+    if (this._ls && this._rest) {
+      const R = this._rest;
+      this.style.left = R.left + 'px';
+      this.style.top = R.top + 'px';
+      this.style.width = R.width + 'px';
+      this._lsBack(R.h);
+    }
     this.style.transform = 'none';
-    const onEnd = e => { if (e.composedPath()[0] === this && e.propertyName === 'transform') this._cleanupExpand(); };
+    const onEnd = e => {
+      if (e.composedPath()[0] === this && (e.propertyName === 'transform' || e.propertyName === 'width')) this._cleanupExpand();
+    };
     this._col = { onEnd, timer: setTimeout(() => this._cleanupExpand(), 900) };
     this.addEventListener('transitionend', onEnd);
     this._emit('vcg-collapse');
@@ -679,10 +744,134 @@ class VideoCardGold extends HTMLElement {
       this.removeEventListener('transitionend', this._col.onEnd);
       this._col = null;
     }
+    this._lsEnd();
     if (this._ph || this._ui) this.style.cssText = this._saved || '';
     if (this._ph) { this._ph.remove(); this._ph = null; }
     if (this._ui) { this._ui.bd.remove(); this._ui.x.remove(); this._ui = null; }
     this._expanded = false;
+  }
+
+  /* ─── Versión apaisada (la usan <video-deck-gold> y el modo `expandable`) ───
+     En desktop, si hay `video-desktop`, la tarjeta ampliada cambia de fuente (video y poster)
+     y de proporción. Al volver, recupera el video vertical. */
+  get hasLandscape() {
+    return !!(this.getAttribute('video-desktop') || '').trim() &&
+           window.matchMedia('(min-width: 769px)').matches;
+  }
+  get landscapeActive() { return !!this._ls; }
+  /** Proporción ancho/alto del video apaisado (default 16/9). */
+  get landscapeRatio() {
+    const m = (this.getAttribute('desktop-ratio') || '16/9').split('/');
+    const r = parseFloat(m[0]) / (parseFloat(m[1]) || 1);
+    return r > 0 && isFinite(r) ? r : 16 / 9;
+  }
+  get _wrap() { return this._shadow.querySelector('.video-wrap'); }
+
+  /* ─── YouTube (solo dentro del modal apaisado) ───────────────────────
+     Se monta un iframe de youtube-nocookie encima del video; el estado (reproduciendo / pausa /
+     terminó) llega por postMessage, así se puede cerrar el modal al terminar. */
+  _ytCmd(func) {
+    try {
+      this._ytFrame.contentWindow.postMessage(
+        JSON.stringify({ event: 'command', func, args: '' }), 'https://www.youtube-nocookie.com');
+    } catch (_) {}
+  }
+
+  _ytPlay() {
+    _instances.forEach(other => { if (other !== this) other._pause(); });   // un solo video a la vez
+    if (this._ytFrame) {                                                    // ya montado: reanudar
+      this._ytCmd('playVideo');
+      this._setUI(true);
+      this._emit('vcg-play');
+      return;
+    }
+    const f = document.createElement('iframe');
+    const q = new URLSearchParams({
+      autoplay: '1', playsinline: '1', rel: '0', modestbranding: '1', iv_load_policy: '3', enablejsapi: '1'
+    });
+    if (/^https?:/.test(location.origin)) q.set('origin', location.origin);
+    f.src = `https://www.youtube-nocookie.com/embed/${this._ytId}?${q}`;
+    f.title = this.getAttribute('titulo') || 'Video';
+    f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
+    f.setAttribute('allowfullscreen', '');
+    f.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;z-index:6;background:#000;';
+    this._wrap.appendChild(f);
+    this._ytFrame = f;
+    this._shadow.querySelector('.card').setAttribute('data-yt', '');
+
+    const listen = () => {
+      try {
+        f.contentWindow.postMessage(
+          JSON.stringify({ event: 'listening', id: 1, channel: 'widget' }), 'https://www.youtube-nocookie.com');
+      } catch (_) {}
+    };
+    f.addEventListener('load', () => { listen(); setTimeout(listen, 600); });
+
+    this._ytMsg = e => {
+      if (e.source !== f.contentWindow) return;
+      let d = e.data;
+      if (typeof d === 'string') { try { d = JSON.parse(d); } catch (_) { return; } }
+      if (!d) return;
+      const st = d.event === 'onStateChange' ? d.info
+               : (d.event === 'infoDelivery' && d.info && typeof d.info.playerState === 'number') ? d.info.playerState
+               : undefined;
+      if (st === 1 && !this._playing) this._setUI(true);                    // reproduciendo
+      else if (st === 2 && this._playing) this._setUI(false);               // pausa
+      else if (st === 0) { this._setUI(false); this._onEnded(); }           // terminó
+    };
+    window.addEventListener('message', this._ytMsg);
+    this._setUI(true);
+    this._emit('vcg-play');
+  }
+
+  _ytStop() {
+    if (this._ytMsg) { window.removeEventListener('message', this._ytMsg); this._ytMsg = null; }
+    if (this._ytFrame) { this._ytFrame.remove(); this._ytFrame = null; }
+    if (this._shadow) this._shadow.querySelector('.card').removeAttribute('data-yt');
+    if (this._playing) this._setUI(false);
+  }
+
+  _lsStart(fromH) {
+    if (this._ls) return;
+    this._ls = true;
+    this._pause();
+    this._releaseVideo();
+    const raw = (this.getAttribute('video-desktop') || '').trim();
+    this._ytId = ytId(raw);                       // si es YouTube no se usa el <video>
+    this._src = this._ytId ? '' : raw;
+    this._posterSrc = this.getAttribute('poster-desktop') || this.getAttribute('poster') || '';
+    this._vid.poster = this._posterSrc;
+    this._shadow.querySelector('.card').setAttribute('data-landscape', '');
+    const w = this._wrap;                         // fija la altura actual para poder animarla
+    w.style.transition = 'none';
+    w.style.height = fromH + 'px';
+    void w.offsetHeight;
+  }
+  _lsGo(h, instant) {
+    const w = this._wrap;
+    w.style.transition = instant ? 'none' : 'height .62s cubic-bezier(.22,1.15,.36,1)';
+    w.style.height = h + 'px';
+  }
+  _lsBack(h) {
+    if (!this._ls) return;
+    this._pause();
+    this._ytStop();
+    this._shadow.querySelector('.card').removeAttribute('data-landscape');
+    this._ytId = '';
+    this._posterSrc = this.getAttribute('poster') || '';
+    this._vid.poster = this._posterSrc;
+    this._setupVideo();                           // vuelve al video vertical (con su política de carga)
+    this._lsGo(h);
+  }
+  _lsEnd() {
+    if (!this._ls) return;
+    this._ls = false;
+    this._ytStop();
+    this._ytId = '';
+    this._shadow.querySelector('.card').removeAttribute('data-landscape');
+    const w = this._wrap;
+    w.style.transition = '';
+    w.style.height = '';
   }
 
   /** Eventos que burbujean: vcg-play, vcg-pause, vcg-ended, vcg-expand, vcg-collapse */
@@ -716,6 +905,7 @@ class VideoCardGold extends HTMLElement {
     clearInterval(this._dotInterval);
     if (this._io) { this._io.disconnect(); this._io = null; }
     this._pause();
+    this._ytStop();
     this._cleanupExpand();
     _instances.delete(this);
   }
