@@ -777,6 +777,25 @@ class VideoCardGold extends HTMLElement {
     } catch (_) {}
   }
 
+  /** Miniatura 16:9 de YouTube como poster del modal apaisado (maxres, o mqdefault si no existe). */
+  _ytPoster() {
+    const id = this._ytId;
+    const fallback = () => {
+      if (this._ytId === id && this._ls) { this._posterSrc = this.getAttribute('poster') || ''; this._vid.poster = this._posterSrc; }
+    };
+    const use = u => { if (this._ytId === id && this._ls) { this._posterSrc = u; this._vid.poster = u; } };
+    const tryMq = () => {
+      const m = new Image();
+      m.onload = () => use(m.src);
+      m.onerror = fallback;
+      m.src = `https://i.ytimg.com/vi/${id}/mqdefault.jpg`;
+    };
+    const img = new Image();
+    img.onload = () => (img.naturalWidth > 200 ? use(img.src) : tryMq());   // YouTube devuelve 120x90 si no hay maxres
+    img.onerror = tryMq;
+    img.src = `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`;
+  }
+
   _ytPlay() {
     _instances.forEach(other => { if (other !== this) other._pause(); });   // un solo video a la vez
     if (this._ytFrame) {                                                    // ya montado: reanudar
@@ -794,7 +813,9 @@ class VideoCardGold extends HTMLElement {
     f.title = this.getAttribute('titulo') || 'Video';
     f.allow = 'autoplay; encrypted-media; picture-in-picture; fullscreen';
     f.setAttribute('allowfullscreen', '');
-    f.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;z-index:6;background:#000;';
+    // Invisible hasta que empieza a reproducir: mientras carga se ve el poster apaisado
+    f.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;z-index:6;background:transparent;' +
+                      'opacity:0;pointer-events:none;transition:opacity .45s ease;';
     this._wrap.appendChild(f);
     this._ytFrame = f;
     this._shadow.querySelector('.card').setAttribute('data-yt', '');
@@ -805,7 +826,13 @@ class VideoCardGold extends HTMLElement {
           JSON.stringify({ event: 'listening', id: 1, channel: 'widget' }), 'https://www.youtube-nocookie.com');
       } catch (_) {}
     };
-    f.addEventListener('load', () => { listen(); setTimeout(listen, 600); });
+    const reveal = () => {
+      clearTimeout(this._ytRevealT);
+      f.style.opacity = '1';
+      f.style.pointerEvents = 'auto';
+    };
+    // Plan B: si el navegador bloquea el autoplay, igual se muestra el reproductor (con su botón de play)
+    f.addEventListener('load', () => { listen(); setTimeout(listen, 600); this._ytRevealT = setTimeout(reveal, 3500); });
 
     this._ytMsg = e => {
       if (e.source !== f.contentWindow) return;
@@ -815,6 +842,7 @@ class VideoCardGold extends HTMLElement {
       const st = d.event === 'onStateChange' ? d.info
                : (d.event === 'infoDelivery' && d.info && typeof d.info.playerState === 'number') ? d.info.playerState
                : undefined;
+      if (st === 1 || st === 2 || st === 0) reveal();                       // ya está listo: se muestra
       if (st === 1 && !this._playing) this._setUI(true);                    // reproduciendo
       else if (st === 2 && this._playing) this._setUI(false);               // pausa
       else if (st === 0) { this._setUI(false); this._onEnded(); }           // terminó
@@ -825,6 +853,7 @@ class VideoCardGold extends HTMLElement {
   }
 
   _ytStop() {
+    clearTimeout(this._ytRevealT);
     if (this._ytMsg) { window.removeEventListener('message', this._ytMsg); this._ytMsg = null; }
     if (this._ytFrame) { this._ytFrame.remove(); this._ytFrame = null; }
     if (this._shadow) this._shadow.querySelector('.card').removeAttribute('data-yt');
@@ -841,6 +870,11 @@ class VideoCardGold extends HTMLElement {
     this._src = this._ytId ? '' : raw;
     this._posterSrc = this.getAttribute('poster-desktop') || this.getAttribute('poster') || '';
     this._vid.poster = this._posterSrc;
+    if (this._ytId && !this.getAttribute('poster-desktop')) {
+      // Sin poster-desktop: se usa la miniatura apaisada del video de YouTube (si no carga, el poster normal)
+      this._vid.poster = '';
+      this._ytPoster();
+    }
     this._shadow.querySelector('.card').setAttribute('data-landscape', '');
     const w = this._wrap;                         // fija la altura actual para poder animarla
     w.style.transition = 'none';
