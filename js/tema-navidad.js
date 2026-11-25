@@ -8,6 +8,12 @@
  *
  *  Al quitar la clase se elimina todo (canvas, animación y logo): vuelve el estándar.
  *
+ *  Interruptor del título (independiente, solo con tema-navidad activo):
+ *    <html class="tema-navidad titulo-imagen">  → el texto "San Luis Gonzaga" del header se
+ *       reemplaza por la imagen (por defecto ./logos/titulo-cristal.webp, con respaldo .png).
+ *       Otra ruta:  window.TEMA_NAVIDAD = { titulo: './logos/mi-titulo.png' }.
+ *       Quitar la clase = vuelve el texto. El tamaño se ajusta en css/tema-navidad.css.
+ *
  *  Interruptor extra (independiente, solo con tema-navidad activo):
  *    <html class="tema-navidad luces-header">  → luces blancas titilando en el borde inferior del
  *                                               header, en FESTONES (cable en curvas); los adornos
@@ -36,6 +42,7 @@
   var CLS = 'tema-navidad';
   var CFG = window.TEMA_NAVIDAD || {};
   var LOGO = CFG.logo || './logos/logo-navidad.png';
+  var TITULO = CFG.titulo || './logos/titulo-cristal.webp';   // imagen que reemplaza el texto del título (clase titulo-imagen)
   var LEN_MAX = 11;                       // largo máximo del hilo de los colgantes (px); bajarlo = hilos más cortos
   var HANG = 56;                          // alto extra bajo la tira para los adornos colgantes (px)
   var TAU = Math.PI * 2;
@@ -505,6 +512,45 @@
     if (img && img.hasAttribute('data-logo-original')) swapLogo(false);
   }
 
+  /* ───────────── título del header como imagen (interruptor: clase titulo-imagen) ─────────────
+     Reemplaza el texto "San Luis Gonzaga" (.linea1) por una imagen. El texto original NO se borra:
+     queda oculto de forma accesible (lectores de pantalla y buscadores lo siguen leyendo) y se
+     restaura al quitar la clase. Si la imagen falla (ej. archivo .webp ausente) se prueba la misma
+     ruta en .png y, si tampoco está, vuelve el texto. */
+  var titleOn = false, titleFailed = false;
+  function titleText() { return document.querySelector('.navbar-brand .linea1'); }
+
+  function swapTitle(on) {
+    var t = titleText();
+    if (!t) return;
+    var box = t.parentNode, im;
+    if (on && !titleOn && !titleFailed) {
+      im = document.createElement('img');
+      im.className = 'tn-titulo';
+      im.alt = '';                                         // el texto oculto ya da el nombre accesible
+      im.decoding = 'async';
+      im.addEventListener('error', function () {
+        if (/\.webp(\?.*)?$/i.test(im.getAttribute('src'))) { im.src = im.getAttribute('src').replace(/\.webp/i, '.png'); return; }
+        titleFailed = true;                                // no insistir hasta que se vuelva a encender
+        swapTitle(false);
+      });
+      im.src = TITULO;
+      box.insertBefore(im, t);
+      t.classList.add('tn-titulo-oculto');
+      titleOn = true;
+    } else if (!on && titleOn) {
+      im = box.querySelector('img.tn-titulo');
+      if (im && im.parentNode) im.parentNode.removeChild(im);
+      t.classList.remove('tn-titulo-oculto');
+      titleOn = false;
+    }
+  }
+  function syncTitle() {
+    var want = root.classList.contains('titulo-imagen');
+    if (!want) titleFailed = false;
+    swapTitle(want);
+  }
+
   /* ───────────── start / stop ───────────── */
   function start() {
     if (active) return;
@@ -533,6 +579,7 @@
 
     var pre = new Image(); pre.src = LOGO;                // precarga para evitar parpadeo
     swapLogo(true);
+    syncTitle();
 
     if (mqReduce.matches) {
       T = 1.2;
@@ -554,6 +601,7 @@
     layers.forEach(function (L) { if (L.canvas.parentNode) L.canvas.parentNode.removeChild(L.canvas); });
     layers = [];
     swapLogo(false);
+    swapTitle(false);
   }
 
   // Enciende/apaga la guirnalda del header sin reiniciar nada más
@@ -571,7 +619,7 @@
   }
 
   function sync() {
-    if (root.classList.contains(CLS)) { if (!active) start(); else refreshLights(); }
+    if (root.classList.contains(CLS)) { if (!active) start(); else { refreshLights(); syncTitle(); } }
     else stop();
   }
 

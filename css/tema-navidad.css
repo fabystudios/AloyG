@@ -64,3 +64,32 @@ html.tema-navidad .footer { position: relative; }
 html.tema-navidad .navbar-brand .logo {
   filter: drop-shadow(0 4px 6px rgba(var(--n3d-sombra), .55)) drop-shadow(0 0 8px rgba(255,214,102,.35)) !important;
 }
+
+
+/* ───────────── Título del header como imagen (html.titulo-imagen, lo maneja js/tema-navidad.js) ─────────────
+   Alto de la imagen: se ajusta con las dos variables (el ancho sale solo, por la proporción).
+   Imagen recomendada: 720 px de ancho (≈ 3× el ancho que se muestra) → ver tamaños abajo. */
+html.tema-navidad {
+  --tn-titulo-h: 56px;          /* desktop: ≈ 232 px de ancho con la proporción del PNG de ejemplo */
+  --tn-titulo-h-m: 38px;        /* mobile (≤ 768px): ≈ 157 px de ancho */
+}
+html.tema-navidad .navbar-brand .tn-titulo {
+  display: block;
+  height: var(--tn-titulo-h);
+  width: auto;
+  max-width: 100%;
+  align-self: center;           /* en una columna flex no se estira ni se deforma */
+  object-fit: contain;
+  filter: drop-shadow(0 2px 3px rgba(var(--n3d-sombra, 70, 5, 8), .55));
+}
+@media (max-width: 768px) {
+  html.tema-navidad .navbar-brand .tn-titulo { height: var(--tn-titulo-h-m); }
+}
+/* Texto original: oculto a la vista pero disponible para lectores de pantalla y buscadores */
+html.tema-navidad .navbar-brand .linea1.tn-titulo-oculto {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

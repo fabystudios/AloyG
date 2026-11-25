@@ -2,7 +2,9 @@
 <html lang="es-AR" class="footer-paneles"> 
   <!-- Interruptores (separar con espacio): tema-papa = bandera del Vaticano · footer-paneles = footer con paneles de vidrio -->
 <!-- <html lang="es-AR" class="footer-paneles tema-navidad luces-header luces-americanas"> -->
-  <!-- <html lang="es-AR" class="footer-paneles tema-navidad luces-header"> -->
+  <!-- <html lang="es-AR" class="footer-paneles tema-navidad luces-header titulo-imagen"> -->
+     <!-- <html lang="es-AR" class="footer-paneles tema-navidad luces-header">  -->
+ 
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -139,8 +141,11 @@
   }
   
   </script>
+  <!-- otra -->
+<!-- <script> window.TEMA_NAVIDAD = { titulo: './logos/titulo-brillo-navi.png' , logo: './logos/logo-navidad-cristal.png'} </script> -->
+<!-- <script> window.TEMA_NAVIDAD = { titulo: './logos/titulo-brillo-navi.png' , logo: './logos/logo-navidad-cristal.png'} </script> -->
 
-  <!-- ═══════════════════════════════════════════════
+<!-- ═══════════════════════════════════════════════
        Web Components — todos con defer (no bloquean render)
   ═══════════════════════════════════════════════ -->
   <script src="./components/efemerides-card.js" defer></script>
@@ -1242,6 +1247,12 @@
   tema="dorado"
   efecto="luz"
   slides='[
+  {"mob": "trad24-11.mp4", "poster": "", "title": ""},
+     {"mob":"1a.jpg","desk":"","title":"","": false},
+   {"mob":"2a.jpg","desk":"","title":"","": false},
+   {"mob":"3a.jpg","desk":"","title":"","": false},  
+   {"mob":"4a.jpg","desk":"","title":"","": false},
+    {"mob":"5a.jpg","desk":"","title":"","": false},  
    {"mob":"1.jpg","desk":"","title":"","": false},
    {"mob":"2.jpg","desk":"","title":"","": false},
    {"mob":"3.jpg","desk":"","title":"","": false},  
@@ -1351,6 +1362,25 @@
 ></section-title>
     <!-- mobile="./video/adviento_mob_full.mp4"   poster-mobile="./img/adviento_mob.png" -->
  
+<!-- t5mLBmrDHno -->
+  <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
+   
+  <video-card-gold video="./asantos/25nov-1.mp4" poster="./asantos/25nov-1.webp"
+    badge="25 de Noviembre" titulo="Santa Catalina de Alejandría"                       
+  ></video-card-gold>
+  <video-card-gold video="./asantos/25nov-2.mp4" poster="./asantos/25nov-2.webp"
+    badge="25 de Noviembre" titulo="Santa Catalina de Alejandría"                       
+  ></video-card-gold>
+
+  <video-card-gold video="./asantos/25nov_mob.mp4" poster="./asantos/25nov_mob.webp"
+    badge="25 de Noviembre" titulo="Santa Catalina de Alejandría"
+                   video-desktop="https://youtu.be/t5mLBmrDHno" poster-desktop="25nov_desk.webp"
+  ></video-card-gold>
+  <video-card-gold video="./asantos/25nov-4.mp4" poster="./asantos/25nov-4.webp"
+    badge="25 de Noviembre" titulo="Santa Catalina de Alejandría"                       
+  ></video-card-gold>
+</video-deck-gold> 
+
 <div class="deck-row"> 
 
  <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
@@ -1469,7 +1499,7 @@
 </info-glass-frame>
 <br>
 <!-- <section-title text="Últimas Novedades" icon="campaign" lights="on" ></section-title>
-<section-title text="Avisos" lights="on" snow="off" lights-style="swang" ></section-title>
+<section-title text="Aviso" lights="on" snow="off" lights-style="swang" ></section-title>
 <section-title text="Avisos" lights="on" lights-style="curvas" png-src="./navidad/candy.png"></section-title>
 <section-title text="Avisos" lights="on" lights-style="girnaldas" ></section-title>
 <section-title text="Avisos" icon="campaign"
@@ -8358,6 +8388,8 @@ for (let i = 0; i < 18; i++) {
     <div class="container" style="position: relative; z-index: 1;">
       <a href="#RETIROS" class="footer-logo-link">
         <img src="./img/IsoTipo-2-SanLuisGonzaga-Amarillo.png" alt="Isotipo Parroquia San Luis Gonzaga" style="max-width: 320px">
+         <!-- <img src="./logos/titulo-brillonavi.png" alt="Isotipo Parroquia San Luis Gonzaga" style="max-width: 320px"> -->
+
       </a>
 
 

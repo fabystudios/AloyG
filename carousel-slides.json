@@ -16,7 +16,7 @@
   },
       {
     "id": "coro2",
-    "position": 1,
+    "position": 3,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 8, "mobile": 8 },
@@ -96,7 +96,7 @@
 
                {
     "id": "videos Consejos",
-    "position": 3,
+    "position": -1,
     "hasVideo": true,
     "link": "./avisos.html",
     "time": { "desktop": 8, "mobile": 6 },
@@ -113,7 +113,7 @@
   },
                {
     "id": "videos merendero",
-    "position": 4,
+    "position": -1,
     "hasVideo": true,
     "link": "",
     "posterTime": { "desktop": 1, "mobile": 1},
@@ -147,7 +147,7 @@
        
                 {
     "id": "ultimas-vacantes",
-    "position": 5,
+    "position": 1,
     "hasVideo": false,
     "link": "#asis1",
     "time": { "desktop": 3, "mobile": 3 },
