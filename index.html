@@ -4,7 +4,15 @@
 <!-- <html lang="es-AR" class="footer-paneles tema-navidad luces-header luces-americanas"> -->
   <!-- <html lang="es-AR" class="footer-paneles tema-navidad luces-header titulo-imagen"> -->
      <!-- <html lang="es-AR" class="footer-paneles tema-navidad luces-header">  -->
- 
+ <!-- <html class="tema-navidad luces-header  luces-americanas luces-header-led luces-titulos luces-titulos-led"> -->
+
+<!-- 
+     Header:	<html class="tema-navidad luces-header luces-header-led">
+Todos los títulos:	<html class="tema-navidad luces-titulos luces-titulos-led">
+Un título:	<section-title lights="on" lights-style="led">
+Header y títulos a la vez: luces-led en vez de las dos clases específicas
+ -->
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -143,7 +151,8 @@
   </script>
   <!-- otra -->
 <!-- <script> window.TEMA_NAVIDAD = { titulo: './logos/titulo-brillo-navi.png' , logo: './logos/logo-navidad-cristal.png'} </script> -->
-<!-- <script> window.TEMA_NAVIDAD = { titulo: './logos/titulo-brillo-navi.png' , logo: './logos/logo-navidad-cristal.png'} </script> -->
+<!-- <script> window.TEMA_NAVIDAD = { titulo: './logos/marca-sin-sombra.png' , logo: './logos/navi-opt.png'} </script> -->
+<script> window.TEMA_NAVIDAD = { logo: './logos/navi-opt.png'} </script>
 
 <!-- ═══════════════════════════════════════════════
        Web Components — todos con defer (no bloquean render)
@@ -1361,7 +1370,24 @@
                    png-count="3" png-width="80px"
 ></section-title>
     <!-- mobile="./video/adviento_mob_full.mp4"   poster-mobile="./img/adviento_mob.png" -->
-<!-- t5mLBmrDHno -->
+      <!-- titulo-desktop="El Diario Íntimo del Papa Francisco" -->
+<video-gold-special
+      poster-desktop="./asantos/fran_desk.webp"
+      video-desktop="https://youtu.be/6ZziMrlbmx0"
+      video-mobile="./asantos/fran.mp4"
+      poster-mobile="./asantos/fran_mob.webp"
+      ancho-desktop="860px"
+      modal-desktop
+      modal-mobile
+
+      badge-desktop="Sus Luchas contra el Demonio y el Infierno"
+      sombra-mobile="30"
+      sombra-desktop="70"
+      logo="./img/medalla.png"
+      logo-duracion="4">
+    </video-gold-special>
+
+
   <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
    
   <video-card-gold video="./asantos/25nov-1.mp4" poster="./asantos/25nov-1.webp"
@@ -1488,7 +1514,7 @@
       logo-duracion="4">
     </video-gold-special>
  
-
+<!-- 
  <video-glass-frame
        desktop="./video/premio-francisco.mp4" poster-desktop="./video/premio-francisco.jpg"
        mobile="./video/premio-francisco.mp4"   poster-mobile="./video/premio-francisco.jpg"
@@ -1500,7 +1526,9 @@
   <info-item label="Entrega del premio" value="17 de diciembre"          icon="trophy"></info-item>
   <info-item label="Web" value="premiopapafrancisco.org" href="https://premiopapafrancisco.org" icon="globe"></info-item>
 </info-glass-frame>
-<br>
+<br> -->
+
+
 <!-- <section-title text="Últimas Novedades" icon="campaign" lights="on" ></section-title>
 <section-title text="Aviso" lights="on" snow="off" lights-style="swang" ></section-title>
 <section-title text="Avisos" lights="on" lights-style="curvas" png-src="./navidad/candy.png"></section-title>

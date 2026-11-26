@@ -17,8 +17,9 @@
  * │ icon-mobile      │ on|off  (off = oculta el ícono ≤768px) │ on           │
  * │ theme            │ classic|3d|navidad               │ classic            │
  * │ lights           │ on|off  (luces blancas, solo con tema navidad) │ según <html>   │
- * │ lights-style     │ americano|festones                │ americano          │
+ * │ lights-style     │ americano|festones|led            │ americano          │
  * │ snow             │ on|off  (nieve sobre el cartel, tema navidad) │ on         │
+ * │ canes            │ on|off  (bastones dibujados en canvas, tema navidad) │ auto │
  * │ shadow           │ ""|"lg"                          │ ""                 │
  * │ extra-style      │ CSS inline extra para el section │ ""                 │
  * │ id               │ string                           │ ""                 │
@@ -34,9 +35,15 @@
  * │  lo fijen: <html class="tema-navidad luces-titulos">. Estilo: americano  │
  * │  (cable recto que bordea el cartel, con "persecución" de luz; por        │
  * │  defecto) o festones (curvas bajo la nieve): lights-style="festones" o   │
- * │  <html class="luces-festones">.                                          │
+ * │  <html class="luces-festones">. Estilo "led" = SOLO puntos de luz, sin   │
+ * │  cable ni portalámparas (más liviano): lights-style="led", o en todos    │
+ * │  los títulos con <html class="luces-titulos-led"> (o luces-led, que vale │
+ * │  también para el header).                                                │
  * │  Nieve: snow="on"|"off" en el título, o <html class="sin-nieve-titulos"> │
- * │  para apagarla en todos los que no lo fijen. Con nieve, la fila de       │
+ * │  Bastones: se dibujan en canvas salvo que uses tus propios PNG           │
+ * │  (effect="floating-png" + png-src), que entonces los reemplazan; canes=on|off│
+ * │  fuerza una u otra cosa.                                                 │
+ * │  Nieve (cont.): para apagarla en todos los que no lo fijen. Con nieve, la│
  * │  luces de arriba queda DEBAJO de ella y la nieve la cubre un poco (como  │
  * │  en el alero de una casa); sin nieve, a 9px del borde, como la base.     │
  * │  Para activarlo en TODOS los títulos de una vez:                        │
@@ -573,8 +580,9 @@
   // Las bombillas se reparten a pasos iguales de longitud de arco por TODO el perímetro (rectas y
   // esquinas), con una bombilla centrada arriba y otra abajo: el espaciado es idéntico en los cuatro
   // lados y la fila de arriba queda igual que la de la base.
-  function xmasMakeFrame(x, y, w, h, r, spacing) {
-    const g = { kind: 'frame', shape: 'round', wire: { x, y, w, h, r }, bulbs: [] };
+  // wireless=true → versión LED SIN cable: solo puntos de luz sobre el mismo recorrido
+  function xmasMakeFrame(x, y, w, h, r, spacing, wireless) {
+    const g = { kind: 'frame', shape: wireless ? 'dot' : 'round', wireless: !!wireless, wire: { x, y, w, h, r }, bulbs: [] };
     const Q = Math.PI / 2, ar = r * Q;
     // tramos en sentido horario desde el inicio del lado superior
     const segs = [
@@ -626,6 +634,23 @@
   }
 
   function xmasDrawGarland(c, g, dpr) {
+    if (g.wireless) {                                      // LED sin cable: punto apagado tenue + resplandor
+      c.fillStyle = 'rgba(255,244,214,.3)';
+      c.beginPath();
+      for (let i = 0; i < g.bulbs.length; i++) { const b = g.bulbs[i]; c.moveTo(b.x + 2, b.y); c.arc(b.x, b.y, 2, 0, TAU); }
+      c.fill();
+      const gl = xmasGlow(dpr);
+      c.globalCompositeOperation = 'lighter';
+      for (let i = 0; i < g.bulbs.length; i++) {
+        const b = g.bulbs[i], a = xmasBulbAlpha(g, b);
+        if (a < 0.1) continue;
+        c.globalAlpha = a;
+        c.drawImage(gl, b.x - 11, b.y - 11, 22, 22);
+      }
+      c.globalAlpha = 1;
+      c.globalCompositeOperation = 'source-over';
+      return;
+    }
     c.strokeStyle = 'rgba(22,48,28,.95)'; c.lineWidth = 1.3; c.lineCap = 'round';
     if (g.kind === 'swag') {                               // cable en festones
       for (let i = 0; i < g.swags.length; i++) {
@@ -682,7 +707,7 @@
       // el alero de una casa, y las bombillas asoman donde el goterón es corto. Sin nieve, a 9px del
       // borde, igual que la fila de la base.
       const m = 9, top = st.snowOn ? Math.max(6, Math.round(st.snowDown * 0.7)) : m;
-      st.garland = xmasMakeFrame(m, top, W - 2 * m, H - top - m, 12, W < 520 ? 30 : 34);
+      st.garland = xmasMakeFrame(m, top, W - 2 * m, H - top - m, 12, W < 520 ? 30 : 34, st.lightsStyle === 'led');
     }
   }
 
@@ -881,12 +906,14 @@
     xmasBuildLights(st);
 
     // bastones chicos que flotan en el sitio libre a cada lado del título
-    const caneH = clamp(H * 0.5, 24, 40);
-    st.cane = xmasCaneSprite(caneH, dpr);
-    const free = (W - h2w) / 2;
-    const hook = st.cane.hook;
-    const per = free - 16 >= hook * 2.6 ? 2 : free - 16 >= hook + 4 ? 1 : 0;   // por lado
+    // (no se arman si el título usa sus propios PNG: ver _canesWanted)
     st.canes = [];
+    st.cane = null;
+    const caneH = clamp(H * 0.5, 24, 40);
+    if (st.canesOn) st.cane = xmasCaneSprite(caneH, dpr);
+    const free = (W - h2w) / 2;
+    const hook = st.cane ? st.cane.hook : 0;
+    const per = !st.canesOn ? 0 : free - 16 >= hook * 2.6 ? 2 : free - 16 >= hook + 4 ? 1 : 0;   // por lado
     [-1, 1].forEach(side => {
       const zl = side < 0 ? 8 : W - free + 8;
       const zr = side < 0 ? free - 8 : W - 8;
@@ -972,7 +999,7 @@
         if (a > 0.05) xmasSpark(k, g.x, g.y, g.r, a * 0.9, '255,200,80');
       }
       if (st.garland) {                                   // la nieve se ilumina donde cubre las bombillas
-        const gl = st.garland, wm = xmasWarm(st.dpr), lim = st.snowDown + 4, dy = gl.shape === 'round' ? 0 : 5.5;
+        const gl = st.garland, wm = xmasWarm(st.dpr), lim = st.snowDown + 4, dy = gl.shape === 'hang' ? 5.5 : 0;
         k.globalCompositeOperation = 'source-atop';
         for (let i = 0; i < gl.bulbs.length; i++) {
           const b = gl.bulbs[i];
@@ -992,7 +1019,7 @@
     static get observedAttributes() {
       return ['text', 'icon', 'icon-type', 'icon-mobile', 'effect',
               'img', 'img-alt', 'img-max-height', 'img-max-width', 'img-max-height-mobile',
-              'img-mobile', 'img-effect', 'img-trigger', 'img-idle', 'img-class', 'img-play-class', 'lights', 'lights-style', 'snow',
+              'img-mobile', 'img-effect', 'img-trigger', 'img-idle', 'img-class', 'img-play-class', 'lights', 'lights-style', 'snow', 'canes',
               'png-src', 'png-count', 'png-size', 'png-width', 'png-height',
               'svg-shape', 'svg-color', 'svg-count', 'svg-size',
               'glow-color', 'rays-color', 'rays-count',
@@ -1051,6 +1078,7 @@
         host: this, section, h2: section.querySelector('.md3-headline'),
         inner, canvas, ctx: canvas.getContext('2d'),
         cap: null, capCtx: null, snowOn: this._snowWanted(), snowDown: 0, snow: null,
+        canesOn: this._canesWanted(),
         visible: true, W: 0, H: 0, stars: [], glints: [],
         lights: this._lightsWanted(), lightsStyle: this._lightsStyle(), garland: null
       };
@@ -1144,10 +1172,22 @@
       if (a === 'on' || a === 'si' || a === 'sí' || a === 'true' || a === '1') return true;
       return !document.documentElement.classList.contains('sin-nieve-titulos');
     }
+    /* BASTONES del canvas: por defecto se dibujan. No se dibujan si usás tus propios PNG, es decir,
+       cuando hay effect="floating-png" con png-src (los PNG flotan en lugar de los dibujados).
+       canes="on"|"off" fuerza una u otra cosa (con "on" se dibujan los dos). */
+    _canesWanted() {
+      const a = (this.getAttribute('canes') || '').trim().toLowerCase();
+      if (a === 'off' || a === 'no' || a === 'false' || a === '0') return false;
+      if (a === 'on' || a === 'si' || a === 'sí' || a === 'true' || a === '1') return true;
+      const eff = (this.getAttribute('effect') || '').split(/[\s,]+/);
+      const ownPng = eff.includes('floating-png') && !!(this.getAttribute('png-src') || '').trim();
+      return !ownPng;
+    }
     _styleOf(v) {
       v = (v || '').trim().toLowerCase();
       if (['festones', 'feston', 'festón', 'swag', 'curvas', 'guirnalda', 'garland'].includes(v)) return 'festones';
       if (['americano', 'americanas', 'american', 'recto', 'line', 'linea', 'línea'].includes(v)) return 'americano';
+      if (['led', 'sin-cable', 'sincable', 'sin cable', 'puntos', 'dots', 'americano-led', 'led-sin-cable'].includes(v)) return 'led';
       return null;
     }
     _lightsWanted() {
@@ -1157,9 +1197,11 @@
       return document.documentElement.classList.contains('luces-titulos');
     }
     _lightsStyle() {
+      const cl = document.documentElement.classList;
       return this._styleOf(this.getAttribute('lights-style'))
           || this._styleOf(this.getAttribute('lights'))
-          || (document.documentElement.classList.contains('luces-festones') ? 'festones' : 'americano');
+          || (cl.contains('luces-titulos-led') || cl.contains('luces-led') ? 'led'
+              : cl.contains('luces-festones') ? 'festones' : 'americano');
     }
 
     _addSnowCanvas(st) {

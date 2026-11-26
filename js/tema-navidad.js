@@ -23,6 +23,10 @@
  *                                               recto y bombillas parejas con "persecución" de luz,
  *                                               como las casas americanas. Quitar luces-americanas
  *                                               = vuelven los festones.
+ *    <html class="tema-navidad luces-header luces-header-led">   (o luces-led, que vale también
+ *                                               para los títulos) → estilo LED SIN cable: solo
+ *                                               puntos de luz alineados, con "persecución"; más
+ *                                               liviano. Prioridad: led > americanas > festones.
  *
  *  Opciones (opcionales, ANTES de cargar este script):
  *    <script>window.TEMA_NAVIDAD = { logo: './logos/logo-navidad.png' };</script>
@@ -92,7 +96,7 @@
     L.w = w; L.h = h; L.dpr = dpr;
     L.barH = L.kind === 'header' ? hostH : 0;
     L.lights = L.kind === 'header' && root.classList.contains('luces-header');
-    L.lightsStyle = root.classList.contains('luces-americanas') ? 'americano' : 'festones';
+    L.lightsStyle = headerLightsStyle();
     L.dustH = L.kind === 'header' ? hostH + 14 : hostH;
 
     L.canvas.style.width = w + 'px';
@@ -197,6 +201,14 @@
   }
 
   // Estilo "festones": parábolas colgando de anclajes a la altura yTop
+  // Estilo de las luces del header según las clases del <html>:
+  //   luces-header-led | luces-led → "led" (puntos sin cable) · luces-americanas → "americano" · si no, "festones"
+  function headerLightsStyle() {
+    var cl = root.classList;
+    if (cl.contains('luces-header-led') || cl.contains('luces-led')) return 'led';
+    return cl.contains('luces-americanas') ? 'americano' : 'festones';
+  }
+
   function buildGarland(x1, x2, yTop, nSwags, spacing, sagMax) {
     var g = { kind: 'swag', shape: 'hang', swags: [], bulbs: [] }, span = (x2 - x1) / nSwags, i, j, n = 0;
     for (i = 0; i < nSwags; i++) {
@@ -212,10 +224,11 @@
   }
 
   // Estilo "americano": cable recto y bombillas equidistantes colgando hacia abajo
-  function buildLine(x1, x2, y, spacing) {
-    var g = { kind: 'line', shape: 'hang', wire: { y: y, x1: x1, x2: x2 }, bulbs: [] };
+  // wireless=true → versión LED SIN cable: solo puntos de luz alineados (el ojo completa la línea)
+  function buildLine(x1, x2, y, spacing, wireless) {
+    var g = { kind: 'line', shape: wireless ? 'dot' : 'hang', wireless: !!wireless, wire: { y: y, x1: x1, x2: x2 }, bulbs: [] };
     var n = Math.max(2, Math.round((x2 - x1) / spacing));
-    for (var i = 0; i < n; i++) g.bulbs.push({ x: x1 + (i + 0.5) * (x2 - x1) / n, y: y, ph: rnd(0, 1), sp: 1, i: i });
+    for (var i = 0; i < n; i++) g.bulbs.push({ x: x1 + (i + 0.5) * (x2 - x1) / n, y: wireless ? y + 3 : y, ph: rnd(0, 1), sp: 1, i: i });
     return g;
   }
 
@@ -236,6 +249,24 @@
 
   function drawGarland(c, g, dpr) {
     var i, s, b, a;
+    if (g.wireless) {                                      // LED sin cable: punto apagado tenue + resplandor
+      c.fillStyle = 'rgba(255,244,214,.3)';
+      c.beginPath();
+      for (i = 0; i < g.bulbs.length; i++) { b = g.bulbs[i]; c.moveTo(b.x + 2, b.y); c.arc(b.x, b.y, 2, 0, TAU); }
+      c.fill();
+      var gl = getGlow(dpr);
+      c.globalCompositeOperation = 'lighter';
+      for (i = 0; i < g.bulbs.length; i++) {
+        b = g.bulbs[i];
+        a = bulbAlpha(g, b);
+        if (a < 0.1) continue;
+        c.globalAlpha = a;
+        c.drawImage(gl, b.x - 11, b.y - 11, 22, 22);
+      }
+      c.globalAlpha = 1;
+      c.globalCompositeOperation = 'source-over';
+      return;
+    }
     c.strokeStyle = 'rgba(22,48,28,.95)'; c.lineWidth = 1.3; c.lineCap = 'round';
     if (g.kind === 'line') {                               // cable recto
       c.beginPath(); c.moveTo(g.wire.x1, g.wire.y); c.lineTo(g.wire.x2, g.wire.y); c.stroke();
@@ -327,8 +358,10 @@
     for (var i = 0; i < n; i++) L.dust.push(newDust(L, true));
     L.garland = null;
     if (L.kind === 'header' && L.lights) {
-      L.garland = L.lightsStyle === 'americano'
-        ? buildLine(12, L.w - 12, L.barH - 2, L.w < 600 ? 26 : 30)
+      L.garland = L.lightsStyle === 'led'
+        ? buildLine(12, L.w - 12, L.barH - 2, L.w < 600 ? 26 : 30, true)
+        : L.lightsStyle === 'americano'
+        ? buildLine(12, L.w - 12, L.barH - 2, L.w < 600 ? 26 : 30, false)
         : buildGarland(10, L.w - 10, L.barH - 2, clamp(Math.round(L.w / 170), 3, 10), L.w < 600 ? 20 : 26, 13);
     }
     L.items = buildItems(L);
@@ -608,7 +641,7 @@
   function refreshLights() {
     layers.forEach(function (L) {
       var want = L.kind === 'header' && root.classList.contains('luces-header');
-      var style = root.classList.contains('luces-americanas') ? 'americano' : 'festones';
+      var style = headerLightsStyle();
       if (want !== L.lights || style !== L.lightsStyle) {
         L.lights = want;
         L.lightsStyle = style;

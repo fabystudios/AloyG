@@ -37,11 +37,11 @@
     "time": { "desktop": 5, "mobile": 5 },
     "desktop": {
       "type": "image",
-      "src": "./slides2/ssff1_desk.png"
+      "src": "./slides2/ssff1_desk.webp"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides2/ssff1_mob.png"
+      "src": "./slides2/ssff1_mob.webp"
     }
   },
 
@@ -86,11 +86,11 @@
     "time": { "desktop": 5, "mobile": 5 },
     "desktop": {
       "type": "image",
-      "src": "./slides2/alias_desk2.png"
+      "src": "./slides2/alias_desk2.webp"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides2/alias_mob2.png"
+      "src": "./slides2/alias_mob2.webp"
     }
   },
 
@@ -153,11 +153,11 @@
     "time": { "desktop": 3, "mobile": 3 },
     "desktop": {
       "type": "image",
-      "src": "./slides/sf_deskk.png"
+      "src": "./slides2/sf_deskk.webp"
     },
     "mobile": {
       "type": "image",
-      "src": "./slides/sf_mobb.png"
+      "src": "./slides2/sf_mobb.webp"
     }
   }
    
