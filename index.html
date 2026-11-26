@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="es-AR" class="footer-paneles"> 
-  <!-- <html lang="es-AR" class="tema-navidad luces-header luces-titulos">  -->
+  <!-- <html lang="es-AR" class="footer-paneles titulo-imagen tema-navidad luces-header luces-titulos">  -->
   <!-- Interruptores (separar con espacio): tema-papa = bandera del Vaticano · footer-paneles = footer con paneles de vidrio -->
 <!-- <html lang="es-AR" class="footer-paneles tema-navidad luces-header luces-americanas"> -->
   <!-- <html lang="es-AR" class="footer-paneles tema-navidad luces-header titulo-imagen"> -->
@@ -153,13 +153,13 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
   <!-- otra -->
 <!-- <script> window.TEMA_NAVIDAD = { titulo: './logos/titulo-brillo-navi.png' , logo: './logos/logo-navidad-cristal.png'} </script> -->
 <!-- <script> window.TEMA_NAVIDAD = { titulo: './logos/marca-sin-sombra.png' , logo: './logos/navi-opt.png'} </script> -->
-<script> window.TEMA_NAVIDAD = { logo: './logos/navi-opt.png'} </script>
-<!-- <script>
+<!-- <script> window.TEMA_NAVIDAD = { logo: './logos/navi-opt.png'} </script> -->
+<script>
   window.TEMA_NAVIDAD = {
-    logo:   './navidad/logo-navidad.png',
-    titulo: './navidad/titulo-cristal.webp'
+    logo:   './logos/logo-navi2.webp',
+    titulo: './logos/lenci-marca-navi.webp'
   };
-</script> -->
+</script>
   <!-- Adornos navideños en canvas: solo actúan si <html> tiene la clase tema-navidad -->
   <script src="js/tema-navidad.js" defer></script>
   <script src="./components/section-title.js" defer></script>
@@ -1247,6 +1247,8 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
         <!-- {"mob": "12-11.mp4", "poster": "", "title": ""}, -->
 
 <!-- <div   style="display:none">  -->
+     <!-- {"mob": "trad24-11.mp4", "poster": "", "title": ""},
+     {"mob":"1a.jpg","desk":"","title":"","": false}, -->
 <anuncios-carousel
 
   titulo="Tiempo de Adviento"
@@ -1265,6 +1267,7 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
   efecto="luz"
   slides='[
   {"mob":"misa.webp"},
+     {"mob": "adv1.mp4", "poster": "", "title": ""},
    {"mob": "trad24-11.mp4", "poster": "", "title": ""},
      {"mob":"1a.jpg","desk":"","title":"","": false},
    {"mob":"2a.jpg","desk":"","title":"","": false},
@@ -1387,10 +1390,17 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
     badge="26 de Noviembre" titulo="San Silvestre Guzzolini"
                        
     ></video-card-gold>
+
+      <video-card-gold video="./asantos/26nov-tris_mob.mp4" poster="./asantos/26nov-tris_mob.webp"
+    badge="26 de Noviembre" titulo="Virgen de Belén 🇻🇪"
+                        video-desktop="https://youtu.be/3cfP6gluzZM" poster-desktop="./asantos/26nov-tris_desk.webp"
+    ></video-card-gold>
+
   <video-card-gold video="./asantos/26nov_mob.mp4" poster="./asantos/26nov_mob.webp"
     badge="26 de Noviembre" titulo="San Silvestre Guzzolini"
                         video-desktop="https://youtu.be/FQJEpF7r2RE" poster-desktop="./asantos/26nov_desk.webp"
     ></video-card-gold>
+
 
 </video-deck-gold> 
 <br>
