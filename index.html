@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es-AR" class="footer-paneles"> 
+  <!-- <html lang="es-AR" class="tema-navidad luces-header luces-titulos">  -->
   <!-- Interruptores (separar con espacio): tema-papa = bandera del Vaticano · footer-paneles = footer con paneles de vidrio -->
 <!-- <html lang="es-AR" class="footer-paneles tema-navidad luces-header luces-americanas"> -->
   <!-- <html lang="es-AR" class="footer-paneles tema-navidad luces-header titulo-imagen"> -->
@@ -153,7 +154,15 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
 <!-- <script> window.TEMA_NAVIDAD = { titulo: './logos/titulo-brillo-navi.png' , logo: './logos/logo-navidad-cristal.png'} </script> -->
 <!-- <script> window.TEMA_NAVIDAD = { titulo: './logos/marca-sin-sombra.png' , logo: './logos/navi-opt.png'} </script> -->
 <script> window.TEMA_NAVIDAD = { logo: './logos/navi-opt.png'} </script>
-
+<!-- <script>
+  window.TEMA_NAVIDAD = {
+    logo:   './navidad/logo-navidad.png',
+    titulo: './navidad/titulo-cristal.webp'
+  };
+</script> -->
+  <!-- Adornos navideños en canvas: solo actúan si <html> tiene la clase tema-navidad -->
+  <script src="js/tema-navidad.js" defer></script>
+  <script src="./components/section-title.js" defer></script>
 <!-- ═══════════════════════════════════════════════
        Web Components — todos con defer (no bloquean render)
   ═══════════════════════════════════════════════ -->
@@ -175,7 +184,6 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
   <script src="./components/youtube-glass-card.js" defer></script>
   <script type="module" src="./components/ramos-expo.js"></script>
   <script src="./components/noticia-card.js" defer></script>
-  <script src="./components/section-title.js" defer></script>
   <script src="./components/video-showcase.js" defer></script>
   <style>
     @media (max-width: 600px) {
@@ -1256,7 +1264,8 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
   tema="dorado"
   efecto="luz"
   slides='[
-  {"mob": "trad24-11.mp4", "poster": "", "title": ""},
+  {"mob":"misa.webp"},
+   {"mob": "trad24-11.mp4", "poster": "", "title": ""},
      {"mob":"1a.jpg","desk":"","title":"","": false},
    {"mob":"2a.jpg","desk":"","title":"","": false},
    {"mob":"3a.jpg","desk":"","title":"","": false},  
@@ -1363,12 +1372,27 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
 <!-- confetti  -->
                     <!-- lights="on" -->
                     <!-- theme="3d" -->
-  <section-title   text="Últimas Novedades"
+                     <!-- lights-style="led" -->
+  <section-title    
+                   text="Últimas Novedades"
                    icon="campaign"  
-                   theme="3d"
+                 theme="3d"
                    effect="stars floating-png" 
                    png-count="3" png-width="80px"
+                  
 ></section-title>
+ <video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
+   
+  <video-card-gold video="./asantos/26nov-bis.mp4" poster="./asantos/26nov-bis.webp"
+    badge="26 de Noviembre" titulo="San Silvestre Guzzolini"
+                       
+    ></video-card-gold>
+  <video-card-gold video="./asantos/26nov_mob.mp4" poster="./asantos/26nov_mob.webp"
+    badge="26 de Noviembre" titulo="San Silvestre Guzzolini"
+                        video-desktop="https://youtu.be/FQJEpF7r2RE" poster-desktop="./asantos/26nov_desk.webp"
+    ></video-card-gold>
+
+</video-deck-gold> 
     <!-- mobile="./video/adviento_mob_full.mp4"   poster-mobile="./img/adviento_mob.png" -->
       <!-- titulo-desktop="El Diario Íntimo del Papa Francisco" -->
 <video-gold-special
@@ -1393,6 +1417,7 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
   <video-card-gold video="./asantos/25nov-1.mp4" poster="./asantos/25nov-1.webp"
     badge="25 de Noviembre" titulo="Santa Catalina de Alejandría"                       
   ></video-card-gold>
+
   <video-card-gold video="./asantos/25nov-2.mp4" poster="./asantos/25nov-2.webp"
     badge="25 de Noviembre" titulo="Santa Catalina de Alejandría"                       
   ></video-card-gold>
@@ -1551,13 +1576,22 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
 
 
 <!-- --------- -->
+   <video-card-frame
+    video="./eva/26-11.mp4"
+    frame="./eva/frame-gold.png"
+    badge="Jueves"
+    titulo="26 de Noviembre"
+    style="width:auto; flex:0 0 auto;"
+  
+  ></video-card-frame>
+
   <video-card-frame
     video="./eva/25-11.mp4"
     frame="./eva/frame-gold.png"
     badge="Miércoles"
     titulo="25 de Noviembre"
     style="width:auto; flex:0 0 auto;"
-  
+    hide-mobile 
   ></video-card-frame>
 
   <video-card-frame
@@ -1577,17 +1611,6 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
     style="width:auto; flex:0 0 auto;"
     hide-mobile
   ></video-card-frame>
-
-  <video-card-frame
-    video="./eva/22-11.mp4"
-    frame="./eva/frame-gold.png"
-    badge="Domingo"
-    titulo="22 de Noviembre"
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
-  ></video-card-frame>
-
-
 
 
 </div>  
@@ -2365,7 +2388,7 @@ La luz representa a Cristo, luz del mundo, y aleja el miedo."
 
 
 <!-- Super GFE -->
-  <script src="./components/section-title.js"></script>
+
   <section-title id="Anuncios" icon="campaign" text="Avisos"
   theme="3d"
                  effect="stars floating-png text-glow"
@@ -8654,8 +8677,7 @@ for (let i = 0; i < 18; i++) {
   <!-- Componente de Feria -->
   <script src="./components/feria-poster.js" defer></script>
 
-  <!-- Adornos navideños en canvas: solo actúan si <html> tiene la clase tema-navidad -->
-  <script src="js/tema-navidad.js" defer></script>
+
 </body>
 
 </html>
