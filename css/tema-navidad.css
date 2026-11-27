@@ -67,15 +67,26 @@ html.tema-navidad .navbar-brand .logo {
 
 
 /* ───────────── Título del header como imagen (html.titulo-imagen, lo maneja js/tema-navidad.js) ─────────────
-   Alto de la imagen: se ajusta con las dos variables (el ancho sale solo, por la proporción).
-   Imagen recomendada: 720 px de ancho (≈ 3× el ancho que se muestra) → ver tamaños abajo. */
+   CÓMO AGRANDARLA: cambiá las dos primeras variables. El ancho sale solo, por la proporción de la imagen
+   (con el PNG de ejemplo: ancho ≈ alto × 4,2).
+        alto  56px → ancho ≈ 232px      alto  38px → ancho ≈ 157px
+        alto  70px → ancho ≈ 293px      alto  44px → ancho ≈ 184px
+        alto  80px → ancho ≈ 334px      alto  48px → ancho ≈ 201px
+   La barra NO cambia de alto aunque agrandes la imagen: en el layout la imagen ocupa solo --tn-titulo-caja
+   (≈ lo que ocupaba el texto) y el resto "sobresale" hacia arriba y abajo, centrado. Los límites son visuales:
+     · desktop: hasta ~95px de alto cabe dentro de la barra; ojo con el ancho (choca con el menú en pantallas
+       angostas: probalo entre 992px y 1300px).
+     · mobile: el ancho disponible entre el logo y la hamburguesa ronda los 190px (≈ 45px de alto).
+   Imagen recomendada: 720 px de ancho (≈ 3× el ancho que se muestra). */
 html.tema-navidad {
-  --tn-titulo-h: 56px;          /* desktop: ≈ 232 px de ancho con la proporción del PNG de ejemplo */
-  --tn-titulo-h-m: 38px;        /* mobile (≤ 768px): ≈ 157 px de ancho */
+  --tn-titulo-h: 70px;          /* desktop: alto visible de la imagen */
+  --tn-titulo-h-m: 45px;        /* mobile (≤ 768px): alto visible de la imagen */
+  --tn-titulo-caja: 24px;       /* alto que ocupa en el layout (≈ el del texto): mantiene el alto de la barra */
 }
 html.tema-navidad .navbar-brand .tn-titulo {
   display: block;
   height: var(--tn-titulo-h);
+  margin-block: calc((var(--tn-titulo-caja) - var(--tn-titulo-h)) / 2);   /* compensa: no engorda la barra */
   width: auto;
   max-width: 100%;
   align-self: center;           /* en una columna flex no se estira ni se deforma */
@@ -83,7 +94,10 @@ html.tema-navidad .navbar-brand .tn-titulo {
   filter: drop-shadow(0 2px 3px rgba(var(--n3d-sombra, 70, 5, 8), .55));
 }
 @media (max-width: 768px) {
-  html.tema-navidad .navbar-brand .tn-titulo { height: var(--tn-titulo-h-m); }
+  html.tema-navidad .navbar-brand .tn-titulo {
+    height: var(--tn-titulo-h-m);
+    margin-block: calc((var(--tn-titulo-caja) - var(--tn-titulo-h-m)) / 2);
+  }
 }
 /* Texto original: oculto a la vista pero disponible para lectores de pantalla y buscadores */
 html.tema-navidad .navbar-brand .linea1.tn-titulo-oculto {
@@ -93,3 +107,7 @@ html.tema-navidad .navbar-brand .linea1.tn-titulo-oculto {
   clip: rect(0 0 0 0);
   white-space: nowrap;
 }
+/* OPCIONAL (descomentar): en mobile oculta el subtítulo "Villa Elisa · La Plata" bajo el título, para que una
+   imagen más grande no lo pise.
+html.tema-navidad.titulo-imagen .navbar-brand .linea2 { display: none !important; }
+*/

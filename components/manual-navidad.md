@@ -323,12 +323,15 @@ Al apagarla se elimina su canvas. Se puede cambiar en vivo.
 - **Colores claros** para el título: tiene que contrastar con la tira roja.
 - Un PNG enorme que se muestra chico **desperdicia memoria** y tiempo de descarga.
 
+**Agrandar la imagen del título:** cambiá `--tn-titulo-h` (desktop) y `--tn-titulo-h-m` (mobile) en `css/tema-navidad.css`; el ancho sale solo (≈ alto × 4,2). La barra **no cambia de alto**. Límites: en desktop cuidá el ancho en pantallas angostas (choca con el menú); en mobile el ancho disponible ronda los 190 px (≈ 45 px de alto). Si la hacés más grande y pisa el subtítulo "Villa Elisa", descomentá la última regla del CSS para ocultarlo en mobile.
+
 **Ajustar el tamaño en pantalla** (en `css/tema-navidad.css` y `css/navbar-3d.css`):
 
 | Variable | Qué controla | Valor actual |
 |---|---|---|
 | `--tn-titulo-h` | Alto de la imagen del título en desktop | `56px` |
 | `--tn-titulo-h-m` | Alto de la imagen del título en mobile | `38px` |
+| `--tn-titulo-caja` | Alto que ocupa la imagen del título en el layout (mantiene el alto de la barra al agrandarla) | `24px` |
 | `--n3d-logo-desktop` | Alto del logo en desktop | `96px` |
 | `--n3d-logo-escala` | Escala del logo en mobile | `1.25` |
 | `--n3d-filete` | Grosor del filete dorado | `3px` |
