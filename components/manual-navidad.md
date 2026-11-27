@@ -183,8 +183,42 @@ Al apagarla se elimina su canvas. Se puede cambiar en vivo.
 </section-title>
 ```
 
-- `png-count` (1–20) y `png-width` / `png-height` / `png-size` controlan cuántos y qué tamaño.
-- Los PNG se reparten al azar por todo el cartel (pueden pasar detrás del título).
+**Varios PNG distintos y varios movimientos:**
+
+```html
+<section-title text="Avisos" effect="floating-png"
+               png-src="./navidad/candy.png, ./navidad/bola.png, ./navidad/estrella.png"
+               png-count="9"
+               png-effect="float, chaos, fall"
+               png-speed="1.2"
+               png-width="40px">
+</section-title>
+```
+
+| Atributo | Qué hace |
+|---|---|
+| `png-src` | Una URL o **varias separadas por coma o `\|`**. Se reparten en ronda: con 3 PNG y 9 imágenes salen 3 de cada uno. |
+| `png-count` | Cantidad total, de 1 a 20 (por defecto 6, o más si hay más PNG). |
+| `png-effect` | El movimiento (tabla de abajo). Puede ser **una lista**: se asigna en ronda a cada imagen. `mix` = uno al azar para cada imagen. |
+| `png-speed` | Multiplicador de velocidad: `1` normal, `2` el doble, `0.5` la mitad. |
+| `png-width` / `png-height` / `png-size` | Tamaño de las imágenes (por defecto `48px` de ancho). |
+
+| `png-effect` | Movimiento |
+|---|---|
+| `float` | Flotar suave (el de siempre; es el valor por defecto). |
+| `chaos` | **Caótico**: va a cuatro puntos al azar, girando, con un leve rebote. Cada imagen tiene su propio recorrido. |
+| `bounce` | Rebota por todo el cartel, como un protector de pantalla. |
+| `fall` | Cae como nieve, girando, y vuelve a empezar. |
+| `sway` | Se balancea como un péndulo. |
+| `spin` | Gira sobre sí misma. |
+| `pulse` | Late: crece y se achica. |
+| `drift` | Cruza el cartel de lado a lado, despacio. |
+| `mix` | Uno de los anteriores al azar por imagen. |
+
+- Las imágenes se ubican al azar por todo el cartel (pueden pasar detrás del título).
+- Un valor de `png-effect` que no existe se ignora y usa `float`.
+- `bounce` y `drift` usan el ancho y el alto del cartel (unidades `cqw` y `cqh`), así que se adaptan solos a cualquier pantalla. Los navegadores de 2023 en adelante las soportan; en uno más viejo esas dos imágenes quedarían quietas.
+- Con `prefers-reduced-motion` no se anima nada.
 - Con el tema Navidad las **estrellas ya vienen incluidas**: no hace falta `effect="stars"` (duplica la capa y gasta más).
 
 ### 5.5 Imagen después del título
@@ -253,6 +287,7 @@ Al apagarla se elimina su canvas. Se puede cambiar en vivo.
 | `lights-style` | `americano` · `festones` · `led` |
 | `snow` | `on` · `off` |
 | `canes` | `on` · `off` |
+| `png-src`, `png-count`, `png-effect`, `png-speed` | PNG propios y su movimiento (sección 5.4) |
 
 ---
 
@@ -366,6 +401,21 @@ console.log(t._resolveTheme(), t._lightsStyle());   // ej.: navidad americano
 
 7. **¿Falla una imagen?** Abrí la pestaña *Network* del navegador y buscá un 404 en el logo o el título. Si el archivo no existe, el sitio vuelve **en silencio** al logo o al texto original.
 
+**Diagnóstico del tamaño de la imagen del título** (con `titulo-imagen` activo, pegá en la consola):
+
+```js
+const i = document.querySelector('.tn-titulo'), cs = getComputedStyle(i), r = i.getBoundingClientRect();
+console.log({
+  variableAplicada: getComputedStyle(document.documentElement).getPropertyValue('--tn-titulo-h'),
+  altoCSS: cs.height,
+  anchoReal: Math.round(r.width),
+  anchoIdeal: Math.round(parseFloat(cs.height) * i.naturalWidth / i.naturalHeight)
+});
+```
+
+- Si `variableAplicada` **no es el número que pusiste**, el navegador está usando un CSS viejo (caché o archivo equivocado).
+- Si `anchoReal` es **menor** que `anchoIdeal`, la imagen está **apretada por falta de ancho**: agrandar el alto no la agranda más. Hay que liberar ancho (menú más compacto) o aceptar ese máximo.
+
 **Errores frecuentes:**
 
 | Síntoma | Causa |
@@ -374,6 +424,7 @@ console.log(t._resolveTheme(), t._lightsStyle());   // ej.: navidad americano
 | Los títulos no pasan a navideño | El `<html>` tiene `data-st-theme="3d"` o `"classic"`; ese atributo gana. |
 | Puse `luces-led` y no hay luces | `luces-led` solo elige el estilo; faltan `luces-header` y/o `luces-titulos`. |
 | La imagen del título o el logo no aparecen | Ruta incorrecta (por defecto busca en `./logos/`). Definila con `window.TEMA_NAVIDAD`. |
+| Cambié el tamaño de la imagen del título y no se nota | Probablemente **no hay ancho libre**: la imagen comparte la fila con el menú y no puede pasar de lo que sobra. Ver el diagnóstico de abajo. |
 | Los cambios de `section-title.js` no se ven | El `index` lo carga desde `./components/`; se actualizó otro archivo. |
 
 ---

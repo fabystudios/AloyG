@@ -78,8 +78,11 @@
  * │  ATRIBUTOS POR EFECTO                                                    │
  * ├─────────────────────────────────────────────────────────────────────────┤
  * │ floating-png:                                                            │
- * │   png-src       url                                                     │
- * │   png-count     1–20 (default 6)                                        │
+ * │   png-src       url, o VARIAS separadas por coma o | ("a.png, b.png")   │
+ * │   png-count     1–20 (default 6); se reparten en ronda entre los PNG   │
+ * │   png-effect    float(default)|chaos|bounce|fall|sway|spin|pulse|drift|mix│
+ * │                 o una lista ("float, chaos"): en ronda por imagen       │
+ * │   png-speed     multiplicador de velocidad (default 1)                  │
  * │   png-width     CSS width                                               │
  * │   png-height    CSS height                                              │
  * │   png-size      atajo: width si no hay png-width/height (default 48px)  │
@@ -130,6 +133,45 @@
         opacity: 0.85;
         will-change: transform;
         filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25));
+      }
+
+      /* ── floating-png: varios PNG y varios movimientos (png-effect) ──
+         La capa es "contenedor de tamaño": así bounce y drift pueden usar cqw/cqh (el ancho/alto del cartel)
+         y adaptarse solos a cualquier pantalla. */
+      section-title .st-fx-layer { container-type: size; }
+      section-title .st-fx-layer .st-png-wrap {
+        position: absolute;
+        opacity: 0.85;
+        will-change: transform;
+        filter: drop-shadow(0 4px 12px rgba(0,0,0,0.25));
+      }
+      section-title .st-fx-layer .st-png-wrap .st-png-in { display: block; will-change: transform; }
+
+      /* caos: 4 puntos de paso al azar (--x1…--y4, --r1…--r4 los sortea el JS en cada imagen) */
+      @keyframes st-png-chaos {
+        0%, 100% { transform: translate3d(0,0,0) rotate(0deg); }
+        17% { transform: translate3d(var(--x1),var(--y1),0) rotate(var(--r1)); }
+        38% { transform: translate3d(var(--x2),var(--y2),0) rotate(var(--r2)); }
+        61% { transform: translate3d(var(--x3),var(--y3),0) rotate(var(--r3)); }
+        82% { transform: translate3d(var(--x4),var(--y4),0) rotate(var(--r4)); }
+      }
+      /* rebote tipo protector de pantalla: dos ejes con velocidades distintas */
+      @keyframes st-png-bx { from { transform: translate3d(0,0,0); } to { transform: translate3d(calc(100cqw - 100%),0,0); } }
+      @keyframes st-png-by { from { transform: translate3d(0,0,0); } to { transform: translate3d(0,calc(100cqh - 100%),0); } }
+      /* caída como nieve, con giro y vaivén */
+      @keyframes st-png-fall {
+        from { transform: translate3d(0,-70px,0) rotate(0deg); }
+        50%  { transform: translate3d(var(--sw,0px),70px,0) rotate(calc(var(--rot,180deg) * .5)); }
+        to   { transform: translate3d(0,230px,0) rotate(var(--rot,180deg)); }
+      }
+      @keyframes st-png-sway  { 0%,100% { transform: rotate(-14deg); } 50% { transform: rotate(14deg); } }
+      @keyframes st-png-spin  { to { transform: rotate(360deg); } }
+      @keyframes st-png-pulse { 0%,100% { transform: scale(.85); } 50% { transform: scale(1.15); } }
+      @keyframes st-png-drift { from { transform: translate3d(-100%,0,0); } to { transform: translate3d(calc(100cqw + 100%),0,0); } }
+      @media (prefers-reduced-motion: reduce) {
+        section-title .st-fx-layer .st-png,
+        section-title .st-fx-layer .st-png-wrap,
+        section-title .st-fx-layer .st-png-wrap .st-png-in { animation: none !important; }
       }
 
       section-title .st-fx-layer .st-glow-pulse {
@@ -1020,7 +1062,7 @@
       return ['text', 'icon', 'icon-type', 'icon-mobile', 'effect',
               'img', 'img-alt', 'img-max-height', 'img-max-width', 'img-max-height-mobile',
               'img-mobile', 'img-effect', 'img-trigger', 'img-idle', 'img-class', 'img-play-class', 'lights', 'lights-style', 'snow', 'canes',
-              'png-src', 'png-count', 'png-size', 'png-width', 'png-height',
+              'png-src', 'png-count', 'png-size', 'png-width', 'png-height', 'png-effect', 'png-speed',
               'svg-shape', 'svg-color', 'svg-count', 'svg-size',
               'glow-color', 'rays-color', 'rays-count',
               'text-glow-color', 'text-glow-accent',
@@ -1755,30 +1797,101 @@
        EFECTOS DOM
        ═══════════════════════════════════════════════════════════════ */
 
-    /* PNGs flotando */
+    /* PNGs flotando — uno o VARIOS PNG y distintos movimientos.
+         png-src     una URL o varias separadas por coma o "|"  ("a.png, b.png, c.png")
+         png-count   cantidad total (1–20; por defecto 6, o más si hay más PNG); se reparten en
+                     ronda: con 3 PNG y 6 imágenes salen 2 de cada uno
+         png-effect  float (por defecto) · chaos · bounce · fall · sway · spin · pulse · drift · mix
+                     Puede ser una lista ("float, chaos, fall"): se asigna en ronda a cada imagen.
+                     "mix" = un movimiento al azar para cada imagen.
+         png-speed   multiplicador de velocidad (1 = normal, 2 = el doble, 0.5 = la mitad)    */
     _startFloatingPng(fxLayer) {
-      const src    = this._get('png-src', '');
-      if (!src) return;
-      const count  = Math.min(20, Math.max(1, parseInt(this._get('png-count', '6'))));
+      const raw = (this._get('png-src', '') || '').trim();
+      if (!raw) return;
+      // las URL "data:" llevan comas: se toman enteras
+      const srcs = raw.startsWith('data:') ? [raw] : raw.split(/[,|]/).map(x => x.trim()).filter(Boolean);
+      if (!srcs.length) return;
+
+      const count  = Math.min(20, Math.max(1, parseInt(this._get('png-count', String(Math.max(6, srcs.length)))) || 6));
       const pW     = this._get('png-width',  '');
       const pH     = this._get('png-height', '');
       const pSize  = this._get('png-size',   '');
       const widthCss  = pW || (!pH ? (pSize || '48px') : 'auto');
       const heightCss = pH || 'auto';
 
+      const EFFECTS = ['float', 'chaos', 'bounce', 'fall', 'sway', 'spin', 'pulse', 'drift'];
+      const effTokens = (this._get('png-effect', 'float') || 'float').toLowerCase().split(/[\s,|]+/).filter(Boolean);
+      const mix = effTokens.includes('mix');
+      let effList = effTokens.filter(e => EFFECTS.includes(e));
+      if (!effList.length) effList = ['float'];
+      const speed = Math.max(0.2, parseFloat(this._get('png-speed', '1')) || 1);
+
+      const W = fxLayer.offsetWidth || 600, H = fxLayer.offsetHeight || 90;
+      const r1 = (a, b) => a + Math.random() * (b - a);
+
       for (let i = 0; i < count; i++) {
+        const src = srcs[i % srcs.length];
+        const fx  = mix ? EFFECTS[(Math.random() * EFFECTS.length) | 0] : effList[i % effList.length];
+        const opacity = (0.5 + Math.random() * 0.5).toFixed(2);
+
+        if (fx === 'bounce') {
+          // dos capas: la de afuera recorre el ancho y la de adentro el alto → rebote tipo protector de pantalla
+          const wrap = document.createElement('span');
+          wrap.className = 'st-png-wrap';
+          wrap.style.left = '0';
+          wrap.style.top = '0';
+          wrap.style.opacity = opacity;
+          wrap.style.width = widthCss;
+          wrap.style.animation = `st-png-bx ${(r1(9, 16) / speed).toFixed(2)}s linear ${(-r1(0, 14)).toFixed(2)}s infinite alternate`;
+          const img = document.createElement('img');
+          img.className = 'st-png-in';
+          img.src = src; img.alt = '';
+          img.style.width  = widthCss === 'auto' ? 'auto' : '100%';
+          img.style.height = heightCss;
+          img.style.animation = `st-png-by ${(r1(6, 11) / speed).toFixed(2)}s linear ${(-r1(0, 10)).toFixed(2)}s infinite alternate`;
+          wrap.appendChild(img);
+          fxLayer.appendChild(wrap);
+          continue;
+        }
+
         const img = document.createElement('img');
         img.className = 'st-png';
         img.src = src;
         img.alt = '';
         img.style.width  = widthCss;
         img.style.height = heightCss;
-        img.style.left   = (Math.random() * 90) + '%';
-        img.style.top    = (Math.random() * 70 + 5) + '%';
-        const dur   = (3 + Math.random() * 4).toFixed(2);
-        const delay = (-Math.random() * 4).toFixed(2);
-        img.style.animation = `st-png-float ${dur}s ease-in-out ${delay}s infinite`;
-        img.style.opacity   = (0.5 + Math.random() * 0.5).toFixed(2);
+        img.style.opacity = opacity;
+        img.style.left = (Math.random() * 90) + '%';
+        img.style.top  = (Math.random() * 70 + 5) + '%';
+        const d = s => (s / speed).toFixed(2);
+        const dl = m => (-Math.random() * m).toFixed(2);
+
+        if (fx === 'chaos') {
+          const ax = Math.max(40, W * 0.16), ay = Math.max(14, H * 0.42);
+          for (let k = 1; k <= 4; k++) {
+            img.style.setProperty('--x' + k, r1(-ax, ax).toFixed(0) + 'px');
+            img.style.setProperty('--y' + k, r1(-ay, ay).toFixed(0) + 'px');
+            img.style.setProperty('--r' + k, r1(-40, 40).toFixed(0) + 'deg');
+          }
+          img.style.animation = `st-png-chaos ${d(r1(6, 12))}s cubic-bezier(.45,-.25,.5,1.25) ${dl(6)}s infinite`;
+        } else if (fx === 'fall') {
+          img.style.top = '0';
+          img.style.setProperty('--sw', r1(-30, 30).toFixed(0) + 'px');
+          img.style.setProperty('--rot', r1(-200, 200).toFixed(0) + 'deg');
+          img.style.animation = `st-png-fall ${d(r1(5, 10))}s linear ${dl(8)}s infinite`;
+        } else if (fx === 'sway') {
+          img.style.transformOrigin = '50% 0';
+          img.style.animation = `st-png-sway ${d(r1(2.2, 4.2))}s ease-in-out ${dl(3)}s infinite`;
+        } else if (fx === 'spin') {
+          img.style.animation = `st-png-spin ${d(r1(7, 15))}s linear ${dl(8)}s infinite`;
+        } else if (fx === 'pulse') {
+          img.style.animation = `st-png-pulse ${d(r1(1.6, 3.2))}s ease-in-out ${dl(2)}s infinite`;
+        } else if (fx === 'drift') {
+          img.style.left = '0';
+          img.style.animation = `st-png-drift ${d(r1(16, 30))}s linear ${dl(20)}s infinite`;
+        } else {                                                // float (el de siempre)
+          img.style.animation = `st-png-float ${d(r1(3, 7))}s ease-in-out ${dl(4)}s infinite`;
+        }
         fxLayer.appendChild(img);
       }
     }
