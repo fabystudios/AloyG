@@ -16,7 +16,7 @@
   },
       {
     "id": "coro2",
-    "position": 3,
+    "position": 2,
     "hasVideo": false,
     "link": "",
     "time": { "desktop": 8, "mobile": 8 },
@@ -80,7 +80,7 @@
 
                       {
     "id": "alias",
-    "position": 2,
+    "position": 1,
     "hasVideo": false,
     "link": "#",
     "time": { "desktop": 5, "mobile": 5 },
@@ -147,7 +147,7 @@
        
                 {
     "id": "ultimas-vacantes",
-    "position": 1,
+    "position": -1,
     "hasVideo": false,
     "link": "#asis1",
     "time": { "desktop": 3, "mobile": 3 },
