@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<!-- <html lang="es-AR" class="footer-paneles">  -->
-  <html lang="es-AR" class="footer-paneles tema-navidad titulo-imagen luces-header luces-titulos"> 
+<!-- <html lang="es-AR" class="footer-paneles">  
+  <html lang="es-AR" class="footer-paneles tema-navidad titulo-imagen luces-header luces-titulos">  -->
+  <html lang="es-AR" class="footer-paneles tema-navidad titulo-imagen luces-header luces-header-led">
+
   <!-- Interruptores (separar con espacio): tema-papa = bandera del Vaticano · footer-paneles = footer con paneles de vidrio -->
 <!-- <html lang="es-AR" class="footer-paneles tema-navidad luces-header luces-americanas"> -->
   <!-- <html lang="es-AR" class="footer-paneles tema-navidad luces-header titulo-imagen"> -->
@@ -1178,6 +1180,83 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
 <script src="./components/panel-photo-wall.js"></script>
 <div   style="display:none"></div>  
  <!-- Super GFE -->
+  <section-title text="Novedades"
+               icon="campaign"
+               lights="on" lights-style="led"
+               snow-style="manto"
+               img="./navidad/pesebre.png"
+               img-alt="snowman"
+               img-idle="float"
+               img-effect="wiggle"
+              
+               effect="fairy-dust" 
+
+               png-src="./navidad/stars.png"
+               png-count="5" png-height="36px"
+               >
+</section-title>
+
+<!-- ② SEPARADOR DESTACADO — el protagonista: goterones + luces americanas + PNG flotando -->
+<section-title text="Novedades"
+               icon="campaign"    
+               lights="on" lights-style="americano"
+               snow-style="manto"
+               img="./navidad/donkey.png"
+                              img-alt="Gorro navideño"
+               img-idle="float"
+               img-effect="wiggle"
+               effect="floating-png"
+               png-src="./navidad/real-tree.png, ./navidad/fence.png"
+               png-count="6"
+               png-effect="float"
+               png-width="50px">
+</section-title>
+<!--
+   Nieve en TODO el borde, con goterones (snow-style="manto" es el valor por defecto).
+   Luces americanas: cable recto que rodea el cartel y queda parcialmente tapado por la nieve.
+   Con png-src, los bastones del canvas no se dibujan: flotan tus PNG (alternando float y chaos).
+-->
+
+
+<!-- ③ SEPARADOR CÁLIDO — nieve en la esquina + luces LED + bastones + gorro junto al título -->
+<section-title text="Avisos"
+               icon="campaign"
+               lights="on" lights-style="led"
+               snow-style="esquina"
+               img="./navidad/sheet.png"
+               img-alt="Gorro navideño"
+               img-idle="float"
+               img-effect="wiggle">
+</section-title>
+<!--
+   snow-style="esquina": un montón de nieve en la esquina derecha ("esquina-izq" = izquierda,
+   "esquinas" = las dos). Los bastones del canvas sí se dibujan (no hay png-src).
+   El gorro flota siempre y se sacude al tocarlo.
+-->
+
+
+<!-- ④ SEPARADOR LIVIANO — sin nieve en el borde, luces en festones y copos cayendo -->
+<section-title text="Misas y Horarios"
+               icon="church"
+               snow="off"
+               lights="on" lights-style="festones"
+               effect="floating-png"
+               png-src="./navidad/copo.png, ./navidad/copo2.png"
+               png-count="8"
+               png-effect="fall"
+               png-width="22px"
+               png-speed="0.8"
+               img="./navidad/gorro.png"
+               img-alt="Gorro navideño"
+               img-idle="float"
+               img-effect="wiggle"
+               >
+</section-title>
+<!--
+   Ocho copos cayendo despacio (png-speed menor a 1 = más lento). Sin nieve acumulada: queda más limpio.
+   Los festones cuelgan desde el borde superior.
+-->
+
 <!-- confetti  -->
                     <!-- lights="on" -->
                     <!-- theme="3d" -->
@@ -1186,34 +1265,38 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
                    text="Últimas Novedades"
                    icon="campaign"  
                    lights="on"
-
                    effect="stars floating-png" 
-                   png-count="3" png-width="80px"
-                   effect="floating-png"
-                   png-src="./navidad/ball.png"
-                   png-count="4" png-width="5px"
+                   png-count="6" png-width="40px"
+                   png-effect="mix"
+                   png-src="./navidad/candles.png"
+                   img="./navidad/cow.png"
+                   img-alt="Gorro navideño"
+                   img-idle="float"
+                   img-effect="wiggle"
+  
 ></section-title>
+                   <!-- png-src="./navidad/ball.png" -->
   <section-title    
                    text="Últimas Novedades"
                    icon="campaign"  
                    lights="on"
-
                    effect="stars floating-png" 
-                   png-count="3" png-width="80px"
-                   effect="floating-png"
+                   png-count="4" png-width="50px"
+                   png-effect="drift"
                    png-src="./navidad/muerdago2.png"
-                   png-count="4" png-width="5px"
+                 
 ></section-title>
+
   <section-title    
                    text="Últimas Novedades"
                    icon="campaign"  
                    lights="on"
                    lights-style="led"
                    effect="stars floating-png" 
-                   png-count="3" png-width="80px"
+                   png-count="5" png-width="40px"
                    effect="floating-png"
                    png-src="./navidad/ice.png"
-                   png-count="4" png-width="5px"
+   
 ></section-title>
   
   <section-title    
@@ -1222,10 +1305,10 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
                    lights="on"
                    lights-style="led"
                    effect="stars floating-png" 
-                   png-count="3" png-width="80px"
+                   png-count="4" png-width="45px"
                    effect="floating-png"
                    png-src="./navidad/man.png"
-                   png-count="4" png-width="5px"
+       
 ></section-title>
 
   <section-title id="RETIROS" text="Nuestras Casas de Retiro" 
@@ -1254,31 +1337,31 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
 
 
   <section-title id="nosotros" icon="⛪" text="Nuestra Familia en la Fe" shadow="lg"
-  theme="3d"
+ 
                  effect="floating-png" png-src="./img/palomita.png"
-                 png-count="6" png-size="34px" icon-mobile="off"></section-title>
+                 png-count="6" png-size="14px" icon-mobile="off"></section-title>
 
   <section-title id="HISTORIA" icon="📜" text="Más Historia"
-  theme="3d"
+ 
                  effect="floating-png" png-src="./img/libro.png"
                  png-count="5" png-size="36px" icon-mobile="off"></section-title>
 
 
   <section-title id="MISAS" icon="fa-dove" icon-type="fa" text="Misas"
-  theme="3d"
+ 
                  effect="floating-png" png-src="./img/caliz.png"
                  png-count="5" png-size="34px"></section-title>
 
  
   <section-title id="ACTIVIDADES" icon="🎭" text="Vida y Actividades Sociales"
-  theme="3d"
+ 
                  effect="popping-bubbles" png-src="./img/bande.png"
                  png-count="8" png-size="44px" icon-mobile="off"></section-title>
 
 
 
   <section-title icon="phone" text="Contacto"
-  theme="3d"
+ 
                  effect="floating-png" png-src="./img/avion.png"
                  png-count="6" png-height="54px" icon-mobile="off"></section-title>
 
@@ -1286,7 +1369,7 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
 
   
   <section-title id="UBICACION" icon="📍" text="Ubicación"
-  theme="3d"
+ 
                  effect="floating-png" png-src="./img/gps.png"
                  png-count="6" png-height="28px" icon-mobile="off"></section-title>
  

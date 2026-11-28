@@ -19,6 +19,7 @@
  * │ lights           │ on|off  (luces blancas, solo con tema navidad) │ según <html>   │
  * │ lights-style     │ americano|festones|led            │ americano          │
  * │ snow             │ on|off  (nieve sobre el cartel, tema navidad) │ on         │
+ * │ snow-style       │ manto|esquina|esquina-izq|esquinas │ manto (con goterones) │
  * │ canes            │ on|off  (bastones dibujados en canvas, tema navidad) │ auto │
  * │ shadow           │ ""|"lg"                          │ ""                 │
  * │ extra-style      │ CSS inline extra para el section │ ""                 │
@@ -817,99 +818,123 @@
   }
 
   /* ───── nieve amontonada sobre el borde superior del cartel (sprite estático) ─────
+     mode: 'manto' (todo el borde, con goterones) · 'izq' / 'der' (un montón en esa esquina) · 'ambas'
      Nada es periódico (para que no parezca un toldo):
        · montones = campanas de Gauss con posición, ancho y alto al azar
-         (uno o dos grandes y varias lomas bajas)
-       · borde inferior = lóbulos de ancho y profundidad irregulares; algunos
-         tramos casi no rebasan y otros cuelgan como goterones
-     Dos capas para dar profundidad: atrás una montaña más alta y azulada,
-     delante el manto blanco con grumos esponjosos. */
-  function xmasSnowSprite(W, up, down, dpr) {
+       · borde inferior = lóbulos de ancho y profundidad irregulares (los goterones)
+     Dos capas para dar profundidad: atrás una montaña más alta y azulada, delante el manto blanco
+     con grumos esponjosos. En modo esquina el montón es más alto junto a la esquina y se va
+     afinando hacia el centro del cartel. */
+  function xmasSnowSprite(W, up, down, dpr, mode) {
     const H = up + down;
     const cv = document.createElement('canvas');
     cv.width = Math.ceil(W * dpr); cv.height = Math.ceil(H * dpr);
     const x = cv.getContext('2d'); x.scale(dpr, dpr);
+    const y0 = up;                                          // y0 = borde superior del cartel
+    const sc = Math.max(0.65, up / 26);                     // escala (en mobile todo más chico)
+    const regions = [];
 
-    const x0 = 5, x1 = W - 5, span = x1 - x0, y0 = up;     // y0 = borde superior del cartel
-    const sc = Math.max(0.65, up / 26);                    // escala (en mobile todo más chico)
-
-    const makePile = (bigMax) => {
-      const bumps = [];
-      const nBig = 1 + (Math.random() < 0.7 ? 1 : 0) + (span > 700 && Math.random() < 0.6 ? 1 : 0);
-      for (let i = 0; i < nBig; i++) bumps.push({ c: rand(0.1, 0.9), w: rand(34, 110) / span, h: rand(0.75, 1) * bigMax });
-      const nSmall = Math.max(3, Math.round(span / 55));
-      for (let i = 0; i < nSmall; i++) bumps.push({ c: rand(0.02, 0.98), w: rand(12, 46) / span, h: rand(0.12, 0.42) * bigMax });
-      return t => {
-        let m = 0;
-        for (let i = 0; i < bumps.length; i++) { const b = bumps[i], d = (t - b.c) / b.w; m += b.h * Math.exp(-d * d); }
-        const win = Math.pow(Math.sin(Math.PI * t), 0.45);
-        return (1.5 + (up - 3) * (1 - Math.exp(-m * 1.3))) * win;
+    // dir: 0 = manto simétrico · -1 = esquina izquierda · +1 = esquina derecha
+    function region(x0, x1, dir) {
+      const span = x1 - x0;
+      // ventana de altura: 0 en los extremos (manto) o grueso junto a la esquina y afinándose hacia adentro
+      const win = t => {
+        if (dir === 0) return Math.pow(Math.sin(Math.PI * t), 0.45);
+        const u = dir < 0 ? t : 1 - t;                      // u = 0 en la esquina
+        return Math.pow(Math.min(1, u * 9), 0.5) * Math.pow(1 - u, 0.85);
       };
-    };
-    const topAt = makePile(0.85);                          // manto de adelante
-    const backAt = makePile(1.25);                         // montaña de atrás (más alta)
+      const makePile = (bigMax) => {
+        const bumps = [];
+        const nBig = dir === 0 ? 1 + (Math.random() < 0.7 ? 1 : 0) + (span > 700 && Math.random() < 0.6 ? 1 : 0) : 2;
+        for (let i = 0; i < nBig; i++) {
+          const u = dir === 0 ? rand(0.1, 0.9) : rand(0.02, 0.32);       // en esquina: cerca de la esquina
+          bumps.push({ c: dir > 0 ? 1 - u : u, w: rand(34, 110) / span, h: rand(0.75, 1) * bigMax });
+        }
+        const nSmall = Math.max(3, Math.round(span / 55));
+        for (let i = 0; i < nSmall; i++) bumps.push({ c: rand(0.02, 0.98), w: rand(12, 46) / span, h: rand(0.12, 0.42) * bigMax });
+        const boost = dir === 0 ? 1 : 1.35;                 // el montón de esquina es un poco más alto
+        return t => {
+          let m = 0;
+          for (let i = 0; i < bumps.length; i++) { const b = bumps[i], d = (t - b.c) / b.w; m += b.h * Math.exp(-d * d); }
+          return (1.5 + (up - 3) * (1 - Math.exp(-m * 1.3)) * boost) * win(t);
+        };
+      };
+      const topAt = makePile(0.85);                         // manto de adelante
+      const backAt = makePile(1.25);                        // montaña de atrás (más alta)
 
-    // lóbulos del borde inferior, irregulares
-    const lobes = [];
-    for (let px = x0; px < x1;) {
-      const b = Math.min(x1, px + rand(7, 30));
-      const t = ((px + b) / 2 - x0) / span;
-      const win = Math.pow(Math.sin(Math.PI * t), 0.6);
-      const deep = Math.random() < 0.42;
-      lobes.push({ a: px, b, d: (deep ? rand(down * 0.5, down) : rand(0.8, down * 0.28)) * win });
-      px = b;
+      const lobes = [];                                     // goterones irregulares
+      for (let px = x0; px < x1;) {
+        const b = Math.min(x1, px + rand(7, 30));
+        const t = ((px + b) / 2 - x0) / span;
+        const wn = dir === 0 ? Math.pow(Math.sin(Math.PI * t), 0.6) : Math.pow(win(t), 1.2);
+        const deep = Math.random() < 0.42;
+        lobes.push({ a: px, b, d: (deep ? rand(down * 0.5, down) : rand(0.8, down * 0.28)) * wn });
+        px = b;
+      }
+
+      // capa de atrás (azulada)
+      x.beginPath();
+      x.moveTo(x0, y0 + 1);
+      for (let px = x0; px <= x1; px += 2) x.lineTo(px, y0 - backAt((px - x0) / span));
+      x.lineTo(x1, y0 + 1);
+      x.closePath();
+      const gb = x.createLinearGradient(0, 0, 0, y0);
+      gb.addColorStop(0, '#f4f8ff'); gb.addColorStop(1, '#b6cae8');
+      x.save();                                             // sombra azulada hacia afuera: da contorno sobre fondos claros
+      x.shadowColor = 'rgba(60,90,150,.45)'; x.shadowBlur = 5; x.shadowOffsetY = 1;
+      x.fillStyle = gb; x.fill();
+      x.restore();
+      x.beginPath();                                        // filete azulado en la cresta de la montaña
+      for (let px = x0; px <= x1; px += 2) { const yy = y0 - backAt((px - x0) / span); if (px === x0) x.moveTo(px, yy); else x.lineTo(px, yy); }
+      x.strokeStyle = 'rgba(140,165,210,.55)'; x.lineWidth = 1; x.stroke();
+
+      // manto de adelante
+      x.beginPath();
+      x.moveTo(x0, y0);
+      for (let px = x0; px <= x1; px += 2) x.lineTo(px, y0 - topAt((px - x0) / span));
+      x.lineTo(x1, y0 + 1.2);
+      for (let i = lobes.length - 1; i >= 0; i--) {
+        const L = lobes[i];
+        x.lineTo(L.b, y0 + 1.2);
+        x.quadraticCurveTo((L.a + L.b) / 2, y0 + 1.2 + L.d * 1.9, L.a, y0 + 1.2);
+      }
+      x.closePath();
+      x.save();                                             // sombra suave sobre la cara roja + relleno
+      x.shadowColor = 'rgba(30,50,110,.5)'; x.shadowBlur = 6; x.shadowOffsetY = 3;
+      const g = x.createLinearGradient(0, 0, 0, H);
+      g.addColorStop(0, '#ffffff'); g.addColorStop(0.55, '#f1f6ff'); g.addColorStop(1, '#bcd0ee');
+      x.fillStyle = g; x.fill();
+      x.restore();
+      x.beginPath();                                        // filete azulado en la cresta del manto
+      for (let px = x0; px <= x1; px += 2) { const yy = y0 - topAt((px - x0) / span); if (px === x0) x.moveTo(px, yy); else x.lineTo(px, yy); }
+      x.strokeStyle = 'rgba(150,175,215,.5)'; x.lineWidth = 1; x.stroke();
+
+      // grumos esponjosos sobre ambas capas (en esquina, más densos junto a la esquina)
+      const lumps = Math.round(span / 30);
+      for (let i = 0; i < lumps; i++) {
+        let t = rand(0.04, 0.96);
+        if (dir !== 0) { const u = Math.pow(Math.random(), 1.6) * 0.95; t = dir < 0 ? u : 1 - u; }
+        const px = x0 + t * span;
+        const useBack = Math.random() < 0.4;
+        const r = rand(3.5, 8) * sc;
+        const py = y0 - (useBack ? backAt(t) : topAt(t)) + r * 0.35;
+        const lg = x.createRadialGradient(px - r * 0.3, py - r * 0.35, r * 0.1, px, py, r);
+        lg.addColorStop(0, '#ffffff'); lg.addColorStop(1, useBack ? 'rgba(206,222,247,.95)' : 'rgba(224,235,252,.92)');
+        x.fillStyle = lg;
+        x.beginPath(); x.arc(px, py, r, 0, TAU); x.fill();
+      }
+      regions.push({ x0, span, topAt: backAt });
     }
 
-    // capa de atrás (azulada)
-    x.beginPath();
-    x.moveTo(x0, y0 + 1);
-    for (let px = x0; px <= x1; px += 2) x.lineTo(px, y0 - backAt((px - x0) / span));
-    x.lineTo(x1, y0 + 1);
-    x.closePath();
-    const gb = x.createLinearGradient(0, 0, 0, y0);
-    gb.addColorStop(0, '#f4f8ff'); gb.addColorStop(1, '#b6cae8');
-    x.save();                                              // sombra azulada hacia afuera: da contorno sobre fondos claros
-    x.shadowColor = 'rgba(60,90,150,.45)'; x.shadowBlur = 5; x.shadowOffsetY = 1;
-    x.fillStyle = gb; x.fill();
-    x.restore();
-    x.beginPath();                                         // filete azulado en la cresta de la montaña
-    for (let px = x0; px <= x1; px += 2) { const yy = y0 - backAt((px - x0) / span); if (px === x0) x.moveTo(px, yy); else x.lineTo(px, yy); }
-    x.strokeStyle = 'rgba(140,165,210,.55)'; x.lineWidth = 1; x.stroke();
-
-    // manto de adelante
-    x.beginPath();
-    x.moveTo(x0, y0);
-    for (let px = x0; px <= x1; px += 2) x.lineTo(px, y0 - topAt((px - x0) / span));
-    x.lineTo(x1, y0 + 1.2);
-    for (let i = lobes.length - 1; i >= 0; i--) {
-      const L = lobes[i];
-      x.lineTo(L.b, y0 + 1.2);
-      x.quadraticCurveTo((L.a + L.b) / 2, y0 + 1.2 + L.d * 1.9, L.a, y0 + 1.2);
+    if (mode === 'manto') {
+      region(5, W - 5, 0);
+    } else {
+      const small = W < 520;
+      const cw = () => clamp(W * (small ? 0.4 : 0.22), small ? 90 : 120, small ? 170 : 300) * rand(0.9, 1.1);
+      if (mode === 'izq' || mode === 'ambas') region(5, 5 + cw(), -1);
+      if (mode === 'der' || mode === 'ambas') { const c = cw(); region(W - 5 - c, W - 5, 1); }
     }
-    x.closePath();
-    x.save();                                              // sombra suave sobre la cara roja + relleno
-    x.shadowColor = 'rgba(30,50,110,.5)'; x.shadowBlur = 6; x.shadowOffsetY = 3;
-    const g = x.createLinearGradient(0, 0, 0, H);
-    g.addColorStop(0, '#ffffff'); g.addColorStop(0.55, '#f1f6ff'); g.addColorStop(1, '#bcd0ee');
-    x.fillStyle = g; x.fill();
-    x.restore();
-    x.beginPath();                                         // filete azulado en la cresta del manto
-    for (let px = x0; px <= x1; px += 2) { const yy = y0 - topAt((px - x0) / span); if (px === x0) x.moveTo(px, yy); else x.lineTo(px, yy); }
-    x.strokeStyle = 'rgba(150,175,215,.5)'; x.lineWidth = 1; x.stroke();
-
-    // grumos esponjosos sobre ambas capas
-    const lumps = Math.round(span / 30);
-    for (let i = 0; i < lumps; i++) {
-      const t = rand(0.04, 0.96), px = x0 + t * span;
-      const useBack = Math.random() < 0.4;
-      const r = rand(3.5, 8) * sc;
-      const py = y0 - (useBack ? backAt(t) : topAt(t)) + r * 0.35;
-      const lg = x.createRadialGradient(px - r * 0.3, py - r * 0.35, r * 0.1, px, py, r);
-      lg.addColorStop(0, '#ffffff'); lg.addColorStop(1, useBack ? 'rgba(206,222,247,.95)' : 'rgba(224,235,252,.92)');
-      x.fillStyle = lg;
-      x.beginPath(); x.arc(px, py, r, 0, TAU); x.fill();
-    }
-    return { c: cv, topAt: backAt, x0, span, y0 };
+    return { c: cv, regions, y0 };
   }
 
   /* ───── medidas / sprites (al montar y cada vez que cambia el tamaño) ───── */
@@ -919,7 +944,7 @@
     if (!W || !H) return;
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const h2w = st.h2 ? st.h2.offsetWidth : 0;
-    const key = W + 'x' + H + 'x' + h2w + 'x' + dpr + (st.snowOn ? 's' : 'n');
+    const key = W + 'x' + H + 'x' + h2w + 'x' + dpr + (st.snowOn ? 's' + st.snowStyle : 'n');
 
     const small = W < 520 || H < 80;
     const up = small ? 18 : 26, down = small ? 8 : 12;
@@ -982,13 +1007,14 @@
       st.cap.width = Math.round(W * dpr);
       st.cap.height = Math.round(st.capH * dpr);
       st.capCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      st.snow = xmasSnowSprite(W, up, down, dpr);
+      st.snow = xmasSnowSprite(W, up, down, dpr, st.snowStyle);
       const ng = clamp(Math.round(W / 150), 3, 9);
       for (let i = 0; i < ng; i++) {
+        const rg = st.snow.regions[(Math.random() * st.snow.regions.length) | 0];
         const t = rand(0.06, 0.94);
         st.glints.push({
-          x: st.snow.x0 + t * st.snow.span,
-          y: st.snow.y0 - st.snow.topAt(t) * rand(0.25, 0.9),
+          x: rg.x0 + t * rg.span,
+          y: st.snow.y0 - rg.topAt(t) * rand(0.25, 0.9),
           r: rand(1.5, 2.8), s: rand(0.8, 2.0), p: rand(0, TAU)
         });
       }
@@ -1061,7 +1087,7 @@
     static get observedAttributes() {
       return ['text', 'icon', 'icon-type', 'icon-mobile', 'effect',
               'img', 'img-alt', 'img-max-height', 'img-max-width', 'img-max-height-mobile',
-              'img-mobile', 'img-effect', 'img-trigger', 'img-idle', 'img-class', 'img-play-class', 'lights', 'lights-style', 'snow', 'canes',
+              'img-mobile', 'img-effect', 'img-trigger', 'img-idle', 'img-class', 'img-play-class', 'lights', 'lights-style', 'snow', 'snow-style', 'canes',
               'png-src', 'png-count', 'png-size', 'png-width', 'png-height', 'png-effect', 'png-speed',
               'svg-shape', 'svg-color', 'svg-count', 'svg-size',
               'glow-color', 'rays-color', 'rays-count',
@@ -1119,7 +1145,7 @@
       const st = {
         host: this, section, h2: section.querySelector('.md3-headline'),
         inner, canvas, ctx: canvas.getContext('2d'),
-        cap: null, capCtx: null, snowOn: this._snowWanted(), snowDown: 0, snow: null,
+        cap: null, capCtx: null, snowOn: this._snowWanted(), snowStyle: this._snowStyle(), snowDown: 0, snow: null,
         canesOn: this._canesWanted(),
         visible: true, W: 0, H: 0, stars: [], glints: [],
         lights: this._lightsWanted(), lightsStyle: this._lightsStyle(), garland: null
@@ -1225,6 +1251,15 @@
       const ownPng = eff.includes('floating-png') && !!(this.getAttribute('png-src') || '').trim();
       return !ownPng;
     }
+    /* ESTILO DE NIEVE  snow-style="manto" (por defecto: todo el borde, con goterones)
+                       · "esquina" / "esquina-der" (montón en la esquina derecha) · "esquina-izq" · "esquinas" (las dos) */
+    _snowStyle() {
+      const v = (this.getAttribute('snow-style') || '').trim().toLowerCase();
+      if (['esquina', 'esquina-der', 'derecha', 'corner', 'corner-right'].includes(v)) return 'der';
+      if (['esquina-izq', 'izquierda', 'corner-left'].includes(v)) return 'izq';
+      if (['esquinas', 'ambas', 'corners'].includes(v)) return 'ambas';
+      return 'manto';
+    }
     _styleOf(v) {
       v = (v || '').trim().toLowerCase();
       if (['festones', 'feston', 'festón', 'swag', 'curvas', 'guirnalda', 'garland'].includes(v)) return 'festones';
@@ -1263,10 +1298,13 @@
     _syncOptions() {
       const st = this._xmas;
       if (!st) return;
-      const snow = this._snowWanted();
-      if (snow !== st.snowOn) {
+      const snow = this._snowWanted(), sstyle = this._snowStyle();
+      if (snow !== st.snowOn || sstyle !== st.snowStyle) {
+        const hadCap = !!st.cap;
         st.snowOn = snow;
-        if (snow) this._addSnowCanvas(st); else this._removeSnowCanvas(st);
+        st.snowStyle = sstyle;
+        if (snow && !hadCap) this._addSnowCanvas(st);
+        else if (!snow && hadCap) this._removeSnowCanvas(st);
         st.key = null;                       // fuerza rehacer medidas, luces (dependen de la nieve) y sprites
         xmasResize(st);
         return;
