@@ -1390,11 +1390,21 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
                    png-count="3" png-width="80px"
                   
 ></section-title>
-   <video-card-gold video="./asantos/28nov_mob.mp4" poster="./asantos/28nov_mob.png"
-                   video-desktop="https://youtu.be/1ZxxmeDoE_o" poster-desktop="./asantos/28nov_desk.png"
+
+<video-deck-gold  spread="1.2" card-width="min(260px, 54vw)">
+   <video-card-gold video="./asantos/28nov-bis.mp4" poster="./asantos/28nov-bis.jpg"
+ 
     badge="28 de Noviembre" titulo="Santa Catalina Labouré"
     expandable 
-                            ></video-card-gold>
+   ></video-card-gold>
+
+   <video-card-gold video="./asantos/28nov_mob.mp4" poster="./asantos/28nov_mob.png"
+    video-desktop="https://youtu.be/1ZxxmeDoE_o" poster-desktop="./asantos/28nov_desk.png"
+    badge="28 de Noviembre" titulo="Santa Catalina Labouré"
+    expandable 
+   ></video-card-gold>
+
+</video-deck-gold>
  
 <!-- en mobile -->
 <!-- -------------------- -->
@@ -1645,13 +1655,22 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
 
 
 <!-- --------- -->
-    <video-card-frame
+  <video-card-frame
+    video="./eva/28-11.mp4"
+    frame="./eva/frame-gold.png"
+    badge="Sábado"
+    titulo="28 de Noviembre"
+    style="width:auto; flex:0 0 auto;"
+  
+  ></video-card-frame>
+
+  <video-card-frame
     video="./eva/27-11.mp4"
     frame="./eva/frame-gold.png"
     badge="Viernes"
     titulo="27 de Noviembre"
     style="width:auto; flex:0 0 auto;"
-  
+    hide-mobile
   ></video-card-frame>
 
    <video-card-frame
@@ -1670,15 +1689,6 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
     titulo="25 de Noviembre"
     style="width:auto; flex:0 0 auto;"
     hide-mobile 
-  ></video-card-frame>
-
-  <video-card-frame
-    video="./eva/24-11.mp4"
-    frame="./eva/frame-gold.png"
-    badge="Martes"
-    titulo="24 de Noviembre"
-    style="width:auto; flex:0 0 auto;"
-    hide-mobile
   ></video-card-frame>
 
 
