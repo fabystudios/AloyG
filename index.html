@@ -1390,6 +1390,11 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
                    png-count="3" png-width="80px"
                   
 ></section-title>
+   <video-card-gold video="./asantos/28nov_mob.mp4" poster="./asantos/28nov_mob.png"
+                   video-desktop="https://youtu.be/1ZxxmeDoE_o" poster-desktop="./asantos/28nov_desk.png"
+    badge="28 de Noviembre" titulo="Santa Catalina Labouré"
+    expandable 
+                            ></video-card-gold>
  
 <!-- en mobile -->
 <!-- -------------------- -->
@@ -1397,6 +1402,7 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
     <video-card-gold video="./asantos/26nov_mob.mp4" poster="./asantos/26nov_mob.webp"
     badge="26 de Noviembre" titulo="San Silvestre Guzzolini"
                         video-desktop="https://youtu.be/FQJEpF7r2RE" poster-desktop="./asantos/26nov_desk.webp"
+                  
     ></video-card-gold> 
 
 
@@ -1427,7 +1433,8 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
 } */
   </style>
 <div class="video-card-gold-container d-none d-md-flex flex-wrap justify-content-center align-items-center">
-<!-- <div class="d-none d-md-flex justify-content-center align-items-center flex-nowrap gap-1"> -->
+<video-deck-gold mode="grid" columns=3> 
+  <!-- <div class="d-none d-md-flex justify-content-center align-items-center flex-nowrap gap-1"> -->
     <video-card-gold video="./asantos/26nov_mob.mp4" poster="./asantos/26nov_mob.webp"
     badge="26 de Noviembre" titulo="San Silvestre Guzzolini"
                         video-desktop="https://youtu.be/FQJEpF7r2RE" poster-desktop="./asantos/26nov_desk.webp"
@@ -1445,6 +1452,7 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
                         video-desktop="https://youtu.be/3cfP6gluzZM" poster-desktop="./asantos/26nov-tris_desk.webp"
                                                 hide-mobile
     ></video-card-gold>
+    </video-deck-gold> 
 </div>
 
 <!-- ----------------------------- -->
@@ -1496,7 +1504,9 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
  </div>
 <!-- en desk -->
 <div class="video-card-gold-container d-none d-md-flex flex-wrap justify-content-center align-items-center">
-    <video-card-gold video="./asantos/clemente_mob.mp4" poster="./asantos/clemente_mob.png"
+ <video-deck-gold mode="grid" columns=5> 
+
+  <video-card-gold video="./asantos/clemente_mob.mp4" poster="./asantos/clemente_mob.png"
     badge="23 de Noviembre" titulo="San Clemente I"
                         video-desktop="https://youtu.be/2otTtnzV0hM" poster-desktop="./asantos/clemente_desk.png"
                         hide-mobile
@@ -1508,11 +1518,7 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
                             hide-mobile
                             ></video-card-gold>
  
-  <video-card-gold video="./asantos/23nov-beato.mp4" poster="./asantos/23nov-beato.jpg"
-    badge="23 de Noviembre" titulo="Beato Miguel Agustín Pro"
-                        video-desktop="https://youtu.be/sflCgtCuTIQ" poster-desktop="./asantos/23nov-beato_desk.jpg"
-                                                hide-mobile
-    ></video-card-gold>
+
   <video-card-gold video="./asantos/24nov.mp4" poster="./asantos/24nov.jpg"
     badge="24 de Noviembre" titulo="San Andrés Dung-Lac y los mártires de Vietnam"
                         video-desktop="https://youtu.be/dScTzAVKtHU" poster-desktop="./asantos/24nov_desk.webp"
@@ -1524,7 +1530,7 @@ Header y títulos a la vez: luces-led en vez de las dos clases específicas
                             hide-mobile
 
   ></video-card-gold>
-
+</video-deck-gold>
 </div>
 
 <!-- TRAD  biblioteca 1 -->
